@@ -58,7 +58,7 @@ if (!defined('PATH_RELATIVE')) {
 		 * The PATH_RELATIVE constant is the web path to the Exponent directory,
 		 * from the web root.  It is related to the BASE constant, but different.
 		 */
-		define('PATH_RELATIVE',str_replace(__realpath($_SERVER['DOCUMENT_ROOT']),'',BASE);
+		define('PATH_RELATIVE',str_replace(__realpath($_SERVER['DOCUMENT_ROOT']),'',BASE));
 	} else {
 		// FIXME: PATH_RELATIVE definition will break in certain parts when the server does not offer the Document_root.
 		// FIXME: Notable, it breaks in the installer.
