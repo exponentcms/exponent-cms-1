@@ -36,16 +36,16 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+	ob_end_clean();
+	
+	header('Content-type: application/octet-stream');
+	header('Content-Disposition: inline; filename="exponent.phpinfo.html"');
+	
 	$template = new template('administrationmodule','_sysinfo',$loc);
 	
 	ob_start();
 	phpinfo(INFO_GENERAL+INFO_CONFIGURATION+INFO_MODULES);
 	$str = ob_get_contents();
-	$str = preg_replace('/[\r\n]*/','',$str);
-	$str = preg_replace('/<style.*style>/','',$str);
-	$str = preg_replace('/<img /','<img style="float:right;" ',$str);
-	$str = str_replace(';','; ',$str);
-	$str = str_replace(',',', ',$str);
 	$str = str_replace(array('<html>','<body>','</body>','</html>'),'',$str);
 	ob_end_clean();
 	
@@ -70,9 +70,11 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$template->assign('modules',$mods);
 	$template->assign('subsystems',pathos_info_subsystems());
 	
-	$template->assign('override_style',1);
+	$template->assign('override_style',0);
 	
 	$template->output();
+	
+	exit('');
 } else {
 	echo SITE_403_HTML;
 }
