@@ -51,7 +51,9 @@ if (pathos_permissions_check("administrate",$loc)) {
 		$have_users = 1;
 		foreach ($perms as $perm=>$name) {
 			$var = "perms_$perm";
-			$g->$var = (pathos_permissions_checkGroup($g,$perm,$loc) ? 1 : 0);
+			if (pathos_permissions_checkGroup($g,$perm,$loc,true)) $g->$var = 1;
+			else if (pathos_permissions_checkGroup($g,$perm,$loc)) $g->$var = 2;
+			else $g->$var = 0;
 		}
 		$users[] = $g;
 	}
