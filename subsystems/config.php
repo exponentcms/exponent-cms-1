@@ -53,18 +53,35 @@ function pathos_config_parse($configname,$site_root = null) {
 // Last argument added in 0.96, for shared core.  Default it to the old hard-coded value
 	if ($site_root == null) $site_root = BASE;
 	
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	pathos_forms_initialize();
+	// We don't actually use the forms subsystem, but the .structure.php files do.
+	
 	if ($configname == '') $file = $site_root.'conf/config.php';
 	else $file = $site_root."conf/profiles/$configname.php";
 	$options = array();
+	$valid = array();
 	if (is_readable($file)) $options = pathos_config_parseFile($file);
 	if (is_readable($site_root.'conf/extensions')) {
 		$dh = opendir($site_root.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,-13,13) == '.defaults.php') {
 				$options = array_merge(pathos_config_parseFile($site_root."conf/extensions/$file"),$options);
+			} else if (substr($file,-14,14) == '.structure.php') {
+				$tmp = include($site_root."conf/extensions/$file");
+				$valid = array_merge($valid,array_keys($tmp[1]));
 			}
 		}
 	}
+	
+	pathos_forms_cleanup();
+	
+	$valid = array_flip($valid);
+	
+	foreach ($options as $key=>$value) {
+		if (!isset($valid[$key])) unset($options[$key]);
+	}
+	
 	return $options;
 }
 
