@@ -63,4 +63,6 @@ define('TR_CALENDARMODULE_PERM_MANAGEAP',		'Manage Approval');
 define('TR_CALENDARMODULE_PERM_EDITONE',		'Edit');
 define('TR_CALENDARMODULE_PERM_DELETEONE',		'Delete');
 
+define('TR_CALENDARMODULE_RECURMOVEWARNING',	'Warning: If you change the date below, it will only affect this specific events.  All other changes can be applied to this and other events.');
+
 ?>
