@@ -38,22 +38,29 @@ define('SANITY_NOT_E',				8);
 
 define('SANITY_READONLY',			1);
 define('SANITY_READWRITE',			2);
+define('SANITY_CREATEFILE',			4); // Read write, without the need for the file to exist prior
 
 define('SANITY_WARNING',			1);
 define('SANITY_ERROR',				2);
 
 function sanity_checkFile($file,$as_file,$flags) {
 	$__oldumask = umask(0);
-	
 	if (!file_exists($file)) {
-		if ($as_file) {
-			@touch($file);
+		if ($flags == SANITY_CREATEFILE) {
+			return sanity_checkFile(dirname($file),false,SANITY_READWRITE);
 		} else {
-			@mkdir($file,0777);
+			if ($as_file) {
+				@touch($file);
+			} else {
+				@mkdir($file,0777);
+			}
 		}
-	} if (!file_exists($file)) {
+	}
+	if (!file_exists($file)) {
 		umask($__oldumask);
 		return SANITY_NOT_E;
+	} else if ($flags == SANITY_CREATEFILE) {
+		$flags = SANITY_READWRITE;
 	}
 	$not_r = false;
 	// File exists.  Check the flags for what to check for
@@ -63,7 +70,6 @@ function sanity_checkFile($file,$as_file,$flags) {
 		}
 		if (!is_readable($file)) {
 			if ($flags == SANITY_READONLY) {
-				echo 'READONLY<br />';
 				umask($__oldumask);
 				return SANITY_NOT_R;
 			}
@@ -104,7 +110,7 @@ function sanity_checkDirectory($dir,$flag,&$status) {
 
 function sanity_checkFiles() {
 	$status = array(
-		'conf/config.php'=>sanity_checkFile(BASE.'conf/config.php',1,SANITY_READWRITE),
+		'conf/config.php'=>sanity_checkFile(BASE.'conf/config.php',1,SANITY_CREATEFILE),
 		'conf/profiles'=>sanity_checkFile(BASE.'conf/profiles',0,SANITY_READWRITE),
 		'overrides.php'=>sanity_checkFile(BASE.'overrides.php',1,SANITY_READWRITE),
 		'install'=>sanity_checkFile(BASE.'install',0,SANITY_READWRITE),
