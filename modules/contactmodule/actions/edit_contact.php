@@ -30,16 +30,6 @@
 #
 # $Id$
 ##################################################
-
-/**
- * Show a Form for editting or creating contacts.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage ContactForm
- */
  
 if (!defined("PATHOS")) exit("");
 

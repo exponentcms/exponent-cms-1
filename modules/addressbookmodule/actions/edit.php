@@ -31,15 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Edit an Address Book Contact
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @packacge Modules
- * @subpackage AddressBook
- */
 if (!defined("PATHOS")) exit("");
 
 $contact = null;

@@ -33,16 +33,6 @@
 
 if (!defined("PATHOS")) exit("");
 
-/**
- * Show All Archived Modules (removed but not cleared) of a given Type
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage Container
- */
-
 // PERM CHECK
 	$source_select = array();
 	$module = "containermodule";

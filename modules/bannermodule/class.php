@@ -31,26 +31,6 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-
-/**
- * Banner Manager Module
- *
- * Manages a set of banners and affiliates.
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage BannerManager
- */
-/**
- * Module Class
- *
- * Primary entrypoint to the module.
- *
- * @package Modules
- * @subpackage BannerManager
- */
 class bannermodule {
 	function name() { return "Banner Manager"; }
 	function author() { return "James Hunt"; }

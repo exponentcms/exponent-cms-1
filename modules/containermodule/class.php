@@ -31,25 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Container Module
- *
- * Manages a list of other Modules
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage Container
- */
-/**
- * Module Class
- *
- * Primary entrypoint to the module.
- *
- * @package Modules
- * @subpackage Container
- */
 class containermodule {
 	function name() { return "Container Module"; }
 	function author() { return "James Hunt"; }

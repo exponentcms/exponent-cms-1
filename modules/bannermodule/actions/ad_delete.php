@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Delete a Banner
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage BannerManager
- */
-
 if (!defined("PATHOS")) exit("");
 
 $banner = null;

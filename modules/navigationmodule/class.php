@@ -83,7 +83,7 @@ class navigationmodule {
 		// Do nothing, no content
 	}
 	
-	/**
+	/*
 	 * @deprecated is it?
 	 */
 	function levelShowDropdown($parent,$depth=0,$default=0) {
@@ -109,7 +109,7 @@ class navigationmodule {
 		return $html;
 	}
 	
-	/**
+	/*
 	 * @deprecated is it?
 	 */
 	function levelDropDownControlArray($parent,$depth = 0) {

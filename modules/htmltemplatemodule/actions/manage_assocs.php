@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Template <-> Module Associations Manager Interface
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage HTMLTemplate
- */
-
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

@@ -32,16 +32,6 @@
 ##################################################
 //GREP:HARDCODEDTEXT
 
-/**
- * Create a new User Account.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and OIC Group, Inc.
- *
- * @package Modules
- * @subpackages Login
- */
- 
 if (!defined("PATHOS")) exit("");
 
 if (!$user && SITE_ALLOW_REGISTRATION == 1) {

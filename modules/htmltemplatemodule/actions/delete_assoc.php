@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Disassociate an HTML Template from a Module Type
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage HTMLTemplate
- */
-
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

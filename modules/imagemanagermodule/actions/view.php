@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * View an Image
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage ImageManager
- */
-
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

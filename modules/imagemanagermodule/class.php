@@ -32,26 +32,6 @@
 ##################################################
 //GREP:HARDCODEDTEXT
 
-/**
- * Image Manager Module
- *
- * Manages a collection of Images, for use in the WYSIWYG editor
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage ImageManager
- */
-/**
- * Module Class
- *
- * Primary entrypoint to the module.
- *
- * @package Modules
- * @subpackage ImageManager
- */
 class imagemanagermodule {
 	function name() { return "Image Manager"; }
 	function author() { return "James Hunt"; }

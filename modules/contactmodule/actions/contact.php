@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Send submitted data to recipients
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage ContactForm
- */
- 
 if (!defined("PATHOS")) exit("");
 
 $template = new template("contactmodule",$_POST['msg'],$loc);

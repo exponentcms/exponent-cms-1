@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Edit an Affiliate
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage BannerManager
- */
-
 if (!defined("PATHOS")) exit("");
 
 $af = null;

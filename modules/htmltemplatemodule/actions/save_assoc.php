@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Save an Association between a Template and a Module Type
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage HTMLTemplate
- */
-
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

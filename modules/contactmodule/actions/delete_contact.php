@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Delete a Contact Recipient
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage ContactForm
- */
- 
 if (!defined("PATHOS")) exit("");
 
 $contact = $db->selectObject("contact_contact","id=".$_GET['id']);

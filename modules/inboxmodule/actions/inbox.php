@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Primary Inbox Interface
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage Inbox
- */
-
 if (!defined("PATHOS")) exit("");
 
 if ($user) {

@@ -31,25 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Calendar Module
- *
- * Manages a set of events.
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage Calendar
- */
-/**
- * Module Class
- *
- * Primary entrypoint to the module.
- *
- * @package Modules
- * @subpackage Calendar
- */
 class calendarmodule {
 	function name() { return "Calendar"; }
 	function author() { return "OIC Group Exponent Team / Greg Otte"; }

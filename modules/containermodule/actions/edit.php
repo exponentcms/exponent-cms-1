@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Edit a Module's Container Configuration
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage Container
- */
-
 if (!defined("PATHOS")) exit("");
 
 $container = null;

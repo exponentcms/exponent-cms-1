@@ -30,27 +30,6 @@
 #
 # $Id$
 ##################################################
-
-/**
- * Login Module
- *
- * Allows visitors to login with a username / password, and edit their profile.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage Calendar
- */
-/**
- * Module Class
- *
- * Primary entrypoint to the module.
- *
- * @package Modules
- * @subpackage Login
- */
 class loginmodule {
 	function name() { return "Login Module"; }
 	function author() { return "James Hunt"; } 

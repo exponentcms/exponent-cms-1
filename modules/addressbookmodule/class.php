@@ -31,25 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Address Book Module
- *
- * Manages a set of contacts.
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage AddressBook
- */
-/**
- * Module Class
- *
- * Primary entrypoit to the module.
- *
- * @package Modules
- * @subpackage AddressBook
- */
 class addressbookmodule {
 	function name() { return "Address Book"; }
 	function description() { return "Manages a list of contacts, storing information like names, addresses, emails and phone numbers."; }

@@ -31,16 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Save a Contact
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Modules
- * @subpackage ContactForm
- */
- 
 if (!defined("PATHOS")) exit("");
 
 $contact = null;
