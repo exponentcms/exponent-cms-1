@@ -170,8 +170,9 @@ if (document.body.appendChild) {
 	function pickSource() {
 		activate("Existing");
 		var mod = currentModule();
-		var url = PATH_RELATIVE+"source_selector.php?showmodules="+mod+"&dest="+escape("modules/containermodule/picked_source.php?dummy")+"&vmod=containermodule&vview=_sourcePicker";
-		window.open(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+		//var url = PATH_RELATIVE+"source_selector.php?showmodules="+mod+"&dest="+escape("modules/containermodule/picked_source.php?dummy")+"&vmod=containermodule&vview=_sourcePicker";
+		//window.open(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+		openSelector(mod,"modules/containermodule/picked_source.php?dummy","containermodule","_sourcePicker");
 	}
 	
 	function sourcePicked(src,desc) {
