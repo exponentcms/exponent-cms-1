@@ -50,6 +50,7 @@ class newsmodule_config {
 		$form->register('item_limit',TR_NEWSMODULE_ITEMLIMIT,new textcontrol($object->item_limit));
 		$form->register('sortorder',TR_NEWSMODULE_SORTORDER, new dropdowncontrol($object->sortorder,$opts));
 		$form->register('sortfield',TR_NEWSMODULE_SORTFIELD, new dropdowncontrol($object->sortfield,$fields));
+		
 		$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
@@ -59,8 +60,12 @@ class newsmodule_config {
 	function update($values,$object) {
 		$object->sortorder = $values['sortorder'];
 		$object->sortfield = $values['sortfield'];
-		if ($values['item_limit'] > 0) $object->item_limit = $values['item_limit'];
-		else $object->item_limit = 10;
+		if ($values['item_limit'] > 0) {
+			$object->item_limit = $values['item_limit'];
+		} else {
+			$object->item_limit = 10;
+		}
+		
 		return $object;
 	}
 }

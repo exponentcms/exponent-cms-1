@@ -61,6 +61,20 @@ if (pathos_permissions_check('configure',$loc)) {
 		$hasConfig = 1; //We have some form of configuration
 	}
 
+	// Check for channels stuff.
+	if (is_callable(array($loc->mod,'channelType'))) {
+		// Maybe display a message explaining what the channels stuff does?
+		$form->register(null,'',new htmlcontrol('<hr size="1" />Channel Settings'));
+		$channel = $db->selectObject('channel',"location_data='".serialize($loc)."'");
+		if (!$channel) {
+			$channel->name = '';
+			$form->register(null,'',new htmlcontrol('This module is not configured as a Channel.  Enter a channel name to make it into one.',false));
+		} else {
+			$form->register(null,'',new htmlcontrol('This module is configured as a Channel.  Change the channel name to nothing (empty field) to remove the channel status.',false));
+		}
+		$form->register('channel_name','Channel Name',new textcontrol($channel->name));
+	}
+
 	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
 	if ($container) {
 		$values = ($container->view_data != '' ? unserialize($container->view_data) : array());

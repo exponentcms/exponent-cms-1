@@ -40,6 +40,22 @@ if (pathos_permissions_check("configure",$loc)) {
 	if (isset($config->id)) $db->updateObject($config,$_POST['module']."_config");
 	else $db->insertObject($config,$_POST['module']."_config");
 	
+	if (isset($_POST['channel_name'])) {
+		if ($_POST['channel_name'] == '') {
+			$db->delete('channel',"location_data='".serialize($loc)."'");
+		} else {
+			$channel = $db->selectObject('channel',"location_data='".serialize($loc)."'");
+			$channel->location_data = serialize($loc);
+			$channel->type = call_user_func(array($loc->mod,'channelType'));
+			$channel->name = $_POST['channel_name'];
+			if (isset($channel->id)) {
+				$db->updateObject($channel,'channel');
+			} else {
+				$db->insertObject($channel,'channel');
+			}
+		}
+	}
+	
 	$container = $db->selectObject("container","internal='".serialize($loc)."'");
 	$vconfig = array();
 	if (isset($_POST['_viewconfig'])) {

@@ -42,6 +42,11 @@ class newsmodule {
 	
 	function supportsWorkflow() { return true; }
 	
+	function supportsChannels() { return true; }
+	function channelType() {
+		return 'post';
+	}
+	
 	function permissions($internal = '') {
 		pathos_lang_loadDictionary('modules','newsmodule');
 		if ($internal == '') {
@@ -53,7 +58,8 @@ class newsmodule {
 				'edit_item'=>TR_NEWSMODULE_PERM_EDIT,
 				'view_unpublished'=>TR_NEWSMODULE_PERM_VIEWUNPUB,
 				'approve'=>TR_NEWSMODULE_PERM_APPROVE,
-				'manage_approval'=>TR_NEWSMODULE_PERM_MANAGEAP
+				'manage_approval'=>TR_NEWSMODULE_PERM_MANAGEAP,
+				'manage_channel'=>'Manage Channel',
 			);
 		} else {
 			return array(
@@ -122,9 +128,13 @@ class newsmodule {
 		$template = new template('newsmodule',$view,$loc);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array('administrate','configure','add_item','delete_item','edit_items','manage_approval','view_unpublished'),
+			array('administrate','configure','add_item','delete_item','edit_items','manage_approval','view_unpublished','manage_channel'),
 			$loc
 		);
+		
+		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+		$template->assign('hasChannelItems',pathos_channels_hasItems($loc,true));
+		$template->assign('hasNewChannelItems',pathos_channels_hasItems($loc,false));
 		
 		$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY ".$config->sortfield." " . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {

@@ -82,6 +82,7 @@ class containermodule {
 			$singleview = $source_select['view'];
 			$singlemodule = $source_select['module'];
 			$clickable_mods = $source_select['showmodules'];
+			if (!is_array($clickable_mods)) $clickable_mods = null;
 			$dest = $source_select['dest'];
 		}
 		
@@ -171,7 +172,7 @@ class containermodule {
 				'administrate'=>(pathos_permissions_check('administrate',$location) ? 1 : 0),
 				'configure'=>(pathos_permissions_check('configure',$location) ? 1 : 0)
 			);
-			$containers[$i]->hasPerms = pathos_permissions_checkOnSource($location->mod,$location->src);
+			//$containers[$i]->hasPerms = pathos_permissions_checkOnSource($location->mod,$location->src);
 		}
 		
 		$template->assign('containers',$containers);
@@ -180,7 +181,9 @@ class containermodule {
 			array('administrate','add_module','edit_module','delete_module','order_modules'),
 			$loc
 		);
+		
 		$template->output();
+		
 	}
 	
 	function copyContent($oloc,$nloc) {
@@ -220,6 +223,7 @@ class containermodule {
 			
 			ob_start();
 			$mod->show($view,$loc,$title);
+			
 			$container->output = ob_get_contents();
 			ob_end_clean();
 			
@@ -228,6 +232,7 @@ class containermodule {
 			$c_view = $source_select['view'];
 			$c_module = $source_select['module'];
 			$clickable_mods = $source_select['showmodules'];
+			if (!is_array($clickable_mods)) $clickable_mods = null;
 			$dest = $source_select['dest'];
 			
 			$template = new template($c_module,$c_view,$loc);

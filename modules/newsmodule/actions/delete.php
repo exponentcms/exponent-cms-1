@@ -44,6 +44,16 @@ if ($news != null) {
 		$db->delete("newsitem","id=" . $_GET['id']);
 		$db->delete("newsitem_wf_info","real_id=".$_GET['id']);
 		$db->delete("newsitem_wf_revision","wf_original=".$_GET['id']);
+		
+		// Set channel status.  Disable submissions tied to this as the item to be copied
+		$update_obj = null;
+		$update_obj->status = 3;
+		$update_obj->item_id = 0;
+		$db->updateObject($update_obj,'channelitem',"tablename='newsitem' AND item_id=".$_GET['id']);
+		
+		// Delete all channel items where this id is the copy:
+		$db->delete('channelitem','published_id='.$_GET['id']);
+		
 		pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
