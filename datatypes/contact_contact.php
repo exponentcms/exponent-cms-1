@@ -1,0 +1,83 @@
+<?php
+
+##################################################
+#
+# Copyright 2004 James Hunt and OIC Group, Inc.
+#
+# This file is part of Exponent
+#
+# Exponent is free software; you can redistribute
+# it and/or modify it under the terms of the GNU
+# General Public License as published by the Free
+# Software Foundation; either version 2 of the
+# License, or (at your option) any later version.
+#
+# Exponent is distributed in the hope that it
+# will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE.  See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU
+# General Public License along with Exponent; if
+# not, write to:
+#
+# Free Software Foundation, Inc.,
+# 59 Temple Place,
+# Suite 330,
+# Boston, MA 02111-1307  USA
+#
+# $Id$
+##################################################
+
+class contact_contact {
+	function form($object) {
+		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_forms_initialize();
+		
+		$type = 0;
+		$default = 0;
+		
+		$form = new form();
+		if (!isset($object->id)) {
+			$object->user_id = 0;
+			$object->addressbook_contact_id = 0;
+			$object->email = "";
+			$object->contact_info = "";
+		} else {
+			$form->meta("id",$object->id);
+			if ($object->user_id != 0) {
+				$type = 0;
+				$default = $object->user_id;
+			} else {
+				$type = 1;
+				$default = $object->email;
+			}
+		}
+		
+		$form->register("contact","Contact",new contactcontrol($default,$type));
+		
+		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		
+		pathos_forms_cleanup();
+		return $form;
+	}
+	
+	function update($values,$object) {
+		$attr = "";
+		switch ($values['contact_type']) {
+			case 0:
+				$attr = "user_id";
+				break;
+			case 1:
+				$attr = "email";
+				break;
+		}
+		
+		if ($attr != "") $object->$attr = $values['contact'][$values['contact_type']];
+		return $object;
+	}
+}
+
+?>

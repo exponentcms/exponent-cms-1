@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Exponent CMS : Content Management to the nth power</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div align="center">
+
+<div class="logo" align="left"><img src="logo.png" /></div>
+
+<div class="main" align="left">
+
+<b>Security Concerns with the Exponent Install Wizard</b>
+<br /><br />
+The Exponent Install Wizard guides you through the installation, configuration and setup of an Exponent site.  It is provided to make installing and using the Exponent CMS easier and simpler.  However, with ease-of-use comes decreased security.
+<br /><br />
+Because the Installation Wizard modifies the sites configuration file, Exponent will not allow the site to be used until the Wizard is disabled.  Otherwise, anyone could visit the installer and modify crucial configuration data.
+<br /><br />
+Disabling the wizard can be done two ways: deleting the install/ directory or changing its permissions so that the web server cannot read it.
+<br /><br />
+<b>Removing the Wizard Directory</b>
+<br /><br />
+This is the simplest method of disabling the wizard.  On UNIX, this can be done through FTP (if your web host provides FTP access) or through Secure Shell or Telnet (provided that you have shell access to the web server).
+<br /><br />
+
+<b>Changing Permissions</b>
+<br /><br />
+If you want to keep the installation directory around, you need to render it inaccessible to the system user running the web server.  This can be done either through an FTP client that supports the CHMOD command (like WS_FTP, or any command-line ftp client), or through the shell.
+<br /><br />
+To be on the safe side, change the permissions so that no one can read or write to the install/ directory.  The octal number for this permission setting is '000'.
+</div>
+
+</div>
+
+</body>

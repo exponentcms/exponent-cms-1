@@ -1,0 +1,237 @@
+<?php
+
+##################################################
+#
+# Copyright 2004 James Hunt and OIC Group, Inc.
+#
+# This file is part of Exponent
+#
+# Exponent is free software; you can redistribute
+# it and/or modify it under the terms of the GNU
+# General Public License as published by the Free
+# Software Foundation; either version 2 of the
+# License, or (at your option) any later version.
+#
+# Exponent is distributed in the hope that it
+# will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE.  See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU
+# General Public License along with Exponent; if
+# not, write to:
+#
+# Free Software Foundation, Inc.,
+# 59 Temple Place,
+# Suite 330,
+# Boston, MA 02111-1307  USA
+#
+# $Id$
+##################################################
+
+/**
+ * Sessions Subsystem
+ *
+ * Encapsulates session handling for other parts of the system.
+ *
+ * @package		Subsystems
+ * @subpackage	Sessions
+ *
+ * @author		James Hunt
+ * @copyright		2004 James Hunt and the OIC Group, Inc.
+ * @version		0.95
+ */
+
+/**
+ * SYS flag
+ *
+ * The definition of this constant lets other parts of the system know 
+ * that the subsystem has been included for use.
+ */
+define("SYS_SESSIONS",1);
+
+// session key may be overridden
+if (!defined("SYS_SESSION_KEY")) define("SYS_SESSION_KEY",PATH_RELATIVE);
+
+/**
+ * Initialize the Sessions Subsystems
+ *
+ * Runs necessary code to initialize sessions for use.
+ * This sends the session cookie header (via the session_start
+ * PHP function) and sets up session variables needed by the
+ * rest of the system and this subsystem.
+ */
+function pathos_sessions_initialize() 
+{	
+	$sesid  = "";
+	if (isset($_GET['expid'])) $sesid = $_GET['expid'];
+	else if (isset($_POST['expid'])) $sesid =  $_POST['expid'];
+	else if (!isset($_COOKIE['PHPSESSID'])) $sesid = md5(uniqid(rand(), true));
+	else $sesid = $_COOKIE['PHPSESSID'];
+	setcookie("PHPSESSID",$sesid);
+	$_COOKIE['PHPSESSID'] = $sesid;
+	
+	session_start();
+	if (!isset($_SESSION[SYS_SESSION_KEY])) $_SESSION[SYS_SESSION_KEY] = array();
+	if (!isset($_SESSION[SYS_SESSION_KEY]['vars'])) $_SESSION[SYS_SESSION_KEY]['vars'] = array();
+	if (isset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme'])) define("DISPLAY_THEME",$_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
+}
+
+/**
+ * Validate the Session's Ticket
+ *
+ * Validates the stored session ticket against the database.  This is used
+ * to force refreshes and force logouts.  It also updates activity time.
+ */
+function pathos_sessions_validate() {
+	global $db;
+	if (pathos_sessions_loggedIn()) {
+		$ticket = $db->selectObject("sessionticket","ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
+		$timeoutval = SESSION_TIMEOUT;
+		if ($timeoutval < 300) $timeoutval = 300;
+		if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
+			pathos_sessions_logout();
+			define("SITE_403_HTML",SESSION_TIMEOUT_HTML);
+			return;
+		}
+		
+		global $user;
+		$user = $_SESSION[SYS_SESSION_KEY]['user'];
+		if ($ticket->refresh == 1) {
+			pathos_permissions_load($user);
+			$ticket->refresh = 0;
+			$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");
+		}
+		
+		$ticket->last_active = time();
+		$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");
+	}
+	//define("SITE_403_HTML",SITE_403_REAL_HTML); // Really are hacking
+}
+
+/**
+ * Session Login Handler
+ *
+ * Creates and stores a session ticket for the given user,
+ * so that sessions can be tracked and permissions can be
+ * refreshed as needed.
+ *
+ * @param User $user The user object of the newly logged-in user.
+ */
+function pathos_sessions_login($user) {
+	$ticket = null;
+	$ticket->uid = $user->id;
+	$ticket->ticket = uniqid("",true);
+	$ticket->last_active = time();
+	$ticket->start_time = time();
+	$ticket->browser = $_SERVER['HTTP_USER_AGENT'];
+	$ticket->ip_address = $_SERVER['REMOTE_ADDR'];
+	
+	global $db;
+	$db->insertObject($ticket,"sessionticket");
+	
+	$_SESSION[SYS_SESSION_KEY]['ticket'] = $ticket->ticket;
+	$_SESSION[SYS_SESSION_KEY]['user'] = $user;
+	
+	pathos_permissions_load($user);
+}
+
+/**
+ * Session Logout Handler
+ *
+ * Clears the session of all user data, used when a user logs out.
+ * This gets rid of stale session tickets, and resets the session
+ * to a blank state.
+ */
+function pathos_sessions_logout() {
+	global $db;
+	if (isset($_SESSION['ticket'])) $db->delete("sessionticket","ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
+	
+	unset($_SESSION[SYS_SESSION_KEY]['ticket']);
+	unset($_SESSION[SYS_SESSION_KEY]['user']);
+	unset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
+	
+	pathos_permissions_clear();
+}
+
+/**
+ * Check login status
+ *
+ * Looks at the session data to see if the current session is
+ * that of a logged in user.
+ *
+ * @return boolean True if the viewer is logged in, and false if it is not
+ */
+function pathos_sessions_loggedIn() {
+	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));
+}
+
+function pathos_sessions_getTicketString() {
+	if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {
+		return $_SESSION[SYS_SESSION_KEY]['ticket'];
+	} else return "";
+}
+
+/**
+ * Check Existence of Session Variable
+ *
+ * Checks to see if the session holds a set variable of the given name.
+ *
+ * Note that some session variables (like the user object and the ticket)
+ * cannot be changed using this call (for security / sanity reason)
+ */
+function pathos_sessions_isset($var) {
+	return isset($_SESSION[SYS_SESSION_KEY]['vars'][$var]);
+}
+
+/**
+ * Set a Persistent Session Variable
+ *
+ * Sets a variable in the session data, for use on subsequent page calls.
+ *
+ * Note that some session variables (like the user object and the ticket)
+ * cannot be changed using this call (for security / sanity reason)
+ *
+ * @param string $var The name of the variable, for later reference
+ * @param mixed $val The value to store
+ */
+function pathos_sessions_set($var, $val) {
+	$_SESSION[SYS_SESSION_KEY]['vars'][$var] = $val;
+}
+
+/**
+ * Unset a Persistent Session Variable
+ *
+ * Removes a variable from the session.
+ *
+ * Note that some session variables (like the user object and the ticket)
+ * cannot be changed using this call (for security / sanity reason)
+ *
+ * @param string $var The name of the variable to unset.
+ */
+function pathos_sessions_unset($var) {
+	unset($_SESSION[SYS_SESSION_KEY]['vars'][$var]);
+}
+
+/**
+ * Get a Persistent Session Variable
+ *
+ * This retrieves the value of a persistent session variable.
+ *
+ * Note that some session variables (like the user object and the ticket)
+ * cannot be changed using this call (for security / sanity reason)
+ *
+ * @param string $var The name of the variable to retrieve.
+ *
+ * @return mixed null if the variable is not set in the session, or the
+ * value of the stored variable.
+ */
+function pathos_sessions_get($var) {
+	if (isset($_SESSION[SYS_SESSION_KEY]['vars'][$var])) {
+		return $_SESSION[SYS_SESSION_KEY]['vars'][$var];
+	} else return null;
+}
+
+?>

@@ -1,0 +1,61 @@
+0.95.0   -- December 20, 2004
+=============================
+- IIS fixes for redirection problems
+- Added default preview image, so that hosts without full (or any) GD
+support don't get broken images where previews should be.
+
+0.95-RC3 -- December 7, 2004
+============================
+- Added array_map function workaround to compat layer
+- Added a default installer page, in case page wasn't in REQUEST (GET or
+POST)
+- New geo countries and regions subsystem.
+- Added option in installer to skip creation of default content
+- Refactored database layer to allow two different engines to be used
+simultaneously
+- Removed unused DBE_* constants
+- Fixed various redirection issues (using full filename, instead of just
+"?")
+- Fixed minor typo on admin user manager page
+- Added overrides file, to allow user to manually set some constants
+- Commented out some unreferenced code, for removal in future versions
+- Backported some feature enhancements from 0.96, for the
+template::register_permissions method (single permission / multiple
+locations)
+- Cleaned up the stylesheet of the Personal Theme
+
+
+0.95-RC2 -- November 26, 2004
+=============================
+- Major Improvements to Compatibility Layer (using PHP_Compat)
+- CSS fixes in ExponentCMS.org theme for IE and Firefox
+- Added alt and title attributes to ALL icons
+- Added missing delete confirmation JS
+- Removed use of fgets() in backup susbsytem in favor of file(), for
+backwards compatibility support
+- Changed address controls in Addressbook module from textareas to
+single-line text boxes
+- Changed HTML Editor to Text editor for image manager items
+- Replaced various split calls with explode (speed)
+- Minor text change in sanity checker
+- Removed '<' and '>' from installer field values (now blank)
+- Now aborting certain js-heavy forms if user's browser cant handle it.
+- Fixed bug that prevented optional datetime picker from working in IE
+- Added 'No User Groups' message to group manager
+- Renamed 'Calendar Module' to 'Calendar'
+- Removed references to 'unifiedcontent' from Mini Calendar view file
+- Changed button text of default Contact From to 'Send'
+- Added 'var' to javascript for Container
+- Fixed hasParent = 0 conditional test (to ==)
+- Fixed bug with Container views and smarty errors
+- Added real form caption for inbox contact group edit form
+- Fixed 'all sections inactive' bug in Full Hierarchy
+- Added __realpath function to correct Windows backslashes in URL paths
+(BASE and PATH_RELATIVE)
+- Now stripping tags in the smarty summarize modifier (gets rid of extra
+lines with <p> tags)
+- Refactored versioning function in core subsystem
+- Fixed javascript error that kept IE browsers from submitting validated
+forms
+- Backported link plugin (Smarty) from 0.96, to start making transition
+

@@ -1,0 +1,43 @@
+body {
+	margin: 0px;	
+}
+
+div,span,td,p {
+	font-size: 10px;
+}
+
+a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 10px;
+	color: rgb(97,115,132);
+	border-bottom: 1px dashed rgb(97,115,132);
+}
+
+a.navlink, a.mngmntlink {
+	border-width: 0px;
+}
+
+a.navheader {
+	border-top: 1px dashed rgb(97,115,132);
+}
+
+span.tagline {
+	font-family: Verdana, Arial, sans-serif;
+	font-style: italic;
+	font-size: 10px;
+}
+
+div.content_area {
+	font-family: Verdana, Arial, sans-serif;
+	position: absolute;
+	left: 0px;
+	top: 225px;
+	padding-left: 20%;
+	padding-right: 20%;
+}
+
+div.installer_title {
+	font-size: 14px;
+	font-weight: bold;
+}

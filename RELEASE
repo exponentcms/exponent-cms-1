@@ -1,0 +1,28 @@
+Release Notes for Exponent Content Management System
+
+For a complete list of the changes made from release to release, see the
+CHANGELOG
+
+0.95.0     - Dec 20 2004
+========================
+ - Stable version of 0.95 Exponent CMS.
+
+0.95.0-rc3 - Dec 07 2004
+========================
+ - This release candidate address some more configuration-dependent
+redirection bugs, and introduces an overrides mechanism (the overrides.php
+file) for manually setting BASE and PATH_RELATIVE constants.
+
+
+0.95.0-rc2 - Nov 24 2004
+========================
+ - This release candidate addresses bugs related to different system
+configuration, and should support versions of PHP back to 4.1.0.  It
+should also play nicely with either Linux or Windows.  It is still
+untested with IIS, but Apache support seems to be solid.  (Note, if you
+are running this version on IIS, let me know what works and what doesn't,
+and I'll try to work on whatever problems you may encounter)
+
+========================
+0.95.0-rc1 - Nov 17 2004
+ - Initial release of Exponent CMS.
