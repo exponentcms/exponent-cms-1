@@ -88,7 +88,9 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 				{/if}
 				<br />
 				{foreach name=e from=$events item=event}
-					<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}">{$event->title}</a><br />
+					{assign var=catid value=0}
+					{if $__viewconfig.colorize == 1 && $modconfig->enable_categories}{assign var=catid value=$event->category_id}{/if}
+					<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}"{if $catid == 1} style="color: {$categories[$catid]->color};"{/if}>{$event->title}</a><br />
 					{if $smarty.foreach.e.last != 1}<hr size="1" color="lightgrey" />{/if}
 				{/foreach}
 			</td>
@@ -101,8 +103,12 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 {if $permissions.post == 1}
 <a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=0}" title="Create a new Calendar Event" alt="Create a new Calendar Event">Create Event</a>
 {/if}
-<br />
 {if $in_approval != 0 && $canview_approval_link == 1}
+<br />
 <a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="View Calendar Events in Approval" alt="View Calendar Events in Approval">View Approval</a>
+{/if}
+{if $modconfig->enable_categories == 1 && $permissions.administrate == 1}
+<br />
+<a class="mngmntlink calendar_mngmntlink" href="{link action=cat_managecategories}" title="Manage Event Categories" alt="Manage Event Categories">Manage Categories</a>
 {/if}
 {/permissions}
