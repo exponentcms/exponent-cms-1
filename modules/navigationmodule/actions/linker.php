@@ -35,7 +35,7 @@ if (!defined("PATHOS")) exit("");
 
 // PERM CHECK
 	$sections = navigationmodule::levelTemplate(0,0);
-	$template = new template("navigationmodule","_linker",$loc);
+	$template = new template("navigationmodule","_linker");
 	$template->assign("sections",$sections);
 	$template->output();
 // END PERM CHECK

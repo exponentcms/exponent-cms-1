@@ -28,7 +28,6 @@
  *
  * $Id$
  *}
-{*
 <html>
 	<head>
 		<meta type="Generator" value="Exponent Content Management System" />
@@ -46,7 +45,7 @@
 		 <table cellpadding="1" cellspacing="0" border="0" width="100%">
 		{foreach from=$sections item=section}
 		<tr><td style="padding-left: {math equation="x*20" x=$section->depth}px">
-		{if $section->active}<a href="{link section=$section->id}" class="navlink">{$section->name}</a>&nbsp;
+		{if $section->active}<a href="{$smarty.get.linkbase}&section={$section->id}&section_name={$section->name|escape:"url"}" class="navlink">{$section->name|escape:"htmlall"}</a>&nbsp;
 		{else}{$section->name}
 		{/if}
 		</td></tr>
@@ -54,4 +53,3 @@
 		</table>
 	</body>
 </html>
-*}
