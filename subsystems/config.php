@@ -97,7 +97,7 @@ function pathos_config_parse($configname,$site_root = null) {
 function pathos_config_parseFile($file) {
 	$options = array();
 	foreach (file($file) as $line) {
-		$line = trim(preg_replace(array("/^.*define\([\"']/","/[#].*$/"),"",$line));
+		$line = trim(preg_replace(array("/^.*define\([\"']/","/[^&][#].*$/"),"",$line));
 		if ($line != "" && substr($line,0,2) != "<?" && substr($line,-2,2) != "?>") {
 			$line = str_replace(array("<?php","?>","<?",),"",$line);
 			$opts = split("[\"'],",$line);
@@ -106,6 +106,7 @@ function pathos_config_parseFile($file) {
 				else $opts[1] = substr($opts[1],0,-2);
 				if (substr($opts[0],-5,5) == "_HTML") {
 					$opts[1] = eval("return ".$opts[1].";");
+					$opts[1] = preg_replace('/<[bB][rR]\s?\/?>/',"\r\n",$opts[1]);
 				}
 				$options[$opts[0]] = str_replace("\\'","'",$opts[1]);
 			}
@@ -205,7 +206,8 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 		
 		$str .= "define(\"$directive\",";
 		if (substr($directive,-5,5) == "_HTML") {
-			$value = htmlentities(stripslashes($value)); // slashes added by POST
+			$value = htmlentities(stripslashes($value),ENT_QUOTES); // slashes added by POST
+			$value = str_replace(array("\r\n","\r","\n"),"<br />",$value);
 			$str .= "html_entity_decode('$value')";
 		}
 		else if (is_int($value)) $str .= $value;
