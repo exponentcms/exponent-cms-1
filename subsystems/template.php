@@ -49,11 +49,13 @@ define("SYS_TEMPLATE_CLEAR_ALL",  1);
  */
 define("SYS_TEMPLATE_CLEAR_USERS",2);
 
+define('TEMPLATE_FALLBACK_VIEW',BASE."views/viewnotfound.tpl");
+
 include_once(BASE."external/Smarty/libs/Smarty.class.php");
 
 class basetemplate {
-	var $tpl;	
-	var $cache_id = "";
+	var $tpl;
+	// This will be used by modules on the outside, for retrieving view configs.
 	var $viewfile = "";
 	var $view = "";
 	var $viewdir = "";
@@ -63,7 +65,7 @@ class basetemplate {
 	}
 	
 	function output() {
-		$this->tpl->display($this->view.".tpl",$this->cache_id.$this->view);
+		$this->tpl->display($this->view.".tpl");
 	}
 	
 	function register_permissions($perms,$locs) {
@@ -89,43 +91,24 @@ class basetemplate {
 class template extends basetemplate {	
 	var $module = "";
 	
-	function template($module,$view = null,$loc=null,$caching=false) { // add viewfile someday
-		if ($view == null) {
-			// Invoked as new template("view")
-			$this->module = null;
-			$this->view = $module;
-		} else {
-			$this->module = $module;
-			$this->view = $view;
-		}
+	function template($module,$view = null,$loc=null,$caching=false) {
+		// Set up the Smarty template variable we wrap around.
 		$this->tpl = new Smarty();
-		//$this->tpl->security = true;
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
 		$this->tpl->plugins_dir[] = BASE."plugins";
 		
-		if ($this->module != null && substr($this->view,-4,4) != ".tpl") $this->viewfile = pathos_modules_getViewFile($this->module,$this->view);
-		else if (substr($this->view,-4,4) != ".tpl") $this->viewfile = pathos_template_getViewFile($this->view);
-		else $this->viewfile = $this->view;
+		$this->viewfile = pathos_template_getModuleViewFile($module,$view);
+		$this->viewdir = realpath(dirname($this->viewfile));
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
-		$this->viewdir = realpath(dirname($this->viewfile) . "/..") . "/views";
-		
 		$this->tpl->template_dir = $this->viewdir;
-		$this->tpl->compile_dir = $this->viewdir."_c";
 		
-		// EXPERIMENTAL CACHING
-		if (DISPLAY_CACHE == 1 && $caching) {
-			global $user;
-			if ($user == null) $this->tpl->cache_dir = BASE."cache";
-			else {
-				$this->tpl->cache_dir = BASE."cache/sessions";
-				$this->cache_id = $user->id;
-			}
-			$this->tpl->caching = true;
-			$this->cache_id .= "--".$module."--";
-			if (isset($loc->src)) $this->cache_id .= $loc->src;
-		}
-		$this->tpl->assign("__view",$view);
+		// Make way for i18n
+		// $this->tpl->compile_dir = $this->viewdir."_c";
+		$this->tpl->compile_dir = BASE.'/views_c';
+		$this->tpl->compile_id = md5($this->viewfile);
+		
+		$this->tpl->assign("__view",$this->view);
 		if ($loc == null) $loc = pathos_core_makeLocation($module);
 		$this->tpl->assign("__loc",$loc);
 		$this->tpl->assign("__redirect",pathos_flow_get());
@@ -160,7 +143,7 @@ class formtemplate extends basetemplate {
 		} else if (is_readable(BASE."forms/".$formtype."/".$view.".tpl")) {
 			$this->viewfile = BASE."forms/".$formtype."/".$view.".tpl";
 		} else {
-			$this->viewfile = "";
+			$this->viewfile = TEMPLATE_FALLBACK_VIEW;
 		}
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
@@ -168,9 +151,9 @@ class formtemplate extends basetemplate {
 		$this->viewdir = realpath(dirname($this->viewfile));
 		
 		$this->tpl->template_dir = $this->viewdir;
-		$this->tpl->compile_dir = $this->viewdir."_c";
+		$this->tpl->compile_dir = $this->viewdir.'_c';
 		
-		$this->tpl->assign("__view",$view);
+		$this->tpl->assign("__view",$this->view);
 		
 		$this->tpl->assign("__redirect",pathos_flow_get());
 	}
@@ -269,7 +252,8 @@ function pathos_template_getViewFile($view) {
 	} else if (is_readable(BASE."views/$view.tpl")) {
 		return BASE."views/$view.tpl";
 	} else {
-		return "";
+		// Fall back to something that won't error.
+		return TEMPLATE_FALLBACK_VIEW;
 	}
 }
 
@@ -277,8 +261,8 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 	$form_file = "";
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
 	else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
-	else if ($view != "Default") {
-		$view = "Default";
+	else if ($view != DEFAULT_VIEW) {
+		$view = DEFAULT_VIEW;
 		if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
 		else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
 	}
@@ -316,11 +300,12 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 }
 
 function pathos_template_getViewConfigOptions($module,$view) {
+// Can we simplify this?
 	$form_file = "";
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
 	else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
-	else if ($view != "Default") {
-		$view = "Default";
+	else if ($view != DEFAULT_VIEW) {
+		$view = DEFAULT_VIEW;
 		if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
 		else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
 	}
@@ -366,5 +351,69 @@ function pathos_template_getFormTemplates($type) {
 	
 	return $forms;
 }
+
+/* exdoc
+ * Resolves a view name to a real .tpl file.
+ * Consults both the theme and the standard views directory (in that order)
+ * to determine where the template code for a view is stored.  Returns the absolute path
+ * to the template file, or "" if no matching view file found.
+ *
+ * @node Subsystems:Template
+ */
+function pathos_template_getModuleViewFile($module,$view,$recurse = true) {
+	$langdir = (LANG == 'en' ? '' : LANG . '/');
+	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$langdir$view.tpl")) {
+		// Try the language directory in theme
+		return BASE."themes/".DISPLAY_THEME."/modules/$module/views/$langdir$view.tpl";
+	}else if (is_readable(BASE . "modules/$module/views/$langdir$view.tpl")) {
+		// Failing that, try the language directory in the module.
+		return BASE . "modules/$module/views/$langdir$view.tpl";
+	} else if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.tpl")) {
+		// Try the english directory in the theme.
+		return BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.tpl";
+	} else if (is_readable(BASE . "modules/$module/views/$view.tpl")) {
+		// Failing even that, try the english directory in the module.
+		return BASE . "modules/$module/views/$view.tpl";
+	} else if ($recurse && $view != DEFAULT_VIEW) {
+		// If we get here, try it with a different view.
+		return pathos_template_getModuleViewFile($module,DEFAULT_VIEW);
+	} else {
+		// Something is really screwed up.
+		// Fall back to something that won't error.
+		return TEMPLATE_FALLBACK_VIEW;
+	}
+}
+
+
+/* exdoc
+ * Looks through the module's views directory and returns
+ * all non-internal views that are found there.  The current theme
+ * is not consulted.  Returns an array of all standard view names.
+ * This array is unsorted.
+ *
+ * @param string $module The classname of the module to get views for.
+ * @node Subsystems:Template
+ */
+function pathos_template_listModuleViews($module) {
+	$views = array();
+	$langdir = (LANG == 'en' ? '' : LANG.'/');
+	if (is_readable(BASE."modules/$module/views/$langdir")) {
+		$dh = opendir(BASE."modules/$module/views/$langdir");
+		while (($file = readdir($dh)) !== false) {
+			if (substr($file,-4,4) == ".tpl" && substr($file,0,1) != "_") $views[] = substr($file,0,-4);
+		}
+	}
+	if (is_readable(THEME_BASE."modules/$module/views/$langdir")) {
+		$dh = opendir(THEME_BASE."modules/$module/views/$langdir");
+		while (($file = readdir($dh)) !== false) {
+			if (substr($file,-4,4) == ".tpl" && substr($file,0,1) != "_") {
+				$view = substr($file,0,-4);
+				if (!in_array($view,$views)) $views[] = $view;
+			}
+		}
+	}
+	return $views;
+}
+
 
 ?>
