@@ -45,6 +45,12 @@ define("SCRIPT_FILENAME","index.php");
 
 include_once("../pathos.php");
 
+
+if (!isset($_REQUEST['page'])) {
+	$_REQUEST['page'] = 'welcome';
+}
+$page = $_REQUEST['page'];
+
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -110,8 +116,6 @@ include_once("../pathos.php");
 		</td>
 		<td style="background-color: white; padding: 1em; font-family: sans-serif;" valign="top">
 		<?php
-	
-		$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "welcome");
 		if (file_exists("pages/$page.php")) include("pages/$page.php");
 		else echo "Unknown installer page ($page)<br />";
 		//GREP:HARDCODEDTEXT
