@@ -34,6 +34,6 @@
 // I18N strings for the Date/Time  subsystem
 
 define('TR_DATETIMESUBSYSTEM_NAME',				'Date / Time Subsystem');
-define('TR_DATETIMESUBSYSTEM_DESCRIPTION',		'A general purpose library of timestamp-based time fucntions.');
+define('TR_DATETIMESUBSYSTEM_DESCRIPTION',		'A general purpose library of timestamp-based time functions.');
 
 ?>
