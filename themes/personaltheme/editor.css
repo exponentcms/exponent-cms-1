@@ -1,0 +1,170 @@
+body {
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #000000;	text-decoration: none;
+}
+	
+a.navbar:link {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #000000;
+	text-decoration: none;
+}
+
+a.navbar:visited {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #000000;
+	text-decoration: none;
+}
+
+a.navbar:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #000000;
+	text-decoration: none;	
+}
+
+a.navbar:active {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;	font-style: normal;
+	line-height: normal;	font-weight: bold;
+	font-variant: normal;	color: #000000;	text-decoration: none;
+}
+
+a:link {
+	font-family: Arial, Helvetica, sans-serif;	font-size: 11px;
+	font-style: normal;	line-height: normal;	font-weight: bold;
+	font-variant: normal;	color: #999999;	text-decoration: none;
+}
+
+a:visited {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;	font-style: normal;
+	line-height: normal;	font-weight: bold;
+	font-variant: normal;	text-transform: none;
+	color: #999999;	text-decoration: none;
+	
+}
+
+a:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #999999;
+	text-decoration: underline;
+}
+
+a:active {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #999999;
+	text-decoration: none;
+}
+
+.contact {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #336699;
+	text-decoration: none;
+}
+
+.paragraph, div, td, body, span {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #ffffff;
+	text-decoration: none;
+	
+}
+
+.sectiontitle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #ffffff;
+	text-decoration: none;
+}
+	
+.title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.navbar {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #000000;	text-decoration: none;
+}
+
+a.sidenav {
+	color: #244360;
+}
+
+a div {
+	text-decoration: overline;
+}
+
+input.login {
+	border-width: 0px;
+	border-left: 4px solid #CDCCCC;
+	border-right: 4px solid #CDCCCC;
+	background-color: #336699;
+	margin: 7px;
+	margin-top: 0px;
+	margin-left: 0px;
+	color: white;
+}
+
+input, select, textarea {
+	border: 1px solid #CDCCCC;
+	background-color: #336699;
+	color: white;
+}

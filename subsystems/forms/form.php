@@ -1,0 +1,231 @@
+<?php
+
+##################################################
+#
+# Copyright 2004 James Hunt and OIC Group, Inc.
+#
+# This file is part of Exponent
+#
+# Exponent is free software; you can redistribute
+# it and/or modify it under the terms of the GNU
+# General Public License as published by the Free
+# Software Foundation; either version 2 of the
+# License, or (at your option) any later version.
+#
+# Exponent is distributed in the hope that it
+# will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE.  See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU
+# General Public License along with Exponent; if
+# not, write to:
+#
+# Free Software Foundation, Inc.,
+# 59 Temple Place,
+# Suite 330,
+# Boston, MA 02111-1307  USA
+#
+# $Id$
+##################################################
+
+/**
+ * Form Class
+ *
+ * An HTML-form building class, that supports
+ * registerable and unregisterable controls.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ * @version 0.95
+ *
+ * @package Subsystems
+ * @subpackage Forms
+ */
+
+/**
+ * Include the baseform class file.
+ * (This does not adversely affect PHP5)
+ */
+include_once(BASE."subsystems/forms/baseform.php");
+
+/**
+ * Form Class
+ *
+ * An HTML-form building class, that supports
+ * registerable and unregisterable controls.
+ *
+ * @package Subsystems
+ * @subpackage Forms
+ */
+class form extends baseform {
+	var $controls   = array();
+	var $controlIdx = array();
+	var $controlLbl = array();
+	
+	var $validationScript = "";
+	
+	function secure() {
+		$this->action = SSL_URL . SCRIPT_FILENAME;
+		$this->meta("expid",session_id());
+	}
+	
+	/*
+	 * Registers a new Control with the form.  This function will simply append the new Control to the end of the Form.
+	 *
+	 * @param $name The internal name of the control.  This is used for referring to the control later.  If this is a null string, the Control will not be registered, and this function will return false.
+	 * @param $control The Control object to register with the form.
+	 * @param $replace A boolean dictating what to do if a Control with the specified internal name already exists on the form.  If passed as true (default), the existing Control will be replaced.  Otherwise, the Control registration will fail and return false.
+	 *
+	 * @return boolean Returns true if the new Control was registered.
+	 */
+	function register($name,$label, $control,$replace=true) {
+		if ($name == null || $name == "") $name = uniqid("");
+		if (isset($this->controls[$name])) {
+			if (!$replace) return false;
+		} else $this->controlIdx[] = $name;
+		$this->controls[$name] = $control;
+		$this->controlLbl[$name] = str_replace(" ","&nbsp;",$label);
+		$control->onRegister($this);
+		return true;
+	}
+
+	/*
+	 * Unregisters a previously registered Control.
+	 *
+	 * @param $name The internal name of the control to remove from the Form.
+	 *
+	 * @return boolean Returns true if the Control was unregistered.
+	 */
+	function unregister($name) {
+		if (in_array($name,$this->controlIdx)) {
+			$control = $this->controls[$name];
+			unset($this->controls[$name]);
+			unset($this->controlLbl[$name]);
+			
+			$tmp = array_flip($this->controlIdx);
+			unset($tmp[$name]);
+
+			// Regenerate indices
+			$this->controlIdx = array();
+			foreach ($tmp as $name=>$rank) {
+				$this->controlIdx[] = $name;
+			}
+			$control->onUnregister($this);
+		}
+		return true;
+	}
+	
+	/*
+	 * Registers a new Control, placing it after a pre-existing named Control.  If the Control that the caller wants to insert after does not exist, the new Control is appended to the end of the Form.
+	 *
+	 * @param $afterName The internal name of the Control to register the new Control after.
+	 * @param $name The internal name of the new Control.
+	 * @param $control The Control object to register with the Form.
+	 *
+	 * @return boolean Returns true if the new Control was registered.
+	 */
+	function registerAfter($afterName,$name,$label, $control) {
+		if ($name == null || $name == "") $name = uniqid("");
+		if (in_array($name,$this->controlIdx)) return false;
+		
+		$this->controls[$name] = $control;
+		$this->controlLbl[$name] = str_replace(" ","&nbsp;",$label);
+		if (!in_array($afterName,$this->controlIdx)) {
+			$this->controlIdx[] = $name;
+			$control->onRegister($this);
+			return true;
+		} else {
+			$tmp = array_flip($this->controlIdx);
+			$idx = $tmp[$afterName]+1;
+			array_splice($this->controlIdx,$idx,0,$name);
+			$control->onRegister($this);
+			return true;
+		}
+	}
+	
+	/*
+	 * Registers a new Control, placing it before a pre-existing named Control.  If the Control that the caller wants to insert the new Control before does not exist, the new Control is prepended to the form.
+	 *
+	 * @param $beforeName The internal name of the Control to register the new Control before.
+	 * @param $name The internal name of the new Control.
+	 * @param $control the Control object to register with the Form.
+	 *
+	 * @return boolean Returns true if the new Control was registered.
+	 */
+	function registerBefore($beforeName,$name,$label, $control) {
+		if ($name == null || $name == "") $name = uniqid("");
+		if (in_array($name,$this->controlIdx)) return false;
+		
+		$this->controls[$name] = $control;
+		$this->controlLbl[$name] = str_replace(" ","&nbsp;",$label);
+		if (!in_array($beforeName,$this->controlIdx)) {
+			$this->controlIdx[] = $name;
+			$control->onRegister($this);
+			return true;
+		} else {
+			$tmp = array_flip($this->controlIdx);
+			$idx = $tmp[$beforeName];
+			array_splice($this->controlIdx,$idx,0,$name);
+			$control->onRegister($this);
+			return true;
+		}
+	}
+
+	/*
+	 * Convert the form to HTML output.
+	 *
+	 * @return The HTML code use to display the form to the browser.
+	 */
+	function toHTML() {
+		// Form validation script
+		if ($this->validationScript != "") {
+			$this->scripts[] = $this->validationScript;
+			$this->controls["submit"]->validateJS = "validate(this.form)";
+		}
+	
+		// Persistent Form Data extension
+		$formError = "";
+		if (pathos_sessions_isset("last_POST")) {
+			// We have cached POST data.  Use it to update defaults.
+			$last_POST = pathos_sessions_get("last_POST");
+			
+			foreach (array_keys($this->controls) as $name) {
+				// may need to look to control a la parseData
+				$this->controls[$name]->default = @$last_POST[$name];
+			}
+			
+			$formError = @$last_POST['_formError'];
+			
+			pathos_sessions_unset("last_POST");
+		}
+		
+		$html = "<!-- Form Object '" . $this->name . "' -->\r\n";
+		$html .= "<script type=\"text/javascript\" src=\"" .PATH_RELATIVE."subsystems/forms/js/inputfilters.js.php\"></script>\r\n";
+		foreach ($this->scripts as $name=>$script) $html .= "<script type=\"text/javascript\" src=\"$script\"></script>\r\n";
+		$html .= $formError;
+		$html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
+		foreach ($this->meta as $name=>$value) $html .= "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />\r\n";
+		$html .= "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\r\n";
+		foreach ($this->controlIdx as $name) {
+			$html .= $this->controls[$name]->toHTML($this->controlLbl[$name],$name) . "\r\n";
+		}
+		$html .= "<tr><td width='5%'></td><td wdith='95%'></tr>\r\n";
+		$html .= "</table>\r\n";
+		$html .= "</form>\r\n";
+		return $html;
+	}
+	/*
+	function mergeFormBefore($before_name,$form) {
+		
+	}
+	
+	function mergeFormAfter($after_name,$form) {
+	
+	}
+	*/
+}
+
+?>

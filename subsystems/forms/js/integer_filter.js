@@ -1,0 +1,44 @@
+function integer_filter_class() {
+	
+	this.on_key_press = function(ptObject, evt) {
+		//This will allow backspace to work.
+		evt = (evt) ? evt : event;
+		sChar = (evt.charCode) ? evt.charCode : evt.keyCode;
+		for (var n =0; n < g_aIgnore.length; n++) {
+			if (sChar == g_aIgnore[n]) return true;
+		}
+		var strNewVal = GetResultingValue(ptObject, String.fromCharCode(sChar));
+		
+		if (this.isValueIllegal(strNewVal)) {
+			return false;
+		}
+		return true;
+	}
+	
+	this.onBlur = function(ptObject) {
+		//Do nothing for integer
+	}
+	
+	this.onFocus = function(ptObject) {
+		//Do nothing for integer
+	}
+	
+	this.onPaste = function(ptObject, evt) {
+		var strNewVal = GetResultingValue(ptObject, String.fromCharCode(evt.charCode));
+		alert(strNewVal);
+		if (this.isValueIllegal(strNewVal)) {
+			return false;
+		}
+		return true;
+	}
+	
+	this.isValueIllegal = function(strValue) {
+		var bIsIllegal = isNaN(parseInt(strValue, 10));
+		if (bIsIllegal == false) {
+			bIsIllegal = (strValue.match(/[^0-9]/) != null);
+		}
+		return bIsIllegal;
+	}
+}
+
+var integer_filter = new integer_filter_class();
