@@ -60,7 +60,9 @@ include_once(BASE."external/Smarty/libs/Smarty.class.php");
 class basetemplate {
 	var $tpl;	
 	var $cache_id = "";
+	var $viewfile = "";
 	var $view = "";
+	var $viewdir = "";
 	
 	function assign($var,$val) {
 		$this->tpl->assign($var,$val);
@@ -96,8 +98,6 @@ class basetemplate {
  * @subpackage Template
  */
 class template extends basetemplate {	
-	var $viewdir = "";
-	var $viewfile = "";
 	var $module = "";
 	
 	function template($module,$view = null,$loc=null,$caching=false) { // add viewfile someday
@@ -164,11 +164,50 @@ class formtemplate extends basetemplate {
 }
 
 class filetemplate extends basetemplate {
-
+	function filetemplate($file) {
+		$this->tpl = new Smarty();
+		//$this->tpl->security = true;
+		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
+		$this->tpl->plugins_dir[] = BASE."plugins";
+		
+		$this->view = substr(basename($file),0,-4);
+		$this->viewdir = realpath(dirname($file));
+		
+		$this->tpl->template_dir = $this->viewdir;
+		$this->tpl->compile_dir = $this->viewdir."_c";
+		
+		$this->tpl->assign("__view",$view);
+		$this->tpl->assign("__redirect",pathos_flow_get());
+	}
 }
 
+/**
+ * Standalone Template Class
+ *
+ * A standalone template is a template (tpl) file found in either
+ * THEME_ABSOLUTE/views or BASE/views, which uses
+ * the corresponding views_c directory for compilation.
+ * 
+ * @param string $view The name of the standalone view.
+ */
 class standalonetemplate extends basetemplate {
-
+	function standalonetemplate($view) {
+		$this->tpl = new Smarty();
+		//$this->tpl->security = true;
+		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
+		$this->tpl->plugins_dir[] = BASE."plugins";
+		
+		$file = pathos_template_getViewFile($view);
+		
+		$this->view = substr(basename($file),0,-4);
+		$this->viewdir = realpath(dirname($file) . "/..") . "/views";
+		
+		$this->tpl->template_dir = $this->viewdir;
+		$this->tpl->compile_dir = $this->viewdir."_c";
+		
+		$this->tpl->assign("__view",$view);
+		$this->tpl->assign("__redirect",pathos_flow_get());
+	}
 }
 
 /**
