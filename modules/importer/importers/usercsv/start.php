@@ -40,7 +40,7 @@ if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
 $template = New template("importer", "_usercsv_form_start");
 
 if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") != SYS_FILES_SUCCESS) {
-	$template->assign("error", "The modules/importers/usercsv/tmp directory is not writable.  Please contact your administrator.");
+	$template->assign("error", "The modules/importer/importers/usercsv/tmp directory is not writable.  Please contact your administrator.");
 	$template->output();
 }else{
 	//initialize the for stuff
@@ -57,7 +57,7 @@ if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") !
 		","=>"Comma",
 		";"=>"Semicolon",
 		"Tab"=>"Tab",
-		"Space"=>"Space");
+		" "=>"Space");
 
 	//Register the dropdown menus
 	#$form->register("unameOptions","User Name Generations Options", New dropdowncontrol("INFILE", $userNameOptionsArray));

@@ -47,7 +47,7 @@ if (!is_numeric($_POST["rowstart"])){
 	exit("");
 }
 
-//Set the temp directory to put the uploaded file
+//Get the temp directory to put the uploaded file
 $directory = "modules/importer/importers/usercsv/tmp";
 
 //Get the file save it to the temp directory
@@ -88,7 +88,6 @@ for ($x=0; $x<$_POST["rowstart"]; $x++){
 	$lineInfo = fgetcsv($fh, 2000, $_POST["delimiter"]);
 }
 
-//Build the array for the select control
 $colNames = array(
 	"none"=>"--Disregard this column--",
 	"username"=>"Username",
@@ -98,7 +97,7 @@ $colNames = array(
 	"email"=>"Email Address");
 
 //Check to see if the line got split, otherwise throw an error
-if (count($lineInfo) == 1) {
+if ($lineInfo == null) {
 	$post['_formError'] = "This file does not appear to be delimited by \"".$_POST["delimiter"]."\".<br>Please specify a different delimiter<br><br>"; 
 	pathos_sessions_set("last_POST",$post);
 	header("Location: " . $_SERVER['HTTP_REFERER']);

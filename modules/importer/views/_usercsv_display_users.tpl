@@ -47,7 +47,7 @@ info is highlighted in red, that user record could not be added to the database 
 <tr class="row {cycle values=even_row,odd_row}">
 	<td style="background-color:inherit;">
 		{if $user->changed == 1}<span style="color:green;">Changed</span>
-		{elseif $user->changed == "skipped"}<span style="color:red;">Ignored (Line {$user->linenum})</span>
+		{elseif $user->changed == "skipped"}<span style="color:red;">Ignored&nbsp;(Line&nbsp;{$user->linenum}&nbsp;)</span>
 		{else}<span style="color:black;">Success</span>
 		{/if}
 	</td>
