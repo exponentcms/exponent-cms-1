@@ -125,7 +125,7 @@ if ($user) {
 	
 	if (count($emails)) {
 		$body = $message->body;		
-		if (pathos_smtp_mail($emails,"","Private Message: " . $message->subject,$message->body) == false) {
+		if (pathos_smtp_mail($emails,"",$message->subject,$message->body) == false) {
 			echo "Something didn't work with the email config";
 		}
 	}
