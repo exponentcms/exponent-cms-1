@@ -1,0 +1,175 @@
+Date Time Subsystem Analysis
+============================
+
+Audience: Developers
+Author:   James Hunt, Lead Developer
+
+Abstract:
+	This document includes some detailed use cases
+and scenarios related to the components of the
+date/time subsystem, covering various edge cases
+as well as normal usage.  This document can be
+used as a springboard for testing the subsystem,
+and will be updated with new use cases as well as
+re-evalutations of existing scenarios whenever
+major changes are made to the subsystem.
+
+
+
+--------------------------------------------
+    pathos_datetime_recurringWeeklyDates    
+--------------------------------------------
+o Finding the Starting Date:
+
+  Starting date's weekday is after the last weekday
+  in the recurrence rotation.  (Start on a Saturday for
+  a MWF rotation)
+  
+   Set the day counter ($counter) to 0, so that we start
+    on the first day of the rotation
+	
+   Set the start date to one the next day that is the first
+    weekday of the rotation.  Currently this is done by:
+	
+	$start += (SECONDS_PER_DAY) * (7 - CURRENT_WEEKDAY + FIRST_WEEKDAY)
+	
+	***********
+	* Use Case: MWF Rotation, Starting on a Saturday
+	
+	 So, if CURRENT_WEEKDAY is Saturday (integer value 6), and
+	 the rotation is MWF, Monday (1) is the FIRST_WEEKDAY.
+	
+	 $start = $start + 86400 * (7 - 6 + 1) = $start + 86400 * (2)
+	
+	 We would be adding 2 days to the $start timestamp, landing us
+	 at the next monday.
+	
+	***********
+	* Use Case: Su Rotation, Starting on a Monday
+	
+	 If the CURRENT_WEEKDAY is a Monday (1) and the rotation is Su,
+	 Sunday (0) is the FIRST_WEEKDAY
+	
+	 $start = $start + 86400 * (7 - 1 + 0) = $start + 86400 * (6)
+	
+	 This will add 6 days to Monday (1) resulting in a Sunday (7)
+
+  Starting date's weekday is before the last weekday
+  in the recurrence rotation. (Start on a Sunday for
+  a MWF rotation)
+
+	
+	Do nothing, as start date is already correct.
+	
+
+  Starting date's weekday is before the last weekday
+  in the recurrence rotation. (Start on a Sunday for
+  a MWF rotation)
+  
+	Set the start date to the next day in the rotation that is after
+	 the current day.
+	 
+
+o Finding Dates falling in Recurrence Range
+  
+  A do...while loop finds all of the events that match the recurrence
+  criteria within the range of recurrence.
+  
+  During the iteration, we moved off of the last weekday and back onto
+  the first weekday in the rotation.
+  
+   Reset the counter to 0, so we pick up the proper weekday on the next
+    iteration
+   Grab the difference in days between the last weekday in the rotation
+    and the first day in the rotation. Currently this is done as:
+	
+	$diff = 7 + FIRST_WEEKDAY - LAST_WEEKDAY
+	
+   Increment the current date.  Currently this is done as:
+   
+    $curdate += 7 * (SECONDS_PER_DAY) * (WEEKLY_FREQUENCY-1) + (SECONDS_PER_DAY * DIFFERENCE)
+	
+	***********
+	* Use Case: MF Rotation, Moving from Friday to Monday, every 1 week
+	
+	 Frequency (WEEKLY_FREQ) is 1
+	 The difference (DIFFERENCE) between Friday (5) and Monday (1) is:
+	  $diff = 7 + 1 - 5 = 3
+	 
+	 Increment $curdate using provided formula:
+	 
+	  $curdate = $curdate + 7 * 86400 * (WEEKLY_FREQ-1) + (86400 * 3)
+	  
+	  The second term drops out, because WEEKLY_FREQ-1 = 0
+	  
+	  $curdate = $curdate + 0 + 86400 * 3
+	  
+	  So we are adding three days to the current date, and three days
+	  after a friday is (5 + 3) is 8 (subtract 7 for the week), or
+	  weekday 1.  This is a monday.
+	  
+	***********
+	* Use Case: MTh Rotation, Moving from Thursday to Monday, every 1 week
+	
+	 Frequency (WEEKLY_FREQ) is 1
+	 The difference (DIFFERENCE) between Thursday (4) and Monday (1) is:
+	  $diff = 7 + 1 - 4 = 4
+	 
+	 Increment $curdate using the provided formula:
+	
+	  $curdate = $curdate + 7 * 86400 * (WEEKLY_FREQ-1) + (86400 * 4)
+	  
+	  The second term drops out, because WEEKLY_FREQ-1 = 0
+	  
+	  $curdate = $curdate + 0 + 86400 * 4
+	  
+	  So we are adding four days to the current date, and four days after
+	  a thursday (4 + 4) is 8 (Subtract 7 for the week), or weekday 1.
+	  This is a monday.
+	  
+	-------------------------------------------------------
+	  Formulaic Discussion of Day Difference Calculations
+	-------------------------------------------------------
+	
+	What follows is a set of equations to figure out the day
+	difference between two days, when wrapping around one week to
+	the next.  For purposes of brevity, any weekdays between the first
+	and last in the rotation are ignored, since they have no effect on
+	the dayspan between first weekday and last weekday (a MF rotation is
+	identical to a MTuWThF rotation when wrapping, both go Friday to
+	Monday)
+	
+	MSa Rotation:
+		Sa - M = 6 - 1 = 5
+		6 + X = 7 + 1
+		  Solving for X gives X = 7 + 1 - 6
+		  X = 2
+	MF Rotation:
+		F - M = 5 - 1 = 4
+		5 + X = 7 + 1
+		  Solving for X gives X = 7 + 1 - 5
+		  X = 3
+	MTh Rotation:
+		Th - M = 4 - 1 = 3
+		4 + X = 7 + 1
+		  Solving for X gives X = 7 + 1 - 4
+		  X = 4
+	MW Rotation:
+		W - M = 3 - 1 = 2
+		3 + X = 7 + 1
+		  Solving for X gives X = 7 + 1 - 3
+		  X = 5
+	MTu Rotation:
+		Tu - M = 2 - 1 = 1
+		2 + X = 7 + 1
+		  Solving for X gives X = 7 + 1 - 2
+		  X = 6
+	TuSa Rotation:
+		Sa - Tu = 6 - 2 = 3
+		6 + X = 7 + 2
+		  Solving for X gives X = 7 + 2 - 6
+		  X = 3
+	
+	X = WEEKLY + FIRST_WDAY - LAST_WDAY
+	X = number of days to add to the last day to get to the first day
+	
