@@ -30,7 +30,10 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
+if (!deifned('PATHOS')) exit('');
+
+pathos_lang_loadDictionary('standard','base');
 
 ob_start();
 // Initialize the Theme Subsystem
@@ -68,29 +71,29 @@ if (is_readable(BASE.$page)) {
 	
 	if (isset($_REQUEST['showmodules'])) {
 		if (is_array($_REQUEST['showmodules'])) $source_select['showmodules'] = $_REQUEST['showmodules'];
-		else if ($_REQUEST['showmodules'] == "all") $source_select['showmodules'] = null;
-		else $source_select['showmodules'] = explode(",",$_REQUEST['showmodules']);
+		else if ($_REQUEST['showmodules'] == 'all') $source_select['showmodules'] = null;
+		else $source_select['showmodules'] = explode(',',$_REQUEST['showmodules']);
 	} else if (!isset($source_select['showmodules'])) {
 		$source_select['showmodules'] = null;
 	}
 	
 	if (isset($_REQUEST['dest'])) {
-		$source_select["dest"] = $_REQUEST['dest'];
+		$source_select['dest'] = $_REQUEST['dest'];
 	} else if (!isset($source_select['dest'])) {
 		$source_select['dest'] = null;
 	}
 	
 	if (isset($_REQUEST['hideOthers'])) {
-		$source_select["hideOthers"] = $_REQUEST['hideOthers'];
+		$source_select['hideOthers'] = $_REQUEST['hideOthers'];
 	} else if (!isset($source_select['hideOthers'])) {
 		$source_select['hideOthers'] = 0;
 	}
 	
-	pathos_sessions_set("source_select",$source_select);
+	pathos_sessions_set('source_select',$source_select);
 	
 	// Include the rendering page.
 	include_once(BASE.$page);
-} else echo BASE.$page." not readable";
+} else echo sprintf(TR_BASE_PAGENOTREADABLE,BASE.$page);
 
 ob_end_flush();
 
