@@ -67,7 +67,7 @@ function pathos_image_showFallbackPreviewImage($base) {
  */
 function pathos_image_sizeinfo($filename) {
 	if (!is_readable($filename)) return null;
-	$sizeinfo = getimagesize($filename);
+	$sizeinfo = @getimagesize($filename);
 	if (!isset($sizeinfo['mime'])) {
 		// In case this implementation of getimagesize
 		$types = array(
