@@ -167,9 +167,9 @@ class formtemplate extends basetemplate {
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
 		$this->tpl->plugins_dir[] = BASE."plugins";
 		
-		if (is_readable(THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl") {
+		if (is_readable(THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl")) {
 			$this->viewfile = THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl";
-		} else if (is_readable(BASE."forms/".$formtype."/".$view.".tpl") {
+		} else if (is_readable(BASE."forms/".$formtype."/".$view.".tpl")) {
 			$this->viewfile = BASE."forms/".$formtype."/".$view.".tpl";
 		} else {
 			$this->viewfile = "";
