@@ -111,7 +111,7 @@ function pathos_users_listExtensions() {
 	$ext_dir = BASE.'subsystems/users/profileextensions';
 	// Profiles directory has to be readable by the web server.
 	if (is_readable($ext_dir)) {
-		$dh = opendir($ext_dir);\
+		$dh = opendir($ext_dir);
 		// For each directory entry we find.
 		while (($file = readdir($dh)) !== false) {
 			if (is_file("$ext_dir/$file") && is_readable("$ext_dir/$file") && substr($file,-13,13) == 'extension.php') {
@@ -167,7 +167,7 @@ function pathos_users_listUnusedExtensions() {
 function pathos_users_clearDeletedExtensions() {
 	// Pull in database object from the global scope.
 	global $db;
-	foreach ($db->selectObjects('profileextension' as $e) {
+	foreach ($db->selectObjects('profileextension') as $e) {
 		// For every activated profile extension, check to see if its class file is still readable / exists.
 		if (!is_readable(BASE.'subsystems/users/profileextensions/'.$e->extension.'.php')) {
 			// An active profile extension was manually uninstalled from the system.  Remove the non-existent
@@ -734,7 +734,7 @@ function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=
 		return array();
 	}
 	// Holding array for the groups.
-	$groups = array()
+	$groups = array();
 	if ($u->is_admin) {
 		// For administrators, we synthesize group memberships - they effectively
 		// belong to all groups.  So, we call pathos_users_getAllGroups, and pass the
