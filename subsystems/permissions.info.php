@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Permissions Subsystem Info
- *
- * Provides reflective information about the Permissions Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Permissions
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"Permissions Manager",
-	"author"=>"James Hunt",
-	"description"=>"A database permissions backend",
-	"version"=>pathos_core_version(true)
+	'name'=>'Permissions Manager',
+	'author'=>'James Hunt',
+	'description'=>'A database permissions backend',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

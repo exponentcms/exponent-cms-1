@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Forms Subsystem Info
- *
- * Provides reflective information about the Forms Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Forms
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"Dynamic Forms",
-	"author"=>"James Hunt",
-	"description"=>"Provides a programmatically-friendly platform for building and modifying HTML forms.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Dynamic Forms',
+	'author'=>'James Hunt',
+	'description'=>'Provides a programmatically-friendly platform for building and modifying HTML forms.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

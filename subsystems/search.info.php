@@ -31,25 +31,11 @@
 # $Id$
 ##################################################
 
-/** 
- * Search Subsystem Info File
- *
- * Provides reflective information to Exponent about the Search subsystem
- *
- * @package		Subsystems
- * @subpackage	Search
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-
 return array(
-	"name"=>"Search Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Allows users to search the content of the web site",
-	"version"=>pathos_core_version(true)
+	'name'=>'Search Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Allows users to search the content of the web site',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Web Services Subsystem Info
- *
- * Provides reflective information about the Web Services Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Web Services
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"Webservices Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A wrapper around either NuSOAP or the built-in PHP5 SOAP platform.  This subsystem enables parts of the system to provide and consume SOAP web services over HTTP.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Webservices Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A wrapper around either NuSOAP or the built-in PHP5 SOAP platform.  This subsystem enables parts of the system to provide and consume SOAP web services over HTTP.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

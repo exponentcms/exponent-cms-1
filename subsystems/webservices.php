@@ -31,26 +31,10 @@
 # $Id$
 ##################################################
 
-/**
- * Webservices Subsystem
- *
- * A Web Services platform, to bridge the gap between PHP4,
- * which relied on nusoap, and PHP5 which comes with Web Services
- * support.
- *
- * @package		Subsystems
- * @subpackage	Webservices
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:WebServices
  */
 define("SYS_WEBSERVICES",1);
 

@@ -31,34 +31,16 @@
 # $Id$
 ##################################################
 
-/**
- * SMTP Subsystem
- *
- * Allows efficient mass-mailing by making a direct socket
- * connection to a mail server on port 25 and negotiating SMTP
- * directly.
- *
- * @package		Subsystems
- * @subpackage	SMTP
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
  */
 define("SYS_SMTP",1);
 
-/**
- * Replacement for PHP's mail() function
- *
+/* exdoc
  * Sends mail through a raw SMTP socket connection, to one or
  * more recipients.  This function is optimized for multiple recipients.
+ * Returns true if all mail messages were sent.  Returns false if anything failed.
  *
  * @param array $to_r An array of recipient email address, or a single email address string.
  * @param string $from The from header string, usually an email address.
@@ -68,7 +50,7 @@ define("SYS_SMTP",1);
  * 	will be converted as needed.
  * @param array $headers An associative array of header fields for the email.
  * @param string $callback The name of a callback function for processing each message
- * @return boolean True if all mail messages were sent.  Returns false if anything failed.
+ * @node Subsystems:SMTP
  */
 function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callback="") {
 
@@ -156,17 +138,14 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 	return true;
 }
 
-/**
- * Check Server Response
- *
- * Checks the server response to a message sent previously.
+/* exdoc
+ * Checks the server response to a message sent previously.  Returns
+ * rue if the expected response was the actual response, and false if there was a discrepency.
  *
  * @param Socket $socket The socket object connected to the mail server
  * @param string $expected_response The response code (3-digit number)
  *	expected from the server
- *
- * @return boolean True if the expected response was the actual response,
- *	and false if there was a discrepency.
+ * @node Subsystems:SMTP
  */
 function pathos_smtp_checkResponse($socket,$expected_response) {
 	$response = fgets($socket,256);
@@ -179,32 +158,34 @@ function pathos_smtp_checkResponse($socket,$expected_response) {
 	return (substr($response,0,3) == $expected_response);
 }
 
-/**
- * Send a Message to the Mail Server
- *
+/* exdoc
  * Sends an SMTP message to the server through the given socket.
  *
  * @param Socket $socket The socket object connected to the mail server
  * @param string $message The message to send
+ * @node Subsystems:SMTP
  */
 function pathos_smtp_sendServerMessage($socket,$message) {
 	if (substr($message,-1,1) != "\n") $message .="\n";
 	if ($message != null) fputs($socket,$message);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_smtp_sendExit($socket) {
 	pathos_smtp_sendServerMessage($socket,"RSET");
 	pathos_smtp_sendServerMessage($socket,"QUIT");
 }
 
-/**
- * Send Email Headers to Server
- *
+/* exdoc
  * Sends the header part of an email message to the server.  This takes
  * care of properly escaping newlines as \r\n escape characters
  *
  * @param Socket $socket The socket object connected to the mail server
  * @param Array $headers An associative array of header keys to header values
+ * @node Subsystems:SMTP
  */
 function pathos_smtp_sendHeadersPart($socket,$headers) {
 	$headerstr = "";
@@ -214,14 +195,13 @@ function pathos_smtp_sendHeadersPart($socket,$headers) {
 	pathos_smtp_sendServerMessage($socket,$headerstr);
 }
 
-/**
- * Send Email Body yo Server
- *
+/* exdoc
  * Sends the message part of an email message to the server.  This takes
  * care of properly (and intelligently) escaping newlines as \r\n escape characters.
  *
  * @param Socket $socket The socket object connected to the server
-* @param string $message The body of the email.
+ * @param string $message The body of the email.
+ * @node Subsystems:SMTP
  */
 function pathos_smtp_sendMessagePart($socket,$message) {
 	$message = preg_replace("/([^\r]{1})\n/","\\1\r\n",$message);
@@ -231,10 +211,18 @@ function pathos_smtp_sendMessagePart($socket,$message) {
 	pathos_smtp_sendServerMessage($socket,$message);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_smpt_parseEHLO($socket) {
 	
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_smtp_authenticate($socket,$type,$username,$password) {
 	pathos_smtp_sendServerMessage($socket,"AUTH $type");
 	if (pathos_smtp_checkResponse($socket,"334")) {
@@ -258,15 +246,14 @@ function pathos_smtp_authenticate($socket,$type,$username,$password) {
 	}
 }
 
-/**
- * A Blank Callback Function
- *
+/* exdoc
  * A blank callback function that shows external argument list
  *
  * @param integer $email_index The numerical index of the email address
  * @param string $msg The text of the message.  This is a modifiable referenced variable
  * @param string $subject The subject of the message.  This is a modifiable referenced variable
  * @param array $headers The headers array.  This is a modifiable referenced variable.
+ * @node Subsystems:SMTP
  */
 function pathos_smtp_blankMailCallback($email_index,&$msg,&$subject,&$headers) {
 

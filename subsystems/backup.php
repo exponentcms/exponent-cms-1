@@ -31,43 +31,24 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-/**
- * Backup Subsystem
- *
- * The backup subsystem provides general backup
- * functionality.  Currently only entire database
- * backups are supported.
- *
- * Any sort of export or import of important website
- * data should be handled through this subsytem
- *
- *
- * @package		Subsystems
- * @subpackage	Backup
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
+/* exdoc
  * SYS Flag for Backup Subsystem.
  * The definition of this constant lets other parts
  * of the system know that the Backup Subsystem
  * has been included for use.
+ * @node Subsystems:Backup
  */
 define("SYS_BACKUP",1);
 
-/**
+/* exdoc
  * The EQL header string for object dump file formats.
  * This header defines the version of EQL native to
- * the current implementation of the Backup Subsystem
+ * the current implementation of the Backup Subsystem.
+ * @node Subsystems:Backup
  */
 define("EQL_HEADER","EQL-Exponent Query Language");
 
-/**
- * Dump Objects from an entire Database
- *
+/* exdoc
  * This function takes a database object and dumps
  * all of the records in all of the tables into a string.
  * The contents of the string are suitable for storage
@@ -76,8 +57,7 @@ define("EQL_HEADER","EQL-Exponent Query Language");
  * implementation.
  *
  * @param Database $db The database object to dump to EQL.
- *
- * @return string A snapshot of the database in EQL.
+ * @node Subsystems:Backup
  */
 function pathos_backup_dumpDatabase($db,$tables = null) {
 	$dump = EQL_HEADER."\n";
@@ -104,11 +84,13 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
 	return $dump;
 }
 
-/**
- * Restore an entire Database
- *
+/* exdoc
  * This function restores a database (overwriting all data in
- * any existing tables) from an EQL object dump.
+ * any existing tables) from an EQL object dump.  Returns true if
+ * the restore was a success and false if something went horribly wrong
+ * (unable to read file, etc.)  Even if true is returned, there is a chance
+ * that some errors were encountered.  Check $errors to be sure everything
+ * was fine.
  *
  * @param Database $db The database to restore to
  * @param string $file The filename of the EQL file to restore from
@@ -116,11 +98,7 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
  * 	variable is passed in this argument will contain all errors encounterd
  *	during the parse/restore.
  * @param boolean $verbose Whether or not to output verbose progress information.
- *
- * @return boolean true if the restore was a success and false if
- *	something went horribly wrong (unable to read file, etc.)  Even if true is
- *	returned, there is a chance that some errors were encountered.  Check $errors
- *	to be sure everything was fine.
+ * @node Subsystems:Backup
  */
 function pathos_backup_restoreDatabase($db,$file,&$errors,$verbose = 0) {
 	$errors = array();

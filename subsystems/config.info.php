@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Configuration Subsystem Info
- *
- * Provides reflective information about the Configuration Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Configuration
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"Configuration Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Handles configuration profiles",
-	"version"=>pathos_core_version(true)
+	'name'=>'Configuration Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Handles configuration profiles',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

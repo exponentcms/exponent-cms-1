@@ -31,34 +31,17 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-/**
- * Forms Subsystem
- *
- * Allows developers to create HTML forms with
- * a simple Object-Oriented interface.  This subsystem
- * also allows for easy extension through the definition
- * of new control types.
- *
- * @package		Subsystems
- * @subpackage	Forms
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
 
-/**
- * SYS flag for Forms Subsystem
- *
+/* exdoc
  * The definition of this constant lets other parts
  * of the system know that the Forms Subsystem
  * has been included for use.
  *
- * @see pathos_forms_initialize
+ * @node Subsystems:Forms
  */
 define("SYS_FORMS",1);
 
-/**
+/* exdoc
  * Initialize the Subsystem
  *
  * This function includes files that would not otherwise be needed,
@@ -72,7 +55,7 @@ define("SYS_FORMS",1);
  * justifies the existence of the subsystem.  The overhead is barely
  * noticeable, but it is there.
  *
- * @see pathos_forms_cleanup
+ * @node Subsystems:Forms
  */
 function pathos_forms_initialize() {
 	$forms_dir = BASE."subsystems/forms";
@@ -103,9 +86,7 @@ function pathos_forms_initialize() {
 	}
 }
 
-/**
- * Cleanup the Forms Subsystem
- *
+/* exdoc
  * This function complements pathos_forms_cleanup, by properly
  * cleaning up AutoLoader modifications made by the initialization.
  *
@@ -113,7 +94,7 @@ function pathos_forms_initialize() {
  * affect PHP4 servers.  For best practices, always call pathos_forms_cleanup
  * if you have called pathos_forms_initialize.
  *
- * @see pathos_forms_initialize
+ * @node Subsystems:Forms
  */
 function pathos_forms_cleanup() {
 	if (phpversion() >= 5) {
@@ -123,6 +104,10 @@ function pathos_forms_cleanup() {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_forms_listControlTypes() {
 	$cdh = opendir(BASE."subsystems/forms/controls");
 	$list = array();
@@ -136,3 +121,5 @@ function pathos_forms_listControlTypes() {
 	}
 	return $list;
 }
+
+?>

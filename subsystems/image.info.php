@@ -31,25 +31,11 @@
 # $Id$
 ##################################################
 
-/** 
- * Image Subsystem Info File
- *
- * Provides reflective information to Exponent about the Image subsystem
- *
- * @package		Subsystems
- * @subpackage	Image
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-
 return array(
-	"name"=>"Image Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Image Previewing stuff.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Image Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Image Previewing stuff.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,51 +31,33 @@
 # $Id$
 ##################################################
 
-/**
- * Info Subsystem
- *
- * Provides reflective information about the components of
- * the current website.
- *
- * @package		Subsystems
- * @subpackage	Info
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag for Info Subsystem
- *
+/* exdoc
  * The definition of this constant lets other parts
  * of the system know that the Info Subsystem
  * has been included for use.
+ * @node Subsystems:Info
  */
 define("SYS_INFO",1);
 
-/**
- * Look up information on a subsystem
- *
+/* exdoc
  * Looks through the subsystems/ directory for a *.info.php for
  * a given subsystem, and returns the metadata stored in that file.
+ * Returns an array of meta tag/values for the subsystem.  Returns
+ * null if no information file was found.
  *
  * @param string $subsystem The name of the subsystem to retrieve information about.
- * @return array An array of meta tag/values for the subsystem.  Returns null if no information
- *    file was found.
+ * @node Subsystems:Info
  */
 function pathos_info_subsystemInfo($subsys) {
 	if (!is_readable(BASE."subsystems/$subsystem.info.php")) return null;
 	return include(BASE."subsystems/$subsystem.info.php");
 }
 
-/**
- * Lists subsystems installed
- *
+/* exdoc
  * Looks through the subsystems/ directory for all subsystems currently installed,
- * and retrieves their information.
- *
- * @return array An array of all subsystems, with meta tags/values for each.
+ * and retrieves their information. Returns an array of all subsystems, with meta
+ * tags/values for each.
+ * @node Subsystems:Info
  */
 function pathos_info_subsystems() {
 	$info = array();
@@ -92,21 +74,19 @@ function pathos_info_subsystems() {
 	return $info;
 }
 
-/**
- * Lists all files for an extension.
- *
+/* exdoc
  * Looks for a manifest file, which contains a list of all files
  * claimed by the given extension.  This list also contains the
- * cached file checksums, for verification purpses.
+ * cached file checksums, for verification purpses.  Returns an
+ * array or a string.  If no manifest file is found, or the specified
+ * extension was not found, a string error is returned. otherwise an
+ * array of files information is returned.
  *
  * MD5 checksums are used to verify file integrity.
  *
  * @param integer $type The type of extension.
  * @param string $name The name of the extension
- * @return mixed An array or a string.  If no manifest file is found,
- *    or the specified extension was not found, a string error is returned.
- *    otherwise an array of files information is returned.
- * @see pathos_info_fileChecksums
+ * @node Subsystems:Info
  */
 function pathos_info_files($type,$name) {
 	$dir = "";
@@ -131,16 +111,13 @@ function pathos_info_files($type,$name) {
 	else return "Manifest file not found.";
 }
 
-/**
- * Run checksums on a list of files
- *
+/* exdoc
  * Generates an MD5 file checksum of each file in the passed array,
- * and returns a new array of the checksums.
+ * and returns a new array of the checksums.  Returns the checksums
+ * for the passed files.  Each checksum is indexed by the file it belongs to.
  *
  * @param array $files An array of file names to generate checksums for
- * @return array The checksums for the passed files.  Each checksum is indexed
- *    by the file it belongs to.
- * @see pathos_info_files
+ * @node Subsystems:Info
  */
 function pathos_info_fileChecksums($files) {
 	$newfiles = array();
@@ -151,16 +128,14 @@ function pathos_info_fileChecksums($files) {
 	return $newfiles;
 }
 
-/**
- * Highlight a file and show line numbering
- *
- * Slightly bastardized by James, for Exponent
+/* exdoc
+ * Highlight a file and show line numbering.  Slightly bastardized by James, for Exponent
  *
  * @param        string  $data       The string to add line numbers to
  * @param        bool    $funclink   Automatically link functions to the manual
  * @param        bool    $return     return or echo the data
  * @author       Aidan Lister <aidan@php.net>
- * @version      1.0.0
+ * @node Subsystems:Info
  */
 function pathos_info_highlightPHP($data, $return = true)
 {

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * SMTP Subsystem Info
- *
- * Provides reflective SMTP about the SMTP Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	SMTP
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"SMTP Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Provides direct SMTP mail handling, for sending lots of messages.  An alternative to the vanilla PHP mail() function.",
-	"version"=>pathos_core_version(true)
+	'name'=>'SMTP Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Provides direct SMTP mail handling, for sending lots of messages.  An alternative to the vanilla PHP mail() function.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

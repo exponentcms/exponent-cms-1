@@ -31,28 +31,22 @@
 # $Id$
 ##################################################
 
-/**
- * Template Subsystem
- *
- * Governs display aspects of the site.  Manages views and view resolution.
- *
- * @package		Subsystems
- * @subpackage	Template
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Template
  */
 define("SYS_TEMPLATE",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_TEMPLATE_CLEAR_ALL",  1);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_TEMPLATE_CLEAR_USERS",2);
 
 include_once(BASE."external/Smarty/libs/Smarty.class.php");

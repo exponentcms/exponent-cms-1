@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Javascript Subsystem Info
- *
- * Provides reflective Javascript about the Javascript Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Javascript
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Javascript Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A PHP->Javascript translation layer that generates Javascript code for PHP objects and arrays.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Javascript Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A PHP->Javascript translation layer that generates Javascript code for PHP objects and arrays.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

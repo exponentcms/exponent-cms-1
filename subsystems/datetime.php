@@ -31,33 +31,17 @@
 # $Id$
 ##################################################
 
-/**
- * DateTime Subsystem
- *
- * The DateTime Subsystem exports functions for
- * managing and modifying dates in PHP.  This is mainly
- * provided as a service, since most of the algorithms in here
- * are simple and ubiquitous.
- *
- * @package		Subsystems
- * @subpackage	DateTime
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flasg for DateTime Subsystem
- *
+/* exdoc
  * The definition of this constant lets other parts
  * of the system know that the DateTime Subsystem
  * has been included for use.
+ * @node Subsystems:DateTime
  */
 define("SYS_DATETIME",1);
 
-/**
- * @deprecated ?
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
  */
 function pathos_datetime_monthsDropdown($controlName,$default_month) {
 	$months = array(
@@ -85,17 +69,16 @@ function pathos_datetime_monthsDropdown($controlName,$default_month) {
 	return $html;
 }
 
-/**
- * Calculates Duration of Period
- *
+/* exdoc
  * Looks at a start and end time and figures out
  * how many seconds elapsed since between the earlier
  * timestamp and the later timestamp.  It doesn't matter
- * if the bigger argument is specified first or not.
+ * if the bigger argument is specified first or not. Returns
+ * the number of seconds between $time_a and $time_b
  *
  * @param timestamp $time_a The first timestamp
  * @param timestamp $time_b The second timestamp
- * @return integer The number of seconds between $time_a and $time_b
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_duration($time_a,$time_b) {
 	$d = abs($time_b-$time_a);
@@ -118,17 +101,14 @@ function pathos_datetime_duration($time_a,$time_b) {
 	return $duration;
 }
 
-/**
- * Retrieve Start of Month timestamp
- *
+/* exdoc
  * Given a timestamp, this function will calculate another timestamp
  * that represents the beginning of the month that the passed timestamp
  * falls into.  For instance, passing a timestamp representing January 25th 1984
- * would return a timestamp representing January 1st 1984, at 12:00am
+ * would return a timestamp representing January 1st 1984, at 12:00am. 
  *
  * @param timestamp $timestamp The original timestamp to use when calculating.
- *
- * @return timestamp The Start of Month timestamp.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_startOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
@@ -138,6 +118,10 @@ function pathos_datetime_startOfMonthTimestamp($timestamp) {
 	return mktime(8,0,0,$info['mon'],1,$info['year']) - 8*3600;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_datetime_endOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
 	// No month has fewer than 28 days, even in leap year, so start out at 28.
@@ -152,15 +136,13 @@ function pathos_datetime_endOfMonthTimestamp($timestamp) {
 	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
 }
 
-/**
- * Return the last day of a month.
- *
+/* exdoc
  * Looks at a timestamp and returns the date of the last
  * day.  For instance, if the passed timestamp was in January,
  * this function would return 31.  Leap year is taken into account.
  *
  * @param timestamp $timestamp The timestamp to check.
- * @return integer The last date of the month.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_endOfMonthDay($timestamp) {
 	$info = getdate($timestamp);
@@ -173,14 +155,12 @@ function pathos_datetime_endOfMonthDay($timestamp) {
 	return $last;
 }
 
-/**
- * Return the timestamp for 12:00 am for any given day
- *
+/* exdoc
  * Looks at a timestamp and returns another timestamp representing
  * 12:00:01 am of the same day.
  *
  * @param timestamp $timestamp The timestamp to check.
- * @return timestamp The timestamp corresponding to the first second of the day.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_startOfDayTimestamp($timestamp) {
 	$info = getdate($timestamp);
@@ -203,14 +183,12 @@ function pathos_datetime_makeDay($timestamp,$day) {
 */
 
 /* Week Functions */
-/**
- * Returns the timestamp for 12:00:01 am Sunday, for any given week
- *
+/* exdoc
  * Looks at a timestamp and returns another timestamp representing
  * 12:00:01 am of the Sunday of the same week.
  *
  * @param timestamp $timestamp The timestamp to check.
- * @return timestamp The timestamp corresponding to the first second of the week.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_startOfWeekTimestamp($timestamp) {
 	$info = getdate($timestamp);
@@ -225,6 +203,10 @@ function pathos_datetime_startOfWeekTimestamp($timestamp) {
 
 // Recurring Dates
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_datetime_recurringDailyDates($start,$end,$freq) {
 	$dates = array();
 	$curdate = $start;
@@ -235,9 +217,7 @@ function pathos_datetime_recurringDailyDates($start,$end,$freq) {
 	return $dates;
 }
 
-/**
- * Calculate Recurrence Days on a Weekly Basis
- *
+/* exdoc
  * Finds all of the dates that fall within the weekly recurrence criteria
  * (namely, which weekdays) and within the $start to $end timestamp range.
  *
@@ -251,6 +231,7 @@ function pathos_datetime_recurringDailyDates($start,$end,$freq) {
  * @param array $days The weekdays (in integer notation, 0 = Sunday, etc.) that
  *   should be matched.  A MWF recurrence rotation would contain the values
  *  1,3 and 5.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 	// Holding array, for keeping the timestamps of applicable dates.
@@ -339,6 +320,10 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 	return $dates;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) {
 	// Holding array, for keeping all of the matching timestamps
 	$dates = array();
@@ -423,6 +408,10 @@ function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) 
 	return $dates;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_datetime_recurringYearlyDates($start,$end,$freq) {
 	return pathos_datetime_recurringMonthlyDates($start,$end,$freq*12);
 }

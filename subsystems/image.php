@@ -31,8 +31,16 @@
 # $Id$
 ##################################################
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_IMAGE",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_showFallbackPreviewImage($base) {
 	$fh = fopen($base."subsystems/image/default_preview.gif","rb");
 	$img = fread($fh,65536);
@@ -41,6 +49,10 @@ function pathos_image_showFallbackPreviewImage($base) {
 	echo $img;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_sizeinfo($filename) {
 	if (!is_readable($filename)) return null;
 	$sizeinfo = getimagesize($filename);
@@ -60,6 +72,10 @@ function pathos_image_sizeinfo($filename) {
 	return $sizeinfo;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_createFromFile($filename,$sizeinfo) {
 	$info = gd_info();
 
@@ -74,6 +90,10 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_create($w,$h) {
 	$info = gd_info();
 	if (strpos($info['GD Version'],"2.0") != false) return imagecreatetruecolor($w,$h);
@@ -81,6 +101,10 @@ function pathos_image_create($w,$h) {
 }
 
 // $scale should be in decimal notation (i.e. 0.5 for 50%)
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_scaleByPercent($filename,$scale) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
 	if (!$sizeinfo) return null;
@@ -99,6 +123,10 @@ function pathos_image_scaleByPercent($filename,$scale) {
 	return $thumb;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_scaleToWidth($filename,$width) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
 	if (!$sizeinfo) return null;
@@ -117,6 +145,10 @@ function pathos_image_scaleToWidth($filename,$width) {
 	return $thumb;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_scaleToHeight($filename,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
 	if (!$sizeinfo) return null;
@@ -135,6 +167,10 @@ function pathos_image_scaleToHeight($filename,$height) {
 	return $thumb;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_scaleToConstraint($filename,$width,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
 	if (!$sizeinfo) return null;
@@ -158,6 +194,10 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
 	return $thumb;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_scaleManually($filename,$width,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
 	if (!$sizeinfo) return null;
@@ -173,6 +213,10 @@ function pathos_image_scaleManually($filename,$width,$height) {
 	return $thumb;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_output($img,$sizeinfo,$filename = null) {
 	header("Content-type: " . $sizeinfo['mime']);
 	if ($sizeinfo['mime'] == "image/jpeg") {

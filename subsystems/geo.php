@@ -31,33 +31,17 @@
 # $Id$
 ##################################################
 
-/**
- * Geography Subsystem
- *
- * The Geography (geo) Subsystem provides the means to
- * query a database of country / region information.
- *
- *
- * @package		Subsystems
- * @subpackage	Geography
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag for Geo Subsystem
- *
+/* exdoc
  * The definition of this constant lets other parts of the subsystem know
  * that the Geo Subsystem has been included for use.
+ * @node Subsystems:Geo
  */
 define("SYS_GEO",1);
 
-/**
- * List all Countries in the Geo Database
+/* exdoc
+ * List all Countries in the Geo Database.  Returns an array of country objects.
  *
- * @return Array an array of country objects.
+ * @node Subsystems:Geo
  */
 function pathos_geo_listCountriesOnly() {
 	global $db;
@@ -69,10 +53,9 @@ function pathos_geo_listCountriesOnly() {
 	return $countries;
 }
 
-/**
- * List Countries and Regions in the Geo Database
- *
- * @return Array a two-tiered array of countries and regions.
+/* exdoc
+ * List Countries and Regions in the Geo Database.  Returns a two-tiered array of countries and regions.
+ * @node Subsystems:Geo
  */
 function pathos_geo_listCountriesAndRegions() {
 	global $db;
@@ -92,11 +75,11 @@ function pathos_geo_listCountriesAndRegions() {
 	return $countries;
 }
 
-/**
- * List Regions for a specific Country
+/* exdoc
+ * List Regions for a specific Country. Returns an array of regions.
  *
  * @param integer $country_id The id of the country to get regions for
- * @return Array an array of regions.
+ * @node Subsystems:Geo
  */
 function pathos_geo_listRegions($country_id) {
 	global $db;
@@ -108,10 +91,9 @@ function pathos_geo_listRegions($country_id) {
 	return $regions;
 }
 
-/**
- * List all Regions in the Geo Database
- *
- * @return Array an array of regions
+/* exdoc
+ * List all Regions in the Geo Database.  Returns an array of regions
+ * @node Subsystems:Geo
  */
 function pathos_geo_listAllRegions() {
 	global $db;
@@ -121,6 +103,5 @@ function pathos_geo_listAllRegions() {
 	}
 	return $regions;
 }
-
 
 ?>

@@ -31,25 +31,11 @@
 # $Id$
 ##################################################
 
-/** 
- * Shared Core Subsystem Info File
- *
- * Provides reflective information to Exponent about the Shared Core subsystem
- *
- * @package		Subsystems
- * @subpackage	Shared Core
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-
 return array(
-	"name"=>"Shared Core Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Supporting backend for the Multi-Site Manager",
-	"version"=>pathos_core_version(true)
+	'name'=>'Shared Core Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Supporting backend for the Multi-Site Manager',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Theme Subsystem Info
- *
- * Provides reflective Theme about the Theme Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Theme
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Theme Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A collection of functions that simplify theme-writing by abstracting away the 'difficult' parts.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Theme Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A collection of functions that simplify theme-writing by abstracting away the \'difficult\' parts.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

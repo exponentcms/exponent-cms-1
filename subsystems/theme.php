@@ -31,28 +31,17 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-/**
- * Theme Subsystem
- *
- * Provides an abstraction layer for theme builders, to encapsulate
- * the PHP parts of a theme into well-defined functions.
- *
- * @package		Subsystems
- * @subpackage	Theme
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Theme
  */
 define("SYS_THEME",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_theme_includeCSS() {
 	$dh = opendir(BASE."modules");
 	while (($moddir = readdir($dh)) !== false) {
@@ -67,12 +56,11 @@ function pathos_theme_includeCSS() {
 	}
 }
 
-/**
- * Output Source Selector HTML
- *
+/* exdoc
  * Prints the HTML for the Source Selector header table.  This is required
  * of all themes, so that the source selector allows users to browse to Archived
  * content.
+ * @node Subsystems:Theme
  */
 function pathos_theme_sourceSelectorInfo() {
 	if (defined("SOURCE_SELECTOR") || defined("CONTENT_SELECTOR")) {
@@ -101,6 +89,10 @@ function pathos_theme_sourceSelectorInfo() {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_theme_metaInfo($section) {
 	$str = '<meta name="Generator" content="Exponent Content Management System" />' . "\n";
 	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
@@ -108,9 +100,7 @@ function pathos_theme_metaInfo($section) {
 	return $str;
 }
 
-/**
- * Display a Section-sensitive Module
- *
+/* exdoc
  * Calls the necessary methods to show a specific module, in a section-sensitive way.
  *
  * @param string $module The classname of the module to display
@@ -118,8 +108,8 @@ function pathos_theme_metaInfo($section) {
  * @param string $title The title of the module (support is view-dependent)
  * @param string $prefix The prefix of the module's source.  The current section id will be appended to this
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
+ * @node Subsystems:Theme
  */
-
 function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
 	
@@ -131,9 +121,7 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable);
 }
 
-/**
- * Display a Top Level Section-sensitive Module
- *
+/* exdoc
  * Calls the necessary methods to show a specific module in such a way that the current
  * section displays the same content as its top-level parent and all of the top-level parent's
  * children, grand-children, grand-grand-children, etc.
@@ -143,6 +131,7 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
  * @param string $title The title of the module (support is view-dependent)
  * @param string $prefix The prefix of the module's source.  The current section id will be appended to this
  * @param bool $pickable Whether or not the module is pickable in the Source Picer. 
+ * @node Subsystems:Theme
  */
 function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
@@ -157,9 +146,7 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
 	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable);
 }
 
-/**
- * Display a Module
- *
+/* exdoc
  * Calls the necessary methods to show a specific module
  *
  * @param string $module The classname of the module to display
@@ -167,6 +154,7 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
  * @param string $title The title of the module (support is view-dependent)
  * @param string $source The source of the module.
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
+ * @node Subsystems:Theme
  */
 function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false) {
 	if ($module == "loginmodule" && defined("PREVIEW_READONLY") && PREVIEW_READONLY == 1) return;
@@ -195,23 +183,19 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 	}
 }
 
-/**
- * Check Page State
- *
+/* exdoc
  * Checks to see if the page is currently in an action.  Useful only if the theme does not use the pathos_theme_main() function
- *
- * @return bool Whether or not an action should be run.
+ * Returns whether or not an action should be run.
+ * @node Subsystems:Theme
  */
 function pathos_theme_inAction() {
 	return (isset($_REQUEST['action']) && isset($_REQUEST['module']));
 }
 
-/**
- * Check Use View Authorization
- *
+/* exdoc
  * Checks to see if the user is authorized to view the current section.
- *
- * @return bool Whether or not the user is authorized.
+ * Retursn whether or not the user is authorized.
+ * @node Subsystems:Theme
  */
 function pathos_theme_canViewPage() {
 	global $db;
@@ -223,10 +207,9 @@ function pathos_theme_canViewPage() {
 	} else return true;
 }
 
-/**
- * Intelligently call pathos_flow_set
- *
+/*  exdoc
  * Looks at the attributes of the current section and properly calls pathos_flow_set
+ * @node Subsystems:Theme
  */
 function pathos_theme_setFlow() {
 	if ((!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1) && (!defined("CONTENT_SELECTOR") || CONTENT_SELECTOR == 1)) {
@@ -242,10 +225,9 @@ function pathos_theme_setFlow() {
 	}
 }
 
-/**
- * Main Theme Execution
- *
+/* exdoc
  * Takes care of all the specifics of either showing a sectional container or running an action.
+ * @node Subsystems:Theme
  */
 function pathos_theme_main() {
 	global $db, $user;
@@ -278,10 +260,9 @@ function pathos_theme_main() {
 	}
 }
 
-/**
- * Run an Action
- *
+/* exdoc
  * Runs the approriate action, by looking at the $_REQUEST variable.
+ * @node Subsystems:Theme
  */
 function pathos_theme_runAction() {
 	if (pathos_theme_inAction()) {
@@ -305,8 +286,9 @@ function pathos_theme_runAction() {
 	}
 }
 
-/**
+/* exdoc
  * Redirect User to Default Section
+ * @node Subsystems:Theme
  */
 function pathos_theme_goDefaultSection() {
 	$last_section = pathos_sessions_get("last_section");
@@ -324,12 +306,11 @@ function pathos_theme_goDefaultSection() {
 	}
 }
 
-/**
- * Shows the Main Container
- *
+/* exdoc
  * Useful only if theme does not use pathos_theme_main
  *
  * @param bool $public Whether or not the page is public.
+ * @node Subsystems:Theme
  */
 function pathos_theme_mainContainer($public = true) {
 	if ($public) pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
@@ -343,9 +324,10 @@ function pathos_theme_mainContainer($public = true) {
 	}
 }
 
-
-
-
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
 	$base = BASE."themes/$theme/subthemes";
 	// The array of subthemes.  If the theme has no subthemes directory,

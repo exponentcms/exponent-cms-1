@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Sessions Subsystem Info
- *
- * Provides reflective Sessions about the Sessions Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Sessions
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Sessions Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Session-handling abstraction layer.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Sessions Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Session-handling abstraction layer.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Core Subsystem Info
- *
- * Provides reflective information about the Core Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Flow
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Core Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Provides core functions (like Location handlers) that are vital to Exponent.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Core Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Provides core functions (like Location handlers) that are vital to Exponent.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

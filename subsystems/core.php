@@ -31,42 +31,40 @@
 # $Id$
 ##################################################
 
-/**
- * Core Subsystem
- *
- * The core subsystem provides basic functionality to other
- * parts of Exponent.
- *
- * @package		Subsystems
- * @subpackage	Core
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flasg for Core Subsystem
- *
+/* exdoc
  * The definition of this constant lets other parts
  * of the system know that the Core Subsystem
  * has been included for use.
+ * @node Subsystems:Core
  */
 define("SYS_CORE",1);
 
+/* exdoc
+ * This constant can (and should) be used by other parts of the system
+ * for defining and communicating an extension type of module.
+ * @node Subsystems:Core
+ */
 define("CORE_EXT_MODULE",1);
+/* exdoc
+ * This constant can (and should) be used by other parts of the system
+ * for defining and communicating an extension type of theme.
+ * @node Subsystems:Core
+ */
 define("CORE_EXT_THEME",2);
+/* exdoc
+ * This constant can (and should) be used by other parts of the system
+ * for defining and communicating an extension type of subsystem.
+ * @node Subsystems:Core
+ */
 define("CORE_EXT_SUBSYSTEM",3);
 
-/**
- * Create a Location
- *
- * Creates a location object, based off of the three arguments passed.
+/* exdoc
+ * Creates a location object, based off of the three arguments passed, and returns it.
  *
  * @param		$mo	The module component of the location.
  * @param		$src	The source component of the location.
  * @param		$int	The internal component of the location.
- * @return		object	A location object with the given fields set.
+ * @node Subsystems:Core
  */
 function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
 	$loc = null;
@@ -76,6 +74,10 @@ function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
 	return $loc;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_resolveDependencies($ext_name,$ext_type) {
 	$depfile = "";
 	switch ($ext_type) {
@@ -101,16 +103,15 @@ function pathos_core_resolveDependencies($ext_name,$ext_type) {
 	return $deps;
 }
 
-/**
- * Translate Location Source to User-friendly text.
- *
+/* exdoc
  * Takes a source string (the src attribute of a location object) and
  * does special translation on it.  Mostly, it just translates "@section$ID"
  * into "Sectional : $SECTION_NAME".
  *
  * @param $src The source to translate.
  * @param string The translated source.
- * @deprecated	0.95beta8
+ * @state Deprecated since 0.95beta8
+ * @node Subsystems:Core
  */
 /*
 ./modules/addressbookmodule/actions/copy.php
@@ -135,6 +136,10 @@ function pathos_core_translateLocationSource($src) {
 	else return $src;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_makeLink($params) {
 	$link = (ENABLE_SSL ? NONSSL_URLBASE : "");
 	if (SEF_URLS == 0) {
@@ -159,6 +164,10 @@ function pathos_core_makeLink($params) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_makeSecureLink($params) {
 	if (!ENABLE_SSL) return pathos_core_makeLink($params);
 	if (SEF_URLS == 0) {
@@ -183,15 +192,12 @@ function pathos_core_makeSecureLink($params) {
 	}
 }
 
-/**
- * List Themes installed on site.
- *
+/* exdoc
  * Looks through the themes directory and returns a list
- * of themes.
- *
- * @return array() An associative array. For each key=>value pair, the
+ * of themes. returns an associative array. For each key=>value pair, the
  * key is the theme class name, and the value is the
  * user-friendly theme name ("Default Theme")
+ * @node Subsystems:Core
  */
 function pathos_core_listThemes() {
 	$themes = array();
@@ -208,48 +214,11 @@ function pathos_core_listThemes() {
 	return $themes;
 }
 
-
-## Remove these two functions if no use is found for them.  They are commented
-## and have no references elsewhere in the code.
-/*
- * Convert an associatvie array into a stdClass object
- *
- * Given an associative array, this function will convert
- * it into a corresponding object, whose members mimc
- * the key=>value pairs in the array.
- *
- * @deprecated	0.95beta8
- function pathos_core_arrayToObject($array) {
-	$obj = null;
-	foreach ($array as $key=>$value) {
-		$obj->$key = $value;
-	}
-	return $obj;
-}
-*/
-
-/*
- * Convert a stdClass object into an associative array.
- *
- * Given an object, this function will convert it into a
- * corresponding associatve array, whose key=>value
- * pairs mimc the members in the object.
- *
- * @deprecated	0.95beta8
-function pathos_core_objectToArray($obj) {
-	$array = array();
-	foreach (get_object_vars($obj) as $key=>$value) {
-		$array[$key] = $value;
-	}
-	return $array;
-}
- */
-
-/*
- * Create a duplicate copy of an object.
- *
+/* exdoc
  * Put in place to get around the strange assignment
  * semantics in PHP5 (assign by ref not value)
+ * @param Object $o The object to copy.  An exact duplicate of this will be returned.
+ * @node Subsystems:Core
  */
 function pathos_core_copyObject($o) {
 	$new = null;
@@ -257,6 +226,10 @@ function pathos_core_copyObject($o) {
 	return $new;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_decrementLocationReference($loc,$section) {
 	global $db;
 	$oldLocRef = $db->selectObject("locationref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."'");
@@ -269,6 +242,10 @@ function pathos_core_decrementLocationReference($loc,$section) {
 	$db->updateObject($oldSecRef,"sectionref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."' AND section=$section");
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_incrementLocationReference($loc,$section) {
 	global $db;
 	$newLocRef = $db->selectObject("locationref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."'");
@@ -309,6 +286,10 @@ function pathos_core_incrementLocationReference($loc,$section) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_version($full = false, $build = false) {
 	if (!defined("PATHOS_VERSION_MAJOR")) include_once(BASE."pathos_version.php");
 	$vers = PATHOS_VERSION_MAJOR.".".PATHOS_VERSION_MINOR;
@@ -322,16 +303,14 @@ function pathos_core_version($full = false, $build = false) {
 	return $vers;
 }
 
-/**
- * Check URL Validity
- *
+/* exdoc
  * This function checks a full URL against a set of
  * known protocls (like http and https) and determines
- * if the URL is valid.
+ * if the URL is valid.  Returns true if the URL is valid,
+ * and false if otherwise.
  *
  * @param string $url The URL to test for validity
- *
- * @return boolean True if the URL is valid, and false if otherwise.
+ * @node Subsystems:Core
  */
 function pathos_core_URLisValid($url) {
 	return (

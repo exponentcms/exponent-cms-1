@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Modules Subsystem Info
- *
- * Provides reflective Modules about the Modules Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Modules
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Modules Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Module management / querying subsystem that knows how to get to modules and use them.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Modules Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Module management / querying subsystem that knows how to get to modules and use them.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Sorting Subsystem Info
- *
- * Provides reflective Sorting about the Sorting Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Sorting
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Sorting Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A collection of general purpose sorting callback functions.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Sorting Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A collection of general purpose sorting callback functions.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

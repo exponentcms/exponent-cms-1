@@ -31,26 +31,10 @@
 # $Id$
 ##################################################
 
-/**
- * Users Subsystem
- *
- * Manages User Accounts.  As a subsystem, the default database
- * implementation can be replaced with an LDAP user manager,
- * SMB authentication, etc.
- *
- * @package		Subsystems
- * @subpackage	Users
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Users
  */
 define('SYS_USERS',1);
 
@@ -59,15 +43,14 @@ define('SYS_USERS',1);
 // work with user accounts and profile information.
 $SYS_USERS_CACHE = array();
 
-/**
- * Include User Profile Extension Files
- *
+/* exdoc
  * This function includes the class files for user profile extensions.  Profile extensions
  * are stored in the subsystems/users/profileextensions/ directory.  The class name is
  * the name of the file, minus the '.php' extension.
  *
  * This function can be called more than once, without performing any needless
  * processing.  It will only include the profile extensions once per script request.
+ * @node Subsystems:Users
  */
 function pathos_users_includeProfileExtensions() {
 	// Check for an explicit constant definition, to keep from re-initializing stuff.
@@ -86,9 +69,7 @@ function pathos_users_includeProfileExtensions() {
 	}
 }
 
-/**
- * List Installed User Profile Extenions
- *
+/* exdoc
  * This method queries the subsystems/users/profileextensions/ directory for
  * a list of installed User Profile Extension class files.  It returns the class
  * names, in an array. This function does not take into account whether or not
@@ -98,10 +79,11 @@ function pathos_users_includeProfileExtensions() {
  * subsystem) a profile extension filename MUST end in 'extension.php', and
  * therefore the classname MUST end in 'extension'.
  *
- * @return Array An array of installed (but not necessarily activated) user profile
+ * Returns an array of installed (but not necessarily activated) user profile
  *    extenions.  If this array is empty, either Exponent encountered a problem
  *    reading the Profile Extensions directory, or there were simply no extensions
  *    to list.
+ * @node Subsystems:Users
  */
 function pathos_users_listExtensions() {
 	// A holding array to keep the extension class names we find.  This will be returned
@@ -129,14 +111,13 @@ function pathos_users_listExtensions() {
 	return $ext;
 }
 
-/**
- * List Inactive Profile Extensions
- *
+/* exdoc
  * Looks through the database and pulls in a list of all User Profile
  * Extensions that have not been explicitly activated by the administrator.
  *
- * @return Array An array of unused extensions, identical in structure /
+ * Returns an array of unused extensions, identical in structure /
  *    format to the return value of pathos_users_listExtensions().
+ * @node Subsystems:Users
  */
 function pathos_users_listUnusedExtensions() {
 	// Pull database object in from global scope.
@@ -155,14 +136,13 @@ function pathos_users_listUnusedExtensions() {
 	return array_diff_assoc(pathos_users_listExtensions(),$used);
 }
 
-/**
- * Remove Uninstalled, but still Active Profile Extensions
- *
+/* exdoc
  * This function removes records from the profileextension table for
  * User Profile Extensions that are no longer found in the system (i.e.
  * have been deleted from subsystems/users/profileextensions).  This
  * safety check allows other profile extensions code to blindly trust the
  * contents of the profileextension table.
+ * @node Subsystems:Users
  */
 function pathos_users_clearDeletedExtensions() {
 	// Pull in database object from the global scope.
@@ -181,17 +161,16 @@ function pathos_users_clearDeletedExtensions() {
 	}
 }
 
-/**
- * Retrieve a User's Full Profile
- *
+/* exdoc
  * This function looks at the configuration of User Profile Extensions
  * (which ones are active, and which ones aren't) and then assembles
  * a full profile object for the passed user object.
  *
- * @param Object $user The user object to get a full profile for.
- *
- * @return Object The initial user object, with extra information
+ * Returns the initial user object, with extra information
  *    added to it for any available and active Profile Extensions.
+ *
+ * @param Object $user The user object to get a full profile for.
+ * @node Subsystems:Users
  */
 function pathos_users_getFullProfile($user) {
 	// Sanity Checks.  First we need to ensure that the profile extension classes
@@ -216,9 +195,7 @@ function pathos_users_getFullProfile($user) {
 	return $user;
 }
 
-/**
- * Login Hook for Users Subsystem
- *
+/* exdoc
  * This function is in place as a login hook, so that future (more advanced and
  * 'unconventional') implementations of the Users Subsystem can run some
  * custom code to handle a login.
@@ -228,6 +205,7 @@ function pathos_users_getFullProfile($user) {
  *
  * @param string $username The username that the visitor is logging in with.
  * @param string $password The password that the visitor has supplied as credentials
+ * @node Subsystems:Users
  */
 function pathos_users_login($username, $password) {
 	// This specific implementation of the Users Subsystem stores user information in the
@@ -248,29 +226,27 @@ function pathos_users_login($username, $password) {
 	}
 }
 
-/**
- * Logout Hook for Users Subsystem
- *
+/* exdoc
  * This function is in place as a logout hook, so that future (more advanced and
  * 'unconventional') implementaitons of the Users Subsystem can run some
  * custom code to handle a login.
  *
  * This function is expected to call pathos_sessions_logout(), so that the session
  * can be cleaned up for the next user.
+ * @node Subsystems:Users
  */
 function pathos_users_logout() {
 	pathos_sessions_logout();
 }
 
-/**
- * User Editing / Creation Form
- *
+/* exdoc
  * This function returns a form for creating a new user or editing
  * an existing user.  It belongs in the users subsystem so that different
  * implementations of the users subsystem can define its own form structure.
  *
  * @param Object $user The user object if the form is for editing a user, and nul
  *    for a new user form.
+ * @node Subsystems:Users
  */
 function pathos_users_form($user = null) {
 	// FIXME: Forms Subsystem may not be initialized at this point.
@@ -330,15 +306,14 @@ function pathos_users_form($user = null) {
 	return $form;
 }
 
-/**
- * Group Editing / Creation Form
- *
+/* exdoc
  * This function returns a form for creating a new group or
  * editing an existing group.  It belongs in the users subsystem so that
  * different implementations can define their own form structure.
  *
  * @param Object $group The group object if the form is for editing a group, and
  *    null for a new group form.
+ * @node Subsystems:Users
  */
 function pathos_users_groupForm($group = null) {
 	// FIXME: The forms subsystem may not be initialized at this point
@@ -365,16 +340,13 @@ function pathos_users_groupForm($group = null) {
 	return $form;
 }
 
-/**
- * Update Method for User Form
- *
+/* exdoc
  * This method returns an updated user object, using the form
- * data from pathos_users_userForm()
+ * data from pathos_users_userForm(). Returns the updated user object.
  *
  * @param Array $formvalues The POSTed data, for pulling new values from.
  * @param Object $user The user object to update.  This can be null.
- *
- * @return Object The updated user object.
+ * @node Subsystems:Users
  */
 function pathos_users_update($formvalues, $user = null) {
 	$user->firstname = $formvalues['firstname'];
@@ -384,9 +356,7 @@ function pathos_users_update($formvalues, $user = null) {
 	return $user;
 }
 
-/**
- * Save Data Entered for Profile Extensions
- *
+/* exdoc
  * This function runs through the list of active profile extensions
  * and calls the saveProfile method of each, to save data that the
  * user entered in 'extra' fields.
@@ -397,6 +367,7 @@ function pathos_users_update($formvalues, $user = null) {
  * @param bool $is_new A flag indicating if the $user object has been saved to the database
  *    previously or not.  True if the user object has yet to be saved (user just created account)
  *    and false if the account already existed prior to the edit.
+ * @node Subsystems:Users
  */
 function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
 	// Pull in form data for all active profile extensions.
@@ -419,16 +390,13 @@ function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
 	return $user;
 }
 
-/**
- * Update Method for Group Form
- *
+/* exdoc
  * This method returns an updated group object, using the form
- * data from pathos_users_groupForm()
+ * data from pathos_users_groupForm().  Returns the updated group object.
  *
  * @param Array $formvalues The POSTed data, for pulling new values from.
  * @param Object $group The group object to update.  This can be null.
- *
- * @return Object The updated group object.
+ * @node Subsystems:Users
  */
 function pathos_users_groupUpdate($formvalues, $group = null) {
 	$group->name = $formvalues['name'];
@@ -437,17 +405,14 @@ function pathos_users_groupUpdate($formvalues, $group = null) {
 	return $group;
 }
 
-/**
- * Create a new User
- *
+/* exdoc
  * This function saves a user to whatever storage medium the subsystem uses.
  * For the default implemenetation, this is the database, but the method is defined
  * to give future implementations the option to use something else (like an LDAP
- * directory, or a KDC).
+ * directory, or a KDC).  Returns the created user object, complete with id.
  *
  * @param Array $formvalues The POSTed data received from the New User form.
- *
- * @return The created user object, complete with id.
+ * @node Subsystems:Users
  */
 function pathos_users_create($formvalues) {
 	// Update the user object (at this point we are not dealing with profile
@@ -477,11 +442,12 @@ function pathos_users_create($formvalues) {
 	return $user;
 }
 
-/**
- *
- */
  // FIXME: Does pathos_users_userManagerFormTemplate still need to exist?
  // FIXME:
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_users_userManagerFormTemplate($template) {
 	global $db;
 	$users = $db->selectObjects('user');
@@ -503,11 +469,12 @@ function pathos_users_userManagerFormTemplate($template) {
 	return $template;
 }
 
-/**
- *
- */
  // FIXME: Does pathos_users_groupManagerFormTemplate still need to exist?
  // FIXME:
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_users_groupManagerFormTemplate($template) {
 	global $db;
 	$groups = $db->selectObjects('group');
@@ -522,13 +489,12 @@ function pathos_users_groupManagerFormTemplate($template) {
 	return $template;
 }
 
-/**
- * Clear a User's Password
- *
+/* exdoc
  * This function will clear a user's password, but only if they are
  * not an administrator.
  *
  * @param integer $uid The ID of the user to clear the password for.
+ * @node Subsystems:Users
  */
 function pathos_users_clearPassword($uid) {
 	global $db;
@@ -538,13 +504,12 @@ function pathos_users_clearPassword($uid) {
 	$db->updateObject($user,'user','id='.$uid.' AND is_admin=0');
 }
 
-/**
- * Delete a User Account
- *
+/* exdoc
  * This function removes the user object, and all of its group
  * memberships and permissions.
  *
  * @param integer $uid The id of the account to delete.
+ * @node Subsystems:Users
  */
 function pathos_users_delete($uid) {
 	global $db;
@@ -556,13 +521,12 @@ function pathos_users_delete($uid) {
 	}
 }
 
-/**
- * Delete a Group Account
- *
+/* exdoc
  * This function removes the group object, and all group memberships
  * and permissions associated with it.
  *
  * @param integer $gid The id of the group account to delete.
+ * @node Subsystems:Users
  */
 function pathos_users_groupDelete($gid) {
 	global $db;
@@ -571,20 +535,18 @@ function pathos_users_groupDelete($gid) {
 	$db->delete('grouppermission','gid='.$gid);
 }
 
-/**
- * Retrieve a User by ID
- *
+/* exdoc
  * This function pulls a user object from the subsystem's storage mechanism
  * according to its ID.  For the default implementation, this is equivalent to a
  * $db->selectObject() call, but it may not be the same for other implementations.
+ * Returns a basic user object, and null if no user was found.
  *
  * This function uses the exclusive global variable $SYS_USERS_CACHE to cache
  * previously retrieved user accounts, so that subsequent requests for the same user
  * object do not result in another trip to the database engine.
  *
  * @param integer $uid The id of the user account to retrieve.
- *
- * @return Object A basic user object, and null if no user was found.
+ * @node Subsystems:Users
  */
 function pathos_users_getUserById($uid) {
 	// Pull in the exclusive global variable $SYS_USERS_CACHE
@@ -600,17 +562,14 @@ function pathos_users_getUserById($uid) {
 	return $SYS_USERS_CACHE[$uid];
 }
 
-/**
- * Return all Users in the System
- *
+/* exdoc
  * Gets a list of all user accounts in the system.  By giving different
  * combinations of the two boolean arguments. threee different lists
- * of users can be returned.
+ * of users can be returned.  Returns alist of users, according to the two parameters passed in.
  *
  * @param bool $allow_admin Whether or not to include admin accounts in the returned list.
  * @param bool $allow_normal Whether or not to include normal accounts in the returned list.
- *
- * @return Array A list of users, according to the two parameters passed in.
+ * @node Subsystems:Users
  */
 function pathos_users_getAllUsers($allow_admin=1,$allow_normal=1) {
 	global $db;
@@ -620,77 +579,69 @@ function pathos_users_getAllUsers($allow_admin=1,$allow_normal=1) {
 	else return array();
 }
 
-/**
- * Retrieve a Group by ID
- *
+/* exdoc
  * This function pulls a group object form the subsystem's storage mechanism,
  * according to its ID.  For the default implementation, this is equivalent to a 
  * $db->selectObject() call, but it may not be the same for other implementations.
+ * Returns a group object, and null if no group was found.
  *
  * This function does NOT perform group caching like the pathos_users_getUserById
  * function does.  Multiple calls to retrieve the same group result in multiple calls
  * to the database.
  *
  * @param integer $gid The id of the group account to retrieve.
- *
- * @return Object a group object, and null if no group was found.
+ * @node Subsystems:Users
  */
 function pathos_users_getGroupById($gid) {
 	global $db;
 	return $db->selectObject('group','id='.$gid);
 }
 
-/**
- * Retrieve a User by Name
- *
+/* exdoc
  * This function pulls a user object from the subsystem's storage mechanism,
  * according to the username.  For the default implementation, this is equivalent
  * to a $db->selectObject() call, but it may not be the same for other implementations.
+ * Returns a basic user object, and null if no user was found.
  *
  * This function does NOT perform user caching like the pathos_users_getUserById
  * function does.  Multiple calls to retrieve the same user result in multiple calls
  * to the database.
  *
  * @param string $name The username of the user account to retrieve.
- *
- * @return Object A basic user object, and null if no user was found.
+ * @node Subsystems:Users
  */
 function pathos_users_getUserByName($name) {
 	global $db;
 	return $db->selectObject('user',"username='$name'");
 }
 
-/**
- * Retrieve a Group by Name
- *
+/* exdoc
  * This funciton pulls a group object from the subsystem's storage mechanism,
  * according to the group name.  For the default implementation, this is equivalent
  * to a $db->selectObject() call, but it may not be the same for other implementations.
+ * Returns a group object, and null if no group was found.
  *
  * This function does NOT perform group caching like the pathos_users_getUserById
  * function does.  Multiple calls to retrieve the same group result in multiple calls
  * to the database.
  *
  * @param integer $name The name of the group account to retrieve.
- *
- * @return Object a group object, and null if no group was found.
+ * @node Subsystems:Users
  */
 function pathos_users_getGroupByName($name) {
 	global $db;
 	return $db->selectObject('group',"name='$name'");
 }
 
-/**
- * Retrieve all Groups in the System
- *
+/* exdoc
  * Gets a list of all group in the system.  By giving different
  * combinations of the two boolean arguments. threee different lists
- * of groups can be returned.
+ * of groups can be returned.  Returns a list of groups, according to
+ *  the two parameters passed in.
  *
  * @param bool $allow_exclusive Whether or not to include exclusive groups in the returned list.
  * @param bool $allow_inclusive Whether or not to include inclusive groups in the returned list.
- *
- * @return Array A list of groups, according to the two parameters passed in.
+ * @node Subsystems:Users
  */
 function pathos_users_getAllGroups($allow_exclusive=1,$allow_inclusive=1) {
 	global $db;
@@ -712,19 +663,16 @@ function pathos_users_getAllGroups($allow_exclusive=1,$allow_inclusive=1) {
 	}
 }
 
-/**
- * Retrieve a list of Groups for a given User
- *
+/* exdoc
  * This function consults the group membership data and returns a
  * list of all groups (according to the filtration criteria in arguments 2
- * and 3) that the user belongs to.
+ * and 3) that the user belongs to. Returns an array of all group objects
+ * that the specified user is a member of (according to the filtration criteria in arguments 2 and 3).
  *
  * @param Object $u The user to retrieve group memberships for.
  * @param bool $allow_exclusive Whether or not to include exclusive groups in the returned list.
  * @param bool $allow_inclusive Whether or not to include inclusive groups in the returned list.
- *
- * @return Array an array of all group objects that the specified user is a member of (according to
- *    the filtration criteria in arguments 2 and 3).
+ * @node Subsystems:Users
  */
 function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=1) {
 	global $db;
@@ -760,15 +708,13 @@ function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=
 	return $groups;
 }
 
-/**
- * Retrieve a list of Users for a given Group
- *
+/* exdoc
  * This function consults the group membership data and returns a
- * list of all users that belong to the specified group.
+ * list of all users that belong to the specified group.  Returns
+ * an array of all user objects that belong to the specified group.
  *
  * @param Object $g The group object to obtain a member list for.
- *
- * @return Array an array of all user objects that belong to the specified group.
+ * @node Subsystems:Users
  */
 function pathos_users_getUsersInGroup($g) {
 	global $db;
@@ -787,19 +733,16 @@ function pathos_users_getUsersInGroup($g) {
 	return $users;
 }
 
-/**
- * Save a User Account
- *
+/* exdoc
  * Saves a user account to the subsystem's storage mechanism.  This function
  * will actually ignore any extraneous attributes of the passed object, and only
  * deal with the standard set of user account attributes.  This means that a full
- * user object can be passed in with no repercussions.
+ * user object can be passed in with no repercussions.  Returns the user object,
+ * complete with an ID (a new ID if the user is inserted as a new user).
  *
  * @param Object $user The User object to save.  If the id attribute of this object
  *    is set, an update is performed.  Otherwise, a new record is created.
- *
- * @return Object the user object, complete with an ID (a new ID if the user is
- *    inserted as a new user).
+ * @node Subsystems:Users
  */
 function pathos_users_saveUser($user) {
 	if ($user == null) {
@@ -835,15 +778,13 @@ function pathos_users_saveUser($user) {
 	return $user;
 }
 
-/**
- * Save a Group Account
- *
- * Saves a group account to the subsystem's storage mechanism.  
+/* exdoc
+ * Saves a group account to the subsystem's storage mechanism.   Returns
+ * the full group object, complete with an ID (a new ID if the group is
+ *    inserted as a new group). 
  *
  * @param Object $group The group account to update / create.
- *
- * @return Object the full group object, complete with an ID (a new ID if the group is
- *    inserted as a new group). 
+ * @node Subsystems:Users
  */
 function pathos_users_saveGroup($group) {
 	if ($group == null) {
@@ -863,15 +804,14 @@ function pathos_users_saveGroup($group) {
 	return $group;
 }
 
-/**
- * Change A User Accounts Password
- *
+/* exdoc
  * This function changes a user's password to an arbitrary value.
  *
  * @param string $pass The new password.
  * @param Object $user The user object to change the password for.  If this argument
  *     is not passed, or is null, the function will try to use the current user.  If no one is
  *     logged in, then it exits immediately.
+ * @node Subsystems:Users
  */
 function pathos_users_changepass($pass, $user = null) {
 	if ($user == null) {

@@ -31,8 +31,16 @@
 # $Id$
 ##################################################
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_SECURITY");
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_security_checkPasswordStrength($username,$password) {
 // Return blank string on success, error message on failure.
 // The error message should let the user know why their password is wrong.

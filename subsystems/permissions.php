@@ -31,46 +31,44 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-/**
- * Permissions Subsystem
- *
- * Implements permissions management and authorization.
- *
- * @package		Subsystems
- * @subpackage	Permissions
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
 
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Permissions
  */
 define("SYS_PERMISSIONS",1);
 
+/* exdoc
+ * UI Level of Preview - No management links of any kind should be shown.
+ * @node Subsystems:Permissions
+ */
 define("UILEVEL_PREVIEW",0);
+/* exdoc
+* UI Level of Norma - Only normal management links (edit, delete, etc.) should be shown.
+* @node Subsystems:Permissions
+*/
 define("UILEVEL_NORMAL",1);
+/* exdoc
+* UI Level of Permissions - Permission Management links (user and group perms) should be shown.
+* @node Subsystems:Permissions
+*/
 define("UILEVEL_PERMISSIONS",2);
+/* exdoc
+* UI Level of Structure - All management links are shown.
+* @node Subsystems:Permissions
+*/
 define("UILEVEL_STRUCTURE",3);
 
-/**
- * Global Permissions Variable
- *
- * Stores the permission data for the current user.  This should not be modified
- * by anything outside of the permissions subsystem.
- */
+// Stores the permission data for the current user.  This should not be modified
+// by anything outside of the permissions subsystem.
 $pathos_permissions_r = array();
 
-/**
- * Load Permission Data
- *
+/* exdoc
  * Loads permission data from the database for the specified user.
  *
  * @param User $user THe user to load permissions for.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_load($user) {
 	global $db, $pathos_permissions_r;
@@ -104,27 +102,30 @@ function pathos_permissions_load($user) {
 	pathos_sessions_set("uilevels",$ui_levels);
 }
 
-/**
- * Clear Permission Data
- *
+/* exdoc
  * This clears the cached permission data.  It does NOT
  * delete that data out of the database.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_clear() {
 	pathos_sessions_unset("permissions");
 }
 
-/**
+/* exdoc
  * Initialize Permissions Subsystems
- *
  * Pulls in the permission data from the session, for faster
  * access later.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_initialize() {
 	global $pathos_permissions_r;
 	$pathos_permissions_r = pathos_sessions_get("permissions");
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_permissions_getSourceUID($src) {
 	if (substr($src,0,5) == "@uid_") {
 		$t = split("_",$src);
@@ -132,21 +133,19 @@ function pathos_permissions_getSourceUID($src) {
 	} else return 0;
 }
 
-/**
- * Check Permission for Current User
- *
+/* exdoc
  * Looks to the permission data and checks to see
  * if the current user has been granted the given permission
  * on the granted the given location.  Recursive checking is
  * implemented through the modules getLocationHierarchy call,
  * for stupider permission checks (user permission assignment form)
+ * Returns true if the permission is granted, false if it is not.
  *
  * @param string $permission The name of the permission to check
  * @param Object $location The location to check on.  This will be passed
  *	to getLocationHierarchy (defined by the module) for a full hierarchy
  *	of permissions.
- *
- * @return boolean true if the permission is granted, false if it is not.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_check($permission,$location) {
 	global $pathos_permissions_r, $user;
@@ -166,17 +165,14 @@ function pathos_permissions_check($permission,$location) {
 	}
 }
 
-/**
- * Check Permission on Any Module
- *
+/* exdoc
  * Looks to the permission data and check to see
  * if the current user has been granted the given permission
- * on any instance of the module type.
+ * on any instance of the module type. Returns true if the permission is granted, false if it is not.
  *
  * @param string $permission The name of the permission to check
  * @param string $module The classname of the module to check.
- *
- * @return boolean true if the permission is granted, false if it is not.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_checkOnModule($permission,$module) {
 	global $pathos_permissions_r, $user;
@@ -184,8 +180,9 @@ function pathos_permissions_checkOnModule($permission,$module) {
 	return (isset($pathos_permissions_r[$module]) && (count($pathos_permissions_r[$module]) > 0));
 }
 
-/**
- * @deprecated Recursive checking took care of this.
+/* exdoc
+ * <i>Recursive checking took care of this.</i>
+ * @state Deprecated
  */
 function pathos_permissions_checkOnSource($module,$source) {
 	global $pathos_permissions_r, $user;
@@ -193,19 +190,17 @@ function pathos_permissions_checkOnSource($module,$source) {
 	return (isset($pathos_permissions_r[$module]) && isset($pathos_permissions_r[$module][$source]) && (count($pathos_permissions_r[$module][$source]) > 0));
 }
 
-/**
- * Checks permissions on non-current user
- *
+/* exdoc
  * Checks to see if the given user has been given permission.  Handles
  * explicit checks (actually assigned to the user) or implicit checks
- * (assigned to a group the user belongs to).
+ * (assigned to a group the user belongs to).  Returns true if the permission is granted, false if it is not.
  *
  * @param User $user The user to check permission on
  * @param string $permission The name of the permission to check
  * @param Object $location The location to check on.
  * @param boolean $explicitOnly Whether to check for explit assignment or implicit.
  *
- * @return boolean true if the permission is granted, false if it is not.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly = false) {
 	global $db;
@@ -230,16 +225,15 @@ function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly 
 	return ($implicit || $explicit);
 }
 
-/**
- * Check permissions on a User Group
- *
- * Checks to see if the given group has been given permission on a location
+/* exdoc
+ * Checks to see if the given group has been given permission on a location.
+ * Returns true if the permission is granted, false if it is not.
  *
  * @param Object $group The group to check
  * @param string $permission The name of the permission to check
  * @param Object $location The location to check on.
  *
- * @return boolean true if the permission is granted, false if it is not.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_checkGroup($group,$permission,$location) {
 	global $db;
@@ -247,14 +241,13 @@ function pathos_permissions_checkGroup($group,$permission,$location) {
 	return ($db->selectObject("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'"));
 }
 
-/**
- * Grant Permission to a User
- *
+/* exdoc
  * Grants the specified permission to the specified user, on the given location
  *
  * @param User $user The user to grant the permission to
  * @param string $permission The name of the permission to grant
  * @param Object $location The location to grant the permission on
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_grant($user,$permission,$location) {
 	if ($user !== null) {
@@ -272,14 +265,13 @@ function pathos_permissions_grant($user,$permission,$location) {
 	}
 }
 
-/**
- * Grant Permission to a Group
- *
+/* exdoc
  * Grants the specified permission to the specified user group, on the given location
  *
  * @param Object $group The group to grant the permission to
  * @param string $permission The name of the permission to grant
  * @param Object $location The location to grant the permission on
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_grantGroup($group,$permission,$location) {
 	if ($group !== null) {
@@ -297,49 +289,50 @@ function pathos_permissions_grantGroup($group,$permission,$location) {
 	}
 }
 
-/**
- * Revoke a Group's Permission
- *
+/* exdoc
  * Takes a permission away from a group, on a specific location.
  * This actually modifies the database.
  *
  * @param Object $group The group to remove the permission from
  * @param string $permission The name of the permission to revoke
  * @param Object $location The location to revoke the permission on
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_revokeGroup($group,$permission,$location) {
 	global $db;
 	return $db->delete("grouppermission","gid=" . $group->id . " AND permission='$permission' AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
 
-/**
- * Revoke a User's Permission
- *
+/* exdoc
  * Takes a permission away from a user, on a specific location.
  * This actually modifies the database.
  *
  * @param User $user The user to remove the permission from
  * @param string $permission The name of the permission to revoke
  * @param Object $location The location to revoke the permission on
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_revoke($user,$permission,$location) {
 	global $db;
 	return $db->delete("userpermission","uid=" . $user->id . " AND permission='$permission' AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
 
-/**
- * Revoke all User Permissions
- *
+/* exdoc
  * Removes all permissions from a user, on a specific location.
  *
  * @param User $user The user to remove all permissions from
  * @param Object $location The location to remove all permission on
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_revokeAll($user,$location) {
 	global $db;
 	return $db->delete("userpermission","uid=" . $user->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_permissions_revokeComplete($location) {
 	global $db;
 	$db->delete("userpermission","module='".$location->mod."' AND source='".$location->src."'");
@@ -347,25 +340,23 @@ function pathos_permissions_revokeComplete($location) {
 	return true;
 }
 
-/**
- * Revoke all Group Permissions
- *
+/* exdoc
  * Removes all permissions from a group, on a specific location.
  *
  * @param Object $group The group to remove all permissions from
  * @param Object $location The location to remove all permission on
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_revokeAllGroup($group,$location) {
 	global $db;
 	return $db->delete("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
 
-/**
- * Trigger Permission Data Refresh
- *
+/* exdoc
  * This call will force all active session to reload their
  * permission data.  This is useful if permissions are assigned
  * or revoked, and is required to see these changes.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_triggerRefresh() {
 	global $db;
@@ -375,12 +366,11 @@ function pathos_permissions_triggerRefresh() {
 	pathos_template_clear(SYS_TEMPLATE_CLEAR_USERS);
 }
 
-/**
- * Trigger Permission Data Refresh for a Single User
- *
+/* exdoc
  * This call will force all active sessions for the given user to
  * reload their permission data.  This is useful if permissions
  * are assigned or revoked, and is required to see these changes.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_triggerSingleRefresh($user) {
 	global $db;
@@ -390,16 +380,14 @@ function pathos_permissions_triggerSingleRefresh($user) {
 	pathos_template_clear(SYS_TEMPLATE_CLEAR_USERS);
 }
 
-/**
- * Get Users with a Given Permission
- *
+/* exdoc
  * Looks through the entire permissions database and finds all users who have been
- * assigned the specified permission on the specified location
+ * assigned the specified permission on the specified location.  Returns an array
+ * of user ids for users that matched criteria.
  *
  * @param string $permission The name of the permission to search by
  * @param Object $location The location to check on
- *
- * @return Array An array of user ids for users that matched criteria.
+ * @node Subsystems:Permissions
  */
 function pathos_permissions_getUserIDsWithPermission($permission,$location) {
 	global $db;

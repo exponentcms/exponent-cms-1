@@ -31,12 +31,32 @@
 # $Id$
 ##################################################
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_SEARCH",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SEARCH_TYPE_ANY",1);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SEARCH_TYPE_ALL",2);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SEARCH_TYPE_PHRASE",3);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 	$where = "";
 	foreach ($fields as $field) {
@@ -56,6 +76,10 @@ function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 	return substr($where,0,-4);
 }
 	
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_search_saveSearchKey($search) {
 	$search->title = " " . $search->title . " ";
 	$search->body = " " . $search->body . " ";
@@ -68,11 +92,19 @@ function pathos_search_saveSearchKey($search) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_search_removeHTML($str) {
 	$str = str_replace(array("\r\n","\n")," ",$str);
 	return strip_tags(str_replace(array("<br/>","<br>","<br />","</div>"),"\n",$str));
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_search_cleanSearchQuery($query) {
 	$exclude = array_map("trim",file(BASE."subsystems/search/exclude.en.list"));
 	$newquery = array();

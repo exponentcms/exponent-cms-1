@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Information Subsystem Info
- *
- * Provides reflective information about the Information Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Information
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Information Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Provides reflective processes to look at the software components that make up the system.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Information Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Provides reflective processes to look at the software components that make up the system.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

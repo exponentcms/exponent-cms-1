@@ -31,55 +31,33 @@
 # $Id$
 ##################################################
 
-/**
- * AutoLoader Subsystem
- *
- * The auto loader subsystem provides optional support
- * to servers running PHP5 for the new __autoload
- * mechanism.  This feature should reduce execution time
- * by narrowing the scope of included files (and therefore
- * the magnitude of parsed PHP code) by only loading
- * the classes it needs.
- *
- * @package		Subsystems
- * @subpackage	AutoLoader
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 if (phpversion() >= 5) {
-	/**
-	 * SYS Flag for AutoLoader Subsystem.
+	/* exdoc
 	 * The definition of this constant lets other parts
 	 * of the system know that the AutoLoader Subsystem
 	 * has been included for use.
+	 * @node Subsystems:Autoloader
 	 */
 	define("SYS_AUTOLOADER",1);
 	
-	/** 
-	 * Directories for AutoLoading classes.
-	 * 
+	/* exdoc
 	 * In PHP5, the autoloader function will check these
 	 * directories when it tries to load a class definition
 	 * file.  Other parts of the system should append to this
 	 * directory as needed, in order to take full advantage
 	 * of autoloading
-	 *
-	 * @name $AutoLoadDirs
+	 * @node Subsystems:Autoloader
 	 */
 	$auto_dirs = array("datatypes"=>BASE."datatypes");
 	
-	/**
-	 * PHP5 AutoLoad override
-	 *
+	/* exdoc
 	 * This function overrides the default PHP5 autoloader,
 	 * and instead looks at the $AutoLoadDirs global to look
 	 * for class files.  This function is automatically
 	 * invoked in PHP5
 	 *
 	 * @param	string $class The name of the class to look for.
+	 * @node Subsystems:Autoloader
 	 */
 	function __autoload($class) {
 		global $auto_dirs;
@@ -91,9 +69,6 @@ if (phpversion() >= 5) {
 		}
 	}
 } else {
-	/**
-	 * @ignore
-	 */
 	define("SYS_AUTOLOADER",2);
 	if (is_readable(BASE."datatypes")) {
 		$dh = opendir(BASE."datatypes");

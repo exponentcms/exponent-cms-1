@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Files Subsystem Info
- *
- * Provides reflective information about the Files Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Files
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"Uploaded Files Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Takes care of uploading and managing files.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Uploaded Files Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Takes care of uploading and managing files.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

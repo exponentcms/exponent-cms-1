@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Geography Subsystem Info
- *
- * Provides reflective information about the Geography Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Geography
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Geography Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A set of interfaces for determining country and region information.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Geography Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A set of interfaces for determining country and region information.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

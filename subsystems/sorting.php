@@ -31,89 +31,138 @@
 # $Id$
 ##################################################
 
-/**
- * Sorting Subsystems
- *
- * The sorting subsytem brings together general
- * sorting callbacks for use in other parts of the system.
- *
- *
- * @package		Subsystems
- * @subpackage	Sorting
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS Flag for Sorting Subsystem.
+/* exdoc
  * The definition of this constant lets other parts
  * of the system know that the Sorting Subsystem
  * has been included for use.
+ * @node Subsystems:Sorting
  */
 define("SYS_SORTING",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byRankAscending($a,$b) {
 	return ($a->rank < $b->rank ? -1 : 1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byRankDescending($a,$b) {
 	return ($a->rank > $b->rank ? -1 : 1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byNameAscending($a,$b) {
 	return strnatcasecmp($a->name,$b->name);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byNameDescending($a,$b) {
 	return (strnatcasecmp($a->name,$b->name) == -1 ? 1 : -1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byUserNameAscending($a,$b) {
 	return strnatcasecmp($a->username,$b->username);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byUserNameDescending($a,$b) {
 	return (strnatcasecmp($a->username,$b->username) == -1 ? 1 : -1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byPostedAscending($a,$b) {
 	return ($a->posted < $b->posted ? -1 : 1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byPostedDescending($a,$b) {
 	return ($a->posted > $b->posted ? -1 : 1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byUpdatedAscending($a,$b) {
 	return ($a->updated < $b->updated ? -1 : 1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_byUpdatedDescending($a,$b) {
 	return ($a->updated > $b->updated ? -1 : 1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_moduleByNameAscending($a,$b) {
 	return strnatcasecmp($a->name(),$b->name());
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_moduleByNameDescending($a,$b) {
 	return (strnatcasecmp($a->name(),$b->name()) == -1 ? 1 : -1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_moduleClassByNameAscending($a,$b) {
 	return strnatcasecmp(call_user_func(array($a,"name")),call_user_func(array($b,"name")));
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_moduleClassByNameDescending($a,$b) {
 	return (strnatcasecmp(call_user_func(array($a,"name")),call_user_func(array($b,"name"))) == -1 ? 1 : -1);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_workflowRevisionAscending($a,$b) {
 	return strnatcmp($a->wf_major.".".$a->wf_minor,$b->wf_major.".".$b->wf_minor);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sorting_workflowRevisionDescending($a,$b) {
 	return (strnatcmp($a->wf_major.".".$a->wf_minor,$b->wf_major.".".$b->wf_minor) == -1 ? 1 : -1);
 }

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Backup Subsystem Info File
- *
- * Provides reflective information to Exponent about the Backup subsystem
- *
- * @package		Subsystems
- * @subpackage	AutoLoader
- *
- * @author	James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
- 
 return array(
-	"name"=>"Backup Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Provides the necessary means to backup and restore certain parts of the site.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Backup Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Provides the necessary means to backup and restore certain parts of the site.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

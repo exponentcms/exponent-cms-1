@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Users Subsystem Info
- *
- * Provides reflective information about the Users Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Users
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"User Manager",
-	"author"=>"James Hunt",
-	"description"=>"The default user manager subsystems stores user information in a database.",
-	"version"=>pathos_core_version(true)
+	'name'=>'User Manager',
+	'author'=>'James Hunt',
+	'description'=>'The default user manager subsystems stores user information in a database.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

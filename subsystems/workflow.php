@@ -31,51 +31,120 @@
 # $Id$
 ##################################################
 
-/**
- * Workflow Subsystem
- *
- * Implements workflow control for content.  Manages and applies
- * approval policies, and handles content revisions.
- *
- * @package		Subsystems
- * @subpackage	Workflow
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Workflow
  */
 define("SYS_WORKFLOW",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_REVOKE_NONE",		0);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_REVOKE_POSTER",		1);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_REVOKE_APPROVERS",	2);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_REVOKE_OTHERS",		3);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_REVOKE_ALL",		4);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_APPROVE_EDIT",		5);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_APPROVE_APPROVE",	6);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_APPROVE_DENY",		7);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_POSTED",			0);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_EDITED",			1);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_APPROVED_APPROVED",	2);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_APPROVED_EDITED",		3);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_APPROVED_DENIED",		4);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_APPROVED_FINAL",		5);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_DELETED",		6);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_RESTARTED",		7);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_IMPLICIT_APPROVAL",	8);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_RESTORED",		9);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_POSTED_ADMIN",		10);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_WORKFLOW_ACTION_APPROVED_ADMIN",		11);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_dataDefinitions($tabledef) {
 	return array(
 		"_wf_revision"=>array_merge($tabledef,array(
@@ -121,10 +190,18 @@ function pathos_workflow_dataDefinitions($tabledef) {
 	);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_installWorkflowTables($existingname,$tabledef) {
 	pathos_workflow_alterWorkflowTables($existingname,$tabledef);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
 	global $db;
 
@@ -143,10 +220,18 @@ function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_isWorkflowTable($name) {
 	return (substr($name,-8,8) == "_wf_info" || substr($name,-11,11) == "_wf_revision");
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_originalTable($name) {
 	if (substr($name,-8,8) == "_wf_info") return substr($name,0,-8);
 	else if (substr($name,-11,11) == "_wf_revision") return substr($name,0,-11);
@@ -154,11 +239,19 @@ function pathos_workflow_originalTable($name) {
 }
 
 // USED?
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_clearRevisions($existingname,$major) {
 	global $db;
 	$db->delete($existingname."_wf_revision","wf_major=$major && wf_minor != 0");
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_getPolicy($module,$source) {
 	global $db;
 	$assoc = $db->selectObject("approvalpolicyassociation","module='$module' AND source='$source' AND is_global=0");
@@ -169,6 +262,10 @@ function pathos_workflow_getPolicy($module,$source) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_getDefaultPolicy($module) {
 	global $db;
 	$assoc = $db->selectObject("approvalpolicyassociation","module='$module' AND is_global=1");
@@ -180,6 +277,10 @@ function pathos_workflow_getDefaultPolicy($module) {
 	return null;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_moduleUsesDefaultPolicy($module,$source) {
 	global $db;
 	$assoc = $db->selectObject("approvalpolicyassociation","module='$module' AND source='$source' AND is_global=0");
@@ -188,6 +289,10 @@ function pathos_workflow_moduleUsesDefaultPolicy($module,$source) {
 
 // Returns true if passed state == approved
 // ### STEP A ###
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_checkApprovalState($state,$policy) {
 	if ($policy == null) return true; // faked implicit approval.
 	$requirement = $policy->required_approvals;
@@ -198,6 +303,10 @@ function pathos_workflow_checkApprovalState($state,$policy) {
 }
 
 //------------------------
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_post($object,$table,$loc) {
 	global $db,$user;
 	
@@ -268,6 +377,10 @@ function pathos_workflow_post($object,$table,$loc) {
 }
 
 // ### STEP A.5 ###
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 	global $db;
 	
@@ -337,6 +450,10 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	global $db;
 	
@@ -372,6 +489,10 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	return $revision;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_handleRevision($revision,$datatype,$info) {
 	global $db;
 	
@@ -388,6 +509,10 @@ function pathos_workflow_handleRevision($revision,$datatype,$info) {
 }
 
 // ### STEP B,D,E ###
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_revoke($state,$type) {
 	global $user; // for use in OTHERS
 	switch ($type) {
@@ -415,6 +540,10 @@ function pathos_workflow_revoke($state,$type) {
 	return $state;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_deleteRevisionPath($datatype,$id) {
 	global $db;
 	$info = $db->selectObject($datatype."_wf_info","real_id=".$id);
@@ -438,6 +567,10 @@ function pathos_workflow_deleteRevisionPath($datatype,$id) {
 	pathos_workflow_runActions($policy,SYS_WORKFLOW_ACTION_DELETED,$revision);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
 	global $db;
 	
@@ -466,6 +599,10 @@ function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
 }
 
 // Convert a revision back into the original object
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_convertToObject($revision) {
 	//$object = clone $revision;
 	
@@ -483,6 +620,10 @@ function pathos_workflow_convertToObject($revision) {
 	return $object;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_updateInfoFromRevision($revision,$info) {
 	$info->real_id = $revision->wf_original;
 	$info->current_state_data = $revision->wf_state_data;	
@@ -492,6 +633,10 @@ function pathos_workflow_updateInfoFromRevision($revision,$info) {
 	return $info;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_getInfoTables() {
 	global $db;
 	$infotables = array();
@@ -504,6 +649,10 @@ function pathos_workflow_getInfoTables() {
 }
 
 // For restarting when a policy is changed through the policy manager
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
 	$state = unserialize($revision->wf_state_data);
 	$state = pathos_workflow_revoke($state,SYS_WORKFLOW_REVOKE_ALL);
@@ -524,6 +673,10 @@ function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
 }
 
 // For re-evaluating when a policy is changed through the policy manager
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_evaluateRevisionPath($revision,$type,$newpolicy,$info) {
 	$state = unserialize($revision->wf_state_data);
 	$approved = pathos_workflow_checkApprovalState($state,$newpolicy);
@@ -538,6 +691,10 @@ function pathos_workflow_evaluateRevisionPath($revision,$type,$newpolicy,$info) 
 	return $revision;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_form($datatype,$id) {
 	global $db;
 	$info = $db->selectObject($datatype."_wf_info","real_id=".$id);
@@ -553,6 +710,10 @@ function pathos_workflow_form($datatype,$id) {
 }
 
 // Run all the actions for a specific action hook
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_runActions($policy,$action_type,$revision) {
 	global $db;
 	$actions = $db->selectObjects("workflowaction","policy_id=".$policy->id." AND type=$action_type");
@@ -564,6 +725,10 @@ function pathos_workflow_runActions($policy,$action_type,$revision) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_getActions($policy_id) {
 	global $db;
 	
@@ -582,6 +747,10 @@ function pathos_workflow_getActions($policy_id) {
 	return $actions;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_workflow_getAvailableActions() {
 	$actions = array();
 	if (is_readable(BASE."subsystems/workflow/actions")) {

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Date/Time Subsystem Info
- *
- * Provides reflective information about the Date/Time Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Flow
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Date/Time Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A general purpose library of timestamp-based time functions.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Date/Time Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A general purpose library of timestamp-based time functions.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

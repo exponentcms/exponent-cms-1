@@ -31,25 +31,11 @@
 # $Id$
 ##################################################
 
-/** 
- * AutoLoader Subsystem Info File
- *
- * Provides reflective information to Exponent about the AutoLoader subsystem
- *
- * @package		Subsystems
- * @subpackage	AutoLoader
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-
 return array(
-	"name"=>"Autoloader Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"Implements the required support for __autoload in PHP5 (autoloading of classes)",
-	"version"=>pathos_core_version(true)
+	'name'=>'Autoloader Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'Implements the required support for __autoload in PHP5 (autoloading of classes)',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Security Subsystem Info File
- *
- * Provides reflective information to Exponent about the Security subsystem
- *
- * @package		Subsystems
- * @subpackage	Security
- *
- * @author	James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
- 
 return array(
-	"name"=>"Security Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A means to implement password strength checking when creating new users.  This implementation does no strength checking (any password is accepted).",
-	"version"=>pathos_core_version(true)
+	'name'=>'Security Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A means to implement password strength checking when creating new users.  This implementation does no strength checking (any password is accepted).',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

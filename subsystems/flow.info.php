@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Flow Subsystem Info
- *
- * Provides reflective information about the Flow Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Flow
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Flow Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A smart redirection layer that allows modules to intelligently redirect users from page to page automatically.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Flow Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A smart redirection layer that allows modules to intelligently redirect users from page to page automatically.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,67 +31,57 @@
 # $Id$
 ##################################################
 
-/**
- * Files Subsystem
- *
- * Provides an easy and consistent way of dealing
- * with files in a CMS environment.
- *
- * @package		Subsystems
- * @subpackage	Files
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flasg for Files Subsystem
- *
+/* exdoc
  * The definition of this constant lets other parts
  * of the system know that the Files Subsystem
  * has been included for use.
+ * @node Subsystems:Files
  */
 define("SYS_FILES",1);
 
-/**
+/* exdoc
  * Filesystem Error Response: Success
+ * @node Subsystems:Files
  */
 define("SYS_FILES_SUCCESS",		0);
 
-/**
+/* exdoc
  * Filesystem Error Response: Found File at Destination
+ * @node Subsystems:Files
  */
 define("SYS_FILES_FOUNDFILE",	1);
 
-/**
+/* exdoc
  * Filesystem Error Response: Found Directory at Destination
+ * @node Subsystems:Files
  */
 define("SYS_FILES_FOUNDDIR",	2);
 
-/**
+/* exdoc
  * Filesystem Error Response: Destination not writable
+ * @node Subsystems:Files
  */
 define("SYS_FILES_NOTWRITABLE",	3);
 
-/**
+/* exdoc
  * Filesystem Error Response: Destination not readable
+ * @node Subsystems:Files
  */
 define("SYS_FILES_NOTREADABLE",	4);
 
-/**
+/* exdoc
  * Filesystem Error Response: Destination not deletable
+ * @node Subsystems:Files
  */
 define("SYS_FILES_NOTDELETABLE",	5);
 
-/**
- * Makes a Directory
- *
+/* exdoc
  * This method creates a directory and all of its parent directories, if they do not exist,
- * emulating the behavior of the -p option to mkdir on UNIX systems.
+ * emulating the behavior of the -p option to mkdir on UNIX systems.  Returns
+ * a SYS_FILES_* constant, indicating its status.
  *
  * @param string $dir The directory to create.  This path must be relative to BASE
- * @return integer A SYS_FILES_* constant.
+ * @node Subsystems:Files
  */
 function pathos_files_makeDirectory($dir,$mode=null,$is_full=false) {
 	$__oldumask = umask(0);
@@ -112,13 +102,12 @@ function pathos_files_makeDirectory($dir,$mode=null,$is_full=false) {
 	return SYS_FILES_SUCCESS;
 }
 
-/**
- * Remove a Directory
- *
+/* exdoc
  * Recursively removes the given directory, and all
  * of the files and directories underneath it.
  *
  * @param string $dir The path of the directory to remove
+ * @node Subsystems:Files
  */
 function pathos_files_removeDirectory($dir) {
 	if (strpos($dir,BASE) != 0) $dir = BASE.$dir;
@@ -146,22 +135,25 @@ function pathos_files_removeDirectory($dir) {
 	rmdir($dir);
 }
 
-/**
- * Check Existence of Upload Destination File
- *
+/* exdoc
  * Checks to see if the upload destination file exists.  This is to prevent
  * accidentally uploading over the top of another file.
+ * Returns true if the file already exists, and false if it does not.
  *
  * @param string $dir The directory to contain the existing directory.
  * @param string $name The name of the file control used to upload the
  *  file.  The files subsystem will look to the $_FILES array
  *  to get the filename of the uploaded file.
- * @return boolean True if the file already exists, and false if it does not.
+ * @node Subsystems:Files
  */
 function pathos_files_uploadDestinationFileExists($dir,$name) {
 	return (file_exists(BASE.$dir."/".$_FILES[$name]['name']));
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_files_moveUploadedFile($tmp_name,$dest) {
 	move_uploaded_file($tmp_name,$dest);
 	if (file_exists($dest)) {
@@ -171,10 +163,11 @@ function pathos_files_moveUploadedFile($tmp_name,$dest) {
 	}
 }
 
-/**
- * List Files, in a Recursive Array
- *
- * Lists files and directories under a given parent directory.
+/* exdoc
+ * Lists files and directories under a given parent directory, returning a
+ * revursive array. The key is the file or directory name.  In the case of files,
+ * the value if the file name.  In the case of directories, the value if an array
+ * of the files / directories in that directory.
  *
  * @param string $dir The path of the directory to look at.
  * @param boolean $recurse A boolean dictating whether to descend into subdirectories
@@ -184,10 +177,7 @@ function pathos_files_moveUploadedFile($tmp_name,$dest) {
  * @param array $exclude_dirs An array of directory names to exclude.  These names are
  * 	path-independent.  Specifying "dir" will ignore all directories and
  * 	sub-directories named "dir", regardless of their parent.
- * @return array An associative, recursive array of files and directories.  The key is
- * 	the file or directory name.  In the case of files, the value if the file name.  In
- * 	the case of directories, the value if an array of the files / directories in that
- * 	directory.
+ * @node Subsystems:Files
  */
 function pathos_files_list($dir, $recurse = false, $ext=null, $exclude_dirs = array()) {
 	$files = array();
@@ -205,10 +195,10 @@ function pathos_files_list($dir, $recurse = false, $ext=null, $exclude_dirs = ar
 	return $files;
 }
 
-/**
- * List Files, in a Flat Array
- *
- * Lists files and directories under a given parent directory.
+/* exdoc
+ * Lists files and directories under a given parent directory. Returns an
+ * associative, flat array of files and directories.  The key is the full file
+ * or directory name, and the value is the file or directory name.
  *
  * @param string $dir The path of the directory to look at.
  * @param boolean $recurse A boolean dictating whether to descend into subdirectories
@@ -218,8 +208,7 @@ function pathos_files_list($dir, $recurse = false, $ext=null, $exclude_dirs = ar
  * @param array $exclude_dirs An array of directory names to exclude.  These names are
  * 	path-independent.  Specifying "dir" will ignore all directories and
  * 	sub-directories named "dir", regardless of their parent.
- * @return array An associative, flat array of files and directories.  The key is
- * 	the full file or directory name, and the value is the file or directory name.
+ * @node Subsystems:Files
  */
 function pathos_files_listFlat($dir, $recurse = false, $ext=null, $exclude_dirs = array(), $relative = "") {
 	$files = array();
@@ -237,9 +226,7 @@ function pathos_files_listFlat($dir, $recurse = false, $ext=null, $exclude_dirs 
 	return $files;
 }
 
-/**
- * Copy Directory Structure
- *
+/* exdoc
  * Copies just the directory structure (including subdirectories) of a given directory.
  * Any files in the source directory are ignore, and duplicate copies are made (no symlinks).
  *
@@ -249,6 +236,7 @@ function pathos_files_listFlat($dir, $recurse = false, $ext=null, $exclude_dirs 
  * @param $exclude_dirs An array of directory names to exclude.  These names are
  * 	path-independent.  Specifying "dir" will ignore all directories and
  * 	sub-directories named "dir", regardless of their parent.
+ * @node Subsystems:Files
  */
 function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array()) {
 	$__oldumask = umask(0);
@@ -265,18 +253,16 @@ function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array())
 	umask($__oldumask);
 }
 
-/**
- * Check if a file / directory can be created
- *
+/* exdoc
  * Looks at the filesystem strucutre surrounding the destination
  * and determines if the web server can create a new file there.
- *
- * @param string $dest Path to the directory to check
- *
- * @return constant One of the following:
+ * Returns one of the following:
  *	<br>SYS_FILES_NOTWRITABLE - unable to create files in destination
  *	<br>SYS_FILES_SUCCESS - A file or directory can be created in destination
  *	<br>SYS_FILES_FOUNDFILE - Found destination to be a file, not a directory
+ *
+ * @param string $dest Path to the directory to check
+ * @node Subsystems:Files
  */
 function pathos_files_canCreate($dest) {
 	if (substr($dest,0,1) != "/") $dest = BASE.$dest;

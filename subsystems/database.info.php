@@ -31,23 +31,7 @@
 # $Id$
 ##################################################
 
-/**
- * Database Subsystem Info
- *
- * Provides reflective information about the Database Subsystem implementation,
- * as well as the database engine being used byt the site.
- *
- * @package		Subsystems
- * @subpackage	Database
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * Includes the information specific to the currently active Database Engine
- */
-return include(BASE."subsystems/database/".DB_ENGINE.".info.php");
+// We really need to return information per engine, so use the currently active one.
+return include(BASE.'subsystems/database/'.DB_ENGINE.'.info.php');
 
 ?>

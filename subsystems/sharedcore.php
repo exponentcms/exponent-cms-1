@@ -38,22 +38,48 @@
 #   because Windows platforms do not support symlinks.
 #
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SYS_SHAREDCORE",1);
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SHAREDCORE_ERR_OK",			0);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SHAREDCORE_ERR_LINKDEST_EXISTS",	1);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SHAREDCORE_ERR_LINKDEST_NOTWRITABLE",	2);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SHAREDCORE_ERR_LINKSRC_NOTEXISTS",	3);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SHAREDCORE_ERR_LINKSRC_NOTREADABLE",	4);
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 define("SHAREDCORE_ERR_BADFILETYPE",		5);
 
 //way to check if Apache uses symlinks?
 
-/**
- * Link an Extension in one core to another.
- *
+/* exdoc
  * This is a specific function for linking the files and directories
- * from one core distro to a linked site.
+ * from one core distro to a linked site.  Returns one of the SHARED_CORE_ERR_* constants
  *
  * @param string $typdir The directory name for the type of extension to link,
  *   One of either 'modules', 'subsystems' or 'themes'
@@ -63,7 +89,7 @@ define("SHAREDCORE_ERR_BADFILETYPE",		5);
  * @param Constant $type The type of linking to perform.  One of either SHAREDCORE_LINK_NONE,
  *   SHAREDCORE_LINK_SHALLOW, SHAREDCORE_LINK_HALFDEEP or
  *   SHAREDCORE_LINK_FULLDEEP
- * @return one of the SHARED_CORE_ERR_* constants
+ * @node Subsystems:SharedCore
  */
 function pathos_sharedcore_linkExtension($typedir,$name,$source,$destination) {
 	// Now we can pass either.
@@ -132,7 +158,10 @@ function pathos_sharedcore_linkExtension($typedir,$name,$source,$destination) {
 	}
 }
 
-// UNTESTED
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_clear($linked_root,$full_delete = false) {
 	# Remove all links.  If $full_delete is false, leave the files/ and conf/
 	# directories intact (because we are going to relink).  Otherwise, delete
@@ -158,13 +187,14 @@ function pathos_sharedcore_clear($linked_root,$full_delete = false) {
 	}
 }
 
-/**
+/* exdoc
  * Unlink a previously linked extension
  *
  * @param string $typdir The directory name for the type of extension to link,
  *   One of either 'modules', 'subsystems' or 'themes'
  * @param string $name The name of the extension to link.
  * @param string $dir The root of the linked site
+ * @node Subsystems:SharedCore
  */
  # This may be deprecated
 function pathos_sharedcore_unlinkExtension($typedir,$name,$dir) {
@@ -173,12 +203,13 @@ function pathos_sharedcore_unlinkExtension($typedir,$name,$dir) {
 }
 
 
-/**
+/* exdoc
  * Link Exponent Core
  *
  * @param string $linksrc The source core to link to
  * @param string $linkdest The destination directory to created
  *   symlinks in.
+ * @node Subsystems:SharedCore
  */
 function pathos_sharedcore_linkCore($linksrc,$linkdest) {
 	if (!file_exists($linksrc)) {
@@ -227,6 +258,10 @@ function pathos_sharedcore_linkCore($linksrc,$linkdest) {
 }
 
 // Moved to files.  Update sharedcore code.
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_copyDirectoryStructure($linksrc,$linkdest,$depth = 0) {
 /*
 	if (!file_exists($linkdest)) mkdir($linkdest);
@@ -242,6 +277,10 @@ function pathos_sharedcore_copyDirectoryStructure($linksrc,$linkdest,$depth = 0)
 }
 
 // Deprecated?
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_linkFile($linksrc,$linkdest) {
 	if (!file_exists($linksrc)) {
 		return SHAREDCORE_ERR_LINKSRC_NOTEXISTS;
@@ -268,6 +307,10 @@ function pathos_sharedcore_linkFile($linksrc,$linkdest) {
 	symlink($linksrc,"$destdir/$srcfile");
 }
 // Deprecated?
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_linkFiles($src,$dest) {
 	if (is_readable($src) && is_writable($dest)) {
 		$dh = opendir($src);
@@ -279,6 +322,10 @@ function pathos_sharedcore_linkFiles($src,$dest) {
 	}
 }
 // Deprecated?
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_linkDirectory($src,$dest,$recurse = false) {
 	if (is_readable($src) && is_writable($dest)) {
 		$dh = opendir($src);
@@ -298,6 +345,10 @@ function pathos_sharedcore_linkDirectory($src,$dest,$recurse = false) {
 	}
 }
 // Deprecated?
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_listDirectory($dir,$recurse = false) {
 	$arr = array();
 	$dh = opendir($dir);
@@ -312,6 +363,10 @@ function pathos_sharedcore_listDirectory($dir,$recurse = false) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_listCores($dir) {
 	$arr = array();
 	if (!is_readable($dir)) return $arr;
@@ -327,6 +382,10 @@ function pathos_sharedcore_listCores($dir) {
 	return $arr;
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_sharedcore_listLinkedSites($dir,$core = null) {
 	$arr = array();
 	if (!is_readable($dir)) return $arr;

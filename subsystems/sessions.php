@@ -31,40 +31,30 @@
 # $Id$
 ##################################################
 
-/**
- * Sessions Subsystem
- *
- * Encapsulates session handling for other parts of the system.
- *
- * @package		Subsystems
- * @subpackage	Sessions
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Sessions
  */
 define("SYS_SESSIONS",1);
 
 // session key may be overridden
-if (!defined("SYS_SESSION_KEY")) define("SYS_SESSION_KEY",PATH_RELATIVE);
+if (!defined("SYS_SESSION_KEY")) {
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
+	define("SYS_SESSION_KEY",PATH_RELATIVE);
+}
 
-/**
- * Initialize the Sessions Subsystems
- *
+/* exdoc
  * Runs necessary code to initialize sessions for use.
  * This sends the session cookie header (via the session_start
  * PHP function) and sets up session variables needed by the
  * rest of the system and this subsystem.
+ * @node Subsystems:Sessions
  */
-function pathos_sessions_initialize() 
-{	
+function pathos_sessions_initialize() {	
 	$sesid  = "";
 	if (isset($_GET['expid'])) $sesid = $_GET['expid'];
 	else if (isset($_POST['expid'])) $sesid =  $_POST['expid'];
@@ -79,11 +69,10 @@ function pathos_sessions_initialize()
 	if (isset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme'])) define("DISPLAY_THEME",$_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
 }
 
-/**
- * Validate the Session's Ticket
- *
+/* exdoc
  * Validates the stored session ticket against the database.  This is used
  * to force refreshes and force logouts.  It also updates activity time.
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_validate() {
 	global $db;
@@ -111,14 +100,13 @@ function pathos_sessions_validate() {
 	define("SITE_403_HTML",SITE_403_REAL_HTML);
 }
 
-/**
- * Session Login Handler
- *
+/* exdoc
  * Creates and stores a session ticket for the given user,
  * so that sessions can be tracked and permissions can be
  * refreshed as needed.
  *
  * @param User $user The user object of the newly logged-in user.
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_login($user) {
 	$ticket = null;
@@ -138,12 +126,11 @@ function pathos_sessions_login($user) {
 	pathos_permissions_load($user);
 }
 
-/**
- * Session Logout Handler
- *
+/* exdoc
  * Clears the session of all user data, used when a user logs out.
  * This gets rid of stale session tickets, and resets the session
  * to a blank state.
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_logout() {
 	global $db;
@@ -156,13 +143,11 @@ function pathos_sessions_logout() {
 	pathos_permissions_clear();
 }
 
-/**
- * Check login status
- *
+/* exdpc
  * Looks at the session data to see if the current session is
- * that of a logged in user.
- *
- * @return boolean True if the viewer is logged in, and false if it is not
+ * that of a logged in user. Returns true if the viewer is logged
+ * in, and false if it is not
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_loggedIn() {
 	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));
@@ -174,21 +159,18 @@ function pathos_sessions_getTicketString() {
 	} else return "";
 }
 
-/**
- * Check Existence of Session Variable
- *
+/* exdoc
  * Checks to see if the session holds a set variable of the given name.
  *
  * Note that some session variables (like the user object and the ticket)
  * cannot be changed using this call (for security / sanity reason)
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_isset($var) {
 	return isset($_SESSION[SYS_SESSION_KEY]['vars'][$var]);
 }
 
-/**
- * Set a Persistent Session Variable
- *
+/* 
  * Sets a variable in the session data, for use on subsequent page calls.
  *
  * Note that some session variables (like the user object and the ticket)
@@ -196,37 +178,34 @@ function pathos_sessions_isset($var) {
  *
  * @param string $var The name of the variable, for later reference
  * @param mixed $val The value to store
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_set($var, $val) {
 	$_SESSION[SYS_SESSION_KEY]['vars'][$var] = $val;
 }
 
-/**
- * Unset a Persistent Session Variable
- *
+/* exdoc
  * Removes a variable from the session.
  *
  * Note that some session variables (like the user object and the ticket)
  * cannot be changed using this call (for security / sanity reason)
  *
  * @param string $var The name of the variable to unset.
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_unset($var) {
 	unset($_SESSION[SYS_SESSION_KEY]['vars'][$var]);
 }
 
-/**
- * Get a Persistent Session Variable
- *
- * This retrieves the value of a persistent session variable.
+/* exdoc
+ * This retrieves the value of a persistent session variable. Returns
+ * null if the variable is not set in the session, or the value of the stored variable.
  *
  * Note that some session variables (like the user object and the ticket)
  * cannot be changed using this call (for security / sanity reason)
  *
  * @param string $var The name of the variable to retrieve.
- *
- * @return mixed null if the variable is not set in the session, or the
- * value of the stored variable.
+ * @node Subsystems:Sessions
  */
 function pathos_sessions_get($var) {
 	if (isset($_SESSION[SYS_SESSION_KEY]['vars'][$var])) {

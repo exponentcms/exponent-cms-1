@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Template Subsystem Info
- *
- * Provides reflective Template about the Template Subsystem implementation
- *
- * @package	Subsystems
- * @subpackage	Template
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
 return array(
-	"name"=>"Template Subsystem",
-	"author"=>"James Hunt",
-	"description"=>"A wrapper around the template engine that Exponent uses for its views (currently Smarty).",
-	"version"=>pathos_core_version(true)
+	'name'=>'Template Subsystem',
+	'author'=>'James Hunt',
+	'description'=>'A wrapper around the template engine that Exponent uses for its views (currently Smarty).',
+	'version'=>pathos_core_version(true)
 );
 
 ?>

@@ -31,40 +31,23 @@
 # $Id$
 ##################################################
 
-/**
- * Javascript Subsystem
- *
- * A PHP to Javascript portablity layer, designed to make Javascripting
- * PHP objects easier.
- *
- * @package		Subsystems
- * @subpackage	Javascript
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
-/**
- * SYS flag
- *
+/* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
+ * @node Subsystems:Javascript
  */
 define("SYS_JAVASCRIPT",1);
 
-/**
- * Translate PHP object into a Javascript class
- *
+/* exdoc
  * Takes a stdClass object from PHP, and generates the
  * corresponding Javascript class function.  The data in the
  * members of the PHP object is not important, only the
- * presence and names of said members.
+ * presence and names of said members.  Returns the
+ * javascript class function code.
  *
  * @param Object $object The object to translate
  * @param string $name What to call the class in javascript
- *
- * @return string The javascript class function code.
+ * @node Subsystems:Javascript
  */
 function pathos_javascript_class($object, $name) {
 	$otherclasses = array();
@@ -85,22 +68,20 @@ function pathos_javascript_class($object, $name) {
 	return $js;
 }
 
-/**
- * Translate a PHP object into a Javascript object
- *
+/* exdoc
  * Takes a stdClass object from PHP, and generates the
  * corresponding Javascript calls to make a new Javascript
  * object.  In order for the resulting Javascript to function
  * properly, a call to pathos_javascript_class must have been
- * made previously, and the same $name attribute used.
+ * made previously, and the same $name attribute used. Returns
+ * the javascript code to create a new object.
  *
  * The data in the members of the PHP object will be used to
  * populate the members of the new Javascript object.
  *
  * @param Object $object The object to translate
  * @param string $name The name of the javascript class
- *
- * @return string The javascript code to create a new object.
+ * @node Subsystems:Javascript
  */
 function pathos_javascript_object($object, $name) {
 	$js = "new $name(";
@@ -113,16 +94,13 @@ function pathos_javascript_object($object, $name) {
 	return substr($js,0,-1) . ")";
 }
 
-/**
- * Translate a PHP Array into a Javascript Array
- *
+/* exdoc
  * Generates the Javascript code to instantiate an array
- * identical to the passed array.
+ * identical to the passed array.  Returns The javascript code
+ * to create and populate the array in javascript.
  *
  * @param $array The PHP array to translate
- *
- * @return The javascript code to create and populate
- *	the array in javascript.
+ * @node Subsystems:Javascript
  */
 function pathos_javascript_array($array) {
 	$js = "new Array( ";

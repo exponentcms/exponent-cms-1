@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Workflow Subsystem Info
- *
- * Provides reflective information about the Workflow Subsystem implementation
- *
- * @package		Subsystems
- * @subpackage	Workflow
- *
- * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
- * @version		0.95
- */
-
 return array(
-	"name"=>"Extensible Workflow",
-	"author"=>"James Hunt",
-	"description"=>"Provides the ability to create and manage approval policies and workflow.",
-	"version"=>pathos_core_version(true)
+	'name'=>'Extensible Workflow',
+	'author'=>'James Hunt',
+	'description'=>'Provides the ability to create and manage approval policies and workflow.',
+	'version'=>pathos_core_version(true)
 );
 
 ?>
