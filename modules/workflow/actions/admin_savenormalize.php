@@ -31,9 +31,12 @@
 # $Id$
 ##################################################
 
+// Part of the Administration Control Panel : Workflow category
+
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$policy = unserialize(stripslashes($_POST['policy']));
 	
 	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");

@@ -33,7 +33,8 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$action = null;
 	if (isset($_POST['id'])) {
 		$action = $db->selectObject("workflowaction","id=".$_POST['id']);
@@ -56,6 +57,8 @@ if ($user && $user->is_acting_admin) {
 	
 	
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

@@ -33,17 +33,12 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
-	$action_a = $db->selectObject("workflowaction","policy_id=".$_GET['policy_id']." AND type=".$_GET['type']." AND rank=".$_GET['a']);
-	$action_b = $db->selectObject("workflowaction","policy_id=".$_GET['policy_id']." AND type=".$_GET['type']." AND rank=".$_GET['b']);
-	
-	$action_a->rank = $_GET['b'];
-	$action_b->rank = $_GET['a'];
-	
-	$db->updateObject($action_a,"workflowaction");
-	$db->updateObject($action_b,"workflowaction");
-	
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	$db->switchValues("workflowaction","rank",$_GET['a'],$_GET['b'],"policy_id=".$_GET['policy_id']." AND type=".$_GET['type']);
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

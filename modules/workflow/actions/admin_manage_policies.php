@@ -30,30 +30,30 @@
 #
 # $Id$
 ##################################################
+// GREP:REFACTOR
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Workflow category
 
-$loc = pathos_core_makeLocation("workflow");
+if (!defined('PATHOS')) exit('');
 
-if ($user && $user->is_acting_admin == 1) {
+$loc = pathos_core_makeLocation('workflow');
+
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	$policies = $db->selectObjects("approvalpolicy");
-	if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-	usort($policies,"pathos_sorting_byNameAscending");
+	$policies = $db->selectObjects('approvalpolicy');
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	usort($policies,'pathos_sorting_byNameAscending');
 	
-	$template = new Template("workflow","_policymanager",$loc);
-	$template->assign("policies",$policies);
+	$template = new template('workflow','_policymanager',$loc);
+	$template->assign('policies',$policies);
 	$template->output();
 	
-	// NOW do the defautl associations
-	// Used to sort the sources for the viewer.
-	function prettySourceCmp($a,$b) {
-		return strnatcmp($a['prettySource'],$b['prettySource']);
-	}
+	// NOW do the defaultassociations
 	
 	$policies = array();
-	foreach ($db->selectObjects("approvalpolicy") as $pol) {
+	foreach ($db->selectObjects('approvalpolicy') as $pol) {
 		$policies[$pol->id] = $pol;
 	}
 	
@@ -68,34 +68,32 @@ if ($user && $user->is_acting_admin == 1) {
 		
 		// Grab all policies
 		$assocs = array();
-		foreach ($db->selectObjects("approvalpolicyassociation","module='$mod' AND is_global=0") as $assoc) {
+		foreach ($db->selectObjects('approvalpolicyassociation',"module='$mod' AND is_global=0") as $assoc) {
 			$assocs[$assoc->source] = $assoc->policy_id;
 		}
 		
-		$default = $db->selectObject("approvalpolicyassociation","module='$mod' AND is_global=1");
+		$default = $db->selectObject('approvalpolicyassociation',"module='$mod' AND is_global=1");
 		$defaults[$mod] = $default->policy_id;
 		
 		// Now grab all the sources.
-		foreach ($db->selectObjects("locationref","module='$mod'") as $ref) {
+		foreach ($db->selectObjects('locationref',"module='$mod'") as $ref) {
 			$modules[$mod][] = array(
-				"source"=>$ref->source,
-				"prettySource"=>pathos_core_translateLocationSource($ref->source),
-				"policy_id"=>(isset($assocs[$ref->source])?$assocs[$ref->source]:0)
+				'source'=>$ref->source,
+				'policy_id'=>(isset($assocs[$ref->source])?$assocs[$ref->source]:0)
 			);
 		}
-		
-		uasort($modules[$mod],"prettySourceCmp");
-		
 	}
-	uksort($modules,"strnatcmp");
+	uksort($modules,'strnatcmp');
 	
-	$template = new Template("workflow","_assocviewer",$loc);
-	$template->assign("modules",$modules);
-	$template->assign("names",$names);
-	$template->assign("defaults",$defaults);
-	$template->assign("policies",$policies);
-	$template->assign("policy_count",count($policies));
+	$template = new template('workflow','_assocviewer',$loc);
+	$template->assign('modules',$modules);
+	$template->assign('names',$names);
+	$template->assign('defaults',$defaults);
+	$template->assign('policies',$policies);
+	$template->assign('policy_count',count($policies));
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

@@ -33,7 +33,8 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 
 	$policy = $db->selectObject("approvalpolicy","id=".$_GET['id']);
 	
@@ -70,6 +71,8 @@ if ($user && $user->is_acting_admin) {
 			pathos_flow_redirect();
 		}
 	} else echo SITE_404_HTML;
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>
