@@ -41,7 +41,7 @@ if (isset($_POST['c'])) {
 include_once("../pathos.php");
 define("SCRIPT_RELATIVE",PATH_RELATIVE."install/");
 define("SCRIPT_ABSOLUTE",BASE."install/");
-define("SCRIPT_FILENAME","install.php");
+define("SCRIPT_FILENAME","index.php");
 
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -60,20 +60,62 @@ define("SCRIPT_FILENAME","install.php");
 	}
 	
 	</script>
+	<style type="text/css">
+		body {
+			background-color: #CCC;
+			margin: 0px;
+			padding: 2em;
+		}
+		
+		td.step {
+			border-bottom: 1px solid black;
+			background-color: #dedede;
+			padding: 3px;
+			padding-left: 1.5em;
+			font-size: 10pt;
+			font-family: sans-serif;
+			font-weight: bold;
+			color: black;
+		}
+		td.completed {
+			background-color: #9c9c9c;
+			color: white;
+		}
+		
+		td.header {
+			font-family: sans-serif;
+			font-size: 32px;
+			line-height: 14px;
+			color: white;
+			padding: 0px;
+			margin: 0px;
+			padding-right: 0.5em;
+		}
+		
+		td.bar {
+			background-color: #7a85a6;
+		}
+	</style>
 </head>
 <body>
-	<div align="right" class="logo_installer">
-	<img src="images/logo-installer.png" />
-	</div>
-	
-	<div class="content_area">
+	<table cellspacing="0" cellpadding="0" border="0" style="border: 1px solid black;" rules="all" width="100%" height="100%">
+	<tr>
+		<td colspan="2" align="right" class="header bar" height="40px">exponent installer</td>
+	</tr>
+	<tr>
+		<td width="200" class="bar" valign="top">
+			<?php include('nav.php'); ?>
+		</td>
+		<td style="background-color: white; padding: 1em; font-family: sans-serif;" valign="top">
 		<?php
 	
-	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "sanity");
-	if (file_exists("pages/$page.php")) include("pages/$page.php");
-	else echo "Unknown installer page ($page)<br />";
-	//GREP:HARDCODEDTEXT
-	?>
-	</div>
+		$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "welcome");
+		if (file_exists("pages/$page.php")) include("pages/$page.php");
+		else echo "Unknown installer page ($page)<br />";
+		//GREP:HARDCODEDTEXT
+		?>
+		</td>
+	</tr>
+	</table>
 </body>
 </html>
