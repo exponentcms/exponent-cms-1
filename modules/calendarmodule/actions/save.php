@@ -72,6 +72,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 			if (count($_POST['dates']) == count($eventdates)) {
 				// yes.  just update the original
 				$db->updateObject($item,"calendar");
+				// If the date has changed, modify the current date_id
 			} else {
 				// No, create new and relink affected dates
 				$olditem = $db->selectObject("calendar","id=".$item->id);
@@ -85,7 +86,13 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 						$db->updateObject($eventdates[$date_id],"eventdate");
 					}
 				}
-			}
+			}			
+			$eventdate = $db->selectObject('eventdate','id='.$_POST['date_id']);
+			echo '<xmp>';
+			print_r($eventdate);
+			echo '</xmp>';
+			$eventdate->date = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			$db->updateObject($eventdate,'eventdate');
 		} else {
 			$item->approved = 1;
 			$db->updateObject($item,"calendar");
