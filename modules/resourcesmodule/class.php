@@ -94,7 +94,7 @@ class resourcesmodule {
 			);
 		}
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		usort($resources,'pathos_sorting_byNameAscending');
+		usort($resources,'pathos_sorting_byRankAscending');
 		
 		$rfiles = array();
 		foreach ($db->selectObjects('file',"directory='$directory'") as $file) {
