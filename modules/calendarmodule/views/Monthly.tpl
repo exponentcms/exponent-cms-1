@@ -38,12 +38,12 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 	<a href="{link action=configure _common=1}" title="Configure this Calendar Module" alt="Configure this Calendar Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" /></a>
 {/if}
 {/permissions}
-<table cellspacing="0" cellpadding="2" width="100%" style="border: 1px solid #DDD; border-collapse: collapse" rules="all" class="calendar_monthly">
+<table cellspacing="0" cellpadding="0" width="100%" style="border: 1px solid #DDD; border-collapse: collapse" rules="all" class="calendar_monthly">
 <tbody>
 <tr><td align="left">
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif" title="Previous Month" alt="Previous Month" /></a>
 </td>
-<td align="center" valign="top" colspan="5">{if $moduletitle != ""}{$moduletitle} {/if}{$now|date_format:"%B"}</td>
+<td align="center" valign="top" colspan="5">{if $moduletitle != ""}{$moduletitle} {/if}{$now|date_format:"%B %Y"}</td>
 <td align="right">
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif" title="Next Month" alt="Next Month" /></a>
 </td></tr>
@@ -63,30 +63,15 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 			{assign var=number value=$counts[$weeknum][$day]}
 			<td width="14%" align="left" valign="top" style="height: 100px; {if $number == -1}background-color: #EEE;{/if}">
 				{if $number != -1}{math equation="x+86400" x=$dayts assign=dayts}{/if}
-				{if $smarty.foreach.w.first == 1}
-					<table cellspacing="0" cellpadding="0" width="100%"><tr><td>
-					{if $number > -1}
-						{if $number == 0}
-							{$day}
-						{else}
-							<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayts}" title="{$dayts|date_format:"%A, %B %e, %Y"}" alt="{$dayts|date_format:"%A, %B %e, %Y"}">{$day}</a>
-						{/if}
+				{if $number > -1}
+					<div style="border-bottom:1px solid lightgrey; padding: 2px; margin-bottom: .25em; background-color: #DDD">
+					{if $number == 0}
+						{$day}
 					{else}
+						<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayts}" title="{$dayts|date_format:"%A, %B %e, %Y"}" alt="{$dayts|date_format:"%A, %B %e, %Y"}">{$day}</a>
 					{/if}
-					</td><td align="right">
-					<a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$dayts}" title="Week of {$dayts|date_format:"%A, %B %e, %Y"}" alt="Week of {$dayts|date_format:"%A, %B %e, %Y"}">Week</a>
-					</td></tr></table>
-				{else}
-					{if $number > -1}
-						{if $number == 0}
-							{$day}
-						{else}
-							<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayts}" title="{$dayts|date_format:"%A, %B %e, %Y"}" alt="{$dayts|date_format:"%A, %B %e, %Y"}">{$day}</a>
-						{/if}
-					{else}
-					{/if}
+					</div>
 				{/if}
-				<br />
 				{foreach name=e from=$events item=event}
 					{assign var=catid value=0}
 					{if $__viewconfig.colorize == 1 && $modconfig->enable_categories}{assign var=catid value=$event->category_id}{/if}
