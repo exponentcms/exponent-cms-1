@@ -51,6 +51,9 @@ if ($user && $user->is_admin == 1) {
 		// The 'id=x' where clause is implicit with an updateObject
 		$db->updateObject($section,'section');
 	} else {
+		// Since this is new, we need to increment ranks, in case the user
+		// added it in the middle of the level.
+		$db->increment('section','rank',1,'rank >= ' . $section->rank . ' AND parent=' . $section->parent);
 		// New section.  Insert a new database record.
 		$db->insertObject($section,'section');
 	}

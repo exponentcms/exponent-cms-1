@@ -45,9 +45,15 @@ if ($user && $user->is_admin == 1) {
 	// Still have to do some pageset processing, mostly handled by a handy
 	// member method of the navigationmodule class.
 	
+	// Since this is new, we need to increment ranks, in case the user
+	// added it in the middle of the level.
+	$db->increment('section','rank',1,'rank >= ' . $section->rank . ' AND parent=' . $section->parent);
+	
 	// New section (Pagesets always are).  Insert a new database
 	// record, and save the ID for the processing methods that need them.
 	$section->id = $db->insertObject($section,'section');
+	// Process the pageset, to add sections and subsections, as well as default content
+	// that the pageset writer added to each element of the set.
 	navigationmodule::process_section($section,$_POST['pageset']);
 	
 	// Go back to where we came from.  Probably the navigation manager.
