@@ -59,7 +59,6 @@ if (!defined("PATHOS")) exit("");
 		if ($item->feedback_form != "") {
 			echo '<br>The form name is '.$item->feedback_form.'<br>';
 			$formtemplate = new formtemplate('email', $item->feedback_form);
-			//$formtemplate = new formtemplate('email', 'contactform');
 			$formtemplate->assign('formname', $item->feedback_form);
 			$formtemplate->assign('module','calendarmodule');
 			$formtemplate->assign('loc', $loc);
