@@ -52,7 +52,7 @@ if ($user && ($list == null || $list->owner == $user->id)) {
 	$member = null;
 	$member->list_id = $list->id;
 	
-	foreach (explode(":",$_POST['members']) as $id) {
+	foreach ($list->_members as $id) {
 		if ($id != "") {
 			$member->user_id = $id;
 			$db->insertObject($member,"inbox_contactlist_member");
