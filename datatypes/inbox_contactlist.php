@@ -33,6 +33,10 @@
 
 class inbox_contactlist {
 	function form($object) {
+	
+		pathos_lang_loadDictionary('modules','inboxmodule');
+		pathos_lang_loadDictionary('standard','core');
+
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
@@ -45,8 +49,8 @@ class inbox_contactlist {
 			$form->meta("id",$object->id);
 		}
 		
-		$form->register("name","Group Name",new textcontrol($object->name));
-		$form->register("description","Description",new texteditorcontrol($object->description));
+		$form->register("name",TR_INBOXMODULE_GROUPNAME,new textcontrol($object->name));
+		$form->register("description",TR_INBOXMODULE_DESCRIPTION,new texteditorcontrol($object->description));
 		
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 		global $user;
@@ -88,9 +92,9 @@ class inbox_contactlist {
 			unset($users[$tmp]);
 		}
 		
-		$form->register("members","Members",new listbuildercontrol($members,$users));
+		$form->register("members",TR_INBOXMODULE_MEMBERS,new listbuildercontrol($members,$users));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
