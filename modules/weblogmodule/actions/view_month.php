@@ -42,10 +42,14 @@ $start_month = pathos_datetime_startOfMonthTimestamp($time);
 $end_month = pathos_datetime_endOfMonthTimestamp($time);
 
 $where = "location_data='".serialize($loc)."' AND posted >= $start_month AND posted <= $end_month";
-if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
+if (!pathos_permissions_check('view_private',$loc)) {
+	$where .= ' AND is_private = 0';
+}
 
 $config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
-if ($config == null) $config->allow_comments = true;
+if ($config == null) {
+	$config->allow_comments = 1;
+}
 
 $posts = $db->selectObjects('weblog_post',$where);
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');

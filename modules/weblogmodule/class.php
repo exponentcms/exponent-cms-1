@@ -82,7 +82,7 @@ class weblogmodule {
 		global $db;
 		$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
-			$config->allow_comments = true;
+			$config->allow_comments = 1;
 			$config->items_per_page = 10;
 		}
 		

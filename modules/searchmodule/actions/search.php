@@ -144,7 +144,7 @@ if (!defined("PATHOS")) exit("");
 			
 				$result->sum = str_replace("\n","<br />",$result->sum);
 				
-				if ($config->is_categorized) {
+				if ($config->is_categorized == 1) {
 					if (!isset($results[$r->category])) {
 						$results[$r->category] = array();
 					}
