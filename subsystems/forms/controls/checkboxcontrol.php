@@ -85,7 +85,7 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	function controlToHTML($name) {
-		$html = '<input type="checkbox" name="' . $name . '"';
+		$html = '<input type="checkbox" name="' . $name . '" value="1"';
 		if ($this->default) $html .= ' checked';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
