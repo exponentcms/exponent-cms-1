@@ -258,11 +258,10 @@ function pathos_theme_main() {
 		$section = $db->selectObject("section","id=".$last_section);
 		
 		// View authorization will be taken care of by the runAction and mainContainer functions
-		
-		if ($section == null) {
-			pathos_theme_goDefaultSection();
-		} else if (pathos_theme_inAction()) {
+		if (pathos_theme_inAction()) {
 			pathos_theme_runAction();
+		} else if ($section == null) {
+			pathos_theme_goDefaultSection();
 		} else {
 			pathos_theme_mainContainer();
 		}
