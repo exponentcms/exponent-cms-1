@@ -14,6 +14,8 @@ define('TR_WEBLOGMODULE_COMMENTBODY',		'Comment');
 define('TR_WEBLOGMODULE_ALLOWCOMMENTS',		'Allow Comments?');
 define('TR_WEBLOGMODULE_POSTSPERPAGE',		'Posts per Page');
 
+define('TR_WEBLOGMODULE_RE',				'Re: %s');
+
 // Permissions
 define('TR_WEBLOGMODULE_PERM_ADMIN',		'Administrate');
 define('TR_WEBLOGMODULE_PERM_CONFIG',		'Configure');

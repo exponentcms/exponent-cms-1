@@ -13,6 +13,8 @@ define('TR_CALENDARMODULE_RECURRENCE',			'Recurrence');
 define('TR_CALENDARMODULE_ENABLECATEGORIES',	'Enable Categories?');
 define('TR_CALENDARMODULE_ENABLEFEEDBACK',		'Enable Feedback?');
 
+define('TR_CALENDARMODULE_RECURRENCEWARNING',	'This event is a recurring event, and occurs on the dates below.  Select which dates you wish to apply these edits to.');
+
 // Permissions
 define('TR_CALENDARMODULE_PERM_ADMIN',			'Administrate');
 define('TR_CALENDARMODULE_PERM_CONFIG',			'Configure');

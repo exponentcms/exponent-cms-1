@@ -13,4 +13,7 @@ define('TR_SHAREDCOREMODULE_SITECORE',			'Codebase');
 define('TR_SHAREDCOREMODULE_SITENAME',			'Site Name');
 define('TR_SHAREDCOREMODULE_SITEPATH',			'Path');
 
+define('TR_SHAREDCOREMODULE_MODULES',			'Modules');
+define('TR_SHAREDCOREMODULE_THEMES',			'Themes');
+
 ?>

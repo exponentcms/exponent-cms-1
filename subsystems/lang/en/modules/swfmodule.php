@@ -14,4 +14,7 @@ define('TR_SWFMODULE_ALIGNEMENT',				'Alignment');
 define('TR_SWFMODULE_FLASHFILE',				'Flash File');
 define('TR_SWFMODULE_ALTIMAGE',					'No Flash<br>Alternative Image');
 
+deinfe('TR_SWFMODULE_KEEPOLDFLASH',				'*Leave Flash File blank to keep existing.');
+deinfe('TR_SWFMODULE_KEEPOLDIMAGE',				'*Leave Alternative Image blank to keep existing.');
+
 ?>
