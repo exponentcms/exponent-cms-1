@@ -48,8 +48,7 @@ if (isset($_GET['id'])) {
 		$template->assign("is_orphan",0);
 		$template->assign("container",$container);
 	} else {
-		echo SITE_404_HTML;
-		exit();
+		exit(''.SITE_404_HTML);
 	}
 } else {
 	$locref = $db->selectObject("locationref","module='".$_GET['mod']."' AND source='".$_GET['src']."'");
