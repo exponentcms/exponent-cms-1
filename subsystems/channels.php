@@ -19,10 +19,13 @@ function pathos_channels_typeName($type) {
 
 }
 
-function pathos_channels_list($type) {
+function pathos_channels_list($type,$exclude_loc = null) {
 	global $db;
+	if (is_object($exclude_loc)) {
+		$exclude_loc = serialize($exclude_loc);
+	}
 	$channels = array();
-	foreach ($db->selectObjects('channel',"type='".$type."'") as $c) {
+	foreach ($db->selectObjects('channel',"type='".$type."' AND location_data != '".$exclude_loc."'") as $c) {
 		$channels[$c->id] = $c->name;
 	}
 	return $channels;
