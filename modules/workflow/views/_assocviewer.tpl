@@ -51,10 +51,10 @@ To override defaults, or apply a policy to just one module, click <a class="mngm
 	<td>
 		{if $policy_count != 0}
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=assoc_edit m=$module p=$def}">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 		</a>
 		{else}
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" />
+			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" />
 			&nbsp;
 		{/if}
 	</td>

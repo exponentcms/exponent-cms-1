@@ -80,7 +80,6 @@ class sharedcoremodule {
 			}	
 		}
 		$template->assign("cores",$cores);
-		$template->assign("linkbase","?module=sharedcoremodule&action=");
 		$template->assign("moduletitle",$title);
 		
 		$template->output();

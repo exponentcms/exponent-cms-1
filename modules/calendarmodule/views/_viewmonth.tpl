@@ -31,11 +31,11 @@
 <table cellspacing="0" cellpadding="2" width="100%" style="border: 1px solid #DDD; border-collapse: collapse" rules="all">
 <tbody>
 <tr><td align="left">
-<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.png"/></a>
+<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}left.png"/></a>
 </td>
 <td align="center" valign="top" colspan="5">{$now|format_date:"%B"}</td>
 <td align="right">
-<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.png"/></a>
+<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}right.png"/></a>
 </td></tr>
 <tr>
 	<td align="center" style="font-weight:bold">Sunday</td>

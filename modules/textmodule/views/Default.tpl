@@ -30,20 +30,20 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}{permissions perm=1}
-	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Text Module" alt="Assign user permissions on this Text Module" /></a>&nbsp;
-	<a class="poermlink" href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Text Module" alt="Assign group permissions on this Text Module" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Text Module" alt="Assign user permissions on this Text Module" /></a>&nbsp;
+	<a class="poermlink" href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Text Module" alt="Assign group permissions on this Text Module" /></a>
 	{/permissions}
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Text Module" alt="Change the configuration of this Text Module" /></a>
+	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Text Module" alt="Change the configuration of this Text Module" /></a>
 {/if}
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1}
 	{if $textitem->approved != 1}
-		<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" border="0" title="Editting Disabled - Text In Approval" alt="Editting Disabled - Text In Approval" />&nbsp;
+		<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" border="0" title="Editting Disabled - Text In Approval" alt="Editting Disabled - Text In Approval" />&nbsp;
 	{else}
-		<a class="mngmntlink text_mngmntlink" href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Text" alt="Edit this Text" /></a>
+		<a class="mngmntlink text_mngmntlink" href="{link action=edit id=$textitem->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Text" alt="Edit this Text" /></a>
 	{/if}
 {/if}
 {if $textitem->approved != 1 && ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1)}

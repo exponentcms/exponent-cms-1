@@ -31,7 +31,7 @@
 <div class="form_title">Data Importers</div>
 <div class="form_header">This page lists all installed importers that Exponent recognizes, gives some information about each
 <br /><br />
-To install a new data importer, use the <a class="mngmntlink administration_mngmntlink" href="{$linkbase}upload_extension">Extension Upload</a> form.</div>
+To install a new data importer, use the <a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension module=administrationmodule}">Extension Upload</a> form.</div>
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	{foreach from=$importers item=importer key=impname}
 	<tr>

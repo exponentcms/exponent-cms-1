@@ -49,7 +49,7 @@
 			{foreach from=$sections item=section}
 			{if $section->numParents != 0 && ($section->parents[0] == $current->parents[0] || $section->parents[0] == $current->id)}
 			<div style="padding-left: {math equation="x*20-20" x=$section->depth}px">
-			<a href="{link section=$section->id}" class="navlink">{$section->name}</a>&nbsp;
+			<a href="{$section->link}" class="navlink">{$section->name}</a>&nbsp;
 			</div>
 			{assign var=haveAny value=1}
 			{/if}

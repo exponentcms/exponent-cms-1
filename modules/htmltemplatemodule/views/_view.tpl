@@ -32,12 +32,12 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1}
 <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=edit id=$template->id}">
-	<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this HTML Template" alt="Edit this HTML Template" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this HTML Template" alt="Edit this HTML Template" />
 </a>
 {/if}
 {if $permissions.delete == 1}
 <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=delete id=$template->id}" onClick="return confirm('Are you sure you want to delete this HTML Template?');">
-	<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this HTML Template" alt="Delete this HTML Template" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this HTML Template" alt="Delete this HTML Template" />
 </a>
 {/if}
 {/permissions}

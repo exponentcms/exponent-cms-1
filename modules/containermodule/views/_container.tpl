@@ -46,25 +46,14 @@
 							{if $container->info.workflowPolicy != ""}<br />Uses '{$container->info.workflowPolicy}' Workflow Policy{/if}
 						</td>
 						<td align="right" valign="top">
-							{if $container->permissions.administrate == 1}
-								{*
-								<a href="{link action=userperms int=$container->id _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-								<a href="{link action=groupperms int=$container->id _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
-								*}
-								{*
-								<a href="{link module=$container->info.class src=$container->info.source action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this {$container->info.module}" alt="Assign user permissions on this {$container->info.module}" /></a>&nbsp;
-								<a href="{link module=$container->info.class src=$container->info.source action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this {$container->info.module}" alt=="Assign group permissions on this {$container->info.module}" /></a>
-								*}
-							{/if}
-						
 							{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 								<a href="{link action=edit id=$container->id}">
-									<img border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="Change the layout of this {$container->info.module}" alt="Change the layout of this {$container->info.module}" />
+									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="Change the layout of this {$container->info.module}" alt="Change the layout of this {$container->info.module}" />
 								</a>
 							{/if}
 							{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}
 								<a href="{link action=delete id=$container->id}" onClick="return confirm('Are you sure you want to delete this {$container->info.module}?');">
-									<img border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="Delete this {$container->info.module}" alt="Delete this {$container->info.module}" />
+									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="Delete this {$container->info.module}" alt="Delete this {$container->info.module}" />
 								</a>
 							{/if}
 							
@@ -92,7 +81,7 @@
 {else}
 	{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 	{if $permissions.add_module == 1 && $hidebox == 0}
-		<a href="{link action=edit rank=$rank}"><img border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="Add a new module here" alt="Add a new module here" /></a>
+		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="Add a new module here" alt="Add a new module here" /></a>
 	{/if}
 	{/permissions}
 {/if}

@@ -39,10 +39,10 @@
 		<td valign="top">
 			{if $permissions.manage == 1}
 			<a href="{link action=edit_item id=$item->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 			</a>
 			<a href="{link action=delete_item id=$item->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 			</a>
 			{/if}
 		</td>

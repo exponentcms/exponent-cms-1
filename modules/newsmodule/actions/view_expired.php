@@ -73,7 +73,6 @@ if ($hasperm) {
 	$template = new template("newsmodule","_view_unpublished",$loc);
 	$template->assign("expired",$expired);
 	$template->assign("unpublished",$unpub);
-	$template->assign("linkbase","?module=newsmodule&src=".$loc->src."&int=".$loc->int."&action=");
 	$template->register_permissions(
 		array("edit_item","delete_item"),
 		$loc);

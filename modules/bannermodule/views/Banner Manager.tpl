@@ -40,15 +40,15 @@
 <tr>
 	<td valign="top">
 		{$banner->name}<br />
-		<img src="{$smarty.const.PATH_RELATIVE}{$files[$fid]->directory}/{$files[$fid]->filename}" />
+		<img class="mngmnt_icon" src="{$smarty.const.PATH_RELATIVE}{$files[$fid]->directory}/{$files[$fid]->filename}" />
 	</td>
 	<td valign="top">{$affiliates[$aid]}</td>
 	<td valign="top">
 		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_edit id=$banner->id}">
-			<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
 		</a>
 		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_delete id=$banner->id}" onClick="return confirm('Are you sure you want to delete \'{$banner->name}\'?');">
-			<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 		</a>
 	</td>
 </tr>

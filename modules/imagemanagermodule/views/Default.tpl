@@ -32,11 +32,11 @@
 {if $moduletitle != ""}<div class="moduletitle imagemanager_moduletitle">{$moduletitle}</div>{/if}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Image Manager" alt="Assign user permissions on this Image Manager" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Image Manager" alt="Assign group permissions on this Image Manager" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Image Manager" alt="Assign user permissions on this Image Manager" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Image Manager" alt="Assign group permissions on this Image Manager" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Image Manager" alt="Change the configuration of this Image Manager" /></a>
+	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Image Manager" alt="Change the configuration of this Image Manager" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -77,12 +77,12 @@
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.edit == 1}
 			<a class="mngmntlink imagemanager_mngmntlink" href="{link action=edit id=$item->id}" title="Edit this Image" alt="Edit this Image" />
-				<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
 			</a>
 			{/if}
 			{if $permissions.delete == 1}
 			<a class="mngmntlink imagemanager_mngmntlink" href="{link action=delete id=$item->id}" onClick="return confirm('Are you sure you want to delete this Image?');">
-				<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Image" alt="Delete this Image" />
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Image" alt="Delete this Image" />
 			</a>
 			{/if}
 			{/permissions}

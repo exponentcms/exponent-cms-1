@@ -50,7 +50,7 @@
 		<td>{$message->date_sent|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 		<td>
 			<a class="mngmntlink inbox_mngmntlink" href="{link action=delete id=$message->id}" onClick="return confirm('Are you sure you want to delete this Private Message?');">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Private Message" alt="Delete this Private Message" />
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Private Message" alt="Delete this Private Message" />
 			</a>
 		</td>
 	</tr>

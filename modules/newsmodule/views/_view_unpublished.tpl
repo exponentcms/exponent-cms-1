@@ -39,23 +39,23 @@
 	{foreach from=$expired item=n}
 		<tr>
 			<td>
-				<a class="mngmntlink news_mngmntlink" href="{$linkbase}view&id={$n->id}">{$n->title}</a>
+				<a class="mngmntlink news_mngmntlink" href="{link action=view id=$n->id}">{$n->title}</a>
 			</td>
 			<td>{$n->unpublish|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 			<td>{time_duration assign=td duration=$n->difference type="dhm"}{$td.d} day{if $td.d != 1}s{/if}, {$td.h} hour{if $td.h != 1}s{/if} and {$td.m} minute{if $td.m != 1}s{/if}</td>
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{$linkbase}edit&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
 					{else}
-					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{$linkbase}delete&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
+					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
 					{/if}
 				{/if}
 			</td>
@@ -79,23 +79,23 @@
 	{foreach from=$unpublished item=n}
 		<tr>
 			<td>
-				<a class="mngmntlink news_mngmntlink" href="{$linkbase}view&id={$n->id}">{$n->title}</a>
+				<a class="mngmntlink news_mngmntlink" href="{link action=view id=$n->id}">{$n->title}</a>
 			</td>
 			<td>{$n->publish|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 			<td>{time_duration assign=td duration=$n->difference type="dhm"}{$td.d} day{if $td.d != 1}s{/if}, {$td.h} hour{if $td.h != 1}s{/if} and {$td.m} minute{if $td.m != 1}s{/if} from now</td>
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{$linkbase}edit&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
 					{else}
-					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{$linkbase}delete&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
+					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
 					{/if}
 				{/if}
 			</td>

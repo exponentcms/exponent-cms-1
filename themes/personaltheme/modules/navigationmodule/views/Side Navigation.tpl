@@ -37,7 +37,7 @@
 				<tr>
 					<td width="84" bgcolor="#FFFFFF" style="padding-left: 5px">
 					{if $section->active == 1}
-					<a href="?section={$section->id}" class="navlink sidenav">{$section->name}</a>
+					<a href="{$section->link}" class="navlink sidenav">{$section->name}</a>
 					{else}
 					{$section->name}
 					{/if}
@@ -54,7 +54,7 @@
 	{/foreach}
 	<tr><td align="center">
 	{if $canManage == 1}
-	[ <a class="navlink" href="{$linkbase}manage">manage</a> ]
+	[ <a class="navlink" href="{link action=manage}">manage</a> ]
 	{/if}
 	</td></tr>
 </table>

@@ -43,12 +43,12 @@ To create a new user account, use the <a class="mngmntlink administration_mngmnt
 		var out = '';
 		if (object.var_is_admin == 0) {
 		{/literal}
-			out = '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_editprofile','id',object.var_id) +'"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>'+
-			  '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_delete','id',object.var_id) +'" onClick="return confirm(\'Are you sure you want to delete the user \\\'' + object.var_firstname + ' ' + object.var_lastname + '\\\'?\');"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>';
+			out = '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_editprofile','id',object.var_id) +'"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>'+
+			  '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_delete','id',object.var_id) +'" onClick="return confirm(\'Are you sure you want to delete the user \\\'' + object.var_firstname + ' ' + object.var_lastname + '\\\'?\');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>';
 			if (object.var_is_locked == 0) {ldelim}
-			   out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_lockuser','id',object.var_id,'value',1) +'"><img border="0" src="{$smarty.const.ICON_RELATIVE}lock.png" /></a>';
+			   out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_lockuser','id',object.var_id,'value',1) +'"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}lock.png" /></a>';
 			{rdelim} else {ldelim}
-			   out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_lockuser','id',object.var_id,'value',0) +'"><img border="0" src="{$smarty.const.ICON_RELATIVE}unlock.png" /></a>';
+			   out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_lockuser','id',object.var_id,'value',0) +'"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}unlock.png" /></a>';
 			{rdelim}
 			if (object.var_password != '{$blankpass}') {ldelim}
 				out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','umgr_clearpass','id',object.var_id) +'">Clear Password</a>';
@@ -59,8 +59,8 @@ To create a new user account, use the <a class="mngmntlink administration_mngmnt
 		{literal}
 		} else {
 		{/literal}
-			out = '<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" />' +
-				'<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" />';
+			out = '<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" />' +
+				'<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" />';
 		{literal}
 		}
 		return out;

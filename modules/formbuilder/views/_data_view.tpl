@@ -31,9 +31,9 @@
 {paginate objects=$items paginateName="dataView" modulePrefix="data" rowsPerPage=20}
 
 function links(object) {literal}{{/literal}
-	out = '<a href="{link action=view_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}view.png" /></a>'; 
-	out += '{if $permissions.editdata == 1}<a href="{link action=edit_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>{/if}'; 
-	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}" onClick="return confirm(\'Are you sure you want to delete this record?\');"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>{/if}'; 
+	out = '<a href="{link action=view_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}view.png" /></a>'; 
+	out += '{if $permissions.editdata == 1}<a href="{link action=edit_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>{/if}'; 
+	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}" onClick="return confirm(\'Are you sure you want to delete this record?\');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>{/if}'; 
 	
 	return out;
 {literal}}{/literal}

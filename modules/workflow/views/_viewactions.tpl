@@ -52,22 +52,22 @@ This approval policy reacts to each type of action using the listed actions (in 
 	</td>
 	<td align="right">
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_edit id=$action->id}">
-			<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/>
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/>
 		</a>
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_delete id=$action->id}">
-			<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/>
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/>
 		</a>
 	</td>
 	<td width="16">
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_switch a=$this b=$prev policy_id=$policy_id type=$type}">
 			{if $smarty.foreach.a.first == 0}
-			<img src="{$smarty.const.ICON_RELATIVE}up.png" border="0"/>
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" border="0"/>
 			{/if}
 		</a>
 	</td><td width="16">
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_switch a=$next b=$this policy_id=$policy_id type=$type}">
 			{if $smarty.foreach.a.last == 0}
-			<img src="{$smarty.const.ICON_RELATIVE}down.png" border="0"/>
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0"/>
 			{/if}
 		</a>
 	</td>

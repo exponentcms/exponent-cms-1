@@ -30,8 +30,8 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this HTML Template Editor" alt="Assign user permissions on this HTML Template Editor" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this HTML Template Editor" alt="Assign group permissions on this HTML Template Editor" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this HTML Template Editor" alt="Assign user permissions on this HTML Template Editor" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this HTML Template Editor" alt="Assign group permissions on this HTML Template Editor" /></a>
 	<br />
 {/if}
 {/permissions}
@@ -67,12 +67,12 @@ Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=manage_
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.edit == 1}
 		<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=edit id=$t->id}">
-			<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this HTML Template" alt="Edit this HTML Template" />
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this HTML Template" alt="Edit this HTML Template" />
 		</a>
 		{/if}
 		{if $permissions.delete == 1}
 		<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=delete id=$t->id}" onClick="return confirm('Are you sure you want to delete this HTML Template?');">
-			<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this HTML Template" alt="Delete this HTML Template" />
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this HTML Template" alt="Delete this HTML Template" />
 		</a>
 		{/if}
 		{/permissions}

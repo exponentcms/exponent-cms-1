@@ -36,11 +36,11 @@
 		<td>{$core->name} (version {$core->version})</td>
 		<td>{$core->path}</td>
 		<td>
-			<a class="mngmntlink sharedcore_mngmntlink" href="{$linkbase}edit_core&id={$core->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core id=$core->id}">
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 			</a>
-			<a class="mngmntlink sharedcore_mngmntlink" href="{$linkbase}delete_core&id={$core->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=delete_core id=$core->id}">
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 			</a>
 		</td>
 	</tr>
@@ -58,22 +58,22 @@
 			</td>
 			<td>
 				{if $site->inactive == 1}
-					<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}activate_site&id={$site->id}">
+					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=activate_site id=$site->id}">
 						Activate
 					</a>
 				{else}
-					<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}deactivate_form&id={$site->id}">
+					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=deactivate_form id=$site->id}">
 						Deactivate
 					</a>
 				{/if}
-				<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}refresh_site&id={$site->id}">
+				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=refresh_site id=$site->id}">
 					Refresh
 				</a>
-				<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}edit_site&id={$site->id}">
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=edit_site id=$site->id}">
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 				</a>
-				<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}delete_site&id={$site->id}">
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}">
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 				</a>
 			</td>
 		</tr>
@@ -89,9 +89,9 @@
 	<tr><td align="center"><i>No codebases found</td></tr>
 {/foreach}
 </table>
-<a class="mngmntlink sharedcore_mngmntlink" href="{$linkbase}edit_core">New Codebase</a>
+<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core}">New Codebase</a>
 
 {if $nocores == 0}
 <br />
-<a class="mngmntlink sharedcore_mngmntlink" href="{$linkbase}edit_site&core_id={$core->id}">Deploy New Site</a>
+<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_site core_id=$core->id}">Deploy New Site</a>
 {/if}

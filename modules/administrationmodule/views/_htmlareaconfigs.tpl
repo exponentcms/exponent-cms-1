@@ -49,14 +49,14 @@ To create a new toolbar, use the <a class="mngmntlink administration_mngmntlink"
 			</td>
 			<td>
 				<a class="mngmntlink administration_mngmntlink" href="{link action=htmlarea_editconfig id=$config->id}">
-					<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
 				</a>
 				{if $config->active == 0}
 				<a class="mngmntlink administration_mngmntlink" href="{link action=htmlarea_deleteconfig id=$config->id}">
-					<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 				</a>
 				{else}
-				<img src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" border="0" />
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" border="0" />
 				{/if}
 			</td>
 		</tr>

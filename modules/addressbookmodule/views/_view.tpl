@@ -32,12 +32,12 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1}
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=edit id= $contact->id}">
-		<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this Address Contact" alt="Edit this Address Contact" />
+		<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this Address Contact" alt="Edit this Address Contact" />
 	</a>
 	{/if}
 	{if $permissions.delete == 1}
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=delete id=$contact->id}" onClick="return confirm('Really delete this Address Contact?');">
-		<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Address Contact" alt="Delete this Address Contact" />
+		<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Address Contact" alt="Delete this Address Contact" />
 	</a>
 	{/if}
 {/permissions}

@@ -45,8 +45,8 @@
 		</td>
 		<td valign="top">{$policy->description}</td>
 		<td valign="top">
-			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy id=$policy->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/></a>
-			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_confirmdeletepolicy id=$policy->id}"><img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/></a>
+			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy id=$policy->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/></a>
+			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_confirmdeletepolicy id=$policy->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/></a>
 			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_viewactions id=$policy->id}">Manage Actions</a>
 			<br />
 		</td>
