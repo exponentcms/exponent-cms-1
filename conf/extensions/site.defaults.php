@@ -54,6 +54,6 @@ define("FILE_DEFAULT_MODE",octdec(FILE_DEFAULT_MODE_STR+0));
 if (!defined("DIR_DEFAULT_MODE_STR")) define("DIR_DEFAULT_MODE_STR","0700");
 define("DIR_DEFAULT_MODE",octdec(DIR_DEFAULT_MODE_STR+0));
 
-if (!defined('LANG')) define('LANG','en');
+if (!defined('USE_LANG')) define('USE_LANG','en');
 
 ?>

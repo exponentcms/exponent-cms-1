@@ -39,7 +39,7 @@ return array(
 			"description"=>"The title of the website.",
 			"control"=>new textcontrol()
 		),
-		'LANG'=>array(
+		'USE_LANG'=>array(
 			'title'=>'Interface Language',
 			'description'=>'What language should be used for the Exponent interface?',
 			'control'=>new dropdowncontrol(0,pathos_lang_list())
