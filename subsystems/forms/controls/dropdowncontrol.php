@@ -132,7 +132,7 @@ class dropdowncontrol extends formcontrol {
 		$object->identifier = $values['identifier'];
 		$object->caption = $values['caption'];
 		$object->default = ""; //$values['default'];
-		$object->items = listbuildercontrol::parseData($values['items']);
+		$object->items = listbuildercontrol::parseData($values,'items');
 		$object->multiple = isset($values['multiple']);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
 		pathos_forms_cleanup();
