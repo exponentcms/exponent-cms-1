@@ -44,6 +44,7 @@ $userinfo->username = "";
 $userinfo->firstname = "";
 $userinfo->lastname = "";
 $userinfo->is_admin = 0;
+$userinfo->is_acting_admin = 0;
 $userinfo->is_locked = 0;
 $userarray = array();
 $usersdone = array();
@@ -129,14 +130,14 @@ if ($linenum >= $post["rowstart"]){
 			break;
 		case "DEFPASS":
 			//Check to make sure the user filled out the required input.
-			if (!isset($_POST["pwordText"])){
-        			$post = $_POST;
-        			unset($post['pwordText']);
-        			$post['_formError'] = "You chose to use a default password for the imported users.  You must enter a password.";
-        			pathos_sessions_set("last_POST",$post);
-        			header("Location: " . $_SERVER['HTTP_REFERER']);
-        			exit("");
-			}
+			//if ($_POST["pwordText"] == ""){
+        		//	$post = $_POST;
+			//	unset($post['pwordText']);
+        		//	$post['_formError'] = TR_IMPORTER_USERCSV_NOPASS_ERROR;
+        		//	pathos_sessions_set("last_POST",$post);
+        		//	header("Location: " . $_SERVER['HTTP_REFERER']);
+        		//	exit("");
+			//}
 			$userinfo->clearpassword = str_replace(" ", "", trim($_POST["pwordText"]));
 			break;
 		}

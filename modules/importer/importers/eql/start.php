@@ -36,14 +36,17 @@ if (!defined("PATHOS")) exit("");
 if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 
+//Get the I18N constants
+pathos_lang_loadDictionary('imports', 'eql');
+
 $form = new form();
 $form->meta("module","importer");
 $form->meta("action","page");
 $form->meta("importer","eql");
 $form->meta("page","process");
 
-$form->register("file","EQL File",new uploadcontrol());
-$form->register("submit","",new buttongroupcontrol("Restore","",""));
+$form->register("file",TR_IMPORTERMODULE_EQL_EQLFILE,new uploadcontrol());
+$form->register("submit","",new buttongroupcontrol(TR_IMPORTERMODULE_EQL_RESTOREBUTTON,"",""));
 
 $template = new template("importer","_eql_restoreForm",$loc);
 $template->assign("form_html",$form->toHTML());

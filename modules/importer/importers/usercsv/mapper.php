@@ -35,6 +35,9 @@
 if (!defined("PATHOS")) exit("");
 if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 
+//Get the I18N stuff
+pathos_lang_loadDictionary('importers', 'usercsv');
+
 //Get the post data for future massaging
 $post = $_POST;
 
@@ -89,16 +92,16 @@ for ($x=0; $x<$_POST["rowstart"]; $x++){
 }
 
 $colNames = array(
-	"none"=>"--Disregard this column--",
-	"username"=>"Username",
-	"password"=>"Password",
-	"firstname"=>"First Name",
-	"lastname"=>"Last Name",
-	"email"=>"Email Address");
+	"none"=>TR_IMPORTER_USERCSV_COLNAME_NONE,
+	"username"=>TR_IMPORTER_USERCSV_COLNAME_USERNAME,
+	"password"=>TR_IMPORTER_USERCSV_COLNAME_PASSWORD,
+	"firstname"=>TR_IMPORTER_USERCSV_COLNAME_FIRSTNAME,
+	"lastname"=>TR_IMPORTER_USERCSV_COLNAME_LASTNAME,
+	"email"=>TR_IMPORTER_USERCSV_COLNAME_EMAIL);
 
 //Check to see if the line got split, otherwise throw an error
 if ($lineInfo == null) {
-	$post['_formError'] = "This file does not appear to be delimited by \"".$_POST["delimiter"]."\".<br>Please specify a different delimiter<br><br>"; 
+	$post['_formError'] = sprintf(TR_IMPORTER_USERCSV_DELIMITER_ERROR, $_POST["delimiter"]); 
 	pathos_sessions_set("last_POST",$post);
 	header("Location: " . $_SERVER['HTTP_REFERER']);
 	exit("");
@@ -117,7 +120,7 @@ if ($lineInfo == null) {
 	for ($i=0; $i< Count($lineInfo); $i++) {
 		$form->register("column[$i]", $lineInfo[$i], new dropdowncontrol("none", $colNames));
 	}
-	$form->register("submit", "", New buttongroupcontrol("Submit","", "Cancel"));
+	$form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,"", TR_IMPORTER_USERCSV_CANCEL));
 	$template = New Template("importer", "_usercsv_form_mapping");
 	$template->assign("form_html", $form->tohtml());
 	$template->output();

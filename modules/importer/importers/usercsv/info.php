@@ -30,10 +30,10 @@
 #
 # $Id$
 ##################################################
-
+pathos_lang_loadDictionary('importers', 'usercsv');
 return array(
-	"name"=>"User CSV Importer",
-	"description"=>"This is an extension to import users from a csv file",
+	"name"=>TR_IMPORTER_USERCSV_NAME,
+	"description"=>TR_IMPORTER_USERCSV_DESCRIPTION,
 	"author"=>"Adam Kessler"
 );
 

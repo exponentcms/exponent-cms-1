@@ -30,10 +30,10 @@
 #
 # $Id$
 ##################################################
-
+pathos_lang_loadDictionary('importers', 'eql');
 return array(
-	"name"=>"EQL File Importer",
-	"description"=>"Restore tables in the site database from an EQL (Exponent Query Language) file.",
+	"name"=>TR_IMPORTERMODULE_EQL_NAME,
+	"description"=>TR_IMPORTERMODULE_EQL_DESCRIPTION,
 	"author"=>"James Hunt"
 );
 

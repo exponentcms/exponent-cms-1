@@ -36,6 +36,9 @@ if (!defined("PATHOS")) exit("");
 if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 //Create a new form object
 pathos_forms_initialize();
+
+//Get the I18N stuff
+pathos_lang_loadDictionary('importers', 'usercsv');
 $form = new form();
 //Setup the mete data (hidden values)
 
@@ -51,20 +54,20 @@ $form->meta("rowstart", $_POST["rowstart"]);
 
 if (in_array("username",$_POST["column"]) == false){
 	$unameOptions = array(
-               	"FILN"=>"First Initial / Last Name",
-                "FILNNUM"=>"First Initial / Last Name / Random Number",
-       	        "EMAIL"=>"Email Address",
-               	"FNLN"=>"First Name / Last Name");
+               	"FILN"=>TR_IMPORTER_USERCSV_FILN,
+                "FILNNUM"=>TR_IMPORTER_USERCSV_FILNNUM,
+       	        "EMAIL"=>TR_IMPORTER_USERCSV_EMAIL,
+               	"FNLN"=>TR_IMPORTER_USERCSV_FNLN);
 }else{
-	$unameOptions = array("INFILE"=>"Username Specified in CSV File");
+	$unameOptions = array("INFILE"=>TR_IMPORTER_USERCSV_UNAMEINFILE);
 }
 
 if (in_array("password", $_POST["column"]) == false){
 	$pwordOptions = array(
-		"RAND"=>"Generate Random Passwords",
-		"DEFPASS"=>"Use the Default Password Supplied Below");
+		"RAND"=>TR_IMPORTER_USERCSV_RAND,
+		"DEFPASS"=>TR_IMPORTER_USERCSV_DEFPASS);
 }else{
-	$pwordOptions = array("INFILE"=>"Password Specified in CSV File");
+	$pwordOptions = array("INFILE"=>TR_IMPORTER_USERCSV_PWORDINFILE);
 }
 
 if (Count($pwordOptions) == 1){
@@ -73,11 +76,11 @@ if (Count($pwordOptions) == 1){
 	$disabled = false;
 }
 
-$form->register("unameOptions","User Name Generations Options", New dropdowncontrol("INFILE", $unameOptions));
-$form->register("pwordOptions", "Password Generation Options", New dropdowncontrol("defpass", $pwordOptions));
-$form->register("pwordText", "Default Password", New textcontrol("", 10, $disabled));
-$form->register("update", "Update users already in database", New checkboxcontrol(0, 0));
-$form->register("submit", "", New buttongroupcontrol("Submit","", "Cancel"));
+$form->register("unameOptions",TR_IMPORTER_USERCSV_UNAMEOPTIONS, New dropdowncontrol("INFILE", $unameOptions));
+$form->register("pwordOptions", TR_IMPORTER_USERCSV_PWORDOPTIONS, New dropdowncontrol("defpass", $pwordOptions));
+$form->register("pwordText", TR_IMPORTER_USERCSV_PWORDTEXT, New textcontrol("", 10, $disabled));
+$form->register("update", TR_IMPORTER_USERCSV_UPDATE, New checkboxcontrol(0, 0));
+$form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,"", TR_IMPORTER_USERCSV_CANCEL));
 $template = New Template("importer", "_usercsv_form_geninfo");
 $template->assign("form_html", $form->tohtml());
 $template->output();
