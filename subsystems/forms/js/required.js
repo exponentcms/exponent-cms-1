@@ -60,18 +60,17 @@ function checkRG() {
 	return true;
 }
 
-function checkRequired() {
-  
-  for (field in document.forms[0].elements) {
-	if (document.forms[0].elements[field]) {
-		if (document.forms[0].elements[field].getAttribute) {
-			s = document.forms[0].elements[field].getAttribute("required");
+function checkRequired(locForm) {
+  for (field in locForm.elements) {
+	if (locForm.elements[field]) {
+		if (locForm.elements[field].getAttribute) {
+			s = locForm.elements[field].getAttribute("required");
 			if (s != null) {
-				val = trim(document.forms[0].elements[field].value);
+				val = trim(locForm.elements[field].value);
 				s = unescape(s);
 				if ((s == val) || (val == "")) {
-					document.forms[0].elements[field].focus();
-					alert(unescape(document.forms[0].elements[field].getAttribute("caption")) + " is a required field.");
+					locForm.elements[field].focus();
+					alert(unescape(locForm.elements[field].getAttribute("caption")) + " is a required field.");
 					return false;
 				}
 			}
