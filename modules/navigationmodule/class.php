@@ -34,7 +34,7 @@
 class navigationmodule {
 	function name() { return "Navigator"; }
 	function author() { return "James Hunt"; }
-	function description() { return "Allows users to navigate through pages on the site."; }
+	function description() { return "Allows users to navigate through pages on the site, and allows Administrators to manage the site page structure / hierarchy."; }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
