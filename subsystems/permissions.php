@@ -72,34 +72,64 @@ $pathos_permissions_r = array();
  */
 function pathos_permissions_load($user) {
 	global $db, $pathos_permissions_r;
+	// The $has_admin boolean will be flipped to true if the user has any administrate permission anywhere.
+	// It will be used for figuring out the allowable UI levels.
 	$has_admin = 0;
+	// Clear the global permissions array;
 	$pathos_permissions_r = array();
-	if ($user == null) return;
-	$permission_objects = $db->selectObjects("userpermission","uid=" . $user->id);
-	foreach ($permission_objects as $obj) {
-		if ($obj->permission == "administrate") $has_admin = 1;
-		$pathos_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
+	
+	if ($user == null) {
+		// If the user is not logged in, they have no permissions.
+		return;
 	}
-	$memberships = $db->selectObjects("groupmembership","member_id=".$user->id);
-	foreach ($memberships as $memb) {
-		$permission_objects = $db->selectObjects("grouppermission","gid=" . $memb->group_id);
-		foreach ($permission_objects as $obj) {
-			if ($obj->permission == "administrate") $has_admin = 1;
+	if (!$user->is_acting_admin) {
+		// Retrieve all of the explicit user permissions, by user id
+		foreach ($db->selectObjects('userpermission','uid=' . $user->id) as $obj) {
+			if ($obj->permission == 'administrate') $has_admin = 1;
 			$pathos_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
 		}
+		// Retrieve all of the implicit user permissions (by virtue of group membership).
+		foreach ($db->selectObjects('groupmembership','member_id='.$user->id) as $memb) {
+			foreach ($db->selectObjects('grouppermission','gid=' . $memb->group_id) as $obj) {
+				if ($obj->permission == 'administrate') $has_admin = 1;
+				$pathos_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
+			}
+		}
+		echo '<xmp>';
+		// Retrieve sectional admin status.
+		// First, figure out what sections the user has permission to manage, through the navigationmodule permissions
+		foreach ($pathos_permissions_r['navigationmodule'][''] as $id=>$perm_data) {
+			if ($perm_data['manage'] == 1) {
+				// The user is allowed to manage sections.
+				// Pull in all stuff for the section, using section ref.
+				$sectionrefs = $db->selectObjects('sectionref','is_original=1 AND section='.$id);
+				foreach ($sectionrefs as $sref) {
+					$sloc = pathos_core_makeLocation($sref->module,$sref->source);
+					if (class_exists($sref->module)) { // In business, the module exists
+						$perms = call_user_func(array($sref->module,'permissions'));
+						if ($perms == null) $perms = array(); // For good measure, since some mods return no perms.
+						foreach ($perms as $perm=>$name) {
+							$pathos_permissions_r[$sloc->mod][$sloc->src][''][$perm] = 1;
+						}
+					}
+				}
+			}
+		}
+		print_r($pathos_permissions_r);
+		echo '</xmp>';
 	}
-	pathos_sessions_set("permissions",$pathos_permissions_r);
+	pathos_sessions_set('permissions',$pathos_permissions_r);
 	
 	// Check perm stats for UI levels
 	$ui_levels = array();
 	if ($user->is_acting_admin) {
-		$ui_levels = array("Preview","Normal","Permission Management","Structure Management");
+		$ui_levels = array('Preview','Normal','Permission Management','Structure Management');
 	} else {
-		if (count($pathos_permissions_r)) $ui_levels = array("Preview","Normal");
-		if ($has_admin) $ui_levels[] = "Permission Management";
-		if (isset($pathos_permissions_r["containermodule"]) && count($pathos_permissions_r["containermodule"])) $ui_levels[] = "Structure Management";
+		if (count($pathos_permissions_r)) $ui_levels = array('Preview','Normal');
+		if ($has_admin) $ui_levels[] = 'Permission Management';
+		if (isset($pathos_permissions_r['containermodule']) && count($pathos_permissions_r['containermodule'])) $ui_levels[] = 'Structure Management';
 	}
-	pathos_sessions_set("uilevels",$ui_levels);
+	pathos_sessions_set('uilevels',$ui_levels);
 }
 
 /* exdoc
@@ -173,6 +203,7 @@ function pathos_permissions_check($permission,$location) {
  * @param string $permission The name of the permission to check
  * @param string $module The classname of the module to check.
  * @node Subsystems:Permissions
+ * @state BUGGY
  */
 function pathos_permissions_checkOnModule($permission,$module) {
 	global $pathos_permissions_r, $user;
@@ -215,12 +246,35 @@ function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly 
 		foreach (call_user_func(array($location->mod,"getLocationHierarchy"),$location) as $loc) {
 			if ($db->selectObject("userpermission","uid=" . $user->id . " AND module='" . $loc->mod . "' AND source='" . $loc->src . "' AND internal='" . $loc->int . "' AND permission='$permission'")) {
 				$implicit = true;
+				break;
 			}
 		}
 	}
-	$memberships = $db->selectObjects("groupmembership","member_id=".$user->id);
-	foreach ($memberships as $memb) {
-		if ($db->selectObject("grouppermission","gid=" . $memb->group_id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'")) $implicit = true;
+	if (!$implicit) {
+		$memberships = $db->selectObjects("groupmembership","member_id=".$user->id);
+		foreach ($memberships as $memb) {
+			if ($db->selectObject("grouppermission","gid=" . $memb->group_id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'")) {
+				$implicit = true;
+				break;
+			}
+			$section_perms = $db->selectObjects('grouppermission','gid='.$memb->group_id." AND module='navigationmodule' AND permission='manage'");
+			foreach ($section_perms as $perm) {
+				if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
+					$implicit = true;
+					break;
+				}
+			}
+		}
+	}
+	if (!$implicit) {
+		// Now check the section management
+		$section_perms = $db->selectObjects('userpermission','uid='.$user->id." AND module='navigationmodule' AND permission='manage'");
+		foreach ($section_perms as $perm) {
+			if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
+				$implicit = true;
+				break;
+			}
+		}
 	}
 	return ($implicit || $explicit);
 }
@@ -235,10 +289,20 @@ function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly 
  *
  * @node Subsystems:Permissions
  */
-function pathos_permissions_checkGroup($group,$permission,$location) {
+function pathos_permissions_checkGroup($group,$permission,$location,$explicitOnly = false) {
 	global $db;
 	if ($group == null) return false;
-	return ($db->selectObject("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'"));
+	$explicit = $db->selectObject("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
+	if ($explicitOnly == true) return $explicit;
+	// Calculate implicit permissions
+	$implicit = false;
+	foreach ($db->selectObjects('grouppermission','gid='.$group->id." AND module='navigationmodule' AND permission='manage'") as $perm) {
+		if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
+			$implicit = true;
+			break;
+		}
+	}
+	return ($implicit || $explicit);
 }
 
 /* exdoc
