@@ -33,20 +33,23 @@
 
 class sharedcore_core {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','sharedcoremodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->name = "";
-			$object->path = "";
+			$object->name = '';
+			$object->path = '';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("name","Core Name",new textcontrol($object->name));
-		$form->register("path","Path",new textcontrol($object->path));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('name',TR_SHAREDCOREMODULE_CORENAME,new textcontrol($object->name));
+		$form->register('path',TR_SHAREDCOREMODULE_COREPATH,new textcontrol($object->path));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

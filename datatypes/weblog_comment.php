@@ -33,24 +33,28 @@
 
 class weblog_comment {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','weblogmodule');
+		
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
 			global $db;
-			$post = $db->selectObject("weblog_post","id=".$_GET['parent_id']);
+			$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
 			
-			$object->title = "Re: " . $post->title;
-			$object->body = "<br /><br />-" . chunk_split($post->body,60,"<br />-");
-			$form->meta("parent_id",$_GET['parent_id']);
+			$object->title = 'Re: ' . $post->title;
+			#$object->body = '<br /><br />-' . chunk_split($post->body,60,'<br />-');
+			$object->body = '';
+			$form->meta('parent_id',$_GET['parent_id']);
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("title","Title",new textcontrol($object->title));
-		$form->register("body","Comment", new htmleditorcontrol($object->body));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('title',TR_WEBLOGMODULE_COMMENTTITLE,new textcontrol($object->title));
+		$form->register('body',TR_WEBLOGMODULE_COMMENTBODY, new htmleditorcontrol($object->body));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

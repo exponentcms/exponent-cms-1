@@ -37,7 +37,7 @@ class contact_contact {
 		pathos_lang_loadDictionary('modules','contactmodule');
 		pathos_lang_loadDictionary('standard','core');
 		
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$type = 0;
@@ -47,10 +47,10 @@ class contact_contact {
 		if (!isset($object->id)) {
 			$object->user_id = 0;
 			$object->addressbook_contact_id = 0;
-			$object->email = "";
-			$object->contact_info = "";
+			$object->email = '';
+			$object->contact_info = '';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 			if ($object->user_id != 0) {
 				$type = 0;
 				$default = $object->user_id;
@@ -60,26 +60,26 @@ class contact_contact {
 			}
 		}
 		
-		$form->register("contact",TR_CONTACTMODULE_CONTACT,new contactcontrol($default,$type));
+		$form->register('contact',TR_CONTACTMODULE_CONTACT,new contactcontrol($default,$type));
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_SAVE));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_SAVE));
 		
 		pathos_forms_cleanup();
 		return $form;
 	}
 	
 	function update($values,$object) {
-		$attr = "";
+		$attr = '';
 		switch ($values['contact_type']) {
 			case 0:
-				$attr = "user_id";
+				$attr = 'user_id';
 				break;
 			case 1:
-				$attr = "email";
+				$attr = 'email';
 				break;
 		}
 		
-		if ($attr != "") $object->$attr = $values['contact'][$values['contact_type']];
+		if ($attr != '') $object->$attr = $values['contact'][$values['contact_type']];
 		return $object;
 	}
 }

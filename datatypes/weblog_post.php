@@ -33,24 +33,27 @@
 
 class weblog_post {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','weblogmodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->title = "";
-			$object->body = "";
+			$object->title = '';
+			$object->body = '';
 			global $user;
 			$object->poster = $user->id;
 			$object->is_private = false;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("title","Title", new textcontrol($object->title));
-		$form->register("body","Body", new htmleditorcontrol($object->body));
-		$form->register("is_private","Private?", new checkboxcontrol($object->is_private));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('title',TR_WEBLOGMODULE_TITLE, new textcontrol($object->title));
+		$form->register('body',TR_WEBLOGMODULE_BODY, new htmleditorcontrol($object->body));
+		$form->register('is_private',TR_WEBLOGMODULE_ISPRIVATE, new checkboxcontrol($object->is_private));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

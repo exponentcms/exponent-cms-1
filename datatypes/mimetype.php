@@ -33,19 +33,23 @@
 
 class mimetype {
 	function form($object) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','filemanager');
+		
 		$form = new form();
 		if (!isset($object->mimetype)) {
-			$object->mimetype = "";
-			$object->name = "";
-			$object->icon = "";
+			$object->mimetype = '';
+			$object->name = '';
+			$object->icon = '';
 		} else {
-			$form->meta("oldmime",$object->mimetype);
+			$form->meta('oldmime',$object->mimetype);
 		}
-		$form->register("mimetype","MIME Type", new textcontrol($object->mimetype));
-		$form->register("name","Name",new textcontrol($object->name));
+		$form->register('mimetype',TR_FILEMANAGER_MIMETYPE, new textcontrol($object->mimetype));
+		$form->register('name',TR_FILEMANAGER_FILETYPENAME,new textcontrol($object->name));
 		
 		$icodir = MIMEICON_RELATIVE;
-		$htmlimg = ($object->icon == "" ? "" : "<img src='themes/".DISPLAY_THEME."/mimetypes/".$object->icon."'/>");
+		$htmlimg = ($object->icon == '' ? '' : "<img src='themes/".DISPLAY_THEME."/mimetypes/".$object->icon."'/>");
+		// Replace this with something a little better.
 		$html = <<<EOD
 <span id="iconSPAN">$htmlimg</span><input type="hidden" id="iconHIDDEN" name="icon" value=""/>
 <script type="text/javascript">
@@ -65,8 +69,8 @@ function setIcon(src) {
 <a class="mngmntlink" href="" onClick="window.open('iconspopup.php?icodir=$icodir','icons','title=Icons,width=400,height=400'); return false">(change)</a>
 EOD;
 
-		$form->register("icon","Icon", new customcontrol($html));
-		$form->register("submit","",new buttongroupcontrol("Save"));
+		$form->register('icon',TR_FILEMANAGER_ICON, new customcontrol($html));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		return $form;
 	}
 	

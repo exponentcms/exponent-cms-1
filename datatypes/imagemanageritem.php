@@ -33,25 +33,28 @@
 
 class imagemanageritem {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','imagemanagermodule');
+		
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->name = "";
-			$object->description = "";
+			$object->name = '';
+			$object->description = '';
 			$object->scale = 20;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
-		$form->register("name","Name",new textcontrol($object->name));
-		$form->register("description","Description", new texteditorcontrol($object->description));
+		$form->register('name',TR_IMAGEMANAGERMODULE_NAME,new textcontrol($object->name));
+		$form->register('description',TR_IMAGEMANAGERMODULE_DESCRIPTION, new texteditorcontrol($object->description));
 		if (!isset($object->id)) {
-			$form->register(null,"",new htmlcontrol(pathos_core_maxUploadSizeMessage()));
-			$form->register("file","Image",new uploadcontrol());
+			$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
+			$form->register('file',TR_IMAGEMANAGERMODULE_IMAGE,new uploadcontrol());
 		}
-		$form->register("scale","Scale %",new textcontrol($object->scale));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('scale',TR_IMAGEMANAGERMODULE_SCALE,new textcontrol($object->scale));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

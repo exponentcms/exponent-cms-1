@@ -33,48 +33,51 @@
 
 class section_template {
 	function form($object=null) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->name = "";
+			$object->name = '';
 			$object->active = 1;
 			$object->public = 1;
-			$object->subtheme = "";
+			$object->subtheme = '';
 			if (!isset($object->parent)) $object->parent = 0;
 			// NOT IMPLEMENTED YET
-			//$object->subtheme="";
+			//$object->subtheme='';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
-		$form->meta("parent",$object->parent);
-		$form->register("name","Name",new textcontrol($object->name));
+		$form->meta('parent',$object->parent);
+		$form->register('name',TR_NAVIGATIONMODULE_NAME,new textcontrol($object->name));
 		
 		if (!isset($object->id) && $object->parent != 0) { // Add the 'Add' drop down if not a top level
 			global $db;
-			$sections = $db->selectObjects("section_template","parent=".$object->parent);
+			$sections = $db->selectObjects('section_template','parent='.$object->parent);
 			
 			if (count($sections)) {
-				if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-				usort($sections,"pathos_sorting_byRankAscending");
+				if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+				usort($sections,'pathos_sorting_byRankAscending');
 				
-				$dd = array("At the Top");
-				foreach ($sections as $s) $dd[] = "After '".$s->name."'";
+				$dd = array(TR_NAVIGATIONMODULE_ATTOP);
+				foreach ($sections as $s) $dd[] = sprintf(TR_NAVIGATIONMODULE_POSAFTER,$s->name);
 				
-				$form->register("rank","Position",new dropdowncontrol(count($dd)-1,$dd));
-			} else $form->meta("rank",0);
-		} else $form->meta("rank",0);
+				$form->register('rank',TR_NAVIGATIONMODULE_POSITION,new dropdowncontrol(count($dd)-1,$dd));
+			} else $form->meta('rank',0);
+		} else $form->meta('rank',0);
 		
-		if (is_readable(THEME_ABSOLUTE."subthemes")) { // grab sub themes
-			$form->register("subtheme","Sub Theme",new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
+		if (is_readable(THEME_ABSOLUTE.'subthemes')) { // grab sub themes
+			$form->register('subtheme',TR_NAVIGATIONMODULE_SUBTHEME,new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
 		}
 		
 		#if (!isset($object->id) && $object->parent != 0) {
-			$form->register("active","Active?",new checkboxcontrol($object->active));
-			$form->register("public","Public?",new checkboxcontrol($object->public));
+			$form->register('active',TR_NAVIGATIONMODULE_ISACTIVE,new checkboxcontrol($object->active));
+			$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));
 		#}
-		$form->register("submit","",new buttongroupcontrol("Save"));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		return $form;
 	}
 	

@@ -33,7 +33,7 @@
 
 class privatemessage {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -42,22 +42,22 @@ class privatemessage {
 		$groups = array();
 		global $db, $user;
 		
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-		if (pathos_permissions_check("contact_all",pathos_core_makeLocation("inboxmodule"))) {
+		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllUsers() as $u) {
-				$users[$u->id] = $u->firstname . " " . $u->lastname . " (" . $u->username . ")";
+				$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 			}
 		} else {
 			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
 				foreach (pathos_users_getUsersInGroup($g) as $u) {
-					$users[$u->id] = $u->firstname . " " . $u->lastname . " (" . $u->username . ")";
+					$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 				}
 			}
 		}
 		
 		// Process other uses who the current user has blocked, and remove them from the list
 		// Process other users who have blocked the current user, and remove them from the list.
-		foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id . " OR user_id=" . $user->id) as $blocked) {
+		foreach ($db->selectObjects('inbox_contactbanned','owner='.$user->id . ' OR user_id=' . $user->id) as $blocked) {
 			if ($blocked->user_id == $user->id) {
 				// Blocked by someone else.  Remove the owner (user who blocked us)
 				unset($users[$blocked->owner]);
@@ -66,61 +66,61 @@ class privatemessage {
 				unset($users[$blocked->user_id]);
 			}
 		}
-		uasort($users,"strnatcmp");
+		uasort($users,'strnatcmp');
 		
 		$groups = array();
-		foreach ($db->selectObjects("inbox_contactlist","owner=".$user->id) as $g) {
-			$groups["list_".$g->id] = $g->name . " (personal list)";
+		foreach ($db->selectObjects('inbox_contactlist','owner='.$user->id) as $g) {
+			$groups['list_'.$g->id] = $g->name . ' (personal list)';
 		}
-		if (pathos_permissions_check("contact_all",pathos_core_makeLocation("inboxmodule"))) {
+		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllGroups(1,0) as $g) {
-				$groups["group_".$g->id] = $g->name . " (system group)";
+				$groups['group_'.$g->id] = $g->name . ' (system group)';
 			}
 		} else {
 			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
-				$groups["group_".$g->id] = $g->name . " (system group)";
+				$groups['group_'.$g->id] = $g->name . ' (system group)';
 			}
 		}
-		uasort($groups,"strnatcmp");
+		uasort($groups,'strnatcmp');
 		
-		$recipient_caption = "Recipient";
-		$btn = new buttongroupcontrol("Save","","Cancel");
+		$recipient_caption = 'Recipient';
+		$btn = new buttongroupcontrol('Save','','Cancel');
 		
 		$object->group_recipient = array();
 		
 		if ($object == null || !isset($object->recipient)) {
-			$object->subject = "";
-			$object->body = "";
+			$object->subject = '';
+			$object->body = '';
 			$object->recipient = array();
 			
 			if (!count($users) && !count($groups)) $btn->disabled = true;
 		} else {
-			if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+			if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 			$u = pathos_users_getUserById($object->recipient);
-			$form->register(uniqid(""),"",new htmlcontrol("Reply to '".$u->firstname . " " . $u->lastname . " (" . $u->username . ")'"));
-			$form->meta("replyto",$object->recipient);
+			$form->register(uniqid(''),'',new htmlcontrol('Reply to "'.$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')"'));
+			$form->meta('replyto',$object->recipient);
 			$object->recipient = array();
 			
 			unset($users[$u->id]);
 			
-			$recipient_caption = "Send copy to";
+			$recipient_caption = 'Send copy to';
 		}
 		
-		//$form->register("recipient","Recipient",new textcontrol($object->recipient));
+		//$form->register('recipient','Recipient',new textcontrol($object->recipient));
 		if (count($users)) {
-			$form->register("recipients",$recipient_caption,new listbuildercontrol($object->recipient,$users));
+			$form->register('recipients',$recipient_caption,new listbuildercontrol($object->recipient,$users));
 		}
 		if (count($groups)) {
-			$form->register("group_recipients",$recipient_caption,new listbuildercontrol($object->group_recipient,$groups));
+			$form->register('group_recipients',$recipient_caption,new listbuildercontrol($object->group_recipient,$groups));
 		}
 		
 		if (!count($groups) && !count($users)) {
-			$form->register(uniqid(""),"",new htmlcontrol("<i>You have no contacts in your personal contact list.</i>"));
+			$form->register(uniqid(''),'',new htmlcontrol('<i>You have no contacts in your personal contact list.</i>'));
 		}
 		
-		$form->register("subject","Subject",new textcontrol($object->subject));
-		$form->register("body","Message", new htmleditorcontrol($object->body));
-		$form->register("submit","",$btn);
+		$form->register('subject','Subject',new textcontrol($object->subject));
+		$form->register('body','Message', new htmleditorcontrol($object->body));
+		$form->register('submit','',$btn);
 		
 		pathos_forms_cleanup();
 		return $form;

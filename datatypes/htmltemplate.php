@@ -33,21 +33,24 @@
 
 class htmltemplate {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','htmltemplatemodule');
+		
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->title = "";
-			$object->body = "";
+			$object->title = '';
+			$object->body = '';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("title","Name",new textcontrol($object->title));
-		$form->register("body","Template",new htmleditorcontrol($object->body));
+		$form->register('title',TR_HTMLTEMPLATEMODULE_TITLE,new textcontrol($object->title));
+		$form->register('body',TR_HTMLTEMPLATEMODULE_TEMPLATE,new htmleditorcontrol($object->body));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

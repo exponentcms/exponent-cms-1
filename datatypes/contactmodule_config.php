@@ -37,24 +37,24 @@ class contactmodule_config {
 		pathos_lang_loadDictionary('modules','contactmodule');
 		pathos_lang_loadDictionary('standard','core');
 		
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->subject = "Email Communication From Site";
-			$object->replyto_address = "";
-			$object->from_name = "Webmaster";
-			$object->from_address = "info@".$_SERVER["HTTP_HOST"];
+			$object->subject = 'Email Communication From Site';
+			$object->replyto_address = '';
+			$object->from_name = 'Webmaster';
+			$object->from_address = 'info@'.$_SERVER['HTTP_HOST'];
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("subject",TR_CONTACTMODULE_MESSAGETITLE,new textcontrol($object->subject));
-		$form->register("from_name",TR_CONTACTMODULE_FROMNAME,new textcontrol($object->from_name));
-		$form->register("from",TR_CONTACTMODULE_FROMADDRESS,new textcontrol($object->from_address));
-		$form->register("replyto",TR_CONTACTMODULE_REPLYTO,new textcontrol($object->replyto_address));
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
+		$form->register('subject',TR_CONTACTMODULE_MESSAGETITLE,new textcontrol($object->subject));
+		$form->register('from_name',TR_CONTACTMODULE_FROMNAME,new textcontrol($object->from_name));
+		$form->register('from',TR_CONTACTMODULE_FROMADDRESS,new textcontrol($object->from_address));
+		$form->register('replyto',TR_CONTACTMODULE_REPLYTO,new textcontrol($object->replyto_address));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

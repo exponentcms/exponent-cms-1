@@ -33,7 +33,10 @@
 
 class weblogmodule_config {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','weblogmodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -41,12 +44,12 @@ class weblogmodule_config {
 			$object->allow_comments = true;
 			$object->items_per_page = 10;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("allow_comments","Allow Comments?",new checkboxcontrol($object->allow_comments));
-		$form->register("items_per_page","Posts per Page",new textcontrol($object->items_per_page));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('allow_comments',TR_WEBLOGMODULE_ALLOWCOMMENTS,new checkboxcontrol($object->allow_comments));
+		$form->register('items_per_page',TR_WEBLOGMODULE_POSTSPERPAGE,new textcontrol($object->items_per_page));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

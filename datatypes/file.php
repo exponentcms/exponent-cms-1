@@ -30,25 +30,24 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
 class file {
 	function update($name,$dest,$object,$destname = null) {
+		pathos_lang_loadDictionary('modules','filemanager');
 	
-		pathos_lang_loadDictionary('modules','file');
-		
 		$object->mimetype = $_FILES[$name]['type'];
 		
 		if ($destname == null) $object->filename = $_FILES[$name]['name'];
 		else $object->filename = $destname;
 		
-		if (file_exists(BASE.$dest."/".$object->filename)) {
-			echo TR_FILE_FILE . $object->filename . TR_FILE_ALREADYEXISTS;
+		if (file_exists(BASE.$dest.'/'.$object->filename)) {
+			echo sprintf(TR_FILEMANAGER_FILEEXISTS,$object->filename);
 			return null;
 		}
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
-		pathos_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest."/".$object->filename);
-		if (!file_exists(BASE.$dest."/".$object->filename)) {
-			echo TR_FILE_UNABLETOUPLOAD . $object->filename . ".";
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		pathos_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$object->filename);
+		if (!file_exists(BASE.$dest.'/'.$object->filename)) {
+			echo sprinft(TR_FILEMANAGER_CANTUPLOAD,$object->filename);
 			return null;
 		}
 		
@@ -67,11 +66,11 @@ class file {
 	function delete($file) {
 		if ($file == null) return true;
 		
-		if (is_readable(BASE.$file->directory) && !file_exists(BASE.$file->directory."/".$file->filename)) return true;
+		if (is_readable(BASE.$file->directory) && !file_exists(BASE.$file->directory.'/'.$file->filename)) return true;
 		
 		if (is_writeable(BASE.$file->directory)) {
-			unlink($file->directory."/".$file->filename);
-			if (!file_exists(BASE.$file->directory."/".$file->filename)) return true;
+			unlink($file->directory.'/'.$file->filename);
+			if (!file_exists(BASE.$file->directory.'/'.$file->filename)) return true;
 		}
 		return false;
 	}

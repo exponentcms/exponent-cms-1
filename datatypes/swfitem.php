@@ -31,18 +31,23 @@
 # $Id$
 ##################################################
 
+// GREP:HARDCODEDTEXT
+
 class swfitem {
 	function form($object) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','swfmodule');
+	
 		global $user;
 	
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->name = "";
-			$object->description = "";
-			$object->bgcolor = "#FFFFFF";
+			$object->name = '';
+			$object->description = '';
+			$object->bgcolor = '#FFFFFF';
 			$object->height = 100;
 			$object->width = 100;
 			$object->alignment = 0;
@@ -50,24 +55,24 @@ class swfitem {
 			$object->alt_image_id = 0;
 			$object->unpublish = null;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
-		$form->register("name","Name",new textcontrol($object->name));
-		$form->register("bgcolor","Background Color",new textcontrol($object->bgcolor),10,false,10);
-		$form->register("height","Flash Height",new textcontrol($object->height,5,false,5,"integer"));
-		$form->register("width","Flash Width",new textcontrol($object->width,5,false,5,"integer"));
-		$align = array("Center","Left","Right");
-		$form->register("alignment", "Alignment", new dropdowncontrol($object->alignment,$align));
+		$form->register('name',TR_SWFMODULE_NAME,new textcontrol($object->name));
+		$form->register('bgcolor',TR_SWFMODULE_BGCOLOR,new textcontrol($object->bgcolor),10,false,10);
+		$form->register('height',TR_SWFMODULE_HEIGHT,new textcontrol($object->height,5,false,5,'integer'));
+		$form->register('width',TR_SWFMODULE_WIDTH,new textcontrol($object->width,5,false,5,'integer'));
+		$align = array(TR_CORE_CENTER,TR_CORE_LEFT,TR_CORE_RIGHT);
+		$form->register('alignment', TR_SWFMODULE_ALIGNMENT, new dropdowncontrol($object->alignment,$align));
 		
-		$form->register("swf_name","Flash File", new uploadcontrol());
+		$form->register('swf_name',TR_SWFMODULE_FLASHFILE, new uploadcontrol());
 		if ($object->swf_id != 0) {
-			$form->register(uniqid(""),"", new htmlcontrol("&nbsp;&nbsp;&nbsp;*Leave Flash File blank to keep existing.<br>"));
+			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;*Leave Flash File blank to keep existing.<br>'));
 		}
-		$form->register("alt_image_name","No Flash<br>Alternative Image",new uploadcontrol());
+		$form->register('alt_image_name',TR_SWFMODULE_ALTIMAGE,new uploadcontrol());
 		if ($object->alt_image_id != 0) {
-			$form->register(uniqid(""),"", new htmlcontrol("&nbsp;&nbsp;&nbsp;*Leave Alternative Image blank to keep existing.<br>"));
+			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;*Leave Alternative Image blank to keep existing.<br>'));
 		}
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

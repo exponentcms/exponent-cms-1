@@ -33,16 +33,19 @@
 
 class approvalpolicy {
 	function form($object) {
-		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','workflow');
+	
+		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 	
 		$form = new form();
 		if (isset($object->id)) {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		} else {
-			$object->name = "";
-			$object->description = "";
+			$object->name = '';
+			$object->description = '';
 			$object->max_approvers = 0;
 			$object->required_approvals = 0;
 			$object->on_deny = SYS_WORKFLOW_REVOKE_NONE;
@@ -51,24 +54,24 @@ class approvalpolicy {
 			$object->delete_on_deny = 0;
 		}
 		
-		$form->register("name","Policy Name",new textcontrol($object->name));
-		$form->register("description","Description",new texteditorcontrol($object->description));
-		$form->register("max_approvers","Maximum Number of Approvers",new textcontrol($object->max_approvers));
-		$form->register("required_approvals","Number of Approvals Required for Publication",new textcontrol($object->required_approvals));
+		$form->register('name',TR_WORKFLOW_POLICYNAME,new textcontrol($object->name));
+		$form->register('description',TR_WORKFLOW_DESC,new texteditorcontrol($object->description));
+		$form->register('max_approvers',TR_WORKFLOW_MAXAPPROVERS,new textcontrol($object->max_approvers));
+		$form->register('required_approvals',TR_WORKFLOW_REQUIREDAPPROVALS,new textcontrol($object->required_approvals));
 		
 		$list = array(
-			SYS_WORKFLOW_REVOKE_NONE=>"Revoke None",
-			SYS_WORKFLOW_REVOKE_ALL=>"Revoke All Approvals",
-			SYS_WORKFLOW_REVOKE_POSTER=>"Revoke Poster's Approval",
-			SYS_WORKFLOW_REVOKE_APPROVERS=>"Revoke Approvers' Approvals",
-			SYS_WORKFLOW_REVOKE_OTHERS=>"Revoke Poster and Approver's Approvals"
+			SYS_WORKFLOW_REVOKE_NONE=>TR_WORKFLOW_REVOKENONE,
+			SYS_WORKFLOW_REVOKE_ALL=>TR_WORKFLOW_REVOKEALL,
+			SYS_WORKFLOW_REVOKE_POSTER=>TR_WORKFLOW_REVOKEPOSTER,
+			SYS_WORKFLOW_REVOKE_APPROVERS=>TR_WORKFLOW_REVOKEAPPROVERS,
+			SYS_WORKFLOW_REVOKE_OTHERS=>TR_WORKFLOW_REVOKEOTHERS
 		);
 		
-		$form->register("on_approve","When approved 100%",new dropdowncontrol($object->on_approve,$list));
-		$form->register("on_edit","When edited and approved",new dropdowncontrol($object->on_edit,$list));
-		$form->register("on_deny","When not approved",new dropdowncontrol($object->on_deny,$list));
-		$form->register("delete_on_deny","Delete content if not approved?",new checkboxcontrol($object->delete_on_deny));
-		$form->register("submit","",new buttongroupcontrol("Save"));
+		$form->register('on_approve',TR_WORKFLOW_ONAPPROVE,new dropdowncontrol($object->on_approve,$list));
+		$form->register('on_edit',TR_WORKFLOW_ONEDIT,new dropdowncontrol($object->on_edit,$list));
+		$form->register('on_deny',TR_WORKFLOW_ONDENY,new dropdowncontrol($object->on_deny,$list));
+		$form->register('delete_on_deny',TR_WORKFLOW_DELETEONDENY,new checkboxcontrol($object->delete_on_deny));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		

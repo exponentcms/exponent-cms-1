@@ -41,6 +41,9 @@ class section {
 	 * meta field (hidden input) or a rank dropdown.
 	 */
 	function _commonForm(&$object) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
+		
 		// Create a new blank form.
 		$form = new form();
 		
@@ -68,7 +71,7 @@ class section {
 		}
 		
 		// The name of the section, as it will be linked in the section hierarchy.
-		$form->register('name','Name',new textcontrol($object->name));
+		$form->register('name',TR_NAVIGATIONMODULE_NAME,new textcontrol($object->name));
 		
 		if (!isset($object->id)) {
 			// This is a new section, so we can add the positional dropdown
@@ -84,11 +87,11 @@ class section {
 				usort($sections,'pathos_sorting_byRankAscending');
 				
 				// Generate the Position dropdown array.
-				$positions = array('At the Top');
+				$positions = array(TR_NAVIGATIONMODULE_ATTOP);
 				foreach ($sections as $section) {
-					$positions[] = 'After "'.$section->name.'"';
+					$positions[] = sprintf(TR_NAVIGATIONMODULE_POSAFTER,$section->name);
 				}
-				$form->register('rank','Position',new dropdowncontrol(count($positions)-1,$positions));
+				$form->register('rank',TR_NAVIGATIONMODULE_POSITION,new dropdowncontrol(count($positions)-1,$positions));
 			} else {
 				// If there are no siblings, the new section gets the first
 				// slot, with a rank of 0.
@@ -99,7 +102,7 @@ class section {
 			$form->meta('parent',$object->parent);
 		} else {
 			// Allow them to change parents
-			$form->register('parent','Parent Section',new dropdowncontrol($object->parent,navigationmodule::levelDropdownControlArray(0,0,array($object->id),1)));
+			$form->register('parent',TR_NAVIGATIONMODULE_PARENTSECTION,new dropdowncontrol($object->parent,navigationmodule::levelDropdownControlArray(0,0,array($object->id),1)));
 		}
 		
 		// Return the form to the calling scope, which should always be a
@@ -119,6 +122,8 @@ class section {
 	 *    edit an existing one.
 	 */
 	function form($object = null) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -129,19 +134,19 @@ class section {
 		$form = section::_commonForm($object);
 		
 		// Register the sub themes dropdown.
-		$form->register('subtheme','Theme Variation',new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
+		$form->register('subtheme',TR_NAVIGATIONMODULE_SUBTHEME,new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
 		
 		// Register the 'Active?' and 'Public?' checkboxes.
-		$form->register('active','Active?',new checkboxcontrol($object->active));
-		$form->register('public','Public?',new checkboxcontrol($object->public));
+		$form->register('active',TR_NAVIGATIONMODULE_ISACTIVE,new checkboxcontrol($object->active));
+		$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));
 		
 		// Register the Page Meta Data controls.
-		$form->register('page_title','Page Title',new textcontrol($object->page_title));
-		$form->register('keywords','Keywords',new texteditorcontrol($object->keywords,5,25));
-		$form->register('description','Page Description',new texteditorcontrol($object->keywords,5,25));
+		$form->register('page_title',TR_NAVIGATIONMODULE_PAGETITLE,new textcontrol($object->page_title));
+		$form->register('keywords',TR_NAVIGATIONMODULE_KEYWORDS,new texteditorcontrol($object->keywords,5,25));
+		$form->register('description',TR_NAVIGATIONMODULE_PAGEDESC,new texteditorcontrol($object->keywords,5,25));
 		
 		// Add a Submit / Cancel button.
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		// Cleanup the Forms subsystem, for PHP5 and autoloading.
 		pathos_forms_cleanup();
@@ -163,6 +168,8 @@ class section {
 	 *    edit an existing one.
 	 */
 	function externalAliasForm($object = null) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -172,14 +179,15 @@ class section {
 		// This call also initializes the section object, if it is not an existing section.
 		$form = section::_commonForm($object);
 		
+		if (!isset($object->external_link)) $object->external_link = '';
 		// Add a textbox the user can enter the external website's URL into.
-		$form->register('external_link','Page',new textcontrol($object->external_link));
+		$form->register('external_link',TR_NAVIGATIONMODULE_EXTLINK,new textcontrol($object->external_link));
 		
 		// Add the'Public?' checkbox.  The 'Active?' checkbox is omitted, because it makes no sense.
-		$form->register('public','Public?',new checkboxcontrol($object->public));
+		$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));
 		
 		// Add a Submit / Cancel button.
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		// Cleanup the Forms subsystem, for PHP5 and autoloading.
 		pathos_forms_cleanup();
@@ -201,6 +209,8 @@ class section {
 	 *    edit an existing one.
 	 */
 	function internalAliasForm($object = null) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -211,13 +221,13 @@ class section {
 		$form = section::_commonForm($object);
 		
 		// Add a dropdown to allow the user to choose an internal page.
-		$form->register('internal_id','Page',new dropdowncontrol(0,navigationmodule::levelDropDownControlArray(0,0)));
+		$form->register('internal_id',TR_NAVIGATIONMODULE_INTLINK,new dropdowncontrol(0,navigationmodule::levelDropDownControlArray(0,0)));
 		
 		// Add the'Public?' checkbox.  The 'Active?' checkbox is omitted, because it makes no sense.
-		$form->register('public','Public?',new checkboxcontrol($object->public));
+		$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));
 		
 		// Add a Submit / Cancel button.
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		// Cleanup the Forms subsystem, for PHP5 and autoloading.
 		pathos_forms_cleanup();
@@ -238,6 +248,8 @@ class section {
 	 *    edit an existing one.
 	 */
 	function pagesetForm($object = null) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -256,13 +268,13 @@ class section {
 			// Grab each pageset and store its name and id.  The id will be used when updating.
 			$pagesets[$pageset->id] = $pageset->name;
 		}
-		$form->register('pageset','Pageset',new dropdowncontrol(0,$pagesets));
+		$form->register('pageset',TR_NAVIGATIONMODULE_PAGESET,new dropdowncontrol(0,$pagesets));
 		
 		// Add the'Public?' checkbox.  The 'Active?' checkbox is omitted, because it makes no sense.
-		$form->register('public','Public?',new checkboxcontrol($object->public));
+		$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));
 		
 		// Add a Submit / Cancel button.
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		// Cleanup the Forms subsystem, for PHP5 and autoloading.
 		pathos_forms_cleanup();
