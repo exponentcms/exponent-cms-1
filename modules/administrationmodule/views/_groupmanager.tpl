@@ -67,6 +67,7 @@ To create a new group, use the <a class="mngmntlink administration_mngmntlink" h
 
 	paginate.columns = new Array(
 		new cColumn("Group Name","name",null,null),
+		new cColumn("Signup Code","code",null,null),
 		new cColumn("Type","",type,sortType),
 		new cColumn("","",links,null)
 	);
