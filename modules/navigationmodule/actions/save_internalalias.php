@@ -58,7 +58,7 @@ if ($user && $user->is_acting_admin == 1) {
 		$_POST['_formError'] = TR_NAVIGATIONMODULE_INTERNALLINKERR;
 		pathos_sessions_set("last_POST",$_POST);
 		header("Location: " . $_SERVER['HTTP_REFERER']);
-		exit('');
+		exit('Redirecting...');
 	}
 	
 	if (isset($section->id)) {

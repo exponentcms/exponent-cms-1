@@ -46,7 +46,7 @@ pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 if (pathos_sessions_loggedIn()) {
 	header('Location: ' . pathos_sessions_get('redirecturl'));
-	exit;
+	exit('Redirecting...');
 } 
 
 loginmodule::show('Default',null,'Log In');

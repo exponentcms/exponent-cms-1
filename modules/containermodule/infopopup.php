@@ -1,5 +1,5 @@
 <?php
-exit();
+exit('This feature has been deprecated');
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.

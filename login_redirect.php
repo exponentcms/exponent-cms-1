@@ -61,7 +61,7 @@ if (pathos_sessions_loggedIn()) {
 		pathos_flow_redirect();
 	}
 	header('Location: ' . $url);
-	exit;
+	exit('Redirecting...');
 } else if (isset($_REQUEST['module']) && isset($_REQUEST['action'])) {
 	pathos_theme_runAction();
 	loginmodule::show(DEFAULT_VIEW,null);

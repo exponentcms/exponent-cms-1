@@ -49,7 +49,7 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_COREEXISTS,$core->path);
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
-		exit();
+		exit('Redirecting...');
 	}
 	
 	if (substr($core->path,-1,1) != '/') $core->path .= '/';

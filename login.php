@@ -47,7 +47,7 @@ if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 if (pathos_sessions_loggedIn()) {
 	$SYS_FLOW_REDIRECTIONPATH = 'pathos_default';
 	pathos_flow_redirect();
-	exit;
+	exit('Redirecting...');
 } else if (isset($_REQUEST['module']) && isset($_REQUEST['action'])) {
 	$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
 	pathos_theme_runAction();

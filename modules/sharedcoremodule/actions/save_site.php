@@ -42,7 +42,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	
 	if ($site == null) {
 		header("Location: " . $_SERVER['HTTP_REFERER']);
-		exit;
+		exit('Redirecting');
 	}
 	
 	if (substr($site->path,-1,1) != "/") $site->path .= "/";
@@ -175,7 +175,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 					// New site, time to go to the next place, the modules linker
 					$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
 					header("Location: $url");
-					exit;
+					exit('Redirecting...');
 				} else {
 					switch ($stat) {
 						case SHAREDCORE_ERR_LINKSRC_NOTREADABLE:
@@ -199,7 +199,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 				// Take them to the modules page, because that's probably why they went to edit in the first place.
 				$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
 				header("Location: $url");
-				exit;
+				exit('Redirecting');
 			} else {
 				// For inactive sites, we can't go through the edit modules page, because it would relink and defeat the purpose of the deactivation
 				pathos_flow_redirect();
