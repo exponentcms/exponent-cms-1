@@ -83,6 +83,13 @@ class newsmodule {
 			$db->delete("newsitem_wf_info","real_id=".$i->id);
 		}
 		$db->delete("newsitem","location_data='".serialize($location)."'");
+		$db->delete("newsmodule_config","location_data='".serialize($location)."'");
+		
+		$channel = $db->selectObject('channel',"location_data='".serialize($location)."'");
+		if ($channel) {
+			$db->delete('channelitem','channel_id='.$channel->id);
+			$db->delete('channel','id='.$channel->id);
+		}
 	}
 	
 	function copyContent($oloc,$nloc) {
