@@ -85,13 +85,13 @@ define("SYS_FILES_NOTDELETABLE",	5);
  */
 function pathos_files_makeDirectory($dir,$mode=null,$is_full=false) {
 	$__oldumask = umask(0);
-	$parentdir = ($is_full ? "" : BASE); // we will add to parentdir with each directory
+	$parentdir = ($is_full ? "/" : BASE); // we will add to parentdir with each directory
 	foreach (explode("/",$dir) as $part) {
 		if ($part != "" && !is_dir($parentdir.$part)) {
 			// No parent directory.  Create it.
 			if (is_file($parentdir.$part)) return SYS_FILES_FOUNDFILE;
 			if (is_writable($parentdir)) {
-				if ($mode == null) $mode = DIR_DEFAULT_MODE;
+				if ($mode == null) $mode = DIR_DEFAULT_MODE+0;
 				mkdir($parentdir.$part,$mode);
 				chmod($parentdir.$part,$mode);
 			} else return SYS_FILES_NOTWRITABLE;
@@ -151,8 +151,11 @@ function pathos_files_uploadDestinationFileExists($dir,$name) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+* Move an uploaded temporary file to a more permanent home inside of the Exponent files/ directory.
+* This function takes into account the default file modes specified in the site configuration.
+ * @param string $tmp_name The temporary path of the uploaded file.
+ * @param string $dest The full path to the destination file (including the destination filename).
+ * @node Subsystems:Files
  */
 function pathos_files_moveUploadedFile($tmp_name,$dest) {
 	move_uploaded_file($tmp_name,$dest);
