@@ -33,7 +33,7 @@
 
 class contactmodule {
 	function name() { return "Contact Form"; }
-	function description() { return "Presents a form to the wbe viewer, which they can use to contact users."; }
+	function description() { return "Presents a form to the web viewer, which they can use to contact users.<br><font color='red'>Deprecated in 0.96, use 'Form Module' instead.</font>"; }
 	function author() { return "James Hunt"; }
 	
 	function hasSources() { return true; }
