@@ -51,7 +51,7 @@ if (!defined("PATHOS_VERSION")) {
 	 * the system will behave slightly differently, to accomodate for developers
 	 * and their environment.
 	 */
-	define("DEVELOPMENT",1); // CHANGE FOR DIST
+	define("DEVELOPMENT",0); // CHANGE FOR DIST
 	/**
 	 * Major Version  Number
 	 *
