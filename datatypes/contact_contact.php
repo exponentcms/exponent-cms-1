@@ -62,7 +62,7 @@ class contact_contact {
 		
 		$form->register('contact',TR_CONTACTMODULE_CONTACT,new contactcontrol($default,$type));
 		
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_SAVE));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
