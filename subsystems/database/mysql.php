@@ -478,6 +478,7 @@ class mysql_database {
 		$res = @mysql_query($sql,$this->connection);
 		
 		if ($res != null) $res = mysql_fetch_object($res);
+		// FIXME: Return -1, for blind increment operations
 		if (!$res) return null;
 		return $res->fieldmax;
 	}
@@ -491,6 +492,7 @@ class mysql_database {
 		$res = @mysql_query($sql,$this->connection);
 		
 		if ($res != null) $res = mysql_fetch_object($res);
+		// FIXME: Return -1, for blind increment operations
 		if (!$res) return null;
 		return $res->fieldmin;
 	}
