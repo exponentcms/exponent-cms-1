@@ -39,9 +39,16 @@ if ($user && $user->is_admin) {
 	foreach ($db->getTables(true) as $table) {
 		if (strpos(DB_TABLE_PREFIX.'_',$table) == 0) {
 			$table = str_replace(DB_TABLE_PREFIX.'_',"",$table);
-			if ($db->tableIsEmpty($table)) {
-				$db->dropTable($table);
-				$dropped_tables[] = $table;
+			
+			//This is a quick fix to keep this from deleting the formbuilder tables!
+			$tmp = str_replace('formbuilder_',"",$table);
+			if ($db->countObjects("formbuilder_form","table_name='".$tmp."'") == 0) {
+			
+				if ($db->tableIsEmpty($table)) {
+					$db->dropTable($table);
+					$dropped_tables[] = $table;
+				}
+			
 			}
 		}
 	}
