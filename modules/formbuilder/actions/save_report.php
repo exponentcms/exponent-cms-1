@@ -31,28 +31,20 @@
 # $Id$
 ##################################################
 
-return array(
-	"id"=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID,
-		DB_PRIMARY=>true,
-		DB_INCREMENT=>true),
-	"name"=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>100),
-	"caption"=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>150),
-	"form_id"=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	"data"=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>1000),
-	"rank"=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"is_readonly"=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"is_static"=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
-);
+	if (!defined("PATHOS")) exit("");
+	
+	$rpt = null;
+	if (isset($_POST['id'])) $rpt = $db->selectObject("formbuilder_report","id=".$_POST['id']);
+	if ($rpt) {
+		if (pathos_permissions_check("editreport",unserialize($f->location_data))) {
+			$rpt = formbuilder_report::update($_POST,$rpt);
+			
+			if (isset($rpt->id)) $db->updateObject($rpt,"formbuilder_report");
+			else $db->insertObject($rpt,"formbuilder_report");
+			
+		
+			pathos_flow_redirect();
+		} else echo SITE_403_HTML;
+	} else echo SITE_404_HTML;
 
 ?>

@@ -116,6 +116,21 @@ class datetimecontrol extends formcontrol {
 		return $time;
 	}
 	
+	function templateFormat($db_data, $ctl) {
+		if ($ctl->showdate && $ctl->showtime) {
+			return strftime(DISPLAY_DATETIME_FORMAT,$db_data);
+		} 
+		elseif ($ctl->showdate) {
+			return strftime(DISPLAY_DATE_FORMAT, $db_data);
+		}
+		elseif ($ctl->showtime) {
+			return strftime(DISPLAY_TIME_FORMAT, $db_data);
+		}
+		else {
+			return "";
+		}
+	}
+	
 	function form($object) {
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();

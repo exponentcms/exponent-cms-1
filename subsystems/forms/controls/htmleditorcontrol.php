@@ -173,6 +173,12 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 		ob_end_clean();
 		return $html;
 	}
+	
+	function parseData($name, $values, $for_db = false) {
+		$html = $values[$name];
+		if ($html == "<br />\r\n") $html = "";
+		return $html;
+	}
 }
 
 ?>

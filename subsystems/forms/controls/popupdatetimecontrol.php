@@ -185,6 +185,16 @@ class popupdatetimecontrol extends formcontrol {
 		} else return 0;
 	}
 	
+	function templateFormat($db_data, $ctl) {
+		if ($ctl->showtime) {
+			return strftime(DISPLAY_DATETIME_FORMAT,$db_data);
+		} 
+		else {
+			return strftime(DISPLAY_DATE_FORMAT, $db_data);
+		}
+	}
+	
+	
 	function form($object) {
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();

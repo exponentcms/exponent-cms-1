@@ -60,7 +60,10 @@ return array(
 		DB_FIELD_LEN=>100),
 	"resetbtn"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>100)
-);
+		DB_FIELD_LEN=>100),
+	"subject"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200)
+	);
 
 ?>

@@ -87,7 +87,7 @@ class fakeform extends form {
 			
 			$html .= "&nbsp;&nbsp;";
 			if (!$this->controls[$name]->_readonly) {
-				$html .= '<a href="?module=formbuilder&action=edit_control&id='.$this->controls[$name]->_id.'">';
+				$html .= '<a href="?module=formbuilder&action=edit_control&id='.$this->controls[$name]->_id.'&form_id='.$form_id.'">';
 				$html .= '<img border="0" src="'.ICON_RELATIVE.'edit.gif" />';
 				$html .= '</a>';
 			} else {
@@ -95,8 +95,12 @@ class fakeform extends form {
 			}
 			
 			$html .= '&nbsp;';
-			
-			$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
+			if (!$this->controls[$name]->_readonly && $this->controls[$name]->_controltype != 'htmlcontrol' ) {
+				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
+			}
+			else {
+				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this?\');">';
+			}
 			$html .= '<img border="0" src="'.ICON_RELATIVE.'delete.gif" />';
 			$html .= '</a>';
 			$html .= "</td>";

@@ -28,15 +28,27 @@
  *
  * $Id$
  *}
+ 
+{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+{if $permissions.administrate == 1}
+	<a href="{link action=userperms _common=1}" title="Assign permissions on this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}" title="Assign group permissions on this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" /></a>
+{/if}
+{if $permissions.configure == 1}
+	<a href="{link action=configure _common=1}" title="Configure this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" /></a>
+{/if}
+{/permissions}{permissions level=$smarty.const.UILEVEL_NORMAL}
  <table cellspacing="0" cellpadding="0" border="0" width="500">
 	<tr>
-		<td><a href="{link action=view_date _common=1}">View Data</a></td>
-		<td><a href="{link action=view_form module=formbuilder}&id={$form->id}">Edit Form</a></td>
-		<td><a href="{link action=edit_form module=formbuilder}&id={$form->id}">Edit Form Settings</a></td>
-		<td><a href="{link action=edit_report module=formbuilder}&id={$form->id}">Edit Report Settings</a></td>
+		<td>{if $permissions.viewdata == 1 && $form->is_saved == 1}<a href="{link action=view_data module=formbuilder}&id={$form->id}">View Data</a>{/if}</td>
+		<td>{if $permissions.editformsettings == 1}<a href="{link action=edit_form module=formbuilder}&id={$form->id}">Edit Form Settings</a>{/if}</td>
+		<td>{if $permissions.editform == 1}<a href="{link action=view_form module=formbuilder}&id={$form->id}">Edit Form</a>{/if}</td>
+		<td>{if $permissions.editreport == 1}<a href="{link action=edit_report module=formbuilder}&id={$form->id}">Edit Report Settings</a>{/if}</td>
 	</tr>
 </table>
+{/permissions}
 <br><br>
+{$formmsg}
  <div style="border: padding: 1em;">
 {$form_html}
 </div>

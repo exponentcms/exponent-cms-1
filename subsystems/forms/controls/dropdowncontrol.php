@@ -56,7 +56,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
  */
 class dropdowncontrol extends formcontrol {
 	var $items = array();
-	var $multiple = false;
+	//var $multiple = false;
 	var $size = 1;
 	var $jsHooks = array();
 	
@@ -75,7 +75,7 @@ class dropdowncontrol extends formcontrol {
 	
 	function controlToHTML($name) {
 		$html = '<select id="' . $name . '" name="' . $name . '" size="' . $this->size . '"';
-		if ($this->multiple) $html .= ' multiple';
+		//if ($this->multiple) $html .= ' multiple';
 		if ($this->disabled) $html .= ' disabled';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		foreach ($this->jsHooks as $hook=>$action) {
@@ -100,7 +100,7 @@ class dropdowncontrol extends formcontrol {
 			$object->identifier = "";
 			$object->caption = "";
 			$object->default = "";
-			$object->multiple = false;
+			//$object->multiple = false;
 			$object->size = 1;
 			$object->items = array();
 		} 
@@ -108,8 +108,8 @@ class dropdowncontrol extends formcontrol {
 		$form->register("identifier","Identifier",new textcontrol($object->identifier));
 		$form->register("caption","Caption", new textcontrol($object->caption));
 		$form->register("items","Items", new listbuildercontrol($object->items,null));
-		//$form->register("default","Default", new textcontrol($object->default));
-		$form->register("multiple","Allow Multiple", new checkboxcontrol($object->multiple,false));
+		$form->register("default","Default", new textcontrol($object->default));
+		//$form->register("multiple","Allow Multiple", new checkboxcontrol($object->multiple,false));
 		$form->register("size","Size", new textcontrol($object->size,3,false,2,"integer"));
 		$form->register(uniqid(""),"", new htmlcontrol("<br>*Size of 1 is a drop down control. Size greater then 1 is a list box.<br>"));
 		
@@ -131,9 +131,9 @@ class dropdowncontrol extends formcontrol {
 		if ($object == null) $object = new dropdowncontrol();
 		$object->identifier = $values['identifier'];
 		$object->caption = $values['caption'];
-		$object->default = ""; //$values['default'];
-		$object->items = listbuildercontrol::parseData($values,'items');
-		$object->multiple = isset($values['multiple']);
+		$object->default = $values['default'];
+		$object->items = listbuildercontrol::parseData($values,'items',true);
+		//$object->multiple = isset($values['multiple']);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
 		pathos_forms_cleanup();
 		return $object;

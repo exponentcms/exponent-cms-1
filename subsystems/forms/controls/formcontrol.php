@@ -80,6 +80,10 @@ class formcontrol {
 	function onRegister(&$form) { // Do we need the explicit ref op??
 		return true;
 	}
+	
+	function templateFormat($db_data, $ctl = null) {
+		return isset($db_data)?$db_data:"";
+	}
 }
 
 ?>

@@ -35,14 +35,19 @@ if (!defined("PATHOS")) exit("");
 
 $ctl = null;
 if (isset($_GET['id'])) $ctl = $db->selectObject("formbuilder_control","id=".$_GET['id']);
+
+
 if ($ctl) {
-	$db->delete("formbuilder_control","id=".$ctl->id);
-	$db->sql("UPDATE `".$db->prefix."formbuilder_control` SET rank=rank-1 WHERE form_id=".$ctl->form_id." AND rank > " . $ctl->rank);
-	
 	$f = $db->selectObject("formbuilder_form","id=".$ctl->form_id);
-	formbuilder_form::updateTable($f);
-	
-	pathos_flow_redirect();
+	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
+		$db->delete("formbuilder_control","id=".$ctl->id);
+		$db->decrement("formbuilder_control","rank",1,"form_id=".$ctl->form_id." AND rank > " . $ctl->rank);
+		
+		$f = $db->selectObject("formbuilder_form","id=".$ctl->form_id);
+		formbuilder_form::updateTable($f);
+		
+		pathos_flow_redirect();
+	} else echo SITE_403_HTML;
 } else echo SITE_404_HTML;
 
 ?>

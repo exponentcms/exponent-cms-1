@@ -48,6 +48,7 @@ class formbuilder_form {
 			$object->response = "Your form has been submitted.";
 			$object->resetbtn = "Reset";
 			$object->submitbtn = "Submit";
+			$object->subject = "Submitted form from site.";
 		} else {
 			$form->meta("id",$object->id);
 		}
@@ -60,7 +61,20 @@ class formbuilder_form {
 		$form->register("submitbtn","Submit Button Text", new textcontrol($object->submitbtn));
 		$form->register("resetbtn","Reset Button Text", new textcontrol($object->resetbtn));
 		$form->register(uniqid(""),"", new htmlcontrol("<br><br><b>Email Settings</b><br><hr><br>"));
-		$form->register("is_email","Email Form",new checkboxcontrol($object->is_email,true));
+		$form->register("is_email","Email Form",new checkboxcontrol($object->is_email,false));
+		
+		$userlist = array();
+		$users = pathos_users_getAllUsers();
+		foreach ($users as $locuser) {
+			$userlist[$locuser->id] = $locuser->username;
+		}
+		$defaults = array();
+		foreach ($db->selectObjects("formbuilder_address","form_id=".$object->id." and user_id != 0") as $address) {
+			$locuser =  pathos_users_getUserById($address->user_id);
+			$defaults[$locuser->id] = $locuser->username;
+		} 
+		
+		$form->register("users","Users",new listbuildercontrol($defaults,$userlist));
 		$groups = pathos_users_getAllGroups();
 		$grouplist = array();
 		$defaults = array();
@@ -76,26 +90,15 @@ class formbuilder_form {
 			$form->register("groups","Groups",new listbuildercontrol($defaults,$grouplist));
 		}
 		
-		$userlist = array();
-		$users = pathos_users_getAllUsers();
-		foreach ($users as $locuser) {
-			$userlist[$locuser->id] = $locuser->username;
-		}
-		$defaults = array();
-		foreach ($db->selectObjects("formbuilder_address","form_id=".$object->id." and user_id != 0") as $address) {
-			$locuser =  pathos_users_getUserById($address->user_id);
-			$defaults[$locuser->id] = $locuser->username;
-		} 
-		
-		$form->register("users","Users",new listbuildercontrol($defaults,$userlist));
 		$defaults = array();
 		foreach ($db->selectObjects("formbuilder_address","form_id=".$object->id." and email != ''") as $address) {
 			$defaults[$address->email] = $address->email;
 		}
 		
 		$form->register("addresses","Other Addersses",new listbuildercontrol($defaults,array()));
+		$form->register("subject","Email Subject",new textcontrol($object->subject));
 		$form->register(uniqid(""),"", new htmlcontrol("<br><br><b>Database Settings</b><br><hr><br>"));
-		$form->register("is_saved","Save Submitions to Database",new checkboxcontrol($object->is_saved,true));
+		$form->register("is_saved","Save Submitions to Database",new checkboxcontrol($object->is_saved,false));
 		$form->register(uniqid(""),"", new htmlcontrol("<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*To help prevent data loss, you cannot remove a form's database once it has been added.<br>"));
 		if ($object->is_saved) {
 			$form->controls["is_saved"]->disabled = true;
@@ -116,9 +119,7 @@ class formbuilder_form {
 		$object->response = $values["response"];
 		$object->submitbtn = $values["submitbtn"];
 		$object->resetbtn = $values["resetbtn"];
-		if (!isset($object->id)) {
-			$object->table_name = preg_replace("/[^A-Za-z0-9]/","_",$values["name"]);
-		}
+		$object->subject = $values["subject"];
 		return $object;
 	}
 	
@@ -127,17 +128,23 @@ class formbuilder_form {
 		
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
-		
 		if ($object->is_saved) {
 			$datadef =  array(
 				"id"=>array(
-				DB_FIELD_TYPE=>DB_DEF_ID,
-				DB_PRIMARY=>true,
-				DB_INCREMENT=>true)
+					DB_FIELD_TYPE=>DB_DEF_ID,
+					DB_PRIMARY=>true,
+					DB_INCREMENT=>true),
+				"ip"=>array(
+					DB_FIELD_TYPE=>DB_DEF_STRING,
+					DB_FIELD_LEN=>25),
+				"timestamp"=>array(
+					DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
+				"user_id"=>array(
+					DB_FIELD_TYPE=>DB_DEF_ID)
 			);
-			
+			 
 			if (!isset($object->id)) {
-				
+				$object->table_name = preg_replace("/[^A-Za-z0-9]/","_",$object->name);
 				$tablename = 'formbuilder_'.$object->table_name;
 				$index = "";
 				while ($db->tableExists($tablename . $index)) {
@@ -147,7 +154,17 @@ class formbuilder_form {
 				$db->createTable($tablename,$datadef,array());
 				$object->table_name .= $index; 
 			} else {
+				if ($object->table_name == '') {
+					$tablename = preg_replace("/[^A-Za-z0-9]/","_",$object->name);
+					$index = "";
+					while ($db->tableExists('formbuilder_' . $tablename . $index)) {
+						$index++;
+					}
+					$object->table_name = $tablename . $index;
+				}
+				
 				$tablename = 'formbuilder_'.$object->table_name;
+				
 				//If table is missing, create a new one.
 				if (!$db->tableExists($tablename)) {
 					$db->createTable($tablename,$datadef,array());
@@ -163,7 +180,10 @@ class formbuilder_form {
 						$ctl->caption = $control->caption;
 						$ctl->id = $control->id;
 						$control_type = get_class($ctl);
-						$tempdef[$ctl->identifier] = call_user_func(array($control_type,"getFieldDefinition"));
+						$def = call_user_func(array($control_type,"getFieldDefinition"));
+						if ($def != null) {
+							$tempdef[$ctl->identifier] = $def;
+						}
 					}
 				}
 				$datadef = array_merge($datadef,$tempdef);

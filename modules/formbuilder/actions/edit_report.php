@@ -31,28 +31,29 @@
 # $Id$
 ##################################################
 
-return array(
-	"id"=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID,
-		DB_PRIMARY=>true,
-		DB_INCREMENT=>true),
-	"name"=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>100),
-	"caption"=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>150),
-	"form_id"=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	"data"=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>1000),
-	"rank"=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"is_readonly"=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"is_static"=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
-);
+if (!defined("PATHOS")) exit("");
+
+$f = null;
+$rept = null;
+if (isset($_GET['id'])) $f = $db->selectObject("formbuilder_form","id=".$_GET['id']);
+if ($f) {
+	if (pathos_permissions_check("editreport",unserialize($f->location_data))) {
+		$floc = unserialize($f->location_data);
+		$rept = $db->selectObject("formbuilder_report","form_id=".$f->id);
+	
+	
+	
+		$form = formbuilder_report::form($rept);
+		$form->location($loc);
+		$form->meta("action","save_report");
+		$form->meta("id",$rept->id);
+		$form->meta("m",$floc->mod);
+		$form->meta("s",$floc->src);
+		$form->meta("i",$floc->int);
+		echo $form->toHTML();
+	} else echo SITE_403_HTML;
+} else echo SITE_404_HTML;
+
+
 
 ?>

@@ -29,17 +29,35 @@
  * $Id$
  *}
  
+ <div align="center"><center><b>Form Editor</b><br>Use the drop down to add fields to this form.</center></div>
  <div style="border: 2px dashed lightgrey; padding: 1em;">
 {$form_html}
 </div>
-<form method="post" action="?">
-<input type="hidden" name="module" value="formbuilder" />
-<input type="hidden" name="action" value="edit_control" />
-<input type="hidden" name="form_id" value="{$form->id}" />
-Add a <select name="control_type" onChange="this.form.submit()">
-{foreach from=$types key=value item=caption}
-	<option value="{$value}">{$caption}</option>
-{/foreach}
-</select>
-</form>
-<a href="{$backlink}">Done</a>
+<script language="JavaScript">
+	function pickSource() {ldelim}
+		window.open('{$pickerurl}','sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+	 {rdelim}
+</script>
+
+<table cellpadding="5" cellspacing="0" border="0">
+<tr>
+<td>
+	<form method="post" action="?">
+	<input type="hidden" name="module" value="formbuilder" />
+	<input type="hidden" name="action" value="edit_control" />
+	<input type="hidden" name="form_id" value="{$form->id}" />
+	Add a <select name="control_type" onChange="this.form.submit()">
+	{foreach from=$types key=value item=caption}
+		<option value="{$value}">{$caption}</option>
+	{/foreach}
+	</select>
+	</form>
+</td>
+<td>
+	<a href="{$backlink}">Done</a>
+</td>
+<td>
+	<a href="JavaScript: pickSource();">Append fields from existing form</a>
+</td>
+</tr>
+</table>

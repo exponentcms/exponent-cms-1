@@ -58,11 +58,6 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 	
 	function name() { return "Static Text"; }
 	function isSimpleControl() { return true; }
-	function getFieldDefinition() {
-		return array(
-			DB_FIELD_TYPE=>DB_DEF_STRING,
-			DB_FIELD_LEN=>10000);
-	}
 	
 	function htmlcontrol($html = "") {
 		$this->html = $html;
@@ -95,6 +90,9 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 	function update($values, $object) {
 		if ($object == null) $object = new htmlcontrol();
 		$object->html = preg_replace("/<br ?\/>$/","",trim($values['html']));
+		$object->caption = '';
+		$object->identifier = uniqid("");
+		$object->is_static = 1;
 		return $object;
 	}
 	

@@ -35,14 +35,18 @@ if (!defined("PATHOS")) exit("");
 
 $a = $db->selectObject("formbuilder_control","form_id=".$_GET['p']." AND rank=".$_GET['a']);
 $b = $db->selectObject("formbuilder_control","form_id=".$_GET['p']." AND rank=".$_GET['b']);
-
-$tmp = $a->rank;
-$a->rank = $b->rank;
-$b->rank = $tmp;
-
-$db->updateObject($a,"formbuilder_control");
-$db->updateObject($b,"formbuilder_control");
-
-pathos_flow_redirect();
+if ($a && $b) {
+	$f = $db->selectObject("formbuilder_form","id=".$a->form_id);
+	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
+		$tmp = $a->rank;
+		$a->rank = $b->rank;
+		$b->rank = $tmp;
+		
+		$db->updateObject($a,"formbuilder_control");
+		$db->updateObject($b,"formbuilder_control");
+		
+		pathos_flow_redirect();
+	} else echo SITE_403_HTML;
+} else echo SITE_404_HTML;
 
 ?>

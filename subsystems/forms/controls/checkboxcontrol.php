@@ -98,6 +98,10 @@ class checkboxcontrol extends formcontrol {
 		return isset($values[$name])?1:0;
 	}
 	
+	function templateFormat($db_data, $ctl) {
+		return ($db_data==1)?"Yes":"No";
+	}
+	
 	function form($object) {
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();

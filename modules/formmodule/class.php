@@ -33,7 +33,7 @@
 
 class formmodule {
 	function name() { return "Form Module"; }
-	function description() { return "Allows the creation of forms that can be emailed and/or stored in the database.<br><font color='red'>This is still in development and is not fully functional yet.</font>"; }
+	function description() { return "Allows the creation of forms that can be emailed and/or stored in the database."; }
 	function author() { return "Greg Otte"; }
 	
 	function hasSources() { return true; }
@@ -46,16 +46,22 @@ class formmodule {
 		if ($internal == "") {
 			return array(
 				"administrate"=>"Administrate",
-				"editform"=>"Edit Create Form",
+				"editform"=>"Edit Form",
+				"editformsettings"=>"Edit Form Settings",
 				"editreport"=>"Edit Form Report",
-				"viewdata"=>"View Data"
+				"viewdata"=>"View Posts",
+				"editdata"=>"Edit Post",
+				"deletedata"=>"Delete Post"
 			);
 		} else {
 			return array(
 				"administrate"=>"Administrate",
-				"editform"=>"Edit Create Form",
+				"editform"=>"Edit Form",
+				"editformsettings"=>"Edit Form Settings",
 				"editreport"=>"Edit Form Report",
-				"viewdata"=>"View Data"
+				"viewdata"=>"View Posts",
+				"editdata"=>"Edit Post",
+				"deletedata"=>"Delete Post"
 			);
 		}
 	}
@@ -65,7 +71,7 @@ class formmodule {
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
-		if (defined("PREVIEW_READONLY")) {
+		if (defined("PREVIEW_READONLY") && !defined("SELECTOR")) {
 			echo "";
 		} 
 		else {
@@ -81,11 +87,12 @@ class formmodule {
 				$f->is_saved = 0;
 				$f->submitbtn = "Submit";
 				$f->resetbtn = "Reset";
-				$f->response = "Your form has been submited.";
+				$f->response = "Your form has been submitted.";
+				$f->subject = "Submitted form from site.";
 				$frmid = $db->insertObject($f,"formbuilder_form");
 				//Create Default Report;
 				$rpt->name = "Default Report";
-				$rpt->description = "This is the auto generated default report. Leave the report defenition blank to use the default 'all fields' report.";
+				$rpt->description = "";
 				$rpt->location_data = $f->location_data;
 				$rpt->text = "";
 				$rpt->column_names = "";
@@ -99,7 +106,7 @@ class formmodule {
 			pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 			$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
 			
-			$loc = unserialize($f->location_data);
+			$floc = unserialize($f->location_data);
 			$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id);
 			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
 			usort($controls,"pathos_sorting_byRankAscending");
@@ -113,15 +120,27 @@ class formmodule {
 			}
 			$form->register(uniqid(""),"", new htmlcontrol("<br><br>"));
 			$form->register("submit","",new buttongroupcontrol($f->submitbtn,$f->resetbtn,""));
-			$template = new template("formmodule",$view);
+			
+			$form->meta("action","submit_form");
+			$form->meta("m",$floc->mod);
+			$form->meta("s",$floc->src);
+			$form->meta("i",$floc->int);
+			$form->meta("id",$f->id);
+			$formmsg = '';
+			$form->location(pathos_core_makeLocation("formbuilder",$floc->src,$floc->int));
+			if (count($controls) == 0) {
+				$form->controls['submit']->disabled = true;
+				$formmsg .= 'This form is blank. Select "Edit Form" to add input fields.<br>';
+			}
+			if (!$f->is_saved && !$f->is_email) {
+				$form->controls['submit']->disabled = true;
+				$formmsg .= 'There are no actions assigned to this form. Select "Edit Form Settings" then select "Email Form" and/or "Save to Database".'; 
+			}
+			$template = new template("formmodule",$view,$loc);
+			$template->assign("formmsg",$formmsg);
 			$template->assign("form_html",$form->toHTML($f->id));
 			$template->assign("form",$f);
-			$types = pathos_forms_listControlTypes();
-			$types[".break"] = "Spacer";
-			$types[".line"] = "Horizontal Line";
-			uasort($types,"strnatcmp");
-			array_unshift($types,"[Please Select]");
-			$template->assign("types",$types);
+			$template->register_permissions(array("administrate","editform","editformsettings","editreport","viewdata","editdata","deletedata"),$loc);
 			$template->output();
 		}
 		
@@ -130,10 +149,13 @@ class formmodule {
 	
 	function deleteIn($loc) {
 		global $db;
-		foreach ($db->selectObjects("formbuilder_form","location_data='".serialize($loc)."'") as $form) {
-			$db->delete("formbuilder_control","form_id=".$form->id);
-		}
+		$form = $db->selectObject("formbuilder_form","location_data='".serialize($loc)."'");
+		$db->delete("formbuilder_control","form_id=".$form->id);
 		$db->delete("formbuilder_report","form_id=".$form->id);
+		$db->delete("formbuilder_address","form_id=".$form->id);
+		if ($form->is_saved) {
+			$db->dropTable("formbuilder_".$form->table_name);
+		}
 		$db->delete("formbuilder_form","location_data='".serialize($loc)."'");
 	}
 	
