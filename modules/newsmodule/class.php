@@ -65,7 +65,7 @@ class newsmodule {
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == "") return array($loc);
+		if ($loc->int == '') return array($loc);
 		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
 	}
 	
@@ -119,10 +119,10 @@ class newsmodule {
 		}
 		
 	
-		$template = new template("newsmodule",$view,$loc);
-		$template->assign("moduletitle",$title);
+		$template = new template('newsmodule',$view,$loc);
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array("administrate","configure","add_item","delete_item","edit_items","manage_approval"),
+			array('administrate','configure','add_item','delete_item','edit_items','manage_approval','view_unpublished'),
 			$loc
 		);
 		
