@@ -34,7 +34,8 @@
 define('TR_FORMCONTROLS_IDENTIFIER',			'Identifier');
 define('TR_FORMCONTROLS_CAPTION',				'Caption');
 define('TR_FORMCONTROLS_DEFAULT',				'Default');
-
+define('TR_FORMCONTROLS_REQUIRED',				'Required other then default');
+define('TR_FORMCONTROLS_REQUIREDSELECT',		'Required selection');
 // Errors
 define('TR_FORMCONTROLS_IDENTIFIER_REQUIRED',	'Identifier is required.');
 define('TR_FORMCONTROLS_GROUPNAME_REQUIRED',	'Group Name is required.');

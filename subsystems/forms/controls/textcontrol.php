@@ -59,6 +59,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 class textcontrol extends formcontrol {
 	var $size = 0;
 	var $maxlength = "";
+	var $caption = "";
 	
 	function name() { return "Text Box"; }
 	function isSimpleControl() { return true; }
@@ -74,6 +75,7 @@ class textcontrol extends formcontrol {
 		$this->disabled = $disabled;
 		$this->maxlength = $maxlength;
 		$this->filter = $filter;
+		$this->required = false;
 	}
 
 	function controlToHTML($name) {
@@ -88,6 +90,9 @@ class textcontrol extends formcontrol {
 			$html .= "onBlur=\"".$this->filter."_filter.onBlur(this);\" ";
 			$html .= "onFocus=\"".$this->filter."_filter.onFocus(this);\" ";
 			$html .= "onPaste=\"return ".$this->filter."_filter.onPaste(this, event);\" ";
+		}
+		if (@$this->required) {
+			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
 		$html .= "/>";
 		return $html;
@@ -104,6 +109,7 @@ class textcontrol extends formcontrol {
 			$object->default = "";
 			$object->size = 0;
 			$object->maxlength = 0;
+			$object->required = false;
 		} 
 		pathos_lang_loadDictionary('standard','formcontrols');
 		pathos_lang_loadDictionary('standard','core');
@@ -113,7 +119,7 @@ class textcontrol extends formcontrol {
 		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
 		$form->register("size",TR_FORMCONTROLS_SIZE, new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
 		$form->register("maxlength",TR_FORMCONTROLS_MAXLENGTH, new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
-		
+		$form->register("required",TR_FORMCONTROLS_REQUIRED, new checkboxcontrol(@$object->required,false)); 
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
@@ -134,6 +140,7 @@ class textcontrol extends formcontrol {
 		$object->default = $values['default'];
 		$object->size = intval($values['size']);
 		$object->maxlength = intval($values['maxlength']);
+		$object->required = isset($values['required']);
 		return $object;
 	}
 	

@@ -72,6 +72,7 @@ class dropdowncontrol extends formcontrol {
 	function dropdowncontrol($default = "",$items = array()) {
 		$this->default = $default;
 		$this->items = $items;
+		$this->required = false;
 	}
 	
 	function controlToHTML($name) {
@@ -80,6 +81,9 @@ class dropdowncontrol extends formcontrol {
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		foreach ($this->jsHooks as $hook=>$action) {
 			$html .= " $hook=\"$action\"";
+		}
+		if (@$this->required) {
+			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
 		$html .= '>';
 		foreach ($this->items as $value=>$caption) {
@@ -112,6 +116,7 @@ class dropdowncontrol extends formcontrol {
 		$form->register("items",TR_FORMCONTROLS_ITEMS, new listbuildercontrol($object->items,null));
 		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
 		$form->register("size",TR_FORMCONTROLS_SIZE, new textcontrol($object->size,3,false,2,"integer"));
+		$form->register("required",TR_FORMCONTROLS_REQUIRED, new checkboxcontrol(@$object->required,false)); 
 		
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
@@ -134,6 +139,7 @@ class dropdowncontrol extends formcontrol {
 		$object->default = $values['default'];
 		$object->items = listbuildercontrol::parseData($values,'items',true);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
+		$object->required = isset($values['required']);
 		pathos_forms_cleanup();
 		return $object;
 	}

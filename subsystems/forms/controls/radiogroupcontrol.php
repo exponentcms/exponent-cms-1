@@ -83,10 +83,15 @@ class radiogroupcontrol extends formcontrol {
 		$this->flip = $flip;
 		$this->spacing = $spacing;
 		$this->cols = $cols;
+		$this->required = false;
 	}
 	
 	function controlToHTML($name) {
-		$html = "<table border='0' cellpadding='0' cellspacing='0'><tr>";
+		$html = "";
+		if (@$this->required) {
+			$html .= "<script language='JavaScript'>registerRG('".rawurlencode($this->caption)."')</script>";
+		}
+		$html .= "<table border='0' cellpadding='0' cellspacing='0'><tr>";
 		$count = 0;
 		foreach ($this->items as $value=>$caption) {
 			$count++;
@@ -101,6 +106,9 @@ class radiogroupcontrol extends formcontrol {
 			
 			$html .= '<input type="radio" value="'.$value .'" name="' . $name . '"';
 			if ($this->default == $value) $html .= ' checked';
+			if (@$this->required) {
+				$html .= " onClick='unregisterRG(\"".rawurlencode($this->caption)."\");'";
+			}
 			$html .= ' />';
 			
 			if ($this->flip) $html .= '&nbsp;'.$caption;
@@ -144,6 +152,7 @@ class radiogroupcontrol extends formcontrol {
 		$form->register("cols",TR_FORMCONTROLS_NUMCOLS, new textcontrol($object->cols,4,false,2,"integer"));
 		$form->register(null,"", new htmlcontrol(TR_FORMCONTROLS_COLSPACING_MSG));
 		$form->register("spacing",TR_FORMCONTROLS_COLSPACING, new textcontrol($object->spacing,5,false,4,"integer"));
+		$form->register("required",TR_FORMCONTROLS_REQUIRED, new checkboxcontrol(@$object->required,false)); 
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
@@ -168,6 +177,7 @@ class radiogroupcontrol extends formcontrol {
 		$object->flip = isset($values['flip']);
 		$object->cols = intval($values['cols']);
 		$object->spacing = intval($values['spacing']);
+		$object->required = isset($values['required']);
 		pathos_forms_cleanup();
 		return $object;
 	}

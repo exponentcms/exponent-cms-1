@@ -90,8 +90,15 @@ class buttongroupcontrol extends formcontrol {
 		if ($this->submit != "") {
 			$html .= '<input type="submit" value="' . $this->submit . '"';
 			if ($this->disabled) $html .= " disabled";
-			if ($this->validateJS != "") $html .= ' onClick="if (' . $this->validateJS . ') { return true; } else { return false; }"';
+			$html .= ' onClick="if (checkRequired()) ';
+			if ($this->validateJS != "") {
+				$html .= '{ if (' . $this->validateJS . ') { return true; } else { return false; } }';
+			} else {
+				$html .= '{ return true; }';
+			}
+			$html .= ' else { return false; }"';
 			$html .= ' />';
+			
 		}
 		if ($this->reset != "") $html .= '<input type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
 		if ($this->cancel != "") {
