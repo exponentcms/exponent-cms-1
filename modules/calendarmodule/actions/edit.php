@@ -78,8 +78,8 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$allforms = array();
 		$allforms[""] = TR_CALENDARMODULE_NOFEEDBACK;
 		$allforms = array_merge($allforms, pathos_template_getFormTemplates('email'));
-		$form->registerAfter("eventend", 'feedback_form', TR_CALENDARMODULE_FEEDBACKFORM, new dropdowncontrol("", $allforms));
-		$form->registerAfter("feedback_form", 'feedback_email', TR_CALENDARMODULE_FEEDBACKEMAIL, new textcontrol("", 20));
+		$form->registerAfter("eventend", 'feedback_form', TR_CALENDARMODULE_FEEDBACKFORM, new dropdowncontrol($item->feedback_form, $allforms));
+		$form->registerAfter("feedback_form", 'feedback_email', TR_CALENDARMODULE_FEEDBACKEMAIL, new textcontrol($item->feedback_email, 20));
 		$form->registerBefore("feedback_form", null, '', new htmlcontrol('<br />'));
 	}
 	
