@@ -31,20 +31,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Files Subsystem category
 
-if ($user && $user->is_acting_admin) {
-	$db->delete("mimetype","1");
-	$mimes = include(BASE."subsystems/files/mimetypes.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	$db->delete('mimetype');
+	$mimes = include(BASE.'subsystems/files/mimetypes.php');
 	$obj = null;
 	foreach ($mimes as $type=>$name) {
 		$obj->mimetype = $type;
 		$obj->name = $name;
-		$db->insertObject($obj,"mimetype");
+		$db->insertObject($obj,'mimetype');
 	}
-	$db->optimize("mimetype");
 	
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

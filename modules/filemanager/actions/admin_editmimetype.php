@@ -31,25 +31,30 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Files Subsystem category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$type = null;
-	if (isset($_GET['type'])) $type = $db->selectObject("mimetype","mimetype='".$_GET['type']."'");
+	if (isset($_GET['type'])) $type = $db->selectObject('mimetype',"mimetype='".$_GET['type']."'");
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = mimetype::form($type);
-	$form->meta("module","filemanager");
-	$form->meta("action","admin_savemimetype");
+	$form->meta('module','filemanager');
+	$form->meta('action','admin_savemimetype');
 	
-	$template = new template("filemanager","_form_editmimetype",$loc);
-	$template->assign("form_html",$form->toHTML());
-	$template->assign("is_edit",isset($type->id)?1:0);
+	$template = new template('filemanager','_form_editmimetype',$loc);
+	$template->assign('form_html',$form->toHTML());
+	$template->assign('is_edit',isset($type->id)?1:0);
 	$template->output();
 	
 	pathos_forms_cleanup();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

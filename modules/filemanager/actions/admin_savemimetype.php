@@ -31,19 +31,27 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Files Subsystem category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$type = null;
-	if (isset($_POST['oldmime'])) $type = $db->selectObject("mimetype","mimetype='".$_POST['oldmime']."'");
+	if (isset($_POST['oldmime'])) $type = $db->selectObject('mimetype',"mimetype='".$_POST['oldmime']."'");
 	$is_existing = ($type != null);
 	
 	$type = mimetype::update($_POST,$type);
 	
-	if ($is_existing) $db->updateObject($type,"mimetype","mimetype='".$type->mimetype."'");
-	else $db->insertObject($type,"mimetype");
+	if ($is_existing) {
+		$db->updateObject($type,'mimetype',"mimetype='".$type->mimetype."'");
+	} else {
+		$db->insertObject($type,'mimetype');
+	}
 	
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

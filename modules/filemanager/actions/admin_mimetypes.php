@@ -31,18 +31,18 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Files Subsystem category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-
-	$template = new Template("filemanager","_mimetypes",$loc);
-	
-	$types = $db->selectObjects("mimetype","1");
-	
-	$template->assign("types",$types);
-	
+	$template = new template('filemanager','_mimetypes',$loc);
+	$template->assign('types',$db->selectObjects('mimetype'));
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

@@ -31,12 +31,15 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Files Subsystem category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$type = null;
-	if (isset($_GET['type'])) $type = $db->selectObject("mimetype","mimetype='".$_GET['type']."'");
-	if ($type) $db->delete("mimetype","mimetype='" . $type->mimetype . "'");
+	if (isset($_GET['type'])) $type = $db->selectObject('mimetype',"mimetype='".$_GET['type']."'");
+	if ($type) $db->delete('mimetype',"mimetype='" . $type->mimetype . "'");
 	
 	pathos_flow_redirect();
 }
