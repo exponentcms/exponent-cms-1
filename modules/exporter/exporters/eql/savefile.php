@@ -34,10 +34,14 @@
 if (!defined("PATHOS")) exit("");
 
 if (!defined("SYS_BACKUP")) include_once(BASE."subsystems/backup.php");
-	
+
+ob_end_clean();
+
 header("Content-type: application/octet-stream");
 header('Content-Disposition: inline; filename="database.eql"');
 
 echo pathos_backup_dumpDatabase($db,array_keys($_POST['tables']));
+
+exit();
 
 ?>
