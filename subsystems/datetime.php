@@ -41,7 +41,7 @@ define("SYS_DATETIME",1);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * @node To Be Deprecated
  */
 function pathos_datetime_monthsDropdown($controlName,$default_month) {
 	$months = array(
@@ -119,8 +119,13 @@ function pathos_datetime_startOfMonthTimestamp($timestamp) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Given a timestamp, this function will calculate another timestamp
+ * that represents the end of the month that the passed timestamp
+ * falls into.  For instance, passing a timestamp representing January 25th 1984
+ * would return a timestamp representing January 31st 1984, at 11:59pm. 
+ *
+ * @param timestamp $timestamp The original timestamp to use when calculating.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_endOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
@@ -170,19 +175,6 @@ function pathos_datetime_startOfDayTimestamp($timestamp) {
 	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
 }
 
-/*
-function pathos_datetime_endOfDayTimestamp($timestamp) {
-	$info = getdate($timestamp);
-	return mktime(23,59,59,$info['mon'],$info['mday'],$info['year']);
-}
-
-function pathos_datetime_makeDay($timestamp,$day) {
-	$info = getdate($timestamp);
-	return mktime(0,0,0,$info['mon'],$day,$info['year']);
-}
-*/
-
-/* Week Functions */
 /* exdoc
  * Looks at a timestamp and returns another timestamp representing
  * 12:00:01 am of the Sunday of the same week.
@@ -204,8 +196,15 @@ function pathos_datetime_startOfWeekTimestamp($timestamp) {
 // Recurring Dates
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Find all of the dates that fall within the daily recurrence criteria.
+ * This is the simplest form of recurrence, events are spaced a given
+ * number of days apart.
+ *
+ * @param timestamp $start The start of the recurrence range
+ * @param timestamp $end The end of the recurrence range
+ * @param integer $freq Frequency of recurrence - 2 means every 2 days, and 1
+ * 	means every day.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_recurringDailyDates($start,$end,$freq) {
 	$dates = array();
@@ -321,8 +320,21 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Finds all of the dates that fall within the monthly recurrence criteria
+ * and within the $start to $end timestamp range.  Monthly recurrence can be
+ * done on a specific date (the 14th of the month) or on a specific weekday / offset
+ * pair (the third sunday of the month).
+ *
+ * For a technical discussion of this function and the mathematics involved,
+ * please see the sdk/analysis/subsystems/datetime.txt file.
+ *
+ * @param timestamp $start The start of the recurrence range
+ * @param timestamp $end The end of the recurrence range
+ * @param integer $freq Monthly frequency - 1 means every month, 2 means every
+ *   other month, etc.
+ * @param bool $by_day Whether or not to recur by the weekday and week offset
+ * (in case of true), or by the date (in case of false).
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) {
 	// Holding array, for keeping all of the matching timestamps
@@ -409,8 +421,19 @@ function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) 
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Finds all of the dates that fall within the yearly recurrence criteria
+ * (similar to monthly) and within the $start to $end timestamp range.
+ * Unlike monthly recurrence, yearly cannot do recurrence like 'the
+ * 17th sunday of the year'.
+ *
+ * For a technical discussion of this function and the mathematics involved,
+ * please see the sdk/analysis/subsystems/datetime.txt file.
+ *
+ * @param timestamp $start The start of the recurrence range
+ * @param timestamp $end The end of the recurrence range
+ * @param integer $freq Yearly frequency - 1 means every year, 2 means every
+ *   other year, etc.
+ * @node Subsystems:DateTime
  */
 function pathos_datetime_recurringYearlyDates($start,$end,$freq) {
 	return pathos_datetime_recurringMonthlyDates($start,$end,$freq*12);
