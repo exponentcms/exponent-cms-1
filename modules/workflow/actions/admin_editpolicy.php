@@ -31,20 +31,20 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin == 1) {
 	$policy = null;
-	if (isset($_GET['id'])) $policy = $db->selectObject("approvalpolicy","id=".$_GET['id']);
+	if (isset($_GET['id'])) $policy = $db->selectObject('approvalpolicy','id='.$_GET['id']);
 	
 	$form = approvalpolicy::form($policy);
-	$form->meta("module","workflow");
-	$form->meta("action","admin_savepolicy");
+	$form->meta('module','workflow');
+	$form->meta('action','admin_savepolicy');
 	
-	$template = new template("workflow","_form_editpolicy",$loc);
-	$template->assign("is_edit",(isset($policy->id) ? 1 : 0));
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('workflow','_form_editpolicy',$loc);
+	$template->assign('is_edit',(isset($policy->id) ? 1 : 0));
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 }
 

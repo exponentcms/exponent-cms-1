@@ -31,11 +31,11 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin) {
-	$db->switchValues("workflowaction","rank",$_GET['a'],$_GET['b'],"policy_id=".$_GET['policy_id']." AND type=".$_GET['type']);
+	$db->switchValues('workflowaction','rank',$_GET['a'],$_GET['b'],"policy_id='".$_GET['policy_id']."' AND type=".$_GET['type']);
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

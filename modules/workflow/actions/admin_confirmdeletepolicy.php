@@ -31,25 +31,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin) {
 
-	$policy = $db->selectObject("approvalpolicy","id=".$_GET['id']);
+	$policy = $db->selectObject('approvalpolicy','id='.$_GET['id']);
 	
 	if ($policy) {
 
-		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		$infos = array();
 		foreach(pathos_workflow_getInfoTables() as $table) {
-			$typename = str_replace("_wf_info","",$table);
-			$infos[$typename] = $db->selectObjects($table,"policy_id=".$policy->id);
+			$typename = str_replace('_wf_info','',$table);
+			$infos[$typename] = $db->selectObjects($table,'policy_id='.$policy->id);
 			for ($i = 0; $i < count($infos[$typename]); $i++) {
-				$revision = $db->selectObject($typename."_wf_revision","wf_original=".$infos[$typename][$i]->real_id." AND wf_major=".$infos[$typename][$i]->current_major." AND wf_minor=".$infos[$typename][$i]->current_minor);
+				$revision = $db->selectObject($typename.'_wf_revision','wf_original='.$infos[$typename][$i]->real_id.' AND wf_major='.$infos[$typename][$i]->current_major.' AND wf_minor='.$infos[$typename][$i]->current_minor);
 				$infos[$typename][$i]->title = $revision->title;
 				$l = unserialize($revision->location_data);
-				$infos[$typename][$i]->source = pathos_core_translateLocationSource($l->src);
+				#$infos[$typename][$i]->source = pathos_core_translateLocationSource($l->src);
 				$mclass = $l->mod;
 				$m = new $mclass();
 				$infos[$typename][$i]->module = $m->name();
@@ -58,16 +58,16 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		}
 		
 		if (count($infos)) {
-			$template = new Template("workflow","_confirmpolicydelete",$loc);
+			$template = new Template('workflow','_confirmpolicydelete',$loc);
 			
-			$template->assign("affected",$infos);
-			$template->assign("policy",$policy);
+			$template->assign('affected',$infos);
+			$template->assign('policy',$policy);
 			
 			$template->output();
 		} else {
-			$db->delete("approvalpolicy","id=".$policy->id);
-			$db->delete("approvalpolicyassociation","policy_id=".$policy->id);
-			$db->delete("workflowaction","policy_id=".$policy->id);
+			$db->delete('approvalpolicy','id='.$policy->id);
+			$db->delete('approvalpolicyassociation','policy_id='.$policy->id);
+			$db->delete('workflowaction','policy_id='.$policy->id);
 			pathos_flow_redirect();
 		}
 	} else echo SITE_404_HTML;

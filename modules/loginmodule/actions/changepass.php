@@ -31,23 +31,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (!defined("SYS_USERS")) include_once("subsystems/users.php");
-if (!defined("SYS_FORMS")) include_once("subsystems/forms.php");
+if (!defined('SYS_USERS')) include_once('subsystems/users.php');
+if (!defined('SYS_FORMS')) include_once('subsystems/forms.php');
 pathos_forms_initialize();
+
+pathos_lang_loadDictionary('modules','loginmodule');
 
 $form = new form();
 $form->location($loc);
-$form->meta("action","savepass");
-$form->register("oldpass","Old Password",new passwordcontrol());
-$form->register("pass1","New Password",new passwordcontrol());
-$form->register("pass2","Confirm",new passwordcontrol());
+$form->meta('action','savepass');
+$form->register('oldpass',TR_LOGINMODULE_OLDPASS,new passwordcontrol());
+$form->register('pass1',TR_LOGINMODULE_NEWPASS,new passwordcontrol());
+$form->register('pass2',TR_LOGINMODULE_CONFIRMPASS,new passwordcontrol());
 
-$form->register("submit","",new buttongroupcontrol("Change"));
+$form->register('submit','',new buttongroupcontrol(TR_CONFIRMMODULE_CHANGEBTN));
 
-$template = new template("loginmodule","_form_changePassword",$loc);
-$template->assign("form_html",$form->toHTML());
+$template = new template('loginmodule','_form_changePassword',$loc);
+$template->assign('form_html',$form->toHTML());
 $template->output();
 
 pathos_forms_cleanup();

@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 //GREP:REIMPLEMENT
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK?
 	// Need to unlog from info?

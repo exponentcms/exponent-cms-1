@@ -30,35 +30,34 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (!$user && SITE_ALLOW_REGISTRATION == 1) {
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	if (!defined("SYS_SECURITY")) include_once(BASE."subsystems/security.php");
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
 	if (pathos_users_getUserByName($_POST['username']) != null) {
 		$post = $_POST;
 		unset($post['username']);
-		$post['_formError'] = "Username already taken.";
-		pathos_sessions_set("last_POST",$post);
-		header("Location: " . $_SERVER['HTTP_REFERER']);
+		$post['_formError'] = TR_LOGINMODULE_USERNAMETAKEN;
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	} else if ($_POST['pass1'] != $_POST['pass2']) {
 		$post = $_POST;
 		unset($post['pass1']);
 		unset($post['pass2']);
-		$post['_formError'] = "Passwords don't match";
-		pathos_sessions_set("last_POST",$post);
-		header("Location: " . $_SERVER['HTTP_REFERER']);
+		$post['_formError'] = TR_LOGINMODULE_UNMATCHEDPASSWORDS;
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	} else {
 		$strength_error = pathos_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
-		if ($strength_error != "") {
+		if ($strength_error != '') {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = "Your password is not strong enough : $strength_error";
-			pathos_sessions_set("last_POST",$post);
-			header("Location: " . $_SERVER['HTTP_REFERER']);
+			$post['_formError'] = TR_LOGINMODULE_STRENGTHFAILED . $strength_error;
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
 			$u = pathos_users_create($_POST,null);
 			$u = pathos_users_saveProfileExtensions($_POST,$u,true);
@@ -66,6 +65,8 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 			pathos_flow_redirect();
 		}
 	}
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

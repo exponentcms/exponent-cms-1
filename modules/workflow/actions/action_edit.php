@@ -31,39 +31,42 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin) {
+
+	pathos_lang_loadDictionary('standard','core');
+	pathos_lang_loadDictionary('modules','workflow');
 	
 	$action = null;
-	if (isset($_GET['id'])) $action = $db->selectObject("workflowaction","id=".$_GET['id']);
+	if (isset($_GET['id'])) $action = $db->selectObject('workflowaction','id='.$_GET['id']);
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = new form();
-	$form->meta("module","workflow");
-	$form->meta("action","action_save");
-	if ($action) $form->meta("id",$action->id);
+	$form->meta('module','workflow');
+	$form->meta('action','action_save');
+	if ($action) $form->meta('id',$action->id);
 	else {
-		$form->meta("type",$_GET['type']); // CHECK
-		$form->meta("policy_id",$_GET['policy_id']); // CHECK
-		$action->method = "";
-		$action->parameters = "";
+		$form->meta('type',$_GET['type']); // CHECK
+		$form->meta('policy_id',$_GET['policy_id']); // CHECK
+		$action->method = '';
+		$action->parameters = '';
 	}
 	
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	
 	$actions = pathos_workflow_getAvailableActions();
-	uasort($actions,"strnatcmp");
-	$form->register("method","Action",new dropdowncontrol($action->method,$actions));
-	$form->register("parameters","Parameters", new texteditorcontrol($action->parameters));
-	$form->register("submit","", new buttongroupcontrol("Save"));
+	uasort($actions,'strnatcmp');
+	$form->register('method',TR_WORKFLOW_ACTION,new dropdowncontrol($action->method,$actions));
+	$form->register('parameters',TR_WORKFLOW_PARAMETERS, new texteditorcontrol($action->parameters));
+	$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 	
-	$template = new template("workflow","_form_editaction",$loc);
-	$template->assign("is_edit",(isset($action->id)?1:0));
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('workflow','_form_editaction',$loc);
+	$template->assign('is_edit',(isset($action->id)?1:0));
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
 	pathos_forms_cleanup();

@@ -32,43 +32,44 @@
 ##################################################
 //GREP:HARDCODEDTEXT
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
-	$db->delete("passreset_token","expires < " . time());
-	$tok = $db->selectObject("passreset_token","uid=".trim($_GET['uid'])." AND token='".trim($_GET['token']) ."'");
-	if ($tok == null) {
-		echo "Your token has expired.";
-	} else {
-		$newpass = "";
-		for ($i = 0; $i < rand(12,20); $i++) {
-			$num=rand(48,122);
-			if(($num > 97 && $num < 122) || ($num > 65 && $num < 90) || ($num >48 && $num < 57)) $newpass.=chr($num);
-			else $i--;
-		}
+$template = new template('loginmodule','_resetconfirm',$loc);
 
-		// Send message
-		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
-		
-		$template = new template("loginmodule","_email_resetdone",$loc);
-		$template->assign("newpass",$newpass);
-		$msg = $template->render();
-		
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-		$u = pathos_users_getUserById($tok->uid);
-		
-		if (!pathos_smtp_mail($u->email,"Password Manager <passwords@pathos>","Your New Password",$msg)) {
-			echo "Error sending confirmation message.  Contact an administrator.";
-		} else {
-			// Save new password
-			$u->password = md5($newpass);
-			pathos_users_saveUser($u);
-			
-			$db->delete("passreset_token","uid=".$tok->uid);
-			
-			echo "Your new password has been emailed to you.";
-		}
+$db->delete('passreset_token','expires < ' . time());
+$tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid']).' AND token=''.trim($_GET['token']) .''');
+if ($tok == null) {
+	$template->assign('state','expired');
+} else {
+	$newpass = '';
+	for ($i = 0; $i < rand(12,20); $i++) {
+		$num=rand(48,122);
+		if(($num > 97 && $num < 122) || ($num > 65 && $num < 90) || ($num >48 && $num < 57)) $newpass.=chr($num);
+		else $i--;
 	}
-// END PERM CHECK
+
+	// Send message
+	if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
+	
+	$template = new template('loginmodule','_email_resetdone',$loc);
+	$template->assign('newpass',$newpass);
+	$msg = $template->render();
+	
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	$u = pathos_users_getUserById($tok->uid);
+	
+	if (!pathos_smtp_mail($u->email,'Password Manager <passwords@pathos>','Your New Password',$msg)) {
+		$template->assign('state','smtp_error');
+	} else {
+		// Save new password
+		$u->password = md5($newpass);
+		pathos_users_saveUser($u);
+		
+		$db->delete('passreset_token','uid='.$tok->uid);
+		
+		$template->assign('state','sent');
+	}
+}
+$template->output();
 
 ?>

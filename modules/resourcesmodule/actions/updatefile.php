@@ -31,32 +31,35 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject("resourceitem","id=".$_GET['id']);
+$item = $db->selectObject('resourceitem','id='.$_GET['id']);
 if ($item) {
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
 	
-	if ((pathos_permissions_check("edit",$loc) || pathos_permissions_check("edit",$iloc)) &&
+	if ((pathos_permissions_check('edit',$loc) || pathos_permissions_check('edit',$iloc)) &&
 		($item->flock_owner == 0 || $item->flock_owner == $user->id || $user->is_acting_admin)
 	) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
-		$form = new form();
-		$form->meta("action","saveupdatedfile");
-		$form->location($loc);
-		$form->meta("id",$item->id);
-		$form->register("file","File",new uploadcontrol());
-		if ($item->flock_owner != 0 && ($user->is_acting_admin || $user->id == $item->flock_owner)) {
-			$form->register("checkin","Unlock File?",new checkboxcontrol(false,true));
-		}
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','resourcesmodule');
 		
-		$template = new template("resourcesmodule","_form_checkIn",$loc);
-		$template->assign("form_html",$form->toHTML());
-		$template->assign("resource",$item);
+		$form = new form();
+		$form->meta('action','saveupdatedfile');
+		$form->location($loc);
+		$form->meta('id',$item->id);
+		$form->register('file',TR_RESOURCESMODULE_UPDATEFILE,new uploadcontrol());
+		if ($item->flock_owner != 0 && ($user->is_acting_admin || $user->id == $item->flock_owner)) {
+			$form->register('checkin',TR_RESOURCESMODULE_UNLOCKFILE,new checkboxcontrol(false,true));
+		}
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		
+		$template = new template('resourcesmodule','_form_checkIn',$loc);
+		$template->assign('form_html',$form->toHTML());
+		$template->assign('resource',$item);
 		
 		$template->output();
 		

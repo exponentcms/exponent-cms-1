@@ -68,11 +68,11 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		
 		// Grab all policies
 		$assocs = array();
-		foreach ($db->selectObjects('approvalpolicyassociation',"module='$mod' AND is_global=0") as $assoc) {
+		foreach ($db->selectObjects('approvalpolicyassociation','module='$mod' AND is_global=0') as $assoc) {
 			$assocs[$assoc->source] = $assoc->policy_id;
 		}
 		
-		$default = $db->selectObject('approvalpolicyassociation',"module='$mod' AND is_global=1");
+		$default = $db->selectObject('approvalpolicyassociation','module='$mod' AND is_global=1');
 		$defaults[$mod] = $default->policy_id;
 		
 		// Now grab all the sources.

@@ -31,19 +31,19 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (SITE_ALLOW_REGISTRATION == 1) {
-	if (!defined("SYS_USERS")) include_once("subsystems/users.php");
-	if (!defined("SYS_FORMS")) include_once("subsystems/forms.php");
+	if (!defined('SYS_USERS')) include_once('subsystems/users.php');
+	if (!defined('SYS_FORMS')) include_once('subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = pathos_users_form(null);
-	$form->meta("module","loginmodule");
-	$form->meta("action","saveuser");
+	$form->meta('module','loginmodule');
+	$form->meta('action','saveuser');
 	
-	$template = new template("loginmodule","_form_createUser",$loc);
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('loginmodule','_form_createUser',$loc);
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	pathos_forms_cleanup();
 }

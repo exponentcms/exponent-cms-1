@@ -31,21 +31,23 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user) {
+	pathos_lang_loadDictionary('modules','loginmodule');
+	
 	if ($user->password == md5($_POST['oldpass'])) {
 		if ($_POST['pass1'] == $_POST['pass2']) {
-			if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-			if (!defined("SYS_SECURITY")) include_once(BASE."subsystems/security.php");
+			if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+			if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
 			$strength_error = pathos_security_checkPasswordStrength($user->username,$_POST['pass1']);
-			if ($strength_error != "") {
+			if ($strength_error != '') {
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
-				$post['_formError'] = "Your password is not strong enough : $strength_error";
-				pathos_sessions_set("last_POST",$post);
-				header("Location: " . $_SERVER['HTTP_REFERER']);
+				$post['_formError'] = TR_LOGINMODULE_STRENGTHFAILED.$strength_error;
+				pathos_sessions_set('last_POST',$post);
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
 				pathos_users_changepass($_POST['pass1']);
 				pathos_flow_redirect();
@@ -54,16 +56,17 @@ if ($user) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = "Passwords don't match";
-			pathos_sessions_set("last_POST",$post);
-			header("Location: " . $_SERVER['HTTP_REFERER']);
+			$post['_formError'] = TR_LOGINMODULE_UNMATCHEDPASSWORDS;
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else { // Old password incorrect
-		$post = array("_formError"=>"Your old password is incorrect");
-		pathos_sessions_set("last_POST",$post);
-		header("Location: " . $_SERVER['HTTP_REFERER']);
+		$post = array('_formError'=>TR_LOGINMODULE_OLDPASSWRONG);
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
-	
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

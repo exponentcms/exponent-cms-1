@@ -31,9 +31,9 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	pathos_workflow_deleteRevisionPath($_GET['datatype'],$_GET['id']);
 // END PERM CHECK

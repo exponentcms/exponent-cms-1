@@ -31,39 +31,45 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Panel:Workflow category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
+	
+	pathos_lang_loadDictionary('standard','core');
+	pathos_lang_loadDictionary('modules','workflow');
 	
 	$form = new form();
 	$policies = array();
 	
-	$assoc = $db->selectObject("approvalpolicyassociation","module='".$_GET['m']."' AND is_global='1'");
+	$assoc = $db->selectObject('approvalpolicyassociation',"module='".$_GET['m']."' AND is_global=1");
 	if (!$assoc) $assoc->policy_id = 0;
 	
-	foreach ($db->selectObjects("approvalpolicy") as $pol) {
+	foreach ($db->selectObjects('approvalpolicy') as $pol) {
 		$policies[$pol->id] = $pol->name;
 	}
-	uasort($policies,"strnatcasecmp");
+	uasort($policies,'strnatcasecmp');
 	
-	$realpol = array(0=>"No Policy");
+	$realpol = array(0=>TR_WORKFLOW_NOPOLICY);
 	foreach ($policies as $key=>$pol) $realpol[$key] = $pol;
 	
-	$form->register("policy","Policy",new dropdowncontrol($assoc->policy_id,$realpol));
-	$form->register("submit","",new buttongroupcontrol("Save"));
+	$form->register('policy','Policy',new dropdowncontrol($assoc->policy_id,$realpol));
+	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 	
-	$form->meta("module","workflow");
-	$form->meta("action","assoc_save");
-	$form->meta("m",$_GET['m']);
+	$form->meta('module','workflow');
+	$form->meta('action','assoc_save');
+	$form->meta('m',$_GET['m']);
 	if (isset($_GET['s'])) {
-		$form->meta("s",$_GET['s']);
+		$form->meta('s',$_GET['s']);
 	}
 	
-	$template = new template("workflow","_form_editassoc");
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('workflow','_form_editassoc');
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
 	pathos_forms_cleanup();

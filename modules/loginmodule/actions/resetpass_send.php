@@ -30,36 +30,39 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
- 
-if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	$u = pathos_users_getUserByName($_POST['username']);
+if (!defined('PATHOS')) exit('');
+
+pathos_lang_loadDictionary('modules','loginmodule');
+
+if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+$u = pathos_users_getUserByName($_POST['username']);
+
+$template = new template('loginmodule','_resetsend');
+
+if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != '') {
+	if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
 	
-	if ($u != null && $u->is_acting_admin == 0 && $u->email != "") {
-		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
-		
-		md5(time()).uniqid("");
-		$tok = null;
-		$tok->uid = $u->id;
-		$tok->expires = time() + 2*3600;
-		$tok->token = md5(time()).uniqid("");;
-		
-		$template = new template("loginmodule","_email_resetconfirm",$loc);
-		$template->assign("token",$tok);
-		$msg = $template->render();
-		
-		if (!pathos_smtp_mail($u->email,"Password Manager <password@pathos>","Password Reset Confirmation",$msg)) {
-			echo "Error sending confirmation message.";
-		} else {
-			$db->insertObject($tok,"passreset_token");
-			echo "Confirmation message sent.";
-		}
+	md5(time()).uniqid('');
+	$tok = null;
+	$tok->uid = $u->id;
+	$tok->expires = time() + 2*3600;
+	$tok->token = md5(time()).uniqid('');;
+	
+	$template = new template('loginmodule','_email_resetconfirm',$loc);
+	$template->assign('token',$tok);
+	$msg = $template->render();
+	
+	// FIXME: smtp call prototype / usage has changed.
+	if (!pathos_smtp_mail($u->email,'Password Manager <password@'.$_SERVER['HTTP_HOST'].'>','Password Reset Confirmation',$msg)) {
+		$template->assign('state','smtp_error');
 	} else {
-		echo "Your password cannot be reset.  Please contact an administrator.";
+		$db->insertObject($tok,'passreset_token');
+		$template->assign('state','sent');
 	}
-// END PERM CHECK
+} else {
+	$template->assign('state','unable');
+}
+$template->output();
 
 ?>

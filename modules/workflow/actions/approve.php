@@ -31,10 +31,10 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK?
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	pathos_workflow_processApproval($_GET['id'],$_GET['datatype'],SYS_WORKFLOW_APPROVE_APPROVE);
 // END PERM CHECK
 ?>

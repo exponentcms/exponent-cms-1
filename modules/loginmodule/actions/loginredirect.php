@@ -30,31 +30,31 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 ob_start();
 
-if (isset($_GET["redirecturl"])) {
-	$redirect = urldecode($_GET["redirecturl"]);
-	if (substr($redirect,0,4) != "http") {
+if (isset($_GET['redirecturl'])) {
+	$redirect = urldecode($_GET['redirecturl']);
+	if (substr($redirect,0,4) != 'http') {
 		$redirect = URL_FULL.$redirect;
 	}
-	pathos_sessions_set("redirecturl",$redirect);
+	pathos_sessions_set('redirecturl',$redirect);
 }
 
-//$SYS_FLOW_REDIRECTIONPATH = "loginredirect"; 
+//$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
 pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 if (pathos_sessions_loggedIn()) {
-	header("Location: " . pathos_sessions_get("redirecturl"));
+	header('Location: ' . pathos_sessions_get('redirecturl'));
 	exit;
 } 
 
-loginmodule::show("Default",null,"Log In");
+loginmodule::show('Default',null,'Log In');
 
 
-$template = new template("loginmodule","_login_redirect");
+$template = new template('loginmodule','_login_redirect');
 
-$template->assign("output",ob_get_contents());
+$template->assign('output',ob_get_contents());
 ob_end_clean();
 $template->output();
 

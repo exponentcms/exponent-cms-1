@@ -31,22 +31,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK?
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
-	$form = new form();
-	$form->meta("module","workflow");
-	$form->meta("action","deny");
-	$form->meta("id",$_GET['id']);
-	$form->meta("datatype",$_GET['datatype']);
-	$form->register("wf_comment","Comment",new texteditorcontrol());
-	$form->register("submit","", new buttongroupcontrol("Save","","Cancel"));
+	pathos_lang_loadDictionary('standard','core');
+	pathos_lang_loadDictionary('modules','workflow');
 	
-	$template = new template("workflow","_form_denycomment",$loc);
-	$template->assign("form_html",$form->toHTML());
+	$form = new form();
+	$form->meta('module','workflow');
+	$form->meta('action','deny');
+	$form->meta('id',$_GET['id']);
+	$form->meta('datatype',$_GET['datatype']);
+	$form->register('wf_comment',TR_WORKFLOW_DENYCOMMENT,new texteditorcontrol());
+	$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+	
+	$template = new template('workflow','_form_denycomment',$loc);
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
 	pathos_forms_cleanup();

@@ -31,23 +31,23 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK?
 	
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = pathos_workflow_form($_GET['datatype'],$_GET['id']);
-	$form->meta("id",$_GET['id']);
-	$form->meta("module","workflow");
-	$form->meta("action","edit_approve");
-	$form->meta("wf_datatype",$_GET['datatype']);
+	$form->meta('id',$_GET['id']);
+	$form->meta('module','workflow');
+	$form->meta('action','edit_approve');
+	$form->meta('wf_datatype',$_GET['datatype']);
 	
-	$template = new template("workflow","_form_edit");
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('workflow','_form_edit');
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
 	pathos_forms_cleanup();
