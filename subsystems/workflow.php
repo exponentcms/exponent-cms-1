@@ -36,110 +36,110 @@
  * that the subsystem has been included for use.
  * @node Subsystems:Workflow
  */
-define("SYS_WORKFLOW",1);
+define('SYS_WORKFLOW',1);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_REVOKE_NONE",		0);
+define('SYS_WORKFLOW_REVOKE_NONE',		0);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_REVOKE_POSTER",		1);
+define('SYS_WORKFLOW_REVOKE_POSTER',		1);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_REVOKE_APPROVERS",	2);
+define('SYS_WORKFLOW_REVOKE_APPROVERS',	2);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_REVOKE_OTHERS",		3);
+define('SYS_WORKFLOW_REVOKE_OTHERS',		3);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_REVOKE_ALL",		4);
+define('SYS_WORKFLOW_REVOKE_ALL',		4);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_APPROVE_EDIT",		5);
+define('SYS_WORKFLOW_APPROVE_EDIT',		5);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_APPROVE_APPROVE",	6);
+define('SYS_WORKFLOW_APPROVE_APPROVE',	6);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_APPROVE_DENY",		7);
+define('SYS_WORKFLOW_APPROVE_DENY',		7);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_POSTED",			0);
+define('SYS_WORKFLOW_ACTION_POSTED',			0);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_EDITED",			1);
+define('SYS_WORKFLOW_ACTION_EDITED',			1);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_APPROVED_APPROVED",	2);
+define('SYS_WORKFLOW_ACTION_APPROVED_APPROVED',	2);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_APPROVED_EDITED",		3);
+define('SYS_WORKFLOW_ACTION_APPROVED_EDITED',		3);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_APPROVED_DENIED",		4);
+define('SYS_WORKFLOW_ACTION_APPROVED_DENIED',		4);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_APPROVED_FINAL",		5);
+define('SYS_WORKFLOW_ACTION_APPROVED_FINAL',		5);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_DELETED",		6);
+define('SYS_WORKFLOW_ACTION_DELETED',		6);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_RESTARTED",		7);
+define('SYS_WORKFLOW_ACTION_RESTARTED',		7);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_IMPLICIT_APPROVAL",	8);
+define('SYS_WORKFLOW_ACTION_IMPLICIT_APPROVAL',	8);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_RESTORED",		9);
+define('SYS_WORKFLOW_ACTION_RESTORED',		9);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_POSTED_ADMIN",		10);
+define('SYS_WORKFLOW_ACTION_POSTED_ADMIN',		10);
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_WORKFLOW_ACTION_APPROVED_ADMIN",		11);
+define('SYS_WORKFLOW_ACTION_APPROVED_ADMIN',		11);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
@@ -147,44 +147,44 @@ define("SYS_WORKFLOW_ACTION_APPROVED_ADMIN",		11);
  */
 function pathos_workflow_dataDefinitions($tabledef) {
 	return array(
-		"_wf_revision"=>array_merge($tabledef,array(
-			"wf_major"=>array(
+		'_wf_revision'=>array_merge($tabledef,array(
+			'wf_major'=>array(
 				DB_FIELD_TYPE=>DB_DEF_INTEGER),
-			"wf_minor"=>array(
+			'wf_minor'=>array(
 				DB_FIELD_TYPE=>DB_DEF_INTEGER),
-			"wf_original"=>array(
+			'wf_original'=>array(
 				DB_FIELD_TYPE=>DB_DEF_ID),
-			"wf_state_data"=>array(
+			'wf_state_data'=>array(
 				DB_FIELD_TYPE=>DB_DEF_STRING,
 				DB_FIELD_LEN=>1000),
-			"wf_approved"=>array(
+			'wf_approved'=>array(
 				DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-			"wf_type"=>array(
+			'wf_type'=>array(
 				DB_FIELD_TYPE=>DB_DEF_INTEGER),
-			"wf_updated"=>array(
+			'wf_updated'=>array(
 				DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-			"wf_comment"=>array(
+			'wf_comment'=>array(
 				DB_FIELD_TYPE=>DB_DEF_STRING,
 				DB_FIELD_LEN=>5000)
 		)),
-		"_wf_info"=>array(
-			"real_id"=>array(
+		'_wf_info'=>array(
+			'real_id'=>array(
 				DB_FIELD_TYPE=>DB_DEF_ID),
-			"location_data"=>array(
+			'location_data'=>array(
 				DB_FIELD_TYPE=>DB_DEF_STRING,
 				DB_FIELD_LEN=>200),
-			"current_major"=>array(
+			'current_major'=>array(
 				DB_FIELD_TYPE=>DB_DEF_INTEGER),
-			"current_minor"=>array(
+			'current_minor'=>array(
 				DB_FIELD_TYPE=>DB_DEF_INTEGER),
-			"open_slots"=>array(
+			'open_slots'=>array(
 				DB_FIELD_TYPE=>DB_DEF_INTEGER),
-			"updated"=>array(
+			'updated'=>array(
 				DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-			"current_state_data"=>array(
+			'current_state_data'=>array(
 				DB_FIELD_TYPE=>DB_DEF_STRING,
 				DB_FIELD_LEN=>1000),
-			"policy_id"=>array(
+			'policy_id'=>array(
 				DB_FIELD_TYPE=>DB_DEF_ID)
 		)
 	);
@@ -207,16 +207,16 @@ function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
 
 	$defs = pathos_workflow_dataDefinitions($newdatadef);
 	
-	if (!$db->tableExists($existingname."_wf_revision")) {
-		$db->createTable($existingname."_wf_revision",$defs['_wf_revision'],array(DB_TABLE_COMMENT=>"Workflow Revisions table for $existingname"));
+	if (!$db->tableExists($existingname.'_wf_revision')) {
+		$db->createTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
 	} else {
-		$db->alterTable($existingname."_wf_revision",$defs['_wf_revision'],array(DB_TABLE_COMMENT=>"Workflow Revisions table for $existingname"));
+		$db->alterTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
 	}
 	
-	if (!$db->tableExists($existingname."_wf_info")) {
-		$db->createTable($existingname."_wf_info",$defs['_wf_info'],array(DB_TABLE_COMMENT=>"Workflow Summary table for $existingname"));
+	if (!$db->tableExists($existingname.'_wf_info')) {
+		$db->createTable($existingname.'_wf_info',$defs['_wf_info'],array(DB_TABLE_COMMENT=>'Workflow Summary table for '.$existingname));
 	} else {
-		$db->alterTable($existingname."_wf_info",$defs['_wf_info'],array(DB_TABLE_COMMENT=>"Workflow Summary table for $existingname"));
+		$db->alterTable($existingname.'_wf_info',$defs['_wf_info'],array(DB_TABLE_COMMENT=>'Workflow Summary table for '.$existingname));
 	}
 }
 
@@ -225,7 +225,7 @@ function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
  * @node Undocumented
  */
 function pathos_workflow_isWorkflowTable($name) {
-	return (substr($name,-8,8) == "_wf_info" || substr($name,-11,11) == "_wf_revision");
+	return (substr($name,-8,8) == '_wf_info' || substr($name,-11,11) == '_wf_revision');
 }
 
 /* exdoc
@@ -233,9 +233,9 @@ function pathos_workflow_isWorkflowTable($name) {
  * @node Undocumented
  */
 function pathos_workflow_originalTable($name) {
-	if (substr($name,-8,8) == "_wf_info") return substr($name,0,-8);
-	else if (substr($name,-11,11) == "_wf_revision") return substr($name,0,-11);
-	return "";
+	if (substr($name,-8,8) == '_wf_info') return substr($name,0,-8);
+	else if (substr($name,-11,11) == '_wf_revision') return substr($name,0,-11);
+	return '';
 }
 
 // USED?
@@ -245,7 +245,7 @@ function pathos_workflow_originalTable($name) {
  */
 function pathos_workflow_clearRevisions($existingname,$major) {
 	global $db;
-	$db->delete($existingname."_wf_revision","wf_major=$major && wf_minor != 0");
+	$db->delete($existingname.'_wf_revision','wf_major='.$major.' && wf_minor != 0');
 }
 
 /* exdoc
@@ -254,10 +254,10 @@ function pathos_workflow_clearRevisions($existingname,$major) {
  */
 function pathos_workflow_getPolicy($module,$source) {
 	global $db;
-	$assoc = $db->selectObject("approvalpolicyassociation","module='$module' AND source='$source' AND is_global=0");
+	$assoc = $db->selectObject('approvalpolicyassociation',"module='$module' AND source='$source' AND is_global=0");
 	if (!$assoc) return pathos_workflow_getDefaultPolicy($module);
 	else {
-		$policy = $db->selectObject("approvalpolicy","id=".$assoc->policy_id);
+		$policy = $db->selectObject('approvalpolicy','id='.$assoc->policy_id);
 		return $policy;
 	}
 }
@@ -268,10 +268,10 @@ function pathos_workflow_getPolicy($module,$source) {
  */
 function pathos_workflow_getDefaultPolicy($module) {
 	global $db;
-	$assoc = $db->selectObject("approvalpolicyassociation","module='$module' AND is_global=1");
+	$assoc = $db->selectObject('approvalpolicyassociation',"module='$module' AND is_global=1");
 	
 	if ($assoc) {
-		$policy = $db->selectObject("approvalpolicy","id=".$assoc->policy_id);
+		$policy = $db->selectObject('approvalpolicy','id='.$assoc->policy_id);
 		return $policy;
 	}
 	return null;
@@ -307,11 +307,12 @@ function pathos_workflow_checkApprovalState($state,$policy) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_post($object,$table,$loc) {
+function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 	global $db,$user;
 	
-	// Normally we would try to look something up.
 	$policy = pathos_workflow_getPolicy($loc->mod,$loc->src);
+	
+	$is_post = false;
 	
 	if (isset($object->id)) {
 		// Updating an existing
@@ -325,12 +326,13 @@ function pathos_workflow_post($object,$table,$loc) {
 		// SET ACTIONTYPE FOR RUNACTIONS
 		$object->wf_type = SYS_WORKFLOW_ACTION_EDITED;
 	} else {
+		$is_post = true;
 		$object->approved = 0;
 		$object->wf_original = $db->insertObject($object,$table);
 		$object->wf_type = SYS_WORKFLOW_ACTION_POSTED;
 	}
 	
-	$object->wf_major = $db->max($table."_wf_revision","wf_major","wf_original","wf_original=".$object->wf_original);
+	$object->wf_major = $db->max($table.'_wf_revision','wf_major','wf_original','wf_original='.$object->wf_original);
 	$object->wf_minor = 1;
 	$state = array(
 		array($user->id+0),
@@ -370,10 +372,22 @@ function pathos_workflow_post($object,$table,$loc) {
 	unset($object->id);
 	$db->insertObject($object,$table."_wf_revision");
 	
+	// Now that we are almost done, we need to call the onWorkflow stuff.
+	if (is_callable(array($table,'onWorkflowPost'))) {
+		if (!isset($real_object)) {
+			$real_object = pathos_workflow_convertToObject($object);
+			$real_object->id = $object->wf_original;
+		}
+		call_user_func(array($table,'onWorkflowPost'),$real_object,$is_post,$userdata);
+	}
+	
 	if ($policy != null) {
 		// run actions, either EDIT or POST or IMPLICIT_APPROVAL
 		pathos_workflow_runActions($policy,$object->wf_type,$object);
-	} else pathos_flow_redirect(); // Catch-all redirect - in case its a new post, implicitly approved, with no policy
+	} else {
+		// Catch-all redirect - in case its a new post, implicitly approved, with no policy
+		pathos_flow_redirect();
+	}
 }
 
 // ### STEP A.5 ###
@@ -439,6 +453,7 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 	$info = pathos_workflow_updateInfoFromRevision($latest,$info);
 	global $user;
 	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
+		// Final approval given.
 		pathos_workflow_handleApprovedRevision($latest,$datatype,$info);
 	} else {
 		if ($latest->wf_type != SYS_WORKFLOW_ACTION_DELETED) {
