@@ -131,15 +131,27 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable);
 }
 
+/**
+ * Display a Top Level Section-sensitive Module
+ *
+ * Calls the necessary methods to show a specific module in such a way that the current
+ * section displays the same content as its top-level parent and all of the top-level parent's
+ * children, grand-children, grand-grand-children, etc.
+ *
+ * @param string $module The classname of the module to display
+ * @param string $view The name of the view to display the module with
+ * @param string $title The title of the module (support is view-dependent)
+ * @param string $prefix The prefix of the module's source.  The current section id will be appended to this
+ * @param bool $pickable Whether or not the module is pickable in the Source Picer. 
+ */
 function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
 	
 	if ($prefix == null) $prefix = "@section";
-	
 	$last_section = pathos_sessions_get("last_section");
-	if ($prefix == null) $prefix = "@section";
 	
 	$section = $db->selectObject("section","id=".$last_section);
+	// Loop until we find the top level parent.
 	while ($section->parent !=0) $section = $db->selectObject("section","id=".$section->parent);
 	
 	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable);
