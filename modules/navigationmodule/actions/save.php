@@ -42,7 +42,7 @@ if ($user->is_admin == 1) {
 	
 	if (isset($section->id)) $db->updateObject($section,"section","id=" . $section->id);
 	else {
-		$db->sql("UPDATE ".DB_TABLE_PREFIX."section SET rank=rank+1 WHERE rank >= ".$section->rank." AND parent=".$section->parent);
+		$db->increment("section","rank",1,"rank >= ".$section->rank." AND parent=".$section->parent);
 		$section->id = $db->insertObject($section,"section");
 		
 		if (isset($_POST['pagetype'])) {

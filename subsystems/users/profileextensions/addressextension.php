@@ -54,7 +54,7 @@
 class addressextension {
 	function name() { return "Address Extension"; }
 	function author() { return "James Hunt"; }
-	function description() { Return "Stores an address for the user."; }
+	function description() { return "Stores an address for the user."; }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
 		if (!isset($user->user_address)) {
@@ -66,6 +66,7 @@ class addressextension {
 			$user->user_address->zip = "";
 			$user->user_address->country = "";
 		}
+		$form->register(null,"",new htmlcontrol("<hr size='1' /><b>Address Information</b>"));
 		$form->register("address1","Address", new textcontrol($user->user_address->address1));
 		$form->register("address2","", new textcontrol($user->user_address->address2));
 		$form->register("city","City", new textcontrol($user->user_address->city));

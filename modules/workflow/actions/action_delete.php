@@ -36,7 +36,7 @@ if (!defined("PATHOS")) exit("");
 if ($user && $user->is_admin) {
 	$action = $db->selectObject("workflowaction","id=".$_GET['id']);
 	$db->delete("workflowaction","id=".$action->id);
-	$db->sql("UPDATE ".DB_TABLE_PREFIX."workflowaction SET rank=rank-1 WHERE rank >= " . $action->rank . " AND policy_id=".$action->policy_id . " AND type=".$action->type);
+	$db->decrement("workflowaction","rank",1,"rank >= " . $action->rank . " AND policy_id=".$action->policy_id . " AND type=".$action->type);
 
 	pathos_flow_redirect();
 }
