@@ -32,6 +32,7 @@
 ##################################################
 
 if (!file_exists('not_configured')) {
+	header('Location: ../index.php');
 	exit('This Exponent Site has already been configured.');
 }
 
