@@ -59,7 +59,19 @@ if (!defined("PATHOS")) exit("");
 		$sectionref = $db->selectObject("sectionref","module='".$rloc->mod."' AND source='".$rloc->src."'");
 		$section = $db->selectObject("section","id=".$sectionref->section);
 		
-		if (navigationmodule::canView($section)) {
+		$canview = navigationmodule::canView($section);
+		if ($canview && $r->view_perm != '') {
+			// No point in checking the perm stuff if they cant even see the section
+			$canview = false; // They need to have specific perms on the module.
+			foreach (explode(',',$r->view_perm) as $p) {
+				if (pathos_permissions_check($p,$rloc)) {
+					$canview = true;
+					break;
+				}
+			}
+		}
+		
+		if ($canview) {
 			$weight = 0;
 			$body_l = strtolower($r->body);
 			$title_l = strtolower($r->title);
@@ -133,6 +145,7 @@ if (!defined("PATHOS")) exit("");
 	$template = new template('searchmodule','_results');
 	$template->assign('good_terms',$terms);
 	$template->assign('excluded_terms',$term_status['excluded']);
+	$template->assign('have_excluded_terms',count($term_status['excluded']));
 	$template->assign('num_results',count($results));
 	$template->assign('results',$results);
 	$template->output();

@@ -31,8 +31,9 @@
 <b>Search Results</b>
 <br />
 Your search for "{' '|join:$good_terms}" returned {$num_results} result{if $num_results != 1}s{/if}<br />
-<i>The following search terms were ignored: {', '|join:$excluded_terms}
-<br />
+{if $have_excluded_terms != 0}
+<i>The following search terms were ignored: {', '|join:$excluded_terms}<br />
+{/if}
 {foreach from=$results item=result}
 <hr size="1" />
 <a href="{$result->view_link}">{$result->title}</a><br />{$result->sum}<br />

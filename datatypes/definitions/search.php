@@ -54,6 +54,9 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
+	'view_perm'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>250),
 	'category'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
