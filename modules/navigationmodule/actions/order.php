@@ -34,16 +34,7 @@
 if (!defined("PATHOS")) exit("");
 
 if ($user && $user->is_acting_admin == 1) {
-	$section_a = $db->selectObject("section","rank=" . $_GET['a'] . " AND parent=" . $_GET['parent']);
-	$section_b = $db->selectObject("section","rank=" . $_GET['b'] . " AND parent=" . $_GET['parent']);
-	
-	$original_a = $section_a->rank;
-	$section_a->rank = $section_b->rank;
-	$section_b->rank = $original_a;
-	
-	$db->updateObject($section_a,"section","id=" . $section_a->id);
-	$db->updateObject($section_b,"section","id=" . $section_b->id);
-	
+	$db->switchValues('section','rank',$_GET['a'],$_GET['b'],'parent=' . $_GET['parent']);
 	pathos_flow_redirect();
 }
 
