@@ -305,7 +305,7 @@ function pathos_theme_runAction() {
 		if (is_readable(BASE.'modules/'.$actfile)) {
 			include_once(BASE.'modules/'.$actfile);
 		} else {
-			pathos_core_loadLang('subsystems','theme');
+			pathos_lang_loadDictionary('subsystems','theme');
 			echo SITE_404_HTML . '<br /><br /><hr size="1" />';
 			echo sprintf(TR_THEMESUBSYSTEM_NOSUCHACTION,strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
 			echo '<br />';
