@@ -95,7 +95,9 @@ function __dlg_translate(i18n) {
 
 // closes the dialog and passes the return info upper.
 function __dlg_close(val) {
-	opener.Dialog._return(val);
+	if (typeof opener.Dialog._return != 'undefined') {
+		opener.Dialog._return(val);
+	}
 	window.close();
 };
 

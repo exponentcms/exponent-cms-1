@@ -40,7 +40,7 @@ Dialog._arguments = null;
 Dialog._geckoOpenModal = function(url, action, init) {
 	var dlg = window.open(url, "hadialog",
 			      "toolbar=no,menubar=no,personalbar=no,width=10,height=10," +
-			      "scrollbars=no,resizable=yes");
+			      "scrollbars=no,resizable=yes,dialog=yes");
 	Dialog._modal = dlg;
 	Dialog._arguments = init;
 
@@ -58,7 +58,9 @@ Dialog._geckoOpenModal = function(url, action, init) {
 	};
 	capwin(window);
 	// capture other frames
-	for (var i = 0; i < window.frames.length; capwin(window.frames[i++]));
+	for (var i = 0; i < window.frames.length; i++) {
+		capwin(window.frames[i]);
+	}
 	// make up a function to be called when the Dialog ends.
 	Dialog._return = function (val) {
 		if (val && action) {
@@ -69,4 +71,8 @@ Dialog._geckoOpenModal = function(url, action, init) {
 		for (var i = 0; i < window.frames.length; relwin(window.frames[i++]));
 		Dialog._modal = null;
 	};
+	if (typeof window.opener != 'undefined') {
+		window.opener.focus();
+		window.focus();
+	}
 };
