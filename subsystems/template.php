@@ -394,9 +394,9 @@ function pathos_template_getModuleViewFile($module,$view,$recurse = true) {
  * @param string $module The classname of the module to get views for.
  * @node Subsystems:Template
  */
-function pathos_template_listModuleViews($module) {
+function pathos_template_listModuleViews($module,$lang = LANG) {
 	$views = array();
-	$langdir = (LANG == 'en' ? '' : LANG.'/');
+	$langdir = ($lang == 'en' ? '' : $lang.'/');
 	if (is_readable(BASE."modules/$module/views/$langdir")) {
 		$dh = opendir(BASE."modules/$module/views/$langdir");
 		while (($file = readdir($dh)) !== false) {
@@ -411,6 +411,9 @@ function pathos_template_listModuleViews($module) {
 				if (!in_array($view,$views)) $views[] = $view;
 			}
 		}
+	}
+	if (!count($views) && $lang != 'en') {
+		return pathos_template_listModuleViews($module,'en');
 	}
 	return $views;
 }
