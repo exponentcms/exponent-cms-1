@@ -28,8 +28,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Ban User</div>
+<div class="form_title">Block User</div>
 <div class="form_header">
-Use this form to ban a user who is not in your contact list.
+Use this form to block a user from contacting you.  You will be unable to contact any users you have blocked.
 </div>
 {$form_html}
