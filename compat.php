@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 $dh = opendir(BASE.'compat');
 while (($file = readdir($dh)) !== false) {
 	if (is_file(BASE.'compat/'.$file) && substr($file,-4,4) == '.php') {

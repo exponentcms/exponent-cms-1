@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	array(
 		'name'=>'autoloader',
