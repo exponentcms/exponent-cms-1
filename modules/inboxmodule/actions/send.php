@@ -69,22 +69,24 @@ if ($user) {
 		}
 	}
 	
-	$gr = listbuildercontrol::parseData($_POST,"group_recipients");
-	foreach ($gr as $ginfo) {
-		$toks = explode("_",$ginfo);
-		$gid = $toks[1];
-		if ($toks[0] == "group") {
-			foreach (pathos_users_getUsersInGroup(pathos_users_getGroupById($gid)) as $u) {
-				if (!in_array($u->id,$banned)) {
-					$recipients[] = $u->id;
-				}
-			}
-		} else {
-			$list = $db->selectObject("inbox_contactlist","id=".$gid);
-			if ($list->owner == $user->id) {
-				foreach ($db->selectObjects("inbox_contactlist_member","list_id=".$list->id) as $m) {
+	if (isset($_POST['group_recipients'])) {
+		$gr = listbuildercontrol::parseData($_POST,"group_recipients");
+		foreach ($gr as $ginfo) {
+			$toks = explode("_",$ginfo);
+			$gid = $toks[1];
+			if ($toks[0] == "group") {
+				foreach (pathos_users_getUsersInGroup(pathos_users_getGroupById($gid)) as $u) {
 					if (!in_array($u->id,$banned)) {
-						$recipients[] = $m->user_id;
+						$recipients[] = $u->id;
+					}
+				}
+			} else {
+				$list = $db->selectObject("inbox_contactlist","id=".$gid);
+				if ($list->owner == $user->id) {
+					foreach ($db->selectObjects("inbox_contactlist_member","list_id=".$list->id) as $m) {
+						if (!in_array($u->id,$banned)) {
+							$recipients[] = $m->user_id;
+						}
 					}
 				}
 			}
@@ -112,16 +114,14 @@ if ($user) {
 				} else {
 					$message->recipient = $id;
 					$inbox_userconfig = $db->selectObject("inbox_userconfig","id=".$id);
+					
 					if (!$inbox_userconfig) {
-						$inbox_userconfig->forward == 1;
+						$inbox_userconfig->forward = 1;
 					}
 					if ($inbox_userconfig->forward == 1 && $u->email != "") {
 						// Forward the message to their email account
 						$emails[] = $u->email;
-					} else {
-						// Send it through the 'normal' way
-						$db->insertObject($message,"privatemessage");
-					}
+					$db->insertObject($message,"privatemessage");
 				}
 			}
 		}
