@@ -103,7 +103,7 @@ class formbuilder_form {
 		$form->register(null,'', new htmlcontrol('<br><br><b>'.TR_FORMBUILDER_DBHEADER.'</b><br><hr size="1"><br>'));
 		$form->register('is_saved',TR_FORMBUILDER_SAVETODB,new checkboxcontrol($object->is_saved,false));
 		$form->register(null,'', new htmlcontrol('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.TR_FORMBUILDER_DATALOSSWARNING.'<br>'));
-		if ($object->is_saved) {
+		if ($object->is_saved == 1) {
 			$form->controls['is_saved']->disabled = true;
 			$form->meta('is_saved','1');
 		}
@@ -117,8 +117,8 @@ class formbuilder_form {
 	function update($values,$object) {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
-		$object->is_email = isset($values['is_email']);
-		$object->is_saved = isset($values['is_saved']);
+		$object->is_email = (isset($values['is_email']) ? 1 : 0);
+		$object->is_saved = (isset($values['is_saved']) ? 1 : 0);
 		$object->response = $values['response'];
 		$object->submitbtn = $values['submitbtn'];
 		$object->resetbtn = $values['resetbtn'];
@@ -131,7 +131,7 @@ class formbuilder_form {
 		
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
-		if ($object->is_saved) {
+		if ($object->is_saved == 1) {
 			$datadef =  array(
 				'id'=>array(
 					DB_FIELD_TYPE=>DB_DEF_ID,
@@ -177,7 +177,7 @@ class formbuilder_form {
 				$control_type = '';
 				$tempdef = array();
 				foreach ($db->selectObjects('formbuilder_control','form_id='.$object->id) as $control) {
-					if (!$control->is_readonly) {
+					if ($control->is_readonly == 0) {
 						$ctl = unserialize($control->data);
 						$ctl->identifier = $control->name;
 						$ctl->caption = $control->caption;

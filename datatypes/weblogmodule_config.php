@@ -41,7 +41,7 @@ class weblogmodule_config {
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->allow_comments = true;
+			$object->allow_comments = 1;
 			$object->items_per_page = 10;
 		} else {
 			$form->meta('id',$object->id);
@@ -56,7 +56,7 @@ class weblogmodule_config {
 	}
 	
 	function update($values,$object) {
-		$object->allow_comments = isset($values['allow_comments']);
+		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
 		$object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
 		return $object;
 	}

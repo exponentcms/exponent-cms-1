@@ -54,7 +54,7 @@ class searchmodule_config {
 	}
 	
 	function update($values,$object) {
-		$object->is_categorized = isset($values['is_categorized']);
+		$object->is_categorized = (isset($values['is_categorized']) ? 1 : 0);
 		return $object;
 	}
 }

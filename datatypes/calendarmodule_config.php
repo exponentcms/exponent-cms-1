@@ -56,8 +56,8 @@ class calendarmodule_config {
 	}
 	
 	function update($values,$object) {
-		$object->enable_categories = isset($values['enable_categories']);
-		$object->enable_feedback = isset($values['enable_feedback']);
+		$object->enable_categories = (isset($values['enable_categories']) ? 1 : 0);
+		$object->enable_feedback = (isset($values['enable_feedback']) ? 1 : 0);
 		return $object;
 	}
 }

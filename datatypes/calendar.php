@@ -77,7 +77,7 @@ class calendar {
 			$datectl = new popupdatetimecontrol($object->eventstart+365*86400,'',false);
 			$customctl = str_replace('%%UNTILDATEPICKER%%',$datectl->controlToHTML('untildate'),$customctl);
 			$form->register('recur',TR_CALENDARMODULE_RECURRENCE,new customcontrol($customctl));
-		} else if ($object->is_recurring) {
+		} else if ($object->is_recurring == 1) {
 			// Edit applies to one or more...
 			$template = new template('calendarmodule','_recur_dates');
 			global $db;

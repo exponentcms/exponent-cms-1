@@ -338,8 +338,8 @@ class section {
 	function update($values,$object) {
 		$object = section::_updateCommon($values,$object);
 		$object->subtheme = $values['subtheme'];
-		$object->active = isset($values['active']);
-		$object->public = isset($values['public']);
+		$object->active = (isset($values['active']) ? 1 : 0);
+		$object->public = (isset($values['public']) ? 1 : 0);
 		$object->page_title = ($values['page_title'] != SITE_TITLE ? $values['page_title'] : "");
 		$object->keywords = ($values['keywords'] != SITE_KEYWORDS ? $values['keywords'] : "");
 		$object->description = ($values['description'] != SITE_DESCRIPTION ? $values['description'] : "");
@@ -361,7 +361,7 @@ class section {
 		$object = section::_updateCommon($values,$object);
 		
 		$object->active = 1;
-		$object->public = isset($values['public']);
+		$object->public = (isset($values['public']) ? 1 : 0);
 		
 		$object->alias_type = 1;
 		$object->external_link = $values['external_link'];
@@ -386,7 +386,7 @@ class section {
 		$object = section::_updateCommon($values,$object);
 		
 		$object->active = 1;
-		$object->public = isset($values['public']);
+		$object->public = (isset($values['public']) ? 1 : 0);
 		
 		$object->alias_type = 2;
 		global $db;
@@ -423,7 +423,7 @@ class section {
 		$object = section::_updateCommon($values,$object);
 		
 		$object->active = 1;
-		$object->public = isset($values['public']);
+		$object->public = (isset($values['public']) ? 1 : 0);
 		
 		// Can't really do much with pageset updating, because we
 		// need to save the section before we can add subsections or copy
@@ -477,7 +477,7 @@ class section {
 		$db->decrement('section','rank',1,'parent='.$old_parent . ' AND rank > ' . $section->rank);
 		// Need to place this item at the end of the list of children for the new parent.
 		$section->rank = $db->max('section','rank','parent','parent='.$new_parent);
-		if ($section->rank == null) {
+		if ($section->rank === null) {
 			$section->rank = 0;
 		} else {
 			$section->rank++;

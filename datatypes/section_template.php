@@ -96,8 +96,8 @@ class section_template {
 		$object->page_title = ($values['page_title'] != SITE_TITLE ? $values['page_title'] : "");
 		$object->keywords = ($values['keywords'] != SITE_KEYWORDS ? $values['keywords'] : "");
 		$object->description = ($values['description'] != SITE_DESCRIPTION ? $values['description'] : "");
-		$object->active = isset($values['active'])?1:0;
-		$object->public = isset($values['public'])?1:0;
+		$object->active = (isset($values['active']) ? 1 : 0);
+		$object->public = (isset($values['public']) ? 1 : 0);
 		if (isset($values['subtheme'])) $object->subtheme = $values['subtheme'];
 		if (isset($values['rank'])) $object->rank = $values['rank'];
 		return $object;

@@ -45,7 +45,7 @@ class weblog_post {
 			$object->body = '';
 			global $user;
 			$object->poster = $user->id;
-			$object->is_private = false;
+			$object->is_private = 0;
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -62,7 +62,7 @@ class weblog_post {
 	function update($values,$object) {
 		$object->title = $values['title'];
 		$object->body = $values['body'];
-		$object->is_private = isset($values['is_private']);
+		$object->is_private = (isset($values['is_private']) ? 1 : 0);
 		return $object;
 	}
 }

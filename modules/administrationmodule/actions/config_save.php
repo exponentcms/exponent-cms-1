@@ -30,18 +30,16 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 // Part of the Configuration category
 
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
 	
 	$continue = true;
-	if ($user->is_admin) { // Only do the database stuff if we are a super admin
+	if ($user->is_admin == 1) { // Only do the database stuff if we are a super admin
 		$errors = '';
 		
 		pathos_lang_loadDictionary('config','database');
@@ -77,8 +75,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	if ($continue) {
 		pathos_config_saveConfiguration($_POST);
 		$ob = "";
-		if ($user->is_admin) {
-		
+		if ($user->is_admin == 1) {
 			pathos_lang_loadDictionary('standard','dbrecover');
 		
 			$db = $newdb;
