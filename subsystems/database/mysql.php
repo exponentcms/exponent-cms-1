@@ -31,38 +31,19 @@
 # $Id$
 ##################################################
 
-/**
- * MySQL Database Engine
- *
- * Manages SQL transactions made to a (possibly
- * networked) MySQL database server.
- *
- * @package	Subsystems
- * @subpackage	Database - MySQL
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
-/**
+/* exdoc
  * Database Class (MySQL)
  *
  * This is the MySQL-specific implementation of the database class.
  *
- * @package	Subsystems
- * @subpackage	Database - MySQL
- *
+ * @node Subsystems:Database:MySQL
  */
 class mysql_database {
-	/**
-	 * 
-	 */
 	var $connection = null;
 	var $havedb = false;
 	var $prefix = "";
 	
-	/**
+	/* exdoc
 	 * Make a connection to the Database Server
 	 *
 	 * Takes the supplied credentials (username / password) and tries to
@@ -77,8 +58,6 @@ class mysql_database {
 	 *   localhost is specified, a local socket connection will be attempted.
 	 * @param string $database The name of the database to use.  Multi-database
 	 *   sites are still not yet supported.
-	 *
-	 * @link http://www.php.net/mysql_connect
 	 */
 	function connect($username,$password,$hostname,$database,$new=false) {
 		$this->connection = @mysql_connect($hostname,$username,$password,$new);
@@ -88,7 +67,7 @@ class mysql_database {
 		$this->prefix = DB_TABLE_PREFIX.'_';
 	}
 	
-	/**
+	/* exdoc
 	 * Create a new Table
 	 *
 	 * Creates a new database table, according to the passed data definition.
@@ -149,8 +128,9 @@ class mysql_database {
 		}
 	}
 	
-	/**
-	 * @internal
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
 	 */
 	function fieldSQL($name,$def) {
 		$sql = "`$name`";
@@ -188,10 +168,18 @@ class mysql_database {
 		return $sql;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function isValid() {
 		return ($this->connection != null && $this->havedb);
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function testPrivileges() {
 		$status = array();
 		
@@ -264,7 +252,7 @@ class mysql_database {
 		return $status;
 	}
 	
-	/**
+	/* exdoc
 	 * Alter an existing table
 	 *
 	 * Alters the structure of an existing database table to conform to the passed
@@ -277,6 +265,8 @@ class mysql_database {
 	 * @param array $newdatadef The new data definition for the table.
 	 *   This is expressed in the Exponent Data Definition Language
 	 * @param array $info Information about the table itself.
+	 * @param bool $aggressive Whether or not to aggressively update the table definition.
+	 *   An aggressive update will drop columns in the table that are not in the Exponent definition.
 	 */
 	function alterTable($tablename,$newdatadef,$info,$aggressive = false) {
 		$dd = $this->getDataDefinition($tablename);
@@ -306,14 +296,6 @@ class mysql_database {
 			$sql = substr($sql,0,-1);
 			
 			@mysql_query($sql,$this->connection);
-			
-			/*if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
-				// Initialize workflow tables:
-				if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-				pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
-			}*/
-			
-			//return TABLE_ALTER_SUCCEEDED;
 		} 
 		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
@@ -329,47 +311,46 @@ class mysql_database {
 		}
 	}
 	
-	/**
+	/* exdoc
 	 * Drop a table from the database
 	 *
-	 * Removes an existing table from the database.
+	 * Removes an existing table from the database. Returns true if the table was dropped, false if there
+	 * was an error returned by the MySQL server.
 	 *
 	 * @param string $table The name of the table to drop.
-	 * @return boolean True if the table was dropped, false if there
-	 *    was an error returned by the MySQL server.
 	 */
 	function dropTable($table) {
 		return @mysql_query("DROP TABLE `".$this->prefix."$table`",$this->connection) !== false;
 	}
 	
-	/**
-	 * Run raw SQL
+	/* exdoc
+	 * Run raw SQL.  Returns true if the query succeeded, and false
+	 *   if an error was returned from the MySQL server.
+	 *
+	 * <div style="color:red">If you can help it, do not use this function.  It presents Database Portability Issues.</div>
 	 *
 	 * Runs a straight SQL query on the database.  This is not a
 	 * very portable way of dealing with the database, and is only
 	 * provided as a last resort.
 	 *
 	 * @param string $sql The SQL query to run
-	 * @return boolean True if the query succeeded, and false
-	 *   if an error was returned from the MySQL server.
 	 */
 	function sql($sql) {
 		return @mysql_query($sql,$this->connection);
 	}
 	
-	/**
+	/* exdoc
 	 * Select a series of objects
 	 *
 	 * Selects a set of objects from the database.  Because of the way
 	 * Exponent handles objects and database tables, this is akin to
-	 * SELECTing a set of records from a database table.
+	 * SELECTing a set of records from a database table.  Returns an
+	 * array of objects, in any random order.
 	 *
 	 * @param string $table The name of the table/object to look at
 	 * @param string $where Criteria used to narrow the result set.  If this
 	 *   is specified as null, then no criteria is applied, and all objects are
 	 *   returned
-	 * @return array An array of objects, in any random order.
-	 * @see selectObjectsIndexedArray
 	 */
 	function selectObjects($table,$where = null) {
 		if ($where == null) $where = "1";
@@ -380,20 +361,19 @@ class mysql_database {
 		return $objects;
 	}
 	
-	/**
+	/* exdoc
 	 * Select a series of objects, and return by ID
 	 *
 	 * Selects a set of objects from the database.  Because of the way
 	 * Exponent handles objects and database tables, this is akin to
-	 * SELECTing a set of records from a database table.
+	 * SELECTing a set of records from a database table. Returns an
+	 * array of objects, in any random order.  The indices of the array
+	 * are the IDs of the objects.
 	 *
 	 * @param string $table The name of the table/object to look at
 	 * @param string $where Criteria used to narrow the result set.  If this
 	 *   is specified as null, then no criteria is applied, and all objects are
 	 *   returned
-	 * @return array An array of objects, in any random order.  The indices
-	 *   of the array are the IDs of the objects.
-	 * @see selectObjects
 	 */
 	function selectObjectsIndexedArray($table,$where = null) {
 		if ($where == null) $where = "1";
@@ -407,10 +387,11 @@ class mysql_database {
 		return $objects;
 	}
 	
-	/**
+	/* exdoc
 	 * Count Objects matching Criteria
 	 *
-	 * 
+	 * @param string $table The name of the table to count objects in.
+	 * @param string $where Criteria for counting.
 	 */
 	function countObjects($table,$where = null) {
 		if ($where == null) $where = "1";
@@ -420,12 +401,20 @@ class mysql_database {
 		return $obj->c;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function selectObject($table,$where) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
 		if ($res == null) return null;
 		return mysql_fetch_object($res);
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function insertObject($object,$table) {
 		$sql = "INSERT INTO `" . $this->prefix . "$table` (";
 		$values = ") VALUES (";
@@ -443,6 +432,10 @@ class mysql_database {
 		} else return 0;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function delete($table,$where = null) {
 		if ($where != null) {
 			$res = @mysql_query("DELETE FROM `" . $this->prefix . "$table` WHERE $where",$this->connection);
@@ -453,6 +446,10 @@ class mysql_database {
 		}
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function updateObject($object,$table,$where=null) {
 		$sql = "UPDATE " . $this->prefix . "$table SET ";
 		foreach (get_object_vars($object) as $var=>$val) {
@@ -469,6 +466,10 @@ class mysql_database {
 		return $res;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function max($table,$attribute,$groupfields = null,$where = null) {
 		if (is_array($groupfields)) $groupfields = join(",",$groupfields);
 		$sql = "SELECT MAX($attribute) as fieldmax FROM `" . $this->prefix . "$table`";
@@ -478,11 +479,14 @@ class mysql_database {
 		$res = @mysql_query($sql,$this->connection);
 		
 		if ($res != null) $res = mysql_fetch_object($res);
-		// FIXME: Return -1, for blind increment operations
 		if (!$res) return null;
 		return $res->fieldmax;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function min($table,$attribute,$groupfields = null,$where = null) {
 		if (is_array($groupfields)) $groupfields = join(",",$groupfields);
 		$sql = "SELECT MIN($attribute) as fieldmin FROM `" . $this->prefix . "$table`";
@@ -492,26 +496,41 @@ class mysql_database {
 		$res = @mysql_query($sql,$this->connection);
 		
 		if ($res != null) $res = mysql_fetch_object($res);
-		// FIXME: Return -1, for blind increment operations
 		if (!$res) return null;
 		return $res->fieldmin;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function increment($table,$field,$step,$where = null) {
 		if ($where == null) $where = "1";
 		$sql = "UPDATE `".$this->prefix."$table` SET `$field`=`$field`+$step WHERE $where";
 		return @mysql_query($sql,$this->connection);
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function decrement($table,$field,$step,$where = null) {
 		$this->increment($table,$field,-1*$step,$where);
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function tableExists($table) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` LIMIT 0,1",$this->connection);
 		return ($res != null);
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function getTables($prefixed_only=true) {
 		$res = @mysql_query("SHOW TABLES",$this->connection);
 		$tables = array();
@@ -526,11 +545,19 @@ class mysql_database {
 		return $tables;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function optimize($table) {
 		$res = (@mysql_query("OPTIMIZE TABLE `" . $this->prefix . "$table`",$this->connection) != false);
 		return $res;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function tableInfo($table) {
 		$sql = "SHOW TABLE STATUS LIKE '" . $this->prefix . "$table'";
 		$res = @mysql_query($sql,$this->connection);
@@ -538,10 +565,18 @@ class mysql_database {
 		return $this->translateTableStatus(mysql_fetch_object($res));
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function tableIsEmpty($table) {
 		return ($this->countObjects($table) == 0);
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function databaseInfo() {
 		$sql = "SHOW TABLE STATUS";
 		$res = @mysql_query("SHOW TABLE STATUS",$this->connection);
@@ -553,8 +588,9 @@ class mysql_database {
 		return $info;
 	}
 	
-	/**
-	 * @internal
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
 	 */
 	function translateTableStatus($status) {
 		$data = null;
@@ -566,6 +602,10 @@ class mysql_database {
 		return $data;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function getDataDefinition($table) {
 		if (!$this->tableExists($table)) return array();
 		$res = @mysql_query("DESCRIBE `".$this->prefix."$table`",$this->connection);
@@ -585,6 +625,10 @@ class mysql_database {
 		return $dd;
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function getDDFieldType($fieldObj) {
 		$type = strtolower($fieldObj->Type);
 		
@@ -599,6 +643,10 @@ class mysql_database {
 		}
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function getDDStringLen($fieldObj) {
 		$type = strtolower($fieldObj->Type);
 		if ($type == "text") return 65535;
@@ -609,6 +657,10 @@ class mysql_database {
 		}
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function error() {
 		if ($this->connection && mysql_errno($this->connection) != 0) {
 			$errno = mysql_errno($this->connection);
@@ -623,6 +675,10 @@ class mysql_database {
 		} else return "";
 	}
 	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function inError() {
 		return ($this->connection != null && mysql_errno($this->connection) != 0);
 	}
