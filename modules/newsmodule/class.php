@@ -43,6 +43,7 @@ class newsmodule {
 	function supportsWorkflow() { return true; }
 	
 	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','newsmodule');
 		if ($internal == '') {
 			return array(
 				'administrate'=>TR_NEWSMODULE_PERM_ADMIN,
