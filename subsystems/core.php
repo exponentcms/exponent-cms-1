@@ -337,7 +337,7 @@ function pathos_core_URLisValid($url) {
 	return (
 		substr($url,0,7) == "http://" ||
 		substr($url,0,8) == "https://" ||
-		substr($url,0,9) == "mailto://" ||
+		substr($url,0,7) == "mailto:" ||
 		substr($url,0,6) == "ftp://"
 	);
 }
