@@ -73,8 +73,8 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$template->assign('configname',$configname);
 	
 	$canactivate = ($configname != '' && is_readable(BASE."conf/profiles/$configname.php"));
-	$candelete = ($configname != '' && is_writeable(BASE.'conf/profiles'));
-	$canedit = (($configname == '' && (is_writeable(BASE.'conf/config.php'))) || is_writeable(BASE.'conf/profiles/'));
+	$candelete = ($configname != '' && is_writable(BASE.'conf/profiles'));
+	$canedit = (($configname == '' && (is_writable(BASE.'conf/config.php'))) || is_writable(BASE.'conf/profiles/'));
 	
 	$template->assign('canactivate',$canactivate);
 	$template->assign('canedit',$canedit);
