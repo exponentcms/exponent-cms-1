@@ -140,6 +140,11 @@ function makeLink() {
 	return link;
 }
 
+function openSelector(mod,dest,vmod,vview) {
+	var url = PATH_RELATIVE+"source_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod="+vmod+"&vview="+vview;
+	window.open(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+}
+
 // Patch the String object, to make string parsing a little easier in Pathos
 String.prototype.isValid = function (alpha,numeric,others) {
 	for (var i = 0; i < this.length; i++) {
