@@ -28,39 +28,10 @@
  *
  * $Id$
  *}
-<div class="form_title">Backup Current Database</div>
+<div class="form_title">Export Current Database</div>
 <div class="form_header">
-Listed below are all of the tables in your site's database.  Select which tables you wish to backup, and then click the 'Backup Selected' button.  Doing so will generate an EQL file (which you must save) that contains the data in the selected tables.  This file can be used later to restore the database to the current state.
+Listed below are all of the tables in your site database.  Select which tables you wish to export, and then click the 'Export Data' button.  Doing so will generate an EQL file (which you must save) that contains the data in the selected tables.  This file can be used later to restore the database to the current state.
 </div>
-
-<!--
-<textarea cols="100" rows="30">{$dumped}</textarea>
--->
-
-<script type="text/javascript">
-{literal}
-function selectAll(checked) {
-	elems = document.getElementsByTagName("input");
-	for (var key in elems) {
-		if (elems[key].type == "checkbox" && elems[key].name.substr(0,7) == "tables[") {
-			elems[key].checked = checked;
-		}
-	}
-}
-
-function isOneSelected() {
-	elems = document.getElementsByTagName("input");
-	for (var key in elems) {
-		if (elems[key].type == "checkbox" && elems[key].name.substr(0,7) == "tables[") {
-			if (elems[key].checked) return true;
-		}
-	}
-	alert("You must select at least one table to export.");
-	return false;
-}
-
-{/literal}
-</script>
 
 <form method="post" action="?">
 <input type="hidden" name="module" value="exporter" />
@@ -89,11 +60,11 @@ function isOneSelected() {
 {/section}
 <tr>
 	<td colspan="2">
-		<a href="#" onClick="selectAll(true); return false">Select All</a>
+		<a href="#" onClick="selectAll('tables[',true); return false">Select All</a>
 	</td>
 	<td></td>
 	<td colspan="2">
-		<a href="#" onClick="selectAll(false); return false">Deselect All</a>
+		<a href="#" onClick="selectAll('tables[',false); return false">Deselect All</a>
 	</td>
 </tr>
 <tr>
@@ -115,7 +86,7 @@ function isOneSelected() {
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<td colspan="3">
-		<input type="submit" value="Export Data" onClick="return true; return isOneSelected();" />
+		<input type="submit" value="Export Data" onClick="{literal}if (isOneSelected('tables[')) { return true; } else { alert('You must select at least one table to export.'); return false; }{/literal}" />
 	</td>
 </tr>
 </table>
