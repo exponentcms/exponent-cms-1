@@ -37,24 +37,24 @@ class inbox_contactlist {
 		pathos_lang_loadDictionary('modules','inboxmodule');
 		pathos_lang_loadDictionary('standard','core');
 
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->name = "";
-			$object->description = "";
+			$object->name = '';
+			$object->description = '';
 			$object->_members = array();
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("name",TR_INBOXMODULE_GROUPNAME,new textcontrol($object->name));
-		$form->register("description",TR_INBOXMODULE_DESCRIPTION,new texteditorcontrol($object->description));
+		$form->register('name',TR_INBOXMODULE_GROUPNAME,new textcontrol($object->name));
+		$form->register('description',TR_INBOXMODULE_DESCRIPTION,new texteditorcontrol($object->description));
 		
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 		global $user;
-		if (pathos_permissions_check("contact_all",pathos_core_makeLocation("inboxmodule"))) {
+		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllUsers() as $u) {
 				$users[$u->id] = $u;
 			}
@@ -67,13 +67,13 @@ class inbox_contactlist {
 		}
 		
 		foreach (array_keys($users) as $i) {
-			$users[$i] = $users[$i]->firstname . " " . $users[$i]->lastname . " (" . $users[$i]->username. ")";
+			$users[$i] = $users[$i]->firstname . ' ' . $users[$i]->lastname . ' (' . $users[$i]->username. ')';
 		}
 		
 		global $db;
 		// Process other uses who the current user has blocked, and remove them from the list
 		// Process other users who have blocked the current user, and remove them from the list.
-		foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id . " OR user_id=" . $user->id) as $blocked) {
+		foreach ($db->selectObjects('inbox_contactbanned','owner='.$user->id . ' OR user_id=' . $user->id) as $blocked) {
 			if ($blocked->user_id == $user->id) {
 				// Blocked by someone else.  Remove the owner (user who blocked us)
 				unset($users[$blocked->owner]);
@@ -92,20 +92,20 @@ class inbox_contactlist {
 			unset($users[$tmp]);
 		}
 		
-		$form->register("members",TR_INBOXMODULE_MEMBERS,new listbuildercontrol($members,$users));
+		$form->register('members',TR_INBOXMODULE_MEMBERS,new listbuildercontrol($members,$users));
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
 	}
 	
 	function update($values,$object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		$object->name = $values['name'];
 		$object->description = $values['description'];
-		$object->_members = listbuildercontrol::parseData($values,"members");
+		$object->_members = listbuildercontrol::parseData($values,'members');
 		pathos_forms_cleanup();
 		return $object;
 	}

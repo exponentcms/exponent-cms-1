@@ -37,24 +37,24 @@ class inbox_contactbanned {
 		pathos_lang_loadDictionary('modules','inboxmodule');
 		pathos_lang_loadDictionary('standard','core');
 		
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 		
 		$users = array();
 		foreach (pathos_users_getAllUsers() as $u) {
-			$users[$u->id] = $u->firstname . " " . $u->lastname . " (" . $u->username . ")";
+			$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 		}
 		
 		global $db,$user;
-		foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id) as $b) {
+		foreach ($db->selectObjects('inbox_contactbanned','owner='.$user->id) as $b) {
 			unset($users[$b->user_id]);
 		}
 		
-		$form->register("uid",TR_INBOXMODULE_USER,new dropdowncontrol(0,$users));
-		$form->register("submit","",new buttongroupcontrol(TR_INBOXMODULE_BLOCKUSER,"",TR_CORE_CANCEL));
+		$form->register('uid',TR_INBOXMODULE_USER,new dropdowncontrol(0,$users));
+		$form->register('submit','',new buttongroupcontrol(TR_INBOXMODULE_BLOCKUSER,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
