@@ -205,7 +205,7 @@ class form extends baseform {
 		$html = "<!-- Form Object '" . $this->name . "' -->\r\n";
 		$html .= "<script type=\"text/javascript\" src=\"" .PATH_RELATIVE."subsystems/forms/js/inputfilters.js.php\"></script>\r\n";
 		foreach ($this->scripts as $name=>$script) $html .= "<script type=\"text/javascript\" src=\"$script\"></script>\r\n";
-		$html .= $formError;
+		$html .= '<div class="error">'.$formError.'</div>';
 		$html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
 		foreach ($this->meta as $name=>$value) $html .= "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />\r\n";
 		$html .= "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\r\n";
