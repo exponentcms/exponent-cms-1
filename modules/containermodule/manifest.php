@@ -27,7 +27,6 @@ return array(
 	"modules/containermodule/views/Two Column.tpl"=>"557aa0191dd9a46989d1dec516fdf707",
 	"modules/containermodule/views/_container.tpl"=>"8189429bcbed753fdb81d97a79e3c671",
 	"modules/containermodule/views/_popup_info.tpl"=>"dbd3963678dd413b1ac635a15d3678bb",
-	"modules/containermodule/actions/hideboxes.php"=>"e453b1c179d374ca5d6eda86448d91f8",
 	"modules/containermodule/infopopup.php"=>"a3984f2a165a68b167100936ea2a8371",
 	"modules/containermodule/manifest.php"=>"1141dfc85e200ea4ad3777c4e3750598",
 	"modules/containermodule/nosourceselected.php"=>"ebbfa887bba717e2582aae510645b0a6",
