@@ -10,6 +10,8 @@ Adam Kessler (OIC Group, Inc.)
 ==================
 Code Contributions
 ==================
+Daniel Grabert - For fixing the section linker code
+Xavier Basty - For fixing some CRLF problems with the SMTP Subsystem implementation
 
 =====================
 Testing / Bug Hunting
