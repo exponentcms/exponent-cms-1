@@ -93,9 +93,15 @@ class inbox_contactlist {
 			unset($users[$tmp]);
 		}
 		
-		$form->register('members',TR_INBOXMODULE_MEMBERS,new listbuildercontrol($members,$users));
-		
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		if (count($members) || count($users)) {
+			$form->register('members',TR_INBOXMODULE_MEMBERS,new listbuildercontrol($members,$users));
+			$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		} else {
+			$submit = new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL);
+			$submit->disabled = 1;
+			$form->register(null,'',new htmlcontrol(TR_INBOXMODULE_NOMEMBERS));
+			$form->register('submit','',$submit);
+		}
 		
 		pathos_forms_cleanup();
 		return $form;
