@@ -173,3 +173,128 @@ o Finding Dates falling in Recurrence Range
 	X = WEEKLY + FIRST_WDAY - LAST_WDAY
 	X = number of days to add to the last day to get to the first day
 	
+	
+--------------------------------------------
+    pathos_datetime_recurringMonthlyDates    
+--------------------------------------------
+
+o Finding the start date
+
+  We only need to do special stuff if we have chosen to recur on the
+  weekday.  In that case, we need to find what weekday we are, and what
+  week offset (i.e. the 3rd Thursday).  Otherwise, the passed start date
+  works just fine.
+  
+  WEEKOFFSET = floor ( MONTH_DATE / 7 )
+  
+  Scenarios for Week Offset / Weekday Calculations:
+  
+   January 13, 2005 (Thursday) - Second thursday of the month
+   - Already know the weekday (thursday, 4)
+   
+   WEEKOFFSET = ceil ( 13 / 7 ) = ceil ( 1.857... ) = 2
+   
+   January 15, 2005 (Saturday) - Third saturday of the month
+   - Already know the weekday (saturday, 6)
+   
+   WEEKOFFSET = ceil ( 15 / 7 ) = ceil ( 2.142... ) = 3
+   
+   January 30, 2005 (Sunday) - Fifth sunday of the month
+   - Already know the weekday (sunday, 0)
+   
+   WEEKOFFSET = ceil ( 30 / 7 ) = ceil ( 4.285... ) = 5
+
+o Finding the next 'by day' date in a series
+
+  What information we have to work with:
+   - The week offset (the nth weekday of the month)
+   - The start date info of the next month in the cycle
+   - The weekday we are shooting for.
+   
+  There are a few different situations.  For all, consider Jan 2005:
+  
+				January 2005
+			Su Mo Tu We Th Fr Sa 
+							   1
+			 2  3  4  5  6  7  8
+			 9 10 11 12 13 14 15
+			16 17 18 19 20 21 22
+			23 24 25 26 27 28 29
+			30 31
+
+   And also consider Feb 2005:
+
+				February 2005
+			Su Mo Tu We Th Fr Sa 
+				   1  2  3  4  5
+			 6  7  8  9 10 11 12
+			13 14 15 16 17 18 19
+			20 21 22 23 24 25 26
+			27 28
+  
+   1. Month start weekday is before target weekday.
+     Get the difference between starting weekday and target
+	 weekday, add then, then add one less than the week offset
+	 multiplied by 7, then add 1, for the start date (the 1st)
+	 
+	 DATE = TARGET_WDAY - START_WDAY + ( 7 * ( OFFSET - 1 ) ) + 1
+	 
+      February:
+	  Month started on a tuesday (1st), and we want the 3rd friday (18th).
+	  
+	  DATE = F - Tu + ( 7 * 2 ) + 1 = 5 - 2 + 1 + ( 14 ) = 4 + 14 = 18
+	  
+	  February:
+	  Month started on a tuesday (1st), and we want the 2nd wed (9th).
+	  
+	  DATE = W - Tu + ( 7 * 1 ) + 1 = 3 - 2 + 1 + ( 7 ) = 2 + 9
+   
+   2. Month start weekday is the target weekday.
+      In the event that the TARGET_WDAY and START_WDAY values in the
+	  equation for situation 1. above, the first term drops out:
+	  
+	  DATE = 0 - 0 + ( 7 * ( OFFSET - 1 ) ) + 1
+	  
+	  February:
+	  Month started on a tuesday (1), and we want the 2nd tues (8th).
+	  
+	  DATE = Tu - Tu + ( 7 * 1 ) + 1 = ( 7 ) + 1 = 8
+	  
+	  January:
+	  Month started on a Saturday (1st), and we want the 4th saturday (22nd)
+	  
+	  DATE = Sa - Sa + ( 7 * 3 ) + 1 = ( 21 ) + 1 = 22
+	  
+	  continue on to Feb.
+	  Mont started on a tuesday (1), and we want the 4th staurday (26)
+	  
+	  DATE = Sa - Tu + ( 7 * 3 ) + 1 = 6 - 2 + 14 + 1 = 26
+   
+   
+   3. Month start weekday is after the target weekday.
+      In the event that the TARGET_WDAY is numerically less than the
+	  START_WDAY value, then in the equation for situation 1, the first term
+	  (TARGET_WDAY - START_WDAY) is negative.  This may or may not work.
+	  
+	  January:
+	  Month started on a Saturday (1st), and we want the 2nd monday (10th)
+	  
+	  DATE = M - Sa + ( 7 * 1 ) + 1 = 1 - 6 + 1 + ( 7 * 1 ) = -4 + 7 = 3
+	  
+	  January:
+	  Month started on a Saturday (1st), and we want the 3rd friday (21st)
+	  
+	  DATE = F - Sa + ( 7 * 2 ) + 1 = 5 - 6 + 1 + ( 14 ) = 14
+	  
+	  February:
+	  Month started on a tuesday (1st), and we want the 1st monday (7)
+	  
+	  DATE = M - Tu + ( 7 * 0 ) + 1 = 1 - 2 + 1 + ( 0 ) = 0
+	  
+	  February:
+	  Month started on a tuesday (1st), and we want the 2nd sunday (13)
+	  
+	  DATE = S - Tu + ( 7 * 1 ) + 1 = 0 - 2 + 1 ( 7 ) = 6
+	  
+	  Each of these dates is a week early.  So, for situation 3, we can ignore
+	  the -1 modification to the OFFSET, and always get the correct date.
