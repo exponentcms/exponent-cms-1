@@ -69,7 +69,7 @@ class listbuildercontrol extends formcontrol {
 			
 			$this->size = $size;
 	
-		if ($source != null) {
+		if ($source !== null) {
 			if (is_array($source)) $this->source = $source;
 			else $this->source = array($source);
 			$this->source = array_diff_assoc($this->source,$this->default);
