@@ -58,7 +58,14 @@ return array(
 		DB_FIELD_LEN=>10000),
 	"description"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>10000)
+		DB_FIELD_LEN=>10000),
+	"alias_type"=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	"external_link"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>1024),
+	"internal_id"=>array(
+		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 
 ?>
