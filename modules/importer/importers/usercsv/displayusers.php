@@ -51,8 +51,6 @@ $userarray = array();
 $usersdone = array();
 $linenum = 1;
 
-echo "update: ".isset($_POST["update"]);
-
 while ( ($filedata = fgetcsv($file, 2000, $_POST["delimiter"])) != false){
 
 if ($linenum >= $post["rowstart"]){
