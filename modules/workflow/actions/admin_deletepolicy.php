@@ -34,7 +34,6 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$policy = $db->selectObject("approvalpolicy","id=".$_GET['id']);
 	if ($policy) {
 		$db->delete("approvalpolicy","id=".$policy->id);

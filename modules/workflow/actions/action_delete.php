@@ -34,10 +34,9 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
-	$action = $db->selectObject("workflowaction","id=".$_GET['id']);
-	$db->delete("workflowaction","id=".$action->id);
-	$db->decrement("workflowaction","rank",1,"rank >= " . $action->rank . " AND policy_id=".$action->policy_id . " AND type=".$action->type);
+	$action = $db->selectObject('workflowaction','id='.$_GET['id']);
+	$db->delete('workflowaction','id='.$action->id);
+	$db->decrement('workflowaction','rank',1,'rank >= ' . $action->rank . ' AND policy_id='.$action->policy_id . ' AND type='.$action->type);
 
 	pathos_flow_redirect();
 } else {

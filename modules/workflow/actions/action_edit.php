@@ -34,7 +34,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 
 	pathos_lang_loadDictionary('standard','core');
 	pathos_lang_loadDictionary('modules','workflow');

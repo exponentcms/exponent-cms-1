@@ -38,7 +38,7 @@ define("SCRIPT_FILENAME","assoc_edit.php");
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 
 	pathos_lang_loadDictionary('modules','workflow');
 	pathos_lang_loadDictionary('standard','core');

@@ -92,9 +92,9 @@ function pathos_sessions_validate() {
 		$user = $_SESSION[SYS_SESSION_KEY]['user'];
 		if ($ticket->refresh == 1) {
 			pathos_permissions_load($user);
-			$ticket->refresh = 0;
 			$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");
 		}
+		$ticket->refresh = 0;
 		
 		$ticket->last_active = time();
 		$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");

@@ -149,7 +149,7 @@ function pathos_config_configurationForm($configname,$database=false) {
 			if (is_readable(BASE."conf/extensions/$file") && substr($file,-14,14) == ".structure.php") {
 				$arr = include(BASE."conf/extensions/$file");
 				// Check to see if the current user is a super admin, and only include database if so
-				if (substr($file,0,-14) != 'database' || $user->is_admin) {
+				if (substr($file,0,-14) != 'database' || $user->is_admin == 1) {
 					$form->register(null,'',new htmlcontrol("<a name='config_".count($sections)."'></a><div style='font-weight: bold; margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc; font-size: 12pt;'>" . $arr[0] . "</div><a href='#config_top'>Top</a>"));
 					$sections[] = '<a href="#config_'.count($sections).'">'.$arr[0].'</a>';
 					foreach ($arr[1] as $directive=>$info) {

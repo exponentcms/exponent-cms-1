@@ -82,7 +82,7 @@ function pathos_permissions_load($user) {
 		// If the user is not logged in, they have no permissions.
 		return;
 	}
-	if (!$user->is_acting_admin) {
+	if ($user->is_acting_admin == 0) {
 		// Retrieve all of the explicit user permissions, by user id
 		foreach ($db->selectObjects('userpermission','uid=' . $user->id) as $obj) {
 			if ($obj->permission == 'administrate') $has_admin = 1;
@@ -121,7 +121,7 @@ function pathos_permissions_load($user) {
 	
 	// Check perm stats for UI levels
 	$ui_levels = array();
-	if ($user->is_acting_admin) {
+	if ($user->is_acting_admin == 1) {
 		$ui_levels = array('Preview','Normal','Permission Management','Structure Management');
 	} else {
 		if (count($pathos_permissions_r)) $ui_levels = array('Preview','Normal');
@@ -179,7 +179,7 @@ function pathos_permissions_getSourceUID($src) {
 function pathos_permissions_check($permission,$location) {
 	global $pathos_permissions_r, $user;
 	if ($user) {
-		if ($user->is_acting_admin) return true;
+		if ($user->is_acting_admin == 1) return true;
 		if (pathos_permissions_getSourceUID($location->src) == $user->id) return true;
 	}
 	if (is_callable(array($location->mod,"getLocationHierarchy"))) {
@@ -206,7 +206,7 @@ function pathos_permissions_check($permission,$location) {
  */
 function pathos_permissions_checkOnModule($permission,$module) {
 	global $pathos_permissions_r, $user;
-	if ($user && $user->is_acting_admin) return true;
+	if ($user && $user->is_acting_admin == 1) return true;
 	return (isset($pathos_permissions_r[$module]) && (count($pathos_permissions_r[$module]) > 0));
 }
 
@@ -216,7 +216,7 @@ function pathos_permissions_checkOnModule($permission,$module) {
  */
 function pathos_permissions_checkOnSource($module,$source) {
 	global $pathos_permissions_r, $user;
-	if ($user && $user->is_acting_admin) return true;
+	if ($user && $user->is_acting_admin == 1) return true;
 	return (isset($pathos_permissions_r[$module]) && isset($pathos_permissions_r[$module][$source]) && (count($pathos_permissions_r[$module][$source]) > 0));
 }
 
@@ -235,7 +235,7 @@ function pathos_permissions_checkOnSource($module,$source) {
 function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly = false) {
 	global $db;
 	if ($user == null) return false;
-	if ($user->is_acting_admin) return true;
+	if ($user->is_acting_admin == 1) return true;
 	$explicit = $db->selectObject("userpermission","uid=" . $user->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	if ($explicitOnly == true) return $explicit;
 	
@@ -425,7 +425,7 @@ function pathos_permissions_triggerRefresh() {
 	global $db;
 	$obj = null;
 	$obj->refresh = 1;
-	$db->updateObject($obj,"sessionticket","1"); // force a global refresh
+	$db->updateObject($obj,"sessionticket","true"); // force a global refresh
 	pathos_template_clear(SYS_TEMPLATE_CLEAR_USERS);
 }
 

@@ -339,7 +339,7 @@ function pathos_workflow_post($object,$table,$loc) {
 	$object->wf_state_data = serialize($state);
 	
 	// Now check approval right off the bat.  Admin is always exempt from workflow
-	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin) {
+	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
 		$object->wf_major++;
 		$object->wf_minor = 0;
 		
@@ -351,7 +351,7 @@ function pathos_workflow_post($object,$table,$loc) {
 		// Call spidering for implicit / admin approval.
 		if (is_callable(array($loc->mod,"spiderContent"))) call_user_func(array($loc->mod,"spiderContent"),$real_object);
 		
-		if ($user->is_acting_admin) {
+		if ($user->is_acting_admin == 1) {
 			$object->wf_type = SYS_WORKFLOW_ACTION_POSTED_ADMIN;
 		} else {
 			$object->wf_type = SYS_WORKFLOW_ACTION_IMPLICIT_APPROVAL;
@@ -420,10 +420,10 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 		case SYS_WORKFLOW_APPROVE_DENY:
 			$revoketype = $policy->on_deny;
 			$state[1][$user->id] = 0;
-			if ($policy->delete_on_deny) {
+			if ($policy->delete_on_deny == 1) {
 				$latest->wf_type = SYS_WORKFLOW_ACTION_DELETED;
 				pathos_workflow_deleteRevisionPath($datatype,$latest->wf_original);
-			} else if ($user->is_acting_admin) {
+			} else if ($user->is_acting_admin == 1) {
 				// Admin denials always end up in deletion.  It saves them the extra step.
 				$latest->wf_type = SYS_WORKFLOW_ACTION_DELETED;
 				pathos_workflow_deleteRevisionPath($datatype,$latest->wf_original);
@@ -438,7 +438,7 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 	
 	$info = pathos_workflow_updateInfoFromRevision($latest,$info);
 	global $user;
-	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin) {
+	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
 		pathos_workflow_handleApprovedRevision($latest,$datatype,$info);
 	} else {
 		if ($latest->wf_type != SYS_WORKFLOW_ACTION_DELETED) {
@@ -479,7 +479,7 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	// run actions for ACTION_APPROVED_FINAL
 	$policy = $db->selectObject("approvalpolicy","id=".$info->policy_id);
 	global $user;
-	if ($user->is_acting_admin) {
+	if ($user->is_acting_admin == 1) {
 		$action = SYS_WORKFLOW_ACTION_APPROVED_ADMIN;
 	} else {
 		$action = SYS_WORKFLOW_ACTION_APPROVED_FINAL;

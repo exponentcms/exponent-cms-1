@@ -215,7 +215,7 @@ function pathos_users_login($username, $password) {
 	// Retrieve the user object from the database.  Note that this may be null, if the username is
 	// non-existent.
 	$user = $db->selectObject('user',"username='" . $username . "'");
-	if ($user && $user->is_admin) {
+	if ($user && $user->is_admin == 1) {
 		// User is an admin.  Update is_acting_admin, just in case.
 		// This can be removed as soon as 0.95 is deprecated.
 		$user->is_acting_admin = 1;
@@ -341,7 +341,7 @@ function pathos_users_groupForm($group = null) {
 		// calls can blindly dereference them.
 		$group->name = '';
 		$group->description = '';
-		$group->inclusive = false;
+		$group->inclusive = 0;
 	}
 	// Populate the form with controls.
 	$form->register('name',TR_USERSSUBSYSTEM_GROUPNAME,new textcontrol($group->name));
@@ -364,9 +364,9 @@ function pathos_users_update($formvalues, $u = null) {
 	$u->firstname = $formvalues['firstname'];
 	$u->lastname = $formvalues['lastname'];
 	$u->email = $formvalues['email'];
-	$u->recv_html = isset($formvalues['recv_html']);
+	$u->recv_html = (isset($formvalues['recv_html']) ? 1 : 0);
 	global $user;
-	$u->is_acting_admin = (isset($formvalues['is_acting_admin']) && $user->is_admin);
+	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : 0);
 	return $u;
 }
 
@@ -415,7 +415,7 @@ function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
 function pathos_users_groupUpdate($formvalues, $group = null) {
 	$group->name = $formvalues['name'];
 	$group->description = $formvalues['description'];
-	$group->inclusive = isset($formvalues['inclusive']);
+	$group->inclusive = (isset($formvalues['inclusive']) ? 1 : 0);
 	return $group;
 }
 
@@ -442,7 +442,7 @@ function pathos_users_create($formvalues) {
 	
 	// Set the acting admin flag if we need to.
 	global $user;
-	$u->is_acting_admin = (isset($formvalues['is_acting_admin']) && $user->is_admin);
+	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : 0);
 	
 	// Insert the user object into the database, and save the ID.
 	global $db;
@@ -583,7 +583,7 @@ function pathos_users_getUserById($uid) {
 		// the database and stick it in the cache array, for future calls.
 		global $db;
 		$tmpu = $db->selectObject('user','id='.$uid);
-		if ($tmpu && $tmpu->is_admin) {
+		if ($tmpu && $tmpu->is_admin == 1) {
 			// User is an admin.  Update is_acting_admin, just in case.
 			// This can be removed as soon as 0.95 is deprecated.
 			$tmpu->is_acting_admin = 1;
@@ -646,7 +646,7 @@ function pathos_users_getGroupById($gid) {
 function pathos_users_getUserByName($name) {
 	global $db;
 	$tmpu = $db->selectObject('user',"username='$name'");
-	if ($tmpu && $tmpu->is_admin) {
+	if ($tmpu && $tmpu->is_admin == 1) {
 		// User is an admin.  Update is_acting_admin, just in case.
 		// This can be removed as soon as 0.95 is deprecated.
 		$tmpu->is_acting_admin = 1;
@@ -722,7 +722,7 @@ function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=
 	}
 	// Holding array for the groups.
 	$groups = array();
-	if ($u->is_admin) {
+	if ($u->is_admin == 1) {
 		// For administrators, we synthesize group memberships - they effectively
 		// belong to all groups.  So, we call pathos_users_getAllGroups, and pass the
 		// filtration criteria arguments (2 and 3) to it.
