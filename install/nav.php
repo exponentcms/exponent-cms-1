@@ -5,6 +5,7 @@ $pages = array(
 	'sanity'=>'Sanity Checks',
 	'dbconfig'=>'Database Settings',
 	'dbcheck'=>'Database Verification',
+	'tmp_create_site'=>'Default Content',
 	'final'=>'Finished'
 );
 
