@@ -31,12 +31,15 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_acting_admin) {
 	$sections = navigationmodule::levelTemplate(0,0);
-	$template = new template("navigationmodule","_linker");
-	$template->assign("sections",$sections);
+	$standalones = $db->selectObjects('section','parent = -1');
+	$template = new template('navigationmodule','_linker');
+	$template->assign('sections',$sections);
+	$template->assign('standalones',$standalones);
+	$template->assign('haveStandalones',count($standalones));
 	$template->output();
 }
 
