@@ -30,7 +30,7 @@
  *}
 <a href="{link _common=1 view=Monthly action=show_view time=$time}">Calendar View</a>&nbsp;&nbsp;|&nbsp;&nbsp;List View<br /><br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=show_view _common=1 view='Monthly List' time=$prev_timestamp}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif"/></a>
-<b>Month of {$time|date_format:"%B"}</b>
+<b>Month of {$time|date_format:"%B %Y"}</b>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=show_view _common=1 view='Monthly List' time=$next_timestamp}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif"/></a>
 <br /><br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
