@@ -148,14 +148,12 @@ function sanity_checkModules() {
 }
 
 function _sanity_checkGD() {
-	if (!function_exists('gd_info')) {
-		return array(SANITY_ERROR,'Not Supported');
-	}
 	$info = gd_info();
-	if (strpos($info['GD Version'],'2.0') == false) {
+	if ($info['GD Version'] == 'Not Supported') {
+		return array(SANITY_ERROR,'Not Supported');
+	} else if (strpos($info['GD Version'],'2.0') == false) {
 		return array(SANITY_WARNING,'Older Version Installed ('.$info['GD Version'].')');
 	}
-	#return array(SANITY_FINE,'Version 2.0 Compatible');
 	return array(SANITY_FINE,$info['GD Version']);
 }
 
