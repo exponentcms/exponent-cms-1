@@ -260,4 +260,33 @@ function pathos_image_output($img,$sizeinfo,$filename = null) {
 	}
 }
 
+function pathos_image_captcha($w,$h,$string) {
+	$img = pathos_image_create($w,$h);
+	if ($img) {
+		// We were able to create an image.
+		$bg = 		imagecolorallocate($img,250,255,225);
+		imagefill($img,0,0,$bg);
+		#echo $bg;
+		$colors = array();
+		for ($i = 0; $i < strlen($string) && $i < 10; $i++) {
+			$colors[$i] = imagecolorallocate($img,rand(50,150),rand(50,150),rand(50,150));
+		}
+		$px_per_char = floor($w / (strlen($string)+1));
+		for ($i = 0; $i < strlen($string); $i++) {
+			imagestring($img,rand(4,6),$px_per_char * ($i+1) + rand(-5,5),rand(0,$h / 2),$string{$i},$colors[($i % 10)]);
+		}
+		
+		// Need this to be 'configurable'
+		for ($i = 0; $i < strlen($string) / 2 && $i < 10; $i++) {
+			$c = imagecolorallocate($img,rand(150,250),rand(150,250),rand(150,250));
+			imageline($img,rand(0,$w / 4),rand(5, $h-5),rand(3*$w / 4,$w),rand(0,$h),$c);
+		}
+		
+		//imagestring($img,6,0,0,$string,$color);
+		return $img;
+	} else {
+		return null;
+	}
+}
+
 ?>
