@@ -148,6 +148,7 @@ if ($errcount > 0) {
 	?>
 	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
+	$write_file = 1;
 } else {
 	// No errors, and no warnings.  Let them through.
 	?>
