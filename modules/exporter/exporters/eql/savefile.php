@@ -52,7 +52,7 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 	
 	echo pathos_backup_dumpDatabase($db,array_keys($_POST['tables']));
 	
-	exit();
+	exit(''); // Exit, since we are exporting
 }
 
 ?>

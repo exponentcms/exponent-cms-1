@@ -47,7 +47,7 @@ if (!is_numeric($_POST["rowstart"])){
 	$post['_formError'] = "The starting row must be a number.";
 	pathos_sessions_set("last_POST",$post);
 	header("Location: " . $_SERVER['HTTP_REFERER']);
-	exit("");
+	exit('Redirecting...');
 }
 
 //Get the temp directory to put the uploaded file

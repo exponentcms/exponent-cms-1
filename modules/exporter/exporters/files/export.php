@@ -60,6 +60,6 @@ while (!feof($fh)) {
 fclose($fh);
 unlink($fname);
 
-exit();
+exit(''); // Exit, since we are exporting.
 
 ?>
