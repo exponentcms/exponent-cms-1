@@ -126,7 +126,7 @@ class newsmodule {
 			$loc
 		);
 		
-		$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY ".$config->sortfield." " . $config->sortorder . " LIMIT ".$config->item_limit . ' OFFSET 0');
+		$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY ".$config->sortfield." " . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {
 			$nloc = null;
 			$nloc->mod = $loc->mod;

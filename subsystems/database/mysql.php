@@ -783,6 +783,10 @@ class mysql_database {
 	function inError() {
 		return ($this->connection != null && mysql_errno($this->connection) != 0);
 	}
+	
+	function limit($num,$offset) {
+		return ' LIMIT '.$num.',',$offset.' ';
+	}
 }
 
 ?>

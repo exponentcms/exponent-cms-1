@@ -550,6 +550,10 @@ ENDSQL;
 	function inError() {
 		return ($this->in_error == true);
 	}
+	
+	function limit($num,$offset) {
+		return ' LIMIT '.$num.' OFFSET '.$offset.' ';
+	}
 }
 
 ?>
