@@ -74,16 +74,24 @@ if (count($warnings)) {
 	}
 }
 
-if (!(count($errors)+count($warnings))) {
+if (count($errors) > 0) {
+	// Had errors.  Force halt and fix.
+	?>
+	<br /><b>Note:</b> For permission errors (files or directories that are not writable / not readable) it is usually best to make sure that the Exponent files were uncompressed with options (-xzvpf) to preserve file permissions.
+	<br /><br />
+	After you have corrected the above errors, click <a href="?page=sanity">here</a> to run these environment checks again.
+	<?php
+} else if (count($warnings) == 0) {
+	// No errors, and no warnings.  Let them through.
 	?>
 	The Exponent Install Wizard found no problems with the server environment.
 	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
 } else {
+	// No errors, but had warnings.  Let them through, but with a warning
 	?>
-	<br /><b>Note:</b> For permission errors (files or directories that are not writable / not readable) it is usually best to make sure that the Exponent files were uncompressed with options (-xzvpf) to preserve file permissions.
-	<br /><br />
-	After you have corrected the above errors, click <a href="?page=sanity">here</a> to run these environment checks again.
+	The Exponent Install Wizard found no minor problems with the server environment, but you can continue.
+	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
 }
 
