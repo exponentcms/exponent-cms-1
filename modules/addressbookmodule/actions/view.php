@@ -41,6 +41,10 @@ if (!defined("PATHOS")) exit("");
 	
 		$template = new template("addressbookmodule","_view",$loc);
 		$template->assign("contact",$contact);
+		$template->register_permissions(
+			array('edit','delete'),
+			pathos_core_makeLocation($loc->mod,$loc->src,$contact->id)
+		);
 		
 		$template->output();
 	} else echo SITE_404_HTML;
