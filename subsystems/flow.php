@@ -128,17 +128,22 @@ function pathos_flow_redirect($url_type = SYS_FLOW_NONE) {
 	$access_level = (pathos_sessions_loggedIn() ? SYS_FLOW_PROTECTED : SYS_FLOW_PUBLIC);
 	// Fallback to the default redirection path in strange edge cases.
 	if (!pathos_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) $SYS_FLOW_REDIRECTIONPATH='pathos_default';
+	$url = '';
 	switch ($url_type) {
 		case SYS_FLOW_NONE:
-			header('Location: ' . pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_last_' . $access_level));
-			exit();
+			$url = pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_last_' . $access_level);
 			break;
 		case SYS_FLOW_SECTIONAL:
 		case SYS_FLOW_ACTION:
-			header('Location: ' . pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_' . $access_level . '_' . $url_type));
-			exit();
+			$url = pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_' . $access_level . '_' . $url_type);
 			break;
 	}
+	if (DEVELOPMENT >= 2) {
+		echo '<a href="'.$url.'">'.$url.'</a>';
+	} else {
+		header("Location: $url");
+	}
+	exit();
 }
 
 ?>
