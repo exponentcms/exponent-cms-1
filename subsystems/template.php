@@ -160,6 +160,31 @@ class template extends basetemplate {
  * @subpackage Template
  */
 class formtemplate extends basetemplate {
+	function template($formtype,$view) {
+	
+		$this->tpl = new Smarty();
+		//$this->tpl->security = true;
+		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
+		$this->tpl->plugins_dir[] = BASE."plugins";
+		
+		if (is_readable(THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl") {
+			$this->viewfile = THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl";
+		} else if (is_readable(BASE."forms/".$formtype."/".$view.".tpl") {
+			$this->viewfile = BASE."forms/".$formtype."/".$view.".tpl";
+		} else {
+			$this->viewfile = "";
+		}
+		
+		$this->view = substr(basename($this->viewfile),0,-4);
+		$this->viewdir = realpath(dirname($this->viewfile));
+		
+		$this->tpl->template_dir = $this->viewdir;
+		$this->tpl->compile_dir = $this->viewdir."_c";
+		
+		$this->tpl->assign("__view",$view);
+		$this->tpl->assign("__redirect",pathos_flow_get());
+	}
+	
 	
 }
 
