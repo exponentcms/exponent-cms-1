@@ -19,7 +19,7 @@ function pathos_lang_list() {
 
 function pathos_lang_initialize() {
 	if (!defined('LANG')) {
-		if (is_readable($BASE.'subsystems/lang/'.USE_LANG.'.php')) {
+		if (is_readable(BASE.'subsystems/lang/'.USE_LANG.'.php')) {
 			define('LANG',USE_LANG); // Lang file exists.
 		} else {
 			define('LANG','en'); // Fallback to 'en' if language file not present.
