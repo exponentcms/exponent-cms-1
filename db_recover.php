@@ -32,7 +32,7 @@
 ##################################################
 
 // Initialize the Pathos Framework
-include_once(dirname(__realpath(__FILE__)).'/pathos.php');
+include_once(dirname(realpath(__FILE__)).'/pathos.php');
 
 pathos_lang_loadDictionary('standard','dbrecover');
 
