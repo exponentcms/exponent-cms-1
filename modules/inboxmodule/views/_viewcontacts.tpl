@@ -30,7 +30,7 @@
  *}
 <div class="moduletitle inbox_moduletitle">Personal Contacts</div>
 <div style="border-top: 1px solid lightgrey; border-bottom: 1px solid lightgrey; padding: 1em;">
-Here you can create contact lists and ban users.  Contact lists are like personal mailling lists which allow you to contact an entire group of people using one 'adrress'.
+Here you can create contact lists and ban users.  Contact lists are like personal mailing lists which allow you to contact an entire group of people using one 'address'.
 </div>
 <br /><br />
 <b>Personal Lists</b>
