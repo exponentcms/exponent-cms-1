@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_acting_admin) {
+if ($user && $user->is_admin) {
 	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "start");
 	$importer = (isset($_REQUEST['importer']) ? $_REQUEST['importer'] : "");
 	$file = BASE."modules/importer/importers/$importer/$page.php";
