@@ -33,12 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-pathos_sessions_set("preview_ticket",$_SESSION[SYS_SESSION_KEY]["ticket"]);
-pathos_sessions_set("preview_user",$_SESSION[SYS_SESSION_KEY]["user"]);
-unset($_SESSION[SYS_SESSION_KEY]["ticket"]);
-unset($_SESSION[SYS_SESSION_KEY]["user"]);
-
-pathos_permissions_clear();
+pathos_sessions_set("uilevel",0);
 pathos_flow_redirect();
 
 ?>

@@ -57,10 +57,10 @@ class previewmodule {
 	function show($view,$loc = null, $title = '') {
 		$template = new template('previewmodule',$view,$loc);
 		
-		$preview = (pathos_sessions_get('preview_user') != null);
-		$template->assign('editMode',pathos_sessions_loggedIn() && !$preview);
+		$level = pathos_sessions_get('uilevel');
+		$template->assign('editMode',pathos_sessions_loggedIn() && $level !== 0);
 		$template->assign('title',$title);
-		$template->assign('previewMode',$preview);
+		$template->assign('previewMode',($level === 0));
 		
 		$template->output($view);
 	}
