@@ -139,7 +139,7 @@ function sanity_checkThemes() {
 					if (is_readable($themebase."/".$themedir."/modules")) {
 						$moddh = opendir($themebase."/".$themedir."/modules");
 						while (($moddir = readdir($moddh)) !== false) {
-							if ($moddir == "CVS" && defined("DEVELOPMENT")) continue;
+							if ($moddir == "CVS") continue;
 							if (is_dir($themebase."/".$themedir."/modules/".$moddir) && substr($moddir,0,1) != ".") {
 								$tmpbase = $themebase."/".$themedir."/modules/".$moddir;
 								if (!file_exists($tmpbase."/views_c")) {
