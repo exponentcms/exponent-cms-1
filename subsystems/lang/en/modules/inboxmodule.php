@@ -63,6 +63,8 @@ define('TR_INBOXMODULE_FAILED_404MSG',		'The following message was not delivered
 
 define('TR_INBOXMODULE_ERR_SMTP',			'Something didn\'t work with the email config');
 
+define('TR_INBOXMODULE_NOMEMBERS',			'<i>You will not be able to create a contact list, because there are no users you can contact.</i>');
+
 // Permissions
 define('TR_INBOXMODULE_PERM_ADMIN',			'Administrate');
 define('TR_INBOXMODULE_PERM_CONTACTALL',	'Contact All Users');
