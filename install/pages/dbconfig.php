@@ -123,7 +123,9 @@ Due to security reasons, you or your web server administrator will have to creat
 		&#0149; <span class="control_caption">Table Prefix: </span>
 		<input class="text" type="text" name="c[db_table_prefix]" value="exponent" />
 		<div class="control_help">
-			A table prefix helps Exponent differentiate tables for this site from other tables that may already exist (or eventually be created by other scripts).  If you are using an existing database, you may want to change this.
+			A table prefix helps Exponent differentiate tables for this site from other tables that may already exist (or eventually be created by other scripts).  If you are using an existing database, you may want to change this. 
+			<br /><br />
+			<b>Note:</b> A table prefix can only contains numbers and letters.  Spaces and symbols (including '_') are not allowed.  An underscore will be added for you, by Exponent.
 		</div>
 	</div>
 </div>
