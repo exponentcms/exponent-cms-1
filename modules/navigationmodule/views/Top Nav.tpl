@@ -35,7 +35,6 @@
 		&nbsp;&nbsp;|&nbsp;
 		{foreach from=$sections item=section}
 		{if $section->parent == 0}
-		<!--<a href="#" class="navlink">Home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a><a href="#" class="navbar"></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;-->
 		{if $section->name == "Break" && $section->active == 0}
 		</td>
 	</tr>
@@ -56,10 +55,11 @@
 			{/if}
 		{/if}
 		{/foreach}
+		{permissions level=$smarty.const.UI_LEVEL_PERMISSIONS}
 		{if $canManage == 1}
 			&nbsp;[&nbsp;<a class="navlink" href="{link action=manage}">manage</a>&nbsp;]&nbsp;
 		{/if}
-		<!--<a href="#" class="navlink">Home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a><a href="#" class="navbar"></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="navlink">Navigation</a>&nbsp;&nbsp;-->
+		{/permissions}
 		</td>
 	</tr>
 </table>

@@ -47,6 +47,8 @@
 {/if}
 {/foreach}
 </table>
+{permissions level=$smarty.const.UI_LEVEL_PERMISSIONS}
 {if $canManage == 1}
 [ <a class="navlink" href="{link action=manage}">manage</a> ]
 {/if}
+{/permissions}
