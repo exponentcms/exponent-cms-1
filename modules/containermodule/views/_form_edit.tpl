@@ -56,6 +56,12 @@ if (!document.body.appendChild) {
 	<table cellspacing="0" cellpadding="0" width="100%">
 		<tr><td valign="top">
 		<table cellspacing="0" cellpadding="0" width="100%">
+			{if $can_activate_modules == 1 && $is_edit == 0}
+			<tr>
+				<td></td>
+				<td><i>If you are looking for a module that is not listed here, it may have been deactivated.  Click <a class="mngmntlink container_mngmntlink" href="{link module=administrationmodule action=managemodules}">here</a> to access the Module Manager</i></td>
+			</tr>
+			{/if}
 			<tr>
 				<td valign="top">Module</td>
 				<td style='padding-left: 5px;' valign="top">

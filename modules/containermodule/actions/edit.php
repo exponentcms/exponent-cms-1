@@ -71,6 +71,7 @@ if (pathos_permissions_check("edit_module",$loc) || pathos_permissions_check("ad
 	$template->assign("container",$container);
 	$template->assign("locref",$locref);
 	$template->assign("is_edit",isset($container->id));
+	$template->assign("can_activate_modules",$user->is_acting_admin);
 	
 	if (!defined("SYS_JAVASCRIPT")) include_once(BASE."subsystems/javascript.php");
 	$haveclass = false;
