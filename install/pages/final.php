@@ -33,6 +33,11 @@
 //GREP:HARDCODEDTEXT
 pathos_sessions_unset("installer_config");
 
+$components = join('/',array_splice(split('/',$_SERVER['SCRIPT_NAME']),0,-2)).'/';
+if ($components != PATH_RELATIVE) {
+	echo 'NEED TO SCREW WITH overrides.php<br />';
+}
+
 ?>
 <div class="installer_title">
 <img src="images/blocks.png" width="32" height="32" />

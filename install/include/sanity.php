@@ -67,6 +67,15 @@ function sanity_checkConfigFile() {
 			$errors[] = "Configuration profile directory (conf/profiles/) is not writable.";
 		}
 	}
+	
+	$overridesfile = BASE.'overrides.php';
+	if (!is_writable($overridesfile)) {
+		@chmod($overridesfile,0777);
+		if (!is_writable($overridesfile)) {
+			$errors[] = "Overrides file (overrides.php) is not writable.";
+		}
+	}
+	
 	umask($__oldumask);
 }
 

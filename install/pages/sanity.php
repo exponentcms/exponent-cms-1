@@ -74,6 +74,8 @@ if (count($warnings)) {
 	}
 }
 
+$write_file = 0;
+
 if (count($errors) > 0) {
 	// Had errors.  Force halt and fix.
 	?>
@@ -87,12 +89,26 @@ if (count($errors) > 0) {
 	The Exponent Install Wizard found no problems with the server environment.
 	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
+	$write_file = 1;
 } else {
 	// No errors, but had warnings.  Let them through, but with a warning
 	?>
 	The Exponent Install Wizard found no minor problems with the server environment, but you can continue.
 	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
+	$write_file = 1;
+}
+
+if ($write_file) {
+	$components = join('/',array_splice(split('/',$_SERVER['SCRIPT_NAME']),0,-2)).'/';
+	$path_relative = PATH_RELATIVE;
+	
+	if ($components != $path_relative) {
+		$path_relative = $components;
+		$fh = fopen(BASE.'overrides.php','w');
+		fwrite($fh,"<?php\r\n\r\ndefine('PATH_RELATIVE','$path_relative');\r\n\r\n?>\r\n");
+		fclose($fh);
+	}
 }
 
 ?>
