@@ -35,6 +35,12 @@
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK
+	// First, check our module config
+	$config = $db->selectObject('searchmodule_config',"location_data='".serialize($loc)."'");
+	if ($config == null) {
+		$config->is_categorized = 0;
+	}
+
 	if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 	$search_string = trim(strtolower($_POST['search_string']));
 	
@@ -137,12 +143,21 @@ if (!defined("PATHOS")) exit("");
 				$result->sum = preg_replace($p_term_search,"<b>\$1</b> ",$result->sum);
 			
 				$result->sum = str_replace("\n","<br />",$result->sum);
-				$results[] = $result;
+				
+				if ($config->is_categorized) {
+					if (!isset($results[$r->category])) {
+						$results[$r->category] = array();
+					}
+					$results[$r->category][] = $result;
+				} else {
+					$results[] = $result;
+				}
 			}
 		}
 	}
 	
 	$template = new template('searchmodule','_results');
+	$template->assign('config',$config);
 	$template->assign('good_terms',$terms);
 	$template->assign('excluded_terms',$term_status['excluded']);
 	$template->assign('have_excluded_terms',count($term_status['excluded']));

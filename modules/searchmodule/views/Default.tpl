@@ -44,7 +44,7 @@
 <div class="moduletitle search_moduletitle">{$moduletitle}</div>
 <form method="post" action="">
 <input type="hidden" name="module" value="searchmodule" />
-<input type="hidden" name="source" value="{$loc->src}" />
+<input type="hidden" name="src" value="{$loc->src}" />
 <input type="hidden" name="action" value="search" />
 <input type="text" name="search_string" size="20" />
 <input type="submit" value="Search" />

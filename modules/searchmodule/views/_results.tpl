@@ -34,7 +34,19 @@ Your search for "{' '|join:$good_terms}" returned {$num_results} result{if $num_
 {if $have_excluded_terms != 0}
 <i>The following search terms were ignored: {', '|join:$excluded_terms}<br />
 {/if}
+{if $config->is_categorized == 0}{* not categorized, we just have a list of crap *}
 {foreach from=$results item=result}
 <hr size="1" />
 <a href="{$result->view_link}">{$result->title}</a><br />{$result->sum}<br />
 {/foreach}
+{else}{* categorized, list of crap is two levels deep *}
+{foreach from=$results key=category item=subresults}
+	<hr size='1' />
+	<hr size='1' />
+	<b>{$category}</b>
+	{foreach from=$subresults item=result}
+		<hr size="1" />
+		<a href="{$result->view_link}">{$result->title}</a><br />{$result->sum}<br />
+	{/foreach}
+{/foreach}
+{/if}
