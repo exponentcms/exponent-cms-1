@@ -31,8 +31,8 @@
 # $Id$
 ##################################################
 
-include_once(dirname(__realpath(__FILE__)).'/pathos.php');
-include_once(dirname(__realpath(__FILE__)).'/subsystems/image.php');
+include_once(dirname(realpath(__FILE__)).'/pathos.php');
+include_once(dirname(realpath(__FILE__)).'/subsystems/image.php');
 
 $w = (isset($_GET['w']) ? $_GET['w'] : 200);
 $h = (isset($_GET['h']) ? $_GET['h'] : 50);
