@@ -28,22 +28,12 @@
  *
  * $Id$
  *}
-{if $nofiles == 1}
-No files to copy.  If you hit refresh, this is normal.
+{if $success == 1}
+<br /><br />Configuration Saved!  Click <a class="mngmntlink" href="{$backlink}">here</a> to continue.<br /><hr size="1" />
 {else}
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-{foreach from=$success item=status key=file}
-<tr>
-	<td>{$file}</td>
-	<td>
-		{if $status == 1}
-		<span style="color: green">Copied</span>
-		{else}
-		<span style="color: red">Failed</span>
-		{/if}
-	</td>
-</tr>
-{/foreach}
-</table>
-<a class="mngmntlink administration_mngmntlink" href="{$redirect}">Back</a>
+<div class="error">Errors were encountered with your database connection settings:</div>
+<div style="padding-left: 15px;">';
+{$errors}
+<br /><br />Site configuration was <b>not</b> saved.  Click <a class="mngmntlink" href="{$smarty.server.HTTP_REFERER}">here</a> to go back and reconfigure.<br /><br />';
+</div>
 {/if}

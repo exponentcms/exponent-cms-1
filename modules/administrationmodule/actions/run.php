@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-$file = "modules/" . $_REQUEST['m'] . "/actions/" . $_REQUEST['a'] . ".php";
+$file = 'modules/' . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php';
 if (is_readable($file)) {
 	include($file);
 } else echo SITE_404_HTML;

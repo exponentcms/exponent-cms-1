@@ -58,7 +58,7 @@ if (pathos_permissions_check('database',pathos_core_makeLocation('administration
 		}
 		if (class_exists($modclass)) {
 			ob_start();
-			call_user_func(array($modclass,'show'),'Default',pathos_core_makeLocation($modclass,$nullref->source));		
+			call_user_func(array($modclass,'show'),DEFAULT_VIEW,pathos_core_makeLocation($modclass,$nullref->source));
 			$mods[$nullref->module]['modules'][$nullref->source] = ob_get_contents();
 			ob_end_clean();
 		}

@@ -38,10 +38,12 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin == 1) {
+
+	$template = new template('administrationmodule','_upload_finalSummary',$loc);
+
 	$sessid = session_id();
 	if (!file_exists(BASE."extensionuploads/$sessid") || !is_dir(BASE."extensionuploads/$sessid")) {
-		echo 'No files to copy.  If you hit refresh, this is normal.';
-#		$success = array();
+		$template->assign('nofiles',1);
 	} else {
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$success = array();
@@ -56,14 +58,17 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 		$del_return = pathos_files_removeDirectory(BASE."extensionuploads/$sessid");
 		echo $del_return;
 		
-		$template = new template('administrationmodule','_upload_finalSummary',$loc);
+		$template->assign('nofiles',0);
 		$template->assign('success',$success);
 		
 		$template->assign('redirect',pathos_flow_get());
-		$template->output();
 		
+		ob_start();
 		include(BASE.'modules/administrationmodule/actions/installtables.php');
+		ob_end_clean();
 	}
+	
+	$template->output();
 } else {
 	echo SITE_403_HTML;
 }

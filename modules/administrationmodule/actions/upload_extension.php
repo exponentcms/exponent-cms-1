@@ -41,9 +41,11 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 	pathos_forms_initialize();
 	$form = new form();
 	
+	pathos_lang_loadDictionary('modules','administrationmodule');
+	
 	$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
-	$form->register('mod_archive','Module Archive',new uploadcontrol());
-	$form->register('submit','',new buttongroupcontrol('Install'));
+	$form->register('mod_archive',TR_ADMINISTRATIONMODULE_MODARCHIVE,new uploadcontrol());
+	$form->register('submit','',new buttongroupcontrol(TR_ADMINISTRATIONMODULE_INSTALL));
 	$form->meta('module','administrationmodule');
 	$form->meta('action','install_extension');
 

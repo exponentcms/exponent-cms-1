@@ -39,16 +39,17 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin) {
 	if ($_FILES['mod_archive']['error'] != UPLOAD_ERR_OK) {
+		pathos_lang_loadDictionary('modules','filemanager');
 		switch($_FILES['mod_archive']['error']) {
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
-				echo 'The file you uploaded exceeded the size limits for the server.<br />';
+				echo TR_FILEMANAGER_FILETOOLARGE.'<br />';
 				break;
 			case UPLOAD_ERR_PARTIAL:
-				echo 'The file you uploaded was only partially uploaded.<br />';
+				echo TR_FILEMANAGER_PARTIALFILE.'<br />';
 				break;
 			case UPLOAD_ERR_NO_FILE:
-				echo 'No file was uploaded.<br />';
+				echo TR_FILEMANAGER_NOFILEUPLOADED.'<br />';
 				break;
 		}
 	} else {
@@ -74,8 +75,10 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 			$ext = '.zip';
 		}
 		
-		if ($ext == '') echo 'Unknown archive format. Archives must either be regular TAR files, Gzipped Tarballs, or Bzipped Tarballs.<br />';
-		else {
+		if ($ext == '') {
+			pathos_lang_loadDictionary('modules','administrationmodule');
+			echo TR_ADMINISTRATIONMODULE_BADARCHIVE.'<br />';
+		} else {
 			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		
 			// Look for stale sessid directories:

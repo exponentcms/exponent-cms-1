@@ -38,6 +38,8 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	
+	pathos_lang_loadDictionary('modules','administrationmodule');
 
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	
@@ -64,7 +66,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$dd = new dropdowncontrol($configname,$profiles);
 	$href = preg_replace("/&configname.*/",'',$_SERVER['REQUEST_URI']);
 	$dd->jsHooks['onChange'] = "document.location.href = makeLink('module','administrationmodule','action','configuresite','configname',this.options[this.selectedIndex].value);";
-	$form->register('configname','Profile',$dd);
+	$form->register('configname',TR_ADMINISTRATIONMODULE_PROFILE,$dd);
 	$template->assign('form_html',$form->toHTML());
 	
 	$template = pathos_config_outputConfigurationTemplate($template,$configname);

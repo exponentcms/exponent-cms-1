@@ -49,7 +49,8 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	
 	if ($user->is_admin && !$u->is_admin) {
 		// Super user editting a 'lesser' user.
-		$form->registerBefore('submit','is_acting_admin','Administrator?',new checkboxcontrol($u->is_acting_admin,true));
+		pathos_lang_loadDictionary('modules','administrationmodule');
+		$form->registerBefore('submit','is_acting_admin',TR_ADMINISTRATIONMODULE_ISADMIN,new checkboxcontrol($u->is_acting_admin,true));
 	}
 	
 	$template = new template('administrationmodule','_umgr_editprofile',$loc);

@@ -53,17 +53,19 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		
 		pathos_flow_redirect();
 	} else {
+		pathos_lang_loadDictionary('modules','loginmodule');
+		
 		if (pathos_users_getUserByName($_POST['username']) != null) {
 			$post = $_POST;
 			unset($post['username']);
-			$post['_formError'] = 'Username already taken.';
+			$post['_formError'] = TR_LOGINMODULE_USERNAMETAKEN;
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else if ($_POST['pass1'] != $_POST['pass2']) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = 'Passwords do not match';
+			$post['_formError'] = TR_LOGINMODULE_UNMATCHEDPASSWORDS;
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
@@ -72,7 +74,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
-				$post['_formError'] = 'Specified password is not strong enough : '.$strength_error;
+				$post['_formError'] = sprintf(TR_LOGINMODULE_STRENGTHFAILED,$strength_error);
 				pathos_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {

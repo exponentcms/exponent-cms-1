@@ -44,10 +44,12 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	if ($user->is_admin) { // Only do the database stuff if we are a super admin
 		$errors = '';
 		
+		pathos_land_loadDictionary('config','database');
+		
 		// Test the prefix
 		if (preg_match("/[^A-Za-z0-9]/",$_POST['c']['DB_TABLE_PREFIX'])) {
 			$continue = false;
-			$errors .= 'Invalid table prefix.  The table prefix can only contain alphanumeric characters.';
+			$errors .= TR_CONFIG_DATABASE_ERROR_BADPREFIX;
 		}
 		
 		// Test the database connection
@@ -56,7 +58,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 		
 		if (!$newdb->isValid()) {
 			$continue = false;
-			$errors .= 'Unable to connect to database server.  Make sure that the database specified exists, and the user account specified has access to the server.<br />';
+			$errors .= TR_CONFIG_DATABASE_ERROR_CANTCONNECT;
 		}
 		
 		if ($continue) {
@@ -64,16 +66,21 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 			foreach ($status as $type=>$flag) {
 				if (!$flag) {
 					$continue = false;
-					$errors .= 'Unable to run $type commands<br />';
+					$errors .= sprintf(TR_CONFIG_DATABASE_ERROR_PERMDENIED,$type);
 				}
 			}
 		}
 	}
 	
+	$template = new template('administrationmodule','_config_results');
+	
 	if ($continue) {
 		pathos_config_saveConfiguration($_POST);
 		$ob = "";
 		if ($user->is_admin) {
+		
+			pathos_lang_loadDictionary('standard','dbrecover');
+		
 			$db = $newdb;
 			ob_start();
 			include_once(BASE.'modules/administrationmodule/actions/installtables.php');
@@ -97,7 +104,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 			
 			if ($db->tableIsEmpty('section')) {
 				$section = null;
-				$section->name = 'Home';
+				$section->name = TR_DBRECOVER_DEFAULTSECTION;
 				$section->public = 1;
 				$section->active = 1;
 				$section->rank = 0;
@@ -105,15 +112,12 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 				$sid = $db->insertObject($section,'section');
 			}
 		}
-		echo '<br /><br />Configuration Saved!  Click <a class="mngmntlink" href="'.pathos_flow_get().'">here</a> to continue.<br /><hr size="1" />';
-		echo $ob;
+		$template->assign('success',1);
 	} else {
-		echo '<div style="color: #FF0000; font-weight: bold;">Errors were encountered with your database connection settings:</div>';
-		echo '<div style="padding-left: 15px;">';
-		echo $errors;
-		echo '<br /><br />Site configuration was <b>not</b> saved.  Click <a class="mngmntlink" href="'.$_SERVER['HTTP_REFERER'].'">here</a> to go back and reconfigure.<br /><br />';
-		echo '</div>';
+		$template->assign('success',0);
+		$template->assign('errors',$errors);
 	}
+	$template->output();
 } else {
 	echo SITE_403_HTML;
 }

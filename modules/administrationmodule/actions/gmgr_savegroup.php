@@ -47,8 +47,9 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		pathos_flow_redirect();
 	} else {
 		if (pathos_users_getGroupByName($_POST['name']) != null) {
+			pathos_lang_loadDictionary('modules','administrationmodule');
 			$post = $_POST;
-			$post['_formError'] = 'The group name name is already taken.';
+			$post['_formError'] = TR_ADMINISTRATIONMODULE_GROUPNAMETAKEN;
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
