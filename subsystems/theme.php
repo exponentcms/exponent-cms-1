@@ -159,6 +159,9 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
  * @node Subsystems:Theme
  */
 function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
+	if (!AUTHORIZED_SECTION && $module != 'navigationmodule' && $module != 'loginmodule') {
+		return;
+	}
 	global $db;
 	// Ensure that we have a section
 	if ($section == null) {
@@ -213,13 +216,16 @@ function pathos_theme_inAction() {
  * @node Subsystems:Theme
  */
 function pathos_theme_canViewPage() {
+	return AUTHORIZED_SECTION;
+	/*
 	global $db;
 	$last_section = pathos_sessions_get("last_section");
 	$section = $db->selectObject("section","id=".$last_section);
-	if ($section && $section->public == 0) {
+	if ($section && navigationModule::canView($section)) {
 		$sloc = pathos_core_makeLocation("navigationmodule","",$section->id);
 		return pathos_permissions_check("view",$sloc);
 	} else return true;
+	*/
 }
 
 /*  exdoc
@@ -251,22 +257,14 @@ function pathos_theme_main() {
 		$last_section = pathos_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
 		
-		if (pathos_theme_inAction()) {
-			pathos_theme_runAction();
-		} else if ($section == null) {
+		// View authorization will be taken care of by the runAction and mainContainer functions
+		
+		if ($section == null) {
 			pathos_theme_goDefaultSection();
-		} else if ($section->public == 0) {
-			$sloc = pathos_core_makeLocation("navigationmodule","",$section->id);
-			if (!pathos_permissions_check("view",$sloc)) {
-				echo SITE_403_HTML;
-				// Set as protected, so that a successfull login will bring us back here.
-				pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
-			} else {
-				// Authorized.
-				pathos_theme_mainContainer(false);
-			}
+		} else if (pathos_theme_inAction()) {
+			pathos_theme_runAction();
 		} else {
-			pathos_theme_mainContainer(true);
+			pathos_theme_mainContainer();
 		}
 	} else {
 		if (isset($_REQUEST['module'])) {
@@ -283,7 +281,12 @@ function pathos_theme_main() {
  * @node Subsystems:Theme
  */
 function pathos_theme_runAction() {
+	
 	if (pathos_theme_inAction()) {
+		if (!AUTHORIZED_SECTION) {
+			echo SITE_403_HTML;
+		//	return;
+		}
 		if (pathos_sessions_isset("themeopt_override")) {
 			$config = pathos_sessions_get("themeopt_override");
 			echo "<a class='mngmntlink sitetemplate_mngmntlink' href='".$config['mainpage']."'>".$config['backlinktext']."</a><br /><br />";
@@ -325,8 +328,9 @@ function pathos_theme_goDefaultSection() {
 		if ($section) {
 			header("Location: http://".$_SERVER['HTTP_HOST'] . PATH_RELATIVE."index.php?section=".$section->id);
 			exit();
+		} else {
+			echo SITE_404_HTML;
 		}
-		else echo SITE_404_HTML;
 	}
 }
 
@@ -336,8 +340,14 @@ function pathos_theme_goDefaultSection() {
  * @param bool $public Whether or not the page is public.
  * @node Subsystems:Theme
  */
-function pathos_theme_mainContainer($public = true) {
-	if ($public) pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
+function pathos_theme_mainContainer() {
+	if (!AUTHORIZED_SECTION) {
+		// Set this so that a login on an Auth Denied page takes them back to the previously Auth-Denied page
+		pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
+		echo SITE_403_HTML;
+		return;
+	}
+	if (PUBLIC_SECTION) pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 	else pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
 		
 	if (pathos_sessions_isset("themeopt_override")) {
