@@ -62,6 +62,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
  */
 class checkboxcontrol extends formcontrol {
 	var $flip = false;
+	var $jsHooks = array();
 	
 	function name() { return "Checkbox"; }
 	function isSimpleControl() { return true; }
@@ -74,6 +75,7 @@ class checkboxcontrol extends formcontrol {
 	function checkboxcontrol($default = false,$flip = false) {
 		$this->default = $default;
 		$this->flip = $flip;
+		$this->jsHooks = array();
 	}
 	
 	function toHTML($label,$name) {
@@ -92,6 +94,9 @@ class checkboxcontrol extends formcontrol {
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
 		if ($this->disabled) $html .= ' disabled';
+		foreach ($this->jsHooks as $type=>$val) {
+			$html .= ' '.$type.'="'.$val.'"';
+		}
 		$html .= ' />';
 		return $html;
 	}
