@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	'ticket'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,

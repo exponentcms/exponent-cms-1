@@ -30,6 +30,9 @@
 #
 # $Id$
 ##################################################
+
+if (!defined('PATHOS')) exit('');
+
 pathos_lang_loadDictionary('subsystems', 'sorting');
 
 return array(

@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	'template_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),

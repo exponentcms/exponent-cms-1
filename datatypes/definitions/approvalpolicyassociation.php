@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	'policy_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),

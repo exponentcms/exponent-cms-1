@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	DB_TABLE_COMMENT=>'Holds news items',
 	DB_TABLE_WORKFLOW=>true

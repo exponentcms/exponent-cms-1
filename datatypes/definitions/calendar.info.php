@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	DB_TABLE_COMMENT=>'Calendar post table.',
 	DB_TABLE_WORKFLOW=>true

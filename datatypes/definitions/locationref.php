@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,

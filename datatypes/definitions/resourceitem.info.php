@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	DB_TABLE_COMMENT=>'Holds resource items',
 	DB_TABLE_WORKFLOW=>true
