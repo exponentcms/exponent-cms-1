@@ -70,10 +70,10 @@ class section_template {
 			$form->register("subtheme","Sub Theme",new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
 		}
 		
-		if (!isset($object->id) && $object->parent != 0) {
+		#if (!isset($object->id) && $object->parent != 0) {
 			$form->register("active","Active?",new checkboxcontrol($object->active));
 			$form->register("public","Public?",new checkboxcontrol($object->public));
-		}
+		#}
 		$form->register("submit","",new buttongroupcontrol("Save"));
 		return $form;
 	}
