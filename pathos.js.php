@@ -65,57 +65,6 @@ function pathosGetCookie(name) {
 	return "";
 }
 
-/* Not sure if we need ALL of these.
-function pathosPutCookie(name,newcookie) {
-	var cookiestr = document.cookie;
-	var nameIndex = cookiestr.indexOf(name);
-	if (nameIndex != -1) { // found the named cookie
-		var startOffset = nameIndex+name.length+1;
-		var endOffset = cookiestr.lastIndexOf(";",startOffset);
-		if (endOffset == -1) endOffset = cookiestr.length;
-		cookiestr = cookiestr.substring(0,nameIndex)+cookiestr.substring(endOffset,cookiestr.length);
-	}
-	if (cookiestr != "") cookiestr += ";";
-	cookiestr += name + "=" + newcookie;
-	document.cookie = cookiestr;
-}
-
-function pathosParseCookie(cookie) {
-	if (cookie == "") return new Array();
-	
-	var broken_cookie = cookie.split("'");
-	for (var i = 0; i < broken_cookie.length; i++) {
-		broken_cookie[i] = broken_cookie[i].split("\"");
-	}
-	return broken_cookie;
-}
-
-function pathosUnparseCookie(broken_cookie) {
-	if (broken_cookie.length == 0) return "";
-	cookiedata = new Array();
-	for (var i = 0; i < broken_cookie.length; i++) {
-		cookiedata[cookiedata.length] = broken_cookie[i].join("\"");
-	}
-	str = cookiedata.join("'");
-	return str;
-}
-
-function pathosUnsetCookieVar(varname,val,broken_cookie) {
-	for (var i = 0; i < broken_cookie.length; i++) {
-		if (broken_cookie[i][0] == varname) {
-			if (val == "" || broken_cookie[i][1] == val) {
-				broken_cookie.splice(i,1);
-				i--; // needed, because we removed i, so next iteration would skip an element.
-			}
-		}
-	}
-}
-
-function pathosSetCookieVar(varname,val,broken_cookie) {
-	broken_cookie[broken_cookie.length] = new Array(varname,val);
-}
-*/
-
 function makeLink() {
 	var link = "";
 	var args = makeLink.arguments;
