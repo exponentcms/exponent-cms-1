@@ -92,7 +92,6 @@ if (defined('SCRIPT_EXP_RELATIVE')) {
 	define('SCRIPT_ABSOLUTE',BASE.SCRIPT_EXP_RELATIVE);
 } else {
 	ob_start();
-	echo '//EXP_RELATIVE not defined.  Falling back to PATH_RELATIVE/BASE<br />';
 	define('SCRIPT_RELATIVE',PATH_RELATIVE);
 	define('SCRIPT_ABSOLUTE',BASE);
 }
