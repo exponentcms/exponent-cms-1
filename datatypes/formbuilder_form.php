@@ -100,7 +100,7 @@ class formbuilder_form {
 		
 		$form->register('addresses',TR_FORMBUILDER_OTHERADDRESSES,new listbuildercontrol($defaults,array()));
 		$form->register('subject',TR_FORMBUILDER_EMAILSUBJECT,new textcontrol($object->subject));
-		$form->register(null,'', new htmlcontrol('<br><br><b>'.TR_FORBUILDER_DBHEADER.'</b><br><hr size="1"><br>'));
+		$form->register(null,'', new htmlcontrol('<br><br><b>'.TR_FORMBUILDER_DBHEADER.'</b><br><hr size="1"><br>'));
 		$form->register('is_saved',TR_FORMBUILDER_SAVETODB,new checkboxcontrol($object->is_saved,false));
 		$form->register(null,'', new htmlcontrol('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.TR_FORMBUILDER_DATALOSSWARNING.'<br>'));
 		if ($object->is_saved) {
