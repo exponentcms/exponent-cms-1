@@ -105,7 +105,7 @@ $stuff = array(
 			"action"=>"sysinfo")
 	)
 );
-
+global $user;
 if (!$user || !$user->is_admin) {
 	unset($stuff['Database']['import']);
 }
