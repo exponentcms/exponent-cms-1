@@ -198,12 +198,12 @@ class calendarmodule {
 			$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
 			// Grab day counts
 			$endofmonth = pathos_datetime_endOfMonthDay($time);
+			
 			for ($i = 1; $i <= $endofmonth; $i++) {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				if ($i == $nowinfo['mday']) $currentweek = $week;
 				#$monthly[$week][$i] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
 				$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
-				echo mysql_error();
 				$monthly[$week][$i] = calendarmodule::_getEventsForDates($dates);
 				
 				$counts[$week][$i] = count($monthly[$week][$i]);
@@ -381,6 +381,13 @@ class calendarmodule {
 	// The following functions are internal helper functions
 	
 	function _getEventsForDates($edates) {
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!function_exists('pathos_sorting_byEventStartAscending')) {
+			function pathos_sorting_byEventStartAscending($a,$b) {
+				return ($a->eventstart < $b->eventstart ? 1 : -1);
+			}
+		}
+		
 		global $db;
 		$events = array();
 		foreach ($edates as $edate) {
@@ -390,6 +397,7 @@ class calendarmodule {
 			$o->eventend += $edate->date;
 			$events[] = $o;
 		}
+		usort($events,'pathos_sorting_byEventStartAscending');
 		return $events;
 	}
 }
