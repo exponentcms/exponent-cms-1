@@ -36,13 +36,24 @@ if (!defined('PATHOS')) exit('');
 $banner = null;
 if (isset($_GET['id'])) {
 	$banner = $db->selectObject('banner_ad','id='.$_GET['id']);
-	$loc = unserialize($banner->location_data);
+	if ($banner) {
+		$loc = unserialize($banner->location_data);
+	}
 }
 
 if (pathos_permissions_check('manage',$loc)) {
 	$form = banner_ad::form($banner);
 	$form->location($loc);
 	$form->meta('action','ad_save');
+	
+	pathos_lang_loadDictionary('modules','bannermodule');
+	
+	if (is_writable(BASE.'files/bannermodule/'.$loc->src)) {
+		$form->registerBefore('submit','file',TR_BANNERMODULE_BANNERIMAGE,new uploadcontrol());
+	} else {
+		$form->controls['submit']->disabled = 1;
+		$form->registerBefore('name',null,'',new htmlcontrol('<div class="error">'.TR_BANNERMODULE_NOUPLOAD.'</div>'));
+	}
 	
 	$template = new template('bannermodule','_form_ad_edit');
 	$template->assign('form_html',$form->toHTML());
