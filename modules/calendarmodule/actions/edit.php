@@ -69,7 +69,8 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 			$ddopts[$opt->id] = $opt->name;
 		}
 		uasort($ddopts,"strnatcmp");
-		$form->registerBefore("submit","category",TR_CALENDARMODULE_CATEGORIES,new dropdowncontrol($item->category_id,$ddopts));
+		$form->registerAfter("eventend","category",TR_CALENDARMODULE_CATEGORIES,new dropdowncontrol($item->category_id,$ddopts));
+		$form->registerBefore("category", null, '', new htmlcontrol('<br />'));
 	}
 	
 	if ($config->enable_feedback) {
@@ -77,8 +78,9 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$allforms = array();
 		$allforms[""] = TR_CALENDARMODULE_NOFEEDBACK;
 		$allforms = array_merge($allforms, pathos_template_getFormTemplates('email'));
-		$form->registerBefore("submit", 'feedback_form', TR_CALENDARMODULE_FEEDBACKFORM, new dropdowncontrol("", $allforms));
-		$form->registerBefore("submit", 'feedback_email', TR_CALENDARMODULE_FEEDBACKEMAIL, new textcontrol("", 20));
+		$form->registerAfter("eventend", 'feedback_form', TR_CALENDARMODULE_FEEDBACKFORM, new dropdowncontrol("", $allforms));
+		$form->registerAfter("feedback_form", 'feedback_email', TR_CALENDARMODULE_FEEDBACKEMAIL, new textcontrol("", 20));
+		$form->registerBefore("feedback_form", null, '', new htmlcontrol('<br />'));
 	}
 	
 	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");
