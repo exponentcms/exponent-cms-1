@@ -53,7 +53,7 @@
 							<tr>
 								<td width="221"><img src="<?php echo THEME_RELATIVE;?>images/middle-logo.jpg" /></td>
 								<td width="43"><img src="<?php echo THEME_RELATIVE;?>images/middle-angle.jpg" /></td>
-								<td width="100%" style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/middle-repeat.jpg);  background-repeat: repeat-x;"></td>
+								<td width="100%" style="background-image: url(<?php echo THEME_RELATIVE; ?>images/middle-repeat.jpg);  background-repeat: repeat-x;"></td>
 								<td width="360"><img src="<?php echo THEME_RELATIVE;?>images/middle-image.jpg" /></td>
 							</tr>
 						</table>
@@ -61,7 +61,7 @@
 					<td width="48"><img width="48" src="<?php echo THEME_RELATIVE;?>images/rightbar_1.gif"></td>
 				</tr>
 				<tr>
-					<td style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/leftbar_2.gif);"></td>
+					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/leftbar_2.gif);"></td>
 					<td>
 						<div style="padding: 4px; border-bottom: 1px solid grey">
 							<?php pathos_theme_showModule("navigationmodule","Top Nav"); ?>
@@ -95,19 +95,19 @@
 							</tbody>
 						</table>
 					</td>
-					<td style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/rightbar_2.gif);"></td>
+					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/rightbar_2.gif);"></td>
 				</tr>
 				<tr>
 					<td><img src="<?php echo THEME_RELATIVE;?>images/leftbar_3-1.gif"></td>
-					<td style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/bottom1.gif);"></td>
+					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/bottom1.gif);"></td>
 					<td><img src="<?php echo THEME_RELATIVE;?>images/rightbar_3-1.gif"></td>
 				</tr>
 				<tr>
-					<td style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/leftbar_3bg.gif); background-repeat: repeat-y;"></td>
-					<td style="padding: 5px; background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/bottombg.gif);">
+					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/leftbar_3bg.gif); background-repeat: repeat-y;"></td>
+					<td style="padding: 5px; background-image: url(<?php echo THEME_RELATIVE; ?>images/bottombg.gif);">
 						<?php pathos_theme_showModule("textmodule","Footer","","footer"); ?>
 					</td>
-					<td style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/rightbar_3bg.gif); background-repeat: repeat-y;"></td>
+					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/rightbar_3bg.gif); background-repeat: repeat-y;"></td>
 				</tr>
 			</tbody>
 		</table>
