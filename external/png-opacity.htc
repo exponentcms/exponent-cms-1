@@ -31,7 +31,7 @@
  *
  */
  
-var IS_PNG = /\.png$/i; /* <-- NOTE: remove the "\-trans" to process *all* PNGs */
+var IS_PNG = /icons.*\.png$/i; /* <-- NOTE: This should match anything in either icons or iconset */
 var supported = /MSIE (5\.5)|[6789]/.test(navigator.userAgent) && navigator.platform == 'Win32';
 var realSrc;
 var blankSrc = 'iconset/blank.gif';
