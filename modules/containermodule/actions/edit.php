@@ -108,7 +108,7 @@ if (pathos_permissions_check("edit_module",$loc) || pathos_permissions_check("ad
 		$mod->supportsViews  = ($module->hasViews()   ? 1 : 0);
 		
 		// Get a list of views
-		$mod->views = pathos_modules_views($moduleclass);
+		$mod->views = pathos_template_listModuleViews($moduleclass);
 		natsort($mod->views);
 		
 		if (!$haveclass) {

@@ -45,7 +45,8 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 	
 	$views = array();
 	$loc = pathos_core_makeLocation($modclass,'@example');
-	foreach (pathos_modules_views($modclass) as $view) {
+	foreach (pathos_template_listModuleViews($modclass) as $view) {
+		echo $view;
 		$v = null;
 		$v->view = $view;
 		
