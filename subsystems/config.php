@@ -129,9 +129,9 @@ function pathos_config_configurationForm($configname,$database=false) {
 	if (is_readable(BASE."conf/extensions")) {
 		global $user;
 		$options = pathos_config_parse($configname);
-		// Debating if we need this or not.
-		//if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
-		//pathos_forms_initialize();
+		
+		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_forms_initialize();
 		
 		pathos_lang_loadDictionary('subsystems','config');
 		pathos_lang_loadDictionary('standard','core');
@@ -173,7 +173,7 @@ function pathos_config_configurationForm($configname,$database=false) {
 		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" />'.implode('&nbsp;&nbsp;|&nbsp;&nbsp;',$sections)));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		//pathos_forms_cleanup();
+		pathos_forms_cleanup();
 		
 		return $form;
 	}
