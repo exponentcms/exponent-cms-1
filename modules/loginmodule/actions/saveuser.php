@@ -34,6 +34,8 @@
 if (!defined('PATHOS')) exit('');
 
 if (!$user && SITE_ALLOW_REGISTRATION == 1) {
+	pathos_lang_loadDictionary('modules','loginmodule');
+
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
 	if (pathos_users_getUserByName($_POST['username']) != null) {
@@ -55,7 +57,7 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = TR_LOGINMODULE_STRENGTHFAILED . $strength_error;
+			$post['_formError'] = sprintf(TR_LOGINMODULE_STRENGTHFAILED,$strength_error);
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
