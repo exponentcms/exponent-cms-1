@@ -41,10 +41,10 @@ define('TR_CALENDARMODULE_EVENTSTART',			'Start Time');
 define('TR_CALENDARMODULE_EVENTEND',			'End Time');
 define('TR_CALENDARMODULE_RECURRENCE',			'Recurrence');
 
-define('TR_CALENDARMODULE_CATEGORIES',			'Categories');
-define('TR_CALENDARMODULE_NOFEEDBACK',			'Do not display Feedback Form');
+define('TR_CALENDARMODULE_CATEGORIES',			'Category');
+define('TR_CALENDARMODULE_NOFEEDBACK',			'Disallow Feedback');
 define('TR_CALENDARMODULE_FEEDBACKFORM',		'Feedback Form');
-define('TR_CALENDARMODULE_FEEDBACKEMAIL',		'Enter Feedback Email Address');
+define('TR_CALENDARMODULE_FEEDBACKEMAIL',		'Feedback Email');
 
 define('TR_CALENDARMODULE_ENABLECATEGORIES',	'Enable Categories?');
 define('TR_CALENDARMODULE_ENABLEFEEDBACK',		'Enable Feedback?');
