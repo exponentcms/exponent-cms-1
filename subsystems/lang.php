@@ -18,10 +18,14 @@ function pathos_lang_list() {
 }
 
 function pathos_lang_initialize() {
-	if (!defined('DEFAULT_VIEW')) {
-		$info = include_once(BASE.'subsystems/lang/'.LANG.'.php');
+	if (!defined('LANG')) {
+		if (is_readable($BASE.'subsystems/lang/'.USE_LANG.'.php')) {
+			define('LANG',USE_LANG); // Lang file exists.
+		} else {
+			define('LANG','en'); // Fallback to 'en' if language file not present.
+		}
+		$info = include(BASE.'subsystems/lang/'.LANG.'.php');
 		setlocale(LC_ALL,$info['locale']);
-		
 		// For view resolution
 		define('DEFAULT_VIEW',$info['default_view']);
 	}
