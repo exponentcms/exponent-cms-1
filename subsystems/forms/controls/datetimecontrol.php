@@ -107,6 +107,10 @@ class datetimecontrol extends formcontrol {
 		return $html;
 	}
 	
+	function onRegister(&$form) {
+		$form->addScript('datetime_disable',PATH_RELATIVE.'subsystems/forms/controls/datetimecontrol.js');
+	}
+	
 	function parseData($original_name,$formvalues,$for_db = false) {
 		$time = 0;
 		if (isset($formvalues[$original_name."_month"])) $time = mktime(8,0,0,$formvalues[$original_name.'_month'],$formvalues[$original_name.'_day'],$formvalues[$original_name.'_year']) - 8*3600;
