@@ -42,7 +42,7 @@ if (isset($_REQUEST['uid'])) {
 if ($user && $u) {
 	$ban = null;
 	$ban->owner = $user->id;
-	$ban->user_id = $u->user_id;
+	$ban->user_id = $u->id;
 	$db->insertObject($ban,"inbox_contactbanned");
 	pathos_flow_redirect();
 } else {
