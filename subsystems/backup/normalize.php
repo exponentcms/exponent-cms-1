@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('PATHOS')) exit('');
+
 // Normalizer Script
 // This script normalizes the database and sets some things back in order.
 

@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 /* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.

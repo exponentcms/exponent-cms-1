@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 /**
  * PosGreSQL Database Engine Info File
  *

@@ -95,28 +95,27 @@ function pathos_permissions_load($user) {
 				$pathos_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
 			}
 		}
-		echo '<xmp>';
 		// Retrieve sectional admin status.
 		// First, figure out what sections the user has permission to manage, through the navigationmodule permissions
-		foreach ($pathos_permissions_r['navigationmodule'][''] as $id=>$perm_data) {
-			if ($perm_data['manage'] == 1) {
-				// The user is allowed to manage sections.
-				// Pull in all stuff for the section, using section ref.
-				$sectionrefs = $db->selectObjects('sectionref','is_original=1 AND section='.$id);
-				foreach ($sectionrefs as $sref) {
-					$sloc = pathos_core_makeLocation($sref->module,$sref->source);
-					if (class_exists($sref->module)) { // In business, the module exists
-						$perms = call_user_func(array($sref->module,'permissions'));
-						if ($perms == null) $perms = array(); // For good measure, since some mods return no perms.
-						foreach ($perms as $perm=>$name) {
-							$pathos_permissions_r[$sloc->mod][$sloc->src][''][$perm] = 1;
+		if (isset($pathos_permissions_r['navigationmodule']['']) && is_array($pathos_permissions_r['navigationmodule'][''])) {
+			foreach ($pathos_permissions_r['navigationmodule'][''] as $id=>$perm_data) {
+				if ($perm_data['manage'] == 1) {
+					// The user is allowed to manage sections.
+					// Pull in all stuff for the section, using section ref.
+					$sectionrefs = $db->selectObjects('sectionref','is_original=1 AND section='.$id);
+					foreach ($sectionrefs as $sref) {
+						$sloc = pathos_core_makeLocation($sref->module,$sref->source);
+						if (class_exists($sref->module)) { // In business, the module exists
+							$perms = call_user_func(array($sref->module,'permissions'));
+							if ($perms == null) $perms = array(); // For good measure, since some mods return no perms.
+							foreach ($perms as $perm=>$name) {
+								$pathos_permissions_r[$sloc->mod][$sloc->src][''][$perm] = 1;
+							}
 						}
 					}
 				}
 			}
 		}
-		print_r($pathos_permissions_r);
-		echo '</xmp>';
 	}
 	pathos_sessions_set('permissions',$pathos_permissions_r);
 	

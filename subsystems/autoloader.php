@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 if (phpversion() >= 5) {
 	/* exdoc
 	 * The definition of this constant lets other parts

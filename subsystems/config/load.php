@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 @include_once(BASE."conf/config.php");
 if (is_readable(BASE."conf/extensions")) {
 	$dh = opendir(BASE."conf/extensions");

@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 // We really need to return information per engine, so use the currently active one.
 return include(BASE.'subsystems/database/'.DB_ENGINE.'.info.php');
 

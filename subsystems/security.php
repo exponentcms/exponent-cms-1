@@ -35,7 +35,7 @@
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-define("SYS_SECURITY");
+define('SYS_SECURITY',1);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
