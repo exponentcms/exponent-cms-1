@@ -29,9 +29,8 @@
  * $Id$
  *}
 <div class="form_title">Data Exporters</div>
-<div class="form_header">This page lists all installed exporters that Exponent recognizes, gives some information about each
-<br /><br />
-To install a new data exporter, use the <a class="mngmntlink administration_mngmntlink" href="{$linkbase}upload_extension">Extension Upload</a> form.</div>
+<div class="form_header">This page lists all installed exporters that Exponent recognizes, and gives some information about each.
+</div>
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	{foreach from=$exporters item=exporter key=impname}
 	<tr>
