@@ -40,16 +40,16 @@ if (pathos_permissions_check("configure",$loc)) {
 	if (isset($config->id)) $db->updateObject($config,$_POST['module']."_config");
 	else $db->insertObject($config,$_POST['module']."_config");
 	
+	$container = $db->selectObject("container","internal='".serialize($loc)."'");
+	$vconfig = array();
 	if (isset($_POST['_viewconfig'])) {
-		$container = $db->selectObject("container","internal='".serialize($loc)."'");
-		$vconfig = array();
-		foreach ($_POST['_viewconfig'] as $k=>$v) {
-			$vconfig[$k] = 1;
+		$opts = pathos_template_getViewConfigOptions($loc->mod,$container->view);
+		foreach (array_keys($opts) as $o) {
+			$vconfig[$o] = (isset($_POST['_viewconfig'][$o]) ? $_POST['_viewconfig'][$o] : 0);
 		}
-		$container->view_data = serialize($vconfig);
-		$db->updateObject($container,"container");
 	}
-	
+	$container->view_data = serialize($vconfig);
+	$db->updateObject($container,"container");
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

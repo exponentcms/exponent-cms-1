@@ -40,6 +40,10 @@ if (pathos_permissions_check("configure",$loc)) {
 		$template = new template($loc->mod,"_configure",$loc);
 	}
 	
+	$hasConfig = 0;
+	
+	$form = null;
+	
 	if ($db->tableExists($_GET['module']."_config")) {
 		$config = $db->selectObject($_GET['module']."_config","location_data='".serialize($loc)."'");
 	
@@ -51,19 +55,24 @@ if (pathos_permissions_check("configure",$loc)) {
 		$submit = $form->controls["submit"];
 		$form->unregister("submit");
 		
-		$container = $db->selectObject("container","internal='".serialize($loc)."'");
-		if ($container) {
-			$values = ($container->view_data != "" ? unserialize($container->view_data) : array());
-			$form = pathos_template_getViewConfigForm($loc->mod,$container->view,$form,$values);
-		}
-		
-		$form->register("submit","",$submit);
-		
-		$template->assign("hasConfig",1);
-		$template->assign("form_html",$form->toHTML());
-	} else {
-		$template->assign("hasConfig",0);
+		$hasConfig = 1; //We have some form of configuration
 	}
+
+	$container = $db->selectObject("container","internal='".serialize($loc)."'");
+	if ($container) {
+		$values = ($container->view_data != "" ? unserialize($container->view_data) : array());
+		$form = pathos_template_getViewConfigForm($loc->mod,$container->view,$form,$values);
+		$submit = $form->controls["submit"];
+		$form->unregister("submit");
+		
+		$hasConfig = 1;
+	}
+		
+	if ($hasConfig) {
+		$form->register("submit","",$submit);
+		$template->assign("form_html",$form->toHTML());
+	}
+	$template->assign("hasConfig",$hasConfig);
 	
 	$template->output();
 } else {
