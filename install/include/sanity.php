@@ -83,7 +83,7 @@ function sanity_checkModules() {
 				if (!is_readable($modules.$moddir."/class.php") && substr($moddir,-6,6) == "module") {
 					$warnings[] = "Module in $moddir will not be usable, as the module file is not readable.";
 				}
-				
+				/*
 				if (file_exists($modules.$moddir."/views") && !file_exists($modules.$moddir."/views_c")) {
 					@mkdir($modules.$moddir."/views_c",0777);
 					if (!file_exists($modules.$moddir."/views_c")) {
@@ -99,6 +99,7 @@ function sanity_checkModules() {
 						continue;
 					}
 				}
+				*/
 			}
 		}
 	} else $errors[] = "Modules directory (modules/) is not readable";
@@ -118,6 +119,7 @@ function sanity_checkThemes() {
 				if (!is_readable($themebase."/".$themedir)) {
 					$warnings[] = "Theme directory for '$themedir' (themes/$themedir) is not readable.  This theme will not be available for use.";
 				} else {
+					/*
 					if (file_exists($themebase."/".$themedir."/views")) {
 						if (!file_exists($themebase."/".$themedir."/views_c")) {
 							@mkdir($themebase."/".$themedir."/views_c");
@@ -135,7 +137,9 @@ function sanity_checkThemes() {
 							}
 						}
 					}
+					*/
 					$one_readable = true;
+					/*
 					if (is_readable($themebase."/".$themedir."/modules")) {
 						$moddh = opendir($themebase."/".$themedir."/modules");
 						while (($moddir = readdir($moddh)) !== false) {
@@ -161,6 +165,7 @@ function sanity_checkThemes() {
 							}
 						}
 					}
+					*/
 				}
 			}
 		}
