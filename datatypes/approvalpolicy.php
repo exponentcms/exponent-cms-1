@@ -55,7 +55,7 @@ class approvalpolicy {
 		}
 		
 		$form->register('name',TR_WORKFLOW_POLICYNAME,new textcontrol($object->name));
-		$form->register('description',TR_WORKFLOW_DESC,new texteditorcontrol($object->description));
+		$form->register('description',TR_WORKFLOW_POLICYDESC,new texteditorcontrol($object->description));
 		$form->register('max_approvers',TR_WORKFLOW_MAXAPPROVERS,new textcontrol($object->max_approvers));
 		$form->register('required_approvals',TR_WORKFLOW_REQUIREDAPPROVALS,new textcontrol($object->required_approvals));
 		
