@@ -82,14 +82,9 @@ class basetemplate {
 		return $this->tpl->fetch($this->view.".tpl");
 	}
 }
-/**
- * Template Wrapper
- *
+/*
  * Wraps the template system in use, to provide a uniform and consistent
  * interface to templates.
- *
- * @package Subsystems
- * @subpackage Template
  */
 class template extends basetemplate {	
 	var $module = "";
@@ -145,7 +140,7 @@ class template extends basetemplate {
 	
 }
 
-/**
+/*
  * Form Template Wrapper
  *
  * This class wraps is used for site wide forms.  
@@ -201,7 +196,7 @@ class filetemplate extends basetemplate {
 	}
 }
 
-/**
+/*
  * Standalone Template Class
  *
  * A standalone template is a template (tpl) file found in either
@@ -230,7 +225,7 @@ class standalonetemplate extends basetemplate {
 	}
 }
 
-/**
+/*
  * Clear Cached Templates
  *
  * Clears all cached template data, either for all logged-in viewers,
@@ -257,7 +252,7 @@ function pathos_template_clear($type = SYS_TEMPLATE_CLEAR_ALL) {
 	}
 }
 
-/**
+/*
  * Retrieve Module-Independent View File
  *
  * Looks in the theme and the /views directory for a .tpl file

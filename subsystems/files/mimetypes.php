@@ -31,24 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Default File MIME Types
- *
- * Stores an array of the default MIME Types shipped with Exponent.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Subsystems
- * @subpackage Files
- */
-
 return array(
-	"text/plain"=>"Plain Text",
-	"image/jpeg"=>"JPEG Image",
-	"image/gif"=>"GIF Image",
-	"image/png"=>"PNG (Portable Network Graphics) Image"
+	'text/plain'=>'Plain Text',
+	'image/jpeg'=>'JPEG Image',
+	'image/gif'=>'GIF Image',
+	'image/png'=>'PNG (Portable Network Graphics) Image'
 );
 
 ?>

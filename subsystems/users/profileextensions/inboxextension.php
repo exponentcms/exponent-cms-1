@@ -31,26 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Address Profile Extension
- *
- * A standard profile extension that allows users to enter and
- * manage their address information.
- *
- * @package	Subsystems
- * @subpackage	Users
- *
- * @author		James Hunt
- * @copyright	2004 James Hunt and the OIC Group, Inc.
- * @version	0.95
- */
-
-/**
- * Address Profile Extension implementation
- *
- * @package	Subsystems
- * @subpackage	Users
- */
 class inboxextension {
 	function name() { return "Private Message Center Extension"; }
 	function author() { return "James Hunt"; }

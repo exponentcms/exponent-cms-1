@@ -31,26 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Approval Policy
- *
- * Provides a form and an updater for editting and saving
- * an approval policy definition
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package ExponentCMS
- * @subpackage CoreDatatypes
- */
-
-/**
- * Approval Policy class
- *
- * @package ExponentCMS
- * @subpackage CoreDatatypes
- */
 class approvalpolicy {
 	function form($object) {
 		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");

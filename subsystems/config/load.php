@@ -31,35 +31,11 @@
 # $Id$
 ##################################################
 
-/**
- * Load Configuration Files
- *
- * Includes all configuration files for the site.
- * User-stored configuration resides in the conf/config.php
- * file.  However, to make things work smoothly, different parts
- * of the system can provide defaults, in case they are installed
- * after the site has been configured.  This file looks through the
- * conf/extensions directory and includes *.default.php files.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Subsystems
- * @subpackage Configuration
- */
-
-/**
- * @ignore
- */
 @include_once(BASE."conf/config.php");
 if (is_readable(BASE."conf/extensions")) {
 	$dh = opendir(BASE."conf/extensions");
 	while (($file = readdir($dh)) !== false) {
 		if (is_readable(BASE."conf/extensions/$file") && substr($file,-13,13) == ".defaults.php") {
-			/**
-			 * @ignore
-			 */
 			include_once(BASE."conf/extensions/$file");
 		}
 	}

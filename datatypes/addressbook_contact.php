@@ -31,39 +31,7 @@
 # $Id$
 ##################################################
 
-/**
- * Address Book Contact
- *
- * Provides a form and an updater for editting and saving
- * an address book contact.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Modules
- * @subpackage AddressBook
- */
-
-/**
- * Address Book Contact class
- *
- * Exports method for editting and creating Address Book Contacts.
- *
- * @package Modules
- * @subpackage AddressBook
- */
 class addressbook_contact {
-	/**
-	 * Form getter
-	 *
-	 * Returns a form object used for creating a new Address Book Contact, or
-	 * editting an existing contact.
-	 *
-	 * @param object $object an Address Book Contact to edit.  If passed as null,
-	 *   default values for the contact will be filled in.
-	 * @return form Returns a form object that can be used to edit contacts.
-	 */
 	function form($object) {
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
@@ -123,19 +91,7 @@ class addressbook_contact {
 		pathos_forms_cleanup();
 		return $form;
 	}
-	
-	/**
-	 * Updater
-	 *
-	 * Updates an Address Book Contact from form values.
-	 * This is expecting values returned through POST from the
-	 * form() method.
-	 *
-	 * @param array $values Values used to update the object.
-	 * @param object $object The contact to update.
-	 *
-	 * @return object The updated address book contact.
-	 */
+
 	function update($values,$object) {
 		$object->firstname = $values['firstname'];
 		$object->lastname = $values['lastname'];
