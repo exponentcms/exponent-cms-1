@@ -206,13 +206,45 @@ function pathos_datetime_recurringDailyDates($start,$end,$freq) {
 	return $dates;
 }
 
+/**
+ * Calculate Recurrence Days on a Weekly Basis
+ *
+ * Finds all of the dates that fall within the weekly recurrence criteria
+ * (namely, which weekdays) and within the $start to $end timestamp range.
+ *
+ * For a technical discussion of this function and the mathematics involved,
+ * please see the sdk/analysis/subsystems/datetime.txt file.
+ *
+ * @param timestamp $start The start of the recurrence range
+ * @param timestamp $end The end of the recurrence range
+ * @param integer $freq Weekly frequency - 1 means every week, 2 means every
+ *   other week, etc.
+ * @param array $days The weekdays (in integer notation, 0 = Sunday, etc.) that
+ *   should be matched.  A MWF recurrence rotation would contain the values
+ *  1,3 and 5.
+ */
 function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
+	// Holding array, for keeping the timestamps of applicable dates.
+	// This variable will be returned to the calling scope.
 	$dates = array();
 	
+	// Need to figure out which weekday occurs directly after the specified
+	// start date.  This will be our launching point for the recurrence calculations.
 	$dateinfo = getdate($start);
-	for ($counter = 0; $counter < count($days); ) {// realign pointer
-		if ($days[$counter] >= $dateinfo['wday']) break; // exit loop, we found it
-		$counter++;
+	
+	// Finding the Start Date
+	//
+	// Start at the first weekday in the list ($days[$counter] where $counter is 0)
+	// and go until we find a weekday greater than the weekday of the $start date.
+	//
+	// So, if we start on a Tuesday, and want to recur weekly for a MWF rotation,
+	// This would check Monday, then Wednesday and stop, using wednesday for the
+	// recacluated start date ($curdate)
+	for ($counter = 0; $counter < count($days); $counter++) {
+		if ($days[$counter] >= $dateinfo['wday']) {
+			// exit loop, we found the weekday to use ($days[$counter])
+			break;
+		}
 	}
 	if ($days[$counter] < $dateinfo['wday']) {
 		// in case we did MWF and started on a Saturday...
@@ -222,28 +254,59 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 		// 'Normal' case, in which we started before one of the repeat days.
 		$start += 86400 * ($days[$counter] - $dateinfo['wday']);
 	}
+	// Found start date.  Set curdate to the start date, so it gets picked
+	// up in the do ... while loop.
 	$curdate = $start;
 	
+	// Find all of the dates that match the recurrence criteria, within the
+	// specified recurrence range.  Implemented as a do ... while loop because
+	// we always need at least the start date, and we have already determined
+	// that with the code above (the $curdate variable)
 	do {
+		// Append $curdate to the array of dates.  $curdate will be changed
+		// at the end of the loop, to be equal to the next date meeting the
+		// criteria.  If $curdate ever falls outside the recurrence range, the
+		// loop will exit.
 		$dates[] = $curdate;
 		
+		// Grab the date information (weekday, month, day, year, etc.) for
+		// the current date, so we can ratchet up to the next date in the series.
 		$dateinfo = getdate($curdate);
+		// Get the current weekday.
 		$day = $days[$counter];
-		
+		// Increment the counter so that the next time through we get the next
+		// weekday.  If the counter moves off the end of the list, reset it to 0.
 		$counter++;
 		if ($counter >= count($days)) {
-			// Went off the end of the week.
-			$counter = 0; // Reset the pointer to the beginning
-			$daydiff = $days[count($days)-1]-$days[0];
-			if ($daydiff == 0) $daydiff = 7;
-			else $daydiff--;
+			// Went off the end of the week.  Reset the pointer to the beginning
+			$counter = 0;
+			// Difference in number of days between the last day in the rotation
+			// and the first day (for recacluating the $curdate value)
+			#$daydiff = $days[count($days)-1]-$days[0];
+			
+			$daydiff = 7 + $days[0] - $days[count($days)-1];
+			
+			if ($daydiff == 0) {
+				// In case we are in a single day rotation, the difference will be 0.
+				// It needs to be 7, so that we skip ahead a full week.
+				$daydiff = 7;
+			}
+			// Increment the current date to go off to the next week, first weekday
+			// in the rotation.
 			$curdate += 7 * 86400 * ($freq-1) + 86400 * $daydiff; // Increment by number of weeks
 		} else {
+			// If we haven't gone off the end of the week, we just need to add the number
+			// of days between the next weekday in the rotation ($days[$counter] - because
+			// $counter was incremented above) and the $curdate weekday (store in the
+			// $dateinfo array returned from the PHP call to getdate(), aboce).
 			$curdate += 86400 * ($days[$counter] - $dateinfo['wday']);
 		}
+		// Round down to the start of the day (12:00 am) for $curdate, in case something
+		// got a little out of whack thanks to DST.
 		$curdate = pathos_datetime_startOfDayTimestamp($curdate);
-	} while ($curdate <= $end);
+	} while ($curdate <= $end); // If we go off the end of the recurrence range, ext.
 	
+	// We have no fully calculated the dates we need. Return them to the calling scope.
 	return $dates;
 }
 
