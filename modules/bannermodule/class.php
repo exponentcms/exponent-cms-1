@@ -127,7 +127,7 @@ class bannermodule {
 			$all = $db->selectObjects('banner_ad',"location_data='".serialize($loc)."'");
 			
 			if ($viewconfig['type'] == 'allbanners') {
-				$bfiles = $db->selectObjectsIndexedArray('file','directory=''.$directory.''');
+				$bfiles = $db->selectObjectsIndexedArray('file',"directory='".$directory."'");
 				
 				$template->assign('affiliates',bannermodule::listAffiliates());
 				$template->assign('files',$bfiles);
