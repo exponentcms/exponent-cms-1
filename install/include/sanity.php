@@ -31,97 +31,158 @@
 # $Id$
 ##################################################
 
-function sanity_checkConfigFile() {
+define('SANITY_FINE',				0);
+define('SANITY_NOT_R',				2);
+define('SANITY_NOT_RW',				4);
+define('SANITY_NOT_E',				8);
+
+define('SANITY_READONLY',			1);
+define('SANITY_READWRITE',			2);
+
+define('SANITY_WARNING',			1);
+define('SANITY_ERROR',				2);
+
+function sanity_checkFile($file,$as_file,$flags) {
 	$__oldumask = umask(0);
-	global $warnings, $errors;
 	
-	$conffile = BASE."conf/config.php";
-	
-	if (!file_exists($conffile)) {
-		@touch($conffile);
-	}
-	if (!is_readable($conffile)) {
-		@chmod($conffile,0777);
-		if (!is_readable($conffile)) {
-			$errors[] = "Configuration file (conf/config.php) is not readable.";
+	if (!file_exists($file)) {
+		if ($as_file) {
+			@touch($file);
+		} else {
+			@mkdir($file,0777);
 		}
-	} else {
-		if (!is_writable($conffile)) {
-			@chmod($conffile);
-			if (!is_writable($conffile)) {
-				$errors[] = "Configuration file (conf/config.php) is not writable.";
+	} if (!file_exists($file)) {
+		umask($__oldumask);
+		return SANITY_NOT_E;
+	}
+	$not_r = false;
+	// File exists.  Check the flags for what to check for
+	if ($flags == SANITY_READONLY || $flags == SANITY_READWRITE) {
+		if (!is_readable($file)) {
+			@chmod($file,0777);
+		}
+		if (!is_readable($file)) {
+			if ($flags == SANITY_READONLY) {
+				echo 'READONLY<br />';
+				umask($__oldumask);
+				return SANITY_NOT_R;
 			}
+			// Otherwise, we need to set NOT_R
+			$not_r = true;
 		}
 	}
-	
-	$profiledir = BASE."conf/profiles";
-	if (!file_exists($profiledir)) {
-		@mkdir($profiledir,0777);
-	}
-	if (!is_writable($profiledir) || !is_readable($profiledir)) {
-		@chmod($profiledir,0777);
-		if (!is_readable($profiledir)) {
-			$errors[] = "Configuration profile directory (conf/profiles/) is not readable.";
+	if ($flags == SANITY_READWRITE) {
+		if (!is_writable($file)) {
+			@chmod($file,0777);
 		}
-		if (!is_writable($profiledir)) {
-			$errors[] = "Configuration profile directory (conf/profiles/) is not writable.";
+		if (!is_writable($file)) {
+			umask($__oldumask);
+			return SANITY_NOT_RW;
+		} else if ($not_r) {
+			umask($__oldumask);
+			return SANITY_NOT_R;
 		}
 	}
-	
-	$overridesfile = BASE.'overrides.php';
-	if (!is_writable($overridesfile)) {
-		@chmod($overridesfile,0777);
-		if (!is_writable($overridesfile)) {
-			$errors[] = "Overrides file (overrides.php) is not writable.";
-		}
-	}
-	
-	$installdir = BASE.'install';
-	if (!is_writable($installdir)) {
-		@chmod($installfile,0777);
-		if (!is_writable($installdir)) {
-			$errors[] = 'Install Directory (install) is not writable.';
-		}
-	}
-	
-	umask($__oldumask);
+	return SANITY_FINE;
+}
+
+function sanity_checkFiles() {
+	$status = array(
+		'conf/config.php'=>sanity_checkFile(BASE.'conf/config.php',1,SANITY_READWRITE),
+		'conf/profiles'=>sanity_checkFile(BASE.'conf/profiles',0,SANITY_READWRITE),
+		'overrides.php'=>sanity_checkFile(BASE.'overrides.php',1,SANITY_READWRITE),
+		'install'=>sanity_checkFile(BASE.'install',0,SANITY_READWRITE),
+		'modules'=>sanity_checkFile(BASE.'modules',0,SANITY_READONLY),
+		'views_c'=>sanity_checkFile(BASE.'views_c',0,SANITY_READWRITE),
+		'extensionuploads'=>sanity_checkFile(BASE.'extensionuploads',0,SANITY_READWRITE)
+	);
+	return $status;
+}
+
+function sanity_checkServer() {
+	$status = array(
+		'GD Graphics Library'=>_sanity_checkGD(),
+		'PHP Version'=>_sanity_checkPHPVersion(),
+		'ZLib Compression'=>_sanity_checkZlib(),
+		'XML (Expat) Library'=>_sanity_checkXML(),
+		'Safe Mode'=>_sanity_CheckSafeMode(),
+		'Open BaseDir Restriction'=>_sanity_checkOpenBaseDir()
+	);
+	return $status;
 }
 
 function sanity_checkModules() {
-	global $warnings, $errors;
-	$__oldumask = umask(0);
-	
-	if (is_readable(BASE."modules")) {
-		$modules = BASE."modules/";
-		$dh = opendir($modules);
+	$status = array();
+	if (is_readable(BASE.'modules')) {
+		$dh = opendir(BASE.'modules');
 		while (($moddir = readdir($dh)) !== false) {
-			if (is_dir($modules.$moddir) && substr($moddir,0,1) != "." && file_exists($modules.$moddir."/views")) {
+			if (is_dir(BASE.'modules/'.$moddir) && substr($moddir,0,1) != "." && file_exists(BASE.'modules/'.$moddir."/views") && substr($moddir,-6,6) == "module") {
 				// Got a module.
-				if (!is_readable($modules.$moddir."/class.php") && substr($moddir,-6,6) == "module") {
-					$warnings[] = "Module in $moddir will not be usable, as the module file is not readable.";
+				if (!is_readable(BASE.'modules/'.$moddir."/class.php")) {
+					$status[$moddir] = array(SANITY_WARNING,'Can\'t read class file');
+				} else {
+					$status[$moddir] = array(SANITY_FINE,'Okay');
 				}
-				/*
-				if (file_exists($modules.$moddir."/views") && !file_exists($modules.$moddir."/views_c")) {
-					@mkdir($modules.$moddir."/views_c",0777);
-					if (!file_exists($modules.$moddir."/views_c")) {
-						$errors[] = "The view compilation directory (modules/$moddir/views_c) for $moddir does not exist.";
-						continue;
-					}
-				}
-				
-				if (file_exists($modules.$moddir."/views_c") && !is_writable($modules.$moddir."/views_c")) {
-					@chmod($modules.$moddir."/views_c");
-					if (!is_writable($modules.$moddir."/views_c")) {
-						$errors[] = "The view compilation directory (modules/$moddir/views_c) for $moddir is not writable by the web server";
-						continue;
-					}
-				}
-				*/
 			}
 		}
-	} else $errors[] = "Modules directory (modules/) is not readable";
-	umask($__oldumask);
+	}
+	return $status;
 }
+
+function _sanity_checkGD() {
+	if (!function_exists('gd_info')) {
+		return array(SANITY_ERROR,'Not Supported');
+	}
+	$info = gd_info();
+	if (strpos($info['GD Version'],'2.0') == false) {
+		return array(SANITY_WARNING,'Older Version Installed ('.$info['GD Version'].')');
+	}
+	#return array(SANITY_FINE,'Version 2.0 Compatible');
+	return array(SANITY_FINE,$info['GD Version']);
+}
+
+function _sanity_checkPHPVersion() {
+	if (version_compare(phpversion(),'4.0.6','>')) {
+		return array(SANITY_FINE,phpversion());
+	} else {
+		return array(SANITY_ERROR,'PHP < 4.0.6 (not supported)');
+	}
+}
+
+function _sanity_checkZlib() {
+	if (function_exists('gzdeflate')) {
+		return array(SANITY_FINE,'Installed');
+	} else {
+		return array(SANITY_ERROR,'Not Installed');
+	}
+}
+
+function _sanity_checkSafeMode() {
+	if (ini_get('safe_mode') == 1) {
+		return array(SANITY_WARNING,'Enabled');
+	} else {
+		return array(SANITY_FINE,'Not Enabled');
+	}
+}
+
+function _sanity_checkXML() {
+	if (function_exists('xml_parser_create')) {
+		return array(SANITY_FINE,'Installed');
+	} else {
+		return array(SANITY_WARNING,'Not Installed');
+	}
+}
+
+function _sanity_checkOpenBaseDir() {
+	$path = ini_get('open_basedir');
+	if ($path == '') {
+		return array(SANITY_FINE,'Not Enabled');
+	} else {
+		return array(SANITY_WARNING,'Enabled');
+	}
+}
+
+//-------------------------------------------------------------------------
 
 function sanity_checkThemes() {
 	global $warnings, $errors;
@@ -136,53 +197,7 @@ function sanity_checkThemes() {
 				if (!is_readable($themebase."/".$themedir)) {
 					$warnings[] = "Theme directory for '$themedir' (themes/$themedir) is not readable.  This theme will not be available for use.";
 				} else {
-					/*
-					if (file_exists($themebase."/".$themedir."/views")) {
-						if (!file_exists($themebase."/".$themedir."/views_c")) {
-							@mkdir($themebase."/".$themedir."/views_c");
-						}
-						
-						if (!file_exists($themebase."/".$themedir."/views_c")) {
-							$errors[] = "Theme root view compilation directory (themes/$themedir/views_c) does not exist.";
-						} else {
-							@chmod($themebase."/".$themedir."/views_c",0777);
-							if (!is_readable($themebase."/".$themedir."/views_c")) {
-								$errors[] = "Theme root view compilation directory (themes/$themedir/views_c) is not readable.";
-							}
-							if (!is_writable($themebase."/".$themedir."/views_c")) {
-								$errors[] = "Theme root view compilation directory (themes/$themedir/views_c) is not writable.";
-							}
-						}
-					}
-					*/
 					$one_readable = true;
-					/*
-					if (is_readable($themebase."/".$themedir."/modules")) {
-						$moddh = opendir($themebase."/".$themedir."/modules");
-						while (($moddir = readdir($moddh)) !== false) {
-							if ($moddir == "CVS") continue;
-							if (is_dir($themebase."/".$themedir."/modules/".$moddir) && substr($moddir,0,1) != ".") {
-								$tmpbase = $themebase."/".$themedir."/modules/".$moddir;
-								if (!file_exists($tmpbase."/views_c")) {
-									@mkdir($tmpbase."/views_c",0777);
-								}
-								if (!is_readable($tmpbase."/views_c") || !is_writable($tmpbase."/views_c")) {
-									@chmod($tmpbase."/views_c",0777);
-									if (!file_exists($tmpbase."/views_c")) {
-										$errors[] = "The view compilation directory (themes/$themedir/modules/$moddir/views_c) does not exist";
-									} else {
-										if (!is_readable($tmpbase."/views_c")) {
-											$errors[] = "The view compilation directory (themes/$themedir/modules/$moddir/views_c) is not readable";
-										}
-										if (!is_writable($tmpbase."/views_c")) {
-											$errors[] = "The view compilation directory (themes/$themedir/modules/$moddir/views_c) is not writable";
-										}
-									}
-								}
-							}
-						}
-					}
-					*/
 				}
 			}
 		}
@@ -194,50 +209,6 @@ function sanity_checkThemes() {
 	umask($__oldumask);
 }
 
-function sanity_CheckSite() {
-	global $warnings, $errors;
-	$__oldumask = umask(0);
-	
-	if (!file_exists(BASE."views_c")) {
-		@mkdir(BASE."views_c",0777);
-	}
-	
-	if (!file_exists(BASE."views_c")) {
-		$errors[] = "The root view compilation directory (views_c) does not exist";
-	} else {
-		if (!is_readable(BASE."views_c") || !is_writable(BASE."views_c")) {
-			@chmod(BASE."views_c",0777);
-		}
-		
-		if (!is_readable(BASE."views_c")) {
-			$errors[] = "The root view compilation directory (views_c) is not readable";
-		}
-		if (!is_writable(BASE."views_c")) {
-			$errors[] = "The root view compilation directory (views_c) is not writable";
-		}
-	}
-	
-	if (!file_exists(BASE."extensionuploads")) {
-		@mkdir(BASE."extensionuploads");
-	}
-	
-	if (!file_exists(BASE."extensionuploads")) {
-		$errors[] = "The extension upload directory (extensionuploads) does not exist";
-	} else {
-		if (!is_readable(BASE."extensionuploads") || !is_writable(BASE."extensionuploads")) {
-			@chmod(BASE."extensionuploads",0777);
-		}
-		
-		if (!is_readable(BASE."extensionuploads")) {
-			$errors[] = "The extension upload directory (extensionuploads) is not readable";
-		}
-		if (!is_writable(BASE."extensionuploads")) {
-			$errors[] = "The extension upload directory (extensionuploads) is not writable";
-		}
-	}
-	
-	umask($__oldumask);
-}
 
 ?>
 

@@ -36,16 +36,10 @@ if (!defined('PATHOS')) exit('');
 
 include_once("include/sanity.php");
 
-$warnings = array();
-$errors = array();
+$status = sanity_checkFiles();
 // Run sanity checks
-
-sanity_checkConfigFile();
-sanity_checkModules();
-sanity_checkThemes();
-sanity_checkSite();
-
-
+$errcount = count($status);
+$warncount = 0; // No warnings with permissions
 ?>
 <div class="installer_title">
 <img src="images/blocks.png" width="32" height="32" />
@@ -54,49 +48,99 @@ Sanity Checks
 <br /><br />
 Exponent requires that several permissions be set correctly in order to operate.  Sanity checks are being run right now to ensure that the web server directory you wish to install Exponent in is suitable.
 <br /><br />
+<table cellspacing="0" cellpadding="3" rules="all" border="0" style="border:1px solid grey;" width="100%">
+<tr><td colspan="2" style="background-color: lightgrey;"><b>File and Directory Permission Tests</b></td></tr>
+<?php
+foreach ($status as $file=>$stat) {
+	echo '<tr><td width="55%"><span style="color: #AAA;">'.BASE.'</span><b>'.$file.'</b></td><td align="center" width="45%">';
+	if ($stat != SANITY_FINE) echo '<span style="color: red; font-weight: bold;">';
+	else echo '<span style="color: green; font-weight: bold;">';
+	switch ($stat) {
+		case SANITY_NOT_E:
+			echo 'File Not Found';
+			break;
+		case SANITY_NOT_R:
+			echo 'Not Readable';
+			break;
+		case SANITY_NOT_RW:
+			echo 'Not Readable / Writable';
+			break;
+		case SANITY_FINE:
+			$errcount--;
+			echo 'OK';
+			break;
+		default:
+			echo '????';
+			break;
+	}
+	echo '</span></td></tr>';
+}
+?>
+<tr><td colspan="2" style="background-color: lightgrey;"><b>Other Tests</b></td></tr>
 <?php
 
-if (count($errors)) {
-	?>
-	<b>The following errors were encountered:</b>
-	<br />
-	<?php
-	foreach ($errors as $err) {
-		echo "<div class='error'>$err</div>";
-	}	
-	echo '<br /><br />';
+$status = sanity_checkServer();
+$errcount += count($status);
+$warncount += count($status);
+foreach ($status as $test=>$stat) {
+	echo '<tr><td width="55%">'.$test.'</td>';
+	echo '<td align="center" width="45%" ';
+	if ($stat[0] == SANITY_FINE) {
+		$warncount--;
+		$errcount--;
+		echo 'style="color: green; font-weight: bold;">';
+	} else if ($stat[0] == SANITY_ERROR) {
+		$warncount--;
+		echo 'style="color: red; font-weight: bold; background-color: #999;">';
+	} else {
+		$errcount--;
+		echo 'style="color: yellow; font-weight: bold; background-color: #999;">';
+	}
+	echo $stat[1].'</td></tr>';
 }
 
-if (count($warnings)) {
+$status = sanity_checkModules();
+if (count($status)) {
 	?>
-	<b>The following warnings were encountered:</b>
-	<br />
+	<tr><td colspan="2" style="background-color: lightgrey;"><b>Module Tests</b></td></tr>
 	<?php
-	foreach ($warnings as $err) {
-		echo "<div class='warning'>$err</div>";
+	$errcount += count($status);
+	foreach ($status as $mod=>$stat) {
+		echo '<tr><td width="55%">'.$mod.'</td>';
+		echo '<td align="center" width="45%" ';
+		if ($stat[0] == SANITY_FINE) {
+			$errcount--;
+			echo 'style="color: green; font-weight: bold;">';
+		} else {
+			echo 'style="color: red; font-weight: bold; background-color: #999;">';
+		}
+		echo $stat[1].'</td></tr>';
 	}
 }
 
+?>
+</table>
+<br />
+<?php
+
 $write_file = 0;
 
-if (count($errors) > 0) {
+if ($errcount > 0) {
 	// Had errors.  Force halt and fix.
 	?>
 	<br /><b>Note:</b> For permission errors (files or directories that are not writable / not readable) it is usually best to make sure that the Exponent files were uncompressed with options (-xzvpf) to preserve file permissions.
 	<br /><br />
 	After you have corrected the above errors, click <a href="?page=sanity">here</a> to run these environment checks again.
 	<?php
-} else if (count($warnings) == 0) {
+} else if ($warncount > 0) {
+	?>
+	The Exponent Install Wizard found some minor problems with the server environment, but you should be able to continue.
+	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
+	<?php
+} else {
 	// No errors, and no warnings.  Let them through.
 	?>
 	The Exponent Install Wizard found no problems with the server environment.
-	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
-	<?php
-	$write_file = 1;
-} else {
-	// No errors, but had warnings.  Let them through, but with a warning
-	?>
-	The Exponent Install Wizard found no minor problems with the server environment, but you can continue.
 	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
 	$write_file = 1;
