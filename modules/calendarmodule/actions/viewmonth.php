@@ -31,13 +31,10 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-// PERM CHECK ?
-	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-	// PROBLEM
-	calendarmodule::show("Monthly",$loc);
-// END PERM CHECK ?
+calendarmodule::show(DEFAULT_VIEW,$loc);
 
 ?>
