@@ -80,7 +80,7 @@ class section {
 			// Retrieve all of the sections that are siblings of the new section
 			$sections = $db->selectObjects('section','parent='.$object->parent);
 			
-			if (count($sections)) {
+			if (count($sections) && $object->parent >= 0) {
 				// Initialize the sorting subsystem so that we can order the sections
 				// by rank, ascending, and get the proper ordering.
 				if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
@@ -100,13 +100,34 @@ class section {
 			// Store the section's parent in a hidden field, so that it comes through
 			// when the form is submitted.
 			$form->meta('parent',$object->parent);
-		} else {
-			// Allow them to change parents
+		} else if ($object->parent >= 0) {
+			// Allow them to change parents, but not if the section is outside of the hiearchy (parent > 0)
 			$form->register('parent',TR_NAVIGATIONMODULE_PARENTSECTION,new dropdowncontrol($object->parent,navigationmodule::levelDropdownControlArray(0,0,array($object->id),1)));
 		}
 		
 		// Return the form to the calling scope, which should always be a
 		// member method of this class.
+		return $form;
+	}
+	
+	function moveStandaloneForm($object = null) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','navigationmodule');
+		// Initialize the forms subsystem for use.
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		pathos_forms_initialize();
+		
+		$form = section::_commonForm($object);
+		$form->unregister('name');
+		
+		global $db;
+		$standalones = array();
+		foreach ($db->selectObjects('section','parent = -1') as $s) {
+			$standalones[$s->id] = $s->name;
+		}
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		$form->register('page','Standalone Page',new dropdowncontrol(0,$standalones));
+		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
 
