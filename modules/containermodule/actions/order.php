@@ -31,21 +31,11 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("order_modules",$loc)) {
-	$a = $db->selectObject("container","external='".serialize($loc)."' AND rank=".$_GET['a']);
-	$b = $db->selectObject("container","external='".serialize($loc)."' AND rank=".$_GET['b']);
-	
-	$tmp = $a->rank;
-	$a->rank = $b->rank;
-	$b->rank = $tmp;
-	
-	$db->updateObject($a,"container");
-	$db->updateObject($b,"container");
-	
+if (pathos_permissions_check('order_modules',$loc)) {
+	$db->switchValues('container','rank',$_GET['a'],$_GET['b'],"external='".serialize($loc)."'");
 	pathos_template_clear();
-	
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

@@ -34,14 +34,7 @@
 if (!defined("PATHOS")) exit("");
 
 $loc->mod = $_GET['orig_module'];
-$action_a = $db->selectObject("category","location_data='".serialize($loc)."' AND rank=".$_GET['a']);
-$action_b = $db->selectObject("category","location_data='".serialize($loc)."' AND rank=".$_GET['b']);
-
-$action_a->rank = $_GET['b'];
-$action_b->rank = $_GET['a'];
-
-$db->updateObject($action_a,"category");
-$db->updateObject($action_b,"category");
+$db->switchValues('category','rank',$_GET['a'],$_GET['b'],"location_data='".serialize($loc)."'");
 
 pathos_flow_redirect();
 
