@@ -30,7 +30,7 @@ return array(
 	'subsystems/forms/form.php'=>'',
 	'subsystems/forms/dynamicpreviewform.php'=>'',
 	'subsystems/forms/explicitform.php'=>'',
-	
+	'subsystems/forms/js/required.js'=>'',
 	'subsystems/forms/js/decimal_filter.js'=>'',
     'subsystems/forms/js/inputfilters.js.php'=>'',
     'subsystems/forms/js/integer_filter.js'=>'',
