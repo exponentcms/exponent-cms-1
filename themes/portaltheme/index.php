@@ -64,11 +64,7 @@
 					<td style="background-image: url(themes/<?php echo DISPLAY_THEME; ?>/images/leftbar_2.gif);"></td>
 					<td>
 						<div style="padding: 4px; border-bottom: 1px solid grey">
-							<?php
-							if (!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1) {
-								pathos_theme_showModule("navigationmodule","Top Nav");
-							}
-							?>
+							<?php pathos_theme_showModule("navigationmodule","Top Nav"); ?>
 						</div>
 						<table width="100%" cellspacing="0">
 							<tbody>
@@ -83,7 +79,7 @@
 									</td>
 									<td valign="top" style="padding: 7px;">
 										<?php
-										if (!pathos_theme_inAction() && (!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1)) {
+										if (!pathos_theme_inAction()) {
 											pathos_theme_showModule("navigationmodule","Breadcrumb");
 											echo "<br />";
 											echo "<br />";
