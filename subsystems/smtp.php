@@ -71,6 +71,9 @@ define("SYS_SMTP",1);
  * @return boolean True if all mail messages were sent.  Returns false if anything failed.
  */
 function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callback="") {
+
+	$from = SMTP_FROMADDRESS; // For shared hosters
+
 	if (!is_array($to_r)) $to_r = array($to_r);
 	if (!is_array($headers)) {
 		$headers = explode("\r\n",trim($headers));
@@ -84,17 +87,35 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 	
 	$errno = 0;
 	$error = "";
-	$socket = @fsockopen(SMTP_SERVER, 25, $errno, $error, 1);
+	$socket = @fsockopen(SMTP_SERVER, SMTP_PORT, $errno, $error, 1);
 	if ($socket === false) {
 		return false;
 	}
 	
 	if (!pathos_smtp_checkResponse($socket,"220")) {
+		echo "Failed connect<br />"; // DEBUG
 		return false;
 	}
 	
-	pathos_smtp_sendServerMessage($socket,"HELO ".$_SERVER['HTTP_HOST']);
+	// Try EHLO (Extendend HELO) first
+	pathos_smtp_sendServerMessage($socket,"EHLO ".$_SERVER['HTTP_HOST']);
+	
 	if (!pathos_smtp_checkResponse($socket,"250")) {
+		// If EHLO failed, try to fallback to HELO, according to RFC2821
+		echo "Failed EHLO - Trying HELO<br />"; // DEBUG
+		pathos_smtp_sendServerMessage($socket,"HELO ".$_SERVER['HTTP_HOST']);
+		if (!pathos_smtp_checkResponse($socket,"250")) {
+			echo "Failed HELO - exiting<br />"; // DEBUG
+			pathos_smtp_sendExit($socket);
+			return false;
+		}
+	} else {
+		// EHLO succeeded - try to figure out what we need for auth
+		//GREP:NOTIMPLEMENTED
+	}
+	
+	if (SMTP_AUTHTYPE != "NONE" && !pathos_smtp_authenticate($socket,SMTP_AUTHTYPE,SMTP_USERNAME,SMTP_PASSWORD)) {
+		echo "Failed AUTH - exiting<br />";
 		pathos_smtp_sendExit($socket);
 		return false;
 	}
@@ -110,18 +131,21 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 	
 		pathos_smtp_sendServerMessage($socket,"MAIL FROM: <$from>");
 		if (!pathos_smtp_checkResponse($socket,"250")) {
+			echo "MAIL FROM failed<br />"; // DEBUG
 			pathos_smtp_sendExit($socket);
 			return false;
 		}
 		
 		pathos_smtp_sendServerMessage($socket,"RCPT TO: <$to>");
 		if (!pathos_smtp_checkResponse($socket,"250")) {
+			echo "RCPT TO failed<br />"; // DEBUG
 			pathos_smtp_sendExit($socket);
 			return false;
 		}
 		
 		pathos_smtp_sendServerMessage($socket,"DATA");
 		if (!pathos_smtp_checkResponse($socket,"354")) {
+			echo "DATA failed<br />"; // DEBUG
 			return false;
 		}
 		
@@ -129,6 +153,7 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 		pathos_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
 		pathos_smtp_sendServerMessage($socket,"\r\n.\r");
 		if (!pathos_smtp_checkResponse($socket,"250")) {
+			echo "Sending Message failed<br />"; // DEBUG
 			pathos_smtp_sendExit($socket);
 			return false;
 		}
@@ -153,6 +178,15 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
  */
 function pathos_smtp_checkResponse($socket,$expected_response) {
 	$response = fgets($socket,256);
+	$line = $response;
+	$count = 20;
+	echo $line."<br />"; // DEBUG
+	while ($count && substr($line,3,1) == "-") {
+		$line = fgets($socket,256); // Clear the buffer, EHLO
+		echo $line."<br />"; // DEBUG
+		$count--;
+	}
+	echo "<Br />"; // DEBUG
 	return (substr($response,0,3) == $expected_response);
 }
 
@@ -167,6 +201,7 @@ function pathos_smtp_checkResponse($socket,$expected_response) {
 function pathos_smtp_sendServerMessage($socket,$message) {
 	if (substr($message,-1,1) != "\n") $message .="\n";
 	if ($message != null) fputs($socket,$message);
+	echo addslashes($message)."<br />";
 }
 
 function pathos_smtp_sendExit($socket) {
@@ -201,7 +236,38 @@ function pathos_smtp_sendHeadersPart($socket,$headers) {
 * @param string $message The body of the email.
  */
 function pathos_smtp_sendMessagePart($socket,$message) {
-	pathos_smtp_sendServerMessage($socket,str_replace("\n","\r\n",str_replace("\r\n","\n",$message)));
+	$message = preg_replace("/([^\r]{1})\n/","\\1\r\n",$message);
+	$message = preg_replace("/\n\n/","\n\r\n",$message);
+	$message = preg_replace("/\n\./","\n..",$message);
+	
+	pathos_smtp_sendServerMessage($socket,$message);
+}
+
+function pathos_smpt_parseEHLO($socket) {
+	
+}
+
+function pathos_smtp_authenticate($socket,$type,$username,$password) {
+	pathos_smtp_sendServerMessage($socket,"AUTH $type");
+	if (pathos_smtp_checkResponse($socket,"334")) {
+		switch ($type) {
+			case "LOGIN":
+				// Code shamelessly ripped from PEAR
+				pathos_smtp_sendServerMessage($socket,base64_encode($username));
+				if (!pathos_smtp_checkResponse($socket,"334")) {
+					return false;
+				}
+				pathos_smtp_sendServerMessage($socket,base64_encode($password));
+				break;
+			case "PLAIN":
+				pathos_smtp_sendServerMessage($socket,base64_encode(chr(0).$username.chr(0).$password));
+				break;
+		}
+		
+		return pathos_smtp_checkResponse($socket,"235");
+	} else {
+		return false;
+	}
 }
 
 /**
