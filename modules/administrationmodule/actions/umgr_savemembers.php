@@ -44,7 +44,9 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		$memb->member_id = $u->id;
 		if ($_POST['membdata'] != "") {
 			foreach (explode(",",$_POST['membdata']) as $id) {
-				$memb->group_id = $id;
+				$toks = explode(':',$id);
+				$memb->group_id = $toks[0];
+				$memb->is_admin = $toks[1];
 				$db->insertObject($memb,'groupmembership');
 			}
 		}

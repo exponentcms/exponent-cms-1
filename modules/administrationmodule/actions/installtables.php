@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 define("TMP_TABLE_EXISTED",		1);
 define("TMP_TABLE_INSTALLED",	2);
 define("TMP_TABLE_FAILED",		3);

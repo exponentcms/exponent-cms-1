@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 pathos_lang_loadDictionary('admintasks','htmlarea_tasks');
 
 return array(

@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 // Part of the Database category
 
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {

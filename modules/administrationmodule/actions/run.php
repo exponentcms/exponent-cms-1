@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 $file = 'modules/' . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php';
 if (is_readable($file)) {
 	include($file);

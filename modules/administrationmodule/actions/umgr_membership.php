@@ -42,14 +42,26 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if ($u) {
 		$groups = pathos_users_getAllGroups();
 		
+		$admin = array();
 		$membership = array();
 		foreach ($db->selectObjects('groupmembership','member_id='.$u->id) as $m) {
 			$membership[] = $m->group_id;
+			if ($m->is_admin) {
+				$admin[] = $m->group_id;
+			}
 		}
 		
 		for ($i = 0; $i < count($groups); $i++) {
-			if (in_array($groups[$i]->id,$membership)) $groups[$i]->is_member = 1;
-			else $groups[$i]->is_member = 0;
+			if (in_array($groups[$i]->id,$membership)) {
+				$groups[$i]->is_member = 1;
+				if (in_array($groups[$i]->id,$admin)) {
+					$groups[$i]->is_admin = 1;
+				} else {
+					$groups[$i]->is_admin = 0;
+				}
+			} else {
+				$groups[$i]->is_member = 0;
+			}
 		}
 		
 		$template = new template('administrationmodule','_usermembership',$loc);
