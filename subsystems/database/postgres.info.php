@@ -47,7 +47,7 @@ if (!defined('PATHOS')) exit('');
  */
 
 return array(
-	"name"=>"PostGreSQL Database Backend **EXPERIMENTAL**",
+	"name"=>"PostGreSQL Database Backend",
 	"author"=>"James Hunt",
 	"description"=>"PostGreSQL Database Backend.",
 	"version"=>pathos_core_version(true)
