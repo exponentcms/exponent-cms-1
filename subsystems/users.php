@@ -223,7 +223,7 @@ function pathos_users_login($username, $password) {
 	// Check to make sure that the username exists ($user is not null), the password is correct, 
 	// and that the account is either not locked, or an admin account (account locking doesn't
 	// apply to administrators.
-	if ($user != null && ($user->is_acting_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
+	if ($user != null && ($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
 		// Retrieve the full profile, complete with all Extension data.
 		$user = pathos_users_getFullProfile($user);
 		// Call on the Sessions subsystem to log the user into the site.
