@@ -34,6 +34,6 @@
 // I18N strings for the Info subsystem
 
 define('TR_INFOSUBSYSTEM_NAME',				'Information Subsystem');
-define('TR_INFOSUBSYSTEM_DESCRIPTION',		'Provides reflective precesses to look at the software components that make up the system.');
+define('TR_INFOSUBSYSTEM_DESCRIPTION',		'Provides reflective processes to look at the software components that make up the system.');
 
 ?>
