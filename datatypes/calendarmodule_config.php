@@ -7,7 +7,10 @@
 
 class calendarmodule_config {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','calendarmodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -15,12 +18,12 @@ class calendarmodule_config {
 			$object->enable_categories = 0;
 			$object->enable_feedback = 0;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("enable_categories","Enable Categories?",new checkboxcontrol($object->enable_categories,true));
-		$form->register("enable_feedback","Enable Feedback?",new checkboxcontrol($object->enable_feedback,true));				
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('enable_categories',TR_CALENDARMODULE_ENABLECATEGORIES,new checkboxcontrol($object->enable_categories,true));
+		$form->register('enable_feedback',TR_CALENDARMODULE_ENABLEFEEDBACK,new checkboxcontrol($object->enable_feedback,true));				
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

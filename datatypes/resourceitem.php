@@ -33,21 +33,24 @@
 
 class resourceitem {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','resourcesmodule');
+		
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 	
 		$form = new form();
 		if ($object == null) {
-			$object->name = "";
-			$object->description = "";
+			$object->name = '';
+			$object->description = '';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("name","Name",new textcontrol($object->name));
-		$form->register("description","Description",new htmleditorcontrol($object->description));
+		$form->register('name',TR_RESOURCESMODULE_NAME,new textcontrol($object->name));
+		$form->register('description',TR_RESOURCESMODULE_DESCRIPTION,new htmleditorcontrol($object->description));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		

@@ -33,60 +33,63 @@
 
 class addressbook_contact {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','addressbookmodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->firstname = "";
-			$object->lastname = "";
-			$object->address1 = "";
-			$object->address2 = "";
-			$object->city = "";
-			$object->state = "";
-			$object->zip = "";
-			$object->country = "";
-			$object->email = "";
-			$object->phone = "";
-			$object->cell = "";
-			$object->fax = "";
-			$object->pager = "";
-			$object->notes = "";
-			$object->webpage = "";
+			$object->firstname = '';
+			$object->lastname = '';
+			$object->address1 = '';
+			$object->address2 = '';
+			$object->city = '';
+			$object->state = '';
+			$object->zip = '';
+			$object->country = '';
+			$object->email = '';
+			$object->phone = '';
+			$object->cell = '';
+			$object->fax = '';
+			$object->pager = '';
+			$object->notes = '';
+			$object->webpage = '';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("firstname","First Name",new textcontrol($object->firstname));
-		$form->register("lastname","Last Name",new textcontrol($object->lastname));
+		$form->register('firstname',TR_ADDRESSBOOKMODULE_FIRSTNAME,new textcontrol($object->firstname));
+		$form->register('lastname',TR_ADDRESSBOOKMODULE_LASTNAME,new textcontrol($object->lastname));
 		
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1' />"));
+		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
 		
-		$form->register("address1","Address",new textcontrol($object->address1,30));
-		$form->register("address2","",new textcontrol($object->address2,30));
-		$form->register("city","City",new textcontrol($object->city));
-		$form->register("state","State",new textcontrol($object->state));
-		$form->register("zip","Zip Code",new textcontrol($object->zip));
+		$form->register('address1',TR_ADDRESSBOOKMODULE_ADDRESS,new textcontrol($object->address1,30));
+		$form->register('address2',TR_ADDRESSBOOKMODULE_ADDRESS2,new textcontrol($object->address2,30));
+		$form->register('city',TR_ADDRESSBOOKMODULE_CITY,new textcontrol($object->city));
+		$form->register('state',TR_ADDRESSBOOKMODULE_STATE,new textcontrol($object->state));
+		$form->register('zip',TR_ADDRESSBOOKMODULE_ZIPCODE,new textcontrol($object->zip));
 		
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1' />"));
+		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
 		
-		$form->register("email","Email",new textcontrol($object->email));
-		$form->register("webpage","Home Page",new textcontrol($object->webpage));
+		$form->register('email',TR_ADDRESSBOOKMODULE_EMAIL,new textcontrol($object->email));
+		$form->register('webpage',TR_ADDRESSBOOKMODULE_HOMEPAGE,new textcontrol($object->webpage));
 		
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1' />"));
+		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
 		
-		$form->register("phone","Phone",new textcontrol($object->phone));
-		$form->register("cell","Mobile",new textcontrol($object->cell));
-		$form->register("fax","Fax",new textcontrol($object->fax));
-		$form->register("pager","Pager",new textcontrol($object->pager));
+		$form->register('phone',TR_ADDRESSBOOKMODULE_PHONE,new textcontrol($object->phone));
+		$form->register('cell',TR_ADDRESSBOOKMODULE_MOBILE,new textcontrol($object->cell));
+		$form->register('fax',TR_ADDRESSBOOKMODULE_FAX,new textcontrol($object->fax));
+		$form->register('pager',TR_ADDRESSBOOKMODULE_PAGER,new textcontrol($object->pager));
 		
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1' />"));
+		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
 		
-		$form->register("notes","Notes",new texteditorcontrol($object->notes,12,50));
+		$form->register('notes',TR_ADDRESSBOOKMODULE_NOTES,new texteditorcontrol($object->notes,12,50));
 		
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1' />"));
+		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

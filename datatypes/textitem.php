@@ -33,18 +33,20 @@
 
 class textitem {
 	function form($textitem = null) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		pathos_lang_loadDictionary('standard','core');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!$textitem) {
-			$textitem->text = "";
-			$form->meta("id",0);
+			$textitem->text = '';
+			$form->meta('id',0);
 		} else {
-			$form->meta("id",$textitem->id);
+			$form->meta('id',$textitem->id);
 		}
-		$form->register("text","",new htmleditorcontrol($textitem->text));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('text','',new htmleditorcontrol($textitem->text));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		

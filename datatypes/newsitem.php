@@ -33,45 +33,44 @@
 
 class newsitem {
 	function form($object) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','newsmodule');
+	
 		global $user;
 	
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->title = "";
-			$object->body = "";
+			$object->title = '';
+			$object->body = '';
 			$object->publish = null;
 			$object->unpublish = null;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 			if ($object->publish == 0) $object->publish = null;
 			if ($object->unpublish == 0) $object->unpublish = null;
 		}
 		
-		$form->register("title","Headline",new textcontrol($object->title));
-		$form->register("body","Body",new htmleditorcontrol($object->body));
-		if (DISPLAY_CACHE == true) {
-			$form->register("cache_warning","",new htmlcontrol("<hr size='1'/><i><b>Note:</b> The administrator has enabled page caching.  If you choose to set an unpublish date for this news item, it may not unpublish at the exact time you specify (but it won't unpublish before).<hr size='1'/>"));
-		}
-		$form->register("publish","Publish on",new popupdatetimecontrol($object->publish,"Publish immediately"));
-		$form->register("unpublish","Unpublish on",new popupdatetimecontrol($object->unpublish,"Don't unpublish"));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('title',TR_NEWSMODULE_HEADLINE,new textcontrol($object->title));
+		$form->register('body',TR_NEWSMODULE_BODY,new htmleditorcontrol($object->body));
+		$form->register('publish',TR_NEWSMODULE_PUBLISH,new popupdatetimecontrol($object->publish,TR_NEWSMODULE_NOPUBLISH));
+		$form->register('unpublish',TR_NEWSMODULE_UNPUBLISH,new popupdatetimecontrol($object->unpublish,TR_NEWSMODULE_NOUNPUBLISH));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
 	}
 	
 	function update($values,$object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$object->title = $values['title'];
-	//	$object->summary = $values['body']; // Do summary!
 		$object->body = $values['body'];
-		$object->publish = popupdatetimecontrol::parseData("publish",$values);
-		$object->unpublish = popupdatetimecontrol::parseData("unpublish",$values);
+		$object->publish = popupdatetimecontrol::parseData('publish',$values);
+		$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);
 		
 		pathos_forms_cleanup();
 		return $object;

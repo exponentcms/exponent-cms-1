@@ -34,78 +34,81 @@
 class calendar {
 	function form($object) {
 		global $user;
+		
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','calendarmodule');
 	
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->title = "";
-			$object->body = "";
+			$object->title = '';
+			$object->body = '';
 			$object->eventdate = null;
 			$object->eventdate->date = time();
 			$object->eventstart = time();
 			$object->eventend = time()+3600;
 			$object->is_allday = 0;
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 		}
 		
-		$form->register("title","Title",new textcontrol($object->title));
-		$form->register("body","Body",new htmleditorcontrol($object->body));
+		$form->register('title',TR_CALENDARMODULE_TITLE,new textcontrol($object->title));
+		$form->register('body',TR_CALENDARMODULE_BODY,new htmleditorcontrol($object->body));
 		
-		$form->register(uniqid(""),"", new htmlcontrol("<hr size='1' />"));
+		$form->register(null,'', new htmlcontrol('<hr size="1" />'));
 		
 		if (!isset($object->id) || $object->is_recurring == false) {
-			$form->register("eventdate","Event Date",new popupdatetimecontrol($object->eventdate->date,"",false));
+			$form->register('eventdate',TR_CALENDARMODULE_EVENTDATE,new popupdatetimecontrol($object->eventdate->date,'',false));
 		}
-		$form->register("is_allday","All Day Event",new checkboxcontrol($object->is_allday,true));
-		$form->register("eventstart","Start Time",new datetimecontrol($object->eventstart,false));
-		$form->register("eventend","End Time",new datetimecontrol($object->eventend,false));
+		$form->register('is_allday',TR_CALENDARMODULE_ISALLDAY,new checkboxcontrol($object->is_allday,true));
+		$form->register('eventstart',TR_CALENDARMODULE_EVENTSTART,new datetimecontrol($object->eventstart,false));
+		$form->register('eventend',TR_CALENDARMODULE_EVENTEND,new datetimecontrol($object->eventend,false));
 		
 		if (!isset($object->id)) {
-			$customctl = file_get_contents(BASE."modules/calendarmodule/form.part");
-			$datectl = new popupdatetimecontrol($object->eventstart+365*86400,"",false);
-			$customctl = str_replace("%%UNTILDATEPICKER%%",$datectl->controlToHTML("untildate"),$customctl);
-			$form->register("recur","Recurrence",new customcontrol($customctl));
+			$customctl = file_get_contents(BASE.'modules/calendarmodule/form.part');
+			$datectl = new popupdatetimecontrol($object->eventstart+365*86400,'',false);
+			$customctl = str_replace('%%UNTILDATEPICKER%%',$datectl->controlToHTML('untildate'),$customctl);
+			$form->register('recur',TR_CALENDARMODULE_RECURRENCE,new customcontrol($customctl));
 		} else if ($object->is_recurring) {
 			// Edit applies to one or more...
-			$template = new template("calendarmodule","_recur_dates");
+			$template = new template('calendarmodule','_recur_dates');
 			global $db;
-			$eventdates = $db->selectObjects("eventdate","event_id=".$object->id);
-			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-			if (!function_exists("pathos_sorting_byDateAscending")) {
+			$eventdates = $db->selectObjects('eventdate','event_id='.$object->id);
+			if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+			if (!function_exists('pathos_sorting_byDateAscending')) {
 				function pathos_sorting_byDateAscending($a,$b) {
 					return ($a->date > $b->date ? 1 : -1);
 				}
 			}
-			usort($eventdates,"pathos_sorting_byDateAscending");
-			if (isset($object->eventdate)) $template->assign("checked_date",$object->eventdate);
-			$template->assign("dates",$eventdates);
-			$form->register(null,"",new htmlcontrol("<hr size='1'/>This event is a recurring event, and occurs on the dates below.  Select which dates you wish to apply these edits to."));
-			$form->register(null,"",new htmlcontrol("<table cellspacing='0' cellpadding='2' width='100%'>".$template->render()."</table>"));
+			usort($eventdates,'pathos_sorting_byDateAscending');
+			if (isset($object->eventdate)) $template->assign('checked_date',$object->eventdate);
+			$template->assign('dates',$eventdates);
+			$form->register(null,'',new htmlcontrol('<hr size="1"/>This event is a recurring event, and occurs on the dates below.  Select which dates you wish to apply these edits to.'));
+			$form->register(null,'',new htmlcontrol('<table cellspacing="0" cellpadding="2" width="100%">'.$template->render().'</table>'));
 		}
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
 	}
 	
 	function update($values,$object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$object->title = $values['title'];
 		
-		$object->body = preg_replace("/<br ?\/>$/","",trim($values['body']));
+		$object->body = preg_replace('/<br ?\/>$/','',trim($values['body']));
 		
 		if (isset($values['is_allday'])) $object->is_allday = 1;
 		#$object->eventstart = popupdatetimecontrol::parseData("eventstart",$values);
 		#$object->eventend = popupdatetimecontrol::parseData("eventend",$values);
 		
-		$object->eventstart = datetimecontrol::parseData("eventstart",$values);
-		$object->eventend = datetimecontrol::parseData("eventend",$values);
+		$object->eventstart = datetimecontrol::parseData('eventstart',$values);
+		$object->eventend = datetimecontrol::parseData('eventend',$values);
 		
 		if (!isset($object->id)) {
 			global $user;
