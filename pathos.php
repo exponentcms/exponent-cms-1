@@ -38,9 +38,9 @@ if (get_magic_quotes_gpc()) {
 		return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
 	}
 
-	$_POST = array_map('stripslashes_deep', $_POST);
-	$_GET = array_map('stripslashes_deep', $_GET);
-	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+	$_POST = stripslashes_deep($_POST);
+	$_GET = stripslashes_deep($_GET);
+	$_COOKIE = stripslashes_deep($_COOKIE);
 }
 
 function __realpath($path) {
@@ -54,6 +54,9 @@ function __realpath($path) {
 
 // Process user-defined constants in overrides.php
 include_once('overrides.php');
+
+// Process PHP-wrapper settings (ini_sets and setting detectors)
+include_once('pathos_setup.php');
 
 // Auto-detect whatever variables the user hasn't overridden in overrides.php
 include_once('pathos_variables.php');
