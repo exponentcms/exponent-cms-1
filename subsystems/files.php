@@ -272,23 +272,29 @@ function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array())
  * @node Subsystems:Files
  */
 function pathos_files_canCreate($dest) {
-	if (substr($dest,0,1) == "/") $dest = str_replace(BASE,'',$dest);
-	$parts = explode("/",$dest);
+	if (substr($dest,0,1) == '/') $dest = str_replace(BASE,'',$dest);
+	$parts = explode('/',$dest);
 	$working = BASE;
 	for ($i = 0; $i < count($parts); $i++) {
-		if ($parts[$i] != "") {
+		if ($parts[$i] != '') {
 			if (!file_exists($working.$parts[$i])) {
 				return (is_writable($working) ? SYS_FILES_SUCCESS : SYS_FILES_NOTWRITABLE);
 			}
 			$working .= $parts[$i].'/';
 		}
 	}
-	if (!is_writable($working)) return SYS_FILES_NOTWRITABLE;
-	else {
+	// If we got this far, then the file we are asking about already exists.
+	// Check to see if we can overrwrite this file.
+	// First however, we need to strip off the '/' that was added a few lines up as the last part of the for loop.
+	$working = substr($working,0,-1);
+	
+	if (!is_writable($working)) {
+		return SYS_FILES_NOTWRITABLE;
+	} else {
 		if (is_file($working)) {
 			return SYS_FILES_FOUNDFILE;
 		} else {
-			return SYS_FILES_NOTWRITABLE;
+			return SYS_FILES_FOUNDDIR;
 		}
 	}
 }
