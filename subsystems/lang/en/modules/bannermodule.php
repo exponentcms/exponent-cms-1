@@ -38,4 +38,16 @@ define('TR_BANNERMODULE_PERM_CONFIG',		'Configure');
 define('TR_BANNERMODULE_PERM_MANAGEBAN',	'Manage Banners');
 define('TR_BANNERMODULE_PERM_MANAGEAF',		'Manage Affiliates');
 
+define('TR_BANNERMODULE_INTERNALNAME',		'Internal Name');
+define('TR_BANNERMODULE_AFFILIATE',			'Affiliate');
+define('TR_BANNERMODULE_DESTURL',			'Destination URL');
+define('TR_BANNERMODULE_NOAFFILIATES',		'No Affiliates have been created yet. At least one affiliate must exist before banners can be created.');
+
+define('TR_BANNERMODULE_NOUPLOAD',			'Uploads have been disabled.  You will not be able to create a new banner.');
+
+define('TR_BANNERMODULE_BANNERIMAGE',		'Banner Image');
+
+define('TR_BANNERMODULE_AFFILIATENAME',		'Name');
+define('TR_BANNERMODULE_CONTACTINFO',		'Contact Info');
+
 ?>
