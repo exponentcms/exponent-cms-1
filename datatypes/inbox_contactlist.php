@@ -52,6 +52,7 @@ class inbox_contactlist {
 		$form->register('name',TR_INBOXMODULE_GROUPNAME,new textcontrol($object->name));
 		$form->register('description',TR_INBOXMODULE_DESCRIPTION,new texteditorcontrol($object->description));
 		
+		$users = array();
 		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 		global $user;
 		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
@@ -65,7 +66,7 @@ class inbox_contactlist {
 				}
 			}
 		}
-		
+				
 		foreach (array_keys($users) as $i) {
 			$users[$i] = $users[$i]->firstname . ' ' . $users[$i]->lastname . ' (' . $users[$i]->username. ')';
 		}
