@@ -31,13 +31,43 @@
 # $Id$
 ##################################################
 
+/**
+ * Standalone Login Page (with redirection on authentication)
+ *
+ * This script is intended to be used for directing users to privileged sections
+ * of the site, from outside the system.  It gets passed a redirection URL, and when
+ * the user is authenticated (which may be upon initial visit) they are redirected
+ * there.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
+ 
 ob_start();
 
+/**
+ * Initialize the Pathos Framework
+ */
 include_once("pathos.php");
+
+/**
+ * @ignore
+ */
 define("SCRIPT_RELATIVE",PATH_RELATIVE);
+/**
+ * @ignore
+ */
 define("SCRIPT_ABSOLUTE",BASE);
+/**
+ * @ignore
+ */
 define("SCRIPT_FILENAME","login_redirect.php");
 
+/**
+ * Initialize the Sessions Subsystem
+ */
 if (!defined("SYS_SESSIONS")) include_once(BASE."subsystems/sessions.php");
 
 if (isset($_GET["redirecturl"])) {
@@ -48,6 +78,9 @@ if (isset($_GET["redirecturl"])) {
 	pathos_sessions_set("redirecturl",$redirect);
 }
 
+/**
+ * Initialize the Theme Subsystem
+ */
 if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
 $SYS_FLOW_REDIRECTIONPATH = "loginredirect"; 
 

@@ -31,6 +31,16 @@
 # $Id$
 ##################################################
 
+/**
+ * Log the Current User out of the site.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and OIC Group, Inc.
+ *
+ * @package Modules
+ * @subpackages Login
+ */
+ 
 if (!defined("PATHOS")) exit("");
 
 if (!defined("SYS_USERS")) include_once("subsystems/users.php");

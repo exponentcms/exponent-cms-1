@@ -31,6 +31,16 @@
 # $Id$
 ##################################################
 
+/**
+ * View List of Module Types that have Archived Modules
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Modules
+ * @subpackage Container
+ */
+
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

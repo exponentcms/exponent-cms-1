@@ -31,6 +31,23 @@
 # $Id$
 ##################################################
 
+/**
+ * Thumbnail Generator
+ *
+ * This file generates a thumbnail for an image on the filesystem,
+ * according to arguments passed in the querystring (GET request).
+ *
+ * It now makes use of the Imaging Subsystem.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
+
+/**
+ * Initialize the Imaging Subsystem (this does not need the Pathos Framework to function)
+ */
 include_once("subsystems/image.php");
 
 $file = $_GET['base'].$_GET['file'];

@@ -31,6 +31,16 @@
 # $Id$
 ##################################################
 
+/**
+ * Associate or Re-associate an HTML Template with a Module Type
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Modules
+ * @subpackage HTMLTemplate
+ */
+
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

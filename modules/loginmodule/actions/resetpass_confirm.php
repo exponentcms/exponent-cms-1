@@ -31,6 +31,17 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
+
+/**
+ * Confirm a Password Reset Request, and Reset the Password
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and OIC Group, Inc.
+ *
+ * @package Modules
+ * @subpackages Login
+ */
+
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK

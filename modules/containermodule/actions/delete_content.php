@@ -31,6 +31,16 @@
 # $Id$
 ##################################################
 
+/**
+ * Remove Content for a deleted module.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Modules
+ * @subpackage Container
+ */
+
 if (!defined("PATHOS")) exit("");
 
 $iloc = pathos_core_makeLocation($_GET['m'],$_GET['s'],$_GET['i']);

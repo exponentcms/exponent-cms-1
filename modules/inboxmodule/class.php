@@ -31,6 +31,26 @@
 # $Id$
 ##################################################
 
+/**
+ * Inbox Module
+ *
+ * Manages private message for each user, and allows users to send messages to other users.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ * @version 0.95
+ *
+ * @package Modules
+ * @subpackage Inbox
+ */
+/**
+ * Module Class
+ *
+ * Primary entrypoint to the module.
+ *
+ * @package Modules
+ * @subpackage Inbox
+ */
 class inboxmodule {
 	function name() { return "Private Message Center"; }
 	function description() { return "Allows user to send and receive private messages, to and from other users on the site."; }

@@ -32,7 +32,7 @@
 ##################################################
 
 if (!defined("PATHOS")) exit("");
-
+exit("DEPRECATED");
 // PERM CHECK
 	pathos_sessions_set("_hidebox",abs(pathos_sessions_get("_hidebox")-1));
 	pathos_flow_redirect();

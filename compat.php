@@ -32,14 +32,19 @@
 ##################################################
 
 /**
-* Compatibility Layer for backporting Exponent to older versions of PHP (4)
-*
-* Now piggy-backing off of the wonderful PHP_Compat library
-*/
+ * Compatibility Layer for backporting Exponent to older versions of PHP (4)
+ *
+ * Now piggy-backing off of the wonderful PHP_Compat library
+ *
+ * @package Exponent
+ */
 
 $dh = opendir(BASE."compat");
 while (($file = readdir($dh)) !== false) {
 	if (is_file(BASE."compat/".$file) && substr($file,-4,4) == ".php") {
+		/**
+		 * Include each file in compat/, each of which is a function redefinition for older version of PHP
+		 */
 		include_once(BASE."compat/".$file);
 	}
 }

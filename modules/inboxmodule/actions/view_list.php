@@ -32,7 +32,7 @@
 ##################################################
 
 if (!defined("PATHOS")) exit("");
-
+exit("DEPRECATED");
 // PERM CHECK
 	
 // END PERM CHECK

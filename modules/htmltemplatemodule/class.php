@@ -31,6 +31,25 @@
 # $Id$
 ##################################################
 
+/**
+ * HTML Template Module
+ *
+ * Manages a set of HTML Templates for WYSIWYG Editing
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ * @version 0.95
+ *
+ * @package Modules
+ * @subpackage HTMLTemplate
+ */
+/**
+ * Module Class
+ *
+ * Primary entrypoint to the module.
+ *
+ * @package Modules
+ * @subpackage HTMLTemplate
+ */
 class htmltemplatemodule {
 	function name() { return "HTML Template Editor"; }
 	function description() { return "Allows you to create, upload and edit HTML templates, which can be hooked into text controls."; }

@@ -31,9 +31,33 @@
 # $Id$
 ##################################################
 
-if (!defined("BASE")) define("BASE",dirname(__FILE__)."/");
-define("PATH_RELATIVE",dirname($_SERVER['SCRIPT_NAME']) . "/");
-define("ICONDIR",BASE.str_replace(PATH_RELATIVE,"",$_GET['icodir']));
+/**
+ * Popup Icon Selector
+ *
+ * This script reads icon files from a directory and displays them in a table
+ * for selection.  It is currently used by the file icon management code in the
+ * administration control panel.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
+ 
+if (!defined('BASE')) {
+	/**
+	 * BASE Constant
+	 */
+	define('BASE',dirname(__FILE__).'/');
+}
+/**
+ * Define PATH_RELATIVE
+ */
+define('PATH_RELATIVE',dirname($_SERVER['SCRIPT_NAME']) . '/');
+/**
+ * Define ICONDIR, more for convenience than anything else.
+ */
+define('ICONDIR',BASE.str_replace(PATH_RELATIVE,"",$_GET['icodir']));
 
 $perrow = 8;
 $iconfiles = array(0=>array());
@@ -68,14 +92,14 @@ function setIcon(src) {
 <table width="100%" height="100%" cellpadding="4" cellspacing="0">
 <?php
 for ($i = 0; $i < count($iconfiles); $i++) {
-	echo "<tr>";
+	echo '<tr>';
 	for ($j = 0; $j < count($iconfiles[$i]); $j++) {
-		echo "<td>";
+		echo '<td>';
 		$imgsrc = $_GET['icodir'] . $iconfiles[$i][$j];
 		echo "<a href='' onClick='setIcon(\"$imgsrc\"); return false'><img src='$imgsrc' border='0' /></a>";
-		echo "</td>";
+		echo '</td>';
 	}
-	echo "</tr>";
+	echo '</tr>';
 }
 
 

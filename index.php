@@ -38,22 +38,41 @@
  * @copyright 2004 James Hunt and the OIC Group, Inc.
  * @version 0.95
  *
- * @package ExponentCMS
+ * @package Exponent
  */
 
 ob_start();
 $microtime_str = explode(" ",microtime());
 $i_start = $microtime_str[0] + $microtime_str[1];
 
+/**
+ * Initialize the Pathos Framework
+ */
 include_once("pathos.php");
 
+/**
+ * @ignore
+ */
 define("SCRIPT_RELATIVE",PATH_RELATIVE);
+/**
+ * @ignore
+ */
 define("SCRIPT_ABSOLUTE",BASE);
+/**
+ * @ignore
+ */
 define("SCRIPT_FILENAME","index.php");
 
+/**
+ * Initialize the theme subsystem
+ */
 if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
 
-if (!defined("DEVELOPMENT") && is_readable(BASE."install")) {
+if (!DEVELOPMENT && is_readable(BASE."install")) {
+	/**
+	 * In case we are not running in developer mode, and the install/ directory is readable,
+	 * drop the user into the 'Not Yet Configured' warning page.
+	 */
 	include(BASE."install_warn/install_warn.html");
 	exit();
 }

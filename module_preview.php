@@ -31,6 +31,18 @@
 # $Id$
 ##################################################
 
+/**
+ * Default Module Preview Template
+ *
+ * This is the fallback module preview template, for use in the container module
+ * when previewing module type / source / view combinations.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -44,6 +56,9 @@
 	
 	<body>
 	<?php
+	/**
+	 * Define the Preview Readonly file, so that stuff works still.
+	 */
 	define("PREVIEW_READONLY",1);
 	
 	$module = $_GET['module'];

@@ -31,6 +31,25 @@
 # $Id$
 ##################################################
 
+/**
+ * Contact Form Module
+ *
+ * Provides the visitor with a form to fill out for contact a person or group of people.
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ * @version 0.95
+ *
+ * @package Modules
+ * @subpackage ContactForm
+ */
+/**
+ * Module Class
+ *
+ * Primary entrypoint to the module.
+ *
+ * @package Modules
+ * @subpackage ContactForm
+ */
 class contactmodule {
 	function name() { return "Contact Form"; }
 	function description() { return "Presents a form to the wbe viewer, which they can use to contact users."; }

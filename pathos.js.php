@@ -31,6 +31,22 @@
 # $Id$
 ##################################################
 
+/**
+ * Javascript Bridge to Pathos Framework
+ *
+ * This Javascript/PHP script pulls several constants into the scope
+ * of Javascript, allowing javascript code to reference the PATH_RELATIVE
+ * and BASE constants (although in Javascript they will be variables).
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
+
+/**
+ * Initialize Pathos Framework
+ */
 include_once("pathos.php");
 ?>
 // Pathos Javascript Support Systems

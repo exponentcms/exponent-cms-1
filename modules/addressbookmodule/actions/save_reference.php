@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-
+exit("DEPRECATED");
 $contact = $db->selectObject("addressbook_contact","id=".$_POST['contact_id']);
 if ($contact) {
 	$loc = unserialize($contact->location_data);

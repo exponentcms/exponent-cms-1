@@ -33,6 +33,8 @@
 //GREP:HARDCODEDTEXT
 if (!defined("PATHOS")) exit("");
 
+exit("DEPRECATED");
+
 // PERM CHECK
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();

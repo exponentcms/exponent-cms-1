@@ -31,19 +31,65 @@
 # $Id$
 ##################################################
 
-if (!defined("BASE")) define("BASE",__realpath(dirname(__FILE__))."/");
-define("PATHOS",include(BASE."pathos_version.php"));
+/**
+ * Pathos Variables Auto-detection
+ *
+ * This file autodetects certain constants related to the web servers environment.
+ * These constants will only be auto-detected if they are not manually defined in
+ * the overrides.php file.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
 
-if (!defined("PATH_RELATIVE")) {
-	if (isset($_SERVER['DOCUMENT_ROOT'])) {
-			define("PATH_RELATIVE",str_replace(__realpath($_SERVER['DOCUMENT_ROOT']),"",BASE));
-	} else {
-			// For anybody without DOCUMENT_ROOT
-			define("PATH_RELATIVE",dirname($_SERVER['SCRIPT_NAME']) . "/");
-	}
+if (!defined('BASE')) {
+	/**
+	 * BASE Constant
+	 *
+	 * The BASE constant is the absolute path on the server filesystem, from the root (/ or C:\)
+	 * to the Exponent directory.
+	 */
+	define('BASE',__realpath(dirname(__FILE__)).'/');
+}
+/**
+ * PATHOS Constant
+ *
+ * The PATHOS constant defines the current Major.Minor version of Exponent/Pathos (i.e. 0.95).
+ * It's definition also signals to other parts of the system that they are operating within the confines
+ * of the Pathos Framework.  (Module actions check this -- if it is not defined, they must abort).
+ */
+define('PATHOS',include(BASE.'pathos_version.php'));
+
+if (!defined('PATH_RELATIVE')) {
+	/**
+	 * PATH_RELATIVE Constant
+	 *
+	 * The PATH_RELATIVE constant is the web path to the Exponent directory,
+	 * from the web root.  It is related to the BASE constant, but different.
+	 */
+	define('PATH_RELATIVE',dirname($_SERVER['SCRIPT_NAME']) . '/');
 }
 
-if (!defined("URL_BASE")) define("URL_BASE",((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https://" : "http://") . $_SERVER['HTTP_HOST']);
-if (!defined("URL_FULL")) define("URL_FULL",URL_BASE.PATH_RELATIVE);
+if (!defined('URL_BASE')) {
+	/**
+	 * URL_BASE Constant
+	 *
+	 * The URL_BASE constant is the base URL of the domain hosting the Exponent site.
+	 * It does not include the PATH_RELATIVE information.  The automatic
+	 * detection code can figure out if the server is running in SSL mode or not
+	 */
+	define('URL_BASE',((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST']);
+}
+if (!defined('URL_FULL')) {
+	/**
+	 * URL_FULL Constant
+	 *
+	 * The URL_FULL constant is the full URL path to the Exponent directory.  The automatic
+	 * detection code can figure out if the server is running in SSL mode or not.
+	 */
+	define('URL_FULL',URL_BASE.PATH_RELATIVE);
+}
 
 ?>

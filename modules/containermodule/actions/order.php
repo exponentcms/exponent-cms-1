@@ -31,6 +31,16 @@
 # $Id$
 ##################################################
 
+/**
+ * Switch the Rank of two Modules in the Container
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Modules
+ * @subpackage Container
+ */
+
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check("order_modules",$loc)) {

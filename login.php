@@ -31,14 +31,43 @@
 # $Id$
 ##################################################
 
+/**
+ * Standalone Login Page
+ *
+ * This page provides a means for people to login to the site,
+ * even if a login module doesn't exist anywhere.
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
 ob_start();
 
+/**
+ * Initialize the Pathos Framework
+ */
 include_once("pathos.php");
+/**
+ * @ignore
+ */
 define("SCRIPT_RELATIVE",PATH_RELATIVE);
+/**
+ * @ignore
+ */
 define("SCRIPT_ABSOLUTE",BASE);
+/**
+ * @ignore
+ */
 define("SCRIPT_FILENAME","login.php");
 
+/**
+ * Initialize the Sessions Subsystem
+ */
 if (!defined("SYS_SESSIONS")) include_once(BASE."subsystems/sessions.php");
+/**
+ * Initialize the Theme Subsystem
+ */
 if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
 
 if (pathos_sessions_loggedIn()) {
