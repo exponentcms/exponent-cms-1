@@ -51,7 +51,7 @@ if (!defined("PATHOS")) exit("");
 				if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
 				
 				$core = $db->selectobject("sharedcore_core","id=".$site->core_id);
-				echo mysql_error($db->connection);
+				
 				$stat = pathos_sharedcore_linkCore($core->path,$site->path);
 				if ($stat == 0) {
 					$site->id = $db->insertObject($site,"sharedcore_site");
