@@ -10,22 +10,23 @@ $all_files = include(BASE."manifest.php");
 
 while (($file = readdir($mod_dh)) !== false) {
 	// Process all module files
-	if (is_readable(BASE."modules/$file/manifest.php")) {
-		#echo $file . "\n";
+	if (is_readable(BASE."modules/$file/auto.manifest.php")) {
+		$all_files = array_merge($all_files,include(BASE."modules/$file/auto.manifest.php"));
+	} else if (is_readable(BASE."modules/$file/manifest.php")) {
 		$all_files = array_merge($all_files,include(BASE."modules/$file/manifest.php"));
 	}
 }
 
 while (($file = readdir($theme_dh)) != false) {
-	if (is_readable(BASE."themes/$file/manifest.php")) {
-		#echo $file . "\n";
+	if (is_readable(BASE."themes/$file/auto.manifest.php")) {
+		$all_files = array_merge($all_files,include(BASE."themes/$file/auto.manifest.php"));
+	} else if (is_readable(BASE."themes/$file/manifest.php")) {
 		$all_files = array_merge($all_files,include(BASE."themes/$file/manifest.php"));
 	}
 }
 
 while (($file = readdir($subsys_dh)) != false) {
 	if (substr($file,-13,13) == ".manifest.php") {
-		#echo $file . "\n";
 		$all_files = array_merge($all_files,include(BASE."subsystems/$file"));
 	}
 }
@@ -41,15 +42,10 @@ function checkFiles($rel_dir,$all_files,&$unclaimed) {
 	$exclude_all = array("CVS","views_c");
 	while (($file = readdir($dh)) !== false) {
 		if (is_dir(BASE.$rel_dir.$file) && substr($file,0,1) != "." && !in_array($rel_dir.$file,$exclude_dirs) && !in_array($file,$exclude_all)) {
-#			echo "Found Dir : $rel_dir$file\n";
 			checkFiles("$rel_dir$file",$all_files,$unclaimed);
-		} else if (is_file(BASE.$rel_dir.$file) && substr($file,0,1) != "." && substr($file,-12,12) != "manifest.php") {
-#			echo "Found file : $rel_dir$file\n";
+		} else if (is_file(BASE.$rel_dir.$file) && substr($file,0,1) != ".") {
 			if (!isset($all_files["$rel_dir$file"])) {
-#				echo "BAD FILE: $rel_dir$file\n";
 				$unclaimed[] = "$rel_dir$file";
-			} else {
-#				echo "good file: $rel_dir$file\n";
 			}
 		}
 	}
@@ -58,6 +54,18 @@ function checkFiles($rel_dir,$all_files,&$unclaimed) {
 $unclaimed = array();
 checkFiles("",$all_files,$unclaimed);
 
-print_r($unclaimed);
+$count = 0;
+
+foreach ($unclaimed as $file) {
+	echo "'".$file."'=>";
+	if (substr(basename($file),-11,11) == 'manifest.php') {
+		echo "1,"."\r\n";
+	} else {
+		echo "'',"."\r\n";
+	}
+	$count++;
+}
+
+echo "$count file(s) unaccounted for\r\n";
 
 ?>
