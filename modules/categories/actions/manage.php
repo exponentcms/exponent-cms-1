@@ -38,7 +38,7 @@ if (!defined("PATHOS")) exit("");
 	
 	$mloc = pathos_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
 	$categories = $db->selectObjects("category","location_data='".serialize($mloc)."'");
-	if (pathos_modules_getViewFile($mloc->mod,"_cat_manageCategories",false) == "") {
+	if (pathos_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("common","_cat_manageCategories",$loc);
 	} else {
 		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
