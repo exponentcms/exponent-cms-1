@@ -31,8 +31,41 @@
 # $Id$
 ##################################################
 
+/**
+ * Content Selector
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ *
+ * @deprecated 0.96
+ */
+
+/**
+ * Define Content Selector constant as 2, since we are selecting orphaned content.
+ */
 define("CONTENT_SELECTOR",2);
-exit();
+
+/**
+ * Initialize the Pathos Framework
+ */
+include_once('pathos.php');/**
+ * @ignore
+ */
+define('SCRIPT_RELATIVE',PATH_RELATIVE);
+/**
+ * @ignore
+ */
+define('SCRIPT_ABSOLUTE',BASE);
+/**
+ * @ignore
+ */
+define('SCRIPT_FILENAME','orphan_content_selector.php');
+
+/**
+ * Include the real selector script, which does all of the heavy lifting.
+ */
 include_once("selector.php");
 
 ?>

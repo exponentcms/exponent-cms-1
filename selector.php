@@ -31,43 +31,56 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
+
+/**
+ * Source Selector
+ *
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ *
+ * @package Exponent
+ */
+
 ob_start();
-include_once("pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE);
-define("SCRIPT_ABSOLUTE",BASE);
-define("SCRIPT_FILENAME","selector.php");
+/**
+ * Initialize the Theme Subsystem
+ */
+if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
-if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
-
-$section = (pathos_sessions_isset("last_section") ? pathos_sessions_get("last_section") : SITE_DEFAULT_SECTION);
-$section = $db->selectObject("section","id=".$section);
+$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+$section = $db->selectObject('section','id='.$section);
 
 // Handle sub themes
-$page = ($section && $section->subtheme != "" && is_readable("themes/".DISPLAY_THEME."/subthemes/".$section->subtheme.".php") ?
-	"themes/".DISPLAY_THEME."/subthemes/".$section->subtheme.".php" :
-	"themes/".DISPLAY_THEME."/index.php"
+$page = ($section && $section->subtheme != '' && is_readable('themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
+	'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
+	'themes/'.DISPLAY_THEME.'/index.php'
 );
 
 if (is_readable(BASE.$page)) {
-
-	define("PREVIEW_READONLY",1); // for mods
-	define("SELECTOR",1);
-	$SYS_FLOW_REDIRECTIONPATH="source_selector";
+	/**
+	 * Define PREVIEW_READONLY as 1, so that modules can render in preview mode.
+	 */
+	define('PREVIEW_READONLY',1); // for mods
+	/**
+	 * Define SELECTOR, so that modules can accomodate.
+	 */
+	define('SELECTOR',1);
+	$SYS_FLOW_REDIRECTIONPATH='source_selector';
 
 	$source_select = array();
-	if (pathos_sessions_isset("source_select")) $source_select = pathos_sessions_get("source_select");
+	if (pathos_sessions_isset('source_select')) $source_select = pathos_sessions_get('source_select');
 	$count_orig = count($source_select);
 	
 	if (isset($_REQUEST['vview'])) {
 		$source_select['view'] = $_REQUEST['vview'];
 	} else if (!isset($source_select['view'])) {
-		$source_select['view'] = "_sourcePicker";
+		$source_select['view'] = '_sourcePicker';
 	}
 	
 	if (isset($_REQUEST['vmod'])) {
 		$source_select['module'] = $_REQUEST['vmod'];
 	} else if (!isset($source_select['module'])) {
-		$source_select['module'] = "containermodule";
+		$source_select['module'] = 'containermodule';
 	}
 	
 	if (isset($_REQUEST['showmodules'])) {
@@ -92,6 +105,9 @@ if (is_readable(BASE.$page)) {
 	
 	pathos_sessions_set("source_select",$source_select);
 	
+	/**
+	 * Include the rendering page.
+	 */
 	include_once(BASE.$page);
 } else echo BASE.$page." not readable";
 
