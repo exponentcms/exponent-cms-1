@@ -36,7 +36,7 @@ if (!defined("PATHOS_VERSION")) {
 	define("PATHOS_VERSION_MAJOR",0);
 	define("PATHOS_VERSION_MINOR",96);
 	define("PATHOS_VERSION_REVISION",0);
-	define("PATHOS_VERSION_BUILDDATE","1104987282");
+	define("PATHOS_VERSION_BUILDDATE","%%BUILDDATE%%");
 	define("PATHOS_VERSION_TYPE","beta");
 	define("PATHOS_VERSION_ITERATION",3); // only applies to betas/alphas / rcs
 }
