@@ -184,7 +184,10 @@ class filetemplate extends basetemplate {
 		$this->viewdir = realpath(dirname($file));
 		
 		$this->tpl->template_dir = $this->viewdir;
-		$this->tpl->compile_dir = $this->viewdir."_c";
+		// Make way for i18n
+		// $this->tpl->compile_dir = $this->viewdir."_c";
+		$this->tpl->compile_dir = BASE.'/views_c';
+		$this->tpl->compile_id = md5($this->viewfile);
 		
 		$this->tpl->assign("__view",$view);
 		$this->tpl->assign("__redirect",pathos_flow_get());
@@ -213,7 +216,10 @@ class standalonetemplate extends basetemplate {
 		$this->viewdir = realpath(dirname($file) . "/..") . "/views";
 		
 		$this->tpl->template_dir = $this->viewdir;
-		$this->tpl->compile_dir = $this->viewdir."_c";
+		// Make way for i18n
+		// $this->tpl->compile_dir = $this->viewdir."_c";
+		$this->tpl->compile_dir = BASE.'/views_c';
+		$this->tpl->compile_id = md5($this->viewfile);
 		
 		$this->tpl->assign("__view",$view);
 		$this->tpl->assign("__redirect",pathos_flow_get());
