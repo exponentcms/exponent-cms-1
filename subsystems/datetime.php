@@ -162,7 +162,7 @@ function pathos_datetime_endOfMonthDay($timestamp) {
  */
 function pathos_datetime_startOfDayTimestamp($timestamp) {
 	$info = getdate($timestamp);
-	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
+	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
 }
 
 /*
@@ -311,31 +311,79 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 }
 
 function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) {
+	// Holding array, for keeping all of the matching timestamps
 	$dates = array();
+	// Date to start on.
 	$curdate = $start;
 	
+	// Get the date info, including the weekday.
+	$dateinfo = getdate($curdate);
+	
+	// Store the month day.  If we are not doing by day monthly recurrence,
+	// then this will be used unchanged throughout the do .. while loop.
+	$mdate = $dateinfo['mday'];
+		
 	$week = 0; // Only used for $by_day;
 	$wday = 0; // Only used for $by_day;
 	if ($by_day) {
-		$dateinfo = getdate($curdate);
-		$startmonthinfo = getdate(pathos_datetime_startOfMonthTimestamp($curdate));
-		$mday = $dateinfo['mday'] - ($startofmonth['wday'] ? 8 - $startmonthinfo['wday'] : 1);
-		$week = floor($mday / 7);
+		// For by day recurrence, we need to know what week it is, and what weekday.
+		// (i.e. the 3rd Thursday of the month)
+		
+		// Calculate the Week Offset, as the ceilling value of date / DAYS_PER_WEEK
+		$week = ceil($mdate / 7);
+		// Store the weekday
 		$wday = $dateinfo['wday'];
 	}
-	
+
+	// Loop until we exceed the until date.
 	do {
+		// Append the current date to the list of dates.  $curdate will be updated
+		// in the rest of the loop, so that it contains the next date.  This next date will
+		// be checked in the while condition, and if it is still before the until date,
+		// the loop iterates back here again for another go.
 		$dates[] = $curdate;
 		
+		// Grab the date information for $curdate.  This gives us the current month
+		// information, for the next jump.
 		$dateinfo = getdate($curdate);
 		
-		$curdate = pathos_datetime_startOfMonthTimestamp(mktime(8,0,0,$dateinfo['mon']+$freq,$dateinfo['mday'],$dateinfo['year']));
+		// Make the next month's timestamp, by adding frequency to the month. 
+		// PHP can pick up on the fact that the 13th month of this year is the 1st
+		// month of the next year.
+		$curdate = mktime(8,0,0,$dateinfo['mon']+$freq,1,$dateinfo['year']);
+		$dateinfo = getdate($curdate);
+		
 		if ($by_day) {
-			$startmonthinfo = getdate(pathos_datetime_startOfMonthTimestamp($curdate));
-			$mwday = $startmonthinfo['wday'] ? 8 - $startmonthinfo['wday'] : 1;
-			$mday = $mwday + ( 7 * $week ) + $wday;
-			$curdate = pathos_datetime_startOfDayTimestamp(mktime(8,0,0,$dateinfo['mon']+$freq,$mday,$dateinfo['year']));
+			// For by day recurrence (first tuesday of every month), we need to do a
+			// little more fancy footwork to determine the next timestamp, since there
+			// is no easy mathematical way to advance a whole month and land on
+			// the same week offset and weekday.
+			
+			// Calculate the next month date.
+			if ($dateinfo['wday'] > $wday) {
+				// The month starts on a week day that is after the target week day.
+				// For more detailed discussion of the following formula, see the
+				// analysis docs, sdk/analysis/subsystems/datetime.txt
+				
+				// TARGET_WDAY is $wday
+				// START_WDAY is $startmonthinfo['wday']
+				$mdate = $wday - $dateinfo['wday'] + ( 7 * $week ) + 1;
+			} else {
+				// The month starts on a week day that is before or equal to the
+				// target week day.  This formula is identical to the one above,
+				// except that we subtract one from the week offset
+				// For more detailed discussion of the following formula, see the
+				// analysis docs, sdk/analysis/subsystems/datetime.txt
+				
+				// TARGET_WDAY is $wday
+				// START_WDAY is $startmonthinfo['wday']
+				$mdate = $wday - $dateinfo['wday'] + ( 7 * ( $week - 1 ) ) + 1;
+			}
 		}
+		// Re-assemble the $curdate value, using the correct $mdate.  If not doing by_day
+		// recurrence, this value remains essentially unchanged.  Otherwise, it will be
+		// set to reflect the new day of the Nth weekday.
+		$curdate = pathos_datetime_startOfDayTimestamp(mktime(8,0,0,$dateinfo['mon'],$mdate,$dateinfo['year']));
 	} while ($curdate <= $end);
 	
 	return $dates;
