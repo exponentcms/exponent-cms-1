@@ -46,6 +46,7 @@ $userinfo->lastname = "";
 $userinfo->is_admin = 0;
 $userinfo->is_acting_admin = 0;
 $userinfo->is_locked = 0;
+$userinfo->email = '';
 $userarray = array();
 $usersdone = array();
 $linenum = 1;
