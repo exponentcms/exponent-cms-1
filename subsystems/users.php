@@ -97,7 +97,7 @@ function pathos_users_clearDeletedExtensions() {
 	foreach ($db->selectObjects("profileextension") as $e) {
 		if (!is_readable(BASE."subsystems/users/profileextensions/".$e->extension.".php")) {
 			$db->delete("profileextension","id=".$e->id);
-			$db->sql("UPDATE ".DB_TABLE_PREFIX."profileextension SET rank=rank-1 WHERE rank >= ". $e->rank);
+			$db->decrement("profileextension","rank",1,"rank >= ". $e->rank);
 		}
 	}
 }
@@ -108,6 +108,7 @@ function pathos_users_getFullProfile($user) {
 	pathos_users_clearDeletedExtensions();
 	global $db;
 	$exts = $db->selectObjects("profileextension");
+	if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
 	usort($exts,"pathos_sorting_byRankAscending");
 	foreach ($exts as $ext) {
 		$user = call_user_func(array($ext->extension,"getProfile"),$user);
@@ -153,11 +154,12 @@ function pathos_users_form($user = null) {
 	// Profile Integrations
 	pathos_users_clearDeletedExtensions();
 	pathos_users_includeProfileExtensions();
+	$tmpu = pathos_users_getFullProfile($user);
 	global $db;
 	$exts = $db->selectObjects("profileextension");
 	usort($exts,"pathos_sorting_byRankAscending");
 	foreach ($exts as $ext) {
-		$form = call_user_func(array($ext->extension,"modifyForm"),$form,$user);
+		$form = call_user_func(array($ext->extension,"modifyForm"),$form,$tmpu);
 	}
 	
 	$form->register("submit","",new buttongroupcontrol("Save"));
@@ -326,9 +328,31 @@ function pathos_users_getGroupByName($name) {
 function pathos_users_getAllGroups($allow_exclusive=1,$allow_inclusive=1) {
 	global $db;
 	if ($allow_exclusive && $allow_inclusive) return $db->selectObjects("group");
-	else if ($allow_exclusive) return $db->selectObjects("group","is_default = 0");
-	else if ($allow_inclusive) return $db->selectObjects("group","is_default = 1");
+	else if ($allow_exclusive) return $db->selectObjects("group","inclusive = 0");
+	else if ($allow_inclusive) return $db->selectObjects("group","inclusive = 1");
 	else return array();
+}
+
+function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=1) {
+	global $db;
+	$groups = array();
+	if (!$u) return $groups;
+	if ($u->is_admin) return pathos_users_getAllGroups($allow_exclusive,$allow_inclusive);
+	foreach ($db->selectObjects("groupmembership","member_id=".$u->id) as $m) {
+		$o = $db->selectObject("group","id=".$m->group_id);
+		if ($o->inclusive == 1 && $allow_inclusive) $groups[] = $o;
+		if ($o->inclusive == 0 && $allow_exclusive) $groups[] = $o;
+	}
+	return $groups;
+}
+
+function pathos_users_getUsersInGroup($g) {
+	global $db;
+	$users = array();
+	foreach ($db->selectObjects("groupmembership","group_id=".$g->id) as $m) {
+		$users[] = $db->selectObject("user","id=".$m->member_id);
+	}
+	return $users;
 }
 
 function pathos_users_saveUser($user) {
