@@ -61,8 +61,10 @@
 {$item->eventstart|date_format:$smarty.const.DISPLAY_DATE_FORMAT}
 {else}
 {$item->eventstart|date_format:"%B %e, %Y, %l:%M %P"} - {$item->eventend|date_format:"%l:%M %P"}
-{/if}<br />
-<a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$item->eventstart}" title="View Entire Week" alt="View Entire Week">View Week</a><br />
-<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$item->eventstart}" title="View Entire Month" alt="View Entire Month">View Month</a><br />
+{/if}
 <hr size="1" />
 {$item->body}
+<br />
+<hr size="1" />
+<a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$item->eventstart}" title="View Entire Week" alt="View Entire Week">View Week</a>&nbsp;|&nbsp;
+<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$item->eventstart}" title="View Entire Month" alt="View Entire Month">View Month</a><br />

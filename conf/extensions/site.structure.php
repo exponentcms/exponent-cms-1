@@ -71,7 +71,7 @@ return array(
 		),
 		"SESSION_TIMEOUT"=>array(
 			"title"=>"Session Timeout",
-			"description"=>"How long a user can be idle before they are automatically logged out.",
+			"description"=>"How long a user can be idle (in seconds) before they are automatically logged out.",
 			"control"=>new textcontrol()
 		),
 		"SESSION_TIMEOUT_HTML"=>array(
