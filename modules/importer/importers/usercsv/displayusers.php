@@ -128,15 +128,6 @@ if ($linenum >= $post["rowstart"]){
 			$userinfo->clearpassword = $newpass;
 			break;
 		case "DEFPASS":
-			//Check to make sure the user filled out the required input.
-			//if ($_POST["pwordText"] == ""){
-        		//	$post = $_POST;
-			//	unset($post['pwordText']);
-        		//	$post['_formError'] = TR_IMPORTER_USERCSV_NOPASS_ERROR;
-        		//	pathos_sessions_set("last_POST",$post);
-        		//	header("Location: " . $_SERVER['HTTP_REFERER']);
-        		//	exit("");
-			//}
 			$userinfo->clearpassword = str_replace(" ", "", trim($_POST["pwordText"]));
 			break;
 		}
