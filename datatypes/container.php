@@ -41,12 +41,16 @@ class container {
 		if (!isset($values['id'])) {
 			// Only deal with the inc/dec stuff if adding a module.
 			$src = "";
-			if ($values['i_src'] == "new_source") {
-				$src = "@random".uniqid("");
-				$object->is_existing = 0;
+			if (isset($values['i_src'])) {
+				if ($values['i_src'] == "new_source") {
+					$src = "@random".uniqid("");
+					$object->is_existing = 0;
+				} else {
+					$src = $values[$values['i_src']];
+					$object->is_existing = 1;
+				}
 			} else {
-				$src = $values[$values['i_src']];
-				$object->is_existing = 1;
+				$object->is_existing = 0;
 			}
 			$newInternal = pathos_core_makeLocation($values['i_mod'],$src);
 			
