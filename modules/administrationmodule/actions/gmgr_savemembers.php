@@ -39,9 +39,11 @@ if ($user && $user->is_admin) {
 		$db->delete("groupmembership","group_id=".$group->id);
 		$memb = null;
 		$memb->group_id = $group->id;
-		foreach (explode(",",$_POST['membdata']) as $id) {
-			$memb->member_id = $id;
-			$db->insertObject($memb,"groupmembership");
+		if ($_POST['membdata'] != "") {
+			foreach (explode(",",$_POST['membdata']) as $id) {
+				$memb->member_id = $id;
+				$db->insertObject($memb,"groupmembership");
+			}
 		}
 		pathos_permissions_triggerRefresh();
 		pathos_flow_redirect();
