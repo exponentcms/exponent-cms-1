@@ -41,6 +41,18 @@ class loginmodule {
 	function hasViews()   { return true; }
 	
 	function supportsWorkflow() { return false; }
+	
+	function permissions($internal = "") {
+		return array();
+	}
+	
+	function deleteIn($loc) {
+	
+	}
+	
+	function copyContent($from_loc,$to_loc) {
+	
+	}
 
 	function show($view,$loc=null,$title="") {
 		$template = new template("loginmodule",$view,$loc);

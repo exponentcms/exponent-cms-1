@@ -49,6 +49,14 @@ class inboxmodule {
 		);
 	}
 	
+	function deleteIn($loc) {
+	
+	}
+	
+	function copyContent($from_loc,$to_loc) {
+	
+	}
+	
 	function show($view,$loc,$title) {
 		global $db, $user;
 		if ($user) {

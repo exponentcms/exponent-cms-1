@@ -56,6 +56,16 @@ class sharedcoremodule {
 		}
 	}
 	
+	function deleteIn($loc) {
+		// FIXME:Implement deleteIn for sharedcoremodule
+		// FIXME:
+	}
+	
+	function copyContent($from_loc,$to_loc) {
+		// FIXME:Implement copyContent for sharedcoremodule
+		// FIXME:
+	}
+	
 	function show($view,$loc = null,$title="") {
 		$template = new template("sharedcoremodule",$view);
 		
