@@ -42,6 +42,10 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	pathos_forms_initialize();
 
 	$u = pathos_users_getUserById($_GET['id']);
+	if ($u == null) {
+		$u->is_admin = 0;
+		$u->is_acting_admin = 0;
+	}
 	$u = pathos_users_getFullProfile($u);
 	$form = pathos_users_form($u);
 	$form->meta('module','administrationmodule');

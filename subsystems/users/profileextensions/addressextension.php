@@ -41,13 +41,7 @@ class addressextension {
 		pathos_lang_loadDictionary('extras','addressextension');
 	
 		if (!isset($user->user_address)) {
-			$user->user_address = null;
-			$user->user_address->address1 = "";
-			$user->user_address->address2 = "";
-			$user->user_address->city = "";
-			$user->user_address->state = "";
-			$user->user_address->zip = "";
-			$user->user_address->country = "";
+			$user->user_address = addressextension::_blankAddress();
 		}
 		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.TR_X_ADDRESSEXTENSION_HEADER.'</b>'));
 		$form->register("address1",TR_X_ADDRESSEXTENSION_ADDRESS, new textcontrol($user->user_address->address1));
@@ -82,7 +76,11 @@ class addressextension {
 	
 	function getProfile($user) {
 		global $db;
-		$user->user_address = $db->selectObject("user_address","uid=".$user->id);
+		if (!isset($user->id)) {
+			$user->user_address = addressextension::_blankAddress();
+		} else {
+			$user->user_address = $db->selectObject("user_address","uid=".$user->id);
+		}
 		return $user;
 	}
 	
@@ -99,6 +97,17 @@ class addressextension {
 	function hasData() {
 		global $db;
 		return ($db->countObjects("user_address") != 0);
+	}
+	
+	function _blankAddress() {
+		$address = null;
+		$address->address1 = "";
+		$address->address2 = "";
+		$address->city = "";
+		$address->state = "";
+		$address->zip = "";
+		$address->country = "";
+		return $address;
 	}
 }
 

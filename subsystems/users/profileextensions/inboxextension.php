@@ -41,8 +41,7 @@ class inboxextension {
 		pathos_lang_loadDictionary('extras','inboxextension');
 	
 		if (!isset($user->_inbox_config)) {
-			$user->_inbox_config = null;
-			$user->_inbox_config->forward = 1;
+			$user->_inbox_config = inboxextension::_blank();
 		}
 		$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.TR_X_INBOXEXTENSION_HEADER.'</b>'));
 		$form->register("inbox_forward",TR_X_INBOXEXTENSION_FORWARD, new checkboxcontrol($user->_inbox_config->forward,true));
@@ -56,7 +55,7 @@ class inboxextension {
 		
 		$inboxcfg = null;
 		$inboxcfg->id = $user->id;
-		$inboxcfg->forward = isset($values['inbox_forward']);
+		$inboxcfg->forward = (isset($values['inbox_forward']) ? 1 : 0);
 		
 		$db->insertObject($inboxcfg,"inbox_userconfig");
 		return $user;
@@ -64,7 +63,11 @@ class inboxextension {
 	
 	function getProfile($user) {
 		global $db;
-		$user->_inbox_config = $db->selectObject("inbox_userconfig","id=".$user->id);
+		if (!isset($user->id)) {
+			$user->_inbox_config = inboxextension::_blank();
+		} else {
+			$user->_inbox_config = $db->selectObject("inbox_userconfig","id=".$user->id);
+		}
 		return $user;
 	}
 	
@@ -81,6 +84,11 @@ class inboxextension {
 	function hasData() {
 		global $db;
 		return ($db->countObjects("inbox_userconfig") != 0);
+	}
+	
+	function _blank() {
+		$cfg = null;;
+		$cfg->forward = 1;
 	}
 }
 
