@@ -52,7 +52,7 @@ define("SYS_SMTP",1);
  * @param string $callback The name of a callback function for processing each message
  * @node Subsystems:SMTP
  */
-function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callback="") {
+function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callback="",$udata=null) {
 
 	$from = SMTP_FROMADDRESS; // For shared hosters
 
@@ -65,7 +65,7 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 	if (!isset($headers["Date"])) $headers["Date"] = strftime("%a, %b %d %Y %R:%S %Z",time());
 	if (!isset($headers["Reply-to"])) $headers["Reply-to"] = $from;
 	
-	$message = str_replace("\n","\r\n",str_replace("\r\n","\n",$message));
+	$m = str_replace("\n","\r\n",str_replace("\r\n","\n",$message));
 	
 	$errno = 0;
 	$error = "";
@@ -102,8 +102,9 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 	
 	for ($i = 0; $i < count($to_r); $i++) {
 		$to = $to_r[$i];
+		$message = $m.'';
 		
-		$callback($i,$message,$subject,$headers);
+		$callback($i,$message,$subject,$headers,$udata);
 		
 		$headers["To"] = $to;
 	
