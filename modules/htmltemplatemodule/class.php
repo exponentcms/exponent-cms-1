@@ -59,20 +59,15 @@ class htmltemplatemodule {
 			pathos_permissions_check('edit',$loc) ||
 			pathos_permissions_check('delete',$loc)
 		) {
-			$template = new template('htmltemplatemodule',$view);
+			$template = new template('htmltemplatemodule',$view,$loc);
 			
 			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 			$directory = 'files/htmltemplatemodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
-				switch(pathos_files_makeDirectory($directory)) {
-					case SYS_FILES_FOUNDFILE:
-						$template->assign('noupload',1);
-						$template->assign('uploadError','Found a file in the directory path.');
-						break;
-					case SYS_FILES_NOTWRITABLE:
-						$template->assign('noupload',1);
-						$template->assign('uploadError','Unable to create directory to store files in.');
-						break;
+				$err = pathos_files_makeDirectory($directory);
+				if ($err != SYS_FILES_SUCCESS) {
+					$template->assign('noupload',1);
+					$template->assign('uploadError',$err);
 				}
 			}
 			
@@ -92,8 +87,6 @@ class htmltemplatemodule {
 			$template->register_permissions(
 				array('administrate','create','edit','delete'),
 				pathos_core_makeLocation('htmltemplatemodule'));
-			
-			$template->assign('linkbase','?module=htmltemplatemodule&action=');
 			
 			$template->output();
 		}

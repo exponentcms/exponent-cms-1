@@ -30,19 +30,26 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{$linkbase}userperms&_common"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions on this HTML Template Editor" alt="Assign user permissions on this HTML Template Editor" /></a>&nbsp;
-	<a href="{$linkbase}groupperms&_common"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this HTML Template Editor" alt="Assign group permissions on this HTML Template Editor" /></a>
+	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions on this HTML Template Editor" alt="Assign user permissions on this HTML Template Editor" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this HTML Template Editor" alt="Assign group permissions on this HTML Template Editor" /></a>
 	<br />
 {/if}
 {/permissions}
 {if $moduletitle != ""}<div class="moduletitle htmltemplate_moduletitle">{$moduletitle}</div>{/if}
 {if $noupload == 1}
-Uploads have been disabled.  {$uploadError}<br />
+<div class="error">
+Uploads have been disabled.<br />
+{if $uploadError == $smarty.const.SYS_FILES_FOUNDFILE}Found a file in the directory path when creating the directory to store the files in.
+{else if $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}Unable to create directory to store files in.
+{else}An unknown error has occurred.  Please contact the Exponent Developers.
+{/if}
+</div>
+<br />
 {else}
 Uploads are enabled.<br />
 {/if}
 {* Association manager currently not properly working
-Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{$linkbase}manage_assocs">Association Manager</a>
+Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=manage_assocs}">Association Manager</a>
 *}
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
