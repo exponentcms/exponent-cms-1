@@ -101,7 +101,7 @@ class section {
 			// when the form is submitted.
 			$form->meta('parent',$object->parent);
 		} else if ($object->parent >= 0) {
-			// Allow them to change parents, but not if the section is outside of the hiearchy (parent > 0)
+			// Allow them to change parents, but not if the section is outside of the hiearchy (parent < 0)
 			$form->register('parent',TR_NAVIGATIONMODULE_PARENTSECTION,new dropdowncontrol($object->parent,navigationmodule::hierarchyDropdownControlArray(0,array($object->id))));
 		}
 		
@@ -235,6 +235,10 @@ class section {
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
+		
+		if (!isset($object->id)) {
+			$object->internal_id = 0;
+		}
 		
 		// Grab the basic form that all page types share
 		// This has the name and positional dropdowns registered.
