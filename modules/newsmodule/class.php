@@ -132,6 +132,7 @@ class newsmodule {
 			$nloc->mod = $loc->mod;
 			$nloc->src = $loc->src;
 			$nloc->int = $news[$i]->id;
+			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
 			
 			$news[$i]->permissions = array(
 				"edit_item"=>((pathos_permissions_check("edit_item",$loc) || pathos_permissions_check("edit_item",$nloc)) ? 1 : 0),
@@ -139,6 +140,7 @@ class newsmodule {
 				"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$nloc)) ? 1 : 0)
 			);
 		}
+		
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects("newsitem_wf_info","location_data='".serialize($loc)."'");
 		$template->assign("canview_approval_link",$canviewapproval);

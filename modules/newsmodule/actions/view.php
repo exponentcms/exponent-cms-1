@@ -47,6 +47,9 @@ if (!defined("PATHOS")) exit("");
 			"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$iloc)) ? 1 : 0)
 		);
 		
+		
+		$news->real_posted = ($news->publish != 0 ? $news->publish : $news->posted);
+		
 		$view = (isset($_GET['view']) ? $_GET['view'] : "_viewSingle");
 		$template = new Template("newsmodule",$view,$loc);
 		
