@@ -36,18 +36,18 @@
  * that the subsystem has been included for use.
  * @node Subsystems:Modules
  */
-define("SYS_MODULES",1);
+define('SYS_MODULES',1);
 
 /* exdoc
  * This includes all modules available to the system, for use later.
  * @node Subsystems:Modules
  */
 function pathos_modules_initialize() {
-	if (is_readable(BASE."modules")) {
-		$dh = opendir(BASE."modules");
+	if (is_readable(BASE.'modules')) {
+		$dh = opendir(BASE.'modules');
 		while (($file = readdir($dh)) !== false) {
-			if (is_readable(BASE."modules/$file/class.php")) {
-				include_once(BASE."modules/$file/class.php");
+			if (is_dir(BASE.'modules/'.$file) && is_readable(BASE.'modules/'.$file.'/class.php')) {
+				include_once(BASE.'modules/'.$file.'/class.php');
 			}
 		}
 	}

@@ -96,6 +96,9 @@ function pathos_theme_sourceSelectorInfo() {
  */
 function pathos_theme_headerInfo($section) {
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
+	// Added as per mouton_io's suggestion:
+	// http://sourceforge.net/tracker/index.php?func=detail&aid=1162656&group_id=118524&atid=681366
+	header('Content-Type: text/html; charset='.$langinfo['charset']);
 	$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
 	$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
 	$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
