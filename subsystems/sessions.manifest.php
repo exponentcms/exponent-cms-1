@@ -1,9 +1,10 @@
 <?php
-#blah
+
 return array(
-	"subsystems/sessions.php"=>"bbb9e158836a3f564f36065bbf5ab48b",
-	"subsystems/sessions.info.php"=>"",
-	"datatypes/definitions/sessionticket.php"=>"",
+	'subsystems/sessions.php'=>'',
+	'subsystems/sessions.info.php'=>'',
+	'subsystems/sessions.manifest.php'=>1,
+	'datatypes/definitions/sessionticket.php'=>'',
 );
 
 ?>
