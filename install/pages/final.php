@@ -44,9 +44,9 @@ Installation Compete - Congratulations!
 <?php
 
 unlink(BASE.'install/not_configured');
-if (!file_exists(BASE.'install/configured')) {
+if (file_exists(BASE.'install/not_configured')) {
 	echo '<br /><br />';
-	echo 'Unable to create the file install/configured.  You will have to manually create this file.';
+	echo '<span style="color: red">Unable to remove the file install/not_configured.  You will have to manually remove this file.</span>';
 }
 
 ?>
