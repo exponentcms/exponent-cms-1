@@ -33,17 +33,21 @@
  
 if (!defined('PATHOS')) exit('');
 
-if (!defined('SYS_USERS')) include_once('subsystems/users.php');
-if (!defined('SYS_FORMS')) include_once('subsystems/forms.php');
-pathos_forms_initialize();
+if ($user) {
+	if (!defined('SYS_USERS')) include_once('subsystems/users.php');
+	if (!defined('SYS_FORMS')) include_once('subsystems/forms.php');
+	pathos_forms_initialize();
+	
+	$form = pathos_users_form($user);
+	$form->meta('module','loginmodule');
+	$form->meta('action','saveprofile');
+	
+	$template = new template('loginmodule','_form_editProfile',$loc);
+	$template->assign('form_html',$form->toHTML());
+	$template->output();
+} else {
+	echo SITE_403_HTML;
+}
 
-$form = pathos_users_form($user);
-$form->meta('module','loginmodule');
-$form->meta('action','saveprofile');
-
-$template = new template('loginmodule','_form_editProfile',$loc);
-$template->assign('form_html',$form->toHTML());
-$template->output();
-pathos_forms_cleanup();
 
 ?>
