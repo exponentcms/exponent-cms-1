@@ -31,21 +31,21 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $tables = $db->getTables();
-if (!function_exists("tmp_removePrefix")) {
+if (!function_exists('tmp_removePrefix')) {
 	function tmp_removePrefix($tbl) {
 		// we add 1, because DB_TABLE_PREFIX  no longer has the trailing
 		// '_' character - that is automatically added by the database class.
 		return substr($tbl,strlen(DB_TABLE_PREFIX)+1);
 	}
 }
-$tables = array_map("tmp_removePrefix",$tables);
-usort($tables,"strnatcmp");
+$tables = array_map('tmp_removePrefix',$tables);
+usort($tables,'strnatcmp');
 
-$template = new template("exporter","_eql_tableList",$loc);
-$template->assign("tables",$tables);
+$template = new template('exporter','_eql_tableList',$loc);
+$template->assign('tables',$tables);
 $template->output();
 
 ?>

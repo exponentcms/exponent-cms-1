@@ -31,9 +31,11 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('exporters','eql');
+
 return array(
-	"name"=>"EQL Database Export",
-	"description"=>"Export the data in your site database to EQL (Exponent Query Language) format.",
+	"name"=>TR_EXPORTER_EQL_NAME,
+	"description"=>TR_EXPORTER_EQL_DESCRIPTION,
 	"author"=>"James Hunt"
 );
 
