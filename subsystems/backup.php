@@ -117,21 +117,28 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 		$eql_version = $version[1]+0;
 		$current_version = PATHOS+0;
 		
-		// Check version and run it through the necessary version converters.
+		$fprefix = '';
+		// Check version and include necessary converters
+		if ($eql_version != $current_version) {
+			include_once(BASE.'subsystems/backup/'.$eql_version.'.php');
+			$fprefix = 'pathos_backup_'.join('',explode('.',$eql_version)).'_';
+		}
 		
-		
-		
-		$table = "";
+		$table = '';
+		$table_function = '';
 		for ($i = 2; $i < count($lines); $i++) {
 			$line_number = $i;
 			$line = trim($lines[$i]);
-			if ($line != "") {
-				$pair = explode(":",$line);
-				$pair[1] = implode(":",array_slice($pair,1));
+			if ($line != '') {
+				$pair = explode(':',$line);
+				$pair[1] = implode(':',array_slice($pair,1));
 				$pair = array_slice($pair,0,2);
 				
-				if ($pair[0] == "TABLE") {
+				if ($pair[0] == 'TABLE') {
 					$table = $pair[1];
+					if ($fprefix != '') {
+						$table_function = $fprefix.$table;
+					}
 					if ($db->tableExists($table)) {
 						$db->delete($table);
 					} else {
@@ -149,11 +156,18 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 					// Here we need to check the conversion scripts.
 					$pair[1] = str_replace("\\r\\n","\r\n",$pair[1]);
 					$object = unserialize($pair[1]);
-					$db->insertObject($object,$table);
+					if (function_exists($table_function)) {
+						$table_function($db,$object);
+					} else {
+						$db->insertObject($object,$table);
+					}
 				} else {
 					$errors[] = sprintf(TR_BACKUPSUBSYSTEM_INVALIDTYPE,$line_number);
 				}
 			}
+		}
+		if ($eql_version != $current_version) {
+			include_once(BASE.'subsystems/backup/normalize.php');
 		}
 		return true;
 	} else {
