@@ -31,38 +31,11 @@
 # $Id$
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined("PATHOS")) exit("");
 
-return array(
-	'id'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID,
-		DB_PRIMARY=>true,
-		DB_INCREMENT=>true),
-	'name'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>100),
-	'description'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>10000),
-	'location_data'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>250),
-	'file_id'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	'flock_owner'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	'approved'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	'posted'=>array(
-		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	'poster'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	'edited'=>array(
-		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	'editor'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	'rank'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-);
+if (pathos_permissions_check('edit',$loc)) {
+	$db->switchValues('resourceitem','rank',$_GET['a'],$_GET['b'],"location_data='" . serialize($loc) . "'");
+	pathos_flow_redirect();
+}
 
 ?>

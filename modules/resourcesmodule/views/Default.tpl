@@ -42,7 +42,7 @@
 {/permissions}
 {if $moduletitle != ""}<div class="moduletitle resource_moduletitle">{$moduletitle}</div>{/if}
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-{foreach from=$resources item=resource}
+{foreach name=loop from=$resources item=resource}
 {assign var=id value=$resource->id}
 {assign var=fid value=$resource->file_id}
 <tr><td>
@@ -65,6 +65,25 @@
 <a class="mngmntlink resources_mngmntlink" href="{link action=delete id=$resource->id}" onClick="return confirm('Are you sure you want to delete this Resource ?');">
 	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Resource" alt="Delete this Resource" />
 </a>
+{/if}
+{if $permissions.edit == 1}
+{math assign=thisrank equation="x-1" x=$smarty.foreach.loop.iteration}
+{math assign=prevrank equation="x-2" x=$smarty.foreach.loop.iteration}
+{if $smarty.foreach.loop.first != true}{* move up *}
+<a class="mngmntlink resources_mngmntlink" href="{link action=order a=$thisrank b=$prevrank}">
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" border="0" title="Move Resource Up" alt="Move Resource Up" />
+</a>
+{else}
+<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" border="0" title="Can't Move Resource Up" alt="Can't Move Resource Up" />
+{/if}
+
+{if $smarty.foreach.loop.last != true}{* move down *}
+<a class="mngmntlink resources_mngmntlink" href="{link action=order a=$thisrank b=$smarty.foreach.loop.iteration}">
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0" title="Move Resource Down" alt="Move Resource Down" />
+</a>
+{else}
+<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" border="0" title="Can't Move Resource Down" alt="Can't Move Resource Down" />
+{/if}
 {/if}
 {/permissions}
 </td></tr>

@@ -48,6 +48,11 @@ if (($resource == null && pathos_permissions_check("post",$loc)) ||
 	$resource = resourceitem::update($_POST,$resource);
 	$resource->location_data = serialize($loc);
 	
+	if (!isset($resource->id)) {
+		$resource->rank = $_POST['rank'];
+		$db->increment('resourceitem','rank',1,"location_data='".serialize($loc)."' AND rank >= ".$resource->rank);
+	}
+	
 	if (!isset($resource->file_id)) {
 		$directory = "files/resourcesmodule/".$loc->src;
 		

@@ -51,6 +51,16 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 	
 	$template = new template('resourcesmodule','_form_edit',$loc);
 	
+	if (!isset($resource->id)) {
+		$ranks = array();
+		foreach ($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $item) {
+			$ranks[$item->rank+1] = 'After "'.$item->name.'"';
+		}
+		$ranks[0] = 'At The Top';
+		ksort($ranks);
+		$form->registerBefore('submit','rank','Position',new dropdowncontrol(count($ranks)-1,$ranks));
+	}
+	
 	if (!isset($resource->file_id)) {
 		$form->registerBefore('submit','file',TR_RESOURCESMODULE_NEWFILE,new uploadcontrol());
 		

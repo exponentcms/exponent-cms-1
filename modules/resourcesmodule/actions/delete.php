@@ -46,6 +46,7 @@ if ($resource != null) {
 		}
 		$db->delete("resourceitem","id=".$resource->id);
 		$db->delete("resourceitem_wf_revision","wf_original=".$resource->id);
+		$db->decrement('resourceitem','rank',1,"location_data='".$resource->location_data."' AND rank >= ".$resource->rank);
 		pathos_flow_redirect(SYS_FLOW_SECTIONAL);
 	} else {
 		echo SITE_403_HTML;
