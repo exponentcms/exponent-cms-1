@@ -101,8 +101,8 @@ class datetimecontrol extends formcontrol {
 			$html .= '<input type="text" id="' . $name . '_hour" name="' . $name . '_hour" size="3" maxlength="2" value="' . $hour . '" />';
 			$html .= '<input type="text" id="' . $name . '_minute" name="' . $name . '_minute" size="3" maxlength="2" value="' . $minute . '" />';
 			$html .= '<select id="' . $name . '_ampm" name="' . $name . '_ampm" size="1">';
-			$html .= '<option value="am"' . ($default_date['hours'] <= 12 ? " selected":"") . '>am</option>';
-			$html .= '<option value="pm"' . ($default_date['hours'] <= 12 ? "":" selected") . '>pm</option>';
+			$html .= '<option value="am"' . ($default_date['hours'] < 12 ? " selected":"") . '>am</option>';
+			$html .= '<option value="pm"' . ($default_date['hours'] < 12 ? "":" selected") . '>pm</option>';
 			$html .= '</select>';
 		}
 		return $html;
@@ -118,9 +118,13 @@ class datetimecontrol extends formcontrol {
 		
 		if (isset($formvalues[$original_name."_hour"])) {
 			if ($formvalues[$original_name.'_hour'] == 12 && $formvalues[$original_name.'_ampm'] == 'am') {
+				// 12 am (right after midnight) is 0:xx
 				$formvalues[$original_name.'_hour'] = 0;
+			} else if ($formvalues[$original_name.'_hour'] != 12 && $formvalues[$original_name.'_ampm'] == 'pm') {
+				// 1:00 pm to 11:59 pm shifts 12 hours
+				$formvalues[$original_name.'_hour'] += 12;
 			}
-			$time += ($formvalues[$original_name.'_hour']*3600 + $formvalues[$original_name.'_minute']*60 + (12*3600*($formvalues[$original_name.'_ampm'] == 'am' ? 0 : 1)));
+			$time += $formvalues[$original_name.'_hour']*3600 + $formvalues[$original_name.'_minute']*60;
 		}
 		
 		return $time;
