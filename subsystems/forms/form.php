@@ -212,7 +212,7 @@ class form extends baseform {
 		foreach ($this->controlIdx as $name) {
 			$html .= $this->controls[$name]->toHTML($this->controlLbl[$name],$name) . "\r\n";
 		}
-		$html .= "<tr><td width='5%'></td><td wdith='95%'></tr>\r\n";
+		$html .= "<tr><td width='5%'></td><td width='95%'></td></tr>\r\n";
 		$html .= "</table>\r\n";
 		$html .= "</form>\r\n";
 		return $html;
