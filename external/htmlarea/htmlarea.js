@@ -130,7 +130,7 @@ HTMLArea.Config = function () {
 		  "insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
 		  "forecolor", "hilitecolor", "separator",
 		  "inserthorizontalrule", "createlink", "insertimage", "inserttable", "htmlmode", "separator",
-		  "popupeditor", "separator", "showhelp", "about" ]
+		  "popupeditor" ]
 	];
 
 	this.fontname = {
@@ -209,8 +209,6 @@ HTMLArea.Config = function () {
 		inserttable: [ "Insert Table", "inserttable.gif", false, function(e) {e.execCommand("inserttable");} ],
 		htmlmode: [ "Toggle HTML Source", "htmlmode.gif", true, function(e) {e.execCommand("htmlmode");} ],
 		popupeditor: [ "Enlarge Editor", "popupeditor.gif", true, function(e) {e.execCommand("popupeditor");} ],
-		about: [ "About this editor", "about.gif", true, function(e) {e.execCommand("about");} ],
-		showhelp: [ "Help using editor", "showhelp.gif", true, function(e) {e.execCommand("showhelp");} ],
 		undo: [ "Undoes your last action", "undo.gif", false, function(e) {e.execCommand("undo");} ],
 		redo: [ "Redoes your last action", "redo.gif", false, function(e) {e.execCommand("redo");} ],
 		cut: [ "Cut selection", "cut.gif", false, cut_copy_paste ],
