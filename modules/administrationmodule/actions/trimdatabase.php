@@ -36,67 +36,43 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
-	$dropped_tables = array();
+	$droppable_tables = array();
+	
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	
 	foreach ($db->getTables(true) as $table) {
 		if (strpos(DB_TABLE_PREFIX.'_',$table) == 0) {
 			$table = str_replace(DB_TABLE_PREFIX.'_',"",$table);
-			
 			//This is a quick fix to keep this from deleting the formbuilder tables!
-			$tmp = str_replace('formbuilder_',"",$table);
-			if ($db->countObjects('formbuilder_form',"table_name='".$tmp."'") == 0) {
-			
-				if ($db->tableIsEmpty($table)) {
-					$db->dropTable($table);
-					$dropped_tables[] = $table;
+			if (substr($table,0,12) == 'formbuilder_') {
+				$tmp = str_replace('formbuilder_',"",$table);
+				if ($db->countObjects('formbuilder_form',"table_name='".$tmp."'") != 0) {
+					// Ignore this table.
+					continue;
 				}
-			
 			}
+			
+			if (pathos_workflow_isWorkflowTable($table)) {
+				// Ignore workflow tables.
+				continue;
+			}
+			
+			$file = BASE.'datatypes/definitions/'.$table.'.php';
+			if (is_readable($file) && is_file($file)) {
+				// Table file exists.
+				continue;
+			}
+			$droppable_tables[$table] = $db->countObjects($table);
 		}
 	}
 	
-	$dropped_count = count($dropped_tables);
+	$droppable_count = count($droppable_tables);
 	
-	$dir = BASE.'datatypes/definitions';
-	if (is_readable($dir)) {
-		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-		foreach ($dropped_tables as $key=>$tablename) {
-			if (is_readable("$dir/$tablename.php") && is_file("$dir/$tablename.php")) {
-				$dd = include("$dir/$tablename.php");
-				$info = null;
-				if (is_readable("$dir/$tablename.info.php")) $info = include("$dir/$tablename.info.php");
-				
-				$db->createTable($tablename,$dd,$info);
-				
-				// Handle funky workflow situtations
-				if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW] == 1) {
-					pathos_workflow_alterWorkflowTables($tablename,$dd);
-				}
-			} else if (pathos_workflow_isWorkflowTable($tablename)) {
-				$tablename = pathos_workflow_originalTable($tablename);
-				if ($tablename != "") {
-					if (is_readable("$dir/$tablename.php") && is_file("$dir/$tablename.php")) {
-						$dd = include("$dir/$tablename.php");
-						pathos_workflow_alterWorkflowTables($tablename,$dd);
-					}
-				}
-			}
-		}
-		foreach ($dropped_tables as $key=>$tablename) {
-			if ($db->tableExists($tablename)) {
-				unset($dropped_tables[$key]);
-			}
-		}
-	}
-	
-	$real_dropped_count = count($dropped_tables);
-	
-	$template = new Template('administrationmodule','_tableTrimSummary',$loc);
-	$template->assign('status',$dropped_tables);
-	$template->assign('dropped',$dropped_count);
-	$template->assign('real_dropped',$real_dropped_count);
+	#$template = new template('administrationmodule','_tableTrimSummary',$loc);
+	$template = new template('administrationmodule','_trimdatabaseWhich',$loc);
+	$template->assign('droppable_tables',$droppable_tables);
+	$template->assign('droppable_count',$droppable_count);
 	$template->output();
-	
 } else {
 	echo SITE_403_HTML;
 }

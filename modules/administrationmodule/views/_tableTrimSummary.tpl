@@ -28,24 +28,16 @@
  *
  * $Id$
  *}
-<div class="form_title">Trim Database</div>
-<div class="form_header">Exponent is removing tables that are no longer used from its database.  Shown below is a summay of the actions that occured.</div>
+<div class="form_title">Successfully Dropped Selected Tables</div>
+<div class="form_header">Exponent has removed tables that you indicated.  Shown below is a summay of the actions that occured.</div>
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
-{foreach from=$status item=table}
+{foreach from=$dropped_tables item=table}
 <tr class="row {cycle values='odd,even'}_row"><td>
 {$table}
 </td><td>
 <div style="color: red; font-weight: bold">Dropped</div>
 </td></tr>
-{foreachelse}
-<b>No unused tables were found.</b>
 {/foreach}
 </table>
-{if $real_dropped != 0}
-<hr size="1">
-Dropped a total of {$dropped} tables.<br />
-{math assign=diff equation="x-y" x=$dropped y=$real_dropped}
-{if $diff != 0}
-{$diff} empty table{if $diff != 1}s{/if} were re-created.<br />
-{/if}
-{/if}
+<br />
+<a href="{$redirect}">Back</a>
