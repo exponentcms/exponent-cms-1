@@ -103,9 +103,7 @@ class calendar {
 		
 		$object->body = preg_replace('/<br ?\/>$/','',trim($values['body']));
 		
-		if (isset($values['is_allday'])) $object->is_allday = 1;
-		#$object->eventstart = popupdatetimecontrol::parseData("eventstart",$values);
-		#$object->eventend = popupdatetimecontrol::parseData("eventend",$values);
+		$object->is_allday = (isset($values['is_allday']) ? 1 : 0);
 		
 		$object->eventstart = datetimecontrol::parseData('eventstart',$values);
 		$object->eventend = datetimecontrol::parseData('eventend',$values);
