@@ -76,6 +76,14 @@ function sanity_checkConfigFile() {
 		}
 	}
 	
+	$installdir = BASE.'install';
+	if (!is_writable($installdir)) {
+		@chmod($installfile,0777);
+		if (!is_writable($installdir)) {
+			$errors[] = 'Install Directory (install) is not writable.';
+		}
+	}
+	
 	umask($__oldumask);
 }
 

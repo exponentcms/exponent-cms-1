@@ -31,6 +31,9 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
+
+if (!defined('PATHOS')) exit('');
+
 if (!defined("SYS_BACKUP")) include_once(BASE."subsystems/backup.php");
 
 $eql = BASE."install/sitetypes/db/_default.eql";

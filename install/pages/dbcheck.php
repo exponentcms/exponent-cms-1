@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 ?>
 <div class="installer_title">
 <img src="images/blocks.png" width="32" height="32" />

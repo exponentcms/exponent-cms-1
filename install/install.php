@@ -31,6 +31,10 @@
 # $Id$
 ##################################################
 
+if (file_exists('configured')) {
+	exit('This Exponent Site has already been configured.');
+}
+
 if (isset($_POST['c'])) {
 	define("DB_BACKEND",$_POST['c']['db_engine']);
 }

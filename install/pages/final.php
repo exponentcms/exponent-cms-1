@@ -31,18 +31,25 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-pathos_sessions_unset("installer_config");
 
-$components = join('/',array_splice(split('/',$_SERVER['SCRIPT_NAME']),0,-2)).'/';
-if ($components != PATH_RELATIVE) {
-	echo 'NEED TO SCREW WITH overrides.php<br />';
-}
+if (!defined('PATHOS')) exit('');
+
+pathos_sessions_unset("installer_config");
 
 ?>
 <div class="installer_title">
 <img src="images/blocks.png" width="32" height="32" />
 Installation Compete - Congratulations!
 </div>
+<?php
+
+touch(BASE.'install/configured');
+if (!file_exists(BASE.'install/configured')) {
+	echo '<br /><br />';
+	echo 'Unable to create the file install/configured.  You will have to manually create this file.';
+}
+
+?>
 <br /><br />
 Configuration and setup for your new website is complete.
 <br /><br />

@@ -31,6 +31,9 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
+
+if (!defined('PATHOS')) exit('');
+
 include_once("include/sanity.php");
 
 $warnings = array();

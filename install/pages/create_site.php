@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 echo "Installing a " . $_POST['site_type'] ."<br/><br />";
 
 if (!defined("SYS_BACKUP")) include_once(BASE."subsystems/backup.php");

@@ -48,7 +48,7 @@ define('SCRIPT_FILENAME','index.php');
 // Initialize the theme subsystem
 if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
-if (!DEVELOPMENT && is_readable(BASE.'install')) {
+if (!DEVELOPMENT && !is_readable(BASE.'install/configured')) {
 	// In case we are not running in developer mode, and the install/ directory is readable,
 	// drop the user into the 'Not Yet Configured' warning page.
 	include(BASE.'install_warn/install_warn.html');

@@ -30,6 +30,9 @@
 #
 # $Id$
 ##################################################
+
+if (!defined('PATHOS')) exit('');
+
 //GREP:HARDCODEDTEXT
 //GREP:PAGENOTUSED
 ?>
