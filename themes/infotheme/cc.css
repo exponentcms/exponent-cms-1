@@ -148,6 +148,13 @@ div.moduletitle {
 }
 
 
+/* Error Message Style */
+div.error {
+	font-weight: bold;
+	color: #F00;
+	padding-bottom: 1em;
+}
+
 /* Container Styles */
 div.container_box {
 	padding: 6px;

@@ -181,6 +181,14 @@ input#login_username, input#login_password {
 	color: white;
 }
 
+
+/* Error Message Style */
+div.error {
+	font-weight: bold;
+	color: #F00;
+	padding-bottom: 1em;
+}
+
 /* Themable Forms */
 div.form_title {
 	font-size: 14px;

@@ -102,6 +102,13 @@ hr {
 	color: #555;
 }
 
+/* Error Message Style */
+div.error {
+	font-weight: bold;
+	color: #F00;
+	padding-bottom: 1em;
+}
+
 /** Exponent-internals stylings **/
 
 div.moduletitle {
