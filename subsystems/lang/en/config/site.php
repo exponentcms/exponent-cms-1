@@ -11,6 +11,9 @@ define('TR_CONFIG_SITE_USE_LANG_DESC','What language should be used for the Expo
 define('TR_CONFIG_SITE_ALLOW_REGISTRATION','Allow Registration?');
 define('TR_CONFIG_SITE_ALLOW_REGISTRATION_DESC','Whether or not new users should be allowed to create accounts for themselves.');
 
+define('TR_CONFIG_SITE_USE_CAPTCHA','Use CAPTCHA Test?');
+define('TR_CONFIG_SITE_USE_CAPTCHA_DESC','A CAPTCHA (Computer Automated Public Turing Test to Tell Computers and Humans Apart) is a means to prevent massive account registration.  When registering a new user account, the visitor will be required to enter a series of letters and numbers appearing in an image.  This prevents scripted bots from registering a large quantity of accounts.');
+
 define('TR_CONFIG_SITE_KEYWORDS','Keywords');
 define('TR_CONFIG_SITE_KEYWORDS_DESC','Search engine keywords for the site.');
 
