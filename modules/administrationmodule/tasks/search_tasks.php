@@ -31,12 +31,14 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('admintasks','search_tasks');
+
 return array(
-	"Searching"=>array(
-		"spider"=>array(
-			"title"=>"Spider Site",
-			"module"=>"searchmodule",
-			"action"=>"spider"
+	TR_SEARCHTASKS_CAT_NAME=>array(
+		'spider'=>array(
+			'title'=>TR_SEARCHTASKS_ITEM_SPIDER,
+			'module'=>'searchmodule',
+			'action'=>'spider'
 		)
 	)
 );

@@ -31,12 +31,14 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('admintasks','files_tasks');
+
 return array(
-	"Files Subsystem"=>array(
-		"mimetypes"=>array(
-			"title"=>"File Types",
-			"module"=>"filemanager",
-			"action"=>"admin_mimetypes"
+	TR_FILESTASKS_CAT_NAME=>array(
+		'mimetypes'=>array(
+			'title'=>TR_FILESTASKS_ITEM_FILETYPES,
+			'module'=>'filemanager',
+			'action'=>'admin_mimetypes'
 		)
 	)
 );

@@ -31,17 +31,14 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('admintasks','workflow_tasks');
+
 return array(
-	"Workflow"=>array(
-		"manage_policies"=>array(
-			"title"=>"Configure Workflow",
-			"module"=>"workflow",
-			"action"=>"admin_manage_policies"
-#		),
-#		"policy_assoc"=>array(
-#			"title"=>"Policy Associations",
-#			"module"=>"workflow",
-#			"action"=>"assoc_view"
+	TR_WORKFLOWTASKS_CAT_NAME=>array(
+		'manage_policies'=>array(
+			'title'=>TR_WORKFLOWTASKS_ITEM_CONFIG,
+			'module'=>'workflow',
+			'action'=>'admin_manage_policies'
 		)
 	)
 );

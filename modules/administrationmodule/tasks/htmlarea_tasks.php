@@ -31,12 +31,14 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('admintasks','htmlarea_tasks');
+
 return array(
-	"HTMLArea"=>array(
-		"htmlarea_configs"=>array(
-			"title"=>"Toolbar Settings",
-			"module"=>"administrationmodule",
-			"action"=>"htmlarea_configs"
+	TR_HTMLAREATASKS_CAT_NAME=>array(
+		'htmlarea_configs'=>array(
+			'title'=>TR_HTMLAREATASKS_ITEM_TOOLBAR,
+			'module'=>'administrationmodule',
+			'action'=>'htmlarea_configs'
 		)
 	)
 )
