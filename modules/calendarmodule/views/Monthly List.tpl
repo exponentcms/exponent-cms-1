@@ -28,7 +28,9 @@
  *
  * $Id$
  *}
-<a href="{link _common=1 view=Default action=show_view time=$time}">Calendar View</a>&nbsp;&nbsp;|&nbsp;&nbsp;List View<br /><br />
+<a href="{link _common=1 view=Default action=show_view time=$time}">Calendar View</a>&nbsp;&nbsp;|&nbsp;&nbsp;List View<br />
+<a href="#" onClick="window.open('popup.php?module=calendarmodule&src={$__loc->src}&view=Monthly List&template=printerfriendly&time={$time}','printer','title=no,scrollbars=no,width=800,height=600'); return false">Printer-friendly</a>
+<br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=show_view _common=1 view='Monthly List' time=$prev_timestamp}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.png"/></a>
 <b>Month of {$time|format_date:"%B %Y"}</b>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=show_view _common=1 view='Monthly List' time=$next_timestamp}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.png"/></a>
