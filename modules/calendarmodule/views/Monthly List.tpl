@@ -53,8 +53,8 @@
 	{foreach from=$events item=event}
 		{assign var=none value=0}
 		<div class="paragraph">
-		{if $event->is_allday}{$event->eventstart|format_date:"%I:%M %P"}{/if}
 		<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}">{$event->title}</a>
+		{if $event->is_allday == 0}&nbsp;{$event->eventstart|format_date:"%l:%M %P"} - {$event->eventend|format_date:"%l:%M %P"}{/if}
 		{if $permissions.edit == 1 || $event->permissions.edit == 1 || $permissions.delete == 1 || $event->permissions.delete == 1 || $permissions.administrate == 1 || $event->permissions.administrate == 1}
 		<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		{/if}
