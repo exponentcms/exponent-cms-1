@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'flow');
 
 return array(
-	'name'=>'Flow Subsystem',
+	'name'=>TR_FLOWSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A smart redirection layer that allows modules to intelligently redirect users from page to page automatically.',
+	'description'=>TR_FLOWSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

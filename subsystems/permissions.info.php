@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'permissions');
 
 return array(
-	'name'=>'Permissions Manager',
+	'name'=>TR_PERMISSIONSSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A database permissions backend',
+	'description'=>TR_PERMISSIONSSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

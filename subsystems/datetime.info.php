@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'datetime');
 
 return array(
-	'name'=>'Date/Time Subsystem',
+	'name'=>TR_DATETIMESUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A general purpose library of timestamp-based time functions.',
+	'description'=>TR_DATETIMESUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

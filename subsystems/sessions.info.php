@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'sessions');
 
 return array(
-	'name'=>'Sessions Subsystem',
+	'name'=>TR_SESSIONSSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Session-handling abstraction layer.',
+	'description'=>TR_SESSIONSSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

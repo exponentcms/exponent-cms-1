@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'geo');
 
 return array(
-	'name'=>'Geography Subsystem',
+	'name'=>TR_GEOSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A set of interfaces for determining country and region information.',
+	'description'=>TR_GEOSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

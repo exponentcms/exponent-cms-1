@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'info');
 
 return array(
-	'name'=>'Information Subsystem',
+	'name'=>TR_INFOSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Provides reflective processes to look at the software components that make up the system.',
+	'description'=>TR_INFOSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

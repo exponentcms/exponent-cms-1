@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'image');
 
 return array(
-	'name'=>'Image Subsystem',
+	'name'=>TR_IMAGESUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Image Previewing stuff.',
+	'description'=>TR_IMAGESUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

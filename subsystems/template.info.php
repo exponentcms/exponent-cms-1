@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'template');
 
 return array(
-	'name'=>'Template Subsystem',
+	'name'=>TR_TEMPLATESUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A wrapper around the template engine that Exponent uses for its views (currently Smarty).',
+	'description'=>TR_TEMPLATESUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

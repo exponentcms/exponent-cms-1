@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'config');
 
 return array(
-	'name'=>'Configuration Subsystem',
+	'name'=>TR_CONFIGSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Handles configuration profiles',
+	'description'=>TR_CONFIGSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'search');
 
 return array(
-	'name'=>'Search Subsystem',
+	'name'=>TR_SEARCHSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Allows users to search the content of the web site',
+	'description'=>TR_SEARCHSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

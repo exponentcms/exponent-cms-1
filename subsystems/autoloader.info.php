@@ -31,10 +31,12 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('subsystems', 'autoloader');
+
 return array(
-	'name'=>'Autoloader Subsystem',
+	'name'=>TR_AUTOLOADERSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Implements the required support for __autoload in PHP5 (autoloading of classes)',
+	'description'=>TR_AUTOLOADERSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

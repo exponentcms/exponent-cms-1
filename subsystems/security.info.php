@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'security');
 
 return array(
-	'name'=>'Security Subsystem',
+	'name'=>TR_SECURITYSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A means to implement password strength checking when creating new users.  This implementation does no strength checking (any password is accepted).',
+	'description'=>TR_SECURITYSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

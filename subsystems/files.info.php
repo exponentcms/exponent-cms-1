@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'files');
 
 return array(
-	'name'=>'Uploaded Files Subsystem',
+	'name'=>TR_FILESSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Takes care of uploading and managing files.',
+	'description'=>TR_FILESSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'theme');
 
 return array(
-	'name'=>'Theme Subsystem',
+	'name'=>TR_THEMESUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A collection of functions that simplify theme-writing by abstracting away the \'difficult\' parts.',
+	'description'=>TR_THEMESUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

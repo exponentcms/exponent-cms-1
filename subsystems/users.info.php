@@ -30,12 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'users');
 
 return array(
-	'name'=>'User Manager',
+	'name'=>TR_USERSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'The default user manager subsystems stores user information in a database.',
+	'description'=>TR_USERSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
-
 ?>

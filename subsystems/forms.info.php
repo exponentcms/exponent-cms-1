@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'forms');
 
 return array(
-	'name'=>'Dynamic Forms',
+	'name'=>TR_FORMSSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Provides a programmatically-friendly platform for building and modifying HTML forms.',
+	'description'=>TR_FORMSSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'workflow');
 
 return array(
-	'name'=>'Extensible Workflow',
+	'name'=>TR_WORKFLOWSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Provides the ability to create and manage approval policies and workflow.',
+	'description'=>TR_WORKFLOWSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

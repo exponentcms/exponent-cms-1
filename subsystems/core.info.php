@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'core');
 
 return array(
-	'name'=>'Core Subsystem',
+	'name'=>TR_CORESUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Provides core functions (like Location handlers) that are vital to Exponent.',
+	'description'=>TR_CORESUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

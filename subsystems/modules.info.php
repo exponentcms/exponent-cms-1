@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'modules');
 
 return array(
-	'name'=>'Modules Subsystem',
+	'name'=>TR_MODULESSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Module management / querying subsystem that knows how to get to modules and use them.',
+	'description'=>TR_MODULESSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'sharedcore');
 
 return array(
-	'name'=>'Shared Core Subsystem',
+	'name'=>TR_SHAREDCORESUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Supporting backend for the Multi-Site Manager',
+	'description'=>TR_SHAREDCORESUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

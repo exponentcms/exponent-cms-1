@@ -30,11 +30,11 @@
 #
 # $Id$
 ##################################################
-
+pathos_lang_loadDictionary('subsystems', 'backup');
 return array(
-	'name'=>'Backup Subsystem',
+	'name'=>TR_BACKUPSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'Provides the necessary means to backup and restore certain parts of the site.',
+	'description'=>TR_BACKUPSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'javascript');
 
 return array(
-	'name'=>'Javascript Subsystem',
+	'name'=>TR_JAVASCRIPTSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A PHP->Javascript translation layer that generates Javascript code for PHP objects and arrays.',
+	'description'=>TR_JAVASCRIPTSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

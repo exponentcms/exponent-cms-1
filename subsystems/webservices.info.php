@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'webservices');
 
 return array(
-	'name'=>'Webservices Subsystem',
+	'name'=>TR_WEBSERVICESSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A wrapper around either NuSOAP or the built-in PHP5 SOAP platform.  This subsystem enables parts of the system to provide and consume SOAP web services over HTTP.',
+	'description'=>TR_WEBSERVICESSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 

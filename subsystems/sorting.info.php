@@ -30,11 +30,12 @@
 #
 # $Id$
 ##################################################
+pathos_lang_loadDictionary('subsystems', 'sorting');
 
 return array(
-	'name'=>'Sorting Subsystem',
+	'name'=>TR_SORTINGSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>'A collection of general purpose sorting callback functions.',
+	'description'=>TR_SORTINGSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 
