@@ -42,39 +42,39 @@ class addressbookmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
-		if ($internal == "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','addressbookmodule');
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-		//		"configure"=>"Configure",
-				"post"=>"Create Contacts",
-				"edit"=>"Edit Contacts",
-				"delete"=>"Delete Contacts"
+				'administrate'=>TR_ADDRESSBOOKMODULE_PERM_ADMIN,
+				'post'=>TR_ADDRESSBOOKMODULE_PERM_POST,
+				'edit'=>TR_ADDRESSBOOKMODULE_PERM_EDIT,
+				'delete'=>TR_ADDRESSBOOKMODULE_PERM_DELETE
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"edit"=>"Edit Contact",
-				"delete"=>"Delete Contact"
+				'administrate'=>TR_ADDRESSBOOKMODULE_PERM_ADMIN,
+				'edit'=>TR_ADDRESSBOOKMODULE_PERM_EDITONE,
+				'delete'=>TR_ADDRESSBOOKMODULE_PERM_DELETEONE
 			);
 		}
 	}
 
 	function getLocationHierarchy($loc) {
-		if ($loc->int == "") return array($loc);
+		if ($loc->int == '') return array($loc);
 		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
 	}
 	
-	function show($view,$loc = null,$title = "") {
+	function show($view,$loc = null,$title = '') {
 		global $db;
 		$contacts = addressbookmodule::getContacts($loc);
 		
-		$template = new template("addressbookmodule",$view,$loc);
+		$template = new template('addressbookmodule',$view,$loc);
 		
-		$template->assign("contacts",$contacts);
-		$template->assign("moduletitle",$title);
+		$template->assign('contacts',$contacts);
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array("administrate","post","edit","delete"),
+			array('administrate','post','edit','delete'),
 			$loc
 		);
 		
@@ -91,7 +91,7 @@ class addressbookmodule {
 		foreach ($db->selectObjects("addressbook_contact","location_data='".serialize($oloc)."'") as $entry) {
 			$entry->location_data = serialize($nloc);
 			unset($entry->id);
-			$db->insertObject($entry,"addressbook_contact");
+			$db->insertObject($entry,'addressbook_contact');
 		}
 		
 	}
@@ -104,9 +104,9 @@ class addressbookmodule {
 			
 			$iloc = pathos_core_makeLocation($location->mod,$location->src,$c->id);
 			$contacts[$c->id]->permissions = array(
-				"administrate"=>pathos_permissions_check("administrate",$iloc),
-				"edit"=>pathos_permissions_check("edit",$iloc),
-				"delete"=>pathos_permissions_check("delete",$iloc)
+				'administrate'=>pathos_permissions_check('administrate',$iloc),
+				'edit'=>pathos_permissions_check('edit',$iloc),
+				'delete'=>pathos_permissions_check('delete',$iloc)
 			);
 		}
 		return $contacts;

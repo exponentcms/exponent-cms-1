@@ -44,47 +44,47 @@ class imagemanagermodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal) {
-		if ($internal == "") {
+		pathos_lang_loadDictionary('modules','imagemanagermodule');
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-			//	"configure"=>"Configure",
-				"post"=>"Upload",
-				"edit"=>"Edit",
-				"delete"=>"Delete"
+				'administrate'=>TR_IMAGEMANAGERMODULE_PERM_ADMIN,
+				'post'=>TR_IMAGEMANAGERMODULE_PERM_POST,
+				'edit'=>TR_IMAGEMANAGERMODULE_PERM_EDIT,
+				'delete'=>TR_IMAGEMANAGERMODULE_PERM_DELETE
 			);
 		} else {
 			return array(
-				"post"=>"Upload",
-				"edit"=>"Edit",
-				"delete"=>"Delete"
+				#'post'=>'Upload',
+				'edit'=>TR_IMAGEMANAGERMODULE_PERM_EDITONE,
+				'delete'=>TR_IMAGEMANAGERMODULE_PERM_DELETEONE
 			);
 		}
 	}
 	
-	function show($view,$loc,$title = "") {
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
-		$directory = "files/imagemanagermodule/".$loc->src;
+	function show($view,$loc,$title = '') {
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		$directory = 'files/imagemanagermodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
 			switch(pathos_files_makeDirectory($directory)) {
 				case SYS_FILES_FOUNDFILE:
-					echo "Found a file in the directory path.";
+					echo 'Found a file in the directory path.';
 					return;
 				case SYS_FILES_NOTWRITABLE:
-					echo "Unable to create directory to store files in.";
+					echo 'Unable to create directory to store files in.';
 					return;
 			}
 		}
 		
-		$template = new template("imagemanagermodule",$view,$loc);
+		$template = new template('imagemanagermodule',$view,$loc);
 		
 		global $db;
 		$items = $db->selectObjects("imagemanageritem","location_data='".serialize($loc)."'");
 		$files = $db->selectObjectsIndexedArray("file","directory='$directory'");
-		$template->assign("items",$items);
-		$template->assign("files",$files);
-		$template->assign("moduletitle",$title);
+		$template->assign('items',$items);
+		$template->assign('files',$files);
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array("administrate"/*,"configure"*/,"post","edit","delete"),
+			array('administrate','post','edit','delete'),
 			$loc);
 		
 		$template->output();
@@ -92,17 +92,17 @@ class imagemanagermodule {
 	
 	function deleteIn($loc) {
 		global $db;
-		$directory = "files/imagemanagermodule/".$loc->src;
+		$directory = 'files/imagemanagermodule/'.$loc->src;
 		foreach ($db->selectObjectsIndexedArray("file","directory='$directory'") as $file) {
 			file::delete($file);
 		}
 		rmdir(BASE.$directory);
-		$db->delete("imagemanageritem","location_data='".serialize($loc)."'");
+		$db->delete('imagemanageritem',"location_data='".serialize($loc)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {
 		global $db;
-		$directory = "files/imagemanagermodule/".$nloc->src;
+		$directory = 'files/imagemanagermodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory)) {
 			switch(pathos_files_makeDirectory($directory)) {
 				case SYS_FILES_FOUNDFILE:
@@ -111,16 +111,16 @@ class imagemanagermodule {
 			}
 		}
 		foreach ($db->selectObjects("imagemanageritem","location_data='".serialize($oloc)."'") as $i) {
-			$file = $db->selectObject("file","id=".$i->file_id);
-			copy($file->directory."/".$file->filename,$directory."/".$file->filename);
+			$file = $db->selectObject('file','id='.$i->file_id);
+			copy($file->directory.'/'.$file->filename,$directory.'/'.$file->filename);
 			$file->directory = $directory;
 			unset($file->id);
-			$file->id = $db->insertObject($file,"file");
+			$file->id = $db->insertObject($file,'file');
 			
 			$i->location_data = serialize($nloc);
 			unset($i->id);
 			$i->file_id = $file->id;
-			$db->insertObject($i,"imagemanageritem");
+			$db->insertObject($i,'imagemanageritem');
 		}
 	}
 	

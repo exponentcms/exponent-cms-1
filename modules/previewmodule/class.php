@@ -54,13 +54,13 @@ class previewmodule {
 	
 	}
 	
-	function show($view,$loc = null, $title = "") {
-		$template = new template("previewmodule",$view,$loc);
+	function show($view,$loc = null, $title = '') {
+		$template = new template('previewmodule',$view,$loc);
 		
-		$preview = (pathos_sessions_get("preview_user") != null);
-		$template->assign("editMode",pathos_sessions_loggedIn() && !$preview);
-		$template->assign("title",$title);
-		$template->assign("previewMode",$preview);
+		$preview = (pathos_sessions_get('preview_user') != null);
+		$template->assign('editMode',pathos_sessions_loggedIn() && !$preview);
+		$template->assign('title',$title);
+		$template->assign('previewMode',$preview);
 		
 		$template->output($view);
 	}

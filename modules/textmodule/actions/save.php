@@ -31,21 +31,21 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (isset($_POST['id'])) {
-	$textitem = $db->selectObject("textitem","id=".$_POST['id']);
+	$textitem = $db->selectObject('textitem','id='.$_POST['id']);
 	if ($textitem) {
 		$loc = unserialize($textitem->location_data);
 	}
 }
 
-if (pathos_permissions_check("edit",$loc)) {
+if (pathos_permissions_check('edit',$loc)) {
 	$textitem = textitem::update($_POST,$textitem);
 	$textitem->location_data = serialize($loc);
 	pathos_template_clear();
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-	pathos_workflow_post($textitem,"textitem",$loc);
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	pathos_workflow_post($textitem,'textitem',$loc);
 } else {
 	echo SITE_403_HTML;
 }

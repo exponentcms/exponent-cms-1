@@ -41,10 +41,11 @@ class inboxmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','inboxmodule');
 		return array(
-			"administrate"=>"Administrate",
-			"contact_all"=>"Contact All Users",
+			'administrate'=>TR_INBOXMODULE_PERM_ADMIN,
+			'contact_all'=>TR_INBOXMODULE_PERM_CONTACTALL
 		);
 	}
 	
@@ -59,17 +60,17 @@ class inboxmodule {
 	function show($view,$loc,$title) {
 		global $db, $user;
 		if ($user) {
-			$template = new template("inboxmodule",$view,$loc);
+			$template = new template('inboxmodule',$view,$loc);
 			
-			$read = $db->countObjects("privatemessage","recipient=".$user->id." AND unread=0");
-			$unread = $db->countObjects("privatemessage","recipient=".$user->id." AND unread=1");
+			$read = $db->countObjects('privatemessage','recipient='.$user->id.' AND unread=0');
+			$unread = $db->countObjects('privatemessage','recipient='.$user->id.' AND unread=1');
 			
-			$template->assign("readMessages",$read);
-			$template->assign("unreadMessages",$unread);
-			$template->assign("totalMessages",$unread+$read);
-			$template->assign("user",$user);
-			$template->assign("moduletitle",$title);
-			$template->register_permissions("administrate",$loc);
+			$template->assign('readMessages',$read);
+			$template->assign('unreadMessages',$unread);
+			$template->assign('totalMessages',$unread+$read);
+			$template->assign('user',$user);
+			$template->assign('moduletitle',$title);
+			$template->register_permissions('administrate',$loc);
 			$template->output();
 		}
 	}

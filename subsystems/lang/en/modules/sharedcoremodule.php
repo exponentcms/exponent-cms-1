@@ -2,6 +2,10 @@
 
 // I18n constants for Shared Core Module
 
+// Permissions
+define('TR_SHAREDCOREMODULE_PERM_ADMIN','Administrate');
+define('TR_SHAREDCOREMODULE_PERM_CONFIG','Configure');
+
 define('TR_SHAREDCOREMODULE_CORENAME','Core Name');
 define('TR_SHAREDCOREMODULE_COREPATH','Path');
 

@@ -42,22 +42,22 @@ class resourcesmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
-		if ($internal == "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','resourcesmodule');
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-			//	"configure"=>"Configure",
-				"post"=>"Upload Resources",
-				"edit"=>"Edit Resources",
-				"delete"=>"Delete Resources",
-				"manage_approval"=>"Manage Revisions"
+				'administrate'=>TR_RESOURCESMODULE_PERM_ADMIN,
+				'post'=>TR_RESOURCESMODULE_PERM_POST,
+				'edit'=>TR_RESOURCESMODULE_PERM_EDIT,
+				'delete'=>TR_RESOURCESMODULE_PERM_DELETE,
+				'manage_approval'=>TR_RESOURCESMODULE_PERM_MANAGEREV
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"edit"=>"Edit Resource",
-				"delete"=>"Delete Resource",
-				"manage_approval"=>"Manage Revisions"
+				'administrate'=>TR_RESOURCESMODULE_PERM_ADMIN,
+				'edit'=>TR_RESOURCESMODULE_PERM_EDITONE,
+				'delete'=>TR_RESOURCESMODULE_PERM_DELETEONE,
+				'manage_approval'=>TR_RESOURCESMODULE_PERM_MANAGEREV
 			);
 		}
 	}

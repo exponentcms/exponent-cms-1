@@ -66,12 +66,13 @@ class textmodule {
 	}
 
 	function permissions($internal = "") {
+		pathos_lang_loadDictionary('modules','textmodule');
 		return array(
-			"administrate"=>"Administrate",
+			"administrate"=>TR_TEXTMODULE_PERM_ADMIN,
 		//	"configure"=>"Configure",
-			"edit"=>"Edit Text",
-			"approve"=>"Approve Text",
-			"manage_approval"=>"Manage Approval"
+			"edit"=>TR_TEXTMODULE_PERM_EDIT,
+			"approve"=>TR_TEXTMODULE_PERM_APPROVE,
+			"manage_approval"=>TR_TEXTMODULE_PERM_MANAGEAP
 		);
 	}
 
@@ -94,14 +95,16 @@ class textmodule {
 	function spiderContent($item=null) {
 		global $db;
 		
-		if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
+		pathos_lang_loadDictionary('modules','textmodule');
+		
+		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
 		$search = null;
-		$search->title = "";
-		$search->view_link = "";
-		$search->category = "Page";
-		$search->ref_module = "textmodule";
-		$search->ref_type = "textitem";
+		$search->title = '';
+		$search->view_link = '';
+		$search->category = TR_TEXTMODULE_SEARCHTYPE;
+		$search->ref_module = 'textmodule';
+		$search->ref_type = 'textitem';
 		
 		if ($item) {
 			$db->delete("search","ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $item->id);

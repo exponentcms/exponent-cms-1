@@ -13,4 +13,16 @@ define('TR_CALENDARMODULE_RECURRENCE','Recurrence');
 define('TR_CALENDARMODULE_ENABLECATEGORIES','Enable Categories?');
 define('TR_CALENDARMODULE_ENABLEFEEDBACK','Enable Feedback?');
 
+// Permissions
+define('TR_CALENDARMODULE_PERM_ADMIN','Administrate');
+define('TR_CALENDARMODULE_PERM_CONFIG','Configure');
+define('TR_CALENDARMODULE_PERM_POST','Create');
+define('TR_CALENDARMODULE_PERM_EDIT','Edit');
+define('TR_CALENDARMODULE_PERM_DELETE','Delete');
+define('TR_CALENDARMODULE_PERM_APPROVE','Approve');
+define('TR_CALENDARMODULE_PERM_MANAGEAP','Manage Approval');
+
+define('TR_CALENDARMODULE_PERM_EDITONE','Edit');
+define('TR_CALENDARMODULE_PERM_DELETEONE','Delete');
+
 ?>

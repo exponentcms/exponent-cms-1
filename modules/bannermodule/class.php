@@ -42,12 +42,13 @@ class bannermodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions() {
+	function permissions($internal = '') {	
+		pathos_lang_loadDictionary('modules','bannermodule');
 		return array(
-			"administrate"=>"Administrate",
-			"configure"=>"Configure",
-			"manage"=>"Manage Banners",
-			"manage_af"=>"Manage Affiliates"
+			"administrate"=>TR_BANNERMODULE_PERM_ADMIN,
+			"configure"=>TR_BANNERMODULE_PERM_CONFIG,
+			"manage"=>TR_BANNERMODULE_PERM_MANAGEBAN,
+			"manage_af"=>TR_BANNERMODULE_PERM_MANAGEAF
 		);
 	}
 	
@@ -64,8 +65,8 @@ class bannermodule {
 	}
 	
 	function copyContent($oloc,$nloc) {
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
-		$directory = "files/bannermodule/".$nloc->src;
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		$directory = 'files/bannermodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory)) {
 			switch(pathos_files_makeDirectory($directory)) {
 				case SYS_FILES_FOUNDFILE:
@@ -76,45 +77,45 @@ class bannermodule {
 		
 		global $db;
 		foreach ($db->selectObjects("banner_ad","location_data='".serialize($oloc)."'") as $banner) {
-			$file = $db->selectObject("file","id=".$banner->file_id);
+			$file = $db->selectObject('file','id='.$banner->file_id);
 			
-			copy($file->directory."/".$file->filename,$directory."/".$file->filename);
+			copy($file->directory.'/'.$file->filename,$directory.'/'.$file->filename);
 			$file->directory = $directory;
 			unset($file->id);
-			$file->id = $db->insertObject($file,"file");
+			$file->id = $db->insertObject($file,'file');
 			
 			$banner->location_data = serialize($nloc);
 			$banner->file_id = $file->id;
 			unset($banner->id);
-			$db->insertObject($banner,"banner_ad");
+			$db->insertObject($banner,'banner_ad');
 		}
 	}
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 	}
-	function show($view,$loc, $title = "") {
+	function show($view,$loc, $title = '') {
 		global $db;
 		
-		$template = new template("bannermodule",$view,$loc);
-		$template->assign("title",$title);
+		$template = new template('bannermodule',$view,$loc);
+		$template->assign('title',$title);
 		
-		$viewconfig = array("type"=>"default","number"=>1);
+		$viewconfig = array('type'=>'default','number'=>1);
 		if (is_readable($template->viewdir."/$view.config")) $viewconfig = include($template->viewdir."/$view.config");
-		if ($viewconfig['type'] == "affiliates") {
-			$af = $db->selectObjects("banner_affiliate");
+		if ($viewconfig['type'] == 'affiliates') {
+			$af = $db->selectObjects('banner_affiliate');
 			for ($i = 0; $i < count($af); $i++) {
-				$af[$i]->bannerCount = $db->countObjects("banner_ad","affiliate_id=".$af[$i]->id);
+				$af[$i]->bannerCount = $db->countObjects('banner_ad','affiliate_id='.$af[$i]->id);
 				$af[$i]->contact_info = str_replace("\n","<br />",$af[$i]->contact_info);
 			}
-			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-			usort($af,"pathos_sorting_byNameAscending");
+			if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+			usort($af,'pathos_sorting_byNameAscending');
 			
-			$template->assign("affiliates",$af);
+			$template->assign('affiliates',$af);
 		} else {
-			if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		
-			$directory = "files/bannermodule/" . $loc->src;
+			$directory = 'files/bannermodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
 				switch(pathos_files_makeDirectory($directory)) {
 					case SYS_FILES_FOUNDFILE:

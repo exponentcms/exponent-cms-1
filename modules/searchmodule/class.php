@@ -32,9 +32,9 @@
 ##################################################
 
 class searchmodule {
-	function name() { return "Search Module"; }
-	function description() { return "Allows users to search the content of the site."; }
-	function author() { return "James Hunt"; }
+	function name() { return 'Search Module'; }
+	function description() { return 'Allows users to search the content of the site.'; }
+	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return false; }
@@ -42,20 +42,21 @@ class searchmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','searchmodule');
 		return array(
-			"administrate"=>"Administrate",
-			"configure"=>"Configure",
+			'administrate'=>TR_SEARCHMODULE_PERM_ADMIN,
+			'configure'=>TR_SEARCHMODULE_PERM_CONFIG
 		);
 	}
 	
-	function show($view,$loc = null, $title = "") {
-		$template = new template("searchmodule",$view,$loc);
+	function show($view,$loc = null, $title = '') {
+		$template = new template('searchmodule',$view,$loc);
 		
-		$template->assign("loc",$loc);
+		$template->assign('loc',$loc);
 		
 		$template->register_permissions(
-			array("administrate","configure"),$loc);
+			array('administrate','configure'),$loc);
 		$template->output();
 	}
 	

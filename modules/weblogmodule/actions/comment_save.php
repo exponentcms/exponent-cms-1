@@ -31,28 +31,28 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $post = null;
 $comment = null;
 if (isset($_POST['parent_id'])) {
-	$post = $db->selectObject("weblog_post","id=".$_POST['parent_id']);
+	$post = $db->selectObject('weblog_post','id='.$_POST['parent_id']);
 } else if (isset($_POST['id'])) {
-	$comment = $db->selectObject("weblog_comment","id=".$_POST['id']);
-	$post = $db->selectObject("weblog_post","id=".$comment->parent_id);
+	$comment = $db->selectObject('weblog_comment','id='.$_POST['id']);
+	$post = $db->selectObject('weblog_post','id='.$comment->parent_id);
 }
 if ($post) {
 	$loc = unserialize($post->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
 
-	if ((!$comment && pathos_permissions_check("comment",$loc)) ||
-		(!$comment && pathos_permissions_check("comment",$iloc)) ||
-		($comment && pathos_permissions_check("edit_comments",$loc)) ||
-		($comment && pathos_permissions_check("edit_comments",$iloc))
+	if ((!$comment && pathos_permissions_check('comment',$loc)) ||
+		(!$comment && pathos_permissions_check('comment',$iloc)) ||
+		($comment && pathos_permissions_check('edit_comments',$loc)) ||
+		($comment && pathos_permissions_check('edit_comments',$iloc))
 	) {
 		$comment = null;
 		if (isset($_POST['id'])) {
-			$comment = $db->selectObject("weblog_comment","id=".$_POST['id']);
+			$comment = $db->selectObject('weblog_comment','id='.$_POST['id']);
 		}
 		
 		$comment = weblog_comment::update($_POST,$comment);
@@ -60,12 +60,12 @@ if ($post) {
 		if (isset($comment->id)) {
 			$comment->editor = $user->id;
 			$comment->edited = time();
-			$db->updateObject($comment,"weblog_comment");
+			$db->updateObject($comment,'weblog_comment');
 		} else {
 			$comment->posted = time();
 			$comment->poster = $user->id;
 			$comment->parent_id = $_POST['parent_id'];
-			$db->insertObject($comment,"weblog_comment");
+			$db->insertObject($comment,'weblog_comment');
 		}
 		
 		pathos_flow_redirect();

@@ -42,23 +42,23 @@ class newsmodule {
 	
 	function supportsWorkflow() { return true; }
 	
-	function permissions($internal = "") {
-		if ($internal == "") {
+	function permissions($internal = '') {
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-			//	"configure"=>"Configure",
-				"add_item"=>"Post",
-				"delete_item"=>"Delete",
-				"edit_item"=>"Edit",
-				"view_unpublished"=>"View Unpublished News",
-				"approve"=>"Approve",
-				"manage_approval"=>"Manage Approval"
+				'administrate'=>TR_NEWSMODULE_PERM_ADMIN,
+				'configure'=>TR_NEWSMODULE_PERM_CONFIG,
+				'add_item'=>TR_NEWSMODULE_PERM_POST,
+				'delete_item'=>TR_NEWSMODULE_PERM_DELETE,
+				'edit_item'=>TR_NEWSMODULE_PERM_EDIT,
+				'view_unpublished'=>TR_NEWSMODULE_PERM_VIEWUNPUB,
+				'approve'=>TR_NEWSMODULE_PERM_APPROVE,
+				'manage_approval'=>TR_NEWSMODULE_PERM_MANAGEAP
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"delete_item"=>"Delete",
-				"edit_item"=>"Edit"
+				'administrate'=>TR_NEWSMODULE_PERM_ADMIN,
+				'delete_item'=>TR_NEWSMODULE_PERM_DELETEONE,
+				'edit_item'=>TR_NEWSMODULE_PERM_EDITONE
 			);
 		}
 	}

@@ -42,16 +42,17 @@ class sharedcoremodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
-		if ($internal == "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','sharedcoremodule');
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
+				'administrate'=>TR_SWFMODULE_PERM_ADMIN,
+				'configure'=>TR_SWFMODULE_PERM_CONFIG,
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
+				'administrate'=>TR_SWFMODULE_PERM_ADMIN,
+				'configure'=>TR_SWFMODULE_PERM_CONFIG,
 			);
 		}
 	}

@@ -42,37 +42,38 @@ class calendarmodule {
 	
 	function supportsWorkflow() { return true; }
 	
-	function permissions($internal = "") {
-		if ($internal == "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','calendarmodule');
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
-				"post"=>"Create",
-				"edit"=>"Edit",
-				"delete"=>"Delete",
-				"approve"=>"Approve",
-				"manage_approval"=>"Manage Approval"
+				'administrate'=>TR_CALENDARMODULE_PERM_ADMIN,
+				'configure'=>TR_CALENDARMODULE_PERM_CONFIG,
+				'post'=>TR_CALENDARMODULE_PERM_POST,
+				'edit'=>TR_CALENDARMODULE_PERM_EDIT,
+				'delete'=>TR_CALENDARMODULE_PERM_DELETE,
+				'approve'=>TR_CALENDARMODULE_PERM_APPROVE,
+				'manage_approval'=>TR_CALENDARMODULE_PERM_MANAGEAP
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"edit"=>"Edit",
-				"delete"=>"Delete"
+				'administrate'=>TR_CALENDARMODULE_PERM_ADMIN,
+				'edit'=>TR_CALENDARMODULE_PERM_EDIT,
+				'delete'=>TR_CALENDARMODULE_PERM_DELETE
 			);
 		}
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == "") return array($loc);
+		if ($loc->int == '') return array($loc);
 		else return array($loc,pathos_core_makelocation($loc->mod,$loc->src));
 	}
 	
-	function show($view,$loc = null, $title = "") {
+	function show($view,$loc = null, $title = '') {
 		global $user;
 		global $db;
 		
-		$template = new template("calendarmodule",$view,$loc);
-		$template->assign("moduletitle",$title);
+		$template = new template('calendarmodule',$view,$loc);
+		$template->assign('moduletitle',$title);
 		
 		$canviewapproval = false;
 		$inapproval = false;
@@ -303,19 +304,19 @@ class calendarmodule {
 				$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
 				if ($user && $items[$i]->poster == $user->id) $canviewapproval = 1;
 				$items[$i]->permissions = array(
-					"administrate"=>(pathos_permissions_check("administrate",$thisloc) || pathos_permissions_check("administrate",$loc)),
-					"edit"=>(pathos_permissions_check("edit",$thisloc) || pathos_permissions_check("edit",$loc)),
-					"delete"=>(pathos_permissions_check("delete",$thisloc) || pathos_permissions_check("delete",$loc))
+					'administrate'=>(pathos_permissions_check('administrate',$thisloc) || pathos_permissions_check('administrate',$loc)),
+					'edit'=>(pathos_permissions_check('edit',$thisloc) || pathos_permissions_check('edit',$loc)),
+					'delete'=>(pathos_permissions_check('delete',$thisloc) || pathos_permissions_check('delete',$loc))
 				);
 			}
 			
-			$template->assign("items",$items);
+			$template->assign('items',$items);
 		}
 		
-		$template->assign("in_approval",$inapproval);
-		$template->assign("canview_approval_link",$canviewapproval);
+		$template->assign('in_approval',$inapproval);
+		$template->assign('canview_approval_link',$canviewapproval);
 		$template->register_permissions(
-			array("administrate","configure","post","edit","delete","manage_approval"),
+			array('administrate','configure','post','edit','delete','manage_approval'),
 			$loc
 		);
 		$cats = $db->selectObjectsIndexedArray("category","location_data='".serialize($loc)."'");

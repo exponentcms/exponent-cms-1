@@ -15,4 +15,17 @@ define('TR_NEWSMODULE_ITEMLIMIT','How Many Posts?');
 define('TR_NEWSMODULE_SORTORDER','Sort Order');
 define('TR_NEWSMODULE_SORTFIELD','Sort on');
 
+// Permissions
+define('TR_NEWSMODULE_PERM_ADMIN','Administrate');
+define('TR_NEWSMODULE_PERM_CONFIG','Configure');
+define('TR_NEWSMODULE_PERM_POST','Post');
+define('TR_NEWSMODULE_PERM_DELETE','Delete');
+define('TR_NEWSMODULE_PERM_EDIT','Edit');
+define('TR_NEWSMODULE_PERM_VIEWUNPUB','View Unpublished News');
+define('TR_NEWSMODULE_PERM_APPROVE','Approve');
+define('TR_NEWSMODULE_PERM_MANAGEAP','Manage Approval');
+
+define('TR_NEWSMODULE_PERM_EDITONE','Edit');
+define('TR_NEWSMODULE_PERM_DELETEONE','Delete');
+
 ?>

@@ -42,31 +42,32 @@ class contactmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','contactmodule');
 		return array(
-			"administrate"=>"Administrate",
-			"configure"=>"Configure",
+			'administrate'=>TR_CONTACTMODULE_PERM_ADMIN,
+			'configure'=>TR_CONTACTMODULE_PERM_ADMIN,
 		);
 	}
 	
-	function show($view,$loc = null,$title = "") {
+	function show($view,$loc = null,$title = '') {
 		global $db;
 		
-		$contacts = $db->selectObjects("contact_contact","location_data='".serialize($loc)."'");
+		$contacts = $db->selectObjects('contact_contact',"location_data='".serialize($loc)."'");
 		
-		$t = new template("contactmodule","_standard",$loc);
+		$t = new template('contactmodule','_standard',$loc);
 		$t->register_permissions(array(
-			"administrate","configure"),
+			'administrate','configure'),
 			$loc);
 		$t->output();
 		
-		$template = new template("contactmodule",$view,$loc);
-		$template->assign("contacts",$contacts);
-		$template->assign("loc",$loc);
-		$template->assign("numContacts",count($contacts));
-		$template->assign("moduletitle",$title);
+		$template = new template('contactmodule',$view,$loc);
+		$template->assign('contacts',$contacts);
+		$template->assign('loc',$loc);
+		$template->assign('numContacts',count($contacts));
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(array(
-			"administrate","configure"),
+			'administrate','configure'),
 			$loc);
 		
 		$template->output();
@@ -74,15 +75,15 @@ class contactmodule {
 	
 	function deleteIn($loc) {
 		global $db;
-		$db->delete("contact_contact","location_data='".serialize($loc)."'");
+		$db->delete('contact_contact',"location_data='".serialize($loc)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {
 		global $db;
-		foreach ($db->selectObjects("contact_contact","location_data='".serialize($oloc)."'") as $contact) {
+		foreach ($db->selectObjects('contact_contact',"location_data='".serialize($oloc)."'") as $contact) {
 			unset($contact->id);
 			$contact->location_data = serialize($nloc);
-			$db->insertObject($contact,"contact_contact");
+			$db->insertObject($contact,'contact_contact');
 		}
 	}
 	

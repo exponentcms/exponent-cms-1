@@ -9,6 +9,13 @@ define('TR_RESOURCESMODULE_NEWFILE','File');
 define('TR_RESOURCESMODULE_UPDATEFILE','File');
 define('TR_RESOURCESMODULE_UNLOCKFILE','Unlock File?');
 
-#define('TR_RESOURCESMODULE_','');
+// Permissions
+define('TR_RESOURCESMODULE_PERM_ADMIN','Administrate');
+define('TR_RESOURCESMODULE_PERM_POST','Upload Resources');
+define('TR_RESOURCESMODULE_PERM_EDIT','Edit Resources');
+define('TR_RESOURCESMODULE_PERM_EDITONE','Edit Resource');
+define('TR_RESOURCESMODULE_PERM_DELETE','Delete Resources');
+define('TR_RESOURCESMODULE_PERM_DELETEONE','Delete Resource');
+define('TR_RESOURCESMODULE_PERM_MANAGEREV','Manage Revisions');
 
 ?> 

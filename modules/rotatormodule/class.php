@@ -42,32 +42,32 @@ class rotatormodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
+		pathos_lang_loadDictionary('modules','rotatormodule');
 		return array(
-			"administrate"=>"Administrate",
-			#"configure"=>"Configure",
-			"manage"=>"Manage Content"
+			'administrate'=>TR_ROTATORMODULE_PERM_ADMIN,
+			'manage'=>TR_ROTATORMODULE_PERM_MANAGE
 		);
 	}
 	
 	function show($view,$loc = null, $title = "") {
 		global $db;
 		
-		$o = $db->selectObjects("rotator_item","location_data='".serialize($loc)."'");
+		$o = $db->selectObjects('rotator_item',"location_data='".serialize($loc)."'");
 		$num = rand(0,count($o)-1);
 		$obj = $o[$num];
 		
-		$template = new template("rotatormodule",$view,$loc);
-		$template->assign("moduletitle",$title);
-		$template->assign("content",$obj);
+		$template = new template('rotatormodule',$view,$loc);
+		$template->assign('moduletitle',$title);
+		$template->assign('content',$obj);
 		$template->register_permissions(
-			array("administrate","manage"),
+			array('administrate','manage'),
 			$loc);
 		$template->output();
 	}
 	
 	function deleteIn($loc) {
-		$db->delete("rotator_item","location_data='".serialize($loc)."'");
+		$db->delete('rotator_item',"location_data='".serialize($loc)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {

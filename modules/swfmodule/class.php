@@ -43,9 +43,10 @@ class swfmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = "") {
+		pathos_lang_loadDictionary('modules','swfmodule');
 		return array(
-			"administrate"=>"Administrate",
-			"configure"=>"Configure Flash"
+			'administrate'=>TR_SWFMODULE_PERM_ADMIN,
+			'configure'=>TR_SWFMODULE_PERM_CONFIG
 		);
 	}
 	
@@ -75,7 +76,7 @@ class swfmodule {
 				}
 			}
 		
-			$template = new Template("swfmodule",$view,$location);
+			$template = new template("swfmodule",$view,$location);
 			$template->assign("moduletitle",$title);
 			
 			$data = $db->selectObject("swfitem","location_data='".serialize($location)."'");

@@ -31,19 +31,19 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$comment = $db->selectObject("weblog_comment","id=".$_GET['id']);
-$post = $db->selectObject("weblog_post","id=".$comment->parent_id);
+$comment = $db->selectObject('weblog_comment','id='.$_GET['id']);
+$post = $db->selectObject('weblog_post','id='.$comment->parent_id);
 if ($comment != null && $post != null) {
 	$loc = unserialize($post->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
 	
-	if ((pathos_permissions_check("delete_comments",$loc)) ||
-		(pathos_permissions_check("delete_comments",$iloc))
+	if ((pathos_permissions_check('delete_comments',$loc)) ||
+		(pathos_permissions_check('delete_comments',$iloc))
 	) {
 	
-		$db->delete("weblog_comment","id=".$_GET['id']);
+		$db->delete('weblog_comment','id='.$_GET['id']);
 		pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;

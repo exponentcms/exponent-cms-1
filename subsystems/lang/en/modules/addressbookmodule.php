@@ -17,4 +17,13 @@ define('TR_ADDRESSBOOKMODULE_FAX','Fax');
 define('TR_ADDRESSBOOKMODULE_PAGER','Pager');
 define('TR_ADDRESSBOOKMODULE_NOTES','Notes');
 
+// Permissions
+define('TR_ADDRESSBOOKMODULE_PERM_ADMIN','Administrate');
+define('TR_ADDRESSBOOKMODULE_PERM_POST','Create Contacts');
+define('TR_ADDRESSBOOKMODULE_PERM_EDIT','Edit Contacts');
+define('TR_ADDRESSBOOKMODULE_PERM_DELETE','Delete Contacts');
+
+define('TR_ADDRESSBOOKMODULE_PERM_EDITONE','Edit Contact');
+define('TR_ADDRESSBOOKMODULE_PERM_DELETEONE','Delete Contact');
+
 ?> 

@@ -7,7 +7,7 @@ define('TR_CORE_ASCENDING','Ascending');
 define('TR_CORE_DESCENDING','Descending');
 
 define('TR_CORE_LEFT','Left');
-define('TR_CORE_LEFT','Right');
-define('TR_CORE_LEFT','Center');
+define('TR_CORE_RIGHT','Right');
+define('TR_CORE_CENTER','Center');
 
 ?>
