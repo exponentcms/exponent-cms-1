@@ -31,43 +31,15 @@
 # $Id$
 ##################################################
 
-/**
- * Source Selector
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
-
-/**
- * Initialize the Pathos Framework
- */
+// Initialize the Pathos Framework
 include_once("pathos.php");
-/**
- * @ignore
- */
+
 define("SCRIPT_RELATIVE",PATH_RELATIVE);
-/**
- * @ignore
- */
 define("SCRIPT_ABSOLUTE",BASE);
-/**
- * @ignore
- */
 define("SCRIPT_FILENAME","orphan_source_selector.php");
 
-/**
- * Define the PREVIEW_READONLY constant as 1, so that modules will render in preview mode.
- */
 define("PREVIEW_READONLY",1); // for mods
-/**
- * Define Source Selector constant as 2, since we are selecting orphaned sources.
- */
 define("SOURCE_SELECTOR",2);
-/**
- * Define the Selector constant, so that modules can accomodate.
- */
 define("SELECTOR",1);
 $SYS_FLOW_REDIRECTIONPATH="source_selector";
 
@@ -110,18 +82,14 @@ if (isset($_REQUEST['hideOthers'])) {
 pathos_sessions_set("source_select",$source_select);
 
 ob_start();
-/**
- * Include the orphans_modules action of the container, to get a list of modules types with orhpans.
- */
+// Include the orphans_modules action of the container, to get a list of modules types with orhpans.
 include_once(BASE."modules/containermodule/actions/orphans_modules.php");
 $str1 = ob_get_contents();
 ob_end_clean();
 
 if (isset($_GET['module'])) {
 	ob_start();
-	/**
-	 * Include the orphans_content action of the container module, to show all modules of the specified type.
-	 */
+	// Include the orphans_content action of the container module, to show all modules of the specified type.
 	include_once(BASE."modules/containermodule/actions/orphans_content.php");
 	$str2 = ob_get_contents();
 	ob_end_clean();

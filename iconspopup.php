@@ -30,33 +30,13 @@
 #
 # $Id$
 ##################################################
-
-/**
- * Popup Icon Selector
- *
- * This script reads icon files from a directory and displays them in a table
- * for selection.  It is currently used by the file icon management code in the
- * administration control panel.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
  
 if (!defined('BASE')) {
-	/**
-	 * BASE Constant
-	 */
 	define('BASE',dirname(__FILE__).'/');
 }
-/**
- * Define PATH_RELATIVE
- */
+// Define PATH_RELATIVE
 define('PATH_RELATIVE',dirname($_SERVER['SCRIPT_NAME']) . '/');
-/**
- * Define ICONDIR, more for convenience than anything else.
- */
+// Define ICONDIR, more for convenience than anything else.
 define('ICONDIR',BASE.str_replace(PATH_RELATIVE,"",$_GET['icodir']));
 
 $perrow = 8;

@@ -32,19 +32,8 @@
 ##################################################
 //GREP:HARDCODEDTEXT
 
-/**
- * Source Selector
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
-
 ob_start();
-/**
- * Initialize the Theme Subsystem
- */
+// Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
 $section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
@@ -57,13 +46,7 @@ $page = ($section && $section->subtheme != '' && is_readable('themes/'.DISPLAY_T
 );
 
 if (is_readable(BASE.$page)) {
-	/**
-	 * Define PREVIEW_READONLY as 1, so that modules can render in preview mode.
-	 */
 	define('PREVIEW_READONLY',1); // for mods
-	/**
-	 * Define SELECTOR, so that modules can accomodate.
-	 */
 	define('SELECTOR',1);
 	$SYS_FLOW_REDIRECTIONPATH='source_selector';
 
@@ -105,9 +88,7 @@ if (is_readable(BASE.$page)) {
 	
 	pathos_sessions_set("source_select",$source_select);
 	
-	/**
-	 * Include the rendering page.
-	 */
+	// Include the rendering page.
 	include_once(BASE.$page);
 } else echo BASE.$page." not readable";
 

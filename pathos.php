@@ -31,24 +31,9 @@
 # $Id$
 ##################################################
 
-/**
- * Pathos Framework
- *
- * This file sets up and initializes required parts of the Pathos Framework, so that
- * Exponent and its modules can function properly.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
-
 # Following code taken from http://us4.php.net/manual/en/function.get-magic-quotes-gpc.php
 #   - it allows magic_quotes to be on without screwing stuff up. 
 if (get_magic_quotes_gpc()) {
-	/**
-	 * @ignore
-	 */
 	function stripslashes_deep($value) {
 		return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
 	}
@@ -58,39 +43,26 @@ if (get_magic_quotes_gpc()) {
 	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
 }
 
-/**
- * @ignore
- */
 function __realpath($path) {
 	return str_replace('\\','/',realpath($path));
 }
 
-/**
- * Process user-defined constants in overrides.php
- */
+// Process user-defined constants in overrides.php
 include_once('overrides.php');
 
-/**
- * Auto-detect whatever variables the user hasn't overridden in overrides.php
- */
+// Auto-detect whatever variables the user hasn't overridden in overrides.php
 include_once('pathos_variables.php');
 
-/**
- * Initialize the Compatibility Layer
- */
+// Initialize the Compatibility Layer
 include(BASE.'compat.php');
 
 // Put session stuff first.
 $user = null;
-/**
- * Initialize the Sessions Subsystem
- */
+// Initialize the Sessions Subsystem
 include_once(BASE.'subsystems/sessions.php');
 pathos_sessions_initialize();
 
-/**
- * Load the site configuration (without initializing the config subsystem)
- */
+// Load the site configuration (without initializing the config subsystem)
 include_once(BASE.'subsystems/config/load.php');
 
 // After config config setup:
@@ -122,35 +94,28 @@ if (isset($_REQUEST['section'])) {
 }
 
 if (!defined('DISPLAY_THEME')) {
-	/**
-	 * Current Active Theme
-	 *
+	/* exdoc
 	 * The directory and class name of the current active theme.  This may be different
 	 * than the configure theme (DISPLAY_THEME_REAL) due to previewing.
 	 */
 	define('DISPLAY_THEME',DISPLAY_THEME_REAL);
 }
 if (!defined('THEME_BASE')) {
-	/**
-	 * Theme Base
-	 *
-	 * The absolute path to the current active theme's files.  This is similar to the BASE constant
-	 * @deprecated 0.96 -- please use THEME_ABSOLUTE instead.
+	/* exdoc
+	 * The absolute path to the current active theme's files.  This is similar to the BASE constant.
+	 * This is deprecated beginning with 0.96 -- please use THEME_ABSOLUTE instead.
+	 * @state deprecated
 	 */
 	define('THEME_BASE',BASE.'themes/'.DISPLAY_THEME.'/');
 }
 if (!defined('THEME_ABSOLUTE')) {
-	/**
-	 * Theme Absolute
-	 *
+	/* exdoc
 	 * The absolute path to the current active theme's files.  This is similar to the BASE constant
 	 */
 	define('THEME_ABSOLUTE',BASE.'themes/'.DISPLAY_THEME.'/'); // This is the recommended way
 }
 if (!defined('THEME_RELATIVE')) {
-	/**
-	 * Theme Relative
-	 *
+	/* exdoc
 	 * The relative web path to the current active theme.  This is similar to the PATH_RELATIVE consant.
 	 */
 	define('THEME_RELATIVE',PATH_RELATIVE.'themes/'.DISPLAY_THEME.'/');
@@ -159,71 +124,47 @@ if (!defined('THEME_RELATIVE')) {
 // iconset base
 if (!defined('ICON_RELATIVE')) {
 	if (is_readable(THEME_ABSOLUTE.'icons/')) {
-		/**
-		 * Icon Relative Path
-		 *
+		/* exdoc
 		 * The relative web path to the current icon set.  If an icons/ directory exists directly
 		 * underneath the theme's directory, that is used.  Otherwise, the system falls back to
 		 * the iconset directory in the root of the Exponent directory.
 		 */
 		define('ICON_RELATIVE',THEME_RELATIVE.'icons/');
 	} else {
-		/**
-		 * @ignore
-		 */
 		define('ICON_RELATIVE',PATH_RELATIVE.'iconset/');
 	}
 }
 if (!defined('MIMEICON_RELATIVE')) {
 	if (is_readable(THEME_ABSOLUTE.'mimetypes/')) {
-		/**
-		 * MIME Icon Relative Path
-		 *
+		/* exdoc
 		 * The relative web path to the current MIME icon set.  If a mimetypes/ directory
 		 * exists directly underneath the theme's directory, then that is used.  Otherwise, the
 		 * system falls back to the iconset/mimetypes/ directory in the root of the Exponent directory.
 		 */
 		define('MIMEICON_RELATIVE',THEME_RELATIVE.'mimetypes/');
 	} else {
-		/**
-		 * @ignore
-		 */
 		define('MIMEICON_RELATIVE',PATH_RELATIVE.'iconset/mimetypes/');
 	}
 }
 
-/**
- * Initialize the AutoLoader Subsystem
- */
+// Initialize the AutoLoader Subsystem
 include_once(BASE.'subsystems/autoloader.php');
-/**
- * Initialize the Core Subsystem
- */
+// Initialize the Core Subsystem
 include_once(BASE.'subsystems/core.php');
 
-/**
- * Initialize the Database Subsystem
- */
+// Initialize the Database Subsystem
 include_once(BASE.'subsystems/database.php');
 $db = pathos_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
 
-/**
- * Initialize the Modules Subsystem.
- */
+// Initialize the Modules Subsystem.
 include_once(BASE.'subsystems/modules.php');
 pathos_modules_initialize();
 
-/**
- * Initialize the Template Subsystem.
- */
+// Initialize the Template Subsystem.
 include_once(BASE.'subsystems/template.php');
-/**
- * Initialize the Permissions Subsystem.
- */
+// Initialize the Permissions Subsystem.
 include_once(BASE.'subsystems/permissions.php');
-/**
- * Initialize the Flow Subsystem.
- */
+// Initialize the Flow Subsystem.
 if (!defined('SYS_FLOW')) include_once(BASE.'subsystems/flow.php');
 
 // Validate session

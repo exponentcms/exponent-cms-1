@@ -31,40 +31,16 @@
 # $Id$
 ##################################################
 
-/**
- * Generic Popup Engine
- *
- * This script takes a series of arguments in the query string, and runs an action.
- * It is meant to be used with javascript calls to open new popup windows.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
-
 ob_start();
 
-/**
- * Initialize the Pathos Framework
- */
+// Initialize the Pathos Framework
 include_once("pathos.php");
-/**
- * @ignore
- */
+
 define("SCRIPT_RELATIVE",PATH_RELATIVE);
-/**
- * @ignore
- */
 define("SCRIPT_ABSOLUTE",BASE);
-/**
- * @ignore
- */
 define("SCRIPT_FILENAME","popup.php");
 
-/**
- * Initialize the Theme Subsystem
- */
+// Initialize the Theme Subsystem
 if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
 
 $loc = pathos_core_makeLocation(

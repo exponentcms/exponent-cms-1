@@ -31,40 +31,16 @@
 # $Id$
 ##################################################
 
-/**
- * Source Selector
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
-
-/**
- * Define Source Selector constant as 1, since we are not selecting orphaned sources.
- */
 define("SOURCE_SELECTOR",1);
 
-/**
- * Initialize the Pathos Framework
- */
+// Initialize the Pathos Framework
 include_once('pathos.php');
-/**
- * @ignore
- */
+
 define('SCRIPT_RELATIVE',PATH_RELATIVE);
-/**
- * @ignore
- */
 define('SCRIPT_ABSOLUTE',BASE);
-/**
- * @ignore
- */
 define('SCRIPT_FILENAME','source_selector.php');
 
-/**
- * Call the real selector script.  It will use the value of SOURCE_SELECTOR to determine what it needs to do.
- */
+// Call the real selector script.  It will use the value of SOURCE_SELECTOR to determine what it needs to do.
 include_once("selector.php");
 
 ?>

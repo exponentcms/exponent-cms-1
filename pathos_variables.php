@@ -31,21 +31,9 @@
 # $Id$
 ##################################################
 
-/**
- * Pathos Variables Auto-detection
- *
- * This file autodetects certain constants related to the web servers environment.
- * These constants will only be auto-detected if they are not manually defined in
- * the overrides.php file.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- */
 
 if (!defined('BASE')) {
-	/**
+	/*
 	 * BASE Constant
 	 *
 	 * The BASE constant is the absolute path on the server filesystem, from the root (/ or C:\)
@@ -53,7 +41,7 @@ if (!defined('BASE')) {
 	 */
 	define('BASE',__realpath(dirname(__FILE__)).'/');
 }
-/**
+/*
  * PATHOS Constant
  *
  * The PATHOS constant defines the current Major.Minor version of Exponent/Pathos (i.e. 0.95).
@@ -63,7 +51,7 @@ if (!defined('BASE')) {
 define('PATHOS',include(BASE.'pathos_version.php'));
 
 if (!defined('PATH_RELATIVE')) {
-	/**
+	/*
 	 * PATH_RELATIVE Constant
 	 *
 	 * The PATH_RELATIVE constant is the web path to the Exponent directory,
@@ -73,7 +61,7 @@ if (!defined('PATH_RELATIVE')) {
 }
 
 if (!defined('URL_BASE')) {
-	/**
+	/*
 	 * URL_BASE Constant
 	 *
 	 * The URL_BASE constant is the base URL of the domain hosting the Exponent site.
@@ -83,7 +71,7 @@ if (!defined('URL_BASE')) {
 	define('URL_BASE',((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST']);
 }
 if (!defined('URL_FULL')) {
-	/**
+	/*
 	 * URL_FULL Constant
 	 *
 	 * The URL_FULL constant is the full URL path to the Exponent directory.  The automatic

@@ -31,41 +31,19 @@
 # $Id$
 ##################################################
 
-/**
- * Content Selector
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- *
- * @package Exponent
- *
- * @deprecated 0.96
- */
-
-/**
- * Initialize the Pathos Framework
- */
+// Initialize the Pathos Framework
 include_once('pathos.php');
-/**
+/* exdoc
  * Define Content Selector constant as 1, since we are not selecting orphaned content.
+ * @node General
  */
 define("CONTENT_SELECTOR",1);
-/**
- * @ignore
- */
+
 define('SCRIPT_RELATIVE',PATH_RELATIVE);
-/**
- * @ignore
- */
 define('SCRIPT_ABSOLUTE',BASE);
-/**
- * @ignore
- */
 define('SCRIPT_FILENAME','content_selector.php');
 
-/**
- * Include the Selector script, which does all of the real work.
- */
+// Include the Selector script, which does all of the real work.
 include_once("selector.php");
 
 ?>
