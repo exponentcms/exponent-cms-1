@@ -278,33 +278,53 @@ class mysql_database {
 	 *   This is expressed in the Exponent Data Definition Language
 	 * @param array $info Information about the table itself.
 	 */
-	function alterTable($tablename,$newdatadef,$info) {
+	function alterTable($tablename,$newdatadef,$info,$aggressive = false) {
 		$dd = $this->getDataDefinition($tablename);
+		$modified = false;
 		
+		if ($aggressive) {
+			$oldcols = array_diff_assoc($dd, $newdatadef);
+			if (count($oldcols)) {
+				$modified = true;
+				$sql = "ALTER TABLE `" . $this->prefix . "$tablename` ";
+				foreach ($oldcols as $name=>$def) {
+					$sql .= " DROP COLUMN " . $name . ",";
+				}
+				$sql = substr($sql,0,-1);
+				
+				@mysql_query($sql,$this->connection);
+			}
+		}	
 		$diff = array_diff_assoc($newdatadef,$dd);
 		if (count($diff)) {
+			$modified = true;
 			$sql = "ALTER TABLE `" . $this->prefix . "$tablename` ";
 			foreach ($diff as $name=>$def) {
 				$sql .= " ADD COLUMN (" . $this->fieldSQL($name,$def) . "),";
 			}
+			
 			$sql = substr($sql,0,-1);
 			
 			@mysql_query($sql,$this->connection);
 			
-			if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
+			/*if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 				// Initialize workflow tables:
 				if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
 				pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
-			}
+			}*/
 			
+			//return TABLE_ALTER_SUCCEEDED;
+		} 
+		
+		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
+			// Initialize workflow tables:
+			if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+			pathos_workflow_alterWorkflowTables($tablename,$newdatadef,$aggressive);
+		}
+		
+		if ($modified) {
 			return TABLE_ALTER_SUCCEEDED;
 		} else {
-			// No differences. - Still alter workflow.
-			if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
-				// Initialize workflow tables:
-				if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-				pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
-			}
 			return TABLE_ALTER_NOT_NEEDED;
 		}
 	}
