@@ -67,5 +67,6 @@ define('TR_FORMCONTROLS_MAXLENGTH',				'Max Length');
 // Textarea
 define('TR_FORMCONTROLS_ROWS',					'Rows');
 define('TR_FORMCONTROLS_COLS',					'Columns');
+define('TR_FORMCONTROLS_MAXCHARS',              'Max Characters');
 
 ?>
