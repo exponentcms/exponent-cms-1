@@ -321,6 +321,10 @@ function pathos_core_URLisValid($url) {
 	);
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_core_maxUploadSizeMessage($single = true) {
 	$size = ini_get("upload_max_filesize");
 	$size_msg = "";
