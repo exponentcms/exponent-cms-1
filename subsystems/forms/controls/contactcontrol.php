@@ -76,17 +76,19 @@ class contactcontrol extends formcontrol {
 		$users = array();
 		
 		foreach (pathos_users_getAllUsers() as $u) {
-			$users[$u->id] = $u;
+			$users[$u->id] = $u->firstname." ".$u->lastname.' ('.$u->username.')';
 		}
+		
+		uasort($users,'strnatcmp');
 		
 		$html = "<script type='text/javascript' src='".PATH_RELATIVE."js/ContactControl.js'></script>";
 		$html .= "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
 		$html .= '<input type="radio" id="r_'.$name.'_users" name="'.$name.'_type" value="0" onClick="activateContactControl(0,\''.$name.'\');" />User:';
 		$html .= '<select name="'.$name.'[0]" id="'.$name.'_users">';
-		foreach ($users as $u) {
+		foreach ($users as $id=>$uname) {
 			$html .= '<option ';
-			if ($this->default == $u->id && $this->type == 0) $html .= 'selected ';
-			$html .= 'value="'.$u->id.'">'.$u->firstname." ".$u->lastname." (".$u->username.')</option>';
+			if ($this->default == $id && $this->type == 0) $html .= 'selected ';
+			$html .= 'value="'.$id.'">'.$uname.'</option>';
 		}
 		$html .= '</select>';
 		$html .= '</td></tr><tr><td>';
