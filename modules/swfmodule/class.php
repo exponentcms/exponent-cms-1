@@ -42,7 +42,7 @@ class swfmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
 		pathos_lang_loadDictionary('modules','swfmodule');
 		return array(
 			'administrate'=>TR_SWFMODULE_PERM_ADMIN,
@@ -51,76 +51,68 @@ class swfmodule {
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == "") return array($loc);
+		if ($loc->int == '') return array($loc);
 		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
 	}
 	
-	function show($view,$location = null, $title = "") {
+	function show($view,$location = null, $title = '') {
 		global $user;
 		global $db;
-		
-		if (defined("PREVIEW_READONLY") && !defined("SELECTOR")) {
-			echo "";
+	
+		$template = new template('swfmodule',$view,$location);
+		$template->assign('moduletitle',$title);
+			
+		if (defined('PREVIEW_READONLY') && !defined('SELECTOR')) {
+			return;
 		} 
-		else {
-			if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
-			$directory = "files/swfmodule";
-			if (!file_exists(BASE.$directory)) {
-				switch(pathos_files_makeDirectory($directory)) {
-					case SYS_FILES_FOUNDFILE:
-						echo "Found a file in the directory path.";
-						return;
-					case SYS_FILES_NOTWRITABLE:
-						echo "Unable to create directory to store files in.";
-						return;
-				}
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		$directory = 'files/swfmodule';
+		if (!file_exists(BASE.$directory)) {
+			$err = pathos_files_makeDirectory($directory);
+			if ($err != SYS_FILES_SUCCESS) {
+				$template->assign('noupload',1);
+				$template->assign('uploadError',$err);
 			}
-		
-			$template = new template("swfmodule",$view,$location);
-			$template->assign("moduletitle",$title);
-			
-			$data = $db->selectObject("swfitem","location_data='".serialize($location)."'");
-			
-			if($data == null) {
-				$data->_noflash = 1;
-				$data->_align = "center";
-			}
-			else {
-				$data->_noflash = 0;
-				switch ($data->alignment) {
-					case 1:
-						$data->_align = "left";
-						break;
-					case 2:
-						$data->_align = "right";
-						break;
-					default:
-						$data->_align = "center";
-						break;
-				}
-						
-				$file = $db->selectObject("file","id=".$data->swf_id);
-				if ($file && is_readable(BASE.$file->directory."/".$file->filename)) {
-					$data->_flashurl=$file->directory."/".$file->filename;
-				}
-				else {
-					$data->_flashurl="";
-				}
-				$file = $db->selectObject("file","id=".$data->alt_image_id);
-				if ($file && is_readable(BASE.$file->directory."/".$file->filename)) {
-					$data->_noflashurl=$file->directory."/".$file->filename;
-				}
-				else {
-					$data->_noflashurl="";
-				}	
-			}
-			$template->assign("data",$data);
-			$template->register_permissions(
-				array("administrate","configure"), 
-				$location
-			);
-			$template->output($view);
 		}
+	
+		$data = $db->selectObject('swfitem',"location_data='".serialize($location)."'");
+		
+		if($data == null) {
+			$data->_noflash = 1;
+			$data->_align = 'center';
+		} else {
+			$data->_noflash = 0;
+			switch ($data->alignment) {
+				case 1:
+					$data->_align = 'left';
+					break;
+				case 2:
+					$data->_align = 'right';
+					break;
+				default:
+					$data->_align = 'center';
+					break;
+			}
+					
+			$file = $db->selectObject('file','id='.$data->swf_id);
+			if ($file && is_readable(BASE.$file->directory.'/'.$file->filename)) {
+				$data->_flashurl=$file->directory.'/'.$file->filename;
+			} else {
+				$data->_flashurl='';
+			}
+			$file = $db->selectObject('file','id='.$data->alt_image_id);
+			if ($file && is_readable(BASE.$file->directory.'/'.$file->filename)) {
+				$data->_noflashurl=$file->directory.'/'.$file->filename;
+			} else {
+				$data->_noflashurl='';
+			}	
+		}
+		$template->assign('data',$data);
+		$template->register_permissions(
+			array('administrate','configure'), 
+			$location
+		);
+		$template->output();
 		
 	}
 	
@@ -129,15 +121,15 @@ class swfmodule {
 	
 	function deleteIn($loc) {
 		global $db;
-		$data = $db->selectObject("swfitem","location_data='".serialize($loc)."'");
+		$data = $db->selectObject('swfitem',"location_data='".serialize($loc)."'");
 		if ($data) {
-			$file = $db->selectObject("file","id=".$data->alt_image_id);
+			$file = $db->selectObject('file','id='.$data->alt_image_id);
 			file::delete($file);
-			$db->delete("file","id=".$file->id);
-			$file = $db->selectObject("file","id=".$data->swf_id);
+			$db->delete('file','id='.$file->id);
+			$file = $db->selectObject('file','id='.$data->swf_id);
 			file::delete($file);
-			$db->delete("file","id=".$file->id);
-			$db->delete("swfitem","id=".$data->id);
+			$db->delete('file','id='.$file->id);
+			$db->delete('swfitem','id='.$data->id);
 		}	
 	}
 }
