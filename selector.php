@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if (!deifned('PATHOS')) exit('');
+if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('standard','base');
 
