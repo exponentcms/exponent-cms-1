@@ -47,6 +47,7 @@ class imagemanageritem {
 		$form->register("name","Name",new textcontrol($object->name));
 		$form->register("description","Description", new texteditorcontrol($object->description));
 		if (!isset($object->id)) {
+			$form->register(null,"",new htmlcontrol(pathos_core_maxUploadSizeMessage()));
 			$form->register("file","Image",new uploadcontrol());
 		}
 		$form->register("scale","Scale %",new textcontrol($object->scale));
