@@ -48,6 +48,7 @@ if (pathos_permissions_check('configure',$loc)) {
 	} else {
 		$db->insertObject($contact,'contact_contact');
 	}
+	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }
