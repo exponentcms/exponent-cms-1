@@ -1,5 +1,10 @@
 Installation of ExponentCMS
 
+Note about Upgrading:
+If you are upgrading, it is HIGHLY RECOMMENDED that you export your data and back up your files.
+
+If you are upgrading from 0.95* to 0.96, it is HIGHLY RECOMMENDED that you do a clean install.  The installer has changed substantially, and may act very strange if you try to extract 0.96 over the top of an existing 0.95 installation.
+
 1. Download the latest package
 
 The Exponent package is available in the following formats:
