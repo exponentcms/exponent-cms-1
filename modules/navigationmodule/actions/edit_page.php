@@ -31,10 +31,14 @@
 # $Id$
 ##################################################
 
+ob_start();
+
 include_once("../../../pathos.php");
 define("SCRIPT_RELATIVE",PATH_RELATIVE."modules/navigationmodule/actions/");
 define("SCRIPT_ABSOLUTE",BASE."modules/navigationmodule/actions/");
 define("SCRIPT_FILENAME","edit_page.php");
+
+if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
 
 $id = -1;
 if (isset($_GET['sitetemplate_id'])) {
@@ -43,6 +47,12 @@ if (isset($_GET['sitetemplate_id'])) {
 } else if (pathos_sessions_isset("sitetemplate_id")) {
 	$id = pathos_sessions_get("sitetemplate_id");
 }
+
+$template = $db->selectObject("section_template","id=".$id);
+$page = ($template && $template->subtheme != "" && is_readable(BASE."themes/".DISPLAY_THEME."/subthemes/".$template->subtheme.".php") ?
+	"themes/".DISPLAY_THEME."/subthemes/".$template->subtheme.".php" :
+	"themes/".DISPLAY_THEME."/index.php"
+);
 
 pathos_sessions_set("themeopt_override",array(
 	"src_prefix"=>"@st".$id,
@@ -55,11 +65,14 @@ pathos_sessions_set("themeopt_override",array(
 ));
 
 #define("PREVIEW_READONLY",1);
+$REDIRECTIONPATH = "section_template";
 
-define("REDIRECTIONPATH","section_template");
-
-include_once(BASE."index.php");
+if (is_readable(BASE.$page)) {
+	include_once(BASE.$page);
+} else echo BASE."$page not readable";
 
 pathos_sessions_unset("themeopt_override");
+
+ob_end_flush();
 
 ?>
