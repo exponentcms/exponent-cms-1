@@ -30,9 +30,9 @@
  *}
 
 <table cellpadding="0" cellspacing="0">
-<tr><td class="tab_btn tab_btn_current">
+<tr><td class="tab_btn">
 <a href="{link action=manage}">Hierarchy</a>
-</td><td class="tab_btn tab_btn">
+</td><td class="tab_btn tab_btn_current">
 <a href="{link action=manage_standalone}">Standalone&nbsp;Pages</a>
 </td><td class="tab_btn">
 <a href="{link action=manage_pagesets}">Pagesets</a>
@@ -40,20 +40,18 @@
 &nbsp;
 </td></tr>
 <tr><td colspan="4" class="tab_main">
-
-<div class="moduletitle navigation_moduletitle">Manage Site Navigation</div>
+ 
+<div class="moduletitle navigation_moduletitle">Manage Standalone Pages</div>
 <div class="form_header">
-Manage the pages and site structure here.
+Standalone pages do not appear in the site hiearchy, but still have their own content and act just like other pages.
 <br />
-<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=0}">New Top Level Page</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage parent=-1}">New Standalone Page</a>
 </div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td class="header navigation_header">Name</td>
-	<td class="header navigation_header"><!-- Add Links --></td>
 	<td class="header navigation_header"><!-- Edit/Delete Links --></td>
 	<td class="header navigation_header"><!-- Permission Links --></td>
-	<td class="header navigation_header"><!-- Ranking Links --></td>
 </tr>
 {foreach from=$sections item=section}
 {math equation="x+1" x=$section->rank assign=nextrank}
@@ -65,37 +63,11 @@ Manage the pages and site structure here.
 {$section->name}&nbsp;
 {/if}
 </td><td>
-{if $section->alias_type == 0}
-<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">Add Subpage</a>
-{/if}
-</td><td>
-{if $section->alias_type == 0}
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage id=$section->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0"></a>
-<a class="mngmntlink navigation_mngmntlink" href="{link action=remove id=$section->id}" onClick="return confirm('Are you sure you want to move this page and all of its subpages out of the site hiearchy?\r\n(They will not be deleted, but will instead become standalone pages)');"><img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0"></a>
-{elseif $section->alias_type == 1}
-{* External Link *}
-<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_externalalias id=$section->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0"></a>
-<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this external alias?');"><img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0"></a>
-{else}
-{* Internal Alias *}
-<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_internalalias id=$section->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0"></a>
-<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this internal alias?');"><img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0"></a>
-{/if}
-
+<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this page and all of its content?');"><img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0"></a>
 </td><td>
 	<a href="{link int=$section->id action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions for viewing this page" alt="Assign user permissions for this page" /></a>
 	<a href="{link int=$section->id action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions for viewing this page" alt="Assign group permissions for this page" /></a>
-</td><td>
-{if $section->last == 0}
-	<a href="{link action=order parent=$section->parent a=$section->rank b=$nextrank}"><img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0" /></a>
-{else}
-	<img src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" border="0" />
-{/if}
-{if $section->first == 0}
-	<a href="{link action=order parent=$section->parent a=$section->rank b=$prevrank}"><img src="{$smarty.const.ICON_RELATIVE}up.gif" border="0" /></a>
-{else}
-	<img src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" border="0" />
-{/if}
 </td></tr>
 {/foreach}
 </table>

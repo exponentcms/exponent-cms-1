@@ -44,7 +44,8 @@ class navigationmodule {
 	
 	function permissions($internal = "") {
 		return array(
-			"view"=>"View Section"
+			"view"=>"View Section",
+			"manage"=>"Manage Section"
 		);
 	}
 	
@@ -276,6 +277,33 @@ class navigationmodule {
 			pathos_core_decrementLocationReference($loc,$parent);
 			
 			foreach ($db->selectObjects("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
+				if (class_exists($locref->module)) {
+					$modclass = $locref->module;
+					$mod = new $modclass();
+					$mod->deleteIn(pathos_core_makeLocation($locref->module,$locref->source,$locref->internal));
+				}
+			}
+			$db->delete("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
+		}
+		$db->delete("sectionref","section=".$parent);
+		$db->delete("section","parent=$parent");
+	}
+	
+	function removeLevel($parent) {
+		global $db;
+		$kids = $db->selectObjects("section","parent=$parent");
+		foreach ($kids as $kid) {
+			$kid->parent = -1;
+			$db->updateObject($kid,'section');
+			navigationmodule::removeLevel($kid->id);
+		}
+		/* May not need this code anymore
+		$secrefs = $db->selectObjects("sectionref","section=".$parent);
+		foreach ($secrefs as $secref) {
+			$loc = pathos_core_makeLocation($secref->module,$secref->source,$secref->internal);
+			pathos_core_decrementLocationReference($loc,$parent);
+			
+			foreach ($db->selectObjects("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
 				$modclass = $locref->module;
 				$mod = new $modclass();
 				$mod->deleteIn(pathos_core_makeLocation($locref->module,$locref->source,$locref->internal));
@@ -283,7 +311,7 @@ class navigationmodule {
 			$db->delete("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
 		}
 		$db->delete("sectionref","section=".$parent);
-		$db->delete("section","parent=$parent");
+		*/
 	}
 }
 

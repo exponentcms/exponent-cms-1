@@ -74,3 +74,13 @@ Pageset
 Pagesets are powerful tools that allow you to create sections with default content and subsections by adding a single pageset.
 </div>
 {/if}
+
+{if $haveStandalone != 0}
+<div style="background-color: #CCC; padding: 5px;"><a class="mngmntlink navigation_mngmntlink" href="{link action=move_standalone parent=$parent->id}">
+Move Standalone Page
+</a>
+</div>
+<div style="padding: .5em; padding-bottom: 1.5em;">
+Use this if you want to move a standalone page into the navigation hierarchy.
+</div>
+{/if}

@@ -39,10 +39,10 @@ if (!defined('PATHOS')) exit('');
 $parent = null;
 if (isset($_GET['parent'])) {
 	// May have been passed a '0', indicating that we want a top-level section
-	if ($_GET['parent'] == 0) {
-		// Set $parent->id to 0, so that $parent is not null.  The view will use this information
+	if ($_GET['parent'] <= 0) {
+		// Set $parent->id to passed value, so that $parent is not null.  The view will use this information
 		// to output the appropriate messages to the user.
-		$parent->id = 0;
+		$parent->id = $_GET['parent'];
 	} else {
 		// Passed a non-zero parent id - Adding a subsection.  Try to read
 		// the parent from the database.
@@ -61,7 +61,9 @@ if ($parent) {
 		
 		$template = new template('navigationmodule','_add_whichtype');
 		// We do, however need to know if there are any Pagesets.
-		$template->assign('havePagesets',$db->countObjects('section_template','parent=0'));
+		$template->assign('havePagesets',($db->countObjects('section_template','parent=0') && $parent->id >= 0));
+		// We also need to know if there are any standalone pages.
+		$template->assign('haveStandalone',($db->countObjects('section','parent=-1') && $parent->id >= 0));
 		// Assign the parent we were passed, so that it can propagated along to the actual form action.
 		$template->assign('parent',$parent);
 		$template->output();
