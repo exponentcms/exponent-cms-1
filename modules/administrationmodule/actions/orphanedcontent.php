@@ -31,10 +31,15 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_acting_admin == 1) {
+// Part of the Database category
+
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	$nullrefs = $db->selectObjects("locationref","refcount=0");
+	$nullrefs = $db->selectObjects('locationref','refcount=0');
 	$mods = array();
 	$have_bad_orphans = false;
 	foreach ($nullrefs as $nullref) {
@@ -46,23 +51,22 @@ if ($user && $user->is_acting_admin == 1) {
 			if (class_exists($modclass)) {
 				$mod = new $modclass();
 				$mods[$nullref->module] = array(
-					"name"=>$mod->name(),
-					"modules"=>array()
+					'name'=>$mod->name(),
+					'modules'=>array()
 				);
 			} else $have_bad_orphans = true;
 		}
 		if (class_exists($modclass)) {
 			ob_start();
-			call_user_func(array($modclass,"show"),"Default",pathos_core_makeLocation($modclass,$nullref->source));		
-			$mods[$nullref->module]["modules"][$nullref->source] = ob_get_contents();
+			call_user_func(array($modclass,'show'),'Default',pathos_core_makeLocation($modclass,$nullref->source));		
+			$mods[$nullref->module]['modules'][$nullref->source] = ob_get_contents();
 			ob_end_clean();
 		}
 	}
 	
-	$template = new Template("administrationmodule","_orphanedcontent");
-	$template->assign("modules",$mods);
-	$template->assign("have_bad_orphans",$have_bad_orphans);
-	$template->assign("deletelink","?module=administrationmodule&action=orphanedcontent_delete");
+	$template = new template('administrationmodule','_orphanedcontent');
+	$template->assign('modules',$mods);
+	$template->assign('have_bad_orphans',$have_bad_orphans);
 	
 	$template->output();	
 } else {

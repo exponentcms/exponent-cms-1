@@ -33,9 +33,13 @@
 //GREP:HARDCODEDTEXT
 //GREP:VIEWIFY
 //GREP:REIMPLEMENT
+
+// Part of the HTMLArea category
+
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 
 	$imagedir = BASE."external/htmlarea/toolbaricons";
 	$imagebase = PATH_RELATIVE."external/htmlarea/toolbaricons";

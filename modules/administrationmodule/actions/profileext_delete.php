@@ -31,10 +31,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management System
 
-if ($user && $user->is_acting_admin) {
-	$db->delete("profileextension","id=".$_GET['id']);
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	$db->delete('profileextension','id='.$_GET['id']);
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

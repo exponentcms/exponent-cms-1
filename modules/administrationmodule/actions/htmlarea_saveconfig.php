@@ -31,20 +31,23 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the HTMLArea category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 
 	$config = null;
-	if (isset($_POST['id'])) $config = $db->selectObject("htmlareatoolbar","id=".$_POST['id']);
+	if (isset($_POST['id'])) $config = $db->selectObject('htmlareatoolbar','id='.$_POST['id']);
 	$config->name = $_POST['config_name'];
 	$config->data = array();
-	foreach (explode(":",$_POST['config']) as $line) {
+	foreach (explode(':',$_POST['config']) as $line) {
 		$line = trim($line);
-		if ($line != "") {
+		if ($line != '') {
 			$i = count($config->data);
 			$config->data[] = array();
-			foreach (explode(";",$line) as $icon) {
+			foreach (explode(';',$line) as $icon) {
 				$config->data[$i][] = $icon; // MAY need to strip off ed
 			}
 		}
@@ -52,14 +55,17 @@ if ($user && $user->is_acting_admin) {
 	$config->data = serialize($config->data);
 	
 	if (isset($_POST['config_activate'])) {
-		$active = $db->selectObject("htmlareatoolbar","active=1");
+		$active = $db->selectObject('htmlareatoolbar','active=1');
 		$active->active = 0;
-		$db->updateObject($active,"htmlareatoolbar");
+		$db->updateObject($active,'htmlareatoolbar');
 		$config->active = 1;
 	}
 	
-	if (isset($config->id)) $db->updateObject($config,"htmlareatoolbar");
-	else $db->insertObject($config,"htmlareatoolbar");
+	if (isset($config->id)) {
+		$db->updateObject($config,'htmlareatoolbar');
+	} else {
+		$db->insertObject($config,'htmlareatoolbar');
+	}
 	
 	pathos_flow_redirect();
 } else {

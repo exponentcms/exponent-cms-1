@@ -31,31 +31,34 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Configuration category
 
-if ($user && $user->is_acting_admin == 1) {
-	$template = new template("administrationmodule","_sysinfo",$loc);
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
+	$template = new template('administrationmodule','_sysinfo',$loc);
 	
 	$php = array(
-		"logo_src"=>$_SERVER['PHP_SELF']."?=".php_logo_guid(),
-		"version"=>phpversion()
+		'logo_src'=>$_SERVER['PHP_SELF'].'?='.php_logo_guid(),
+		'version'=>phpversion()
 	);
-	$template->assign("php",$php);
+	$template->assign('php',$php);
 	
 	$zend = array(
-		"logo_src"=>$_SERVER['PHP_SELF']."?=".zend_logo_guid(),
-		"version"=>zend_version()
+		'logo_src'=>$_SERVER['PHP_SELF'].'?='.zend_logo_guid(),
+		'version'=>zend_version()
 	);
-	$template->assign("zend",$zend);
+	$template->assign('zend',$zend);
 	
 	$server = array(
-		"os"=>php_uname("s"),
-		"hostname"=>php_uname("n"),
-		"release"=>php_uname("r"),
-		"version"=>php_uname("v"),
-		"machine"=>php_uname("m")
+		'os'=>php_uname('s'),
+		'hostname'=>php_uname('n'),
+		'release'=>php_uname('r'),
+		'version'=>php_uname('v'),
+		'machine'=>php_uname('m')
 	);
-	$template->assign("server",$server);
+	$template->assign('server',$server);
 	
 	$template->output();
 } else {

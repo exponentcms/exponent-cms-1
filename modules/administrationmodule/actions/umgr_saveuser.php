@@ -31,11 +31,15 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin == 1) {
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	if (!defined("SYS_SECURITY")) include_once(BASE."subsystems/security.php");
+// Part of the User Management category
+
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$u = pathos_users_getUserById($_POST['id']);
 		$u = pathos_users_update($_POST,$u);
@@ -52,25 +56,25 @@ if ($user && $user->is_acting_admin == 1) {
 		if (pathos_users_getUserByName($_POST['username']) != null) {
 			$post = $_POST;
 			unset($post['username']);
-			$post['_formError'] = "Username already taken.";
-			pathos_sessions_set("last_POST",$post);
-			header("Location: " . $_SERVER['HTTP_REFERER']);
+			$post['_formError'] = 'Username already taken.';
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else if ($_POST['pass1'] != $_POST['pass2']) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = "Passwords don't match";
-			pathos_sessions_set("last_POST",$post);
-			header("Location: " . $_SERVER['HTTP_REFERER']);
+			$post['_formError'] = 'Passwords do not match';
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
 			$strength_error = pathos_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
-			if ($strength_error != "") {
+			if ($strength_error != '') {
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
-				$post['_formError'] = "Specified password is not strong enough : $strength_error";
-				pathos_sessions_set("last_POST",$post);
-				header("Location: " . $_SERVER['HTTP_REFERER']);
+				$post['_formError'] = 'Specified password is not strong enough : '.$strength_error;
+				pathos_sessions_set('last_POST',$post);
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
 				$u = pathos_users_create($_POST,$u);
 				$u = pathos_users_saveProfileExtensions($_POST,$u,true);

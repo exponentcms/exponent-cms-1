@@ -31,10 +31,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the HTMLArea category
 
-if ($user && $user->is_acting_admin) {
-	$db->delete("htmlareatoolbar","id=".$_GET['id']);
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	$db->delete('htmlareatoolbar','id='.$_GET['id']);
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

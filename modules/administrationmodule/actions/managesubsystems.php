@@ -31,16 +31,19 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Extensions category
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_INFO")) include_once(BASE."subsystems/info.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
 	
 	$info = pathos_info_subsystems();
 	ksort($info);
 	
-	$template = new template("administrationmodule","_subsystemManager",$loc);
-	$template->assign("info",$info);
+	$template = new template('administrationmodule','_subsystemManager',$loc);
+	$template->assign('info',$info);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

@@ -31,34 +31,38 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin == 1) {
+// Part of the Extensions category
+
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
 	$sessid = session_id();
 	if (!file_exists(BASE."extensionuploads/$sessid") || !is_dir(BASE."extensionuploads/$sessid")) {
-		echo "No files to copy.  If you hit refresh, this is normal.";
+		echo 'No files to copy.  If you hit refresh, this is normal.';
 #		$success = array();
 	} else {
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$success = array();
 		foreach (array_keys(pathos_files_listFlat(BASE."extensionuploads/$sessid",true,null,array(),BASE."extensionuploads/$sessid")) as $file) {
-			if ($file != "/archive.tar" && $file != "/archive.tar.gz" && $file != "archive.tar.bz2" && $file != "/archive.zip") {
+			if ($file != '/archive.tar' && $file != '/archive.tar.gz' && $file != 'archive.tar.bz2' && $file != '/archive.zip') {
 				pathos_files_makeDirectory(dirname($file));
 				$success[$file] = copy(BASE."extensionuploads/$sessid".$file,BASE.substr($file,1));
-				if (basename($file) == "views_c") chmod(BASE.substr($file,1),0777);
+				if (basename($file) == 'views_c') chmod(BASE.substr($file,1),0777);
 			}
 		}
 		
 		$del_return = pathos_files_removeDirectory(BASE."extensionuploads/$sessid");
 		echo $del_return;
 		
-		$template = new template("administrationmodule","_upload_finalSummary",$loc);
-		$template->assign("success",$success);
+		$template = new template('administrationmodule','_upload_finalSummary',$loc);
+		$template->assign('success',$success);
 		
-		$template->assign("redirect",pathos_flow_get());
+		$template->assign('redirect',pathos_flow_get());
 		$template->output();
 		
-		include(BASE."modules/administrationmodule/actions/installtables.php");
+		include(BASE.'modules/administrationmodule/actions/installtables.php');
 	}
 } else {
 	echo SITE_403_HTML;

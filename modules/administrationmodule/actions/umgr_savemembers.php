@@ -31,18 +31,21 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin) {
-	$u = $db->selectObject("user","id=".$_POST['id']);
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	$u = $db->selectObject('user','id='.$_POST['id']);
 	if ($u) {
-		$db->delete("groupmembership","member_id=".$u->id);
+		$db->delete('groupmembership','member_id='.$u->id);
 		$memb = null;
 		$memb->member_id = $u->id;
 		if ($_POST['membdata'] != "") {
 			foreach (explode(",",$_POST['membdata']) as $id) {
 				$memb->group_id = $id;
-				$db->insertObject($memb,"groupmembership");
+				$db->insertObject($memb,'groupmembership');
 			}
 		}
 		pathos_permissions_triggerRefresh($u);

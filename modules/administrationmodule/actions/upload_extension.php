@@ -31,20 +31,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Extensions category
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	$form = new form();
 	
-	$form->register("mod_archive","Module Archive",new uploadcontrol());
-	$form->register("submit","",new buttongroupcontrol("Install"));
-	$form->meta("module","administrationmodule");
-	$form->meta("action","install_extension");
+	$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
+	$form->register('mod_archive','Module Archive',new uploadcontrol());
+	$form->register('submit','',new buttongroupcontrol('Install'));
+	$form->meta('module','administrationmodule');
+	$form->meta('action','install_extension');
 
-	$template = new template("administrationmodule","_form_uploadExt",$loc);
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('administrationmodule','_form_uploadExt',$loc);
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
 	pathos_forms_cleanup();

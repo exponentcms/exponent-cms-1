@@ -31,10 +31,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Extensions category
 
-if ($user && $user->is_acting_admin) {
-	pathos_sessions_set("display_theme",$_GET['theme']);
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	pathos_sessions_set('display_theme',$_GET['theme']);
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

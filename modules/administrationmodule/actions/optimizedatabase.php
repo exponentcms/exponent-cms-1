@@ -31,18 +31,21 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Database category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$before = $db->databaseInfo();
 	foreach (array_keys($before) as $table) {
 		$db->optimize($table);
 	}
 	$after = $db->databaseInfo();
 	
-	$template = new Template("administrationmodule","_optimizedatabase",$loc);
-	$template->assign("before",$before);
-	$template->assign("after",$after);
+	$template = new Template('administrationmodule','_optimizedatabase',$loc);
+	$template->assign('before',$before);
+	$template->assign('after',$after);
 	
 	$template->output();
 } else {

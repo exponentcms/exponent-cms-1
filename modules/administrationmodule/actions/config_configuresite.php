@@ -31,18 +31,23 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+// Part of the Configuration category
+
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
-	if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");
+	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
 	
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	$form = pathos_config_configurationForm($configname);
-	$form->meta("module","administrationmodule");
-	$form->meta("action","config_save");
+	$form->meta('module','administrationmodule');
+	$form->meta('action','config_save');
 	
-	$template = new template("administrationmodule","_config_configuresite",$loc);
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('administrationmodule','_config_configuresite',$loc);
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
 	pathos_forms_cleanup();

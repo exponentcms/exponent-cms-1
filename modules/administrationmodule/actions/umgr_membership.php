@@ -31,16 +31,19 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$u = pathos_users_getUserById($_GET['id']);
 	if ($u) {
 		$groups = pathos_users_getAllGroups();
 		
 		$membership = array();
-		foreach ($db->selectObjects("groupmembership","member_id=".$u->id) as $m) {
+		foreach ($db->selectObjects('groupmembership','member_id='.$u->id) as $m) {
 			$membership[] = $m->group_id;
 		}
 		
@@ -49,11 +52,11 @@ if ($user && $user->is_acting_admin) {
 			else $groups[$i]->is_member = 0;
 		}
 		
-		$template = new template("administrationmodule","_usermembership",$loc);
-		$template->assign("user",$u);
-		$template->assign("groups",$groups);
-		$template->assign("canAdd",(count($membership) < count($groups) ? 1 : 0));
-		$template->assign("hasMember",(count($membership) > 0 ? 1 : 0));
+		$template = new template('administrationmodule','_usermembership',$loc);
+		$template->assign('user',$u);
+		$template->assign('groups',$groups);
+		$template->assign('canAdd',(count($membership) < count($groups) ? 1 : 0));
+		$template->assign('hasMember',(count($membership) > 0 ? 1 : 0));
 		$template->output();
 	} else {
 		echo SITE_404_HTML;

@@ -31,16 +31,12 @@
 # $Id$
 ##################################################
 
-return array(
+$stuff = array(
 	"User Management"=>array(
 		"useraccounts"=>array(
 			"title"=>"User Accounts",
 			"module"=>"administrationmodule",
 			"action"=>"useraccounts"),
-		"massmail"=>array(
-			"title"=>"Mass Mailing",
-			"module"=>"administrationmodule",
-			"action"=>"massmail"),
 		"usersessions"=>array(
 			"title"=>"User Sessions",
 			"module"=>"administrationmodule",
@@ -109,5 +105,11 @@ return array(
 			"action"=>"sysinfo")
 	)
 );
+
+if (!$user->is_admin) {
+	unset($stuff['Database']['import']);
+}
+
+return $stuff;
 
 ?>

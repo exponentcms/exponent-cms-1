@@ -31,10 +31,14 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin == 1) {
-	if (!defined("SYS_USERS")) include_once("subsystems/users.php");
+// Part of the User Management category
+
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$g = pathos_users_getGroupById($_POST['id']);
 		$g = pathos_users_groupUpdate($_POST,$g);
@@ -44,9 +48,9 @@ if ($user && $user->is_acting_admin == 1) {
 	} else {
 		if (pathos_users_getGroupByName($_POST['name']) != null) {
 			$post = $_POST;
-			$post['_formError'] = "The group name name is already taken.";
-			pathos_sessions_set("last_POST",$post);
-			header("Location: " . $_SERVER['HTTP_REFERER']);
+			$post['_formError'] = 'The group name name is already taken.';
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
 			$g = pathos_users_groupUpdate($_POST,$g);
 			pathos_users_saveGroup($g);

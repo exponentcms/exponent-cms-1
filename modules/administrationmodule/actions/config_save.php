@@ -31,80 +31,88 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");
+// Part of the Configuration category
+
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
 	
 	$continue = true;
-	$errors = "";
-	
-	// Test the prefix
-	if (preg_match("/[^A-Za-z0-9]/",$_POST['c']['DB_TABLE_PREFIX'])) {
-		$continue = false;
-		$errors .= "Invalid table prefix.  The table prefix can only contain alphanumeric characters.";
-	}
-	
-	// Test the database connection
-	$newdb = pathos_database_connect($_POST['c']['DB_USER'],$_POST['c']['DB_PASS'],$_POST['c']['DB_HOST'].":".$_POST['c']['DB_PORT'],$_POST['c']['DB_NAME'],$_POST['c']['DB_ENGINE']);
-	$newdb->prefix = $_POST['c']['DB_TABLE_PREFIX'] . "_";
-	
-	if (!$newdb->isValid()) {
-		$continue = false;
-		$errors .= "Unable to connect to database server.  Make sure that the database specified exists, and the user account specified has access to the server.<br />";
-	}
-	
-	if ($continue) {
-		$status = $newdb->testPrivileges();
-		foreach ($status as $type=>$flag) {
-			if (!$flag) {
-				$continue = false;
-				$errors .= "Unable to run $type commands<br />";
+	if ($user->is_admin) { // Only do the database stuff if we are a super admin
+		$errors = '';
+		
+		// Test the prefix
+		if (preg_match("/[^A-Za-z0-9]/",$_POST['c']['DB_TABLE_PREFIX'])) {
+			$continue = false;
+			$errors .= 'Invalid table prefix.  The table prefix can only contain alphanumeric characters.';
+		}
+		
+		// Test the database connection
+		$newdb = pathos_database_connect($_POST['c']['DB_USER'],$_POST['c']['DB_PASS'],$_POST['c']['DB_HOST'].":".$_POST['c']['DB_PORT'],$_POST['c']['DB_NAME'],$_POST['c']['DB_ENGINE']);
+		$newdb->prefix = $_POST['c']['DB_TABLE_PREFIX'] . '_';
+		
+		if (!$newdb->isValid()) {
+			$continue = false;
+			$errors .= 'Unable to connect to database server.  Make sure that the database specified exists, and the user account specified has access to the server.<br />';
+		}
+		
+		if ($continue) {
+			$status = $newdb->testPrivileges();
+			foreach ($status as $type=>$flag) {
+				if (!$flag) {
+					$continue = false;
+					$errors .= 'Unable to run $type commands<br />';
+				}
 			}
 		}
 	}
 	
 	if ($continue) {
 		pathos_config_saveConfiguration($_POST);
-		$db = $newdb;
-		ob_start();
-		include_once(BASE."modules/administrationmodule/actions/installtables.php");
-		$ob = ob_get_contents();
-		ob_end_clean();
-		if ($db->tableIsEmpty("user")) {
-			$user = null;
-			$user->username = "admin";
-			$user->password = md5("admin");
-			$user->is_admin = 1;
-			$user->is_acting_admin = 1;
-			$db->insertObject($user,"user");
+		$ob = "";
+		if ($user->is_admin) {
+			$db = $newdb;
+			ob_start();
+			include_once(BASE.'modules/administrationmodule/actions/installtables.php');
+			$ob = ob_get_contents();
+			ob_end_clean();
+			if ($db->tableIsEmpty('user')) {
+				$user = null;
+				$user->username = 'admin';
+				$user->password = md5('admin');
+				$user->is_admin = 1;
+				$user->is_acting_admin = 1;
+				$db->insertObject($user,'user');
+			}
+			
+			if ($db->tableIsEmpty('modstate')) {
+				$modstate = null;
+				$modstate->module = 'administrationmodule';
+				$modstate->active = 1;
+				$db->insertObject($modstate,'modstate');
+			}
+			
+			if ($db->tableIsEmpty('section')) {
+				$section = null;
+				$section->name = 'Home';
+				$section->public = 1;
+				$section->active = 1;
+				$section->rank = 0;
+				$section->parent = 0;
+				$sid = $db->insertObject($section,'section');
+			}
 		}
-		
-		if ($db->tableIsEmpty("modstate")) {
-			$modstate = null;
-			$modstate->module = "administrationmodule";
-			$modstate->active = 1;
-			$db->insertObject($modstate,"modstate");
-		}
-		
-		if ($db->tableIsEmpty("section")) {
-			$section = null;
-			$section->name = "Home";
-			$section->public = 1;
-			$section->active = 1;
-			$section->rank = 0;
-			$section->parent = 0;
-			$sid = $db->insertObject($section,"section");
-		}
-		
-		echo "<br /><br />Configuration Saved!  Click <a class='mngmntlink' href='".pathos_flow_get()."'>here</a> to continue.<br /><hr size='1' />";
+		echo '<br /><br />Configuration Saved!  Click <a class="mngmntlink" href="'.pathos_flow_get().'">here</a> to continue.<br /><hr size="1" />';
 		echo $ob;
 	} else {
-		echo "<div style='color: #FF0000; font-weight: bold;'>Errors were encountered with your database connection settings:</div>";
-		echo "<div style='padding-left: 15px;'>";
+		echo '<div style="color: #FF0000; font-weight: bold;">Errors were encountered with your database connection settings:</div>';
+		echo '<div style="padding-left: 15px;">';
 		echo $errors;
-		echo "<br /><br />Site configuration was <b>not</b> saved.  Click <a class='mngmntlink' href='".$_SERVER['HTTP_REFERER']."'>here</a> to go back and reconfigure.<br /><br />";
-		echo "</div>";
+		echo '<br /><br />Site configuration was <b>not</b> saved.  Click <a class="mngmntlink" href="'.$_SERVER['HTTP_REFERER'].'">here</a> to go back and reconfigure.<br /><br />';
+		echo '</div>';
 	}
 } else {
 	echo SITE_403_HTML;

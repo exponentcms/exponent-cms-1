@@ -31,29 +31,32 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of Extensions category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$modclass = $_GET['name'];
 	
-	$template = new template("administrationmodule","_examplecontent",$loc);
+	$template = new template('administrationmodule','_examplecontent',$loc);
 	
 	$views = array();
-	$loc = pathos_core_makeLocation($modclass,"@example");
+	$loc = pathos_core_makeLocation($modclass,'@example');
 	foreach (pathos_modules_views($modclass) as $view) {
 		$v = null;
 		$v->view = $view;
 		
 		ob_start();
-		call_user_func(array($modclass,"show"),$view,$loc,"Example Title");
+		call_user_func(array($modclass,'show'),$view,$loc,'Example Title');
 		$v->content = ob_get_contents();
 		ob_end_clean();
 		
 		$views[] = $v;
 	}
-	$template->assign("views",$views);
+	$template->assign('views',$views);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

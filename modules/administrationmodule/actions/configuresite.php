@@ -31,49 +31,52 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Configuration category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	
-	if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$profiles = pathos_config_profiles();
-	if (count($profiles) == 0) $profiles = array(""=>"[No Profiles]");
-	if (!array_key_exists($configname,$profiles) || $configname == "") {
-		if (defined("CURRENTCONFIGNAME")) $configname = CURRENTCONFIGNAME;
+	if (count($profiles) == 0) $profiles = array(''=>'[No Profiles]');
+	if (!array_key_exists($configname,$profiles) || $configname == '') {
+		if (defined('CURRENTCONFIGNAME')) $configname = CURRENTCONFIGNAME;
 		else {
 			$keys = array_keys($profiles);
 			$configname = $keys[1];
 		}
 	}
 	if (!array_key_exists($configname,$profiles)) $configname = "";
-	uasort($profiles,"strnatcmp");
+	uasort($profiles,'strnatcmp');
 	
-	$template = new template("administrationmodule","_configuresiteview",$loc);
+	$template = new template('administrationmodule','_configuresiteview',$loc);
 	
 	$form = new form();
 	
 	$dd = new dropdowncontrol($configname,$profiles);
-	$href = preg_replace("/&configname.*/","",$_SERVER['REQUEST_URI']);
-	$dd->jsHooks["onChange"] = "document.location.href = makeLink('module','administrationmodule','action','configuresite','configname',this.options[this.selectedIndex].value);";
-	$form->register("configname","Profile",$dd);
-	$template->assign("form_html",$form->toHTML());
+	$href = preg_replace("/&configname.*/",'',$_SERVER['REQUEST_URI']);
+	$dd->jsHooks['onChange'] = "document.location.href = makeLink('module','administrationmodule','action','configuresite','configname',this.options[this.selectedIndex].value);";
+	$form->register('configname','Profile',$dd);
+	$template->assign('form_html',$form->toHTML());
 	
 	$template = pathos_config_outputConfigurationTemplate($template,$configname);
-	$template->assign("configname",$configname);
+	$template->assign('configname',$configname);
 	
-	$canactivate = ($configname != "" && is_readable(BASE."conf/profiles/$configname.php"));
-	$candelete = ($configname != "" && is_writeable(BASE."conf/profiles"));
-	$canedit = (($configname == "" && (is_writeable(BASE."conf/config.php"))) || is_writeable(BASE."conf/profiles/"));
+	$canactivate = ($configname != '' && is_readable(BASE."conf/profiles/$configname.php"));
+	$candelete = ($configname != '' && is_writeable(BASE.'conf/profiles'));
+	$canedit = (($configname == '' && (is_writeable(BASE.'conf/config.php'))) || is_writeable(BASE.'conf/profiles/'));
 	
-	$template->assign("canactivate",$canactivate);
-	$template->assign("canedit",$canedit);
-	$template->assign("candelete",$candelete);
+	$template->assign('canactivate',$canactivate);
+	$template->assign('canedit',$canedit);
+	$template->assign('candelete',$candelete);
 	
 	$template->output();
 	

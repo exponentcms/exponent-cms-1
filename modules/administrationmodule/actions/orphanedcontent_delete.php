@@ -31,7 +31,10 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_acting_admin == 1) {
+// Part of the Database category
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
 	$src = urldecode($_GET['delsrc']);
 	
 	$mod = new $_GET['mod']();
@@ -39,8 +42,8 @@ if ($user && $user->is_acting_admin == 1) {
 		$mod->deleteIn(pathos_core_makeLocation($_GET['mod'],$_GET['delsrc']));
 	}
 	
-	$db->delete("locationref","module='" . $_GET['mod'] . "' AND source='$src' AND refcount=0");
-	$db->delete("sectionref","module='" . $_GET['mod'] . "' AND source='$src' AND refcount=0");
+	$db->delete('locationref',"module='" . $_GET['mod'] . "' AND source='$src' AND refcount=0");
+	$db->delete('sectionref',"module='" . $_GET['mod'] . "' AND source='$src' AND refcount=0");
 	
 	pathos_flow_redirect();
 } else {

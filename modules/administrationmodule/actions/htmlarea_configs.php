@@ -31,14 +31,17 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the HTMLArea category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	$template = new Template("administrationmodule","_htmlareaconfigs",$loc);
-	$configs = $db->selectObjects("htmlareatoolbar");
-	$template->assign("configs",$configs);
+	$template = new Template('administrationmodule','_htmlareaconfigs',$loc);
+	$configs = $db->selectObjects('htmlareatoolbar');
+	$template->assign('configs',$configs);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

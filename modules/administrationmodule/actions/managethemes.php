@@ -31,13 +31,16 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Extensions category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	$themes = array();
-	if (is_readable(BASE."themes")) {
-		$dh = opendir(BASE."themes");
+	if (is_readable(BASE.'themes')) {
+		$dh = opendir(BASE.'themes');
 		while (($file = readdir($dh)) !== false) {
 			if (is_readable(BASE."themes/$file/class.php")) {
 				include_once(BASE."themes/$file/class.php");
@@ -54,9 +57,9 @@ if ($user && $user->is_acting_admin) {
 		}
 	}
 	
-	$template = new Template("administrationmodule","_thememanager",$loc);
+	$template = new template('administrationmodule','_thememanager',$loc);
 	
-	$template->assign("themes",$themes);
+	$template->assign('themes',$themes);
 	
 	$template->output();
 } else {

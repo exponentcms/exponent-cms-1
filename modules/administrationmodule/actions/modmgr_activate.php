@@ -31,26 +31,29 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Extensions category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	if (isset($_GET['all'])) {
-		$db->delete("modstate");
+		$db->delete('modstate');
 		$modstate->active = $_GET['activate'];
-		if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");
+		if (!defined('SYS_MODULES')) include_once(BASE.'subsystems/modules.php');
 		foreach (pathos_modules_list() as $mod) {
 			$modstate->module = $mod;
-			$db->insertObject($modstate,"modstate");
+			$db->insertObject($modstate,'modstate');
 		}
 	} else {
-		$modstate = $db->selectObject("modstate","module='".$_GET['mod']."'");
+		$modstate = $db->selectObject('modstate',"module='".$_GET['mod']."'");
 		if ($modstate == null) {
 			$modstate->active = $_GET['activate'];
 			$modstate->module = $_GET['mod'];
-			$db->insertObject($modstate,"modstate");
+			$db->insertObject($modstate,'modstate');
 		} else {
 			$modstate->active = $_GET['activate'];
-			$db->updateObject($modstate,"modstate","module='".$_GET['mod']."'");
+			$db->updateObject($modstate,'modstate',"module='".$_GET['mod']."'");
 		}
 	}
 	pathos_flow_redirect();

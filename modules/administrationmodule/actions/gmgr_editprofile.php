@@ -31,21 +31,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin == 1) {
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	if (!defined("SYS_FORMS")) include_once("subsystems/forms.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 
 	$g = pathos_users_getGroupById($_GET['id']);
 	$form = pathos_users_groupForm($g);
-	$form->meta("module","administrationmodule");
-	$form->meta("action","gmgr_savegroup");
+	$form->meta('module','administrationmodule');
+	$form->meta('action','gmgr_savegroup');
 	
-	$template = new template("administrationmodule","_gmgr_editprofile",$loc);
-	$template->assign("form_html",$form->toHTML());
-	$template->assign("is_edit",($g != null));
+	$template = new template('administrationmodule','_gmgr_editprofile',$loc);
+	$template->assign('form_html',$form->toHTML());
+	$template->assign('is_edit',($g != null));
 	$template->output();
 	
 	pathos_forms_cleanup();

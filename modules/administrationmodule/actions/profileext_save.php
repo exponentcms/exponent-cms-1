@@ -31,21 +31,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$ext = null;
-	if (isset($_GET['id'])) $ext = $db->selectObject("profileextension","id=".$_GET['id']);
+	if (isset($_GET['id'])) $ext = $db->selectObject('profileextension','id='.$_GET['id']);
 	
 	$ext->extension = $_GET['ext'];
 	if (!isset($ext->id)) {
 		// Get rank, append to end.
-		$ext->rank = $db->max("profileextension","rank");
+		$ext->rank = $db->max('profileextension','rank');
 		if ($ext->rank == null) $ext->rank = 0;
 		else $ext->rank++;
-		$db->insertObject($ext,"profileextension");
+		$db->insertObject($ext,'profileextension');
 	} else {
-		$db->updateObject($ext,"profileextension");
+		$db->updateObject($ext,'profileextension');
 	}
 	
 	pathos_flow_redirect();

@@ -31,15 +31,18 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management categry
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	$template = new Template("administrationmodule","_groupmanager",$loc);
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	$template = new Template('administrationmodule','_groupmanager',$loc);
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$groups = pathos_users_getAllGroups();
-	$template->assign("groups",$groups);
+	$template->assign('groups',$groups);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

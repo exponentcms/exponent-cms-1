@@ -31,9 +31,12 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Database category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$dropped_tables = array();
 	
 	foreach ($db->getTables(true) as $table) {
@@ -42,7 +45,7 @@ if ($user && $user->is_acting_admin) {
 			
 			//This is a quick fix to keep this from deleting the formbuilder tables!
 			$tmp = str_replace('formbuilder_',"",$table);
-			if ($db->countObjects("formbuilder_form","table_name='".$tmp."'") == 0) {
+			if ($db->countObjects('formbuilder_form',"table_name='".$tmp."'") == 0) {
 			
 				if ($db->tableIsEmpty($table)) {
 					$db->dropTable($table);
@@ -55,9 +58,9 @@ if ($user && $user->is_acting_admin) {
 	
 	$dropped_count = count($dropped_tables);
 	
-	$dir = BASE."datatypes/definitions";
+	$dir = BASE.'datatypes/definitions';
 	if (is_readable($dir)) {
-		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		foreach ($dropped_tables as $key=>$tablename) {
 			if (is_readable("$dir/$tablename.php") && is_file("$dir/$tablename.php")) {
 				$dd = include("$dir/$tablename.php");
@@ -89,10 +92,10 @@ if ($user && $user->is_acting_admin) {
 	
 	$real_dropped_count = count($dropped_tables);
 	
-	$template = new Template("administrationmodule","_tableTrimSummary",$loc);
-	$template->assign("status",$dropped_tables);
-	$template->assign("dropped",$dropped_count);
-	$template->assign("real_dropped",$real_dropped_count);
+	$template = new Template('administrationmodule','_tableTrimSummary',$loc);
+	$template->assign('status',$dropped_tables);
+	$template->assign('dropped',$dropped_count);
+	$template->assign('real_dropped',$real_dropped_count);
 	$template->output();
 	
 } else {

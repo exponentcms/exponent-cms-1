@@ -31,13 +31,16 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$u = pathos_users_getUserById($_GET['id']);
 	if ($u->is_acting_admin == 0 || ($user->is_admin == 1 && $u->is_admin == 0)) {
-		$db->delete("sessionticket","uid='".$u->id."'");
+		$db->delete('sessionticket','uid='.$u->id);
 	}
 	
 	pathos_flow_redirect();

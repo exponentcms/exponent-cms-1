@@ -31,14 +31,17 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin == 1) {
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin == 1) {
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	pathos_users_includeProfileExtensions();
-	$existing = $db->selectObject("profileextension","extension='".$_GET['ext']."'");
+	$existing = $db->selectObject('profileextension',"extension='".$_GET['ext']."'");
 	if ($existing == null) {
-		call_user_func(array($_GET['ext'],"clear"));
+		call_user_func(array($_GET['ext'],'clear'));
 	}
 	pathos_flow_redirect();
 } else {
