@@ -132,6 +132,10 @@ class texteditorcontrol extends formcontrol {
 	
 	}
 	
+	function parseData($original_name,$formvalues,$for_db = false) {
+		return str_replace(array("\r\n","\n","\r"),'<br />', htmlspecialchars($formvalues[$original_name])); 
+	}
+	
 }
 
 ?>
