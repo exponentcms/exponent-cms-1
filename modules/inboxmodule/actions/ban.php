@@ -33,27 +33,20 @@
 
 if (!defined("PATHOS")) exit("");
 
-$contact = null;
 $u = null;
-if (isset($_REQUEST['cid'])) {
-	$contact = $db->selectObject("inbox_contact","id=".$_REQUEST['cid']);
-} else if (isset($_REQUEST['uid'])) {
+if (isset($_REQUEST['uid'])) {
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	$u = pathos_users_getUserById($_REQUEST['uid']);
 }
 
-if ($user && (($contact && $contact->owner == $user->id) || $u)) {
-	$uid = 0;
-	if ($contact) {
-		$uid = $contact->user_id;
-		$db->delete("inbox_contact","id=".$contact->id);
-	} else $uid = $u->id;
-	
+if ($user && $u) {
 	$ban = null;
 	$ban->owner = $user->id;
-	$ban->user_id = $uid;
+	$ban->user_id = $u->user_id;
 	$db->insertObject($ban,"inbox_contactbanned");
 	pathos_flow_redirect();
+} else {
+	echo SITE_404_HTML;
 }
 
 ?>
