@@ -106,7 +106,7 @@ $stuff = array(
 	)
 );
 
-if (!$user->is_admin) {
+if (!$user || !$user->is_admin) {
 	unset($stuff['Database']['import']);
 }
 
