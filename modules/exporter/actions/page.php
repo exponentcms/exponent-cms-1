@@ -31,7 +31,10 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "start");
 	$exporter = (isset($_REQUEST['exporter']) ? $_REQUEST['exporter'] : "");
 	$file = BASE."modules/exporter/exporters/$exporter/$page.php";

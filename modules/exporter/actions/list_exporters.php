@@ -33,7 +33,8 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	$exporters = array();
 	$idh = opendir(BASE."modules/exporter/exporters");
 	while (($imp = readdir($idh)) !== false) {
