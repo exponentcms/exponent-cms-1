@@ -43,17 +43,10 @@ class inboxmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = "") {
-		if ($internal == "") {
-			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
-			);
-		} else {
-			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
-			);
-		}
+		return array(
+			"administrate"=>"Administrate",
+			"contact_all"=>"Contact All Users",
+		);
 	}
 	
 	function show($view,$loc,$title) {
@@ -69,7 +62,7 @@ class inboxmodule {
 			$template->assign("totalMessages",$unread+$read);
 			$template->assign("user",$user);
 			$template->assign("moduletitle",$title);
-			
+			$template->register_permissions("administrate",$loc);
 			$template->output();
 		}
 	}
