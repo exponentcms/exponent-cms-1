@@ -140,21 +140,23 @@ class newsmodule {
 		);
 		
 		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
-		$template->assign('hasChannelItems',pathos_channels_hasItems($loc,true));
-		$template->assign('hasNewChannelItems',pathos_channels_hasItems($loc,false));
+		$channel = pathos_channels_getChannel($loc);
+		if ($channel) {
+			$template->assign('is_channel',1);
+			$template->assign('hasChannelItems',pathos_channels_hasItems($loc,true));
+			$template->assign('hasNewChannelItems',pathos_channels_hasItems($loc,false));
+		} else {
+			$template->assign('is_channel',0);
+		}
 		
 		$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY ".$config->sortfield." " . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {
-			$nloc = null;
-			$nloc->mod = $loc->mod;
-			$nloc->src = $loc->src;
-			$nloc->int = $news[$i]->id;
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
 			
 			$news[$i]->permissions = array(
-				"edit_item"=>((pathos_permissions_check("edit_item",$loc) || pathos_permissions_check("edit_item",$nloc)) ? 1 : 0),
-				"delete_item"=>((pathos_permissions_check("delete_item",$loc) || pathos_permissions_check("delete_item",$nloc)) ? 1 : 0),
-				"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$nloc)) ? 1 : 0)
+				"edit_item"=>(pathos_permissions_check("edit_item",$loc) ? 1 : 0),
+				"delete_item"=>(pathos_permissions_check("delete_item",$loc) ? 1 : 0),
+				"administrate"=>(pathos_permissions_check("administrate",$loc) ? 1 : 0)
 			);
 		}
 		

@@ -42,6 +42,14 @@ if ($config == null) {
 $template = new template("newsmodule","_contentSelector",$loc);
 
 $news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY posted " . $config->sortorder);
+if (isset($_GET['channel_id'])) {
+	$items = array();
+	foreach ($db->selectObjectsIndexedArray('channelitem','channel_id='.$_GET['channel_id']) as $item) {
+		$items[$item->item_id] = 1;
+	}
+	$template->assign('existing_items',$items);
+}
+
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 usort($news,($config->sortorder == "DESC" ? "pathos_sorting_byPostedDescending" : "pathos_sorting_byPostedAscending"));
 

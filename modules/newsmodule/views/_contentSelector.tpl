@@ -32,9 +32,9 @@
 <input type="hidden" name="action" value="channel_pull" />
 <input type="hidden" name="module" value="common" />
 <input type="hidden" name="channel_id" value="{$smarty.get.channel_id}" />
-{foreach from=$news item=newsitem}
+{foreach from=$news item=newsitem}{assign var=id value=$newsitem->id}
 	<div>
-		<div class="itemtitle news_itemtitle"><input type="checkbox" name="item[newsitem][]" value="{$newsitem->id}">{$newsitem->title}</div>
+		<div class="itemtitle news_itemtitle"><input type="checkbox" name="item[newsitem][]" value="{$newsitem->id}" {if $existing_items[$id]}disabled checked {/if}/>{$newsitem->title}</div>
 		<div style="padding-left: 15px;">
 		{$newsitem->body}
 		</div>
