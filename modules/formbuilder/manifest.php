@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'modules/formbuilder/manifest.php'=>1,
 	'modules/formbuilder/actions/delete_control.php'=>'',
 	'modules/formbuilder/actions/edit_control.php'=>'',
 	'modules/formbuilder/actions/edit_form.php'=>'',

@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'subsystems/lang/en/manifest.php'=>1,
 	'subsystems/lang/en/modules/calendarmodule.php'=>'',
 	'subsystems/lang/en/modules/addressbookmodule.php'=>'',
 	'subsystems/lang/en/modules/newsmodule.php'=>'',

@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'modules/categories/manifest.php'=>1,
 	'modules/categories/actions/delete.php'=>'',
 	'modules/categories/actions/edit.php'=>'',
 	'modules/categories/actions/manage.php'=>'',

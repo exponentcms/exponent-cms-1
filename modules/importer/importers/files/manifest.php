@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'modules/importer/importers/files/manifest.php'=>1,
 	'modules/importer/importers/files/info.php'=>'',
 	'modules/importer/importers/files/start.php'=>'',
 	'modules/importer/importers/files/extract.php'=>'',

@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'modules/importer/importers/usercsv/manifest.php'=>1,
 	'modules/importer/importers/usercsv/displayusers.php'=>'',
 	'modules/importer/importers/usercsv/info.php'=>'',
 	'modules/importer/importers/usercsv/mapper.php'=>'',
