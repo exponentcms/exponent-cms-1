@@ -68,17 +68,13 @@ class addressbookmodule {
 		//		"configure"=>"Configure",
 				"post"=>"Create Contacts",
 				"edit"=>"Edit Contacts",
-				"delete"=>"Delete Contacts",
-				"reference"=>"Reference Contacts",
-				"copy"=>"Copy Contacts"
+				"delete"=>"Delete Contacts"
 			);
 		} else {
 			return array(
 				"administrate"=>"Administrate",
 				"edit"=>"Edit Contact",
-				"delete"=>"Delete Contact",
-				"reference"=>"Reference Contact",
-				"copy"=>"Copy Contact"
+				"delete"=>"Delete Contact"
 			);
 		}
 	}
@@ -97,7 +93,7 @@ class addressbookmodule {
 		$template->assign("contacts",$contacts);
 		$template->assign("moduletitle",$title);
 		$template->register_permissions(
-			array("administrate","post","edit","delete","reference","copy"),
+			array("administrate","post","edit","delete"),
 			$loc
 		);
 		
@@ -123,21 +119,13 @@ class addressbookmodule {
 		global $db;
 		$contacts = array();
 		foreach ($db->selectObjects("addressbook_contact","location_data='".serialize($location)."'") as $c) {
-			if ($c->copy_id != 0) {
-				$contacts[$c->id] = $db->selectObject("addressbook_contact","id=".$c->copy_id);
-				$contacts[$c->id]->copy_id = $c->copy_id;
-				$contacts[$c->id]->id = 0;
-			} else {
-				$contacts[$c->id] = $c;
-			}
+			$contacts[$c->id] = $c;
 			
 			$iloc = pathos_core_makeLocation($location->mod,$location->src,$c->id);
 			$contacts[$c->id]->permissions = array(
 				"administrate"=>pathos_permissions_check("administrate",$iloc),
 				"edit"=>pathos_permissions_check("edit",$iloc),
-				"delete"=>pathos_permissions_check("delete",$iloc),
-				"reference"=>pathos_permissions_check("reference",$iloc),
-				"copy"=>pathos_permissions_check("copy",$iloc)
+				"delete"=>pathos_permissions_check("delete",$iloc)
 			);
 		}
 		return $contacts;

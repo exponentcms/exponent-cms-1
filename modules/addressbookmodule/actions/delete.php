@@ -40,16 +40,18 @@
  * @packacge Modules
  * @subpackage AddressBook
  */
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $contact = null;
-if (isset($_GET['id'])) $contact = $db->selectObject("addressbook_contact","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$contact = $db->selectObject('addressbook_contact','id='.$_GET['id']);
+}
 if ($contact) {
 	$loc = unserialize($contact->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$contact->id);
 	
-	if (pathos_permissions_check("delete",$loc) || pathos_permissions_check("delete",$iloc)) {
-		$db->delete("addressbook_contact","id=".$contact->id." OR copy_id=".$contact->id);
+	if (pathos_permissions_check('delete',$loc) || pathos_permissions_check('delete',$iloc)) {
+		$db->delete('addressbook_contact','id='.$contact->id);
 		pathos_template_clear();
 	} else {
 		echo SITE_403_HTML;

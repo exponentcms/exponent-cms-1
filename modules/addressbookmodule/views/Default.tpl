@@ -47,7 +47,6 @@
 		<td class="header addressbook_header">&nbsp;</td>
 	</tr>
 {foreach from=$contacts item=contact}
-	{if $contact->copy_id == 0}
 	<tr>
 		<td>{$contact->firstname} {$contact->lastname}</td>
 		<td>{$contact->email}</td>
@@ -75,35 +74,8 @@
 			<a class="mngmntlink addressbook_mngmntlink" href="{link action=view id=$contact->id}" title="View this Address Contact" alt="View this Address Contact">
 				View
 			</a>
-			&nbsp;
-			{*
-			{if $permissions.copy == 1 || $contact->permissions.copy == 1}
-			<a class="mngmntlink addressbook_mngmntlink" href="{link action=copy id=$contact->id}">
-				Copy
-			</a>
-			&nbsp;
-			{/if}
-			{if $permissions.reference == 1 || $contact->permissions.reference == 1}
-			<a class="mngmntlink addressbook_mngmntlink" href="{link action=reference id=$contact->id}">
-				Reference
-			</a>
-			{/if}
-			*}
 		</td>
 	</tr>
-	{else}
-	<tr>
-		<td><i>{$contact->firstname} {$contact->lastname}</a></td>
-		<td><i>{$contact->email}</a></td>
-		<td><i>{$contact->phone}</a></td>
-		<td><i>{$contact->notes}</a></td>
-		<td>
-			<a class="mngmntlink addressbook_mngmntlink" href="{link action=view id=$contact->copy_id}" title="View this Address Contact" alt="View this Address Contact">
-				View
-			</a>
-		</td>
-	</tr>
-	{/if}
 {foreachelse}
 	<tr>
 		<td colspan="5"><i>No contacts in address book</i></td>
