@@ -40,8 +40,7 @@ if (isset($_POST['id'])) {
 	$news = $db->selectObject("newsitem","id=" . $_POST['id']);
 	if ($news != null) {
 		$loc = unserialize($news->location_data);
-		$iloc = $loc;
-		$iloc->int = $news->id;
+		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$news->id);
 	}
 	$news->editor = $user->id;
 	$news->edited = time();
