@@ -71,8 +71,7 @@ class listbuildercontrol extends formcontrol {
 			if (is_array($source)) $this->source = $source;
 			else $this->source = array($source);
 			$this->source = array_diff_assoc($this->source,$this->default);
-		}
-		else {
+		} else {
 			$this->newList = true;
 		}
 	}
@@ -101,12 +100,12 @@ class listbuildercontrol extends formcontrol {
 		}
 		$html .= "</select>";
 		$html .= "</td><td width='100%'></td></tr></table>";
-		$html .= "<script>var newList = ".($this->newList?"true":"false").";</script>";
+		$html .= "<script>newList.$name = ".($this->newList?"true":"false").";</script>";
 		return $html;
 	}
 	
 	function onRegister(&$form) {
-		$form->addSCript("listbuilder",PATH_RELATIVE."js/ListBuilderControl.js");
+		$form->addSCript("listbuilder",PATH_RELATIVE."subsystems/forms/controls/listbuildercontrol.js");
 	}
 	
 	function parseData($formvalues, $forceindex = false) {
