@@ -176,8 +176,7 @@ if (document.body.appendChild) {
 	}
 	
 	function sourcePicked(src,desc) {
-		var hidden = document.getElementById("existing_source");
-		hidden.value = src;
+		sourceSelected("existing_source",,src,desc);
 		
 		clearList(g_ta_description);
 		g_ta_description.appendChild(document.createTextNode(desc));

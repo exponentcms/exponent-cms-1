@@ -146,6 +146,14 @@ function openSelector(mod,dest,vmod,vview) {
 	window.open(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
 }
 
+function sourceSelected(hidden,showPreview,src,desc) {
+	var hidden = document.getElementById(hidden);
+	hidden.value = src;
+	if (showPreview){
+	showPreviewCall();
+	}
+}
+
 // Patch the String object, to make string parsing a little easier in Pathos
 String.prototype.isValid = function (alpha,numeric,others) {
 	for (var i = 0; i < this.length; i++) {
