@@ -86,14 +86,14 @@ class navigationmodule {
 	/*
 	 * @deprecated is it?
 	 */
-	function levelShowDropdown($parent,$depth=0,$default=0) {
+	function levelShowDropdown($parent,$depth=0,$default=0,$ignore_ids = array()) {
 		$html = "";
 		global $db;
 		$nodes = $db->selectObjects("section","parent=$parent");
 		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
 		usort($nodes,"pathos_sorting_byRankAscending");
 		foreach ($nodes as $node) {
-			if ($node->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$node->id))) {
+			if (($node->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$node->id))) && !in_array($node->id,$ignore_ids)) {
 				$html .= "<option value='" . $node->id . "' ";
 				if ($default == $node->id) $html .= "selected";
 				$html .= ">";
@@ -103,7 +103,7 @@ class navigationmodule {
 					$html .= str_pad("",$depth*3,".",STR_PAD_LEFT) . "(".$node->name.")";
 				}
 				$html .= "</option>";
-				$html .= navigationmodule::levelShowDropdown($node->id,$depth+1,$default);
+				$html .= navigationmodule::levelShowDropdown($node->id,$depth+1,$default,$ignore_ids);
 			}
 		}
 		return $html;
@@ -112,21 +112,24 @@ class navigationmodule {
 	/*
 	 * @deprecated is it?
 	 */
-	function levelDropDownControlArray($parent,$depth = 0) {
+	function levelDropDownControlArray($parent,$depth = 0,$ignore_ids = array(),$full=false) {
 		$ar = array();
+		if ($parent == 0 && $full) {
+			$ar[0] = "&lt;Top of Hierarchy&gt;";
+		}
 		global $db;
 		$nodes = $db->selectObjects("section","parent=$parent");
 		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
 		usort($nodes,"pathos_sorting_byRankAscending");
 		foreach ($nodes as $node) {
-			if ($node->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$node->id))) {
+			if (($node->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$node->id))) && !in_array($node->id,$ignore_ids)) {
 				if ($node->active == 1) {
-					$text = str_pad("",$depth*3,".",STR_PAD_LEFT) . $node->name;
+					$text = str_pad("",($depth+($full?1:0))*3,".",STR_PAD_LEFT) . $node->name;
 				} else {
-					$text = str_pad("",$depth*3,".",STR_PAD_LEFT) . "(".$node->name.")";
+					$text = str_pad("",($depth+($full?1:0))*3,".",STR_PAD_LEFT) . "(".$node->name.")";
 				}
 				$ar[$node->id] = $text;
-				foreach (navigationmodule::levelDropdownControlArray($node->id,$depth+1) as $id=>$text) {
+				foreach (navigationmodule::levelDropdownControlArray($node->id,$depth+1,$ignore_ids,$full) as $id=>$text) {
 					$ar[$id] = $text;
 				}
 			}

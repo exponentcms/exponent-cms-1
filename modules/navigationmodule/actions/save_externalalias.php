@@ -39,14 +39,24 @@ if (!defined('PATHOS')) exit('');
 // FIXME: parts of the section hierarchy.
 if ($user && $user->is_acting_admin == 1) {
 	$section = null;
+	$old_parent = null;
 	if (isset($_POST['id'])) {
 		// Saving an existing content page.  Read it from the database.
 		$section = $db->selectObject('section','id='.$_POST['id']);
+		if ($section) {
+			$old_parent = $section->parent;
+		}
 	}
 	// Update the section from the _POST data.
 	$section = section::updateExternalAlias($_POST,$section);
 	
 	if (isset($section->id)) {
+		if ($section->parent != $old_parent) {
+			// Old_parent id was different than the new parent id.  Need to decrement the ranks
+			// of the old children (after ours), and then add 
+			$section = section::changeParent($section,$old_parent,$section->parent);
+		}
+	
 		// Existing section.  Update the database record.
 		// The 'id=x' where clause is implicit with an updateObject
 		$db->updateObject($section,'section');
