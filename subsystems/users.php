@@ -367,7 +367,7 @@ function pathos_users_update($formvalues, $u = null) {
 	$u->email = $formvalues['email'];
 	$u->recv_html = (isset($formvalues['recv_html']) ? 1 : 0);
 	global $user;
-	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : 0);
+	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : $user->is_acting_admin);
 	return $u;
 }
 
