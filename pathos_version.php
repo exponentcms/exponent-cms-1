@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if (!defined('PATHOS_VERSION')) {
+if (!defined('PATHOS_VERSION_MAJOR')) {
 	/* exdoc
 	 * If this constant is set to a true value (1 is the prefered value), then
 	 * the system will behave slightly differently, to accomodate for developers

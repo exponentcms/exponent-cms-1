@@ -33,21 +33,24 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
-	$contact = null;
-	if (isset($_GET['id'])) $contact = $db->selectObject("addressbook_contact","id=".$_GET['id']);
-	if ($contact) {
-		$loc = unserialize($contact->location_data);
+$contact = null;
+if (isset($_GET['id'])) {
+	$contact = $db->selectObject("addressbook_contact","id=".$_GET['id']);
+}
+
+if ($contact) {
+	$loc = unserialize($contact->location_data);
+
+	$template = new template("addressbookmodule","_view",$loc);
+	$template->assign("contact",$contact);
+	$template->register_permissions(
+		array('edit','delete'),
+		pathos_core_makeLocation($loc->mod,$loc->src,$contact->id)
+	);
 	
-		$template = new template("addressbookmodule","_view",$loc);
-		$template->assign("contact",$contact);
-		$template->register_permissions(
-			array('edit','delete'),
-			pathos_core_makeLocation($loc->mod,$loc->src,$contact->id)
-		);
-		
-		$template->output();
-	} else echo SITE_404_HTML;
-// END PERM CHECK
+	$template->output();
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

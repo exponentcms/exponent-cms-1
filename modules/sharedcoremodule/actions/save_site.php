@@ -33,7 +33,9 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
+	pathos_lang_loadDictionary('modules','sharedcoremodule');
+
 	$site = null;
 	if (isset($_POST['id'])) $site = $db->selectObject("sharedcore_site","id=".$_POST['id']);
 	$site = sharedcore_site::update($_POST,$site);
@@ -52,7 +54,7 @@ if (!defined("PATHOS")) exit("");
 				
 				$core = $db->selectobject("sharedcore_core","id=".$site->core_id);
 				
-				$stat = pathos_sharedcore_linkCore($core->path,$site->path);
+				$stat = pathos_sharedcore_setup($core,$site); // If we can setup the basic environment
 				if ($stat == 0) {
 					$site->id = $db->insertObject($site,"sharedcore_site");
 					// Update extensions table for this site.
@@ -60,11 +62,23 @@ if (!defined("PATHOS")) exit("");
 					$extension = null;
 					$extension->site_id = $site->id;
 					$extension->locked = 1;
-					foreach (pathos_info_getAllDependencies(-1,"",$core->path) as $d) {
-						$extension->name = $d['name'];
-						$extension->type = $d['type'];
-						$db->insertObject($extension,"sharedcore_extension");
+					
+					$used = array(
+						CORE_EXT_MODULE=>array(),
+						CORE_EXT_SUBSYSTEM=>array(),
+						CORE_EXT_THEME=>array(),
+					);
+					
+					foreach (pathos_core_resolveDependencies(null,CORE_EXT_SYSTEM,$core->path) as $d) {
+						if (!in_array($d['name'],$used[$d['type']])) {
+							$extension->name = $d['name'];
+							$extension->type = $d['type'];
+							$db->insertObject($extension,"sharedcore_extension");
+							$used[$d['type']][] = $d['name'];
+						}
 					}
+					
+					pathos_sharedcore_link($core,$site,$used);
 					
 					// Save database config.
 					$values = array(
@@ -88,7 +102,7 @@ if (!defined("PATHOS")) exit("");
 					
 					// Install database for base system
 					$newdb = pathos_database_connect($_POST['db_user'],$_POST['db_pass'],$_POST['db_host'].':'.$_POST['db_port'],$_POST['db_name'],$_POST['db_engine'],true);
-					$newdb->prefix = $_POST['db_table_prefix'];
+					$newdb->prefix = $_POST['db_table_prefix'] . '_';
 					
 					// Following code snipped from modules/administrationmodule/actions/installtables.php
 					$dir = $site->path."datatypes/definitions";
@@ -152,7 +166,7 @@ if (!defined("PATHOS")) exit("");
 							$sid = $newdb->insertObject($section,"section");
 						}
 						
-						$template = new Template("administrationmodule","_tableInstallSummary",$loc);
+						$template = new template("administrationmodule","_tableInstallSummary",$loc);
 						$template->assign("status",$tables);
 						$template->output();
 					}
@@ -165,33 +179,40 @@ if (!defined("PATHOS")) exit("");
 				} else {
 					switch ($stat) {
 						case SHAREDCORE_ERR_LINKSRC_NOTREADABLE:
-							echo TR_SHAREDCOREMODULE_NOTREADABLENOW;
+							echo TR_SHAREDCOREMODULE_ERR_NOTREADABLENOW;
 							break;
 						case SHAREDCORE_ERR_LINKSRC_NOTEXISTS:
-							echo TR_SHAREDCOREMODULE_NOTEXISTSNOW;
+							echo TR_SHAREDCOREMODULE_ERR_NOTEXISTSNOW;
 							break;
 					}
 				}
 			} else {
 				$post = $_POST;
 				$v = @include($this->site."pathos_version.php");
-				$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_DESTEXISTS,$v,$site->path);
+				$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_DESTEXISTS,$v,$site->path);
 				pathos_sessions_set("last_POST",$post);
 				header("Location: " . $_SERVER['HTTP_REFERER']);
 			}
 		} else { // Old -- update object
 			$db->updateObject($site,"sharedcore_site");
-			// Take them to the modules page, because that's probably why they went to edit in the first place.
-			$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
-			header("Location: $url");
-			exit;
+			if ($site->inactive == 0) {
+				// Take them to the modules page, because that's probably why they went to edit in the first place.
+				$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
+				header("Location: $url");
+				exit;
+			} else {
+				// For inactive sites, we can't go through the edit modules page, because it would relink and defeat the purpose of the deactivation
+				pathos_flow_redirect();
+			}
 		}
 	} else {
 		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_DESTNOTWRITABLE,$site->path);
+		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_DESTNOTWRITABLE,$site->path);
 		pathos_sessions_set("last_POST",$post);
 		header("Location: " . $_SERVER['HTTP_REFERER']);
 	}
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

@@ -33,15 +33,24 @@
 
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
-	$site = $db->selectObject('sharedcore_site','id='.$_GET['id']);
+if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
+	$site = null;
+	if (isset($_GET['id'])) {
+		$site = $db->selectObject('sharedcore_site','id='.$_GET['id']);
+	}
+	
 	if ($site) {
 		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
 		echo $site->path;
 		pathos_sharedcore_clear($site->path,true);
 		$db->delete('sharedcore_site','id='.$site->id);
+		$db->delete('sharedcore_extension','site_id='.$site->id);
+		pathos_flow_redirect();
+	} else {
+		echo SITE_404_HTML;
 	}
-	pathos_flow_redirect();
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

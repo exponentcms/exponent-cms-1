@@ -33,9 +33,9 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+if ($user !== null) {
 	pathos_sessions_set("uilevel",$_POST['level']);
 	pathos_flow_redirect();
-// END PERM CHECK
+}
 
 ?>

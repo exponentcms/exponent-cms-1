@@ -36,6 +36,8 @@
 // Permissions
 define('TR_SHAREDCOREMODULE_PERM_ADMIN',			'Administrate');
 define('TR_SHAREDCOREMODULE_PERM_CONFIG',			'Configure');
+define('TR_SHAREDCOREMODULE_PERM_MANAGESITES',		'Manage Sites');
+define('TR_SHAREDCOREMODULE_PERM_MANAGECORES',		'Manage Codebases');
 
 define('TR_SHAREDCOREMODULE_CORENAME',				'Core Name');
 define('TR_SHAREDCOREMODULE_COREPATH',				'Path');

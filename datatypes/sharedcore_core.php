@@ -57,7 +57,15 @@ class sharedcore_core {
 	
 	function update($values,$object) {
 		$object->name = $values['name'];
+		
 		$object->path = $values['path'];
+		if ($object->path{0} != '/') {
+			$object->path = '/'.$object->path;
+		}
+		if (substr($object->path,-1,1) != '/') {
+			$object->path = $object->path.'/';
+		}
+		
 		return $object;
 	}
 }

@@ -35,21 +35,19 @@ if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('modules','loginmodule');
 
-// PERM CHECK
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
-	
-	$form = new form();
-	$form->meta('module','loginmodule');
-	$form->meta('action','resetpass_send');
-	$form->register('username',TR_LOGINMODULE_RESETUSERNAME,new textcontrol());
-	$form->register('submit','',new buttongroupcontrol(TR_LOGINMODULE_RESETPASSBTN));
-	
-	$template = new template('loginmodule','_form_resetpass',$loc);
-	$template->assign('form_html',$form->toHTML());
-	$template->output();
-	
-	pathos_forms_cleanup();
-// END PERM CHECK
+if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+pathos_forms_initialize();
+
+$form = new form();
+$form->meta('module','loginmodule');
+$form->meta('action','resetpass_send');
+$form->register('username',TR_LOGINMODULE_RESETUSERNAME,new textcontrol());
+$form->register('submit','',new buttongroupcontrol(TR_LOGINMODULE_RESETPASSBTN));
+
+$template = new template('loginmodule','_form_resetpass',$loc);
+$template->assign('form_html',$form->toHTML());
+$template->output();
+
+pathos_forms_cleanup();
 
 ?>

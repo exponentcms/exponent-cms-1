@@ -34,27 +34,27 @@
 if (!defined('PATHOS')) exit('');
 
 return array(
-	array(
+	'm_containermodule'=>array(
 		'name'=>'containermodule',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_navigationmodule'=>array(
 		'name'=>'navigationmodule',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_loginmodule'=>array(
 		'name'=>'loginmodule',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_previewmodule'=>array(
 		'name'=>'previewmodule',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_textmodule'=>array(
 		'name'=>'textmodule',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''

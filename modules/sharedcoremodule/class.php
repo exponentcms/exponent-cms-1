@@ -44,17 +44,12 @@ class sharedcoremodule {
 	
 	function permissions($internal = '') {
 		pathos_lang_loadDictionary('modules','sharedcoremodule');
-		if ($internal == '') {
-			return array(
-				'administrate'=>TR_SWFMODULE_PERM_ADMIN,
-				'configure'=>TR_SWFMODULE_PERM_CONFIG,
-			);
-		} else {
-			return array(
-				'administrate'=>TR_SWFMODULE_PERM_ADMIN,
-				'configure'=>TR_SWFMODULE_PERM_CONFIG,
-			);
-		}
+		return array(
+			'administrate'=>TR_SHAREDCOREMODULE_PERM_ADMIN,
+			//'configure'=>TR_SHAREDCOREMODULE_PERM_CONFIG,
+			'manage_site'=>TR_SHAREDCOREMODULE_PERM_MANAGESITE,
+			'manage_core'=>TR_SHAREDCOREMODULE_PERM_MANAGECORE,
+		);
 	}
 	
 	function deleteIn($loc) {
@@ -63,8 +58,7 @@ class sharedcoremodule {
 	}
 	
 	function copyContent($from_loc,$to_loc) {
-		// FIXME:Implement copyContent for sharedcoremodule
-		// FIXME:
+		// Do nothing, no content
 	}
 	
 	function show($view,$loc = null,$title="") {
@@ -81,6 +75,8 @@ class sharedcoremodule {
 		}
 		$template->assign("cores",$cores);
 		$template->assign("moduletitle",$title);
+		$template->register_permissions(
+			array('administrate','manage'),$loc);
 		
 		$template->output();
 	}

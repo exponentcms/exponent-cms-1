@@ -97,11 +97,13 @@ function pathos_forms_initialize() {
  * @node Subsystems:Forms
  */
 function pathos_forms_cleanup() {
+/*
 	if (phpversion() >= 5) {
 		global $auto_dirs;
 		if (isset($auto_dirs["forms_forms"])) unset($auto_dirs["forms_forms"]);
 		if (isset($auto_dirs["forms_controls"])) unset($auto_dirs["forms_controls"]);
 	}
+*/
 }
 
 /* exdoc

@@ -33,9 +33,11 @@
 
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
+if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
 	$core = null;
-	if (isset($_GET['id'])) $core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
+	if (isset($_GET['id'])) {
+		$core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
+	}
 	
 	$form = sharedcore_core::form($core);
 	$form->meta('module','sharedcoremodule');
@@ -45,6 +47,8 @@ if (!defined('PATHOS')) exit('');
 	$template->assign('is_edit',(!isset($core->id)));
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

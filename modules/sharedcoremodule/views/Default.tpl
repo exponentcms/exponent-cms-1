@@ -28,6 +28,13 @@
  *
  * $Id$
  *}
+{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+{if $permissions.administrate == 1}
+	<a href="{link action=userperms _common=1}" title="Assign permissions on this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}" title="Assign group permissions on this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<br />
+{/if}
+{/permissions}
 {if $moduletitle != ""}<div class="moduletitle sharedcore_moduletitle">{$moduletitle}</div>{/if}
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 {assign var=nocores value=0}
@@ -36,45 +43,53 @@
 		<td>{$core->name} (version {$core->version})</td>
 		<td>{$core->path}</td>
 		<td>
+			{permissions level=$smarty.const.UI_LEVEL_NORMAL}
+			{if $permissions.manage == 1}
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core id=$core->id}">
 				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 			</a>
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=delete_core id=$core->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" onClick="return confirm('Are you sure you want to delete this codebase and all sites deployed from it?');" />
 			</a>
+			{/if}
+			{/permissions}
 		</td>
 	</tr>
 	{foreach from=$core->linked item=site}
 		<tr>
 			<td style="padding-left: 50px">
 				{if $site->inactive == 1}
-					<i>{$site->name}</i>
+					<i><a target="_blank" class="mngmntlink sharedsite_mngmntlink" href="{$site->relpath}">{$site->name}</a></i>
 				{else}
-					{$site->name}
+					<a target="_blank" class="mngmntlink sharedsite_mngmntlink" href="{$site->relpath}">{$site->name}</a>
 				{/if}
 			</td>
 			<td>
 				{$site->path}
 			</td>
 			<td>
-				{if $site->inactive == 1}
-					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=activate_site id=$site->id}">
-						Activate
-					</a>
-				{else}
-					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=deactivate_form id=$site->id}">
-						Deactivate
-					</a>
-				{/if}
-				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=refresh_site id=$site->id}">
-					Refresh
-				</a>
+				{permissions level=$smarty.const.UI_LEVEL_NORMAL}
+				{if $permissions.manage == 1}
 				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=edit_site id=$site->id}">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 				</a>
-				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}">
+				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}" onClick="return confirm('Are you sure you want to delete this deployed site?');">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 				</a>
+				{if $site->inactive == 1}
+					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=activate_site id=$site->id}">
+						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}unlock.png" />
+					</a>
+				{else}
+					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=deactivate_form id=$site->id}">
+						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}lock.png" />
+					</a>
+					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=refresh_site id=$site->id}">
+						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}reload.png" />
+					</a>
+				{/if}
+				{/if}
+				{/permissions}
 			</td>
 		</tr>
 	{foreachelse}
@@ -89,9 +104,12 @@
 	<tr><td align="center"><i>No codebases found</td></tr>
 {/foreach}
 </table>
+{permissions level=$smarty.const.UI_LEVEL_NORMAL}
+{if $permissions.manager == 1}
 <a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core}">New Codebase</a>
-
 {if $nocores == 0}
 <br />
 <a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_site core_id=$core->id}">Deploy New Site</a>
 {/if}
+{/if}
+{/permissions}

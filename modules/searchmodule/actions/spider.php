@@ -34,7 +34,7 @@
 //GREP:VIEWIFY
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+if (pathos_permissions_check('searching',pathos_core_makeModule('administrationmodule'))) {
 	echo "Spidering Site";
 	
 	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");
@@ -44,6 +44,6 @@ if (!defined("PATHOS")) exit("");
 			call_user_func(array($mod,"spiderContent"));
 		}
 	}
-// END PERM CHECK
+}
 
 ?>

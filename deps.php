@@ -34,115 +34,120 @@
 if (!defined('PATHOS')) exit('');
 
 return array(
-	array(
+	's_autoloader'=>array(
 		'name'=>'autoloader',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_core'=>array(
 		'name'=>'core',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_config'=>array(
 		'name'=>'config',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_database'=>array(
 		'name'=>'database',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_flow'=>array(
 		'name'=>'flow',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_forms'=>array(
 		'name'=>'forms',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_files'=>array(
 		'name'=>'files',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_info'=>array(
 		'name'=>'info',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_lang'=>array(
+		'name'=>'lang',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
+	),
+	's_modules'=>array(
 		'name'=>'modules',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_permissions'=>array(
 		'name'=>'permissions',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_template'=>array(
 		'name'=>'template',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_theme'=>array(
 		'name'=>'theme',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_sessions'=>array(
 		'name'=>'sessions',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_sorting'=>array(
 		'name'=>'sorting',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_users'=>array(
 		'name'=>'users',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
-	array(
+	's_workflow'=>array(
 		'name'=>'workflow',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
 	
 	// Modules
-	array(
+	'm_administrationmodule'=>array(
 		'name'=>'administrationmodule',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_common'=>array(
 		'name'=>'common',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_workflow'=>array(
 		'name'=>'workflow',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_filemanager'=>array(
 		'name'=>'filemanager',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
-	array(
+	'm_info'=>array(
 		'name'=>'info',
 		'type'=>CORE_EXT_MODULE,
 		'comment'=>''
 	),
 	
-	array(
+	't_portaltheme'=>array(
 		'name'=>'portaltheme',
 		'type'=>CORE_EXT_THEME,
 		'comment'=>''

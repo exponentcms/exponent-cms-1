@@ -33,33 +33,31 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-	$news = $db->selectObject("newsitem","id=" . $_GET['id']);
-	if ($news != null) {
-		$loc = unserialize($news->location_data);
-		$iloc = $loc;
-		$iloc->int = $news->id;
-		
-		$news->permissions = array(
-			"edit_item"=>((pathos_permissions_check("edit_item",$loc) || pathos_permissions_check("edit_item",$iloc)) ? 1 : 0),
-			"delete_item"=>((pathos_permissions_check("delete_item",$loc) || pathos_permissions_check("delete_item",$iloc)) ? 1 : 0),
-			"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$iloc)) ? 1 : 0)
-		);
-		
-		
-		$news->real_posted = ($news->publish != 0 ? $news->publish : $news->posted);
-		
-		$view = (isset($_GET['view']) ? $_GET['view'] : "_viewSingle");
-		$template = new Template("newsmodule",$view,$loc);
-		
-		$template->assign("newsitem",$news);
-		$template->assign("loc",$loc);
-		
-		$template->output();
-	} else {
-		echo SITE_404_HTML;
-	}
-// END PERM CHECK
+pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+$news = $db->selectObject("newsitem","id=" . $_GET['id']);
+if ($news != null) {
+	$loc = unserialize($news->location_data);
+	$iloc = $loc;
+	$iloc->int = $news->id;
+	
+	$news->permissions = array(
+		"edit_item"=>((pathos_permissions_check("edit_item",$loc) || pathos_permissions_check("edit_item",$iloc)) ? 1 : 0),
+		"delete_item"=>((pathos_permissions_check("delete_item",$loc) || pathos_permissions_check("delete_item",$iloc)) ? 1 : 0),
+		"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$iloc)) ? 1 : 0)
+	);
+	
+	
+	$news->real_posted = ($news->publish != 0 ? $news->publish : $news->posted);
+	
+	$view = (isset($_GET['view']) ? $_GET['view'] : "_viewSingle");
+	$template = new Template("newsmodule",$view,$loc);
+	
+	$template->assign("newsitem",$news);
+	$template->assign("loc",$loc);
+	
+	$template->output();
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

@@ -34,7 +34,7 @@
 if (!defined('PATHOS')) exit('');
 
 return array(
-	array(
+	's_javascript'=>array(
 		'name'=>'javascript',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''

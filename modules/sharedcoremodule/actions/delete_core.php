@@ -33,10 +33,22 @@
 
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
-	$db->delete('sharedcore_core','id='.$_GET['id']);
-	$db->delete('sharedcore_site','core_id='.$_GET['id']);
-	pathos_flow_redirect();
-// END PERM CHECK
+if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
+	$core = null;
+	if (isset($_GET['id'])) {
+		$core = $db->selectObjects('sharedcore_core','id='.$_GET['id']);
+	}
+	
+	if ($core) {
+		$db->delete('sharedcore_core','id='.$core->id);
+		$db->delete('sharedcore_site','core_id='.$core->id);
+		// FIXME:Need to clear the sites.
+		pathos_flow_redirect();
+	} else {
+		echo SITE_404_HTML;
+	}
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

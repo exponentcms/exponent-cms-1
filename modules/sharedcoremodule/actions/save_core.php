@@ -33,35 +33,43 @@
 
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
+if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
 	pathos_lang_loadDictionary('modules','sharedcoremodule');
 
 	$core = null;
-	if (isset($_POST['id'])) $core = $db->selectObject('sharedcore_core','id='.$_POST['id']);
-	
-	$core = sharedcore_core::update($_POST,$core);
-	
-	$existing = $db->countObjects('sharedcore_core',"path='".$core->path."'");
-	if ($existing) {
-		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_COREEXISTS,$core->path);
-		pathos_sessions_set('last_POST',$post);
-		header('Location: ' . $_SERVER['HTTP_REFERER']);
-		exit();
+	if (isset($_POST['id'])) {
+		$core = $db->selectObject('sharedcore_core','id='.$_POST['id']);
 	}
 	
-	if (substr($core->path,-1,1) != '/') $core->path .= '/';
-	if (file_exists($core->path.'pathos_version.php')) {
-		if (isset($core->id)) $db->updateObject($core,'sharedcore_core');
-		else $db->insertObject($core,'sharedcore_core');
+	if ($core) {
+		$core = sharedcore_core::update($_POST,$core);
 		
-		pathos_flow_redirect();
+		$existing = $db->countObjects('sharedcore_core',"path='".$core->path."'");
+		if ($existing && !isset($core->id)) {
+			$post = $_POST;
+			$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_COREEXISTS,$core->path);
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			exit();
+		}
+		
+		if (substr($core->path,-1,1) != '/') $core->path .= '/';
+		if (file_exists($core->path.'pathos_version.php')) {
+			if (isset($core->id)) $db->updateObject($core,'sharedcore_core');
+			else $db->insertObject($core,'sharedcore_core');
+			
+			pathos_flow_redirect();
+		} else {
+			$post = $_POST;
+			$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_INVALIDCORE,$core->path);
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}
 	} else {
-		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_INVALIDCORE,$core->path);
-		pathos_sessions_set('last_POST',$post);
-		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		echo SITE_404_HTML;
 	}
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

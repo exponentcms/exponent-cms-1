@@ -91,7 +91,7 @@ if (!defined('PATHOS')) exit('');
 											echo "<br />";
 											echo "<br />";
 										}
-										
+										pathos_theme_showModule('textmodule','Default','','@uid_'.$user->id);
 										pathos_theme_main();
 										?>
 									</td>

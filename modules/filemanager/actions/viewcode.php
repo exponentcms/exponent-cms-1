@@ -33,29 +33,27 @@
 //GREP:HARDCODEDTEXT
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
-	$template = new template('filemanager','_viewcode',$loc);
+$template = new template('filemanager','_viewcode',$loc);
 
-	$file = $_GET['file'];
-	$path = realpath(BASE.$file);
-	if (strpos($path,BASE) != 0) {
-		$template->assign('error','security');
+$file = $_GET['file'];
+$path = realpath(BASE.$file);
+if (strpos($path,BASE) != 0) {
+	$template->assign('error','security');
+} else {
+	$ext = substr($path,-3,3);
+	if ($ext != 'tpl' && $ext != 'php') {
+		$template->assign('error','invalid');
 	} else {
-		$ext = substr($path,-3,3);
-		if ($ext != 'tpl' && $ext != 'php') {
-			$template->assign('error','invalid');
-		} else {
-			$contents = file_get_contents($path);
-			if ($ext == 'php') {
-				if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
-				$contents = pathos_info_highlightPHP($contents);
-			} else $contents = '<xmp>'.$contents.'</xmp>';
-		
-			$template->assign('error','');
-			$template->assign('code',$contents);
-		}
+		$contents = file_get_contents($path);
+		if ($ext == 'php') {
+			if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
+			$contents = pathos_info_highlightPHP($contents);
+		} else $contents = '<xmp>'.$contents.'</xmp>';
+	
+		$template->assign('error','');
+		$template->assign('code',$contents);
 	}
-	$template->output();
-// END PERM CHECK
+}
+$template->output();
 
 ?>

@@ -44,6 +44,7 @@ class sharedcore_site {
 			$object->core_id = 0;
 			$object->name = '';
 			$object->path = '';
+			$object->relpath = '';
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -61,17 +62,19 @@ class sharedcore_site {
 		$t = new textcontrol($object->path);
 		if (isset($object->id)) $t->disabled = true;
 		$form->register('path',TR_SHAREDCOREMODULE_SITEPATH, $t);
+		$t->default = $object->relpath;
+		$form->register('relpath',TR_SHAREDCOREMODULE_SITEPATH, $t);
 		
 		if (!isset($object->id)) {
-			pathos_lang_loadDictionary('config','dabase');
+			pathos_lang_loadDictionary('config','database');
 			// Setup initial database config
 			$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.TR_CONFIG_DATABASE_TITLE.'</b>'));
 			$form->register('db_engine',TR_CONFIG_DATABASE_DB_ENGINE,new dropdowncontrol(DB_ENGINE,pathos_database_backends()));
 			$form->register('db_host',TR_CONFIG_DATABASE_DB_HOST,new textcontrol(DB_HOST));
 			$form->register('db_port',TR_CONFIG_DATABASE_DB_PORT,new textcontrol(DB_PORT));
 			$form->register('db_name',TR_CONFIG_DATABASE_DB_NAME,new textcontrol(DB_NAME));
-			$form->register('db_user',TR_CONFIG_DATABASE_DB_USERNAME,new textcontrol(DB_USER));
-			$form->register('db_pass',TR_CONFIG_DATABASE_DB_PASSWORD,new textcontrol());
+			$form->register('db_user',TR_CONFIG_DATABASE_DB_USER,new textcontrol(DB_USER));
+			$form->register('db_pass',TR_CONFIG_DATABASE_DB_PASS,new textcontrol());
 			$form->register('db_table_prefix',TR_CONFIG_DATABASE_DB_TABLE_PREFIX,new textcontrol(DB_TABLE_PREFIX));
 			$form->meta('_db_config',1);
 		}
@@ -122,7 +125,7 @@ class sharedcore_site {
 					if (isset($linked_mods_lock[$file])) $cb->disabled = true;
 					$form->register("mods[$file]",$name,$cb);
 				} else {
-					if (isset($linked_mods[$file])) $form->meta("mods[$file]",1);
+					if (isset($linked_mods[$file]) && !isset($linked_mods_loc[$file])) $form->meta("mods[$file]",1);
 				}
 			}
 		}
@@ -131,7 +134,7 @@ class sharedcore_site {
 		$dh = opendir($core->path.'themes');
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,0,1) != '.' && $file != 'CVS') {
-				if (!class_exists($file) && is_readable($core->path."themes/$file/class.php")) include_once($core->path.'themes/$file/class.php');
+				if (!class_exists($file) && is_readable($core->path.'themes/'.$file.'/class.php')) include_once($core->path.'themes/'.$file.'/class.php');
 				$name = (class_exists($file) ? call_user_func(array($file,'name')) : $file);
 				
 				$cb = new checkboxcontrol(isset($linked_themes[$file]) ? 1 : 0);
@@ -184,8 +187,26 @@ class sharedcore_site {
 		}
 	
 		$object->name = $values['name'];
-		$object->path = $values['path'];
 		$object->core_id = $values['core_id'];
+		
+		if (!isset($object->id)) {
+			$object->path = $values['path'];
+			if ($object->path{0} != '/') {
+				$object->path = '/'.$object->path;
+			}
+			if (substr($object->path,-1,1) != '/') {
+				$object->path = $object->path.'/';
+			}
+			
+			$object->relpath = $values['relpath'];
+			if ($object->relpath{0} != '/') {
+				$object->relpath = '/'.$object->relpath;
+			}
+			if (substr($object->relpath,-1,1) != '/') {
+				$object->relpath = $object->relpath.'/';
+			}
+			
+		}
 		return $object;
 	}
 }

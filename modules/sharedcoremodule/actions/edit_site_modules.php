@@ -33,9 +33,12 @@
 
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK
+if (pathos_permissions_check('manage_site',pathos_core_makeModule('sharedcoremodule'))) {
 	$site = null;
-	if (isset($_GET['site_id'])) $site = $db->selectObject('sharedcore_site','id='.$_GET['site_id']);
+	if (isset($_GET['site_id'])) {
+		$site = $db->selectObject('sharedcore_site','id='.$_GET['site_id']);
+	}
+	
 	if ($site) {
 		/////
 		$form = sharedcore_site::linkForm($site);
@@ -47,14 +50,19 @@ if (!defined('PATHOS')) exit('');
 			$form->meta('action','edit_site_dbconf');
 		}
 		
-		$form->meta('core_id',$_POST['core_id']);
-		$form->meta('name',$_POST['name']);
-		$form->meta('path',$_POST['path']);
+		$form->meta('core_id',$site->core_id);
+		$form->meta('name',$site->name);
+		$form->meta('path',$site->path);
+		$form->meta('relpath',$site->relpath);
 		
-		$template = new template('sharedcoremodule','_form_editSite');
+		$template = new template('sharedcoremodule','_form_editModules');
 		$template->assign('form_html',$form->toHTML());
 		$template->output();
-	} else echo SITE_404_HTML;
-// END PERM CHECK
+	} else {
+		echo SITE_404_HTML;
+	}
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

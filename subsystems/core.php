@@ -57,6 +57,13 @@ define("CORE_EXT_THEME",2);
  * @node Subsystems:Core
  */
 define("CORE_EXT_SUBSYSTEM",3);
+/* exdoc
+ * This constant can (and should) be used by other parts of the system
+ * for defining and communicating an 'extension type' to represent the
+ * whole system
+ * @node Subsystems:Core
+ */
+define("CORE_EXT_SYSTEM",4);
 
 /* exdoc
  * Creates a location object, based off of the three arguments passed, and returns it.
@@ -86,25 +93,31 @@ function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
  *	<ul>
  * @node Subsystems:Core
  */
-function pathos_core_resolveDependencies($ext_name,$ext_type) {
-	$depfile = "";
+function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
+	if ($path == null) {
+		$path = BASE;
+	}
+	$depfile = '';
 	switch ($ext_type) {
 		case CORE_EXT_SUBSYSTEM:
-			$depfile = "subsystems/$ext_name.deps.php";
+			$depfile = $path.'subsystems/'.$ext_name.'.deps.php';
 			break;
 		case CORE_EXT_THEME:
-			$depfile = "themes/$ext_name/deps.php";
+			$depfile = $path.'themes/'.$ext_name.'/deps.php';
 			break;
 		case CORE_EXT_MODULE:
-			$depfile = "modules/$ext_name/deps.php";
+			$depfile = $path.'modules/'.$ext_name.'/deps.php';
+			break;
+		case CORE_EXT_SYSTEM:
+			$depfile = $path.'deps.php';
 			break;
 	}
 	
 	$deps = array();
 	if (is_readable($depfile)) {
 		$deps = include($depfile);
-		foreach ($deps as $dep=>$info) {
-			$deps = array_merge($deps,pathos_core_resolveDependencies($dep,$info['type']));
+		foreach ($deps as $info) {
+			$deps = array_merge($deps,pathos_core_resolveDependencies($info['name'],$info['type']));
 		}
 	}
 	
