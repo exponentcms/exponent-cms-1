@@ -58,7 +58,7 @@ $count = 0;
 
 foreach ($unclaimed as $file) {
 	echo "'".$file."'=>";
-	if (substr(basename($file),-11,11) == 'manifest.php') {
+	if (substr($file,-12,12) == 'manifest.php') {
 		echo "1,"."\r\n";
 	} else {
 		echo "'',"."\r\n";
