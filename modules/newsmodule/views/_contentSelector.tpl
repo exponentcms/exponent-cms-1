@@ -40,6 +40,10 @@
 		</div>
 	</div>
 	<br /><br />
+{foreachelse}
+	<div style="margin-left: auto; margin-right: auto; font-style: italic;">No News Items found.</div>
 {/foreach}
-<input type="submit" value="Pull Selected" />
+{if $haveNews == 1}
+<input type="submit" value="Pull Selected" onClick="{literal}if (isOneSelected('item[newsitem')) return true; else { alert('You must select something.'); return false; }{/literal}" />
+{/if}
 </form>

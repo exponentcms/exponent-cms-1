@@ -47,12 +47,20 @@ if (isset($_GET['channel_id'])) {
 	foreach ($db->selectObjectsIndexedArray('channelitem','channel_id='.$_GET['channel_id']) as $item) {
 		$items[$item->item_id] = 1;
 	}
+	
+	$channel = $db->selectObject('channel','id='.$_GET['channel_id']);
+	if ($channel->location_data == serialize($loc)) {
+		foreach ($news as $item) {
+			$items[$item->id] = 1;
+		}
+	}
 	$template->assign('existing_items',$items);
 }
 
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 usort($news,($config->sortorder == "DESC" ? "pathos_sorting_byPostedDescending" : "pathos_sorting_byPostedAscending"));
 
+$template->assign('haveNews',count($news) != 0 ? 1 : 0);
 $template->assign("news",$news);
 
 $template->output();
