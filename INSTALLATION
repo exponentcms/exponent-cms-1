@@ -4,67 +4,38 @@ Installation of ExponentCMS
 
 The Exponent package is available in the following formats:
 
-    * .tar.bz2 - A bzipped tarball containing the application files, for
-UNIX/Linux environments
-    * .tar.gz - A gzipped tarball containing the application files, for
-UNIX/Linux environments
-    * .zip - A zip archive containing the application files, for Windows
-environments. 
+    * .tar.bz2 - A bzipped tarball containing the application files, for UNIX/Linux environments
+    * .tar.gz - A gzipped tarball containing the application files, for UNIX/Linux environments
+    * .zip - A zip archive containing the application files, for Windows environments. 
 
-The latest version of ExponentCMS is 0.96-beta2, available from the
-SourceForge project page:
+The latest version of ExponentCMS is %%VERSION%%, available from the SourceForge project page:
 
     http://www.sourceforge.net/projects/exponent/
 
 2. Unpack the archive
 
-At this point, you have two options. You can unpack the archive locally and
-upload all of the files to the server, or you can upload the archive, and
-unpack it on the server.
+At this point, you have two options. You can unpack the archive locally and upload all of the files to the server, or you can upload the archive, and unpack it on the server.
 
-If you are running on a UNIX box, you can unpack the .tar.gz archive like
-this:
+If you are running on a UNIX box, you can unpack the .tar.gz archive like this:
 
-    tar -xzvpf exponent-0.96-beta2.tar.gz
+    tar -xzvpf exponent-%%VERSION%%.tar.gz
 
 and you can unpack the .tar.bz2 archive like this:
 
-    tar -xjvpf exponent-0.96-beta2.tar.bz2
+    tar -xjvpf exponent-%%VERSION%%.tar.bz2
 
-The -p option will preserve file permissions, and is very important. 
-Exponent requires certain files and directories to be writable by the web
-server, and the standard tar-based distributions have this permission
-information preset.
+The -p option will preserve file permissions, and is very important.  Exponent requires certain files and directories to be writable by the web server, and the standard tar-based distributions have this permission information preset.
 
-If your are using Windows and the .zip archive, the Exponent Development
-team recommends the WinZip utility, downloadable from
-http://www.winzip.com/. The .zip archives have not yet been tested with
-Windows XP's built in zip support.
+If your are using Windows and the .zip archive, the Exponent Development team recommends the WinZip utility, downloadable from http://www.winzip.com/. The .zip archives have not yet been tested with Windows XP's built in zip support.
 
-Each archive will create a directory named exponent-0.96-beta2. This
-directory contains all of the files used by Exponent.
+Each archive will create a directory named exponent-%%VERSION%%. This directory contains all of the files used by Exponent.
 
 3. Database Setup
 
-For security reasons, the Exponent Install Wizard is not able to create a
-database for you.  This must be done outside of the system, before the
-wizard is run.  However you do this is up to you (through command-line
-database client, phpMyAdmin, phpPgAdmin, etc.).  The installer will ask
-you for name of the database to use, as well as a username and password
-for accessing the database.  The user account you specify must have enough
-rights to perform normal database operations (like running SELECT, INSERT,
-UPDATE, DELETE queries, etc.).  The installation wizard will ensure that
-the provided account has these privileges.
+For security reasons, the Exponent Install Wizard is not able to create a database for you.  This must be done outside of the system, before the wizard is run.  However you do this is up to you (through command-line database client, phpMyAdmin, phpPgAdmin, etc.).  The installer will ask you for name of the database to use, as well as a username and password for accessing the database.  The user account you specify must have enough rights to perform normal database operations (like running SELECT, INSERT, UPDATE, DELETE queries, etc.).  The installation wizard will ensure that the provided account has these privileges.
 
 4. Running the Install Wizard
 
-Once the directory is on the server, in the website's directory, the
-web-based installer takes over the process of configuring and setting up
-the CMS. To access the installer and finish setting up, visit your
-website, and go to the directory that was unpacked. For instance, if your
-website (www.example.com) stores its files in /www/www.example.com/, and
-you unpacked the archive there, go to
-http://www.example.com/exponent-0.96-beta2/)
+Once the directory is on the server, in the website's directory, the web-based installer takes over the process of configuring and setting up the CMS. To access the installer and finish setting up, visit your website, and go to the directory that was unpacked. For instance, if your website (www.example.com) stores its files in /www/www.example.com/, and you unpacked the archive there, go to http://www.example.com/exponent-%%VERSION%%/)
 
-From there, just follow the instructions and the Exponent Install Wizard
-will configure and set up your new Exponent site.
+From there, just follow the instructions and the Exponent Install Wizard will configure and set up your new Exponent site.
