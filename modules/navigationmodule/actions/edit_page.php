@@ -67,14 +67,18 @@ pathos_sessions_set("themeopt_override",array(
 #define("PREVIEW_READONLY",1);
 $REDIRECTIONPATH = "section_template";
 
-if ($user && $user->is_acting_admin) {
+if ($user && $user->is_acting_admin == 1) {
 	
 	if (is_readable(BASE.$page)) {
 		include_once(BASE.$page);
-	} else echo BASE."$page not readable";
+	} else {
+		echo BASE."$page not readable";
+	}
 
 	pathos_sessions_unset("themeopt_override");
-} else echo SITE_403_HTML;
+} else {
+	echo SITE_403_HTML;
+}
 
 ob_end_flush();
 

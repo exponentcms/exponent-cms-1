@@ -33,7 +33,7 @@
 
 if (!defined('PATHOS')) exit('');
 
-if ($user && $user->is_acting_admin) {
+if ($user && $user->is_acting_admin == 1) {
 	$sections = navigationmodule::levelTemplate(0,0);
 	$standalones = $db->selectObjects('section','parent = -1');
 	$template = new template('navigationmodule','_linker');

@@ -33,30 +33,32 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
-	$page = null;
-	if (isset($_GET['id'])) $page = $db->selectObject("section_template","id=".$_GET['id']);
-	
-	if ($page) {
-		function tmp_deleteLevel($parent) {
-			global $db;
-			$kids = $db->selectObjects("section_template","parent=$parent");
-			foreach ($kids as $kid) {
-				tmp_deleteLevel($kid->id);
-			}
-			$db->delete("section_template","parent=$parent");
+$page = null;
+if (isset($_GET['id'])) $page = $db->selectObject("section_template","id=".$_GET['id']);
+
+if ($page) {
+	function tmp_deleteLevel($parent) {
+		global $db;
+		$kids = $db->selectObjects("section_template","parent=$parent");
+		foreach ($kids as $kid) {
+			tmp_deleteLevel($kid->id);
 		}
-	
-		if ($user && $user->is_acting_admin) {
-			$db->delete("section_template","id=".$page->id);
-			if ($page->parent != 0) {
-				$db->decrement('section_template','rank',1,'parent='.$page->parent.' AND rank >= '.$page->rank);
-			}
-			tmp_deleteLevel($page->id);
-	
-			pathos_flow_redirect();
-		} else echo SITE_403_HTML;
-	} else echo SITE_404_HTML;
-// END PERM CHECK
+		$db->delete("section_template","parent=$parent");
+	}
+
+	if ($user && $user->is_acting_admin == 1) {
+		$db->delete("section_template","id=".$page->id);
+		if ($page->parent != 0) {
+			$db->decrement('section_template','rank',1,'parent='.$page->parent.' AND rank >= '.$page->rank);
+		}
+		tmp_deleteLevel($page->id);
+
+		pathos_flow_redirect();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

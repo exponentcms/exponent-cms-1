@@ -31,22 +31,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if ($user && $user->is_acting_admin) {
+if ($user && $user->is_acting_admin == 1) {
 	$page = null;
-	if (isset($_GET['id'])) $page = $db->selectObject("section_template","id=".$_GET['id']);
-	if (!$page) {
+	if (isset($_GET['id'])) {
+		$page = $db->selectObject('section_template','id='.$_GET['id']);
+	}
+	if ($page == null) {
 		$page->parent = (isset($_GET['parent']) ? $_GET['parent'] : 0);
 	}
 	
 	$form = section_template::form($page);
-	$form->meta("module","navigationmodule");
-	$form->meta("action","save_template");
+	$form->meta('module','navigationmodule');
+	$form->meta('action','save_template');
 	
-	$template = new template("navigationmodule","_form_editTemplate",$loc);
-	$template->assign("form_html",$form->toHTML());
-	$template->assign("is_top",($page->parent == 0 ? 1 : 0));
+	$template = new template('navigationmodule','_form_editTemplate',$loc);
+	$template->assign('form_html',$form->toHTML());
+	$template->assign('is_top',($page->parent == 0 ? 1 : 0));
 	$template->output();
 }
 

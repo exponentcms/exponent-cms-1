@@ -31,17 +31,20 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if ($user && $user->is_acting_admin) {
+if ($user && $user->is_acting_admin == 1) {
 	$page = null;
-	if (isset($_GET['id'])) $page = $db->selectObject("section_template","id=".$_GET['id']);
+	if (isset($_GET['id'])) {
+		$page = $db->selectObject('section_template','id='.$_GET['id']);
+	}
+	
 	if ($page) {
 		pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
-		$template = new template("navigationmodule","_view_template",$loc);
-		$template->assign("template",$page);
-		$template->assign("subs",navigationmodule::getTemplateHierarchyFlat($page->id));
+		$template = new template('navigationmodule','_view_template',$loc);
+		$template->assign('template',$page);
+		$template->assign('subs',navigationmodule::getTemplateHierarchyFlat($page->id));
 		
 		$template->output();
 	} else echo SITE_404_HTML;

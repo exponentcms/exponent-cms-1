@@ -65,7 +65,7 @@ class navigationmodule {
 		$template->assign("current",$current);
 		//$template->assign("canManage",pathos_permissions_checkOnModule("administrate","navigationmodule"));
 		global $user;
-		$template->assign("canManage",($user && $user->is_acting_admin?1:0));
+		$template->assign("canManage",(($user && $user->is_acting_admin == 1) ? 1 : 0));
 		$template->assign("title",$title);
 		
 		$template->output();
@@ -301,7 +301,7 @@ class navigationmodule {
 	
 	function canView($section) {
 		global $db;
-		if ($section->public == false) {
+		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
 			return pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$section->id));
 		} else { // Is public.  check parents.
@@ -318,7 +318,7 @@ class navigationmodule {
 	/* May not yet be needed
 	function canManage($section) {
 		global $db;
-		if ($section->public == false) {
+		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
 			return pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->id));
 		} else { // Is public.  check parents.
@@ -335,7 +335,7 @@ class navigationmodule {
 	
 	function isPublic($section) {
 		global $db;
-		if ($section->public == false) {
+		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
 			return false;
 		} else { // Is public.  check parents.

@@ -33,9 +33,11 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin) {
+if ($user && $user->is_acting_admin == 1) {
 	$page = null;
-	if (isset($_POST['id'])) $page = $db->selectObject("section_template","id=".$_POST['id']);
+	if (isset($_POST['id'])) {
+		$page = $db->selectObject("section_template","id=".$_POST['id']);
+	}
 	
 	$page = section_template::update($_POST,$page);
 	
