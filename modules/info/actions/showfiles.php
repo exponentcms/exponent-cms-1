@@ -31,14 +31,17 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Administration Control Panel : Extensions category
 
-if ($user && $user->is_admin) {
-	if (!defined("SYS_INFO")) include_once(BASE."subsystems/info.php");
-	$files = pathos_info_files($_GET['type']+0,$_GET['name']);
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_admin) {
+	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
+	$files = pathos_info_files($_GET['type'],$_GET['name']);
 	if (is_array($files)) ksort($files);
 	
-	$template = new template("info","_checksums",$loc);
+	$template = new template('info','_checksums',$loc);
 
 	if (is_array($files)) {
 		$actual = pathos_info_fileChecksums($files);
@@ -46,18 +49,18 @@ if ($user && $user->is_admin) {
 		$relative = array();
 		foreach (array_keys($files) as $file) {
 			$relative[$file] = array(
-				"dir"=>str_replace(array(BASE," "),array("","&nbsp;"),dirname($file)."/"),
-				"file"=>str_replace(" ","&nbsp;",basename($file))
+				'dir'=>str_replace(array(BASE,' '),array('','&nbsp;'),dirname($file).'/'),
+				'file'=>str_replace(' ','&nbsp;',basename($file))
 			);
 		}
 		foreach (array_keys($files) as $f) {
-			if (!is_string($files[$f])) $files[$f] = "";
+			if (!is_string($files[$f])) $files[$f] = '';
 		}
-		$template->assign("files",$files);
-		$template->assign("checksums",$actual);
-		$template->assign("relative",$relative);
+		$template->assign('files',$files);
+		$template->assign('checksums',$actual);
+		$template->assign('relative',$relative);
 	} else {
-		$template->assign("error",$files);
+		$template->assign('error',$files);
 	}
 	$template->output();
 }
