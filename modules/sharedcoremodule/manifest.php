@@ -27,7 +27,8 @@ return array(
 	'modules/sharedcoremodule/actions/refresh_site.php'=>'',
 	'modules/sharedcoremodule/views/_reason_Default.tpl'=>'',
 	'modules/sharedcoremodule/manifest.php'=>1,
-	'modules/sharedcoremodule/deps.php'=>''
+	'modules/sharedcoremodule/deps.php'=>'',
+	'modules/sharedcoremodule/views/_form_deactivate.tpl'=>'',
 );
 
 ?>

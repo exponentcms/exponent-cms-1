@@ -202,6 +202,7 @@ return array(
 	'iconset/delete.disabled.png'=>'',
 	'iconset/print.png'=>'',
 	'iconset/userperms.png'=>'',
+	'iconset/reload.png'=>'',
 	'views/viewnotfound.tpl'=>'',
 	'pathos_setup.php'=>'',
 	'captcha.php'=>'',
