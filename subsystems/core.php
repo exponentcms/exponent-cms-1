@@ -75,8 +75,16 @@ function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Resolve dependencies for an extension, by looking at the appropriate deps.php file.
+ *
+ * @param string $ext_name The name of the extension.
+ * @param Constant $ext_type The type of extension.  This can be one of the following values:
+ *	<ul>
+ *		<li>CORE_EXT_SUBSYSTEM</li>
+ *		<li>CORE_EXT_THEME</li>
+ *		<li>CORE_EXT_MODULE</li>
+ *	<ul>
+ * @node Subsystems:Core
  */
 function pathos_core_resolveDependencies($ext_name,$ext_type) {
 	$depfile = "";
@@ -137,11 +145,15 @@ function pathos_core_translateLocationSource($src) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Return a full URL, given the desired querystring arguments as an associative array.
+ *
+ * This function does take into account the SEF URLs settings and the SSL urls in the site config.
+ *
+ * @param Array $params An associative array of the desired querystring parameters.
+ * @node Subsystems:Core
  */
 function pathos_core_makeLink($params) {
-	$link = (ENABLE_SSL ? NONSSL_URLBASE : "");
+	$link = (ENABLE_SSL ? NONSSL_URL : "");
 	if (SEF_URLS == 0) {
 		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
 		foreach ($params as $key=>$value) {
@@ -164,9 +176,16 @@ function pathos_core_makeLink($params) {
 	}
 }
 
+
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Return a full URL, given the desired querystring arguments as an associative array.
+ *
+ * This function does take into account the SEF URLs settings and the SSL urls in the site config,
+ * and uses the SSL url is the site is configured to use SSL.  Otherwise, it works exactly like
+ * pathos_core_makeLink.
+ *
+ * @param Array $params An associative array of the desired querystring parameters.
+ * @node Subsystems:Core
  */
 function pathos_core_makeSecureLink($params) {
 	if (!ENABLE_SSL) return pathos_core_makeLink($params);
@@ -227,8 +246,12 @@ function pathos_core_copyObject($o) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Decrement the reference counts for a given location.  This is used by the Container Module,
+ * and probably won't be needed by 95% of the code in Exponent.
+ *
+ * @param Location $loc The location object to decrement references for.
+ * @param integer $section The id of the section that the location exists in.
+ * @node Subsystems:Core
  */
 function pathos_core_decrementLocationReference($loc,$section) {
 	global $db;
@@ -243,8 +266,12 @@ function pathos_core_decrementLocationReference($loc,$section) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Increment the reference counts for a given location.  This is used by the Container Module,
+ * and probably won't be needed by 95% of the code in Exponent.
+ *
+ * @param Location $loc The location object to increment references for.
+ * @param integer $section The id of the section that the location exists in.
+ * @node Subsystems:Core
  */
 function pathos_core_incrementLocationReference($loc,$section) {
 	global $db;
@@ -287,8 +314,12 @@ function pathos_core_incrementLocationReference($loc,$section) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Return a string of the current version number.
+ *
+ * @param bool $full Whether or not to return a full verison number.  If passed as true,
+ *	a string in the form of '0.96.3-beta5' will be returned.  Otherwise, '0.96' would be returned.
+ * @param bool $build Whether or not to return the build date in the string.
+ * @node Subsystems:Core
  */
 function pathos_core_version($full = false, $build = false) {
 	if (!defined("PATHOS_VERSION_MAJOR")) include_once(BASE."pathos_version.php");
@@ -322,10 +353,12 @@ function pathos_core_URLisValid($url) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Generates and returns a message stating the current maximum accepted size of
+ * uploaded files.  It intelligently parses the php.ini configuration, so that settings of
+ * 2K and 2048 are treated identically.
+ * @node Subsystems:Core
  */
-function pathos_core_maxUploadSizeMessage($single = true) {
+function pathos_core_maxUploadSizeMessage() {
 	$size = ini_get("upload_max_filesize");
 	$size_msg = "";
 	$type = substr($size,-1,1);
