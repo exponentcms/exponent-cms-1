@@ -65,7 +65,7 @@ class calendar {
 		
 		if (!isset($object->id)) {
 			$customctl = file_get_contents(BASE."modules/calendarmodule/form.part");
-			$datectl = new popupdatetimecontrol($object->eventstart+86400,"",false);
+			$datectl = new popupdatetimecontrol($object->eventstart+365*86400,"",false);
 			$customctl = str_replace("%%UNTILDATEPICKER%%",$datectl->controlToHTML("untildate"),$customctl);
 			$form->register("recur","Recurrence",new customcontrol($customctl));
 		} else if ($object->is_recurring) {
