@@ -89,50 +89,6 @@ function pathos_modules_listActive() {
 }
 
 /* exdoc
- * Looks through the module's views directory and returns
- * all non-internal views that are found there.  The current theme
- * is not consulted.  Returns an array of all standard view names.
- * This array is unsorted.
- *
- * @param string $module The classname of the module to get views for.
- * @node Subsystems:Modules
- */
-function pathos_modules_views($module) {
-	$views = array();
-	if (is_readable(BASE."modules/$module/views")) {
-		$dh = opendir(BASE."modules/$module/views");
-		while (($file = readdir($dh)) !== false) {
-			if (substr($file,-4,4) == ".tpl" && substr($file,0,1) != "_") $views[] = substr($file,0,-4);
-		}
-	}
-	if (is_readable(THEME_BASE."modules/$module/views")) {
-		$dh = opendir(THEME_BASE."modules/$module/views");
-		while (($file = readdir($dh)) !== false) {
-			if (substr($file,-4,4) == ".tpl" && substr($file,0,1) != "_") {
-				$view = substr($file,0,-4);
-				if (!in_array($view,$views)) $views[] = $view;
-			}
-		}
-	}
-	return $views;
-}
-
-/* exdoc
- * Resolves a view name to a real .tpl file.
- * Consults both the theme and the standard views directory (in that order)
- * to determine where the template code for a view is stored.  Returns the absolute path
- * to the template file, or "" if no matching view file found.
- *
- * @node Subsystems:Modules
- */
-function pathos_modules_getViewFile($module,$view,$recurse = true) {
-	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.tpl")) return BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.tpl";
-	else if (is_readable(BASE . "modules/$module/views/$view.tpl")) return BASE . "modules/$module/views/$view.tpl";
-	else if ($recurse && $view != "Default") return pathos_modules_getViewFile($module,"Default");
-	else return "";
-}
-
-/* exdoc
  * Looks through the current theme and standard js directories to find
  * the javascript form validation file for a given form in a module. Returns
  * he filename of the Javascript Validation script, or "" if one was not found.

@@ -32,6 +32,6 @@
 ##################################################
 
 function smarty_function_viewfile($params,&$smarty) {
-	$view = pathos_modules_getViewFile($params['module'],$params['view']);
+	$view = pathos_template_getModuleViewFile($params['module'],$params['view']);
 	$smarty->assign($params['var'],$view);
 }
