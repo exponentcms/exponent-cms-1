@@ -132,6 +132,7 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 		$config = pathos_sessions_get("themeopt_override");
 		if (in_array($module,$config['ignore_mods'])) return;
 		$src = $config['src_prefix'].$prefix;
+		$section = null;
 	} else {
 		$last_section = pathos_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
