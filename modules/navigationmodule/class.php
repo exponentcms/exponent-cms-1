@@ -81,9 +81,9 @@ class navigationmodule {
 		$id = pathos_sessions_get('last_section');
 		$current = null;
 		$sections = navigationmodule::getHierarchy();
-		foreach ($sections as $section) {
-			if ($section->id == $id) {
-				$current = $section;
+		foreach (array_keys($sections) as $sid) {
+			if ($id == $sid) {
+				$current = $sections[$sid];
 				break;
 			}
 		}
@@ -186,14 +186,14 @@ class navigationmodule {
 		$new_hier = array();
 		
 		$subtree_depth = 0;
-		foreach ($hier as $section) {
-			if ($section->id == $parent) {
-				$subtree_depth = $section->depth;
+		foreach (array_keys($hier) as $sid) {
+			if ($sid == $parent) {
+				$subtree_depth = $hier[$sid]->depth;
 			}
 			
 			if ($subtree_depth) { // Found our sub tree
-				if ($section->depth > $subtree_depth) {
-					$new_hier[$section->id] = $section;
+				if ($hier[$sid]->depth > $subtree_depth) {
+					$new_hier[$hier[$sid]->id] = $hier[$sid];
 				} else {
 					break;
 				}
@@ -232,7 +232,8 @@ class navigationmodule {
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($blocks[$parent],'pathos_sorting_byRankAscending');
 		
-		foreach ($blocks[$parent] as $i=>$child) {
+		for ($i = 0; $i < count($blocks[$parent]); $i++) {
+			$child = $blocks[$parent][$i];
 			if ($child->public == 1 || navigationmodule::canView($child)) {
 				$child->numParents = count($parents);
 				$child->depth = $depth;
@@ -280,9 +281,9 @@ class navigationmodule {
 		global $db;
 		
 		$arr = array();
-		$kids = $db->selectObjects("section_template","parent=".$parent);
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($kids,"pathos_sorting_byRankAscending");
+		$kids = $db->selectObjects('section_template','parent='.$parent);
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($kids,'pathos_sorting_byRankAscending');
 		
 		for ($i = 0; $i < count($kids); $i++) {
 			$page = $kids[$i];
@@ -299,27 +300,27 @@ class navigationmodule {
 	function process_section($section,$template) {
 		global $db;
 		if (!is_object($template)) {
-			$template = $db->selectObject("section_template","id='".$template."'");
+			$template = $db->selectObject('section_template','id='.$template);
 			$section->subtheme = $template->subtheme;
-			$db->updateObject($section,"section");
+			$db->updateObject($section,'section');
 		}
-		$prefix = "@st".$template->id;
-		$refs = $db->selectObjects("locationref","source LIKE '$prefix%'");
+		$prefix = '@st'.$template->id;
+		$refs = $db->selectObjects('locationref',"source LIKE '$prefix%'");
 		
 		// Copy all modules and content for this section
 		foreach ($refs as $ref) {
 			$src = substr($ref->source,strlen($prefix)) . $section->id;
 			
-			if (call_user_func(array($ref->module,"hasContent"))) {
+			if (call_user_func(array($ref->module,'hasContent'))) {
 				$oloc = pathos_core_makeLocation($ref->module,$ref->source);
 				$nloc = pathos_core_makeLocation($ref->module,$src);
 				
-				call_user_func(array($ref->module,"copyContent"),$oloc,$nloc);
+				call_user_func(array($ref->module,'copyContent'),$oloc,$nloc);
 			}
 		}
 		
 		// Grab sub pages
-		foreach ($db->selectObjects("section_template","parent=".$template->id) as $t) {
+		foreach ($db->selectObjects('section_template','parent='.$template->id) as $t) {
 			navigationmodule::process_subsections($section,$t);
 		}
 		
@@ -339,38 +340,38 @@ class navigationmodule {
 		$section->keywords = $subtpl->keywords;
 		$section->description = $subtpl->description;
 		
-		$section->id = $db->insertObject($section,"section");
+		$section->id = $db->insertObject($section,'section');
 		
 		navigationmodule::process_section($section,$subtpl);
 	}
 	
 	function deleteLevel($parent) {
 		global $db;
-		$kids = $db->selectObjects("section","parent=$parent");
+		$kids = $db->selectObjects('section','parent=$parent');
 		foreach ($kids as $kid) {
 			navigationmodule::deleteLevel($kid->id);
 		}
-		$secrefs = $db->selectObjects("sectionref","section=".$parent);
+		$secrefs = $db->selectObjects('sectionref','section='.$parent);
 		foreach ($secrefs as $secref) {
 			$loc = pathos_core_makeLocation($secref->module,$secref->source,$secref->internal);
 			pathos_core_decrementLocationReference($loc,$parent);
 			
-			foreach ($db->selectObjects("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
+			foreach ($db->selectObjects('locationref',"module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
 				if (class_exists($locref->module)) {
 					$modclass = $locref->module;
 					$mod = new $modclass();
 					$mod->deleteIn(pathos_core_makeLocation($locref->module,$locref->source,$locref->internal));
 				}
 			}
-			$db->delete("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
+			$db->delete('locationref',"module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
 		}
-		$db->delete("sectionref","section=".$parent);
-		$db->delete("section","parent=$parent");
+		$db->delete('sectionref','section='.$parent);
+		$db->delete('section','parent=$parent');
 	}
 	
 	function removeLevel($parent) {
 		global $db;
-		$kids = $db->selectObjects("section","parent=$parent");
+		$kids = $db->selectObjects('section','parent='.$parent);
 		foreach ($kids as $kid) {
 			$kid->parent = -1;
 			$db->updateObject($kid,'section');
@@ -379,34 +380,43 @@ class navigationmodule {
 	}
 	
 	function canView($section) {
+		// *** WARNING ***
+		// This function CANNOT call navigationmodule::getHierarchy, since getHierarchy calls it.
+		// The end result of doing so is a hard to track down infinite loop bug that causes PHP to crash
+		// before anything useful gets echoed to the browser.
 		global $db;
-		if ($section->public == 0) {
-			// Not a public section.  Check permissions.
-			return pathos_permissions_check(array('view','manage','administrate'),pathos_core_makeLocation('navigationmodule','',$section->id));
-		} else { // Is public.  check parents.
-			if ($section->parent <= 0) {
-				// Out of parents, and since we are still checking, we haven't hit a private section.
-				return true;
-			} else {
-				$s = $db->selectObject('section','id='.$section->parent);
-				return navigationmodule::canView($s);
+		$perms = array('view','manage','administrate');
+		$loc = pathos_core_makeLocation('navigationmodule','',$section->id);
+		while (true) {
+			if ($section->public == 0) {
+				// Not a public section.  Check permissions.
+				return pathos_permissions_check($perms,$loc);
+			} else { // Is public.  check parents.
+				if ($section->parent <= 0) {
+					// Out of parents, and since we are still checking, we haven't hit a private section.
+					return true;
+				} else {
+					$section = $db->selectObject('section','id='.$section->parent);
+					$loc->int = $section->id;
+				}
 			}
 		}
 	}
 	
-	// Rewrite this.
 	function isPublic($section) {
-		global $db;
-		if ($section->public == 0) {
-			// Not a public section.  Check permissions.
-			return false;
-		} else { // Is public.  check parents.
-			if ($section->parent <= 0) {
-				// Out of parents, and since we are still checking, we haven't hit a private section.
-				return true;
-			} else {
-				$s = $db->selectObject('section','id='.$section->parent);
-				return navigationmodule::isPublic($s);
+		$hier = navigationmodule::getHierarchy();
+		
+		while (true) {
+			if ($section->public == 0) {
+				// Not a public section.  Check permissions.
+				return false;
+			} else { // Is public.  check parents.
+				if ($section->parent <= 0) {
+					// Out of parents, and since we are still checking, we haven't hit a private section.
+					return true;
+				} else {
+					$section = $hier[$section->parent];
+				}
 			}
 		}
 	}

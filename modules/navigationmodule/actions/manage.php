@@ -31,44 +31,43 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_checkOnModule('manage','navigationmodule')) {
 	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 	
-	$template = new template("navigationmodule","_manager",$loc);
+	$template = new template('navigationmodule','_manager',$loc);
 	
 	$sections = navigationmodule::getHierarchy();
 	$last_manage_depth = -1;
-	$last_manage_id = -1;
 	$last_admin_depth = -1;
-	$last_admin_id = -1;
 	
 	if ($user && $user->is_acting_admin) {
-		foreach ($sections as $id=>$section) {
+		foreach (array_keys($sections) as $id) {
 			$sections[$id]->canManage = 1;
 			$sections[$id]->canManageRank = 1;
 			$sections[$id]->canAdmin = 1;
 		}
 	} else {
-		foreach ($sections as $id=>$section) {
-			if ($last_manage_depth == -1 && pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$id))) {
+		$thisloc = pathos_core_makelocation('navigationmodule');
+		foreach (array_keys($sections) as $id) {
+			$thisloc->int = $id;
+			$depth = $sections[$id]->depth;
+			if ($last_manage_depth == -1 && pathos_permissions_check('manage',$thisloc)) {
 				$sections[$id]->canManage = 1;
 				$sections[$id]->canManageRank = 0;
-				$last_manage_depth = $section->depth;
-				$last_manage_id = $section->id;
-			} else if ($section->depth <= $last_manage_depth) {
+				$last_manage_depth = $depth;
+			} else if ($depth <= $last_manage_depth) {
 				$last_manage_depth = -1;
 			} else {
 				$sections[$id]->canManage = ($last_manage_depth == -1 ? 0 : 1);
 				$sections[$id]->canManageRank = $sections[$id]->canManage;
 			}
 			
-			if ($last_admin_depth == -1 && pathos_permissions_check('administrate',pathos_core_makeLocation('navigationmodule','',$id))) {
+			if ($last_admin_depth == -1 && pathos_permissions_check('administrate',$thisloc)) {
 				$sections[$id]->canAdmin = 1;
-				$last_admin_depth = $section->depth;
-				$last_admin_id = $section->id;
-			} else if ($section->depth <= $last_admin_depth) {
+				$last_admin_depth = $depth;
+			} else if ($depth <= $last_admin_depth) {
 				$last_admin_depth = -1;
 			} else {
 				$sections[$id]->canAdmin = ($last_admin_depth == -1 ? 0 : 1);
@@ -77,10 +76,7 @@ if (pathos_permissions_checkOnModule('manage','navigationmodule')) {
 	}
 	
 	$template->assign('isAdministrator',($user && $user->is_acting_admin ? 1 : 0));
-	$template->assign("sections",$sections);
-	// Templates
-	$tpls = $db->selectObjects("section_template","parent='0'");
-	$template->assign("templates",$tpls);
+	$template->assign('sections',$sections);
 	$template->output();
 }
 
