@@ -1,27 +1,134 @@
+0.96-RC1 -- February 18 2005
+=============================
+GENERAL CHANGES
+- Removed default config.php file from distribution archive (for upgrades)
+- Removed some unused view files (old _external_single.tpl files from the content picker days)
+- Added en.js lang file for custom Template plugin to HTMLArea (gets rid of some web server error log messages)
+- Added csshover.htc so that IE users can take advantage of onhover row higlighting in various management interfaces
+- Added PNG icons to iconset, because they look cleaner
+- Added png-opacity.htc to fix a bug in IE's support for PNG graphics (alpha blending is broken)
+- Added section and content linking feature to the HTMLArea 'Insert Link' dialog
+- Added new views for previously hard-coded text (for i18n mostly)
+- Now, if the DEVELOPMENT constant in pathos_version is 0, ini_set calls are made at startup that turn off display_errors and error_reporting
+- Added fallback 'View Not Found' view, to prevent Smarty errors on a production site
+
+CORE FEATURES
+- Removed troubleshooting feature -- not useful enough for development team
+- Eliminated the need for lots of views_c directories through Smarty compile_id usage
+- Removed echo_assign Smarty plugin, in favor of using Smarty's builin {capture} block
+- Removed custom reviews plugin for Smarty (never should have been included in the first place)
+- Added PEAR.php to external/ directory, for web server installations that do not have access to PEAR
+- Added PEAR Archive::Zip class, to be able to handle .zip files
+- Added ability to make 'acting administrators' through the web
+- Added a custom Smarty modifier (date_format), for handling differences between Windows and Linux implementations of strftime
+- Added a custom Smarty modifier (hide_email), for obfuscating email address
+- Added SSL/NonSSL support (has to be implemented by the view)
+- Added a custom Smarty function (attribution), for taking advantage of the sites Attribution setting
+- Added a standalone login page, so that login modules do not have to be embedded in the theme
+- Added generic popup system, and an action to the common module for showing a module in a specific view
+- Viewified permission management form and configuration form actions in common module
+- Better SEF support
+
+COMPAT LAYER
+- Removed compatibility workaround for php_strip_whitespace (not used)
+- Added compatibility workaround for md5_file
+- Added compatibility workarounf for gd_info (will show up as 'Not Supported' without GD, and works for PHP < 4.3.0)
+
+INSTALLER
+- Renamed install.php to db_recover.php, and set it to off by default
+- Removed installer warning page (no need with new installer)
+- Reworked installer to automatically disable itself after one successful run-through
+- Added more sanity checks to installer (GD, Safe Mode, etc.)
+- Removed old site type files (not used yet)
+- Redesigned the layout and color scheme of the installer
+- Added a side panel to show the user where in the installation process they are
+
+ADDRESSBOOK MODULE
+- Removed copy and reference code (never used, soon to be replaced with content channels)
+
+ADMINISTRATION
+- Removed mass mailling ability, in favor of using the inbox module (Private Message Center)
+- Reworked the group membership management interface to use the paginator.
+- Added the ability to manage groups for a single user (the opposite of group membership management)
+- Added generic data importer / exporter framework
+- Added an importer / exporter for dealing with uploaded files
+- Added an import for importing users from a comma separated value (CSV) file
+- Made 'Backup Database' and 'Restore Database' operations into an Importer and an Exporter
+- Modified EQL export so that it just sends the file inline for download (instead of displaying the contents and providing a link)
+- Added the ability to designate users as group administrators, thereby giving them a 'My Groups' link in the login user menu for managing the members of their groups
+- Added System Info option to the Administration Control Panel, so that users can send the developers sys info (also includes information about the currently installed version of Exponent, its subsystems, and all modules)
+
+CALENDAR MODULE
+- Renamed the Default view to Administration, and replace Default with Monthly view (to avoid confusion, see forums)
+- Implemented recurring events
+- Added option to categorize events
+- Added option to show viewers a feedback form for an event, and email the submitted data to a single email address
+- Added Monthly List view
+
+INBOX MODULE
+- Removed explicit contact addressbook, relying instead on system user list
+- Added a profile definition extension, so that users can specify whether or not they want their private messages forwarded to their configured email address
+
+NAVIGATION MODULE
+- Removed (mostly insecure) Edit Properties feature (action, table and view)
+- Added pagesets, standalone pages, internal page aliases, external website links
+- Resolved issues related to deleting sections from the site hierarchy
+- Resolved issues related to not having a Default section (infinite redirection bug)
+- Added section reparenting
+- Added section administrator support
+- Fixed page/section linker support
+
+LOGIN MODULE
+- Made the password reset actions use views for output
+- Added CAPTCHA / Turing test (configurable) to prevent account flooding
+
+WEBLOG MODULE
+- Added Monthly summary view, for showing months that have posts, how many, and providing a link to view that month
+- Added PHP-based pagination to the weblog module
+- Added action/view for looking at all weblog posts for a given month
+
+NEWS MODULE
+- Added a page for viewing news that has either expired or not yet published
+
+FORMS SUBSYSTEM
+- Cleaned up forms subsystem, getting rid of unused form classes like explicitform and dynamicpreviewform
+- Added javascript functions for disabling a regular datetimecontrol
+- Added radiocontrol and radiogroupcontrol
+
+
+NEW ADDITIONS
+- Image subsystem to handle thumbnailing (previously hand-hacked in thumb.php)
+- Security subsystem for checking password strength
+- Search subsystem to provide an easy API for creating indexed search records
+- Lang subsystem to handle internationalization
+
+- Banner Module, for managing banners and affiliates (currently only tracks affiliates)
+- User Interface Switcher module, for popping between different 'levels' of UI controls
+- SWF Module, for embedding flash or an image (for browsers without flash support) in the site
+- Content Rotator module (a Top of the Moment, or Testimonials type of behavior)
+- Multi-site Manager module, for managing multiple sites all linked to a single codebase
+- Search module, to let users search the content of the site
+- Form module, for building custom forms that are emailed or stored in the database (or both)
+
+
 0.95.0   -- December 20, 2004
 =============================
 - IIS fixes for redirection problems
-- Added default preview image, so that hosts without full (or any) GD
-support don't get broken images where previews should be.
+- Added default preview image, so that hosts without full (or any) GD support don't get broken images where previews should be.
 
 0.95-RC3 -- December 7, 2004
 ============================
 - Added array_map function workaround to compat layer
-- Added a default installer page, in case page wasn't in REQUEST (GET or
-POST)
+- Added a default installer page, in case page wasn't in REQUEST (GET or POST)
 - New geo countries and regions subsystem.
 - Added option in installer to skip creation of default content
-- Refactored database layer to allow two different engines to be used
-simultaneously
+- Refactored database layer to allow two different engines to be used simultaneously
 - Removed unused DBE_* constants
-- Fixed various redirection issues (using full filename, instead of just
-"?")
+- Fixed various redirection issues (using full filename, instead of just "?")
 - Fixed minor typo on admin user manager page
 - Added overrides file, to allow user to manually set some constants
 - Commented out some unreferenced code, for removal in future versions
-- Backported some feature enhancements from 0.96, for the
-template::register_permissions method (single permission / multiple
-locations)
+- Backported some feature enhancements from 0.96, for the template::register_permissions method (single permission / multiple locations)
 - Cleaned up the stylesheet of the Personal Theme
 
 
@@ -31,10 +138,8 @@ locations)
 - CSS fixes in ExponentCMS.org theme for IE and Firefox
 - Added alt and title attributes to ALL icons
 - Added missing delete confirmation JS
-- Removed use of fgets() in backup susbsytem in favor of file(), for
-backwards compatibility support
-- Changed address controls in Addressbook module from textareas to
-single-line text boxes
+- Removed use of fgets() in backup susbsytem in favor of file(), for backwards compatibility support
+- Changed address controls in Addressbook module from textareas to single-line text boxes
 - Changed HTML Editor to Text editor for image manager items
 - Replaced various split calls with explode (speed)
 - Minor text change in sanity checker
@@ -50,12 +155,9 @@ single-line text boxes
 - Fixed bug with Container views and smarty errors
 - Added real form caption for inbox contact group edit form
 - Fixed 'all sections inactive' bug in Full Hierarchy
-- Added __realpath function to correct Windows backslashes in URL paths
-(BASE and PATH_RELATIVE)
-- Now stripping tags in the smarty summarize modifier (gets rid of extra
-lines with <p> tags)
+- Added __realpath function to correct Windows backslashes in URL paths (BASE and PATH_RELATIVE)
+- Now stripping tags in the smarty summarize modifier (gets rid of extra lines with <p> tags)
 - Refactored versioning function in core subsystem
-- Fixed javascript error that kept IE browsers from submitting validated
-forms
+- Fixed javascript error that kept IE browsers from submitting validated forms
 - Backported link plugin (Smarty) from 0.96, to start making transition
 
