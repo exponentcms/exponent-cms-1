@@ -48,7 +48,7 @@ if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
 if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
 	header('Location: install/index.php?page=welcome');
-	exit();
+	exit('Redirecting to the Exponent Install Wizard');
 }
 
 // Handle sub themes
