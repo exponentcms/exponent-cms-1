@@ -67,10 +67,6 @@ class section {
 			$form->meta('id',$object->id);
 		}
 		
-		// Store the section's parent in a hidden field, so that it comes through
-		// when the form is submitted.
-		$form->meta('parent',$object->parent);
-		
 		// The name of the section, as it will be linked in the section hierarchy.
 		$form->register('name','Name',new textcontrol($object->name));
 		
@@ -98,6 +94,12 @@ class section {
 				// slot, with a rank of 0.
 				$form->meta('rank',0);
 			}
+			// Store the section's parent in a hidden field, so that it comes through
+			// when the form is submitted.
+			$form->meta('parent',$object->parent);
+		} else {
+			// Allow them to change parents
+			$form->register('parent','Parent Section',new dropdowncontrol($object->parent,navigationmodule::levelDropdownControlArray(0,0,array($object->id),1)));
 		}
 		
 		// Return the form to the calling scope, which should always be a
@@ -432,6 +434,23 @@ class section {
 			$s = $db->selectObject("section","id=".$s->parent);
 		}
 		return $depth;
+	}
+	
+	function changeParent($section,$old_parent,$new_parent) {
+		global $db;
+		// Store new parent.
+		$section->parent = $new_parent;
+		
+		$db->decrement('section','rank',1,'parent='.$old_parent . ' AND rank > ' . $section->rank);
+		// Need to place this item at the end of the list of children for the new parent.
+		$section->rank = $db->max('section','rank','parent','parent='.$new_parent);
+		if ($section->rank == null) {
+			$section->rank = 0;
+		} else {
+			$section->rank++;
+		}
+		
+		return $section;
 	}
 }
 
