@@ -47,7 +47,7 @@ return array(
 			'control'=>new dropdowncontrol(0,pathos_lang_list())
 		),
 		'SITE_ALLOW_REGISTRATION'=>array(
-			'title'=>TR_CONFIG_SITE_ALLOW_REGISTRATION
+			'title'=>TR_CONFIG_SITE_ALLOW_REGISTRATION,
 			'description'=>TR_CONFIG_SITE_ALLOW_REGISTRATION_DESC,
 			'control'=>new checkboxcontrol()
 		),
