@@ -84,13 +84,11 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 					}
 				}
 			}
-			pathos_flow_redirect();
 		} else {
 			$item->approved = 1;
 			$db->updateObject($item,"calendar");
-			
-			pathos_flow_redirect();
 		}
+		calendarmodule::spiderContent($item);
 	} else {
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
@@ -132,16 +130,17 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$item->approved = 1; // Bypass workflow.
 		
 		$edate = null;
-		$edate->event_id = $db->insertObject($item,"calendar");
+		$item->id = $db->insertObject($item,"calendar");
+		$edate->event_id = $item->id;
 		$edate->location_data = $item->location_data;
 		foreach ($dates as $d) {
 			$edate->date = $d;
 			$db->insertObject($edate,"eventdate");
 		}
-		pathos_flow_redirect();
-		
+		calendarmodule::spiderContent($item);
 		pathos_forms_cleanup();
 	}
+	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }
