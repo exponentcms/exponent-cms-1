@@ -40,128 +40,136 @@
 define("SYS_SORTING",1);
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by rank in ascending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byRankAscending($a,$b) {
 	return ($a->rank < $b->rank ? -1 : 1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by rank in descending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byRankDescending($a,$b) {
 	return ($a->rank > $b->rank ? -1 : 1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by name in ascending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byNameAscending($a,$b) {
 	return strnatcasecmp($a->name,$b->name);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by name in descending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byNameDescending($a,$b) {
 	return (strnatcasecmp($a->name,$b->name) == -1 ? 1 : -1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by username attribute in ascending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byUserNameAscending($a,$b) {
 	return strnatcasecmp($a->username,$b->username);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by username attribute in descending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byUserNameDescending($a,$b) {
 	return (strnatcasecmp($a->username,$b->username) == -1 ? 1 : -1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by posted attribute in ascending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byPostedAscending($a,$b) {
 	return ($a->posted < $b->posted ? -1 : 1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by posted attribute in descending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byPostedDescending($a,$b) {
 	return ($a->posted > $b->posted ? -1 : 1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by updated attribute in ascending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byUpdatedAscending($a,$b) {
 	return ($a->updated < $b->updated ? -1 : 1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by updated attribute in descending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_byUpdatedDescending($a,$b) {
 	return ($a->updated > $b->updated ? -1 : 1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by name method return value in ascending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_moduleByNameAscending($a,$b) {
 	return strnatcasecmp($a->name(),$b->name());
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Object sorting comparison function -- sorts by name method return value in descending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_moduleByNameDescending($a,$b) {
 	return (strnatcasecmp($a->name(),$b->name()) == -1 ? 1 : -1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Class name sorting comparison function -- sorts by name method return value in ascending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_moduleClassByNameAscending($a,$b) {
 	return strnatcasecmp(call_user_func(array($a,"name")),call_user_func(array($b,"name")));
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Class name sorting comparison function -- sorts by name method return value in descending order.
+ * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_moduleClassByNameDescending($a,$b) {
 	return (strnatcasecmp(call_user_func(array($a,"name")),call_user_func(array($b,"name"))) == -1 ? 1 : -1);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Workflow revision sorting comparison function -- sorts by major and minor in ascending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_workflowRevisionAscending($a,$b) {
 	return strnatcmp($a->wf_major.".".$a->wf_minor,$b->wf_major.".".$b->wf_minor);
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Workflow revision sorting comparison function -- sorts by major and minor in descending order.
+ * @node Subsystems:Sorting
  */
 function pathos_sorting_workflowRevisionDescending($a,$b) {
 	return (strnatcmp($a->wf_major.".".$a->wf_minor,$b->wf_major.".".$b->wf_minor) == -1 ? 1 : -1);
