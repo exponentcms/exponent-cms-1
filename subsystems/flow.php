@@ -143,7 +143,7 @@ function pathos_flow_redirect($url_type = SYS_FLOW_NONE) {
 	} else {
 		header("Location: $url");
 	}
-	exit();
+	exit('Redirecting...');
 }
 
 ?>
