@@ -34,6 +34,9 @@
 {if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
 Welcome, {$user->firstname} {$user->lastname}<br />
 <a href="{link action=editprofile}">Edit Profile</a>&nbsp;|&nbsp;
+{if $is_group_admin}
+<a href="{link action=mygroups}">My Groups</a>&nbsp;|&nbsp;
+{/if}
 <a href="{link action=changepass}">Change Password</a>&nbsp;|&nbsp;
 <a href="{link action=logout}">Logout</a><br />
 {/if}
