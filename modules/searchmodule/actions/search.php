@@ -44,9 +44,11 @@ if (!defined("PATHOS")) exit("");
 		return;
 	}
 	
-	$terms = pathos_search_cleanSearchQuery(
+	$term_status = pathos_search_cleanSearchQuery(
 		array_map("addslashes",array_map("trim",split(" ",$search_string)))
 	);
+	
+	$terms = $term_status['valid'];
 	
 	$results = array();
 	
@@ -56,8 +58,8 @@ if (!defined("PATHOS")) exit("");
 		$rloc = unserialize($r->location_data);
 		$sectionref = $db->selectObject("sectionref","module='".$rloc->mod."' AND source='".$rloc->src."'");
 		$section = $db->selectObject("section","id=".$sectionref->section);
-		//if ($section && ($section->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$section->id)))) {
-			
+		
+		if (navigationmodule::canView($section)) {
 			$weight = 0;
 			$body_l = strtolower($r->body);
 			$title_l = strtolower($r->title);
@@ -66,7 +68,7 @@ if (!defined("PATHOS")) exit("");
 				$weight += preg_match("/(\s+".$term."[\s\.,:;]+)/",$title_l);
 			}
 			
-			if ($weight && navigationmodule::canView($section)) {
+			if ($weight) {
 				// find view link
 				if ($r->view_link == "") {
 					// No viewlink - go to the page
@@ -125,22 +127,15 @@ if (!defined("PATHOS")) exit("");
 				$result->sum = str_replace("\n","<br />",$result->sum);
 				$results[] = $result;
 			}
-/*		} else {
-			echo "Permission check failed<br />";
-			echo "<xmp>";
-			print_r($sectionref);
-			print_r($section);
-			echo "</xmp>";
 		}
-*/	}
-	
-	echo "Your search for '$search_string' returned " . count($results) . " result" . (count($results) == 1 ? "" : "s") . "<br />";
-	
-	foreach ($results as $r) {
-		echo "<hr size='1' />";
-		echo "<a href='".$r->view_link."'>".$r->title."</a>";
-		echo "<br />".$r->sum."<br />";
 	}
+	
+	$template = new template('searchmodule','_results');
+	$template->assign('good_terms',$terms);
+	$template->assign('excluded_terms',$term_status['excluded']);
+	$template->assign('num_results',count($results));
+	$template->assign('results',$results);
+	$template->output();
 // END PERM CHECK
 
 ?>
