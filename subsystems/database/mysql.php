@@ -640,7 +640,6 @@ class mysql_database {
 	 * @param string $table The name of the table to optimize.
 	 */
 	function optimize($table) {
-		echo $table.'<br />';
 		$res = (mysql_query("OPTIMIZE TABLE `" . $this->prefix . "$table`",$this->connection) != false);
 		return $res;
 	}
