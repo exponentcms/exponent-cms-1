@@ -33,6 +33,10 @@
 
 class contactmodule_config {
 	function form($object) {
+	
+		pathos_lang_loadDictionary('modules','contactmodule');
+		pathos_lang_loadDictionary('standard','core');
+		
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
@@ -46,11 +50,11 @@ class contactmodule_config {
 			$form->meta("id",$object->id);
 		}
 		
-		$form->register("subject","Message Title",new textcontrol($object->subject));
-		$form->register("from_name","From Name",new textcontrol($object->from_name));
-		$form->register("from","From Address",new textcontrol($object->from_address));
-		$form->register("replyto","Reply-to Address",new textcontrol($object->replyto_address));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("subject",TR_CONTACTMODULE_MESSAGETITLE,new textcontrol($object->subject));
+		$form->register("from_name",TR_CONTACTMODULE_FROMNAME,new textcontrol($object->from_name));
+		$form->register("from",TR_CONTACTMODULE_FROMADDRESS,new textcontrol($object->from_address));
+		$form->register("replyto",TR_CONTACTMODULE_REPLYTO,new textcontrol($object->replyto_address));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;

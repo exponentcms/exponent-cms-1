@@ -33,19 +33,22 @@
 //GREP:HARDCODEDTEXT
 class file {
 	function update($name,$dest,$object,$destname = null) {
+	
+		pathos_lang_loadDictionary('modules','file');
+		
 		$object->mimetype = $_FILES[$name]['type'];
 		
 		if ($destname == null) $object->filename = $_FILES[$name]['name'];
 		else $object->filename = $destname;
 		
 		if (file_exists(BASE.$dest."/".$object->filename)) {
-			echo "File " . $object->filename . " already exists.";
+			echo TR_FILE_FILE . $object->filename . TR_FILE_ALREADYEXISTS;
 			return null;
 		}
 		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
 		pathos_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest."/".$object->filename);
 		if (!file_exists(BASE.$dest."/".$object->filename)) {
-			echo "Unable to upload " . $object->filename . ".";
+			echo TR_FILE_UNABLETOUPLOAD . $object->filename . ".";
 			return null;
 		}
 		

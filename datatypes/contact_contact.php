@@ -33,6 +33,10 @@
 
 class contact_contact {
 	function form($object) {
+	
+		pathos_lang_loadDictionary('modules','contactmodule');
+		pathos_lang_loadDictionary('standard','core');
+		
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
@@ -56,9 +60,9 @@ class contact_contact {
 			}
 		}
 		
-		$form->register("contact","Contact",new contactcontrol($default,$type));
+		$form->register("contact",TR_CONTACTMODULE_CONTACT,new contactcontrol($default,$type));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_SAVE));
 		
 		pathos_forms_cleanup();
 		return $form;

@@ -33,6 +33,9 @@
 
 class formbuilder_form {
 	function form($object) {
+	
+		pathos_lang_loadDictionary('modules','formbuilder');
+		
 		global $db;
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
@@ -53,15 +56,15 @@ class formbuilder_form {
 			$form->meta("id",$object->id);
 		}
 		
-		$form->register("name","Name",new textcontrol($object->name));
-		$form->register("description","Description",new texteditorcontrol($object->description));
-		$form->register("response","Response", new htmleditorcontrol($object->response));
+		$form->register("name",TR_FORMBUILDER_NAME,new textcontrol($object->name));
+		$form->register("description",TR_FORMBUILDER_DESCRIPTION,new texteditorcontrol($object->description));
+		$form->register("response",TR_FORMBUILDER_RESPONSE, new htmleditorcontrol($object->response));
 		
 		$form->register(uniqid(""),"", new htmlcontrol("<br><br><b>Button Settings</b><br><hr><br>"));
-		$form->register("submitbtn","Submit Button Text", new textcontrol($object->submitbtn));
-		$form->register("resetbtn","Reset Button Text", new textcontrol($object->resetbtn));
+		$form->register("submitbtn",TR_FORMBUILDER_SUBMITTEXT, new textcontrol($object->submitbtn));
+		$form->register("resetbtn",TR_FORMBUILDER_RESETTEXT, new textcontrol($object->resetbtn));
 		$form->register(uniqid(""),"", new htmlcontrol("<br><br><b>Email Settings</b><br><hr><br>"));
-		$form->register("is_email","Email Form",new checkboxcontrol($object->is_email,false));
+		$form->register("is_email",TR_FORMBUILDER_EMAILFORM,new checkboxcontrol($object->is_email,false));
 		
 		$userlist = array();
 		$users = pathos_users_getAllUsers();
@@ -74,7 +77,7 @@ class formbuilder_form {
 			$defaults[$locuser->id] = $locuser->username;
 		} 
 		
-		$form->register("users","Users",new listbuildercontrol($defaults,$userlist));
+		$form->register("users",TR_FORMBUILDER_USERS,new listbuildercontrol($defaults,$userlist));
 		$groups = pathos_users_getAllGroups();
 		$grouplist = array();
 		$defaults = array();
@@ -87,7 +90,7 @@ class formbuilder_form {
 				$defaults[$group->id] = $group->name;
 			}
 			
-			$form->register("groups","Groups",new listbuildercontrol($defaults,$grouplist));
+			$form->register("groups",TR_FORMBUILDER_GROUPS,new listbuildercontrol($defaults,$grouplist));
 		}
 		
 		$defaults = array();
@@ -95,10 +98,10 @@ class formbuilder_form {
 			$defaults[$address->email] = $address->email;
 		}
 		
-		$form->register("addresses","Other Addresses",new listbuildercontrol($defaults,array()));
-		$form->register("subject","Email Subject",new textcontrol($object->subject));
+		$form->register("addresses",TR_FORMBUILDER_OTHERADDRESSES,new listbuildercontrol($defaults,array()));
+		$form->register("subject",TR_FORMBUILDER_EMAILSUBJECT,new textcontrol($object->subject));
 		$form->register(uniqid(""),"", new htmlcontrol("<br><br><b>Database Settings</b><br><hr><br>"));
-		$form->register("is_saved","Save Submitions to Database",new checkboxcontrol($object->is_saved,false));
+		$form->register("is_saved","Save Submissions to Database",new checkboxcontrol($object->is_saved,false));
 		$form->register(uniqid(""),"", new htmlcontrol("<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*To help prevent data loss, you cannot remove a form's database once it has been added.<br>"));
 		if ($object->is_saved) {
 			$form->controls["is_saved"]->disabled = true;
