@@ -130,16 +130,19 @@ function pathos_config_configurationForm($configname,$database=false) {
 				if (substr($file,0,-14) != 'database' || $user->is_admin) {
 					$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/><h3>" . $arr[0] . "</h3>"));
 					foreach ($arr[1] as $directive=>$info) {
-						$form->register(null,"",new htmlcontrol("<div style='margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc'>".$info['title']."</div>"));
+						$form->register(null,"",new htmlcontrol("<div style='margin-left: 2em; margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc'>".$info['title']."</div>"));
 						if ($info['description'] != "") {
 							$form->register(null,"",new customcontrol($info['description']));
 						}
-						if (isset($options[$directive])) $info["control"]->default = $options[$directive];
 						if (is_a($info['control'],"checkboxcontrol")) {
 							$form->meta("opts[$directive]",1);
+							$info['control']->default = $options[$directive];
 							$info['control']->flip = true;
-							$form->register('o[$directive]',$info['title'],$info['control']);
-						} else $form->register("c[$directive]",'',$info['control']);
+							$form->register("o[$directive]",$info['title'],$info['control']);
+						} else {
+							if (isset($options[$directive])) $info["control"]->default = $options[$directive];
+							$form->register("c[$directive]",'',$info['control']);
+						}
 					}
 				}
 			}
