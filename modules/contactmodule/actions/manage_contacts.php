@@ -44,7 +44,7 @@ if (pathos_permissions_check('configure',$loc)) {
 			$u = pathos_users_getUserById($c->user_id);
 			$c->email = $u->email;
 			$c->name = $u->firstname . ' ' . $u->lastname;
-			if ($c->name == '') $c->name = $u->username;
+			if (trim($c->name) == '') $c->name = $u->username;
 		} else {
 			$c->name = '';
 		}
