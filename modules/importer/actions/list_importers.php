@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_admin == 1) {
 	$importers = array();
 	$idh = opendir(BASE."modules/importer/importers");
 	while (($imp = readdir($idh)) !== false) {

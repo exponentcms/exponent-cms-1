@@ -59,7 +59,7 @@
 		}
 	}
 	if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions_check("editdata",unserialize($f->location_data)))) {
-		if ($f->is_saved) {	
+		if ($f->is_saved == 1) {	
 			if (isset($_POST['data_id'])) {
 				//if this is an edit we remove the record and insert a new one.
 				$olddata = $db->selectObject('formbuilder_'.$f->table_name,'id='.$_POST['data_id']);
@@ -82,7 +82,7 @@
 		
 		//Email stuff here...
 		//Don't send email if this is an edit.
-		if ($f->is_email && !isset($_POST['data_id'])) {
+		if ($f->is_email == 1 && !isset($_POST['data_id'])) {
 			//Building Email List...
 			$emaillist = array();
 			foreach ($db->selectObjects("formbuilder_address","form_id=".$f->id) as $address) {

@@ -75,8 +75,9 @@ class htmltemplatemodule {
 			$templates = $db->selectObjects('htmltemplate');
 			for ($i = 0; $i < count($templates); $i++) {
 				$assocs = $db->selectObjects('htmltemplateassociation','template_id='.$templates[$i]->id);
-				if (count($assocs) == 1 && $assocs[0]->global) $templates[$i]->global_assoc = 1;
-				else {
+				if (count($assocs) == 1 && $assocs[0]->global == 1) {
+					$templates[$i]->global_assoc = 1;
+				} else {
 					$templates[$i]->global_assoc = 0;
 					$templates[$i]->associations = $assocs;
 				}

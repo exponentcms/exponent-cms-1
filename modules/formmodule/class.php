@@ -132,7 +132,7 @@ class formmodule {
 				$form->controls['submit']->disabled = true;
 				$formmsg .= 'This form is blank. Select "Edit Form" to add input fields.<br>';
 			}
-			if (!$f->is_saved && !$f->is_email) {
+			if ($f->is_saved == 0 && $f->is_email == 0) {
 				$form->controls['submit']->disabled = true;
 				$formmsg .= 'There are no actions assigned to this form. Select "Edit Form Settings" then select "Email Form" and/or "Save to Database".'; 
 			}
@@ -153,7 +153,7 @@ class formmodule {
 		$db->delete("formbuilder_control","form_id=".$form->id);
 		$db->delete("formbuilder_report","form_id=".$form->id);
 		$db->delete("formbuilder_address","form_id=".$form->id);
-		if ($form->is_saved) {
+		if ($form->is_saved == 1) {
 			$db->dropTable("formbuilder_".$form->table_name);
 		}
 		$db->delete("formbuilder_form","location_data='".serialize($loc)."'");

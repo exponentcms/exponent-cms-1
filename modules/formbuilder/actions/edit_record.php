@@ -50,7 +50,7 @@
 				$ctl = unserialize($c->data);
 				$ctl->_id = $c->id;
 				$ctl->_readonly = $c->is_readonly;
-				if (!$c->is_readonly) {
+				if ($c->is_readonly == 0) {
 					$name = $c->name;
 					$ctl->default = $data->$name;
 				}
