@@ -36,9 +36,10 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$type = null;
-	if (isset($_GET['type'])) $type = $db->selectObject('mimetype',"mimetype='".$_GET['type']."'");
+	if (isset($_GET['type'])) {
+		$type = $db->selectObject('mimetype',"mimetype='".$_GET['type']."'");
+	}
 	
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();

@@ -36,9 +36,10 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$type = null;
-	if (isset($_POST['oldmime'])) $type = $db->selectObject('mimetype',"mimetype='".$_POST['oldmime']."'");
+	if (isset($_POST['oldmime'])) {
+		$type = $db->selectObject('mimetype',"mimetype='".$_POST['oldmime']."'");
+	}
 	$is_existing = ($type != null);
 	
 	$type = mimetype::update($_POST,$type);

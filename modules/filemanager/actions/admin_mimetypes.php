@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	$template = new template('filemanager','_mimetypes',$loc);
 	$template->assign('types',$db->selectObjects('mimetype'));

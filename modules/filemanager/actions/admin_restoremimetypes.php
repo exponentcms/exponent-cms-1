@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$db->delete('mimetype');
 	$mimes = include(BASE.'subsystems/files/mimetypes.php');
 	$obj = null;
