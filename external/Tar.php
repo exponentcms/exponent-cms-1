@@ -20,7 +20,7 @@
 
 if (!defined('PATHOS')) exit('');
 
-require_once 'PEAR.php';
+require_once BASE.'external/PEAR.php';
 
 /**
 * Creates a (compressed) Tar archive
