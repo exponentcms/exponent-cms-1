@@ -31,19 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Show Message Workflow Action
- *
- * Outputs a message to the user.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Subsystems
- * @subpackage Workflow
- */
-
 if (!defined("PATHOS")) exit("");
 
 echo $action->parameters;

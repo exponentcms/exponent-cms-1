@@ -31,20 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Show Back Link Workflow Action
- *
- * Outputs a back link which will take the user back to the
- * approval manager page.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Subsystems
- * @subpackage Workflow
- */
-
 if (!defined("PATHOS")) exit("");
 
 echo '<a class="mngmntlink workflow_mngmntlink" href="';

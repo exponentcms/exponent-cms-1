@@ -31,19 +31,6 @@
 # $Id$
 ##################################################
 
-/**
- * Redirect User Workflow Action
- *
- * Redirects a user to the last page they were on.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Subsystems
- * @subpackage Workflow
- */
-
 if (!defined("PATHOS")) exit("");
 
 pathos_flow_redirect();

@@ -31,18 +31,6 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-/**
- * Debugging Workflow Action
- *
- * Outputs WOrkflow debugging information.
- *
- * @author James Hunt
- * @copyright 2004 James Hunt and the OIC Group, Inc.
- * @version 0.95
- *
- * @package Subsystems
- * @subpackage Workflow
- */
 
 if (!defined("PATHOS")) exit("");
 
