@@ -43,6 +43,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$groups = pathos_users_getAllGroups();
 	$template->assign('groups',$groups);
+	$template->assign('perm_level',2); // So we get the edit/delete links
 	$template->output();
 } else {
 	echo SITE_403_HTML;

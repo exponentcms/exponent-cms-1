@@ -30,11 +30,11 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions on this Calendar" alt="Assign user permissions on this Calendar" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this Calendar" alt="Assign group permissions on this Calendar" /></a>
+	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Calendar" alt="Assign user permissions on this Calendar" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Calendar" alt="Assign group permissions on this Calendar" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" title="Change the configuration of this Calendar" alt="Change the configuration of this Calendar" /></a>
+	<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Calendar" alt="Change the configuration of this Calendar" /></a>
 {/if}
 {/permissions}
 <table width="177" border="0" cellpadding="0" cellspacing="0" bordercolor="666666">
@@ -73,27 +73,27 @@
 		{/if}
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1 || $event->permissions.administrate == 1}
-		<a class="mngmntlink calendar_mngmntlink" href="{link action=userperms int=$event->id _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions on this Calendar Event" alt="Assign user permissions on this Calendar Event" /></a>
-		<a class="mngmntlink calendar_mngmntlink" href="{link action=groupperms int=$event->id _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this Calendar Event" alt="Assign group permissions on this Calendar Event" /></a>
+		<a class="mngmntlink calendar_mngmntlink" href="{link action=userperms int=$event->id _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Calendar Event" alt="Assign user permissions on this Calendar Event" /></a>
+		<a class="mngmntlink calendar_mngmntlink" href="{link action=groupperms int=$event->id _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Calendar Event" alt="Assign group permissions on this Calendar Event" /></a>
 		{/if}
 		{/permissions}
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.edit == 1 || $event->permissions.edit == 1}
 			{if $event->approved == 1}
-			<a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=$event->id date_id=$event->eventdate->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="Edit this Calendar Event" alt="Edit this Calendar Event" /></a>
+			<a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=$event->id date_id=$event->eventdate->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this Calendar Event" alt="Edit this Calendar Event" /></a>
 			{else}
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.gif" title="Editting Disabled - Calendar Event In Approval" alt="Editting Disabled - Calendar Event In Approval" />
+			<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - Calendar Event In Approval" alt="Editting Disabled - Calendar Event In Approval" />
 			{/if}
 		{/if}
 		{if $permissions.delete == 1 || $event->permissions.delete == 1}
 			{if $event->approved == 1}
 			{if $event->is_recurring == 0}
-			<a class="mngmntlink calendar_mngmntlink" href="{link action=delete id=$event->id}" onClick="return confirm('Are you sure you want to delete this Calendar Event?');"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="Delete this Calendar Event" alt="Delete this Calendar Event" /></a>
+			<a class="mngmntlink calendar_mngmntlink" href="{link action=delete id=$event->id}" onClick="return confirm('Are you sure you want to delete this Calendar Event?');"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Calendar Event" alt="Delete this Calendar Event" /></a>
 			{else}
-			<a class="mngmntlink calendar_mngmntlink" href="{link action=delete_form id=$event->id date_id=$event->eventdate->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="Delete this Calendar Event" alt="Delete this Calendar Event" /></a>
+			<a class="mngmntlink calendar_mngmntlink" href="{link action=delete_form id=$event->id date_id=$event->eventdate->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Calendar Event" alt="Delete this Calendar Event" /></a>
 			{/if}
 			{else}
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.gif" title="Deleting Disabled - Calendar Event In Approval" alt="Deleting Disabled - Calendar Event In Approval" />
+			<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Deleting Disabled - Calendar Event In Approval" alt="Deleting Disabled - Calendar Event In Approval" />
 			{/if}
 		{/if}
 		{if $permissions.manage_approval == 1}

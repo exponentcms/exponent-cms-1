@@ -39,17 +39,42 @@
 		elem = document.getElementById("membdata");
 		arr = new Array();
 		for (i = 0; i < paginate.allData.length; i++) {
-			if (paginate.allData[i].var_is_member == 1) arr.push(paginate.allData[i].var_id);
+			if (paginate.allData[i].var_is_member == 1) {
+				str = paginate.allData[i].var_id;
+				if (paginate.allData[i].var_is_admin == 1) {
+					str += ':1';
+				} else {
+					str += ':0';
+				}
+				arr.push(str);
+			}
 		}
 		elem.value = arr.join(",");
 	}
 	
 	function makeMember(id,checked) {
 		paginate.allData[id].var_is_member = (checked ? 1 : 0);
+		if (!checked && paginate.allData[id].var_is_admin == 1) {
+			makeAdmin(id,false);
+			paginate.drawTable();
+		}
+	}
+	
+	function makeAdmin(id,checked) {
+		paginate.allData[id].var_is_admin = (checked ? 1 : 0);
+		if (checked && paginate.allData[id].var_is_member == 0) {
+			makeMember(id,true);
+			paginate.drawTable();
+		}
 	}
 	
 	function changeAll(checked) {
 		for (i = 0; i < paginate.allData.length; i++) {
+			{/literal}
+			{if $perm_level != 2}
+			if (paginate.allData[i].var_is_admin == 1) continue;
+			{/if}
+			{literal}
 			paginate.allData[i].var_is_member = ( checked ? 1 : 0 );
 		}
 		paginate.drawTable();
@@ -60,7 +85,27 @@
 		if (object.var_is_member == 1) {
 			html += 'checked ';
 		}
+		{/literal}
+		{if $perm_level != 2}
+		if (object.var_is_admin == 1) html += 'disabled ';
+		{/if}
+		{literal}
+		
 		html += 'onClick="makeMember('+object.__ID+',this.checked)" />';
+		return html;
+	}
+	
+	function isAdmin(object) {
+		html = '<input type="checkbox" ';
+		if (object.var_is_admin == 1) {
+			html += 'checked ';
+		}
+		{/literal}
+		{if $perm_level != 2}
+		html += 'disabled ';
+		{/if}
+		{literal}
+		html += 'onClick="makeAdmin('+object.__ID+',this.checked)" />';
 		return html;
 	}
 	
@@ -68,9 +113,14 @@
 		return (a.var_is_member > b.var_is_member ? -1 : 1);
 	}
 	
+	function sortAdmin(a,b) {
+		return (a.var_is_admin > b.var_is_admin ? -1 : 1);
+	}
+	
 	paginate.columns = new Array(
 		new cColumn("User","username",null,null),
-		new cColumn("Is Member?","",isMember,sortMember)
+		new cColumn("Is Member?","",isMember,sortMember),
+		new cColumn("Group Admin","",isAdmin,sortAdmin)
 	);
 	
 	{/literal}

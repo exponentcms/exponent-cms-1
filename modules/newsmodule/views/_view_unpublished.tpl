@@ -46,16 +46,16 @@
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.gif" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
+					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{$linkbase}edit&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="Edit this News Item" alt="Edit this News Item" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{$linkbase}edit&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.gif" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
+					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
 					{else}
-					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{$linkbase}delete&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="Delete this News Item" alt="Delete this News Item" /></a>
+					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{$linkbase}delete&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
 					{/if}
 				{/if}
 			</td>
@@ -86,16 +86,16 @@
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.gif" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
+					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{$linkbase}edit&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="Edit this News Item" alt="Edit this News Item" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{$linkbase}edit&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.gif" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
+					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
 					{else}
-					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{$linkbase}delete&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="Delete this News Item" alt="Delete this News Item" /></a>
+					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{$linkbase}delete&id={$n->id}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
 					{/if}
 				{/if}
 			</td>

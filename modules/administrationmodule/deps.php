@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('PATHOS')) exit('');
+
 # doesn't this really depend on the tasks installed?
 
 return array(

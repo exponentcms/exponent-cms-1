@@ -30,11 +30,11 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions on this Weblog" alt="Assign user permissions on this Weblog" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this Weblog" alt="Assign group permissions on this Weblog" /></a>
+	<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Weblog" alt="Assign user permissions on this Weblog" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Weblog" alt="Assign group permissions on this Weblog" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" title="Change the configuration of this Weblog" alt="Change the configuration of this Weblog" /></a>
+	<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Weblog" alt="Change the configuration of this Weblog" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -48,22 +48,22 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
 <a href="{link action=userperms _common=1 int=$post->id}">
-	<img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign permissions on this Weblog Post" alt="Assign permissions on this Weblog Post" />
+	<img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign permissions on this Weblog Post" alt="Assign permissions on this Weblog Post" />
 </a>
 <a href="{link action=groupperms _common=1 int=$post->id}">
-	<img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this Weblog Post" alt="Assign group permissions on this Weblog Post" />
+	<img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Weblog Post" alt="Assign group permissions on this Weblog Post" />
 </a>
 {/if}
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1 || $post->permissions.edit == 1}
 <a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$post->id}">
-	<img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0" title="Edit this Weblog Post" alt="Edit this Weblog Post" />
+	<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Weblog Post" alt="Edit this Weblog Post" />
 </a>
 {/if}
 {if $permissions.delete == 1 || $post->permissions.delete == 1}
 <a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onClick="return confirm('Are you sure you want to delete this Weblog Post?');">
-	<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" title="Delete this Weblog Post" alt="Delete this Weblog Post" />
+	<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Weblog Post" alt="Delete this Weblog Post" />
 </a>
 {/if}
 {/permissions}
@@ -84,12 +84,12 @@
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_comments == 1 || $post->permissions.edit_comments == 1}
 				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id parent_id=$post->id}">
-					<img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0" title="Edit this Comment" alt="Edit this Comment" />
+					<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Comment" alt="Edit this Comment" />
 				</a>
 				{/if}
 				{if $permissions.delete_comments == 1 || $post->permissions.delete_comments == 1}
 				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_delete id=$comment->id parent_id=$post->id}" onClick="return confirm('Are you sure you want to delete this Comment?');">
-					<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" title="Delete this Comment" alt="Delete this Comment" />
+					<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Comment" alt="Delete this Comment" />
 				</a>
 				{/if}
 				{/permissions}

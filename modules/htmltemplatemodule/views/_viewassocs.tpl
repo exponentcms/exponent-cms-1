@@ -56,7 +56,7 @@ Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=manage_
 			<td style="padding: 2px; padding-left: 10px;{if $smarty.foreach.s.last == 1} border-bottom: 2px solid darkgrey;{/if}">{$template->title}</td>
 			<td colspan="2" style="padding-left: 10px; border-left: 1px dashed lightgrey;{if $smarty.foreach.s.last == 1} border-bottom: 2px solid darkgrey;{/if}">
 				<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=delete_assoc tid=$template_assoc->template_id mod=$class}">
-					<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" />
+					<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 				</a>
 			</td>
 		</tr>

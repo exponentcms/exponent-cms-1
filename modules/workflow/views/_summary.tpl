@@ -35,7 +35,7 @@
 		<td style="background-color: lightgrey">
 			{$summary->real->title} v{$summary->current_major}.{$summary->current_minor}
 			{if $permissions.manage_approval == 1}
-			<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype action=delete id=$summary->real_id major=$summary->current_major}" onClick="return confirm('This will delete the approval path, removing it from Workflow (but not publishing it).  Are you sure you want to do this?');"><img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0"/></a>
+			<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype action=delete id=$summary->real_id major=$summary->current_major}" onClick="return confirm('This will delete the approval path, removing it from Workflow (but not publishing it).  Are you sure you want to do this?');"><img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/></a>
 			{/if}
 		</td>
 		<td style="background-color: lightgrey" align="right">

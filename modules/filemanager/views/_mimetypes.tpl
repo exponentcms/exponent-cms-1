@@ -52,8 +52,8 @@ To add support for a MIME type, use the <a class="mngmntlink administration_mngm
 	{/if}
 </td>
 <td>
-	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype type=$type->mimetype}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" /></a>
-	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_deletemimetype type=$type->mimetype}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" /></a>
+	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype type=$type->mimetype}"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
+	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_deletemimetype type=$type->mimetype}"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>
 </td>
 </tr>
 {/foreach}

@@ -25,25 +25,25 @@ Below is a list of categories.
 	</td>
 	<td align="right">
 		<a href="{link module=categories action=edit id=$category->id orig_module=$origmodule}">
-			<img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0" />
+			<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
 		</a>
 		<a href="{link module=categories action=delete id=$category->id orig_module=$origmodule}">
-			<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" />
+			<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 		</a>	
 		{if $smarty.foreach.a.first == 0}
 		<a href="{link action=rank_switch a=$this b=$prev id=$category->id orig_module=$origmodule}">
-			<img src="{$smarty.const.ICON_RELATIVE}up.gif" border="0"/>
+			<img src="{$smarty.const.ICON_RELATIVE}up.png" border="0"/>
 		</a>
 		{else}
-		<img src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" border="0"/>
+		<img src="{$smarty.const.ICON_RELATIVE}up.disabled.png" border="0"/>
 		{/if}
 		
 		{if $smarty.foreach.a.last == 0}
 		<a href="{link action=rank_switch a=$next b=$this id=$category->id orig_module=$origmodule}">
-			<img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0"/>
+			<img src="{$smarty.const.ICON_RELATIVE}down.png" border="0"/>
 		</a>
 		{else}
-			<img src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" border="0"/>
+			<img src="{$smarty.const.ICON_RELATIVE}down.disabled.png" border="0"/>
 		{/if}
 		
 	</td>

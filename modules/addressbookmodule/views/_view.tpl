@@ -31,10 +31,10 @@
 <h3>Contact Information : {$contact->firstname} {$contact->lastname}</h3>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=edit id= $contact->id}">
-		<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="Edit this Address Contact" alt="Edit this Address Contact" />
+		<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this Address Contact" alt="Edit this Address Contact" />
 	</a>
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=delete id=$contact->id}" onClick="return confirm('Really delete this Address Contact?');">
-		<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="Delete this Address Contact" alt="Delete this Address Contact" />
+		<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Address Contact" alt="Delete this Address Contact" />
 	</a>
 {/permissions}
 <hr size='1'/>

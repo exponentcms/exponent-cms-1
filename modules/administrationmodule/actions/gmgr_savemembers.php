@@ -35,7 +35,9 @@
 
 if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+$memb = $db->selectObject('groupmembership','member_id='.$user->id.' AND group_id='.$_GET['id'].' AND is_admin=1');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule')) || $memb) {
 #if ($user && $user->is_acting_admin) {
 	$group = $db->selectObject('group','id='.$_POST['id']);
 	if ($group) {
@@ -43,8 +45,10 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		$memb = null;
 		$memb->group_id = $group->id;
 		if ($_POST['membdata'] != "") {
-			foreach (explode(',',$_POST['membdata']) as $id) {
-				$memb->member_id = $id;
+			foreach (explode(',',$_POST['membdata']) as $str) {
+				$str = explode(':',$str);
+				$memb->member_id = $str[0];
+				$memb->is_admin = $str[1];
 				$db->insertObject($memb,'groupmembership');
 			}
 		}

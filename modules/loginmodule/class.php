@@ -57,9 +57,15 @@ class loginmodule {
 		$template = new template("loginmodule",$view,$loc);
 		$template->assign("title",$title);
 		if (pathos_sessions_loggedIn()) {
-			global $user;
+			global $user, $db;
 			$template->assign("loggedin",1);
 			$template->assign("user",$user);
+			// Need to check for groups and whatnot
+			if ($db->countObjects('groupmembership','member_id='.$user->id.' AND is_admin=1')) {
+				$template->assign('is_group_admin',1);
+			} else {
+				$template->assign('is_group_admin',0);
+			}
 		} else {
 			$template->assign("loggedin",0);
 		}

@@ -37,10 +37,10 @@
 		<td>{$core->path}</td>
 		<td>
 			<a class="mngmntlink sharedcore_mngmntlink" href="{$linkbase}edit_core&id={$core->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" />
+				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 			</a>
 			<a class="mngmntlink sharedcore_mngmntlink" href="{$linkbase}delete_core&id={$core->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" />
+				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 			</a>
 		</td>
 	</tr>
@@ -70,10 +70,10 @@
 					Refresh
 				</a>
 				<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}edit_site&id={$site->id}">
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" />
+					<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 				</a>
 				<a class="mngmntlink sharedsite_mngmntlink" href="{$linkbase}delete_site&id={$site->id}">
-					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" />
+					<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 				</a>
 			</td>
 		</tr>

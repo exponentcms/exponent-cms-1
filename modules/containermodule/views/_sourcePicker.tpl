@@ -38,7 +38,7 @@
 			<tr>
 				{if $container->info.clickable}
 					<td width="18">
-						<a href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/containermodule/infopopup.php?{if $container->id != 0}id={$container->id}{else}mod={$container->info.class}&src={$container->info.src}{/if}','info','scrollbars=yes,title=no,titlebar=no,width=300,height=200');"><img border="0" src="{$smarty.const.ICON_RELATIVE}info.gif" title="Click for module information" alt="Click for module information" /></a>
+						<a href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/containermodule/infopopup.php?{if $container->id != 0}id={$container->id}{else}mod={$container->info.class}&src={$container->info.src}{/if}','info','scrollbars=yes,title=no,titlebar=no,width=300,height=200');"><img border="0" src="{$smarty.const.ICON_RELATIVE}info.png" title="Click for module information" alt="Click for module information" /></a>
 					</td>
 				{/if}
 					<td valign="top" class="info">

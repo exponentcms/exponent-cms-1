@@ -46,13 +46,13 @@
 			</td>
 			<td align="right" valign="top">
 				{if $permissions.administrate == 1}
-					<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions on this Container Module" alt="Assign user permissions on this Container Module" /></a>&nbsp;
-					<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions on this Container Module" alt="Assign group permissions on this Container Module" /></a>
+					<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Container Module" alt="Assign user permissions on this Container Module" /></a>&nbsp;
+					<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Container Module" alt="Assign group permissions on this Container Module" /></a>
 				{/if}
 			
 				{if $permissions.edit_module == 1}
 					<a href="{link action=edit id=$top->id}">
-						<img border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.gif" title="Change the layout of this Container Module" alt="Change the layout of this Container Module" />
+						<img border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="Change the layout of this Container Module" alt="Change the layout of this Container Module" />
 					</a>
 				{/if}
 			</td>

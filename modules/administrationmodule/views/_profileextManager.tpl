@@ -42,21 +42,21 @@
 		<td>{$extension->name}</td>
 		<td>
 			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_delete id=$extension->id}" onClick="return confirm('Are you sure you want to deactivate the profile extension \'{$extension->name}\'?');">
-				<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" />
+				<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 			</a>
 			{if $smarty.foreach.e.first != 1}
 			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_order a=$extension->rank b=$prevrank}">
-				<img src="{$smarty.const.ICON_RELATIVE}up.gif" border="0" />
+				<img src="{$smarty.const.ICON_RELATIVE}up.png" border="0" />
 			</a>
 			{else}
-			<img src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" border="0" />
+			<img src="{$smarty.const.ICON_RELATIVE}up.disabled.png" border="0" />
 			{/if}
 			{if $smarty.foreach.e.last != 1}
 			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_order a=$extension->rank b=$nextrank}">
-				<img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0" />
+				<img src="{$smarty.const.ICON_RELATIVE}down.png" border="0" />
 			</a>
 			{else}
-			<img src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" border="0" />
+			<img src="{$smarty.const.ICON_RELATIVE}down.disabled.png" border="0" />
 			{/if}
 		</td>
 	</tr>

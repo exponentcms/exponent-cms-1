@@ -46,10 +46,10 @@ Here you can create contact lists and ban users.  Contact lists are like persona
 		<td valign="top">{$group->description}</td>
 		<td valign="top">
 			<a href="{link action=edit_list id=$group->id}">
-				<img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0" title="Edit this Contact List" alt="Edit this Contact List" />
+				<img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Contact List" alt="Edit this Contact List" />
 			</a>
 			<a href="{link action=delete_list id=$group->id}" onClick="return confirm('Are you sure you want to delete this Contact List?');">
-				<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" title="Delete this Contact List" alt="Delete this Contact List" />
+				<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Contact List" alt="Delete this Contact List" />
 			</a>
 		</td>
 	</tr>
@@ -77,7 +77,7 @@ Here you can create contact lists and ban users.  Contact lists are like persona
 		<td valign="top">{$contact->user->username}</td>
 		<td valign="top">
 			<a href="{link action=unban id=$contact->id}" onClick="return confirm('Are you sure you want to unblock this user?');">
-				<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" title="Unblock this user" alt="Unblock this user"/>
+				<img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Unblock this user" alt="Unblock this user"/>
 			</a>
 		</td>
 	</tr>

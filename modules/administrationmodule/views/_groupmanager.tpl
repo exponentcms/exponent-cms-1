@@ -32,8 +32,11 @@
 <div class="form_header">Groups are used to treat a set of users as a single entity, mostly for permission management.  This form allows you to determine which users belong to which groups, create new groups, modify existing groups, and remove groups.
 <br /><br />
 When a new user account is created, it will be automatically added to all groups with a Type of 'Default'
+{if $perm_level == 2}
 <br /><br />
-To create a new group, use the <a class="mngmntlink administration_mngmntlink" href="{link action=gmgr_editprofile id=0}">New Group Account</a> form.</div>
+To create a new group, use the <a class="mngmntlink administration_mngmntlink" href="{link action=gmgr_editprofile id=0}">New Group Account</a> form.
+{/if}
+</div>
 {paginate name="groups" objects=$groups modulePrefix="administration" rowsPerPage=20}{literal}
 
 	paginate.noRecords = "No groups exist.";
@@ -41,9 +44,14 @@ To create a new group, use the <a class="mngmntlink administration_mngmntlink" h
 	function links(object) {
 		var out = '';
 		{/literal}
-			out = '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','gmgr_editprofile','id',object.var_id) +'"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" /></a>'+
-			'<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','gmgr_delete','id',object.var_id) +'" onClick="return confirm(\'Are you sure you want to delete the group \\\'' + object.var_name + '\\\'?\');"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" /></a>' +
-			'<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','gmgr_membership','id',object.var_id) +'">Members</a>';
+			{if $perm_level == 2}
+			// Edit link
+			out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','gmgr_editprofile','id',object.var_id) +'"><img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>';
+			// Delete link
+			out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','gmgr_delete','id',object.var_id) +'" onClick="return confirm(\'Are you sure you want to delete the group \\\'' + object.var_name + '\\\'?\');"><img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>';
+			{/if}
+			// Members link
+			out += '<a class="mngmntlink administration_mngmntlink" href="'+makeLink('module','administrationmodule','action','gmgr_membership','id',object.var_id) +'">Members</a>';
 		{literal}
 		return out;
 	}
