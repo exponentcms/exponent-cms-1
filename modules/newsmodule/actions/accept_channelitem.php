@@ -58,11 +58,10 @@ if ($item && $channel) {
 			if ($item->status == 1) { // New
 				unset($original->id);
 				$original->location_data = serialize($loc);
-				$db->insertObject($original,'newsitem');
+				$item->published_id = $db->insertObject($original,'newsitem');
 		
 				$item->status = 0;
 				$db->updateObject($item,'channelitem');
-				
 			} else if ($item->status == 2) { // Edit
 				$original->id = $item->published_id;
 				$original->location_data = serialize($loc);
@@ -70,12 +69,12 @@ if ($item && $channel) {
 		
 				$item->status = 0;
 				$db->updateObject($item,'channelitem');
-				
 			} else if ($item->status == 3) { // Delete
 				$db->delete('newsitem','id='.$item->published_id);
 				$db->delete('channelitem','id='.$item->id);
 			}
 		} else {
+			echo 'Declining';
 			if ($item->status == 1) { // Declining a new submission
 				$db->delete('channelitem','id='.$item->id);
 			} else { // Declining a change to an existing submission
