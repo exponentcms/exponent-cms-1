@@ -307,7 +307,7 @@ function smarty_block_paginate($params,$content,&$smarty) {
 				if (this.columns[data].attribute != "" || this.columns[data].sortFunc != null) {
 					cell.innerHTML = "<a href='#' onClick='paginate.sort(\""+data+"\"); return false;'>"+this.columns[data].headerText+"</a>";
 					if (this.columns[data].ascending != -1) {
-						cell.innerHTML += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>sort"+(this.columns[data].ascending ? "de" : "a")+"scending.gif' border='0' />";
+						cell.innerHTML += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>sort"+(this.columns[data].ascending ? "de" : "a")+"scending.png' border='0' />";
 					} else {
 						cell.innerHTML += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>blank.gif' border='0' />";
 					}
