@@ -71,6 +71,7 @@ class rotatormodule {
 	}
 	
 	function deleteIn($loc) {
+		global $db;
 		$db->delete('rotator_item',"location_data='".serialize($loc)."'");
 	}
 	
