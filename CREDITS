@@ -12,6 +12,7 @@ Code Contributions
 ==================
 Daniel Grabert - For fixing the section linker code
 Xavier Basty - For fixing some CRLF problems with the SMTP Subsystem implementation
+faz2 - For suggesting some file and directory permission options
 
 =====================
 Testing / Bug Hunting
