@@ -87,6 +87,7 @@ class sharedcoremodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 }

@@ -34,8 +34,11 @@
 if (!defined("PATHOS")) exit("");
 
 $loc->mod = $_GET['orig_module'];
-$db->switchValues('category','rank',$_GET['a'],$_GET['b'],"location_data='".serialize($loc)."'");
-
-pathos_flow_redirect();
+if (pathos_permissions_check('manage_categories',$loc)) {
+	$db->switchValues('category','rank',$_GET['a'],$_GET['b'],"location_data='".serialize($loc)."'");
+	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

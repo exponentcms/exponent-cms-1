@@ -14,7 +14,7 @@ echo "Running Tests"
 echo ""
 
 # Source the library
-. ../lib.sh
+#. ../lib.sh
 
 # Process our custom options
 
@@ -33,6 +33,22 @@ for ARG in $@; do
 		OPT_VERBOSE=1
 	esac
 done
+
+function paddingSpaces() {
+	LEN=`php -r "echo strlen('$1');"`
+	for i in `seq $LEN $2`; do
+		echo -ne ' '
+	done
+}
+
+function successMessage() {
+	echo "Success";
+}
+
+function failMessage() {
+	echo "Failed";
+}
+
 
 PADDING_WIDTH=22
 
@@ -97,14 +113,14 @@ for MODULE in ../../modules/*module; do
 		for F in $DEPRECATED_FUNCTIONS; do
 			if [[ `grep "function $F(" $MODULE/class.php | wc -l` != 0 ]]; then
 				if [[ $OPT_VERBOSE == 1 ]]; then
-					echo -n "    Checking for absence of $F: "
+					echo -n "    Checking for absence of $F:   "
 					paddingSpaces $F $PADDING_WIDTH;
 					failMessage
 				fi
 				FAILED=1
 			elif [[ $OPT_SHOW_SUCCESS = 1 ]]; then
 				if [[ $OPT_VERBOSE == 1 ]]; then
-					echo -n "    Checking for absence of $F: "
+					echo -n "    Checking for absence of $F:   "
 					paddingSpaces $F $PADDING_WIDTH;
 					successMessage
 				fi

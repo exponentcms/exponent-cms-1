@@ -45,7 +45,7 @@ if (!defined('SYS_SESSIONS')) include_once(BASE.'subsystems/sessions.php');
 if (isset($_GET['redirecturl'])) {
 	$redirect = urldecode($_GET['redirecturl']);
 	if (substr($redirect,0,4) != 'http') {
-		$redirect = 'http://'.$_SERVER['HTTP_HOST'].PATH_RELATIVE.$redirect;
+		$redirect = URL_FULL.$redirect;
 	}
 	pathos_sessions_set('redirecturl',$redirect);
 }

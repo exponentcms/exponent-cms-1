@@ -91,6 +91,7 @@ class bannermodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	function show($view,$loc, $title = '') {
 		global $db;

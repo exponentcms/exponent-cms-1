@@ -33,10 +33,11 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+$mloc = pathos_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
+
+if (pathos_permissions_check('manage_categories',$mloc)) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
-	$mloc = pathos_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
 	$categories = $db->selectObjects("category","location_data='".serialize($mloc)."'");
 	if (pathos_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("categories","_cat_manageCategories",$loc);
@@ -48,6 +49,8 @@ if (!defined("PATHOS")) exit("");
 	$template->assign("origmodule", $_GET['orig_module']);
 	$template->assign("categories",$categories);
 	$template->output();
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

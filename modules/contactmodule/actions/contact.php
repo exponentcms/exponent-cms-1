@@ -40,10 +40,10 @@ $msg = $template->render();
 
 $config = $db->selectObject("contactmodule_config","location_data='".serialize($loc)."'");
 if ($config == null) {
-	$config->subject = "Email Communication From Site";
-	$config->replyto_address = "";
-	$config->from_address = "info@".$_SERVER["HTTP_HOST"];
-	$config->from_name = "Exponent Website";
+	$config->subject = 'Email Communication From Site';
+	$config->replyto_address = '';
+	$config->from_address = 'info@'.HOSTNAME;
+	$config->from_name = 'Exponent Website';
 	
 } else {
 	if ($config->subject == "") {

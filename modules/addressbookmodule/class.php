@@ -114,6 +114,7 @@ class addressbookmodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing for address book
+		return false;
 	}
 }
 

@@ -164,7 +164,7 @@ class section {
 		// Register the Page Meta Data controls.
 		$form->register('page_title',TR_NAVIGATIONMODULE_PAGETITLE,new textcontrol($object->page_title));
 		$form->register('keywords',TR_NAVIGATIONMODULE_KEYWORDS,new texteditorcontrol($object->keywords,5,25));
-		$form->register('description',TR_NAVIGATIONMODULE_PAGEDESC,new texteditorcontrol($object->keywords,5,25));
+		$form->register('description',TR_NAVIGATIONMODULE_PAGEDESC,new texteditorcontrol($object->description,5,25));
 		
 		// Add a Submit / Cancel button.
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));

@@ -207,6 +207,8 @@ class weblogmodule {
 				$db->insertObject($search,'search');
 			}
 		}
+		
+		return true;
 	}
 }
 

@@ -38,11 +38,13 @@ if (isset($_GET['id'])) $cat = $db->selectObject("category","id=".$_GET['id']);
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 	$loc->mod = $_GET['orig_module'];
-	// PERM CHECK
-	$db->delete("category","id=".$cat->id);
-	$db->decrement('category', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$cat->rank);
-	pathos_flow_redirect();
-	// END PERM CHECK
+	if (pathos_permissions_check('manage_categories',$loc)) {
+		$db->delete("category","id=".$cat->id);
+		$db->decrement('category', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$cat->rank);
+		pathos_flow_redirect();
+	} else {
+		echo SITE_403_HTML;
+	}
 } else {
 	echo SITE_404_HTML;
 }

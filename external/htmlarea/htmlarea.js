@@ -1680,7 +1680,7 @@ HTMLArea.prototype._editorEvent = function(ev) {
 		    case 'j': cmd = "justifyfull"; break;
 		    case 'z': cmd = "undo"; break;
 		    case 'y': cmd = "redo"; break;
-		    case 'v': cmd = "paste"; break;
+		    //case 'v': cmd = "paste"; break;
 
 		    case '0': cmd = "killword"; break;
 

@@ -76,11 +76,17 @@ class rotatormodule {
 	}
 	
 	function copyContent($oloc,$nloc) {
-	
+		global $db;
+		foreach ($db->selectObject('rotator_item',"location_data='".serialize($oloc)."'") as $item) {
+			unset($item->id);
+			$item->location_data = serialize($nloc);
+			$db->insertObject($item,'rotator_item');
+		}
 	}
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 }

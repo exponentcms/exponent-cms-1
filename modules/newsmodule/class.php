@@ -181,6 +181,8 @@ class newsmodule {
 				$db->insertObject($search,"search");
 			}
 		}
+		
+		return true;
 	}
 
 }

@@ -49,7 +49,7 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	/* exdoc
 	 * This is the revision version number of Exponent; the 2 in 0.96.2-beta3
 	 */
-	define('PATHOS_VERSION_REVISION',1);
+	define('PATHOS_VERSION_REVISION',2);
 	/* exdoc
 	 * This is the date that this version of Exponent was exported from CVS and built.
 	 */

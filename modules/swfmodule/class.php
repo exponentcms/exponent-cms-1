@@ -116,7 +116,9 @@ class swfmodule {
 		
 	}
 	
-	function copyContent($oloc,$nloc) {
+	function spiderContent($item = null) {
+		// No searchable content
+		return false;
 	}
 	
 	function deleteIn($loc) {
@@ -131,6 +133,34 @@ class swfmodule {
 			$db->delete('file','id='.$file->id);
 			$db->delete('swfitem','id='.$data->id);
 		}	
+	}
+	
+	function copyContent($oloc,$nloc) {
+		global $db;
+		$data = $db->selectObject('swfitem',"location_data='".serialize($oloc)."'");
+		if ($data) {
+			$file = $db->selectObject('file','id='.$data->alt_image_id);
+			if ($file) {
+				$newname = time().'_'.$file->filename;
+				copy(BASE.$file->directory.'/'.$file->filename,BASE.$file->directory.'/'.$newname);
+				$file->filename = $newname;
+				unset($file->id);
+				$data->alt_image_id = $db->insertObject($file,'file');
+			}
+			
+			$file = $db->selectObjects('file','id='.$data->swf_id);
+			if ($file) {
+				$newname = time().'_'.$file->filename;
+				copy(BASE.$file->directory.'/'.$file->filename,BASE.$file->directory.'/'.$newname);
+				$file->filename = $newname;
+				unset($file->id);
+				$data->swf_id = $db->insertObject($file,'file');
+			}
+			
+			unset($data->id);
+			$data->location_data = serialize($nloc);
+			$db->insertObject($data,'swfitem');
+		}
 	}
 }
 

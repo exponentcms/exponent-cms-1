@@ -121,6 +121,8 @@ class textmodule {
 				$db->insertObject($search,"search");
 			}
 		}
+		
+		return true;
 	}
 }
 

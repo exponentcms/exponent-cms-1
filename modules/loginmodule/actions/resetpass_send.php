@@ -53,7 +53,7 @@ if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != 
 	$msg = $e_template->render();
 	
 	// FIXME: smtp call prototype / usage has changed.
-	if (!pathos_smtp_mail($u->email,'Password Manager <password@'.$_SERVER['HTTP_HOST'].'>','Password Reset Confirmation',$msg)) {
+	if (!pathos_smtp_mail($u->email,'Password Manager <password@'.HOSTNAME.'>','Password Reset Confirmation',$msg)) {
 		$template->assign('state','smtp_error');
 	} else {
 		$db->insertObject($tok,'passreset_token');

@@ -210,6 +210,7 @@ class containermodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 	function wrapOutput($modclass,$view,$loc = null,$title = '') {

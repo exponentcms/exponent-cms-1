@@ -93,7 +93,7 @@ function pathos_image_sizeinfo($filename) {
  *
  * @param string $filename The path/filename of the image.
  * @param Array $sizeinfo Size information (as returned by pathos_image_sizeInfo
- * @node Subsystems:Images
+ * @node Subsystems:Image
  */
 function pathos_image_createFromFile($filename,$sizeinfo) {
 	$info = gd_info();
@@ -130,7 +130,6 @@ function pathos_image_create($w,$h) {
 	}
 }
 
-// $scale should be in decimal notation (i.e. 0.5 for 50%)
 /* exdoc
  * Proportionally scale an image by a specific percentage
  * This is a wrapper around various GD functions, to provide Exponent
@@ -160,8 +159,14 @@ function pathos_image_scaleByPercent($filename,$scale) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Proportionally scale an image to a given width. Height adjusts accordingly.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ * 
+ * @param string $filename The path/filename of the image to scale.
+ * @param integer $width The desired width of the scaled image, in pixels.
+ * @node Subsystems:Image
  */
 function pathos_image_scaleToWidth($filename,$width) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
@@ -182,10 +187,15 @@ function pathos_image_scaleToWidth($filename,$width) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
- */
-function pathos_image_scaleToHeight($filename,$height) {
+ * Proportionally scale an image to a given height.  Width adjusts accordingly.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ * 
+ * @param string $filename The path/filename of the image to scale.
+ * @param integer $height The desired height of the scaled image, in pixels.
+ * @node Subsystems:Image
+ */function pathos_image_scaleToHeight($filename,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
 	if (!$sizeinfo) return null;
 	$original = pathos_image_createFromFile($filename,$sizeinfo);
@@ -204,8 +214,15 @@ function pathos_image_scaleToHeight($filename,$height) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Proportionally scale an image to fit within the given width / height.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ * 
+ * @param string $filename The path/filename of the image to scale.
+ * @param integer $width The maximum width of the scaled image, in pixels.
+ * @param integer $height The maximum height of the scaled image, in pixels.
+ * @node Subsystems:Image
  */
 function pathos_image_scaleToConstraint($filename,$width,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
@@ -231,8 +248,15 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Scale an image to a given width and height, without regard to aspect ratio.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ * 
+ * @param string $filename The path/filename of the image to scale.
+ * @param integer $width The desired width of the scaled image, in pixels.
+ * @param integer $height The desired height of the scaled image, in pixels.
+ * @node Subsystems:Image
  */
 function pathos_image_scaleManually($filename,$width,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
@@ -264,6 +288,10 @@ function pathos_image_output($img,$sizeinfo,$filename = null) {
 	}
 }
 
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
 function pathos_image_captcha($w,$h,$string) {
 	$img = pathos_image_create($w,$h);
 	if ($img) {

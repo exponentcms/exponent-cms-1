@@ -112,7 +112,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 				if (!$return) {
 					echo '<br />Error extracting TAR archive<br />';
 				} else {
-					header('Location: http://' . $_SERVER['HTTP_HOST'] . PATH_RELATIVE . '?module=administrationmodule&action=verify_extension&type=tar');
+					header('Location: ' . URL_FULL . 'index.php?module=administrationmodule&action=verify_extension&type=tar');
 				}
 			} else { // must be zip
 				include_once(BASE.'external/Zip.php');
@@ -124,7 +124,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 					echo '<br />Error extracting ZIP archive:<br />';
 					echo $zip->_error_code . ' : ' . $zip->_error_string . '<br />';
 				} else {
-					header('Location: http://' . $_SERVER['HTTP_HOST'] . PATH_RELATIVE . '?module=administrationmodule&action=verify_extension&type=zip');
+					header('Location: ' . URL_FULL . 'index.php?module=administrationmodule&action=verify_extension&type=zip');
 				}
 			}
 		}

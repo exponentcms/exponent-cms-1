@@ -50,11 +50,12 @@ class inboxmodule {
 	}
 	
 	function deleteIn($loc) {
-	
+		// Nothing to delete, since there are no sources, and doing
+		// so would be quite dangerous
 	}
 	
 	function copyContent($from_loc,$to_loc) {
-	
+		// No content to copy, since there are not sources
 	}
 	
 	function show($view,$loc,$title) {
@@ -77,6 +78,7 @@ class inboxmodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 }

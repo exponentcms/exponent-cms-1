@@ -67,6 +67,14 @@ if (!defined('PATH_RELATIVE')) {
 	}
 }
 
+if (!defined('HOSTNAME')) {
+	if (isset($_SERVER['HTTP_HOST'])) {
+		define('HOSTNAME',$_SERVER['HTTP_HOST']);
+	} else if (isset($_SERVER['SERVER_NAME'])) {
+		define('HOSTNAME',$_SERVER['SERVER_NAME']);
+	}
+}
+
 if (!defined('URL_BASE')) {
 	/*
 	 * URL_BASE Constant
@@ -75,7 +83,7 @@ if (!defined('URL_BASE')) {
 	 * It does not include the PATH_RELATIVE information.  The automatic
 	 * detection code can figure out if the server is running in SSL mode or not
 	 */
-	define('URL_BASE',((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST']);
+	define('URL_BASE',((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://') . HOSTNAME);
 }
 if (!defined('URL_FULL')) {
 	/*

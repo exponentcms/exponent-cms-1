@@ -43,7 +43,7 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 	
 	$filename = str_replace(
 		array('__DOMAIN__','__DB__'),
-		array(str_replace('.','_',$_SERVER['HTTP_HOST']),DB_NAME),
+		array(str_replace('.','_',HOSTNAME),DB_NAME),
 		$_POST['filename']);
 	$filename = strftime($filename,time()).'.eql';
 	

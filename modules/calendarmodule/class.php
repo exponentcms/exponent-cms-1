@@ -52,7 +52,8 @@ class calendarmodule {
 				'edit'=>TR_CALENDARMODULE_PERM_EDIT,
 				'delete'=>TR_CALENDARMODULE_PERM_DELETE,
 				'approve'=>TR_CALENDARMODULE_PERM_APPROVE,
-				'manage_approval'=>TR_CALENDARMODULE_PERM_MANAGEAP
+				'manage_approval'=>TR_CALENDARMODULE_PERM_MANAGEAP,
+				'manage_categories'=>'Manage Categories'
 			);
 		} else {
 			return array(
@@ -319,7 +320,7 @@ class calendarmodule {
 		$template->assign('in_approval',$inapproval);
 		$template->assign('canview_approval_link',$canviewapproval);
 		$template->register_permissions(
-			array('administrate','configure','post','edit','delete','manage_approval'),
+			array('administrate','configure','post','edit','delete','manage_approval','manage_categories'),
 			$loc
 		);
 		
@@ -347,9 +348,6 @@ class calendarmodule {
 			$db->delete("calendar_wf_info","real_id=".$i->id);
 		}
 		$db->delete("calendar","location_data='".serialize($loc)."'");
-	}
-	
-	function copyContent($oloc,$nloc) {
 	}
 	
 	function spiderContent($item = null) {
@@ -380,6 +378,8 @@ class calendarmodule {
 				$db->insertObject($search,"search");
 			}
 		}
+		
+		return true;
 	}
 	
 	// The following functions are internal helper functions

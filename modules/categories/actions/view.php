@@ -31,15 +31,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $loc->mod = $_GET['m'];
-// PERM CHECK
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-	$categories = $db->selectObjects("category","location_data='".serialize($loc)."'");
-	$template = new template($loc->mod,"_cat_viewCategories",$loc);
-	$template->assign("categories",$categories);
-	$template->output();
-// END PERM CHECK
+pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+$categories = $db->selectObjects('category',"location_data='".serialize($loc)."'");
+$template = new template($loc->mod,'_cat_viewCategories',$loc);
+$template->assign('categories',$categories);
+$template->output();
 
 ?>

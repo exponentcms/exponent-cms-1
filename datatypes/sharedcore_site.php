@@ -45,7 +45,7 @@ class sharedcore_site {
 			$object->name = '';
 			$object->path = '';
 			$object->relpath = '';
-			$object->host = $_SERVER['HTTP_HOST'];
+			$object->host = HOSTNAME;
 		} else {
 			$form->meta('id',$object->id);
 		}

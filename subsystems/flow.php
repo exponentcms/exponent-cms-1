@@ -85,11 +85,11 @@ $SYS_FLOW_REDIRECTIONPATH = 'pathos_default';
 function pathos_flow_set($access_level,$url_type) {
 	global $SYS_FLOW_REDIRECTIONPATH;
 	if ($access_level == SYS_FLOW_PUBLIC) {
-		pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . SYS_FLOW_PROTECTED . '_' . $url_type,'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-		pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . SYS_FLOW_PROTECTED,'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+		pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . SYS_FLOW_PROTECTED . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+		pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . SYS_FLOW_PROTECTED,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
 	}
-	pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type,'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-	pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level,'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+	pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
 }
 
 /* exdoc
@@ -104,7 +104,7 @@ function pathos_flow_set($access_level,$url_type) {
 function pathos_flow_get($url_type = SYS_FLOW_NONE) {
 	global $SYS_FLOW_REDIRECTIONPATH;
 	$access_level = (pathos_sessions_loggedIn() ? SYS_FLOW_PROTECTED : SYS_FLOW_PUBLIC);
-	if (!pathos_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) return 'http://'.$_SERVER['HTTP_HOST'].PATH_RELATIVE;
+	if (!pathos_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) return URL_FULL;
 	switch ($url_type) {
 		case SYS_FLOW_NONE:
 			return pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level);

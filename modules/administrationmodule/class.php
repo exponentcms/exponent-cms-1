@@ -70,6 +70,7 @@ class administrationmodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 	function show($view,$loc = null,$title = "") {

@@ -46,11 +46,11 @@ class loginmodule {
 	}
 	
 	function deleteIn($loc) {
-	
+		// Do nothing, no content
 	}
 	
 	function copyContent($from_loc,$to_loc) {
-	
+		// Do nothing, no content
 	}
 
 	function show($view,$loc=null,$title="") {
@@ -74,6 +74,7 @@ class loginmodule {
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 }

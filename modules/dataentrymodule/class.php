@@ -101,8 +101,9 @@ class dataentrymodule {
 		$db->delete("dataentry_table","location_data='".serialize($loc)."'");
 	}
 	
-	function copyContent($oloc,$nloc) {
-		// IMPLEMENTME
+	function spiderContent($item = null) {
+		// No content searchable
+		return false;
 	}
 }
 

@@ -345,13 +345,13 @@ function pathos_theme_runAction() {
 function pathos_theme_goDefaultSection() {
 	$last_section = pathos_sessions_get("last_section");
 	if (defined("SITE_DEFAULT_SECTION") && SITE_DEFAULT_SECTION != $last_section) {
-		header("Location: http://".$_SERVER['HTTP_HOST'] . PATH_RELATIVE."index.php?section=".SITE_DEFAULT_SECTION);
+		header("Location: ".URL_FULL."index.php?section=".SITE_DEFAULT_SECTION);
 		exit();
 	} else {
 		global $db;
 		$section = $db->selectObject("section","public = 1 AND active = 1"); // grab first section, go there
 		if ($section) {
-			header("Location: http://".$_SERVER['HTTP_HOST'] . PATH_RELATIVE."index.php?section=".$section->id);
+			header("Location: ".URL_FULL."index.php?section=".$section->id);
 			exit();
 		} else {
 			echo SITE_404_HTML;

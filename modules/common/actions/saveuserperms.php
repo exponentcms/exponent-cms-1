@@ -43,6 +43,10 @@ if (pathos_permissions_check("administrate",$loc)) {
 		for ($i = 1; $i < count($perms); $i++) {
 			pathos_permissions_grant($u,$perms[$i],$loc);
 		}
+		
+		if ($perms[0] == $user->id) {
+			pathos_permissions_load($user);
+		}
 	}
 	pathos_permissions_triggerRefresh();
 	pathos_flow_redirect();

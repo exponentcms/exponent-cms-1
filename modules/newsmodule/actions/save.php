@@ -49,8 +49,8 @@ if (isset($_POST['id'])) {
 	$news->poster = ($user?$user->id:0);
 }
 
-if (($news != null && pathos_permissions_check("edit_item",$loc)) || 
-	($news == null && pathos_permissions_check("add_item",$loc)) ||
+if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) || 
+	(!isset($news->id) && pathos_permissions_check("add_item",$loc)) ||
 	($iloc != null   && pathos_permissions_check("edit_item",$iloc)) 
 ) {
 	

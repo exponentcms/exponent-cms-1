@@ -106,7 +106,7 @@
 <a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="View Calendar Events in Approval" alt="View Calendar Events in Approval">View Approval</a>
 {/if}
 {if $modconfig->enable_categories == 1}
-{if $permissions.administrate == 1}
+{if $permissions.manage_categories == 1}
 <br />
 <a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">Manage Categories</a>
 {else}

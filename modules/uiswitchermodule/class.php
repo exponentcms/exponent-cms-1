@@ -58,15 +58,16 @@ class uiswitchermodule {
 	}
 	
 	function deleteIn($loc) {
-	
+		// Do nothing, no content
 	}
 	
 	function copyContent($oloc,$nloc) {
-	
+		// Do nothing, no content
 	}
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 }

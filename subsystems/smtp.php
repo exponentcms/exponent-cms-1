@@ -88,11 +88,11 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 		}
 	
 		// Try EHLO (Extendend HELO) first
-		pathos_smtp_sendServerMessage($socket,"EHLO ".$_SERVER['HTTP_HOST']);
+		pathos_smtp_sendServerMessage($socket,"EHLO ".HOSTNAME);
 		
 		if (!pathos_smtp_checkResponse($socket,"250")) {
 			// If EHLO failed, try to fallback to HELO, according to RFC2821
-			pathos_smtp_sendServerMessage($socket,"HELO ".$_SERVER['HTTP_HOST']);
+			pathos_smtp_sendServerMessage($socket,"HELO ".HOSTNAME);
 			if (!pathos_smtp_checkResponse($socket,"250")) {
 				pathos_smtp_sendExit($socket);
 				return false;
@@ -153,19 +153,35 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 		
 		$return = true;
 		
-		for ($i = 0; $i < count($to_r); $i++) {
-			$to = $to_r[$i];
+		if (!function_exists($callback)) { // No valid callback.
+			$to = join(', ',$to_r);
+			$real_headers = '';
+			foreach ($headers as $key=>$value) {
+				$real_headers .= $key.': '.$value."\r\n";
+			}
 			
-			$callback($i,$message,$subject,$headers,$udata);
+			$message = str_replace("\r\n","\n",$message);
 			
-			$real_headers = join("\r\n",$headers);
-			
-			// Call the mail function -- for sending mass emails, this is potentially dangerous
-			if (mail($to,$subject,$message,$real_headers) == false) {
+			if (mail($to,$subject,'$message') == false) {
 				$return = false;
 			}
+		} else { // need to do callbacks
+			for ($i = 0; $i < count($to_r); $i++) {
+				$to = $to_r[$i];
+				
+				$callback($i,$message,$subject,$headers,$udata);
+				
+				$real_headers = '';
+				foreach ($headers as $key=>$value) {
+					$real_headers .= $key.': '.$value."\r\n";
+				}
+				
+				// Call the mail function -- for sending mass emails, this is potentially dangerous
+				if (mail($to,$subject,$message,$real_headers) == false) {
+					$return = false;
+				}
+			}
 		}
-		
 		return $return;
 	}
 }

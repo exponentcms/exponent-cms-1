@@ -45,7 +45,7 @@ class contactmodule_config {
 			$object->subject = 'Email Communication From Site';
 			$object->replyto_address = '';
 			$object->from_name = 'Webmaster';
-			$object->from_address = 'info@'.$_SERVER['HTTP_HOST'];
+			$object->from_address = 'info@'.HOSTNAME;
 		} else {
 			$form->meta('id',$object->id);
 		}

@@ -73,7 +73,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$form->register("policy",TR_WORKFLOW_POLICY,new dropdowncontrol($assoc->policy_id,$realpol));
 	$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE));
 	
-	$form->action = "http://".$_SERVER['HTTP_HOST'].PATH_RELATIVE."/modules/workflow/assoc_save.php";
+	$form->action = URL_FULL."modules/workflow/assoc_save.php";
 	$form->meta("module","workflow");
 	$form->meta("action","assoc_save");
 	$form->meta("m",$_GET['m']);

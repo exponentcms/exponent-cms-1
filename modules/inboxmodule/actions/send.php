@@ -121,6 +121,7 @@ if ($user) {
 					if ($inbox_userconfig->forward == 1 && $u->email != "") {
 						// Forward the message to their email account
 						$emails[] = $u->email;
+					}
 					$db->insertObject($message,"privatemessage");
 				}
 			}

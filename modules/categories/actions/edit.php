@@ -40,13 +40,15 @@ if ($cat) {
 } else {
 	$loc->mod = $_GET['orig_module']; // Update module in location
 }
-// PERM CHECK
+if (pathos_permissions_check('manage_categories',$loc)) {
 	$form = category::form($cat);
 	$form->location($loc);
 	$form->meta("module","categories");
 	$form->meta("orig_module", $_GET['orig_module']);
 	$form->meta("action","save");
 	echo $form->toHTML();
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

@@ -70,7 +70,7 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 				pathos_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
-				pathos_sessions_unset('captcha_string');
+				pathos_sessions_unset('capcha_string');
 				$u = pathos_users_create($_POST,null);
 				$u = pathos_users_saveProfileExtensions($_POST,$u,true);
 				pathos_users_login($_POST['username'],$_POST['pass1']);

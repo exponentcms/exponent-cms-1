@@ -32,4 +32,4 @@ You requested that your password be reset.
 
 please follow this link to confirm that you do want it reset:
 
-http://{$smarty.server.HTTP_HOST}{$smarty.const.PATH_RELATIVE}?module=loginmodule&action=resetpass_confirm&token={$token->token}&uid={$token->uid}
+{link module=loginmodule action=resetpass_confirm token=$token->token uid=$token->uid}

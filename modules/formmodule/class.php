@@ -159,8 +159,9 @@ class formmodule {
 		$db->delete("formbuilder_form","location_data='".serialize($loc)."'");
 	}
 	
-	function copyContent($oloc,$nloc) {
-		// IMPLEMENTME
+	function spiderContent($item = null) {
+		// No content
+		return false;
 	}
 }
 

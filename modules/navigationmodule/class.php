@@ -73,15 +73,16 @@ class navigationmodule {
 	
 	
 	function deleteIn($loc) {
-	
+		// Do nothing, no content
 	}
 	
 	function copyContent($fromloc,$toloc) {
-	
+		// Do nothing, no content
 	}
 	
 	function spiderContent($item = null) {
 		// Do nothing, no content
+		return false;
 	}
 	
 	/*

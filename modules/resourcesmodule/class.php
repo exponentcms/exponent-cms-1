@@ -181,6 +181,8 @@ class resourcesmodule {
 				$db->insertObject($search,'search');
 			}
 		}
+		
+		return true;
 	}
 }
 

@@ -46,7 +46,7 @@ if ($cat) {
 		$cat->rank ++;
 	}
 }
-// PERM CHECK
+if (pathos_permissions_check('manage_categories',$loc)) {
 	$cat = category::update($_POST,$cat);
 	$cat->location_data = serialize($loc);
 	if (isset($cat->id)) {
@@ -55,6 +55,8 @@ if ($cat) {
 		$db->insertObject($cat,"category");
 	}
 	pathos_flow_redirect();
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

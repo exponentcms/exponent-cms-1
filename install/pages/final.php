@@ -59,5 +59,5 @@ You can login to your new website using the following administrator account:
 <tr><td><b>Password:</b></td><td>admin</td></tr>
 </table>
 <br />
-You can visit your new website <a href="http://<?php echo $_SERVER['HTTP_HOST'].PATH_RELATIVE?>index.php">here</a>.
+You can visit your new website <a href="<?php echo URL_FULL; ?>index.php">here</a>.
 <br /><br />
