@@ -100,7 +100,7 @@ function pathos_config_parseFile($file) {
 		$line = trim(preg_replace(array("/^.*define\([\"']/","/[#].*$/"),"",$line));
 		if ($line != "" && substr($line,0,2) != "<?" && substr($line,-2,2) != "?>") {
 			$line = str_replace(array("<?php","?>","<?",),"",$line);
-			$opts = explode("\",",$line);
+			$opts = split("[\"'],",$line);
 			if (count($opts) == 2) {
 				if (substr($opts[1],0,1) == '"' || substr($opts[1],0,1) == "'") $opts[1] = substr($opts[1],1,-3);
 				else $opts[1] = substr($opts[1],0,-2);
@@ -138,9 +138,11 @@ function pathos_config_configurationForm($configname,$database=false) {
 		
 		$form = new form();
 	
-		$form->register(null,'',new htmlcontrol('<h3>'.TR_CONFIGSUBSYSTEM_FORMTITLE.'</h3>'));
+		$form->register(null,'',new htmlcontrol('<a name="config_top"></a><h3>'.TR_CONFIGSUBSYSTEM_FORMTITLE.'</h3>'));
 		$form->register('configname',TR_CONFIGSUBSYSTEM_PROFILE,new textcontrol($configname));
 		$form->register('activate',TR_CONFIGSUBSYSTEM_ACTIVATE,new checkboxcontrol((!defined('CURRENTCONFIGNAME') || CURRENTCONFIGNAME==$configname)));
+	
+		$sections = array();
 	
 		$dh = opendir(BASE.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
@@ -148,25 +150,27 @@ function pathos_config_configurationForm($configname,$database=false) {
 				$arr = include(BASE."conf/extensions/$file");
 				// Check to see if the current user is a super admin, and only include database if so
 				if (substr($file,0,-14) != 'database' || $user->is_admin) {
-					$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/><h3>" . $arr[0] . "</h3>"));
+					$form->register(null,'',new htmlcontrol("<a name='config_".count($sections)."'></a><div style='font-weight: bold; margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc; font-size: 12pt;'>" . $arr[0] . "</div><a href='#config_top'>Top</a>"));
+					$sections[] = '<a href="#config_'.count($sections).'">'.$arr[0].'</a>';
 					foreach ($arr[1] as $directive=>$info) {
-						$form->register(null,"",new htmlcontrol("<div style='margin-left: 2em; margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc'>".$info['title']."</div>"));
-						if ($info['description'] != "") {
-							$form->register(null,"",new customcontrol($info['description']));
+						
+						if ($info['description'] != '') {
+							$form->register(null,'',new htmlcontrol('<br /><br />'.$info['description'],false));
 						}
 						if (is_a($info['control'],"checkboxcontrol")) {
 							$form->meta("opts[$directive]",1);
 							$info['control']->default = $options[$directive];
 							$info['control']->flip = true;
-							$form->register("o[$directive]",$info['title'],$info['control']);
+							$form->register("o[$directive]",'<b>'.$info['title'].'</b>',$info['control']);
 						} else {
 							if (isset($options[$directive])) $info["control"]->default = $options[$directive];
-							$form->register("c[$directive]",'',$info['control']);
+							$form->register("c[$directive]",'<b>'.$info['title'].'</b>',$info['control'],$info['description']);
 						}
 					}
 				}
 			}
 		}
+		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" />'.join('&nbsp;&nbsp;|&nbsp;&nbsp;',$sections)));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		//pathos_forms_cleanup();
