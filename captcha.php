@@ -48,6 +48,7 @@ if (pathos_sessions_isset($name)) {
 $img = pathos_image_captcha($w,$h,$str);
 if ($img) {
 	$sizeinfo = array('mime'=>'image/png');
+	ob_end_clean();
 	pathos_image_output($img,$sizeinfo);
 }
 
