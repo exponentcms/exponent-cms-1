@@ -105,12 +105,13 @@ class listbuildercontrol extends formcontrol {
 	}
 	
 	function onRegister(&$form) {
-		$form->addSCript("listbuilder",PATH_RELATIVE."subsystems/forms/controls/listbuildercontrol.js");
+		$form->addScript("listbuilder",PATH_RELATIVE."subsystems/forms/controls/listbuildercontrol.js");
 	}
 	
-	function parseData($formvalues, $forceindex = false) {
+	function parseData($formvalues, $name, $forceindex = false) {
 		$values = array();
-		foreach (explode("|!|",$formvalues) as $value) {
+		if ($formvalues[$name] == "") return array();
+		foreach (explode("|!|",$formvalues[$name]) as $value) {
 			if ($value != "") {
 				if (!$forceindex) {
 					$values[] = $value;

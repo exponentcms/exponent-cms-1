@@ -28,7 +28,7 @@ function removeSelectedItem(name) {
 	var ptChoices = document.getElementById("dest_" + name);
 	if (ptChoices.selectedIndex >= 0) {
 	
-		if (!newList) {
+		if (!newList[name]) {
 			key = moveItem(name,"dest_","source_");
 		} else {
 			key = ptChoices.options[ptChoices.selectedIndex].text;
