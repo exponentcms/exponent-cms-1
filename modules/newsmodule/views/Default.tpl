@@ -88,9 +88,6 @@
 	<br /><a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">View Approval</a>
 {/if}
 {if $permissions.view_unpublished == 1}
-	<br /><a class="mngmntlink news_mngmntlink" href="{$linkbase}view_expired">Unpublished / Expired News</a>
-{/if}
-{if $permissions.view_unpublished == 1}
-	<br /><a class="mngmntlink news_mngmntlink" href="{$linkbase}view_expired">Unpublished / Expired News</a>
+	<br /><a class="mngmntlink news_mngmntlink" href="{link action=view_expired}">Unpublished / Expired News</a>
 {/if}
 {/permissions}
