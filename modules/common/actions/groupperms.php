@@ -34,7 +34,7 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check("administrate",$loc)) {
-	if (pathos_modules_getViewFile($loc->mod,"_grouppermissions",false) == "") {
+	if (pathos_template_getModuleViewFile($loc->mod,"_grouppermissions",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("common","_grouppermissions",$loc);
 	} else {
 		$template = new template($loc->mod,"_grouppermissions",$loc);

@@ -34,7 +34,7 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check("configure",$loc)) {
-	if (pathos_modules_getViewFile($loc->mod,"_configure",false) == "") {
+	if (pathos_template_getModuleViewFile($loc->mod,"_configure",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("common","_configure",$loc);
 	} else {
 		$template = new template($loc->mod,"_configure",$loc);
