@@ -334,16 +334,31 @@ function pathos_theme_mainContainer($public = true) {
 
 
 
-function pathos_theme_getSubthemes($theme = DISPLAY_THEME) {
+function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
 	$base = BASE."themes/$theme/subthemes";
-	$dh = opendir($base);
-	while (($s = readdir($dh)) !== false) {
-		if (substr($s,-4,4) == ".php" && is_file($base."/$s") && is_readable($base."/$s")) {
-			$subs[substr($s,0,-4)] = substr($s,0,-4);
-		}
+	// The array of subthemes.  If the theme has no subthemes directory,
+	// or the directory is not readable by the web server, this empty array
+	// will be returned (Unless the caller wanted us to include the default layout)
+	$subs = array();
+	if ($include_default == true) {
+		// Caller wants us to include the default layout.
+		$subs[''] = "Default";
 	}
-	$subs[""] = "[[ None ]]";
-	uksort($subs,"strnatcmp");
+	
+	if (is_readable($base)) {
+		// subthemes directory exists and is readable by the web server.  Continue on.
+		$dh = opendir($base);
+		// Read out all entries in the THEMEDIR/subthemes directory
+		while (($s = readdir($dh)) !== false) {
+			if (substr($s,-4,4) == '.php' && is_file($base."/$s") && is_readable($base."/$s")) {
+				// Only readable .php files are allowed to be subtheme files.
+				$subs[substr($s,0,-4)] = substr($s,0,-4);
+			}
+		}
+		// Sort the subthemes by their keys (which are the same as the values)
+		// using a natural string comparison funciton (PHP built-in)
+		uksort($subs,'strnatcmp');
+	}
 	return $subs;
 }
 
