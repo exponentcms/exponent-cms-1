@@ -35,12 +35,13 @@ if (!defined("PATHOS")) exit("");
 
 if ($user) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-	$contacts = $db->selectObjects("inbox_contact","owner=".$user->id);
-	
+	#$contacts = $db->selectObjects("inbox_contact","owner=".$user->id);
+	#
+	#if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	#for ($i = 0; $i < count($contacts); $i++) {
+	#	$contacts[$i]->user = pathos_users_getUserById($contacts[$i]->user_id);
+	#}
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	for ($i = 0; $i < count($contacts); $i++) {
-		$contacts[$i]->user = pathos_users_getUserById($contacts[$i]->user_id);
-	}
 	
 	$groups = $db->selectObjects("inbox_contactlist","owner=".$user->id);
 	
@@ -48,8 +49,9 @@ if ($user) {
 	for ($i = 0; $i < count($banned); $i++) {
 		$banned[$i]->user = pathos_users_getUserById($banned[$i]->user_id);
 	}
+	
 	$template = new template("inboxmodule","_viewcontacts",$loc);
-	$template->assign("contacts",$contacts);
+	#$template->assign("contacts",$contacts);
 	$template->assign("groups",  $groups);
 	$template->assign("banned",  $banned);
 	$template->output();
