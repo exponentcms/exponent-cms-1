@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin == 1) {
 	$template = new template('administrationmodule','_sysinfo',$loc);
 	
 	$php = array(

@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$ext = null;
 	if (isset($_GET['id'])) $ext = $db->selectObject('profileextension','id='.$_GET['id']);
 	
@@ -44,8 +43,11 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if (!isset($ext->id)) {
 		// Get rank, append to end.
 		$ext->rank = $db->max('profileextension','rank');
-		if ($ext->rank == null) $ext->rank = 0;
-		else $ext->rank++;
+		if ($ext->rank === null) {
+			$ext->rank = 0;
+		} else {
+			$ext->rank++;
+		}
 		$db->insertObject($ext,'profileextension');
 	} else {
 		$db->updateObject($ext,'profileextension');

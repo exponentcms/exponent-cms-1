@@ -36,8 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
-
 	$config = null;
 	if (isset($_POST['id'])) $config = $db->selectObject('htmlareatoolbar','id='.$_POST['id']);
 	$config->name = $_POST['config_name'];

@@ -72,7 +72,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 				pathos_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
-				$u = pathos_users_create($_POST,$u);
+				$u = pathos_users_create($_POST,null);
 				$u = pathos_users_saveProfileExtensions($_POST,$u,true);
 				pathos_flow_redirect();
 			}

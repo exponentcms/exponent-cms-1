@@ -39,7 +39,6 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 
 	$imagedir = BASE."external/htmlarea/toolbaricons";
 	$imagebase = PATH_RELATIVE."external/htmlarea/toolbaricons";
@@ -142,7 +141,7 @@ regenerateTable();
 <?php if ($config->id) { ?><input type="hidden" name="id" value="<?php echo $config->id; ?>"/><?php } ?>
 <input type="hidden" name="config" value="" id="config_htmlarea" />
 Configuration Name:<br /><input type="text" name="config_name" value="<?php echo $config->name ?>" /><br />
-<input type="checkbox" name="config_activate" <?php echo ($config->active?"checked ":"");?>/> Activate?<br />
+<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? "checked " : "");?>/> Activate?<br />
 
 <input type="submit" value="Save" onclick="save(this.form); return false">
 </form>

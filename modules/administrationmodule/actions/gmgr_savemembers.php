@@ -38,7 +38,6 @@ if (!defined('PATHOS')) exit('');
 $memb = $db->selectObject('groupmembership','member_id='.$user->id.' AND group_id='.$_GET['id'].' AND is_admin=1');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule')) || $memb) {
-#if ($user && $user->is_acting_admin) {
 	$group = $db->selectObject('group','id='.$_POST['id']);
 	if ($group) {
 		$db->delete('groupmembership','group_id='.$group->id);

@@ -37,7 +37,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin == 1) {
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$g = pathos_users_getGroupById($_POST['id']);
@@ -53,7 +52,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
-			$g = pathos_users_groupUpdate($_POST,$g);
+			$g = pathos_users_groupUpdate($_POST,null);
 			pathos_users_saveGroup($g);
 			pathos_flow_redirect();
 		}

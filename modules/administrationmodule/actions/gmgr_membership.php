@@ -42,9 +42,8 @@ if ($memb) $perm_level = 1;
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) $perm_level = 2;
 
 if ($perm_level) {
-#if ($user && $user->is_acting_admin) {
 	$group = $db->selectObject('group','id='.$_GET['id']);
-	if ($group) {
+	if ($group != null) {
 		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 		$users = pathos_users_getAllUsers(0);
 		
@@ -52,7 +51,7 @@ if ($perm_level) {
 		$admins = array();
 		foreach ($db->selectObjects('groupmembership','group_id='.$group->id) as $m) {
 			$members[] = $m->member_id;
-			if ($m->is_admin) {
+			if ($m->is_admin == 1) {
 				$admins[] = $m->member_id;
 			}
 		}

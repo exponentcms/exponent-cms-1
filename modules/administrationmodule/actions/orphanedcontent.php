@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin == 1) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$nullrefs = $db->selectObjects('locationref','refcount=0');

@@ -36,17 +36,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
-	$a = $db->selectObject('profileextension','rank='.$_GET['a']);
-	$b = $db->selectObject('profileextension','rank='.$_GET['b']);
-	
-	$tmp = $b->rank;
-	$b->rank = $a->rank;
-	$a->rank = $tmp;
-	
-	$db->updateObject($a,'profileextension');
-	$db->updateObject($b,'profileextension');
-	
+	$db->switchValues('profileextension','rank',$_GET['a'],$_GET['b']);
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$u = pathos_users_getUserById($_GET['id']);
 	if ($u) {
@@ -46,7 +45,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		$membership = array();
 		foreach ($db->selectObjects('groupmembership','member_id='.$u->id) as $m) {
 			$membership[] = $m->group_id;
-			if ($m->is_admin) {
+			if ($m->is_admin == 1) {
 				$admin[] = $m->group_id;
 			}
 		}

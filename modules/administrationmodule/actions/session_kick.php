@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$ticket = $db->selectObject('sessionticket',"ticket='".$_GET['ticket']."'");
 	if ($ticket) {
 		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');

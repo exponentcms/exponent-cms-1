@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	$u = $db->selectObject('user','id='.$_POST['id']);
 	if ($u) {
 		$db->delete('groupmembership','member_id='.$u->id);

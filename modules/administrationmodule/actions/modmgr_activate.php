@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	if (isset($_GET['all'])) {
 		$db->delete('modstate');
 		$modstate->active = $_GET['activate'];

@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin == 1) {
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
@@ -51,7 +50,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	$form->meta('module','administrationmodule');
 	$form->meta('action','umgr_saveuser');
 	
-	if ($user->is_admin && !$u->is_admin) {
+	if ($user->is_admin == 1 && $u->is_admin == 0) {
 		// Super user editting a 'lesser' user.
 		pathos_lang_loadDictionary('modules','administrationmodule');
 		$form->registerBefore('submit','is_acting_admin',TR_ADMINISTRATIONMODULE_ISADMIN,new checkboxcontrol($u->is_acting_admin,true));

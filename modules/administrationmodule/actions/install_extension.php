@@ -37,7 +37,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_acting_admin) {
 	if ($_FILES['mod_archive']['error'] != UPLOAD_ERR_OK) {
 		pathos_lang_loadDictionary('modules','filemanager');
 		switch($_FILES['mod_archive']['error']) {
