@@ -35,8 +35,8 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
 	$site = null;
-	if (isset($_GET['id'])) {
-		$site = $db->selectObjects('sharedcore_site','id='.$_GET['id']);
+	if (isset($_POST['site_id'])) {
+		$site = $db->selectObject('sharedcore_site','id='.$_POST['site_id']);
 	}
 	
 	if ($site) {

@@ -53,8 +53,10 @@
 	{/if}
 	{/foreach}
 	<tr><td align="center">
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $canManage == 1}
 	[ <a class="navlink" href="{link action=manage}">manage</a> ]
 	{/if}
+	{/permissions}
 	</td></tr>
 </table>

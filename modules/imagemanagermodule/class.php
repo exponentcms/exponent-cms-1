@@ -65,6 +65,10 @@ class imagemanagermodule {
 		
 		$template = new template('imagemanagermodule',$view,$loc);
 		
+		$uilevel = 99; // MAX
+		if (pathos_sessions_isset("uilevel")) $uilevel = pathos_sessions_get("uilevel");
+		$template->assign('show',((defined('SELECTOR') || $uilevel > UILEVEL_PREVIEW) ? 1 : 0));
+		
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$directory = 'files/imagemanagermodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
@@ -74,8 +78,6 @@ class imagemanagermodule {
 				$template->assign('uploadError',$err);
 			}
 		}
-		
-		$template = new template('imagemanagermodule',$view,$loc);
 		
 		global $db;
 		$items = $db->selectObjects("imagemanageritem","location_data='".serialize($loc)."'");

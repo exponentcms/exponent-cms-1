@@ -105,16 +105,24 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 			);
 		}
 	}
+	
+	krsort($deps); // t,s,m
 
 	$linksrc = $core->path;
 	$linkdest = $site->path;
 	
+	echo '<xmp>';
+	print_r($deps);
+	echo '</xmp>';
+	
 	foreach ($deps as $info) {
+		echo 'Linking.' .$info['name'].' : '.$info['type'].'<br />';
 		pathos_sharedcore_linkExtension($info['type'],$info['name'],$core->path,$site->path);
 	}
 	
 	foreach (include($linksrc."manifest.php") as $file=>$linkit) {
 		if ($linkit !== 0 && file_exists($linksrc.$file)) {
+			echo 'symlink('.$linksrc.$file.','.$linkdest.$file.');<br />';
 			symlink($linksrc.$file,$linkdest.$file);
 		}
 	}
@@ -178,39 +186,66 @@ function pathos_sharedcore_setup($core,$site) {
  */
 function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 	$typedir = '';
+	$manifest = '';
+	$auto_manidfest = '';
 	switch ($type) {
 		case CORE_EXT_MODULE:
 			$typedir = 'modules';
+			$manifest = 'modules/'.$name.'/manifest.php';
+			$auto_manifest = 'modules/'.$name.'/auto.manifest.php';
 			break;
 		case CORE_EXT_SUBSYSTEM:
 			$typedir = 'subsystems';
+			$manifest = 'subsystems/'.$name.'.manifest.php';
+			$auto_manifest = 'subsystems/'.$name.'.auto.manifest.php';
 			break;
 		case CORE_EXT_THEME:
 			$typedir = 'themes';
+			$manifest = 'themes/'.$name.'/manifest.php';
+			$auto_manifest = 'themes/'.$name.'/auto.manifest.php';
 			break;
 	}
 	
 	if (substr($source,-1,1) == "/") $source = substr($source,0,-1);
 	if (substr($destination,-1,1) == "/") $destination = substr($destination,0,-1);
+	
 	$linksrc = "$source/$typedir/$name";
 	$linkdest = "$destination/$typedir/$name";
-	
-	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
-	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
-	
-	$files = array();
-	$files = pathos_info_files($type,$name);
 	
 	if (is_dir($linksrc)) {
 		pathos_files_copyDirectoryStructure($linksrc,$linkdest);
 	}
-	pathos_sharedcore_linkFiles($source.'/',$destination.'/',$files);
+		
+	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
+	
+	$files = ($manifest == '' ? null : array());
+	if ($files !== null) {
+		echo $source.'/'.$auto_manifest.'<br />';
+		echo $source.'/'.$manifest.'<br />';
+		if (is_readable($source.'/'.$auto_manifest)) {
+			$files = include($source.'/'.$auto_manifest);
+		} else if (is_readable($source.'/'.$manifest)) {
+			$files = include($source.'/'.$manifest);
+		} else {
+			$files = null;
+		}
+	}
+	if ($files !== null) {
+		echo '<xmp>';
+		print_r($files);
+		echo '</xmp>';
+		pathos_sharedcore_linkFiles($source.'/',$destination.'/',$files);
+	} else {
+		echo 'FILES was null<br />';
+	}
 	return SHAREDCORE_ERR_OK;
 }
 
 function pathos_sharedcore_linkFiles($source,$destination,$files) {
 	foreach ($files as $file=>$linkit) {
 		if ($linkit !== 0 && is_readable($source.$file) && !file_exists($destination.$file)) {
+			echo 'symlink('.$source.$file.','.$destination.$file.');<Br />';
 			symlink($source.$file,$destination.$file);
 		}
 	}

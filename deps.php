@@ -74,6 +74,11 @@ return array(
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
 	),
+	's_image'=>array(
+		'name'=>'image',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
+	),
 	's_lang'=>array(
 		'name'=>'lang',
 		'type'=>CORE_EXT_SUBSYSTEM,

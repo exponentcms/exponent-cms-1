@@ -94,12 +94,21 @@ function pathos_theme_sourceSelectorInfo() {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_theme_metaInfo($section) {
-	$str = '<meta name="Generator" content="Exponent Content Management System" />' . "\n";
+function pathos_theme_headerInfo($section) {
+	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
+	$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
+	$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
+	$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
 	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
 	$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
 	$str .= "\t\t".'<style> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
+	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'pathos.js.php"></script>'."\r\n";
 	return $str;
+}
+
+
+function pathos_theme_metaInfo($section) {
+	return "<!-- pathos_theme_metaInfo() is DEPRECATED.  Use pathos_theme_headerInfo instead-->\r\n\t\t".pathos_theme_headerInfo($section);
 }
 
 /* exdoc
@@ -205,7 +214,12 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 	if (defined("SELECTOR") && call_user_func(array($module,"hasSources"))) {
 		containermodule::wrapOutput($module,$view,$loc,$title);
 	} else {
-		call_user_func(array($module,"show"),$view,$loc,$title);
+		if (is_callable(array($module,"show"))) {
+			call_user_func(array($module,"show"),$view,$loc,$title);
+		} else {
+			pathos_lang_loadDictionary('modules','containermodule');
+			echo sprintf(TR_CONTAINERMODULE_MODNOTFOUND,$module);
+		}
 	}
 }
 

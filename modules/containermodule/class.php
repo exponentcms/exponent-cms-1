@@ -115,8 +115,6 @@ class containermodule {
 			$containers[$c->rank] = $c;
 		}
 		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		#uasort($containers,'pathos_sorting_byRankAscending');
 		ksort($containers);
 		foreach (array_keys($containers) as $i) {
 			$location = unserialize($containers[$i]->internal);

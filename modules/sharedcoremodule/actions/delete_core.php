@@ -36,13 +36,19 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
 	$core = null;
 	if (isset($_GET['id'])) {
-		$core = $db->selectObjects('sharedcore_core','id='.$_GET['id']);
+		$core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
 	}
 	
 	if ($core) {
 		$db->delete('sharedcore_core','id='.$core->id);
+		
+		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
+		foreach ($db->selectObjects('sharedcore_site','core_id='.$core->id) as $site) {
+			$db->delete('sharedcore_extension','site_id='.$site->id);
+			pathos_sharedcore_clear($site->path,true);
+		}
+		
 		$db->delete('sharedcore_site','core_id='.$core->id);
-		// FIXME:Need to clear the sites.
 		pathos_flow_redirect();
 	} else {
 		echo SITE_404_HTML;

@@ -35,14 +35,24 @@ if (!defined('PATHOS')) exit('');
 
 return array(
 	's_datetime'=>array(
-		"name"=>"datetime",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'datetime',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	's_search'=>array(
-		"name"=>"search",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'search',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
+	),
+	's_smtp'=>array(
+		'name'=>'smtp',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
+	),
+	'm_categories'=>array(
+		'name'=>'categories',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	)
 )
 

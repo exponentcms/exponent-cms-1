@@ -121,8 +121,8 @@ class template extends basetemplate {
 		// View Config
 		global $db;
 		$container = $db->selectObject("container","internal='".serialize($loc)."'");
-		$viewconfig = ($container && $container->view_data != "" ? unserialize($container->view_data) : array());
-		$this->tpl->assign("__viewconfig",$viewconfig);
+		$this->viewconfig = ($container && $container->view_data != "" ? unserialize($container->view_data) : array());
+		$this->tpl->assign("__viewconfig",$this->viewconfig);
 	}
 	
 	

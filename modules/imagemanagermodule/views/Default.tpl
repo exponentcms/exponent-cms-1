@@ -28,6 +28,7 @@
  *
  * $Id$
  *}
+{if $show == 1}
 {if $permissions.configure == 1 or $permissions.administrate == 1 or $permissions.post == 1 or $permissions.edit == 1 or $permissions.delete == 1 || $smarty.const.PREVIEW_READONLY}
 {if $moduletitle != ""}<div class="moduletitle imagemanager_moduletitle">{$moduletitle}</div>{/if}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -110,3 +111,4 @@ Uploads have been disabled.<br />
 
 {else}
 {/if}{* If check - show or not *}
+{/if}

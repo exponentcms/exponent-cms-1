@@ -33,9 +33,6 @@
 //GREP:REIMPLEMENT
 if (!defined('PATHOS')) exit('');
 
-// PERM CHECK?
-	// Need to unlog from info?
-	pathos_flow_redirect();
-// END PERM CHECK
+pathos_flow_redirect();
 
 ?>

@@ -31,49 +31,56 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("configure",$loc)) {
-	if (pathos_template_getModuleViewFile($loc->mod,"_configure",false) == TEMPLATE_FALLBACK_VIEW) {
-		$template = new template("common","_configure",$loc);
+if (pathos_permissions_check('configure',$loc)) {
+	if (pathos_template_getModuleViewFile($loc->mod,'_configure',false) == TEMPLATE_FALLBACK_VIEW) {
+		$template = new template('common','_configure',$loc);
 	} else {
-		$template = new template($loc->mod,"_configure",$loc);
+		$template = new template($loc->mod,'_configure',$loc);
 	}
 	
 	$hasConfig = 0;
 	
+	$submit = null;
 	$form = null;
 	
-	if ($db->tableExists($_GET['module']."_config") && class_exists($_GET['module']."_config")) {
-		$config = $db->selectObject($_GET['module']."_config","location_data='".serialize($loc)."'");
+	if ($db->tableExists($_GET['module'].'_config') && class_exists($_GET['module'].'_config')) {
+		$config = $db->selectObject($_GET['module'].'_config',"location_data='".serialize($loc)."'");
 	
-		$form = call_user_func(array($_GET['module']."_config","form"),$config);
+		$form = call_user_func(array($_GET['module'].'_config','form'),$config);
+		
 		$form->location($loc);
-		$form->meta("action","saveconfig");
-		$form->meta("_common","1");
+		$form->meta('action','saveconfig');
+		$form->meta('_common','1');
 		
-		$submit = $form->controls["submit"];
-		$form->unregister("submit");
-		
+		if (isset($form->controls['submit'])) {
+			$submit = $form->controls['submit'];
+			$form->unregister('submit');
+		}
 		$hasConfig = 1; //We have some form of configuration
 	}
 
-	$container = $db->selectObject("container","internal='".serialize($loc)."'");
+	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
 	if ($container) {
-		$values = ($container->view_data != "" ? unserialize($container->view_data) : array());
+		$values = ($container->view_data != '' ? unserialize($container->view_data) : array());
 		$form = pathos_template_getViewConfigForm($loc->mod,$container->view,$form,$values);
-		if (isset($form->controls['submit'])) { // Still have a submit button.
-			$submit = $form->controls["submit"];
-			$form->unregister("submit");
-		}
-		$hasConfig = 1;
-	}
 		
-	if ($hasConfig) {
-		$form->register("submit","",$submit);
-		$template->assign("form_html",$form->toHTML());
+		if (isset($form->controls['submit'])) { // Still have a submit button.
+			$submit = $form->controls['submit'];
+			$form->unregister('submit');
+			$hasConfig = 1;
+		}
 	}
-	$template->assign("hasConfig",$hasConfig);
+	
+	if ($submit !== null) {
+		$form->register('submit','',$submit);
+	}
+	
+	if ($hasConfig) {
+		$template->assign('form_html',$form->toHTML());
+	}
+	$template->assign('hasConfig',$hasConfig);
 	
 	$template->output();
 } else {

@@ -134,7 +134,7 @@ function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  */
 function pathos_core_makeLink($params) {
 	$link = (ENABLE_SSL ? NONSSL_URL : "");
-	if (SEF_URLS == 0) {
+#	if (SEF_URLS == 0) {
 		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
 		foreach ($params as $key=>$value) {
 			$value = chop($value);
@@ -143,7 +143,7 @@ function pathos_core_makeLink($params) {
 		}
 		$link = substr($link,0,-1);
 		return $link;
-	} else {
+/*	} else {
 		$link .= SCRIPT_RELATIVE  . SCRIPT_FILENAME . "/";
 		ksort($params);
 		foreach ($params as $key=>$value) {
@@ -154,6 +154,7 @@ function pathos_core_makeLink($params) {
 		$link = substr($link,0,-1);
 		return $link;
 	}
+*/
 }
 
 

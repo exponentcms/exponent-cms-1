@@ -28,6 +28,7 @@
  *
  * $Id$
  *}
+{permissions level=$smarty.const.UILEVEL_NORMAL}
 <div class="moduletitle administration_moduletitle">{$moduletitle}</div>
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
@@ -49,3 +50,4 @@
 </div>
 {/if}
 {/foreach}
+{/permissions}

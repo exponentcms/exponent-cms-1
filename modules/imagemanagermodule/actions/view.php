@@ -33,22 +33,24 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+$item = null;
+if (isset($_GET['id'])) {
 	$item = $db->selectObject("imagemanageritem","id=".$_GET['id']);
-	if ($item) {
-		$loc = unserialize($item->location_data);
-		
-		$template = new template("imagemanagermodule","_view",$loc);
-		
-		$file = $db->selectObject("file","id=".$item->file_id);
-		
-		$template->assign("item",$item);
-		$template->assign("file",$file);
-		
-		$template->output();
-	} else {
-		echo SITE_404_HTML;
-	}
-// END PERM CHECK
+}
+
+if ($item) {
+	$loc = unserialize($item->location_data);
+	
+	$template = new template("imagemanagermodule","_view",$loc);
+	
+	$file = $db->selectObject("file","id=".$item->file_id);
+	
+	$template->assign("item",$item);
+	$template->assign("file",$file);
+	
+	$template->output();
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

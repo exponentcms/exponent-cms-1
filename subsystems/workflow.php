@@ -717,6 +717,7 @@ function pathos_workflow_form($datatype,$id) {
 function pathos_workflow_runActions($policy,$action_type,$revision) {
 	global $db;
 	$actions = $db->selectObjects("workflowaction","policy_id=".$policy->id." AND type=$action_type");
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($actions,"pathos_sorting_byRankAscending");
 	foreach ($actions as $action) {
 		if (is_readable(BASE."subsystems/workflow/actions/".$action->method.".php")) {

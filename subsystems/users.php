@@ -303,6 +303,7 @@ function pathos_users_form($user = null) {
 	// Retrieve a list of the active profile extensions, and sort them by rank so that
 	// the form controls get added to the form in order.
 	$exts = $db->selectObjects('profileextension');
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($exts,'pathos_sorting_byRankAscending');
 	foreach ($exts as $ext) {
 		// Modify the form object by passing it through each profile extension, 

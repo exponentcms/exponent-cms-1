@@ -69,7 +69,6 @@ for ($i = 0; $i < count($posts); $i++) {
 	usort($comments,'pathos_sorting_byPostedDescending');
 	$posts[$i]->comments = $comments;
 }
-if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 usort($posts,'pathos_sorting_byPostedDescending');
 			
 $template = new template('weblogmodule','_view_month',$loc);

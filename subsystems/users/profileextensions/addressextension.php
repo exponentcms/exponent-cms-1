@@ -40,7 +40,7 @@ class addressextension {
 	
 		pathos_lang_loadDictionary('extras','addressextension');
 	
-		if (!isset($user->user_address)) {
+		if (!isset($user->user_address) || $user->user_address == null) {
 			$user->user_address = addressextension::_blankAddress();
 		}
 		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.TR_X_ADDRESSEXTENSION_HEADER.'</b>'));

@@ -71,7 +71,7 @@ if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
 if (pathos_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
 	pathos_flow_redirect();
 } else {
-	pathos_lang_load('modules','contactmodule');
+	pathos_lang_loadDictionary('modules','contactmodule');
 	echo TR_CONTACTMODULE_SMTPERROR;
 }
 

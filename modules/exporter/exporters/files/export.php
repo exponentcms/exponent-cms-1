@@ -47,11 +47,11 @@ foreach (array_keys($_POST['mods']) as $mod) {
 }
 
 $fname = tempnam(BASE.'/tmp','exporter_files_');
-$tar = new Archive_Tar($fname,'gz');
+$tar = new Archive_Tar($fname);
 $tar->createModify($files,'',BASE);
 
 ob_end_clean();
-header('Content-Type: application/x-gzip');
+header('Content-Type: application/tar');
 header('Content-Disposition: inline; filename="files.tar.gz"');
 $fh = fopen($fname,'rb');
 while (!feof($fh)) {

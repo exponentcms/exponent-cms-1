@@ -117,11 +117,15 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 		$eql_version = $version[1]+0;
 		$current_version = PATHOS+0;
 		
+		$clear_function = '';
 		$fprefix = '';
 		// Check version and include necessary converters
 		if ($eql_version != $current_version) {
 			include_once(BASE.'subsystems/backup/'.$eql_version.'.php');
 			$fprefix = 'pathos_backup_'.implode('',explode('.',$eql_version)).'_';
+			if (function_exists($fprefix.'clearedTable')) {
+				$clear_function = $fprefix.'clearedTable';
+			}
 		}
 		
 		$table = '';
@@ -141,6 +145,9 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 					}
 					if ($db->tableExists($table)) {
 						$db->delete($table);
+						if ($clear_function != '') {
+							$clear_function($db,$table);
+						}
 					} else {
 						if (!file_exists(BASE."datatypes/definitions/$table.php")) {
 							$errors[] = sprintf(TR_BACKUPSUBSYSTEM_DATADEFNOTFOUND,$table,$line_number);

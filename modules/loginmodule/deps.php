@@ -38,6 +38,11 @@ return array(
 		'name'=>'smtp',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
+	),
+	's_security'=>array(
+		'name'=>'security',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	)
 );
 

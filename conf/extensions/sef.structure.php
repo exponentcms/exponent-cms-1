@@ -35,13 +35,16 @@ if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('config','sef');
 
+$ctl = new checkboxcontrol(false,true);
+$ctl->disabled = 1;
+
 return array(
 	TR_CONFIG_SEF_TITLE,
 	array(
 		'SEF_URLS'=>array(
 			'title'=>TR_CONFIG_SEF_URLS,
 			'description'=>TR_CONFIG_SEF_URLS_DESC,
-			'control'=>new checkboxcontrol(true,true)
+			'control'=>$ctl
 		)
 	)
 );

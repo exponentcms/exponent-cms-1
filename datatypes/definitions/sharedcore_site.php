@@ -47,6 +47,9 @@ return array(
 	'relpath'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>500),
+	'host'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>500),
 	'core_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'inactive'=>array(

@@ -47,6 +47,7 @@ if (pathos_permissions_check("manage_approval",$rloc)) {
 	$template->assign("datatype",$_GET['datatype']);
 	
 	$revisions = $db->selectObjects($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']);
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($revisions,"pathos_sorting_workflowRevisionDescending");
 	$template->assign("revisions",$revisions);
 	

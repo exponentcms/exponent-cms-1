@@ -78,7 +78,7 @@ if ($user) {
 	}
 	
 	if ($canview) {
-		$template = new template("workflow","_summary",$loc);
+		$template = new template("workflow","_summary",pathos_core_makeLocation('workflow',$loc->src));
 		$template->register_permissions(
 			array("manage_approval","approve"),
 			$loc

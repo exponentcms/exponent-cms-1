@@ -38,6 +38,7 @@ return array(
 	'subsystems/users/profileextensions/inboxextension.php'=>'',
 	'subsystems/users/profileextensions/inboxextension.php'=>'',
 	'datatypes/definitions/inbox_userconfig.php'=>'',
+	'modules/inboxmodule/deps.php'=>'',
 );
 
 ?>

@@ -37,7 +37,7 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	 * the system will behave slightly differently, to accomodate for developers
 	 * and their environment.
 	 */
-	define('DEVELOPMENT',1); // CHANGE FOR DIST
+	define('DEVELOPMENT',0); // CHANGE FOR DIST
 	/* exdoc
 	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
 	 */
@@ -62,7 +62,7 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	 * This number is bumped each time a distribution of a single version is
 	 * released.  For instance, the 3rd beta has an version type iteration of 3.
 	 */
-	define('PATHOS_VERSION_ITERATION',1); // only applies to betas/alphas / rcs
+	define('PATHOS_VERSION_ITERATION',2); // only applies to betas/alphas / rcs
 }
 
 return '0.96';

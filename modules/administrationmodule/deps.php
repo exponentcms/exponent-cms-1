@@ -50,7 +50,17 @@ return array(
 		'name'=>'smtp',
 		'type'=>CORE_EXT_SUBSYSTEM,
 		'comment'=>''
-	)	
+	),
+	'm_importer'=>array(
+		'name'=>'importer',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
+	),
+	'm_exporter'=>array(
+		'name'=>'exporter',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
+	)
 );
 
 ?>

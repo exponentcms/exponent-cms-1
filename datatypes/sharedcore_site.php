@@ -45,6 +45,7 @@ class sharedcore_site {
 			$object->name = '';
 			$object->path = '';
 			$object->relpath = '';
+			$object->host = $_SERVER['HTTP_HOST'];
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -59,11 +60,19 @@ class sharedcore_site {
 		
 		$form->register('core_id',TR_SHAREDCOREMODULE_SITECORE, new dropdowncontrol($object->core_id,$codebases));
 		$form->register('name',TR_SHAREDCOREMODULE_SITENAME, new textcontrol($object->name));
-		$t = new textcontrol($object->path);
-		if (isset($object->id)) $t->disabled = true;
-		$form->register('path',TR_SHAREDCOREMODULE_SITEPATH, $t);
-		$t->default = $object->relpath;
-		$form->register('relpath',TR_SHAREDCOREMODULE_SITEPATH, $t);
+		
+		$path_ctl = new textcontrol($object->path);
+		if (isset($object->id)) $path_ctl->disabled = true;
+		$form->register('path',TR_SHAREDCOREMODULE_SITEPATH, $path_ctl);
+		
+		$host_ctl = new textcontrol($object->host);
+		if (isset($object->id)) $host_ctl->disabled = true;
+		$form->register('host',TR_SHAREDCOREMODULE_SITEHOST, $host_ctl);
+		
+		$relpath_ctl = new textcontrol($object->relpath);
+		if (isset($object->id)) $relpath_ctl->disabled = true;
+		$form->register('relpath',TR_SHAREDCOREMODULE_SITERELPATH, $relpath_ctl);
+		
 		
 		if (!isset($object->id)) {
 			pathos_lang_loadDictionary('config','database');
@@ -118,7 +127,7 @@ class sharedcore_site {
 		$dh = opendir($core->path.'modules');
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,0,1) != '.' && $file != 'CVS') {
-				if (!class_exists($file) && is_readable($core->path."modules/$file/class.php")) include_once($core->path.'modules/$file/class.php');
+				if (!class_exists($file) && is_readable($core->path."modules/$file/class.php")) include_once($core->path."modules/$file/class.php");
 				if (class_exists($file)) {
 					$name = (class_exists($file) ? call_user_func(array($file,'name')) : $file);
 					$cb = new checkboxcontrol(isset($linked_mods[$file]) ? 1 : 0);
@@ -206,6 +215,13 @@ class sharedcore_site {
 				$object->relpath = $object->relpath.'/';
 			}
 			
+			$object->host = $values['host'];
+			if (substr($object->host,0,7) != 'http://' && substr($object->host,0,8) != 'https://') {
+				$object->host = 'http://'.$object->host;
+			}
+			if (substr($object->host,-1,1) == '/') {
+				$object->host = substr($object->host,0,-1);
+			}
 		}
 		return $object;
 	}

@@ -35,6 +35,12 @@
 
 if (!defined('PATHOS')) exit('');
 
+function pathos_backup_095_clearedTable($db,$table) {
+	if ($table == 'calendar') {
+		$db->delete('eventdate'); // Clear eventdate as well, so that multiple imports don't double the table size
+	}
+}
+
 // Field 'copy_id' was removed from 'addressbook_contact' in 0.96
 function pathos_backup_095_addressbook_contact($db,$object) {
 	unset($object->copy_id);
@@ -49,6 +55,8 @@ function pathos_backup_095_addressbook_contact($db,$object) {
 // Field 'feedback_form' was added to 'calendar' in 0.96
 // Field 'feedback_email' was added to 'calendar' in 0.96
 function pathos_backup_095_calendar($db,$object) {
+	if (!defined('SYS_DATETIME')) include(BASE.'subsystems/datetime.php');
+
 	// Pull edited / editor from posted / poster
 	$object->editor = $object->poster;
 	$object->edited = $object->posted;
@@ -61,10 +69,10 @@ function pathos_backup_095_calendar($db,$object) {
 	$eventdate = null;
 	$eventdate->location_data = $object->location_data;
 	// Get the time in seconds since midnight, first for event start
-	$time_seconds = $object->eventstart % 86400;
-	$eventdate->date = $object->eventstart - $time_seconds;
-	$object->eventstart = $time_seconds;
-	$object->eventend= $object->eventend % 86400;
+	
+	$eventdate->date = pathos_datetime_startOfDayTimestamp($object->eventstart);
+	$object->eventstart -= $eventdate->date;
+	$object->eventend -= $eventdate->date;
 	
 	// Don't have to hangle categoriy_id, feedback_form or feedback_email
 	$eventdate->event_id = $db->insertObject($object,'calendar');

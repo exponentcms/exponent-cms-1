@@ -51,6 +51,15 @@ return array(
 	'modules/calendarmodule/views/Administration.config'=>'',
 	'datatypes/definitions/calendarmodule_config.php'=>'',
 	'datatypes/calendarmodule_config.php'=>'',
+	'modules/calendarmodule/views/Past Events.tpl'=>'',
+	'modules/calendarmodule/views/Upcoming Events.tpl'=>'',
+	'modules/calendarmodule/views/Upcoming Events.config'=>'',
+	'modules/calendarmodule/views/Upcoming Events.form'=>'',
+	'modules/calendarmodule/views/Past Events.form'=>'',
+	'modules/calendarmodule/views/Past Events.config'=>'',
+	'modules/calendarmodule/views/Upcoming Events - Summary.form'=>'',
+	'modules/calendarmodule/views/Upcoming Events - Summary.config'=>'',
+	'modules/calendarmodule/views/Upcoming Events - Summary.tpl'=>'',
 );
 
 ?>

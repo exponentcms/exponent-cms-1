@@ -33,9 +33,12 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
-	$info = $db->selectObject($_GET['datatype']."_wf_info","real_id=".$_GET['id']);
-	$object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
+$info = $db->selectObject($_GET['datatype']."_wf_info","real_id=".$_GET['id']);
+$object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
+$state = unserialize($object->wf_state_data);
+
+$rloc = unserialize($object->location_data);
+if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 
 	// We need the module, in order to render the view correctly.
 	$oloc = unserialize($object->location_data);
@@ -50,6 +53,8 @@ if (!defined("PATHOS")) exit("");
 	$template->assign("mod",$module);
 	$template->assign("id",$_GET['id']);
 	$template->output();
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

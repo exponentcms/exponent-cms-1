@@ -33,7 +33,8 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+$rloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
+if (pathos_permissions_check("manage_approval",$rloc)) {
 	if (isset($_POST['d'])) {
 		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
 		
@@ -46,6 +47,8 @@ if (!defined("PATHOS")) exit("");
 		}
 		pathos_flow_redirect();
 	}
-// END PERM CHECK
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

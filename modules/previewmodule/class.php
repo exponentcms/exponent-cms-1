@@ -57,10 +57,13 @@ class previewmodule {
 	function show($view,$loc = null, $title = '') {
 		$template = new template('previewmodule',$view,$loc);
 		
-		$level = pathos_sessions_get('uilevel');
-		$template->assign('editMode',pathos_sessions_loggedIn() && $level !== 0);
+		$level = 99;
+		if (pathos_sessions_isset('uilevel')) {
+			$level = pathos_sessions_get('uilevel');
+		}
+		$template->assign('editMode',pathos_sessions_loggedIn() && $level != UILEVEL_PREVIEW);
 		$template->assign('title',$title);
-		$template->assign('previewMode',($level === 0));
+		$template->assign('previewMode',($level == UILEVEL_PREVIEW));
 		
 		$template->output($view);
 	}

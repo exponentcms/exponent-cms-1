@@ -96,6 +96,7 @@ class calendarmodule {
 		}
 		
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		
 		if (!function_exists("pathos_sorting_byEventStartAscending")) {
 			function pathos_sorting_byEventStartAscending($a,$b) {
@@ -154,7 +155,6 @@ class calendarmodule {
 			$template->assign("prev_timestamp",$startperiod - 3600);
 			$template->assign("next_timestamp",$startperiod+$totaldays*86400 + 3600);
 			
-			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
 			$days = array();
 			for ($i = 0; $i < $totaldays; $i++) {
 				$start = $startperiod + ($i*86400);
@@ -265,9 +265,15 @@ class calendarmodule {
 			$template->assign("items",$items);
 		} else if ($viewconfig['type'] == "default") {
 			if (!isset($viewconfig['range'])) $viewconfig['range'] = "all";
+			
+			$limit = '';
+			if (isset($template->viewconfig) && isset($template->viewconfig['num_events']) && $template->viewconfig['num_events'] != 0) {
+				$limit = $db->limit($template->viewconfig['num_events'],0);
+			}
 			$items = null;
 			$dates = null;
 			$day = pathos_datetime_startOfDayTimestamp(time());
+			$sort_asc = true; // For the getEventsForDates call
 			switch ($viewconfig['range']) {
 				case "all":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0");
@@ -275,11 +281,12 @@ class calendarmodule {
 					break;
 				case "upcoming":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".time());
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date > $day");
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date > $day ORDER BY date ASC ".$limit);
 					break;
 				case "past":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart < ".time());
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date < $day");
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date < $day ORDER BY date DESC ".$limit);
+					$sort_asc = false;
 					break;
 				case "today":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".pathos_datetime_startOfDayTimestamp(time()) . " AND eventend <= " . (pathos_datetime_startOfDayTimestamp(time()) + 86400));
@@ -294,10 +301,7 @@ class calendarmodule {
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date >= ".pathos_datetime_startOfMonthTimestamp(time()) . " AND date <= " . pathos_datetime_endOfMonthTimestamp(time()));
 					break;
 			}
-			$items = calendarmodule::_getEventsForDates($dates);
-			
-			#function tmpSort($a,$b) { return ($a->eventstart < $b->eventstart) ? -1 : 1; }
-			#usort($items,"tmpSort");
+			$items = calendarmodule::_getEventsForDates($dates,$sort_asc);
 			
 			for ($i = 0; $i < count($items); $i++) {
 				$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
@@ -318,6 +322,7 @@ class calendarmodule {
 			array('administrate','configure','post','edit','delete','manage_approval'),
 			$loc
 		);
+		
 		$cats = $db->selectObjectsIndexedArray("category","location_data='".serialize($loc)."'");
 		$cats[0] = null;
 		$cats[0]->name = "<i>No category</i>";
@@ -353,10 +358,10 @@ class calendarmodule {
 		if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 		
 		$search = null;
-		$search->category = "Events";
-		$search->view_link = ""; // FIXME : need a view action
-		$search->ref_module = "calendarmodule";
-		$search->ref_type = "calendar";
+		$search->category = 'Events';
+		$search->view_link = ''; // FIXME : need a view action
+		$search->ref_module = 'calendarmodule';
+		$search->ref_type = 'calendar';
 		
 		if ($item) {
 			$db->delete("search","ref_module='calendarmodule' AND ref_type='calendar' AND original_id=" . $item->id);
@@ -379,10 +384,15 @@ class calendarmodule {
 	
 	// The following functions are internal helper functions
 	
-	function _getEventsForDates($edates) {
+	function _getEventsForDates($edates,$sort_asc = true) {
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		if (!function_exists('pathos_sorting_byEventStartAscending')) {
+		if ($sort_asc && !function_exists('pathos_sorting_byEventStartAscending')) {
 			function pathos_sorting_byEventStartAscending($a,$b) {
+				return ($a->eventstart < $b->eventstart ? 1 : -1);
+			}
+		}
+		if (!$sort_asc && !function_exists('pathos_sorting_byEventStartDescending')) {
+			function pathos_sorting_byEventStartDescending($a,$b) {
 				return ($a->eventstart < $b->eventstart ? 1 : -1);
 			}
 		}
@@ -396,7 +406,11 @@ class calendarmodule {
 			$o->eventend += $edate->date;
 			$events[] = $o;
 		}
-		usort($events,'pathos_sorting_byEventStartAscending');
+		if ($sort_asc == true) {
+			usort($events,'pathos_sorting_byEventStartAscending');
+		} else {
+			usort($events,'pathos_sorting_byEventStartDescending');
+		}
 		return $events;
 	}
 }

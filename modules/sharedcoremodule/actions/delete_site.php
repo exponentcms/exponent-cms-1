@@ -41,8 +41,8 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	
 	if ($site) {
 		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
-		echo $site->path;
 		pathos_sharedcore_clear($site->path,true);
+		
 		$db->delete('sharedcore_site','id='.$site->id);
 		$db->delete('sharedcore_extension','site_id='.$site->id);
 		pathos_flow_redirect();

@@ -43,7 +43,7 @@
 		<td>{$core->name} (version {$core->version})</td>
 		<td>{$core->path}</td>
 		<td>
-			{permissions level=$smarty.const.UI_LEVEL_NORMAL}
+			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.manage == 1}
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core id=$core->id}">
 				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
@@ -59,16 +59,16 @@
 		<tr>
 			<td style="padding-left: 50px">
 				{if $site->inactive == 1}
-					<i><a target="_blank" class="mngmntlink sharedsite_mngmntlink" href="{$site->relpath}">{$site->name}</a></i>
+					<i><a target="_blank" class="mngmntlink sharedsite_mngmntlink" href="{$site->host}{$site->relpath}">{$site->name}</a></i>
 				{else}
-					<a target="_blank" class="mngmntlink sharedsite_mngmntlink" href="{$site->relpath}">{$site->name}</a>
+					<a target="_blank" class="mngmntlink sharedsite_mngmntlink" href="{$site->host}{$site->relpath}">{$site->name}</a>
 				{/if}
 			</td>
 			<td>
 				{$site->path}
 			</td>
 			<td>
-				{permissions level=$smarty.const.UI_LEVEL_NORMAL}
+				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.manage == 1}
 				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=edit_site id=$site->id}">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
@@ -104,8 +104,8 @@
 	<tr><td align="center"><i>No codebases found</td></tr>
 {/foreach}
 </table>
-{permissions level=$smarty.const.UI_LEVEL_NORMAL}
-{if $permissions.manager == 1}
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+{if $permissions.manage == 1}
 <a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core}">New Codebase</a>
 {if $nocores == 0}
 <br />
