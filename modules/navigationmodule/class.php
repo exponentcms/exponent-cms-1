@@ -147,6 +147,35 @@ class navigationmodule {
 				$child->first = ($i == 0 ? 1 : 0);
 				$child->last = ($i == count($kids)-1 ? 1 : 0);
 				$child->parents = $parents;
+				
+				// Generate the link attribute base on alias type.
+				if ($child->alias_type == 1) {
+					// External link.  Set the link to the configured website URL.
+					// This is guaranteed to be a full URL because of the
+					// section::updateExternalAlias() method in datatypes/section.php
+					$child->link = $child->external_link;
+				} else if ($child->alias_type == 2) {
+					// Internal link.
+					
+					// Need to check and see if the internal_id is pointing at an external link.
+					$dest = $db->selectObject('section','id='.$child->internal_id);
+					if ($dest->alias_type == 1) {
+						// This internal alias is pointing at an external alias.
+						// Use the external_link of the destination section for the link
+						$child->link = $dest->external_link;
+					} else {
+						// Pointing at a regular section.  This is guaranteed to be
+						// a regular section because aliases cannot be turned into sections,
+						// (and vice-versa) and because the section::updateInternalLink
+						// does 'alias to alias' dereferencing before the section is saved
+						// (see datatypes/section.php)
+						$child->link = pathos_core_makeLink(array('section'=>$child->internal_id));
+					}
+				} else {
+					// Normal link.  Just create the URL from the section's id.
+					$child->link = pathos_core_makeLink(array('section'=>$child->id));
+				}
+					
 				$nodes[] = $child;
 				$nodes = array_merge($nodes,navigationmodule::levelTemplate($child->id,$depth+1,$parents));
 			}

@@ -32,17 +32,17 @@
 <div class="form_header">
 Manage the pages and site structure here.
 <br />
-<a class="mngmntlink navigation_mngmntlink" href="{link action=edit parent=0}">New Top Level Section</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=0}">New Top Level Page</a>
 </div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
-	<td class="header navigation_header">Section Name</td>
+	<td class="header navigation_header">Name</td>
 	<td class="header navigation_header"></td>
 </tr>
 {foreach from=$sections item=section}
 {math equation="x+1" x=$section->rank assign=nextrank}
 {math equation="x-1" x=$section->rank assign=prevrank}
-<tr class="row {cycle values="odd,even"}_row"><td style="padding-left: {math equation="x*20" x=$section->depth}px">
+<tr class="row {cycle values=odd_row,even_row}"><td style="padding-left: {math equation="x*20" x=$section->depth}px">
 {if $section->active}
 <a href="{link section=$section->id}" class="navlink">{$section->name}</a>&nbsp;
 {else}
@@ -50,12 +50,23 @@ Manage the pages and site structure here.
 {/if}
 </td><td>
 
-[ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit parent=$section->id}">Add Subsection</a> ]
-[ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit id=$section->id}">Properties</a> ]
-[ <a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this section?');">Delete</a> ]
+{if $section->alias_type == 0}
+{* Normal Content Page *}
+[ <a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">Add Subpage</a> ]
+[ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage id=$section->id}">Properties</a> ]
+{elseif $section->alias_type == 1}
+{* Internal Alias / Link *}
+[ <a class="mngmntlink navigation_mngmntlink" style="color: inherit;" href="#" onClick="alert('This alias page cannot have subpages'); return false;">Add Subpage</a> ]
+[ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_externalalias id=$section->id}">Properties</a> ]
+{else}
+{* External Alias *}
+[ <a class="mngmntlink navigation_mngmntlink" style="color: inherit;" href="#" onClick="alert('This alias page cannot have subpages'); return false;">Add Subpage</a> ]
+[ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_internalalias id=$section->id}">Properties</a> ]
+{/if}
+[ <a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this page and all of its subpages and content?');">Delete</a> ]
 {if $section->public == 0}
-	<a href="{link int=$section->id action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions for viewing this section" alt="Assign user permissions for viewing this section" /></a>
-	<a href="{link int=$section->id action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions for viewing this section" alt="Assign group permissions for viewing this section" /></a>
+	<a href="{link int=$section->id action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" title="Assign user permissions for viewing this page" alt="Assign user permissions for viewing this page" /></a>
+	<a href="{link int=$section->id action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" title="Assign group permissions for viewing this page" alt="Assign group permissions for viewing this page" /></a>
 {/if}
 {if $section->last == 0}
 	<a href="{link action=order parent=$section->parent a=$section->rank b=$nextrank}"><img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0" /></a>

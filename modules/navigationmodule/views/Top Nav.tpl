@@ -48,7 +48,7 @@
 		&nbsp;&nbsp;|&nbsp;
 		{else}		
 			{if $section->active == 1}
-				<a class="navlink" href="{link section=$section->id}">{$section->name}</a>
+				<a class="navlink" href="{$section->link}">{$section->name}</a>
 			{else}
 				<span class="navlink">{$section->name}</span>
 			{/if}

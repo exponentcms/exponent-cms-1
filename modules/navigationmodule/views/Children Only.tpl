@@ -33,7 +33,7 @@
 {if $section->numParents != 0 && ($section->parents[0] == $current->parents[0] || $section->parents[0] == $current->id)}
 <tr><td style="padding-left: {math equation="x*20-20" x=$section->depth}px">
 {if $section->active == 1}
-<a href="{link section=$section->id}" class="navlink">{$section->name}</a>&nbsp;
+<a href="{$section->link}" class="navlink">{$section->name}</a>&nbsp;
 {else}
 <span class="navlink">{$section->name}</span>&nbsp;
 {/if}
