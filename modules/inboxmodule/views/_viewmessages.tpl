@@ -60,6 +60,7 @@
 	</tr>
 {/foreach}
 </table>
+<hr size="1" />
 <a class="mngmntlink inbox_mngmntlink" href="{link action=compose}">Compose Message</a>
 <br />
 <a class="mngmntlink inbox_mngmntlink" href="{link action=view_contacts}">Personal Contacts</a>
