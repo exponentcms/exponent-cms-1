@@ -166,7 +166,7 @@ class newsmodule {
 			$db->delete("search","ref_module='newsmodule' AND ref_type='newsitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
 			$search->title = " " . $item->title . " ";
-			$search->view_link = "http://" . $_SERVER['HTTP_HOST'] . PATH_RELATIVE . "?module=newsmodule&action=view&id=".$item->id;
+			$search->view_link = "index.php?module=newsmodule&action=view&id=".$item->id;
 			$search->body = " " . pathos_search_removeHTML($item->body) . " ";
 			$search->location_data = $item->location_data;
 			$db->insertObject($search,"search");
@@ -175,7 +175,7 @@ class newsmodule {
 			foreach ($db->selectObjects("newsitem") as $item) {
 				$search->original_id = $item->id;
 				$search->title = " " . $item->title . " ";
-				$search->view_link = "http://" . $_SERVER['HTTP_HOST'] . PATH_RELATIVE . "?module=newsmodule&action=view&id=".$item->id;
+				$search->view_link = "index.php?module=newsmodule&action=view&id=".$item->id;
 				$search->body = " " . pathos_search_removeHTML($item->body) . " ";
 				$search->location_data = $item->location_data;
 				$db->insertObject($search,"search");
