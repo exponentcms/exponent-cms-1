@@ -77,6 +77,9 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 				// No, create new and relink affected dates
 				$olditem = $db->selectObject("calendar","id=".$item->id);
 				unset($item->id);
+				if (count($_POST['dates']) == 1) {
+					$item->is_recurring = 0; // Back to a single event.
+				}
 				
 				$item->id = $db->insertObject($item,"calendar");
 				
@@ -88,9 +91,6 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 				}
 			}			
 			$eventdate = $db->selectObject('eventdate','id='.$_POST['date_id']);
-			echo '<xmp>';
-			print_r($eventdate);
-			echo '</xmp>';
 			$eventdate->date = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		} else {
