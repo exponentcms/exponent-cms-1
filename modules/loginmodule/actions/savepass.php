@@ -38,7 +38,7 @@ if ($user) {
 		if ($_POST['pass1'] == $_POST['pass2']) {
 			if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 			if (!defined("SYS_SECURITY")) include_once(BASE."subsystems/security.php");
-			$strength_error = pathos_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
+			$strength_error = pathos_security_checkPasswordStrength($user->username,$_POST['pass1']);
 			if ($strength_error != "") {
 				$post = $_POST;
 				unset($post['pass1']);
