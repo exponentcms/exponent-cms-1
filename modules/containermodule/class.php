@@ -31,6 +31,25 @@
 # $Id$
 ##################################################
 
+/**
+ * Container Module
+ *
+ * Manages a list of other Modules
+ * @author James Hunt
+ * @copyright 2004 James Hunt and the OIC Group, Inc.
+ * @version 0.95
+ *
+ * @package Modules
+ * @subpackage Container
+ */
+/**
+ * Module Class
+ *
+ * Primary entrypoint to the module.
+ *
+ * @package Modules
+ * @subpackage Container
+ */
 class containermodule {
 	function name() { return "Container Module"; }
 	function author() { return "James Hunt"; }
@@ -216,13 +235,13 @@ class containermodule {
 	}
 	
 	function wrapOutput($modclass,$view,$loc = null,$title = "") {
-		if (defined("SOURCE_SELECTOR")) {
-			$containers = array();
+		if (defined("SOURCE_SELECTOR") && strtolower($modclass) != "containermodule") {
+			$container = null;
 			$mod = new $modclass();
 			
 			ob_start();
 			$mod->show($view,$loc,$title);
-			$containers[0]->output = ob_get_contents();
+			$container->output = ob_get_contents();
 			ob_end_clean();
 			
 			
@@ -235,7 +254,7 @@ class containermodule {
 			$template = new template($c_module,$c_view,$loc);
 			if ($dest) $template->assign("dest",$dest);
 			
-			$containers[0]->info = array(
+			$container->info = array(
 				"module"=>$mod->name(),
 				"source"=>$loc->src,
 				"hasContent"=>$mod->hasContent(),
@@ -246,7 +265,7 @@ class containermodule {
 				"clickable"=>($clickable_mods == null || in_array($modclass,$clickable_mods))
 			);
 			
-			$template->assign("containers",$containers);
+			$template->assign("container",$container);
 			$template->output();
 		} else {
 			call_user_func(array($modclass,"show"),$view,$loc,$title);
