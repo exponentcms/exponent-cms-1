@@ -113,6 +113,7 @@ function sanity_checkFiles() {
 		'extensionuploads'=>sanity_checkFile(BASE.'extensionuploads',0,SANITY_READWRITE)
 	);
 	sanity_checkDirectory('files',SANITY_READWRITE,$status);
+	sanity_checkDirectory('tmp',SANITY_READWRITE,$status);
 	return $status;
 }
 
