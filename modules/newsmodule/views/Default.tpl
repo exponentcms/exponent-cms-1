@@ -74,7 +74,11 @@
 		{$newsitem->body|summarize:"html":"para"}
 		</div>
 	</div>
-	<a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}">Read More...</a>
+	{if $smarty.const.MEANINGFUL_URLS}
+	<a class="mngmntlink news_mngmntlink" href="{$smarty.const.URL_FULL}content/news/{$newsitem->internal_name}">Read More...</a>
+	{else}
+	<a class="mngmntlink news_mngmntlink" href="{$smarty.const.URL_FULL}content/news.php?id={$newsitem->id}">Read More...</a>
+	{/if}
 	<br /><br />
 {/foreach}
 {if $morenews == 1}

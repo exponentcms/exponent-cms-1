@@ -34,7 +34,11 @@
 if (!defined("PATHOS")) exit("");
 
 pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-$news = $db->selectObject("newsitem","id=" . $_GET['id']);
+if (isset($_GET['id'])) {
+	$news = $db->selectObject("newsitem","id=" . $_GET['id']);
+} else if (isset($_GET['internal_name'])) {
+	$news = $db->selectObject("newsitem","internal_name='" . $_GET['internal_name']."'");
+}
 if ($news != null) {
 	$loc = unserialize($news->location_data);
 	$iloc = $loc;

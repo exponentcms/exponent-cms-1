@@ -35,17 +35,19 @@ if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('config','sef');
 
-$ctl = new checkboxcontrol(false,true);
-$ctl->disabled = 1;
-
 return array(
-	TR_CONFIG_SEF_TITLE,
+	'Meaningful URLs',
 	array(
-		'SEF_URLS'=>array(
-			'title'=>TR_CONFIG_SEF_URLS,
-			'description'=>TR_CONFIG_SEF_URLS_DESC,
-			'control'=>$ctl
-		)
+		'MEANINGFUL_URLS'=>array(
+			'title'=>TR_CONFIG_MEANINGFUL_URLS,
+			'description'=>TR_CONFIG_MEANINGFUL_URLS_DESC,
+			'control'=>new checkboxcontrol(false,true)
+		),
+		'MEANINGFUL_NAV_URLS'=>array(
+			'title'=>TR_CONFIG_MEANINGFUL_NAV_URLS,
+			'description'=>TR_CONFIG_MEANINGFUL_NAV_URLS_DESC,
+			'control'=>new checkboxcontrol(false,true)
+		),
 	)
 );
 

@@ -134,27 +134,14 @@ function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  */
 function pathos_core_makeLink($params) {
 	$link = (ENABLE_SSL ? NONSSL_URL : "");
-#	if (SEF_URLS == 0) {
-		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
-		foreach ($params as $key=>$value) {
-			$value = chop($value);
-			$key = chop($key);
-			if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
-		}
-		$link = substr($link,0,-1);
-		return $link;
-/*	} else {
-		$link .= SCRIPT_RELATIVE  . SCRIPT_FILENAME . "/";
-		ksort($params);
-		foreach ($params as $key=>$value) {
-			$value = chop($value);
-			$key = chop($key);
-			if ($value != "") $link .= urlencode($key)."/".urlencode($value)."/";
-		}
-		$link = substr($link,0,-1);
-		return $link;
+	$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
+	foreach ($params as $key=>$value) {
+		$value = chop($value);
+		$key = chop($key);
+		if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
 	}
-*/
+	$link = substr($link,0,-1);
+	return $link;
 }
 
 
@@ -170,26 +157,14 @@ function pathos_core_makeLink($params) {
  */
 function pathos_core_makeSecureLink($params) {
 	if (!ENABLE_SSL) return pathos_core_makeLink($params);
-	if (SEF_URLS == 0) {
-		$link = SSL_URL . SCRIPT_FILENAME . "?";
-		foreach ($params as $key=>$value) {
-			$value = chop($value);
-			$key = chop($key);
-			if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
-		}
-		$link = substr($link,0,-1);
-		return $link;
-	} else {
-		$link = SSL_URL  . SCRIPT_FILENAME . "/";
-		ksort($params);
-		foreach ($params as $key=>$value) {
-			$value = chop($value);
-			$key = chop($key);
-			if ($value != "") $link .= urlencode($key)."/".urlencode($value)."/";
-		}
-		$link = substr($link,0,-1);
-		return $link;
+	$link = SSL_URL . SCRIPT_FILENAME . "?";
+	foreach ($params as $key=>$value) {
+		$value = chop($value);
+		$key = chop($key);
+		if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
 	}
+	$link = substr($link,0,-1);
+	return $link;
 }
 
 /* exdoc

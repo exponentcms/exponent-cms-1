@@ -42,6 +42,7 @@ class weblog_post {
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->title = '';
+			$object->internal_name = '';
 			$object->body = '';
 			global $user;
 			$object->poster = $user->id;
@@ -51,6 +52,7 @@ class weblog_post {
 		}
 		
 		$form->register('title',TR_WEBLOGMODULE_TITLE, new textcontrol($object->title));
+		$form->register('internal_name','Internal Name', new textcontrol($object->internal_name));
 		$form->register('body',TR_WEBLOGMODULE_BODY, new htmleditorcontrol($object->body));
 		$form->register('is_private',TR_WEBLOGMODULE_ISPRIVATE, new checkboxcontrol($object->is_private));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
@@ -61,6 +63,7 @@ class weblog_post {
 	
 	function update($values,$object) {
 		$object->title = $values['title'];
+		$object->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$values['internal_name']));
 		$object->body = $values['body'];
 		$object->is_private = (isset($values['is_private']) ? 1 : 0);
 		return $object;

@@ -44,6 +44,7 @@ class newsitem {
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->title = '';
+			$object->internal_name = '';
 			$object->body = '';
 			$object->publish = null;
 			$object->unpublish = null;
@@ -54,6 +55,7 @@ class newsitem {
 		}
 		
 		$form->register('title',TR_NEWSMODULE_HEADLINE,new textcontrol($object->title));
+		$form->register('internal_name','Internal Name',new textcontrol($object->internal_name));
 		$form->register('body',TR_NEWSMODULE_BODY,new htmleditorcontrol($object->body));
 		$form->register('publish',TR_NEWSMODULE_PUBLISH,new popupdatetimecontrol($object->publish,TR_NEWSMODULE_NOPUBLISH));
 		$form->register('unpublish',TR_NEWSMODULE_UNPUBLISH,new popupdatetimecontrol($object->unpublish,TR_NEWSMODULE_NOUNPUBLISH));
@@ -69,6 +71,7 @@ class newsitem {
 		pathos_forms_initialize();
 		
 		$object->title = $values['title'];
+		$object->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$values['internal_name']));
 		$object->body = $values['body'];
 		$object->publish = popupdatetimecontrol::parseData('publish',$values);
 		$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);

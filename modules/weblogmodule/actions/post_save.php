@@ -53,6 +53,14 @@ if (($post != null && pathos_permissions_check('edit',$loc)) ||
 		$post->edited = time();
 		$db->updateObject($post,'weblog_post');
 	} else {
+		if ($db->countObjects('weblog_post',"internal_name='".$post->internal_name."'")) {
+			$_POST['_formError'] = 'That Internal Name is already in use.  Please choose another.';
+			unset($_POST['internal_name']);
+			pathos_sessions_set('last_POST',$_POST);
+			header('Location: '.$_SERVER['HTTP_REFERER']);
+			exit('');
+		}
+	
 		$post->poster = $user->id;
 		$post->posted = time();
 		$post->id = $db->insertObject($post,'weblog_post');

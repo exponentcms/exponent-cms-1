@@ -32,7 +32,10 @@
 ##################################################
 
 define('TR_CONFIG_SEF_TITLE','Search Engine Friendly URLs');
-define('TR_CONFIG_SEF_URLS','Enable SEF URLs');
-define('TR_CONFIG_SEF_URLS_DESC','<b><div class="error">WARNING: The SEF URLs feature has been removed from Exponent.</div></b>');
+define('TR_CONFIG_MEANINGFUL_URLS','Enable SEF URLs');
+define('TR_CONFIG_MEANINGFUL_URLS_DESC','Apply search engine friendliness to content URLs.');
+
+define('TR_CONFIG_MEANINGFUL_NAV_URLS','Enable SEF URLs for Navigation');
+define('TR_CONFIG_MEANINGFUL_NAV_URLS_DESC','Apply search engine friendliness to navigation URLs.  <b>Only do this if you are certain that your web server supports Exponent\'s search engine friendly implementation.</b>');
 
 ?>
