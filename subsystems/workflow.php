@@ -225,7 +225,7 @@ function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
  * @node Undocumented
  */
 function pathos_workflow_isWorkflowTable($name) {
-	return (substr($name,-8,8) == '_wf_info' || substr($name,-11,11) == '_wf_revision');
+	return (substr($name,-8,8) == '_wf_info' || substr($name,-12,12) == '_wf_revision');
 }
 
 /* exdoc
