@@ -67,12 +67,8 @@ class bannermodule {
 	function copyContent($oloc,$nloc) {
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$directory = 'files/bannermodule/'.$nloc->src;
-		if (!file_exists(BASE.$directory)) {
-			switch(pathos_files_makeDirectory($directory)) {
-				case SYS_FILES_FOUNDFILE:
-				case SYS_FILES_NOTWRITABLE:
-					return;
-			}
+		if (!file_exists(BASE.$directory) && pathos_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
+			return;
 		}
 		
 		global $db;
