@@ -68,7 +68,7 @@ $config = $_POST['c'];
 $passed = true;
 
 if (!isAllGood($config["db_table_prefix"])) {
-	echoFailure("Invalid table prefix.  The table prefix can only contain alphanumeric characters and underscores ('_').");
+	echoFailure("Invalid table prefix.  The table prefix can only contain alphanumeric characters.");
 	$passed = false;
 }
 
