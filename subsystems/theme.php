@@ -118,7 +118,7 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 	$last_section = pathos_sessions_get("last_section");
 	$section = $db->selectObject("section","id=".$last_section);
 	
-	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable);
+	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
 }
 
 /* exdoc
@@ -143,7 +143,7 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
 	// Loop until we find the top level parent.
 	while ($section->parent !=0) $section = $db->selectObject("section","id=".$section->parent);
 	
-	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable);
+	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
 }
 
 /* exdoc
@@ -156,7 +156,16 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
-function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false) {
+function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
+	global $db;
+	// Ensure that we have a section
+	if ($section == null) {
+		$section_id = pathos_sessions_get('last_section');
+		if ($section_id == null) {
+			$section_id = SITE_DEFAULT_SECTION;
+		}
+		$section = $db->selectObject('section','id='.$section_id);
+	}
 	if ($module == "loginmodule" && defined("PREVIEW_READONLY") && PREVIEW_READONLY == 1) return;
 	
 	if (pathos_sessions_isset("themeopt_override")) {
@@ -167,7 +176,6 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 	} else {
 		$loc = pathos_core_makeLocation($module,$source."");
 	}
-	global $db;
 	if ($db->selectObject("locationref","module='$module' AND source='".$loc->src."'") == null) {
 		$locref = null;
 		$locref->module = $module;
@@ -175,6 +183,11 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 		$locref->internal = "";
 		$locref->refcount = 1000;
 		$db->insertObject($locref,"locationref");
+		if ($section != null) {
+			$locref->section = $section->id;
+			$locref->is_original = 1;
+			$db->insertObject($locref,'sectionref');
+		}
 	}
 	if (defined("SELECTOR") && call_user_func(array($module,"hasSources"))) {
 		containermodule::wrapOutput($module,$view,$loc,$title);
