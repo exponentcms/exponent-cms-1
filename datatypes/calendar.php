@@ -46,10 +46,12 @@ class calendar {
 			$object->title = '';
 			$object->body = '';
 			$object->eventdate = null;
+			$object->eventdate->id = 0;
 			$object->eventdate->date = time();
 			$object->eventstart = time();
 			$object->eventend = time()+3600;
 			$object->is_allday = 0;
+			$object->is_recurring = 0;
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -59,10 +61,14 @@ class calendar {
 		
 		$form->register(null,'', new htmlcontrol('<hr size="1" />'));
 		
-		if (!isset($object->id) || $object->is_recurring == false) {
-			$form->register('eventdate',TR_CALENDARMODULE_EVENTDATE,new popupdatetimecontrol($object->eventdate->date,'',false));
+		if ($object->is_recurring == 1) {
+			$form->register(null,'',new htmlcontrol(TR_CALENDARMODULE_RECURMOVEWARNING,false));
 		}
-		$form->register('is_allday',TR_CALENDARMODULE_ISALLDAY,new checkboxcontrol($object->is_allday,true));
+		$form->register('eventdate',TR_CALENDARMODULE_EVENTDATE,new popupdatetimecontrol($object->eventdate->date,'',false));
+		
+		$cb = new checkboxcontrol($object->is_allday,true);
+		$cb->jsHooks = array('onClick'=>'pathos_forms_disable_datetime(\'eventstart\',this.form,this.checked); pathos_forms_disable_datetime(\'eventend\',this.form,this.checked);');
+		$form->register('is_allday',TR_CALENDARMODULE_ISALLDAY,$cb);
 		$form->register('eventstart',TR_CALENDARMODULE_EVENTSTART,new datetimecontrol($object->eventstart,false));
 		$form->register('eventend',TR_CALENDARMODULE_EVENTEND,new datetimecontrol($object->eventend,false));
 		
@@ -87,6 +93,8 @@ class calendar {
 			$template->assign('dates',$eventdates);
 			$form->register(null,'',new htmlcontrol('<hr size="1"/>'.TR_CALENDARMODULE_RECURRENCEWARNING));
 			$form->register(null,'',new htmlcontrol('<table cellspacing="0" cellpadding="2" width="100%">'.$template->render().'</table>'));
+		
+			$form->meta('date_id',$object->eventdate->id); // Will be 0 if we are creating.
 		}
 		
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
