@@ -58,7 +58,7 @@ if (!defined('PATHOS')) exit('');
 		pathos_flow_redirect();
 	} else {
 		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_INVALIDCORE,$core->path);
+		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_INVALIDCORE,$core->path);
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
