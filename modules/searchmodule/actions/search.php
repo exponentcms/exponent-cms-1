@@ -42,7 +42,7 @@ if (!defined("PATHOS")) exit("");
 	}
 
 	if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
-	$search_string = trim(strtolower($_REQUEST['search_string']));
+	$search_string = trim(strtolower($_GET['search_string']));
 	
 	if ($search_string == "") {
 		pathos_lang_loadDictionary('modules','searchmodule');
@@ -110,7 +110,7 @@ if (!defined("PATHOS")) exit("");
 				$lastfirst = -2*$halflen-1; // padding to be safe.
 				$result->sum = "";
 				while (strlen($result->sum) < 200) {
-					$lastpos = stripos($r->body,$_REQUEST['search_string'],$lastpos);
+					$lastpos = stripos($r->body,$_GET['search_string'],$lastpos);
 					if ($lastpos === false) break;
 					$first = $lastpos - $halflen;
 					if ($first < 0) $first = 0;
