@@ -60,7 +60,7 @@ if (pathos_theme_inAction()) {
 $str = ob_get_contents();
 ob_end_clean();
 
-$template = new template("popup_".(isset($_GET['template'])?$_GET['template']:"general"));
+$template = new standalonetemplate("popup_".(isset($_GET['template'])?$_GET['template']:"general"));
 $template->assign("output",$str);
 $template->output();
 

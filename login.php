@@ -55,7 +55,7 @@ if (pathos_sessions_loggedIn()) {
 	loginmodule::show("Default",null,"Log In");
 }
 
-$template = new template("loginredirect");
+$template = new standalonetemplate("loginredirect");
 
 $template->assign("output",ob_get_contents());
 ob_end_clean();

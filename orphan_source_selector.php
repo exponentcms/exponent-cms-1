@@ -95,7 +95,7 @@ if (isset($_GET['module'])) {
 	$str2 = "<i>No archived modules were found.</i>";
 }
 
-$template = new template("orphaned_content");
+$template = new standalonetemplate("orphaned_content");
 $template->assign("modules_output",$str1);
 $template->assign("main_output",$str2);
 
