@@ -167,7 +167,7 @@ function pathos_smtp_checkResponse($socket,$expected_response) {
  */
 function pathos_smtp_sendServerMessage($socket,$message) {
 	if (substr($message,-1,1) != "\n") $message .="\n";
-	if ($message != null) fputs($socket,$message);
+	if ($message != null) fwrite($socket,$message);
 }
 
 /* exdoc

@@ -55,7 +55,7 @@ if (!function_exists('http_build_query'))
         $tmp = array ();
         foreach ($formdata as $key => $val)
         {
-            if (is_integer($key) && $numeric_prefix != null) {
+            if (is_int($key) && $numeric_prefix != null) {
                 $key = $numeric_prefix . $key;
             }
 

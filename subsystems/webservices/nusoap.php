@@ -339,7 +339,7 @@ class nusoap_base {
 					$xml .= "<$name$xmlns xsi:type=\"xsd:int\"$atts>$val</$name>";
 				}
 				break;
-			case (is_float($val)|| is_double($val) || $type == 'float'):
+			case (is_float($val)|| is_float($val) || $type == 'float'):
 				if ($use == 'literal') {
 					$xml .= "<$name$xmlns $atts>$val</$name>";
 				} else {
@@ -1220,7 +1220,7 @@ class XMLSchema extends nusoap_base  {
 		$schemaPrefix = $this->getPrefixFromNamespace($this->XMLSchemaVersion);
 		$xml = '';
 		// imports
-		if (sizeof($this->imports) > 0) {
+		if (count($this->imports) > 0) {
 			foreach($this->imports as $ns => $list) {
 				foreach ($list as $ii) {
 					if ($ii['location'] != '') {
@@ -2064,7 +2064,7 @@ class soap_transport_http extends nusoap_base {
 
 	  if ($this->scheme == 'http' || $this->scheme == 'ssl') {
 		// send payload
-		if(!fputs($this->fp, $this->outgoing_payload, strlen($this->outgoing_payload))) {
+		if(!fwrite($this->fp, $this->outgoing_payload, strlen($this->outgoing_payload))) {
 			$this->setError('couldn\'t write message data to socket');
 			$this->debug('couldn\'t write message data to socket');
 			return false;
@@ -2883,7 +2883,7 @@ class soap_server extends nusoap_base {
 				$this->debug('serializing return value');
 				if($this->wsdl){
 					// weak attempt at supporting multiple output params
-					if(sizeof($this->opData['output']['parts']) > 1){
+					if(count($this->opData['output']['parts']) > 1){
 				    	$opParams = $this->methodreturn;
 				    } else {
 				    	// TODO: is this really necessary?
@@ -3927,7 +3927,7 @@ class wsdl extends nusoap_base {
 		} 
 		$xml .= '>'; 
 		// imports
-		if (sizeof($this->import) > 0) {
+		if (count($this->import) > 0) {
 			foreach($this->import as $ns => $list) {
 				foreach ($list as $ii) {
 					if ($ii['location'] != '') {
@@ -4067,7 +4067,7 @@ class wsdl extends nusoap_base {
 
 		// set input params
 		$xml = '';
-		if (isset($opData[$direction]['parts']) && sizeof($opData[$direction]['parts']) > 0) {
+		if (isset($opData[$direction]['parts']) && count($opData[$direction]['parts']) > 0) {
 			
 			$use = $opData[$direction]['use'];
 			$this->debug('have ' . count($opData[$direction]['parts']) . ' part(s) to serialize');
@@ -4143,7 +4143,7 @@ class wsdl extends nusoap_base {
 		
 		// set input params
 		$xml = '';
-		if (isset($opData[$direction]['parts']) && sizeof($opData[$direction]['parts']) > 0) {
+		if (isset($opData[$direction]['parts']) && count($opData[$direction]['parts']) > 0) {
 			
 			$use = $opData[$direction]['use'];
 			$this->debug("use=$use");
@@ -4409,15 +4409,15 @@ class wsdl extends nusoap_base {
 			if (isset($typeDef['multidimensional'])) {
 				$nv = array();
 				foreach($value as $v) {
-					$cols = ',' . sizeof($v);
+					$cols = ',' . count($v);
 					$nv = array_merge($nv, $v);
 				} 
 				$value = $nv;
 			} else {
 				$cols = '';
 			} 
-			if (is_array($value) && sizeof($value) >= 1) {
-				$rows = sizeof($value);
+			if (is_array($value) && count($value) >= 1) {
+				$rows = count($value);
 				$contents = '';
 				foreach($value as $k => $v) {
 					$this->debug("serializing array element: $k, $v of type: $typeDef[arrayType]");
@@ -4703,7 +4703,7 @@ class soap_parser extends nusoap_base {
 //					$this->responseHeaders = $this->message[$this->root_header]['result'];
 //				}
 				// resolve hrefs/ids
-				if(sizeof($this->multirefs) > 0){
+				if(count($this->multirefs) > 0){
 					foreach($this->multirefs as $id => $hrefs){
 						$this->debug('resolving multirefs for id: '.$id);
 						$idVal = $this->buildVal($this->ids[$id]);
@@ -5405,7 +5405,7 @@ class soapclient extends nusoap_base  {
 				// array of return values
 				if(is_array($return)){
 					// multiple 'out' parameters
-					if(sizeof($return) > 1){
+					if(count($return) > 1){
 						return $return;
 					}
 					// single 'out' parameter
@@ -5679,7 +5679,7 @@ class soapclient extends nusoap_base  {
 			if($operation != ''){
 				// create param string
 				$paramStr = '';
-				if(sizeof($opData['input']['parts']) > 0){
+				if(count($opData['input']['parts']) > 0){
 					foreach($opData['input']['parts'] as $name => $type){
 						$paramStr .= "\$$name,";
 					}

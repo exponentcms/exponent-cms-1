@@ -122,7 +122,7 @@ function pathos_info_files($type,$name) {
 function pathos_info_fileChecksums($files) {
 	$newfiles = array();
 	foreach (array_keys($files) as $file) {
-		if (is_integer($files[$file])) $newfiles[$file] = "";
+		if (is_int($files[$file])) $newfiles[$file] = "";
 		else $newfiles[$file] = md5_file(BASE.$file);
 	}
 	return $newfiles;

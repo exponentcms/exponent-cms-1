@@ -45,7 +45,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 
 	if (is_array($files)) {
 		$actual = pathos_info_fileChecksums($files);
-		foreach (array_keys($files) as $f) if (is_integer($files[$f])) $files[$f] = "";
+		foreach (array_keys($files) as $f) if (is_int($files[$f])) $files[$f] = "";
 		$relative = array();
 		foreach (array_keys($files) as $file) {
 			$relative[$file] = array(

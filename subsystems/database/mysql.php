@@ -147,7 +147,7 @@ class mysql_database {
 		} else if ($type == DB_DEF_INTEGER) {
 			$sql .= " INT(8)";
 		} else if ($type == DB_DEF_STRING) {
-			if (isset($def[DB_FIELD_LEN]) && is_integer($def[DB_FIELD_LEN])) {
+			if (isset($def[DB_FIELD_LEN]) && is_int($def[DB_FIELD_LEN])) {
 				$len = $def[DB_FIELD_LEN];
 				if ($len < 256) $sql .= " VARCHAR($len)";
 				else if ($len < 65536) $sql .= " TEXT";
