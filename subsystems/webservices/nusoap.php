@@ -2582,7 +2582,7 @@ class soap_server extends nusoap_base {
 				$this->SOAPAction = str_replace('"','',$this->headers['SOAPAction']);
 			}
 			// get the character encoding of the incoming request
-			if(strpos($this->headers['Content-Type'],'=')){
+			if(isset($this->headers['Content-Type']) && strpos($this->headers['Content-Type'],'=')){
 				$enc = str_replace('"','',substr(strstr($this->headers["Content-Type"],'='),1));
 				if(eregi('^(ISO-8859-1|US-ASCII|UTF-8)$',$enc)){
 					$this->xml_encoding = strtoupper($enc);
