@@ -267,6 +267,7 @@ class calendarmodule {
 			if (!isset($viewconfig['range'])) $viewconfig['range'] = "all";
 			$items = null;
 			$dates = null;
+			$day = pathos_datetime_startOfDayTimestamp(time());
 			switch ($viewconfig['range']) {
 				case "all":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0");
@@ -274,19 +275,19 @@ class calendarmodule {
 					break;
 				case "upcoming":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".time());
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date > ".time());
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date > $day");
 					break;
 				case "past":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart < ".time());
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date < ".time());
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date < $day");
 					break;
 				case "today":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".pathos_datetime_startOfDayTimestamp(time()) . " AND eventend <= " . (pathos_datetime_startOfDayTimestamp(time()) + 86400));
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date = ".time());
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date = $day");
 					break;
 				case "next":
 					#$items = array($db->selectObject("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".time()));
-					$dates = array($db->selectObject("eventdate","location_data='" . serialize($loc) . "' AND date >= ".time()));
+					$dates = array($db->selectObject("eventdate","location_data='" . serialize($loc) . "' AND date >= $day"));
 					break;
 				case "month":
 					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".pathos_datetime_startOfMonthTimestamp(time()) . " AND eventend <= " . pathos_datetime_endOfMonthTimestamp(time()));
