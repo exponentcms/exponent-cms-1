@@ -117,10 +117,20 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 	
 	if ($prefix == null) $prefix = "@section";
 	
-	$last_section = pathos_sessions_get("last_section");
-	$section = $db->selectObject("section","id=".$last_section);
+	$src = $prefix;
 	
-	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
+	if (pathos_sessions_isset("themeopt_override")) {
+		$config = pathos_sessions_get("themeopt_override");
+		if (in_array($module,$config['ignore_mods'])) return;
+		$src = $config['src_prefix'].$prefix;
+	} else {
+		$last_section = pathos_sessions_get("last_section");
+		$section = $db->selectObject("section","id=".$last_section);
+		$src .= $section->id;
+	}
+	
+	
+	pathos_theme_showModule($module,$view,$title,$src,$pickable,$section);
 }
 
 /* exdoc
@@ -143,7 +153,7 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
 	
 	$section = $db->selectObject("section","id=".$last_section);
 	// Loop until we find the top level parent.
-	while ($section->parent !=0) $section = $db->selectObject("section","id=".$section->parent);
+	while ($section->parent != 0) $section = $db->selectObject("section","id=".$section->parent);
 	
 	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
 }
@@ -176,11 +186,9 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 	if (pathos_sessions_isset("themeopt_override")) {
 		$config = pathos_sessions_get("themeopt_override");
 		if (in_array($module,$config['ignore_mods'])) return;
-		if (substr($source,0,8) == "@section") $source = "@section";
-		$loc = pathos_core_makeLocation($module,$config['src_prefix'].$source."");
-	} else {
-		$loc = pathos_core_makeLocation($module,$source."");
 	}
+	$loc = pathos_core_makeLocation($module,$source."");
+		
 	if ($db->selectObject("locationref","module='$module' AND source='".$loc->src."'") == null) {
 		$locref = null;
 		$locref->module = $module;

@@ -42,7 +42,7 @@
 {/permissions}
 
 <div class="moduletitle search_moduletitle">{$moduletitle}</div>
-<form method="post" action="">
+<form method="get" action="">
 <input type="hidden" name="module" value="searchmodule" />
 <input type="hidden" name="src" value="{$loc->src}" />
 <input type="hidden" name="action" value="search" />

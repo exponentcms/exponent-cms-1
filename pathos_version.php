@@ -37,7 +37,7 @@ if (!defined('PATHOS_VERSION')) {
 	 * the system will behave slightly differently, to accomodate for developers
 	 * and their environment.
 	 */
-	define('DEVELOPMENT',0); // CHANGE FOR DIST
+	define('DEVELOPMENT',1); // CHANGE FOR DIST
 	/* exdoc
 	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
 	 */

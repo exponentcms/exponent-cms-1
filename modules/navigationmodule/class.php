@@ -223,18 +223,12 @@ class navigationmodule {
 		
 		// Copy all modules and content for this section
 		foreach ($refs as $ref) {
-			$src = substr($ref->source,strlen($prefix));
-			if ($src == "@section" || substr($src,0,-1) == "_") {
-				$src .= $section->id;
-			}
-			
-#			echo $src;
+			$src = substr($ref->source,strlen($prefix)) . $section->id;
 			
 			if (call_user_func(array($ref->module,"hasContent"))) {
 				$oloc = pathos_core_makeLocation($ref->module,$ref->source);
 				$nloc = pathos_core_makeLocation($ref->module,$src);
 				
-#				echo $ref->module . "<br />";
 				call_user_func(array($ref->module,"copyContent"),$oloc,$nloc);
 			}
 		}
