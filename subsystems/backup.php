@@ -62,7 +62,7 @@ define("EQL_HEADER","EQL-Exponent Query Language");
 function pathos_backup_dumpDatabase($db,$tables = null) {
 	$dump = EQL_HEADER."\n";
 	$dump .= "VERSION:".PATHOS."\n\n";
-	if ($tables == null) {
+	if (!is_array($tables)) {
 		$tables = $db->getTables();
 		if (!function_exists("tmp_removePrefix")) {
 			function tmp_removePrefix($tbl) {
