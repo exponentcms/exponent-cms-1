@@ -49,6 +49,8 @@ foreach (array_keys($files) as $mod) {
 pathos_sessions_unset('dest_dir');
 pathos_sessions_unset('files_data');
 
+pathos_files_removeDirectory($dest_dir);
+
 $template = new template('importer','_files_final');
 $template->output();
 
