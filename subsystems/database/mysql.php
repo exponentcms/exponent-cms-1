@@ -475,6 +475,16 @@ class mysql_database {
 		return $res->fieldmin;
 	}
 	
+	function increment($table,$field,$step,$where = null) {
+		if ($where == null) $where = "1";
+		$sql = "UPDATE `".$this->prefix."$table` SET `$field`=`$field`+$step WHERE $where";
+		return @mysql_query($sql,$this->connection);
+	}
+	
+	function decrement($table,$field,$step,$where = null) {
+		$this->increment($table,$field,-1*$step,$where);
+	}
+	
 	function tableExists($table) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` LIMIT 0,1",$this->connection);
 		return ($res != null);
