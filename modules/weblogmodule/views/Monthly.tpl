@@ -28,6 +28,7 @@
  *
  * $Id$
  *}
+{if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$months key=m_ts item=count}
 	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_month month=$m_ts}">{$m_ts|format_date:"%B %Y"} ({$count})</a><br />
 {/foreach}
