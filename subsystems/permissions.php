@@ -97,7 +97,7 @@ function pathos_permissions_load($user) {
 	} else {
 		if (count($pathos_permissions_r)) $ui_levels = array("Preview","Normal");
 		if ($has_admin) $ui_levels[] = "Permission Management";
-		if (count($pathos_permissions_r["containermodule"])) $ui_levels[] = "Structure Management";
+		if (isset($pathos_permissions_r["containermodule"]) && count($pathos_permissions_r["containermodule"])) $ui_levels[] = "Structure Management";
 	}
 	pathos_sessions_set("uilevels",$ui_levels);
 }
