@@ -121,9 +121,13 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
  * @node Subsystems:Image
  */
 function pathos_image_create($w,$h) {
+	if (!function_exists('gd_info')) return null;
 	$info = gd_info();
-	if (strpos($info['GD Version'],'2.0') != false) return imagecreatetruecolor($w,$h);
-	else return imagecreate($w,$h);
+	if (strpos($info['GD Version'],'2.0') != false) {
+		return imagecreatetruecolor($w,$h);
+	} else {
+		return imagecreate($w,$h);
+	}
 }
 
 // $scale should be in decimal notation (i.e. 0.5 for 50%)
