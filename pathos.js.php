@@ -53,7 +53,6 @@ function pathosJSregister(func) {
 var PATH_RELATIVE = "<?php echo PATH_RELATIVE; ?>";
 var THEME_RELATIVE = "<?php echo THEME_RELATIVE; ?>";
 var ICON_RELATIVE = "<?php echo ICON_RELATIVE; ?>";
-var SEF_URLS = <?php echo SEF_URLS; ?>;
 
 function pathosGetCookie(name) {
 	cookiestr = document.cookie;
@@ -71,26 +70,14 @@ function makeLink() {
 	var link = "";
 	var link = "";
 	var args = makeLink.arguments;
-	if (SEF_URLS == 0) {
-		link = PATH_RELATIVE + "index.php?";
-		for (var i = 0; i < args.length; i+=2) {
-			var v = args[i+1];
-			if (v != null && v != "") {
-				link += escape(args[i]) + "=" + escape(args[i+1]) + "&";
-			}
+	link = PATH_RELATIVE + "index.php?";
+	for (var i = 0; i < args.length; i+=2) {
+		var v = args[i+1];
+		if (v != null && v != "") {
+			link += escape(args[i]) + "=" + escape(args[i+1]) + "&";
 		}
-		link = link.substr(0,link.length - 1);
-	} else {
-		link = PATH_RELATIVE + "index.php/";
-		for (var i = 0; i < args.length; i+=2) {
-			var v = args[i+1];
-			if (v != null && v != "") {
-				link += escape(args[i]) + "/" + escape(args[i+1]) + "/";
-			}
-		}
-		link = link.substr(0,link.length - 1);
 	}
-	return link;
+	return link.substr(0,link.length - 1);
 }
 
 function openWindow(url,name,options) {
@@ -123,6 +110,26 @@ function sourceSelected(hidden,showPreview,src,desc) {
 	showPreviewCall();
 	}
 }
+
+function selectAll(prefix,checked) {
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
+			elems[key].checked = checked;
+		}
+	}
+}
+
+function isOneSelected(prefix) {
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
+			if (elems[key].checked) return true;
+		}
+	}
+	return false;
+}
+
 
 // Patch the String object, to make string parsing a little easier in Pathos
 String.prototype.isValid = function (alpha,numeric,others) {
