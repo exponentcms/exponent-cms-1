@@ -31,27 +31,30 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the Extensions category.
 
-if ($user && $user->is_acting_admin) {
-	if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
+	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 	
 	$sessid = session_id();
 	$files = array();
-	foreach (pathos_files_listFlat(BASE."extensionuploads/$sessid",true,null,array(),BASE."extensionuploads/$sessid") as $key=>$f) {
-		if ($key != "/archive.tar" && $key != "/archive.tar.gz" && $key != "/archive.tar.bz2" && $key != "/archive.zip") {
+	foreach (pathos_files_listFlat(BASE.'extensionuploads/'.$sessid,true,null,array(),BASE.'extensionuploads/'.$sessid) as $key=>$f) {
+		if ($key != '/archive.tar' && $key != '/archive.tar.gz' && $key != '/archive.tar.bz2' && $key != '/archive.zip') {
 			$files[] = array(
-				"absolute"=>$key,
-				"relative"=>$f,
-				"canCreate"=>pathos_files_canCreate(BASE.substr($key,1)),
-				"ext"=>substr($f,-3,3)
+				'absolute'=>$key,
+				'relative'=>$f,
+				'canCreate'=>pathos_files_canCreate(BASE.substr($key,1)),
+				'ext'=>substr($f,-3,3)
 			);
 		}
 	}
 	
-	$template = new template("administrationmodule","_upload_filesList",$loc);
-	$template->assign("relative","extensionuploads/$sessid");
-	$template->assign("files",$files);
+	$template = new template('administrationmodule','_upload_filesList',$loc);
+	$template->assign('relative','extensionuploads/'.$sessid);
+	$template->assign('files',$files);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

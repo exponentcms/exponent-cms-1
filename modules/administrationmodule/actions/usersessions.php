@@ -31,25 +31,28 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 
-	$db->delete("sessionticket","last_active < " . (time() - SESSION_TIMEOUT));
+	$db->delete('sessionticket','last_active < ' . (time() - SESSION_TIMEOUT));
 	
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_DATETIME')) include_once(BASE.'subsystems/datetime.php');
 	
-	$sessions = $db->selectObjects("sessionticket");
+	$sessions = $db->selectObjects('sessionticket');
 	for ($i = 0; $i < count($sessions); $i++) {
 		$sessions[$i]->user = pathos_users_getUserById($sessions[$i]->uid);
 		$sessions[$i]->duration = pathos_datetime_duration($sessions[$i]->last_active,$sessions[$i]->start_time);
 	}
 	
-	$template = new template("administrationmodule","_sessionmanager",$loc);
-	$template->assign("sessions",$sessions);
-	$template->assign("user",$user);
+	$template = new template('administrationmodule','_sessionmanager',$loc);
+	$template->assign('sessions',$sessions);
+	$template->assign('user',$user);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

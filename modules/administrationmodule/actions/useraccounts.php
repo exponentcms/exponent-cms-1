@@ -31,14 +31,17 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+// Part of the User Management category
 
-if ($user && $user->is_acting_admin) {
+if (!defined('PATHOS')) exit('');
+
+if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+#if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	
-	$template = new template("administrationmodule","_usermanager",$loc);
+	$template = new template('administrationmodule','_usermanager',$loc);
 	
 	$template = pathos_users_userManagerFormTemplate($template);
 	$template->output();
