@@ -297,21 +297,56 @@ class navigationmodule {
 			$db->updateObject($kid,'section');
 			navigationmodule::removeLevel($kid->id);
 		}
-		/* May not need this code anymore
-		$secrefs = $db->selectObjects("sectionref","section=".$parent);
-		foreach ($secrefs as $secref) {
-			$loc = pathos_core_makeLocation($secref->module,$secref->source,$secref->internal);
-			pathos_core_decrementLocationReference($loc,$parent);
-			
-			foreach ($db->selectObjects("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
-				$modclass = $locref->module;
-				$mod = new $modclass();
-				$mod->deleteIn(pathos_core_makeLocation($locref->module,$locref->source,$locref->internal));
+	}
+	
+	function canView($section) {
+		global $db;
+		if ($section->public == false) {
+			// Not a public section.  Check permissions.
+			return pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$section->id));
+		} else { // Is public.  check parents.
+			if ($section->parent <= 0) {
+				// Out of parents, and since we are still checking, we haven't hit a private section.
+				return true;
+			} else {
+				$s = $db->selectObject('section','id='.$section->parent);
+				return navigationmodule::canView($s);
 			}
-			$db->delete("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
 		}
-		$db->delete("sectionref","section=".$parent);
-		*/
+	}
+	
+	/* May not yet be needed
+	function canManage($section) {
+		global $db;
+		if ($section->public == false) {
+			// Not a public section.  Check permissions.
+			return pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->id));
+		} else { // Is public.  check parents.
+			if ($section->parent <= 0) {
+				// Out of parents, and since we are still checking, we haven't hit a private section.
+				return true;
+			} else {
+				$s = $db->selectObject('section','id='.$section->parent);
+				return navigationmodule::canView($s);
+			}
+		}
+	}
+	//*/
+	
+	function isPublic($section) {
+		global $db;
+		if ($section->public == false) {
+			// Not a public section.  Check permissions.
+			return false;
+		} else { // Is public.  check parents.
+			if ($section->parent <= 0) {
+				// Out of parents, and since we are still checking, we haven't hit a private section.
+				return true;
+			} else {
+				$s = $db->selectObject('section','id='.$section->parent);
+				return navigationmodule::isPublic($s);
+			}
+		}
 	}
 }
 
