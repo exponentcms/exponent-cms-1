@@ -92,6 +92,13 @@ chmod -R 777 $ROOT/files
 
 echo "*" > $ROOT/files/.cvsignore
 
+if [ ! -d $ROOT/views_c ]; then
+	mkdir $ROOT/views_c
+fi
+chmod -R 777 $ROOT/views_c
+
+echo "*" > $ROOT/views_c/.cvsignore
+
 
 echo "Finished setting up Exponent Environment.";
 echo "";
@@ -100,8 +107,9 @@ echo "======================================";
 echo "============ IMPORTANT ==============="
 echo "======================================";
 echo "";
-echo "Don't forget to uncomment the line in pathos_version.php";
+echo "Don't forget to change the line in pathos_version.php";
 echo "that defines the DEVELOPMENT constant.  Strange things";
-echo "may happen with regards to CVS directories if you don't.";
+echo "may happen with regards to CVS directories if it is not.";
+echo "set to 1 or true.";
 
 cd sdk
