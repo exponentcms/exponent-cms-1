@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-$iloc = pathos_core_makeLocation($_GET['m'],$_GET['s'],$_GET['i']);
+$iloc = pathos_core_makeLocation($_GET['m'],@$_GET['s'],@$_GET['i']);
 
 // Make sure that locref refcount is indeed 0.
 $locref = $db->selectObject("locationref","module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
