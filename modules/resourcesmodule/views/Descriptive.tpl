@@ -89,3 +89,4 @@ Uploads have been disabled.<br />
 {else}An unknown error has occurred.  Please contact the Exponent Developers.
 {/if}
 </div>
+{/if}
