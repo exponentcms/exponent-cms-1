@@ -195,7 +195,7 @@ function pathos_workflow_dataDefinitions($tabledef) {
  * @node Undocumented
  */
 function pathos_workflow_installWorkflowTables($existingname,$tabledef) {
-	pathos_workflow_alterWorkflowTables($existingname,$tabledef);
+	return pathos_workflow_alterWorkflowTables($existingname,$tabledef);
 }
 
 /* exdoc
@@ -205,19 +205,27 @@ function pathos_workflow_installWorkflowTables($existingname,$tabledef) {
 function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
 	global $db;
 
+	$return = array();
+
 	$defs = pathos_workflow_dataDefinitions($newdatadef);
 	
 	if (!$db->tableExists($existingname.'_wf_revision')) {
-		$db->createTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
+		$tmp = $db->createTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
+		$return[$existingname.'_wf_revision'] = $return[$existingname.'_wf_revision'];
 	} else {
-		$db->alterTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
+		$tmp = $db->alterTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
+		$return[$existingname.'_wf_revision'] = $tmp[$existingname.'_wf_revision'];
 	}
 	
 	if (!$db->tableExists($existingname.'_wf_info')) {
-		$db->createTable($existingname.'_wf_info',$defs['_wf_info'],array(DB_TABLE_COMMENT=>'Workflow Summary table for '.$existingname));
+		$tmp = $db->createTable($existingname.'_wf_info',$defs['_wf_info'],array(DB_TABLE_COMMENT=>'Workflow Summary table for '.$existingname));
+		$return[$existingname.'_wf_info'] = $tmp[$existingname.'_wf_info'];
 	} else {
-		$db->alterTable($existingname.'_wf_info',$defs['_wf_info'],array(DB_TABLE_COMMENT=>'Workflow Summary table for '.$existingname));
+		$tmp = $db->alterTable($existingname.'_wf_info',$defs['_wf_info'],array(DB_TABLE_COMMENT=>'Workflow Summary table for '.$existingname));
+		$return[$existingname.'_wf_info'] = $tmp[$existingname.'_wf_info'];
 	}
+	
+	return $return;
 }
 
 /* exdoc
