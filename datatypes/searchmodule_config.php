@@ -31,13 +31,32 @@
 # $Id$
 ##################################################
 
-// I18n constants for the Search Module
-
-define('TR_SEARCHMODULE_NEEDTERM',				'You must specify at least one search keyword.');
-
-define('TR_SEARCHMODULE_PERM_ADMIN',			'Administrate');
-define('TR_SEARCHMODULE_PERM_CONFIG',			'Configure');
-
-define('TR_SEARCHMODULE_CATEGORIZE',			'Display Categorized Search Results');
+class searchmodule_config {
+	function form($object) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','searchmodule');
+	
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		pathos_forms_initialize();
+		
+		$form = new form();
+		if (!isset($object->id)) {
+			$object->is_categorized = 0;
+		} else {
+			$form->meta('id',$object->id);
+		}
+		
+		$form->register('is_categorized',TR_SEARCHMODULE_CATEGORIZE,new checkboxcontrol($object->is_categorized,true));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		
+		pathos_forms_cleanup();
+		return $form;
+	}
+	
+	function update($values,$object) {
+		$object->is_categorized = isset($values['is_categorized']);
+		return $object;
+	}
+}
 
 ?>
