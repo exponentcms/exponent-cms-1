@@ -102,7 +102,7 @@ if (pathos_permissions_check("edit_module",$loc) || pathos_permissions_check("ad
 		$mod->description = $module->description();
 		if (isset($container->view) && $container->internal->mod == $moduleclass) {
 			$mod->defaultView = $container->view;
-		} else $mod->defaultView = "";
+		} else $mod->defaultView = DEFAULT_VIEW;
 		
 		// Get support flags
 		$mod->supportsSources = ($module->hasSources() ? 1 : 0);
