@@ -34,17 +34,32 @@
 if (!defined("PATHOS")) exit("");
 
 if ($user && $user->is_admin) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	
-	$template = new template("administrationmodule","_usermanager",$loc);
-	
-	$template = pathos_users_userManagerFormTemplate($template);
-	$template->output();
+	$u = pathos_users_getUserById($_GET['id']);
+	if ($u) {
+		$groups = pathos_users_getAllGroups();
+		
+		$membership = array();
+		foreach ($db->selectObjects("groupmembership","member_id=".$u->id) as $m) {
+			$membership[] = $m->group_id;
+		}
+		
+		for ($i = 0; $i < count($groups); $i++) {
+			if (in_array($groups[$i]->id,$membership)) $groups[$i]->is_member = 1;
+			else $groups[$i]->is_member = 0;
+		}
+		
+		$template = new template("administrationmodule","_usermembership",$loc);
+		$template->assign("user",$u);
+		$template->assign("groups",$groups);
+		$template->assign("canAdd",(count($membership) < count($groups) ? 1 : 0));
+		$template->assign("hasMember",(count($membership) > 0 ? 1 : 0));
+		$template->output();
+	} else {
+		echo SITE_404_HTML;
+	}
 } else {
 	echo SITE_403_HTML;
 }
-
 
 ?>

@@ -50,11 +50,12 @@ To create a new user account, use the <a class="mngmntlink administration_mngmnt
 			{else}
 				out += 'Password Already Blank'
 			{/if}
+			out += '&nbsp;&nbsp;<a href="'+makeLink('module','administrationmodule','action','umgr_membership','id',object.var_id)+'">Groups</a>';
 		{literal}
 		} else {
 		{/literal}
 			out = '<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.gif" />' +
-				  '<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.gif" />';
+				'<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.gif" />';
 		{literal}
 		}
 		return out;

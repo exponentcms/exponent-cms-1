@@ -34,17 +34,22 @@
 if (!defined("PATHOS")) exit("");
 
 if ($user && $user->is_admin) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	
-	$template = new template("administrationmodule","_usermanager",$loc);
-	
-	$template = pathos_users_userManagerFormTemplate($template);
-	$template->output();
+	$u = $db->selectObject("user","id=".$_POST['id']);
+	if ($u) {
+		$db->delete("groupmembership","member_id=".$u->id);
+		$memb = null;
+		$memb->member_id = $u->id;
+		if ($_POST['membdata'] != "") {
+			foreach (explode(",",$_POST['membdata']) as $id) {
+				$memb->group_id = $id;
+				$db->insertObject($memb,"groupmembership");
+			}
+		}
+		pathos_permissions_triggerRefresh($u);
+		pathos_flow_redirect();
+	} else echo SITE_404_HTML;
 } else {
 	echo SITE_403_HTML;
 }
-
 
 ?>
