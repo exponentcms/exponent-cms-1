@@ -68,7 +68,7 @@ define('TR_WORKFLOW_APPROVED_DENIED',		'Content Denied Approval');
 define('TR_WORKFLOW_APPROVED_FINAL',		'Content Published');
 define('TR_WORKFLOW_DELETED',				'Approval Path Deleted');
 define('TR_WORKFLOW_RESTARTED',				'Approval Path Restarted');
-define('TR_WORKFLOW_IMPLICITAPPROVAL',		'New Content Implicitly Approved');
+define('TR_WORKFLOW_IMPLICIT_APPROVAL',		'New Content Implicitly Approved');
 define('TR_WORKFLOW_POSTED_ADMIN',			'Content posted or edited by an Administrator');
 define('TR_WORKFLOW_APPROVED_ADMIN',		'Content approved by an Administrator');
 
