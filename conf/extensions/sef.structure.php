@@ -31,13 +31,15 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('config','sef');
+
 return array(
-	"Search Engine Friendly URLs",
+	TR_CONFIG_SEF_TITLE,
 	array(
-		"SEF_URLS"=>array(
-			"title"=>"SEF URLs",
-			"description"=>"Whether or not to generate SEF URLs",
-			"control"=>new checkboxcontrol(true,true)
+		'SEF_URLS'=>array(
+			'title'=>TR_CONFIF_SEF_URLS,
+			'description'=>TR_CONFIG_SEF_URLS_DESC,
+			'control'=>new checkboxcontrol(true,true)
 		)
 	)
 );

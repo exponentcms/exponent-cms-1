@@ -31,38 +31,40 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('config','smtp');
+
 return array(
-	"SMTP Server Settings",
+	TR_CONFIG_SMTP_TITLE,
 	array(
-		"SMTP_SERVER"=>array(
-			"title"=>"SMTP Server",
-			"description"=>"The IP address or host/domain name of the server to connect to for sending email through smtp.",
-			"control"=>new textcontrol()
+		'SMTP_SERVER'=>array(
+			'title'=>TR_CONFIG_SMTP_SERVER,
+			'description'=>TR_CONFIG_SMTP_SERVER_DESC,
+			'control'=>new textcontrol()
 		),
-		"SMTP_PORT"=>array(
-			"title"=>"SMTP Port",
-			"description"=>"The port that the SMTP server is listening to for SMTP connections.  If you don't know what this is, leave it as the default of 25.",
-			"control"=>new textcontrol()
+		'SMTP_PORT'=>array(
+			'title'=>TR_CONFIG_SMTP_PORT,
+			'description'=>TR_CONFIG_SMTP_PORT_DESC,
+			'control'=>new textcontrol()
 		),
-		"SMTP_AUTHTYPE"=>array(
-			"title"=>"Authentication Method",
-			"description"=>"Here, you can specify what type of authentication your SMTP server requires (if any).  Please consult your mailserver administrator for this information.",
-			"control"=>new dropdowncontrol("",array("NONE"=>"No Authentication","LOGIN"=>"LOGIN","PLAIN"=>"PLAIN"))
+		'SMTP_AUTHTYPE'=>array(
+			'title'=>TR_CONFIG_SMTP_AUTHTYPE,
+			'description'=>TR_CONFIG_SMTP_AUTHTYPE_DESC,
+			'control'=>new dropdowncontrol('',array('NONE'=>'No Authentication','LOGIN'=>'LOGIN','PLAIN'=>'PLAIN'))
 		),
-		"SMTP_USERNAME"=>array(
-			"title"=>"SMTP Username",
-			"description"=>"The username to use when connecting to an SMTP server that requires some form of authentication",
-			"control"=>new textcontrol()
+		'SMTP_USERNAME'=>array(
+			'title'=>TR_CONFIG_SMTP_USERNAME,
+			'description'=>TR_CONFIG_SMTP_USERNAME_DESC,
+			'control'=>new textcontrol()
 		),
-		"SMTP_PASSWORD"=>array(
-			"title"=>"SMTP Password",
-			"description"=>"The password to use when connecting to an SMTP server that requires some form of authentication",
-			"control"=>new passwordcontrol()
+		'SMTP_PASSWORD'=>array(
+			'title'=>TR_CONFIG_SMTP_PASSWORD,
+			'description'=>TR_CONFIG_SMTP_PASSWORD_DESC,
+			'control'=>new passwordcontrol()
 		),
-		"SMTP_FROMADDRESS"=>array(
-			"title"=>"From Address",
-			"description"=>"The from address to use when talking to the SMTP server.  This is important for people using ISP SMTP servers, which may restrict access to certain email addresses.",
-			"control"=>new textcontrol()
+		'SMTP_FROMADDRESS'=>array(
+			'title'=>TR_CONFIG_SMTP_ADDRESS,
+			'description'=>TR_CONFIG_SMTP_ADDRESS_DESC,
+			'control'=>new textcontrol()
 		),
 	)
 );

@@ -31,83 +31,85 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('config','site');
+
 return array(
-	"General Site Configuration",
+	TR_CONFIG_SITE_TITLE,
 	array(
-		"SITE_TITLE"=>array(
-			"title"=>"Site Title",
-			"description"=>"The title of the website.",
-			"control"=>new textcontrol()
+		'SITE_TITLE'=>array(
+			'title'=>TR_CONFIG_SITE_SITE_TITLE,
+			'description'=>TR_CONFIG_SITE_SITE_TITLE_DESC,
+			'control'=>new textcontrol()
 		),
 		'USE_LANG'=>array(
-			'title'=>'Interface Language',
-			'description'=>'What language should be used for the Exponent interface?',
+			'title'=>TR_CONFIG_SITE_USE_LANG,
+			'description'=>TR_CONFIG_SITE_USE_LANG,
 			'control'=>new dropdowncontrol(0,pathos_lang_list())
 		),
-		"SITE_ALLOW_REGISTRATION"=>array(
-			"title"=>"Allow Registration?",
-			"description"=>"Whether or not new users should be allowed to create accounts for themselves.",
-			"control"=>new checkboxcontrol()
+		'SITE_ALLOW_REGISTRATION'=>array(
+			'title'=>TR_CONFIG_SITE_ALLOW_REGISTRATION
+			'description'=>TR_CONFIG_SITE_ALLOW_REGISTRATION_DESC,
+			'control'=>new checkboxcontrol()
 		),
-		"SITE_KEYWORDS"=>array(
-			"title"=>"Keywords",
-			"description"=>"Search engine keywords for the site.",
-			"control"=>new texteditorcontrol("",10,30)
+		'SITE_KEYWORDS'=>array(
+			'title'=>TR_CONFIG_SITE_KEYWORDS,
+			'description'=>TR_CONFIG_SITE_KEYWORDS_DESC,
+			'control'=>new texteditorcontrol('',10,30)
 		),
-		"SITE_DESCRIPTION"=>array(
-			"title"=>"Description",
-			"description"=>"A description of what the site is about.",
-			"control"=>new texteditorcontrol("",15,50)
+		'SITE_DESCRIPTION'=>array(
+			'title'=>TR_CONFIG_SITE_DESCRIPTION,
+			'description'=>TR_CONFIG_SITE_DESCRIPTION_DESC,
+			'control'=>new texteditorcontrol('',15,50)
 		),
-		"SITE_404_HTML"=>array(
-			"title"=>"'Not Found' Error Text",
-			"description"=>"HTML to show to a user when they try to request something that isn't found (like a deleted post, section etc.)",
-			"control"=>new texteditorcontrol("",15,50)
+		'SITE_404_HTML'=>array(
+			'title'=>TR_CONFIG_SITE_404,
+			'description'=>TR_CONFIG_SITE_404_DESC,
+			'control'=>new texteditorcontrol('',15,50)
 		),
-		"SITE_403_REAL_HTML"=>array(
-			"title"=>"'Access Denied' Error Text",
-			"description"=>"HTML to show to a user when they try to perform some action that their user account is not allowed to perform.",
-			"control"=>new texteditorcontrol("",15,50)
+		'SITE_403_REAL_HTML'=>array(
+			'title'=>TR_CONFIG_SITE_403,
+			'description'=>TR_CONFIG_SITE_403_DESC,
+			'control'=>new texteditorcontrol('',15,50)
 		),
-		"SITE_DEFAULT_SECTION"=>array(
-			"title"=>"Default Section",
-			"description"=>"The default section.",
-			"control"=>new dropdowncontrol("",navigationmodule::levelDropDownControlArray(0))
+		'SITE_DEFAULT_SECTION'=>array(
+			'title'=>TR_CONFIG_SITE_DEFAULT_SECTION,
+			'description'=>TR_CONFIG_SITE_DEFAULT_SECTION_DESC,
+			'control'=>new dropdowncontrol('',navigationmodule::levelDropDownControlArray(0))
 		),
-		"SESSION_TIMEOUT"=>array(
-			"title"=>"Session Timeout",
-			"description"=>"How long a user can be idle (in seconds) before they are automatically logged out.",
-			"control"=>new textcontrol()
+		'SESSION_TIMEOUT'=>array(
+			'title'=>TR_CONFIG_SITE_SESSION_TIMEOUT,
+			'description'=>TR_CONFIG_SITE_SESSION_TIMEOUT_DESC,
+			'control'=>new textcontrol()
 		),
-		"SESSION_TIMEOUT_HTML"=>array(
-			"title"=>"'Session Expired' Error Text",
-			"description"=>"HTML to show to a user when their session expires and they are trying to perform some action that requires them to have certain permissions.",
-			"control"=>new texteditorcontrol("",15,50)
+		'SESSION_TIMEOUT_HTML'=>array(
+			'title'=>TR_CONFIG_SITE_TIMEOUT_ERROR,
+			'description'=>TR_CONFIG_SITE_TIMEOUT_ERROR_DESC,
+			'control'=>new texteditorcontrol('',15,50)
 		),
-		"FILE_DEFAULT_MODE_STR"=>array(
-			"title"=>"Default File Permissions",
-			"description"=>"The readability / writability of uploaded files, for users other than the web server user.",
-			"control"=>new dropdowncontrol(null,pathos_config_dropdownData("file_permissions"))
+		'FILE_DEFAULT_MODE_STR'=>array(
+			'title'=>TR_CONFIG_SITE_FILEPERMS,
+			'description'=>TR_CONFIG_SITE_FILEPERMS_DESC,
+			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('file_permissions'))
 		),
-		"DIR_DEFAULT_MODE_STR"=>array(
-			"title"=>"Default Directory Permissions",
-			"description"=>"The readability / writability of created directories, for users other than the web server user.",
-			"control"=>new dropdowncontrol(null,pathos_config_dropdownData("dir_permissions"))
+		'DIR_DEFAULT_MODE_STR'=>array(
+			'title'=>TR_CONFIG_SITE_DIRPERMS,
+			'description'=>TR_CONFIG_SITE_DIRPERMS_DESC,
+			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('dir_permissions'))
 		),
-		"ENABLE_SSL"=>array(
-			"title"=>"Enable SSL Support",
-			"description"=>"Whether or not to turn on Secure Linking through SSL",
-			"control"=>new checkboxcontrol()
+		'ENABLE_SSL'=>array(
+			'title'=>TR_CONFIG_SITE_ENABLE_SSL,
+			'description'=>TR_CONFIG_SITE_ENABLE_SSL_DESC,
+			'control'=>new checkboxcontrol()
 		),
-		"NONSSL_URL"=>array(
-			"title"=>"Non-SSL URL Base",
-			"description"=>"Full URL of the website without SSL support (usually starting with 'http://')",
-			"control"=>new textcontrol()
+		'NONSSL_URL'=>array(
+			'title'=>TR_CONFIG_SITE_NONSSL_URL,
+			'description'=>TR_CONFIG_SITE_NONSSL_URL_DESC,
+			'control'=>new textcontrol()
 		),
-		"SSL_URL"=>array(
-			"title"=>"SSL URL Base",
-			"description"=>"Full URL of the website with SSL support (usually starting with 'https://')",
-			"control"=>new textcontrol()
+		'SSL_URL'=>array(
+			'title'=>TR_CONFIG_SSL_URL,
+			'description'=>TR_CONFIG_SSL_URL,
+			'control'=>new textcontrol()
 		)
 	)
 );

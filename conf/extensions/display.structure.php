@@ -31,41 +31,38 @@
 # $Id$
 ##################################################
 
+pathos_lang_loadDictionary('config','display');
+
 $t = pathos_core_listThemes();
-uasort($t,"strnatcmp");
+uasort($t,'strnatcmp');
 
 return array(
-	"Display Settings",
+	TR_CONFIG_DISPLAY_TITLE,
 	array(
-		"DISPLAY_THEME_REAL"=>array(
-			"title"=>"Theme",
-			"description"=>"The current theme layout",
-			"control"=>new dropdowncontrol(null,$t)
+		'DISPLAY_THEME_REAL'=>array(
+			'title'=>TR_CONFIG_DISPLAY_THEME_REAL,
+			'description'=>TR_CONFIG_DISPLAY_THEME_REAL_DESC,
+			'control'=>new dropdowncontrol(null,$t)
 		),
-		"DISPLAY_ATTRIBUTION"=>array(
-			"title"=>"Attribution",
-			"description"=>"How credit is given to authors for their posts.",
-			"control"=>new dropdowncontrol(null,array("firstlast"=>"John Doe","lastfirst"=>"Doe, John","first"=>"John","username"=>"jdoe"))
+		'DISPLAY_ATTRIBUTION'=>array(
+			'title'=>TR_CONFIG_DISPLAY_ATTRIBUTION,
+			'description'=>TR_CONFIG_DISPLAY_ATTRIBUTION_DESC,
+			'control'=>new dropdowncontrol(null,array('firstlast'=>'John Doe','lastfirst'=>'Doe, John','first'=>'John','username'=>'jdoe'))
 		),
-		"DISPLAY_CACHE"=>array(
-			"title"=>"Cache Content?",
-			"description"=>"Whether or not caching is enabled for the templating subsystem.",
-			"control"=>new checkboxcontrol()
+		'DISPLAY_DATETIME_FORMAT'=>array(
+			'title'=>TR_CONFIG_DISPLAY_DATETIME_FORMAT,
+			'description'=>TR_CONFIG_DISPLAY_DATETIME_FORMAT_DESC,
+			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('datetime_format'))
 		),
-		"DISPLAY_DATETIME_FORMAT"=>array(
-			"title"=>"Date and Time Format",
-			"description"=>"Default system-wide date format, displaying both date and time.",
-			"control"=>new dropdowncontrol(null,pathos_config_dropdownData("datetime_format"))
+		'DISPLAY_DATE_FORMAT'=>array(
+			'title'=>TR_CONFIG_DISPLAY_DATE_FORMAT,
+			'description'=>TR_CONFIG_DISPLAY_DATE_FORMAT_DESC,
+			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('date_format'))
 		),
-		"DISPLAY_DATE_FORMAT"=>array(
-			"title"=>"Date Format",
-			"description"=>"Default system-wide date format, displaying date only",
-			"control"=>new dropdowncontrol(null,pathos_config_dropdownData("date_format"))
-		),
-		"DISPLAY_TIME_FORMAT"=>array(
-			"title"=>"Time Format",
-			"description"=>"Default system-wide date format, displaying time only",
-			"control"=>new dropdowncontrol(null,pathos_config_dropdownData("time_format"))
+		'DISPLAY_TIME_FORMAT'=>array(
+			'title'=>TR_CONFIG_DISPLAY_TIME_FORMAT,
+			'description'=>TR_CONFIG_DISPLAY_TIME_FORMAT_DESC,
+			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('time_format'))
 		)
 	)
 );

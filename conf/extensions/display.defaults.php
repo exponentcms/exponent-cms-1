@@ -31,11 +31,11 @@
 # $Id$
 ##################################################
 
-if (!defined("DISPLAY_CACHE")) define("DISPLAY_CACHE",0);
-if (!defined("DISPLAY_THEME_REAL")) define("DISPLAY_THEME_REAL","portaltheme");
-if (!defined("DISPLAY_ATTRIBUTION")) define("DISPLAY_ATTRIBUTION","username");
-if (!defined("DISPLAY_DATETIME_FORMAT")) define("DISPLAY_DATETIME_FORMAT","%D -- %T");
-if (!defined("DISPLAY_DATE_FORMAT")) define("DISPLAY_DATE_FORMAT","%D");
-if (!defined("DISPLAY_TIME_FORMAT")) define("DISPLAY_TIME_FORMAT","%T");
+if (!defined('DISPLAY_CACHE')) define('DISPLAY_CACHE',0);
+if (!defined('DISPLAY_THEME_REAL')) define('DISPLAY_THEME_REAL','portaltheme');
+if (!defined('DISPLAY_ATTRIBUTION')) define('DISPLAY_ATTRIBUTION','username');
+if (!defined('DISPLAY_DATETIME_FORMAT')) define('DISPLAY_DATETIME_FORMAT','%D -- %T');
+if (!defined('DISPLAY_DATE_FORMAT')) define('DISPLAY_DATE_FORMAT','%D');
+if (!defined('DISPLAY_TIME_FORMAT')) define('DISPLAY_TIME_FORMAT','%T');
 
 ?>

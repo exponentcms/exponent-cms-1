@@ -31,6 +31,6 @@
 # $Id$
 ##################################################
 
-if (!defined("SEF_URLS")) define("SEF_URLS",0);
+if (!defined('SEF_URLS')) define('SEF_URLS',0);
 
 ?>

@@ -31,43 +31,45 @@
 # $Id$
 ##################################################
 
+pathos_lang_load('config','database');
+
 return array(
-	"Database Options",
+	TR_CONFIG_DATABASE_TITLE,
 	array(
-		"DB_ENGINE"=>array(
-			"title"=>"Backend Software",
-			"description"=>"The database server software package.",
-			"control"=>new dropdowncontrol("",pathos_database_backends())
+		'DB_ENGINE'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_ENGINE,
+			'description'=>TR_CONFIG_DATABASE_DB_ENGINE_DESC,
+			'control'=>new dropdowncontrol('',pathos_database_backends())
 		),
-		"DB_NAME"=>array(
-			"title"=>"Database Name",
-			"description"=>"The name of the database to store the site tables in.",
-			"control"=>new textcontrol()
+		'DB_NAME'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_NAME,
+			'description'=>TR_CONFIG_DATABASE_DB_NAME_DESC,
+			'control'=>new textcontrol()
 		),
-		"DB_USER"=>array(
-			"title"=>"Username",
-			"description"=>"The name of the user to connect to the database server as",
-			"control"=>new textcontrol()
+		'DB_USER'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_USER,
+			'description'=>TR_CONFIG_DATABASE_DB_USER_DESC,
+			'control'=>new textcontrol()
 		),
-		"DB_PASS"=>array(
-			"title"=>"Password",
-			"description"=>"Password of the user above.",
-			"control"=>new passwordcontrol()
+		'DB_PASS'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_PASS,
+			'description'=>TR_CONFIG_DATABASE_DB_PASS_DESC,
+			'control'=>new passwordcontrol()
 		),
-		"DB_HOST"=>array(
-			"title"=>"Server Address",
-			"description"=>"The domain name or IP address of the database server.  If this is a local server, use 'localhost'",
-			"control"=>new textcontrol()
+		'DB_HOST'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_HOST,
+			'description'=>TR_CONFIG_DATABASE_DB_HOST_DESC,
+			'control'=>new textcontrol()
 		),
-		"DB_PORT"=>array(
-			"title"=>"Server Port",
-			"description"=>"The port that the database server runs on.  For MySQL, this is 3306.",
-			"control"=>new textcontrol()
+		'DB_PORT'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_PORT,
+			'description'=>TR_CONFIG_DATABASE_DB_PORT_DESC,
+			'control'=>new textcontrol()
 		),
-		"DB_TABLE_PREFIX"=>array(
-			"title"=>"Table Prefix",
-			"description"=>"A prefix to prepend to all table names.",
-			"control"=>new textcontrol()
+		'DB_TABLE_PREFIX'=>array(
+			'title'=>TR_CONFIG_DATABASE_DB_TABLE_PREFIX,
+			'description'=>TR_CONFIG_DATABASE_DB_TABLE_PREFIX_DESC,
+			'control'=>new textcontrol()
 		)
 	)
 );
