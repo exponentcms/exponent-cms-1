@@ -344,15 +344,6 @@ class calendarmodule {
 		$db->delete("calendar","location_data='".serialize($loc)."'");
 	}
 	
-	function getContent($loc) {
-		global $db;
-		return $db->selectObjects("calendar","location_data='".serialize($loc)."' AND approved != 0");
-	}
-	
-	function getContentType($loc) {
-		return "calendar";
-	}
-	
 	function copyContent($oloc,$nloc) {
 	}
 	

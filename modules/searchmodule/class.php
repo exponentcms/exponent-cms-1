@@ -66,6 +66,11 @@ class searchmodule {
 	function copyContent($oloc,$nloc) {
 	
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 }
 
 ?>

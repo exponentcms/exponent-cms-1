@@ -211,6 +211,10 @@ class containermodule {
 		}
 	}
 	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 	function wrapOutput($modclass,$view,$loc = null,$title = "") {
 		if (defined("SOURCE_SELECTOR")) {
 			$containers = array();

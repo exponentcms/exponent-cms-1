@@ -148,26 +148,6 @@ class newsmodule {
 		
 		$template->output();
 	}
-
-	/**
-	 * Raw Content Retriever
-	 *
-	 * Grabs the raw content objects for this module.  This should
-	 * be used by any external modules or subsystems wishing
-	 * to deal directly with the content managed by this module.
-	 *
-	 * @param $loc Location object to look content up by.
-	 *
-	 * @return array An array of content objects for the passed location.
-	 */
-	function getContent($loc) {
-		global $db;
-		return $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0");
-	}
-	
-	function getContentType($loc) {
-		return "newsitem";
-	}
 	
 	function spiderContent($item = null) {
 		global $db;

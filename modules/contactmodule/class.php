@@ -85,6 +85,10 @@ class contactmodule {
 			$db->insertObject($contact,"contact_contact");
 		}
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
 }
 
 ?>

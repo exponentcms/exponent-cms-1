@@ -64,6 +64,9 @@ class bannermodule {
 		}
 	}
 	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
 	function show($view,$loc, $title = "") {
 		global $db;
 		
@@ -130,15 +133,6 @@ class bannermodule {
 		}
 		uasort($affiliates,"strnatcmp");
 		return $affiliates;
-	}
-	
-	function getContent($loc) {
-		global $db;
-		return $db->selectObjects("banner_ad","location_data='".serialize($loc)."'");
-	}
-	
-	function getContentType($loc) {
-		return "banner_ad";
 	}
 }
 

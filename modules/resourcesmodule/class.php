@@ -1,4 +1,4 @@
-<?php
+g<?php
 
 ##################################################
 #
@@ -156,18 +156,6 @@ class resourcesmodule {
 			unset($r->id);
 			$db->insertObject($r,"resourceitem");
 		}
-	}
-	
-	function getContent($loc) {
-		global $db;
-		$resources = $db->selectObjects("resourceitem","location_data='".serialize($loc)."'");
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($resources,"pathos_sorting_byNameAscending");
-		return $resources;
-	}
-	
-	function getContentType($loc) {
-		return "resourceitem";
 	}
 	
 	function spiderContent($item = null) {

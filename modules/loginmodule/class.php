@@ -66,5 +66,10 @@ class loginmodule {
 		}
 		$template->output($view);
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 }
 ?>

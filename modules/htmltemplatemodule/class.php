@@ -105,6 +105,14 @@ class htmltemplatemodule {
 		$db->delete("htmltemplate");
 		$db->delete("htmltemplateassociation");
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
+	function copyContent($from_loc,$to_loc) {
+		// Do nothing, no content
+	}
 }
 
 ?>

@@ -88,6 +88,11 @@ class sharedcoremodule {
 	function getLocationHierarchy($loc) {
 		return array($loc);
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 }
 
 ?>

@@ -176,15 +176,6 @@ class weblogmodule {
 		$db->insertObject($config,"weblogmodule_config");
 	}
 	
-	function getContent($loc) {
-		global $db;
-		return $db->selectObjects("weblog_post","location_data='".serialize($loc)."'");
-	}
-	
-	function getContentType($loc) {
-		return "weblog_post";
-	}
-	
 	function spiderContent($item = null) {
 		global $db;
 		

@@ -42,6 +42,22 @@ class administrationmodule {
 	
 	function supportsWorkflow() { return false; }
 	
+	function permissions($internal = "") {
+		// Do nothing (for now)
+	}
+	
+	function deleteIn($loc) {
+		// Do nothing, no content
+	}
+	
+	function copyContent($from_loc,$to_loc) {
+		// Do nothing, no content
+	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 	function show($view,$loc = null,$title = "") {
 		global $user;
 		if ($user && $user->is_admin == 1 && !defined("SELECTOR")) {

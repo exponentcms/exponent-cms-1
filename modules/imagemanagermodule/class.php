@@ -122,6 +122,11 @@ class imagemanagermodule {
 			$db->insertObject($i,"imagemanageritem");
 		}
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 }
 
 ?>

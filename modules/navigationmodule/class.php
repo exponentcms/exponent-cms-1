@@ -79,6 +79,10 @@ class navigationmodule {
 	
 	}
 	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 	/**
 	 * @deprecated is it?
 	 */

@@ -91,17 +91,6 @@ class textmodule {
 		$template->output($view);
 	}
 	
-	function getContent($loc) {
-		global $db;
-		$ti = $db->selectObject("textitem","location_data='" . serialize($loc) . "'");
-		if ($ti) return array($ti);
-		else return array();
-	}
-	
-	function getContentType($loc) {
-		return "textitem";
-	}
-	
 	function spiderContent($item=null) {
 		global $db;
 		

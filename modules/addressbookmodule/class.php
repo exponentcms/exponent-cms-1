@@ -142,6 +142,10 @@ class addressbookmodule {
 		}
 		return $contacts;
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing for address book
+	}
 }
 
 ?>

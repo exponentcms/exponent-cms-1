@@ -74,6 +74,11 @@ class inboxmodule {
 			$template->output();
 		}
 	}
+	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+	}
+	
 }
 
 ?>
