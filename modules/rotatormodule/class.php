@@ -53,10 +53,14 @@ class rotatormodule {
 	function show($view,$loc = null, $title = "") {
 		global $db;
 		
+		$obj = null;
 		$o = $db->selectObjects('rotator_item',"location_data='".serialize($loc)."'");
 		$num = rand(0,count($o)-1);
-		$obj = $o[$num];
-		
+		if (isset($o[$num])) {
+			$obj = $o[$num];
+		} else {
+			$obj->text = '';
+		}
 		$template = new template('rotatormodule',$view,$loc);
 		$template->assign('moduletitle',$title);
 		$template->assign('content',$obj);
