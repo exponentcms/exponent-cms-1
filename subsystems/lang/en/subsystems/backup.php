@@ -34,7 +34,7 @@
 // I18N strings for the Backup subsystem
 
 define('TR_BACKUPSUBSYSTEM_NAME',					'Backup Subsystem');
-define('TR_BACKUPSUBSYSTEM_DESCRIPTION',				'Provides the necessary means to backup and restore and restore certain parts of the site.');
+define('TR_BACKUPSUBSYSTEM_DESCRIPTION',			'Provides the necessary means to backup and restore certain parts of the site.');
 
 define('TR_BACKUPSUBSYSTEM_BADEQL',					'Not a valid EQL file');
 define('TR_BACKUPSUBSYSTEM_DATADEFNOTREADABLE',		'Data definition file for %s (%s) is not readable (line %s)');
