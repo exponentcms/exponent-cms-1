@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");

@@ -62,7 +62,7 @@ if ($resource) {
 			$resource->editor = $user->id;
 			$resource->edited = time();
 			
-			if (isset($_POST['checkin']) && ($user->is_admin || $user->id == $resource->flock_owner)) {
+			if (isset($_POST['checkin']) && ($user->is_acting_admin || $user->id == $resource->flock_owner)) {
 				$resource->flock_owner = 0;
 			}
 			

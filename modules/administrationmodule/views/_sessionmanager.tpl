@@ -41,7 +41,7 @@ Administrator sessions cannot be forcibly ended.</div>
 	</tr>
 	<tr>
 		<td colspan="3" style="padding-left: 10px; border: 1px solid lightgrey;">
-			{if $session->user->is_admin == 0}
+			{if $session->user->is_acting_admin == 0 || ($session->user->is_acting_admin == 1 && $user->is_admin == 1 && $session->user->is_admin == 0)}
 				<a class="mngmntlink administration_mngmntlink" href="{link action=session_kick ticket=$session->ticket}">End This Session</a><br />
 				<a class="mngmntlink administration_mngmntlink" href="{link action=session_kickuser id=$session->user->id}">End All Sessions for '{$session->user->username}'</a>
 			{else}

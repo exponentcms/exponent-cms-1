@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$section = null;
 	if (isset($_POST['id'])) $section = $db->selectObject("section","id=" . $_POST['id']);
 	

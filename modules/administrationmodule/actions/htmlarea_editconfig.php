@@ -35,7 +35,7 @@
 //GREP:REIMPLEMENT
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 
 	$imagedir = BASE."external/htmlarea/toolbaricons";
 	$imagebase = PATH_RELATIVE."external/htmlarea/toolbaricons";

@@ -37,7 +37,7 @@ if (!defined('PATHOS')) exit('');
 
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	$section = null;
 	// Update the section from the _POST data.
 	$section = section::updatePageset($_POST,$section);

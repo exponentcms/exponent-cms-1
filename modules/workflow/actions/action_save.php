@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$action = null;
 	if (isset($_POST['id'])) {
 		$action = $db->selectObject("workflowaction","id=".$_POST['id']);

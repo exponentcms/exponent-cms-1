@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	$themes = array();
 	if (is_readable(BASE."themes")) {

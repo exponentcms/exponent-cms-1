@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+if ($user && $user->is_acting_admin) {
 	$page = null;
 	if (isset($_POST['id'])) $page = $db->selectObject("section_template","id=".$_POST['id']);
 	
@@ -43,6 +43,6 @@ if (!defined("PATHOS")) exit("");
 	else $db->insertObject($page,"section_template");
 	
 	pathos_flow_redirect();
-// END PERM CHECK
+}
 
 ?>

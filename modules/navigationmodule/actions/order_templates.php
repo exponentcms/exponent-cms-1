@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	$section_a = $db->selectObject("section_template","rank=" . $_GET['a'] . " AND parent=" . $_GET['parent']);
 	$section_b = $db->selectObject("section_template","rank=" . $_GET['b'] . " AND parent=" . $_GET['parent']);
 	

@@ -33,7 +33,7 @@
 //GREP:HARDCODEDTEXT
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	if ($_FILES['mod_archive']['error'] != UPLOAD_ERR_OK) {
 		switch($_FILES['mod_archive']['error']) {
 			case UPLOAD_ERR_INI_SIZE:

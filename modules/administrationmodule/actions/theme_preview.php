@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	pathos_sessions_set("display_theme",$_GET['theme']);
 	pathos_flow_redirect();
 } else {

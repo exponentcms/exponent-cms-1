@@ -60,7 +60,7 @@ class administrationmodule {
 	
 	function show($view,$loc = null,$title = "") {
 		global $user;
-		if ($user && $user->is_admin == 1 && !defined("SELECTOR")) {
+		if ($user && $user->is_acting_admin == 1 && !defined("SELECTOR")) {
 			if (is_readable(BASE."modules/administrationmodule/tasks")) {
 				$menu = array();
 				$dh = opendir(BASE."modules/administrationmodule/tasks");

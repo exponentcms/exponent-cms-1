@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$db->delete("mimetype","1");
 	$mimes = include(BASE."subsystems/files/mimetypes.php");
 	$obj = null;

@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-// PERM CHECK
+if ($user && $user->is_acting_admin) {
 	$page = null;
 	if (isset($_GET['id'])) $page = $db->selectObject("section_template","id=".$_GET['id']);
 	if (!$page) {
@@ -48,6 +48,6 @@ if (!defined("PATHOS")) exit("");
 	$template->assign("form_html",$form->toHTML());
 	$template->assign("is_top",($page->parent == 0 ? 1 : 0));
 	$template->output();
-// END PERM CHECK
+}
 
 ?>

@@ -78,12 +78,12 @@ To create a new user account, use the <a class="mngmntlink administration_mngmnt
 	);
 
 	function hideAdmins(object) {
-		if (object.is_admin == 0) return true;
+		if (object.var_is_admin == 0) return true;
 		else return false;
 	}
 	
 	function hideNullEmails(object) {
-		if (object.email.length == 0) return false;
+		if (object.var_email.length == 0) return false;
 		else return true;
 	}
 	

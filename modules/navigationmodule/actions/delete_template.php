@@ -47,10 +47,12 @@ if (!defined("PATHOS")) exit("");
 			$db->delete("section_template","parent=$parent");
 		}
 	
-		$db->delete("section_template","id=".$page->id);
-		tmp_deleteLevel($page->id);
+		if ($user && $user->is_acting_admin) {
+			$db->delete("section_template","id=".$page->id);
+			tmp_deleteLevel($page->id);
 	
-		pathos_flow_redirect();
+			pathos_flow_redirect();
+		} else echo SITE_403_HTML;
 	} else echo SITE_404_HTML;
 // END PERM CHECK
 

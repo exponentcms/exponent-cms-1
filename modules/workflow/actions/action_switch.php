@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$action_a = $db->selectObject("workflowaction","policy_id=".$_GET['policy_id']." AND type=".$_GET['type']." AND rank=".$_GET['a']);
 	$action_b = $db->selectObject("workflowaction","policy_id=".$_GET['policy_id']." AND type=".$_GET['type']." AND rank=".$_GET['b']);
 	

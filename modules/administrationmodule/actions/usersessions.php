@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 
 	$db->delete("sessionticket","last_active < " . (time() - SESSION_TIMEOUT));
@@ -47,8 +47,9 @@ if ($user && $user->is_admin) {
 		$sessions[$i]->duration = pathos_datetime_duration($sessions[$i]->last_active,$sessions[$i]->start_time);
 	}
 	
-	$template = new Template("administrationmodule","_sessionmanager",$loc);
+	$template = new template("administrationmodule","_sessionmanager",$loc);
 	$template->assign("sessions",$sessions);
+	$template->assign("user",$user);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

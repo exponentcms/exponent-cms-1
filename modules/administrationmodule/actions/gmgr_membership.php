@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$group = $db->selectObject("group","id=".$_GET['id']);
 	if ($group) {
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");

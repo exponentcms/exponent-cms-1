@@ -56,7 +56,7 @@
 	{if $resource->locked != 0 && $resource->flock_owner != $user->id && ($permissions.edit == 1 || $resource->permissions.edit == 1)}
 	<i>
 	This file is locked by {$resource->lock_owner->firstname} {$resource->lock_owner->lastname}
-	{if $user->is_admin != 1}
+	{if $user->is_acting_admin != 1}
 	You will not be able to edit or update it.
 	{/if}
 	</i>
@@ -72,7 +72,7 @@
 	<a class="mngmntlink resources_mngmntlink" href="{link action=updatefile id=$resource->id}">Update File</a>
 	&nbsp;|&nbsp;
 	<a class="mngmntlink resources_mngmntlink" href="{link action=changelock id=$resource->id}">Lock</a>
-	{elseif $resource->flock_owner == $user->id || $user->is_admin == 1}
+	{elseif $resource->flock_owner == $user->id || $user->is_acting_admin == 1}
 	&nbsp;|&nbsp;
 	<a class="mngmntlink resources_mngmntlink" href="{link action=updatefile id=$resource->id}">Update File</a>
 	&nbsp;|&nbsp;

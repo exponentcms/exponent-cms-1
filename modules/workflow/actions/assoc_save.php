@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	if (isset($_POST['s'])) {
 		$assoc = $db->selectObject("approvalpolicyassociation","module='".$_POST['m']."' AND source='".$_POST['s']."' AND is_global=0");
 		if ($assoc) {

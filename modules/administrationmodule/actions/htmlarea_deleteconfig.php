@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$db->delete("htmlareatoolbar","id=".$_GET['id']);
 	pathos_flow_redirect();
 } else {

@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 
 	$config = null;
 	if (isset($_POST['id'])) $config = $db->selectObject("htmlareatoolbar","id=".$_POST['id']);

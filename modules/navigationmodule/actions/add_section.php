@@ -54,7 +54,7 @@ if (isset($_GET['parent'])) {
 if ($parent) {
 	// FIXME: Allow non-administrative users to manage certain
 	// FIXME: parts of the section hierarchy.
-	if ($user && $user->is_admin == 1) {
+	if ($user && $user->is_acting_admin == 1) {
 		// For this action, all we need to do is output a basically
 		// non-variable template the asks the user what type of page
 		// they want to add to the site Navigation.

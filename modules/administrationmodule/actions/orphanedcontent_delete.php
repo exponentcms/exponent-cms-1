@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	$src = urldecode($_GET['delsrc']);
 	
 	$mod = new $_GET['mod']();

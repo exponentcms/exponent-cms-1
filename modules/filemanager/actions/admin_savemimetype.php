@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$type = null;
 	if (isset($_POST['oldmime'])) $type = $db->selectObject("mimetype","mimetype='".$_POST['oldmime']."'");
 	$is_existing = ($type != null);

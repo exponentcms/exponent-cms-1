@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$policy = $db->selectObject("approvalpolicy","id=".$_GET['id']);
 	if ($policy) {
 		$db->delete("approvalpolicy","id=".$policy->id);

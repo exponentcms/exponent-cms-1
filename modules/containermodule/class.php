@@ -55,7 +55,7 @@ class containermodule {
 	
 	function deleteIn($loc) {
 		global $user;
-		if ($user && $user->is_admin == 1) {
+		if ($user && $user->is_acting_admin == 1) {
 			include_once(BASE."datatypes/container.php");
 			
 			global $db;

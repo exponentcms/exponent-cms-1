@@ -38,7 +38,7 @@ if ($item ) {
 	if ($user) {
 		if ($item->flock_owner == 0) {
 			$item->flock_owner = $user->id;
-		} else if ($item->flock_owner == $user->id || $user->is_admin) {
+		} else if ($item->flock_owner == $user->id || $user->is_acting_admin) {
 			$item->flock_owner = 0;
 		}
 		$db->updateObject($item,"resourceitem");

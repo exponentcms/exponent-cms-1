@@ -33,7 +33,7 @@
 //GREP:HARDCODEDTEXT
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");
 	
 	$continue = true;
@@ -76,6 +76,7 @@ if ($user && $user->is_admin) {
 			$user->username = "admin";
 			$user->password = md5("admin");
 			$user->is_admin = 1;
+			$user->is_acting_admin = 1;
 			$db->insertObject($user,"user");
 		}
 		

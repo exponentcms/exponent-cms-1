@@ -33,7 +33,7 @@
 //GREP:HARDCODEDTEXT
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	$sessid = session_id();
 	if (!file_exists(BASE."extensionuploads/$sessid") || !is_dir(BASE."extensionuploads/$sessid")) {
 		echo "No files to copy.  If you hit refresh, this is normal.";

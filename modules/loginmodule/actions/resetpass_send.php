@@ -38,7 +38,7 @@ if (!defined("PATHOS")) exit("");
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	$u = pathos_users_getUserByName($_POST['username']);
 	
-	if ($u != null && $u->is_admin == 0 && $u->email != "") {
+	if ($u != null && $u->is_acting_admin == 0 && $u->email != "") {
 		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
 		
 		md5(time()).uniqid("");

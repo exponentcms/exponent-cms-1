@@ -92,7 +92,7 @@ function pathos_permissions_load($user) {
 	
 	// Check perm stats for UI levels
 	$ui_levels = array();
-	if ($user->is_admin) {
+	if ($user->is_acting_admin) {
 		$ui_levels = array("Preview","Normal","Permission Management","Structure Management");
 	} else {
 		if (count($pathos_permissions_r)) $ui_levels = array("Preview","Normal");
@@ -150,7 +150,7 @@ function pathos_permissions_getSourceUID($src) {
 function pathos_permissions_check($permission,$location) {
 	global $pathos_permissions_r, $user;
 	if ($user) {
-		if ($user->is_admin) return true;
+		if ($user->is_acting_admin) return true;
 		if (pathos_permissions_getSourceUID($location->src) == $user->id) return true;
 	}
 	if (is_callable(array($location->mod,"getLocationHierarchy"))) {
@@ -176,7 +176,7 @@ function pathos_permissions_check($permission,$location) {
  */
 function pathos_permissions_checkOnModule($permission,$module) {
 	global $pathos_permissions_r, $user;
-	if ($user && $user->is_admin) return true;
+	if ($user && $user->is_acting_admin) return true;
 	return (isset($pathos_permissions_r[$module]) && (count($pathos_permissions_r[$module]) > 0));
 }
 
@@ -186,7 +186,7 @@ function pathos_permissions_checkOnModule($permission,$module) {
  */
 function pathos_permissions_checkOnSource($module,$source) {
 	global $pathos_permissions_r, $user;
-	if ($user && $user->is_admin) return true;
+	if ($user && $user->is_acting_admin) return true;
 	return (isset($pathos_permissions_r[$module]) && isset($pathos_permissions_r[$module][$source]) && (count($pathos_permissions_r[$module][$source]) > 0));
 }
 
@@ -205,7 +205,7 @@ function pathos_permissions_checkOnSource($module,$source) {
 function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly = false) {
 	global $db;
 	if ($user == null) return false;
-	if ($user->is_admin) return true;
+	if ($user->is_acting_admin) return true;
 	$explicit = $db->selectObject("userpermission","uid=" . $user->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	if ($explicitOnly == true) return $explicit;
 	

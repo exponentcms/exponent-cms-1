@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$type = null;
 	if (isset($_GET['type'])) $type = $db->selectObject("mimetype","mimetype='".$_GET['type']."'");
 	if ($type) $db->delete("mimetype","mimetype='" . $type->mimetype . "'");

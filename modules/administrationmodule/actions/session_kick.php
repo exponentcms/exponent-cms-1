@@ -33,12 +33,13 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$ticket = $db->selectObject("sessionticket","ticket='".$_GET['ticket']."'");
 	if ($ticket) {
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 		$u = pathos_users_getUserById($ticket->uid);
-		if ($u->is_admin == 0) {
+		if ($u->is_acting_admin == 0 || ($user->is_admin == 1 && $u->is_admin == 0)) {
+			// We can only kick the user if they are A) not an acting admin, or B) The current user is a super user and the kicked user is not.
 			$db->delete("sessionticket","ticket='".$ticket->ticket."'");
 		}
 	}

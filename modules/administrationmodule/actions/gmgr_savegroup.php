@@ -33,7 +33,7 @@
 //GREP:HARDCODEDTEXT
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	if (!defined("SYS_USERS")) include_once("subsystems/users.php");
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$g = pathos_users_getGroupById($_POST['id']);

@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$nullrefs = $db->selectObjects("locationref","refcount=0");

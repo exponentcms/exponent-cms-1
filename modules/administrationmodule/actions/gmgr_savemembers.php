@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$group = $db->selectObject("group","id=".$_POST['id']);
 	if ($group) {
 		$db->delete("groupmembership","group_id=".$group->id);

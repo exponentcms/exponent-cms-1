@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "start");
 	$exporter = (isset($_REQUEST['exporter']) ? $_REQUEST['exporter'] : "");
 	$file = BASE."modules/exporter/exporters/$exporter/$page.php";

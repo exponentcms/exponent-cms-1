@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	if (!defined("SYS_FORMS")) include_once("subsystems/forms.php");
 	pathos_forms_initialize();
@@ -43,6 +43,11 @@ if ($user && $user->is_admin == 1) {
 	$form = pathos_users_form($u);
 	$form->meta("module","administrationmodule");
 	$form->meta("action","umgr_saveuser");
+	
+	if ($user->is_admin && !$u->is_admin) {
+		// Super user editting a 'lesser' user.
+		$form->registerBefore('submit','is_acting_admin','Administrator?',new checkboxcontrol($u->is_acting_admin,true));
+	}
 	
 	$template = new template("administrationmodule","_umgr_editprofile",$loc);
 	$template->assign("form_html",$form->toHTML());

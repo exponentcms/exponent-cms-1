@@ -37,7 +37,7 @@ if (!defined('PATHOS')) exit('');
 
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	$section = null;
 	if (isset($_POST['id'])) {
 		// Saving an existing content page.  Read it from the database.

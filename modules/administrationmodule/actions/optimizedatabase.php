@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$before = $db->databaseInfo();
 	foreach (array_keys($before) as $table) {
 		$db->optimize($table);

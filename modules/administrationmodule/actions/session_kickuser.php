@@ -33,10 +33,10 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	$u = pathos_users_getUserById($_GET['id']);
-	if ($u->is_admin == 0) {
+	if ($u->is_acting_admin == 0 || ($user->is_admin == 1 && $u->is_admin == 0)) {
 		$db->delete("sessionticket","uid='".$u->id."'");
 	}
 	

@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	if (isset($_GET['all'])) {
 		$db->delete("modstate");
 		$modstate->active = $_GET['activate'];

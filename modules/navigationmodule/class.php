@@ -64,7 +64,7 @@ class navigationmodule {
 		$template->assign("current",$current);
 		//$template->assign("canManage",pathos_permissions_checkOnModule("administrate","navigationmodule"));
 		global $user;
-		$template->assign("canManage",($user && $user->is_admin?1:0));
+		$template->assign("canManage",($user && $user->is_acting_admin?1:0));
 		$template->assign("title",$title);
 		
 		$template->output();

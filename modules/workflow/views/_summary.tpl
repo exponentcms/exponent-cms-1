@@ -64,7 +64,7 @@
 						</td>
 					</tr>
 				{/foreach}
-				{if ($summary->open_slots > 0 and $involved == 0 and $permissions.approve == 1) || ($summary->open_slots <= 0 && $user->is_admin)}
+				{if ($summary->open_slots > 0 and $involved == 0 and $permissions.approve == 1) || ($summary->open_slots <= 0 && $user->is_acting_admin)}
 				<tr>
 					<td colspan="3" align="center" style="border-top: 1px dashed lightgrey;">
 						<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype  action=preview_content id=$summary->real_id}">Become an Approver</a>

@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$policy = unserialize(stripslashes($_POST['policy']));
 	
 	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");

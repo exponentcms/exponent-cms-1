@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	$oldpolicy = null;
 	if (isset($_POST['id'])) $oldpolicy = $db->selectObject("approvalpolicy","id=".$_POST['id']);
 	

@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin) {
+if ($user && $user->is_acting_admin) {
 	$ext = null;
 	if (isset($_GET['id'])) $ext = $db->selectObject("profileextension","id=".$_GET['id']);
 	

@@ -215,10 +215,15 @@ function pathos_users_login($username, $password) {
 	// Retrieve the user object from the database.  Note that this may be null, if the username is
 	// non-existent.
 	$user = $db->selectObject('user',"username='" . $username . "'");
+	if ($user && $user->is_admin) {
+		// User is an admin.  Update is_acting_admin, just in case.
+		// This can be removed as soon as 0.95 is deprecated.
+		$user->is_acting_admin = 1;
+	}
 	// Check to make sure that the username exists ($user is not null), the password is correct, 
 	// and that the account is either not locked, or an admin account (account locking doesn't
 	// apply to administrators.
-	if ($user != null && ($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
+	if ($user != null && ($user->is_acting_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
 		// Retrieve the full profile, complete with all Extension data.
 		$user = pathos_users_getFullProfile($user);
 		// Call on the Sessions subsystem to log the user into the site.
@@ -450,6 +455,7 @@ function pathos_users_create($formvalues) {
  */
 function pathos_users_userManagerFormTemplate($template) {
 	global $db;
+	global $user;
 	$users = $db->selectObjects('user');
 	
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
@@ -461,6 +467,12 @@ function pathos_users_userManagerFormTemplate($template) {
 	usort($users,'pathos_sorting_byLastFirstAscending');
 	for ($i = 0; $i < count($users); $i++) {
 		$users[$i] = pathos_users_getUserById($users[$i]->id);
+		if ($users[$i]->is_acting_admin && $user->is_admin == 0) {
+			// Dealing with an acting admin, and the current user is not a super user
+			// Fake the is_admin parameter to disable editting.
+			$users[$i]->is_admin = 1;
+		}
+		
 	}
 	
 	$template->assign('users',$users);
@@ -514,8 +526,8 @@ function pathos_users_clearPassword($uid) {
 function pathos_users_delete($uid) {
 	global $db;
 	$u = $db->selectObject('user','id='.$uid);
-	if ($u && $u->is_admin == 0) {
-		$db->delete('user','id='.$uid.' AND is_admin=0');
+	if ($u && $u->is_admin == 0 && $u->is_acting_admin == 0) {
+		$db->delete('user','id='.$uid);
 		$db->delete('groupmembership','member_id='.$uid);
 		$db->delete('userpermission','uid='.$uid);
 	}
@@ -555,7 +567,13 @@ function pathos_users_getUserById($uid) {
 		// If we haven't previously retrieved an object for this ID, pull it out from
 		// the database and stick it in the cache array, for future calls.
 		global $db;
-		$SYS_USERS_CACHE[$uid] = $db->selectObject('user','id='.$uid);
+		$tmpu = $db->selectObject('user','id='.$uid);
+		if ($tmpu && $tmpu->is_admin) {
+			// User is an admin.  Update is_acting_admin, just in case.
+			// This can be removed as soon as 0.95 is deprecated.
+			$tmpu->is_acting_admin = 1;
+		}
+		$SYS_USERS_CACHE[$uid] = $tmpu;
 	}
 	// Regardless of whether or not the user had been retrieved prior to the calling of
 	// this function, it is now in the cache array.
@@ -574,8 +592,8 @@ function pathos_users_getUserById($uid) {
 function pathos_users_getAllUsers($allow_admin=1,$allow_normal=1) {
 	global $db;
 	if ($allow_admin && $allow_normal) return $db->selectObjects('user');
-	else if ($allow_admin) return $db->selectObjects('user','is_admin=1');
-	else if ($allow_normal) return $db->selectObjects('user','is_admin=0');
+	else if ($allow_admin) return $db->selectObjects('user','is_admin=1 OR is_acting_admin = 1');
+	else if ($allow_normal) return $db->selectObjects('user','is_admin=0 AND is_acting_admin = 0');
 	else return array();
 }
 
@@ -612,7 +630,13 @@ function pathos_users_getGroupById($gid) {
  */
 function pathos_users_getUserByName($name) {
 	global $db;
-	return $db->selectObject('user',"username='$name'");
+	$tmpu = $db->selectObject('user',"username='$name'");
+	if ($tmpu && $tmpu->is_admin) {
+		// User is an admin.  Update is_acting_admin, just in case.
+		// This can be removed as soon as 0.95 is deprecated.
+		$tmpu->is_acting_admin = 1;
+	}
+	return $tmpu;
 }
 
 /* exdoc
@@ -760,6 +784,7 @@ function pathos_users_saveUser($user) {
 	$tmp->username = $user->username;
 	$tmp->password = $user->password;
 	$tmp->is_admin = $user->is_admin;
+	$tmp->is_acting_admin = $user->is_acting_admin;
 	$tmp->is_locked = $user->is_locked;
 	$tmp->firstname = $user->firstname;
 	$tmp->lastname = $user->lastname;

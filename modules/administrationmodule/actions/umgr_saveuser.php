@@ -33,12 +33,18 @@
 //GREP:HARDCODEDTEXT
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_admin == 1) {
+if ($user && $user->is_acting_admin == 1) {
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	if (!defined("SYS_SECURITY")) include_once(BASE."subsystems/security.php");
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$u = pathos_users_getUserById($_POST['id']);
 		$u = pathos_users_update($_POST,$u);
+		if (isset($_POST['is_acting_admin'])) {
+			pathos_permissions_triggerSingleRefresh($u);
+			$u->is_acting_admin = 1;
+		} else {
+			$u->is_acting_admin = 0;
+		}
 		pathos_users_saveUser($u);
 		
 		pathos_flow_redirect();
