@@ -37,7 +37,9 @@ return array(
 	'member_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'group_id'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID)
+		DB_FIELD_TYPE=>DB_DEF_ID),
+	'is_admin'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 
 ?>
