@@ -75,10 +75,14 @@ include_once(BASE.'subsystems/config/load.php');
 
 // After config config setup:
 
+if (!isset($_SERVER['QUERY_STRING'])) {
+	$_SERVER['QUERY_STRING'] = '';
+}
+
 // SEF URLs
-if (SEF_URLS == 1) {
+if (SEF_URLS == 1 && $_SERVER['QUERY_STRING'] == '') {
 	$tokens = str_replace(PATH_RELATIVE.basename($_SERVER['SCRIPT_FILENAME']),'',$_SERVER['REQUEST_URI']);
-	if ($tokens != '') {
+	if ($tokens != '' && $tokens != '?') {
 		$tokens = substr($tokens,1); // strip leading '/'
 		$tokens = explode('/',$tokens);
 		$_GET = array();
@@ -93,8 +97,7 @@ if (SEF_URLS == 1) {
 	// Create a REQUEST_URI for people who don't have one.
 	// FIXME: Move this code (and other similar platform stuff) into a platform compat layer.
 	// FIXME:
-	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
-	if (isset($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
 }
 
 if (isset($_REQUEST['section'])) {
