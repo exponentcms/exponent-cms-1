@@ -36,7 +36,6 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-#if ($user && $user->is_admin) {
 	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
 	$files = pathos_info_files($_GET['type'],$_GET['name']);
 	if (is_array($files)) ksort($files);
