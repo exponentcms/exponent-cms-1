@@ -145,7 +145,7 @@ class sharedcore_site {
 			
 			if (preg_match('/[^A-Za-z0-9]/',$values['db_table_prefix'])) {
 				$post = $values;
-				$post['_formError'] = 'Invalid table prefix.  The table prefix can only contain alphanumeric characters and underscores ('_').<br />';
+				$post['_formError'] = 'Invalid table prefix.  The table prefix can only contain alphanumeric characters and underscores ("_").<br />';
 				pathos_sessions_set('last_POST',$post);
 				return null;
 			}
