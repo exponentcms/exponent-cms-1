@@ -120,11 +120,15 @@ function selectAll(prefix,checked) {
 	}
 }
 
-function isOneSelected(prefix) {
+function isOneSelected(prefix,enabledOnly) {
+	if (typeof enabledOnly == "undefined") {
+		enabledOnly = true;
+	}
 	elems = document.getElementsByTagName("input");
 	for (var key in elems) {
 		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
-			if (elems[key].checked) return true;
+			if (enabledOnly && elems[key].checked && !elems[key].disabled) return true;
+			if (!enabledOnly && elems[key].checked) return true;
 		}
 	}
 	return false;
