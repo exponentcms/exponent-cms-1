@@ -297,21 +297,23 @@ function smarty_block_paginate($params,$content,&$smarty) {
 			
 			var row = document.createElement("tr");
 			var cell = document.createElement("td");
+			var cell_content;
 			
 			row = document.createElement("tr");
 			
 			for (var data in this.columns) {
 				cell = document.createElement("td");
 				cell.setAttribute("class","header " + this.modulePrefix + "_header");
-				cell.innerHTML = this.columns[data].headerText;
+				cell_content = this.columns[data].headerText;
 				if (this.columns[data].attribute != "" || this.columns[data].sortFunc != null) {
-					cell.innerHTML = "<a href='#' onClick='paginate.sort(\""+data+"\"); return false;'>"+this.columns[data].headerText+"</a>";
+					cell_content = "<a href='#' onClick='paginate.sort(\""+data+"\"); return false;'>"+this.columns[data].headerText+"</a>";
 					if (this.columns[data].ascending != -1) {
-						cell.innerHTML += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>sort"+(this.columns[data].ascending ? "de" : "a")+"scending.png' border='0' />";
+						cell_content += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>sort"+(this.columns[data].ascending ? "de" : "a")+"scending.png' border='0' />";
 					} else {
-						cell.innerHTML += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>blank.gif' border='0' />";
+						cell_content += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>blank.gif' border='0' />";
 					}
 				}
+				cell.innerHTML = cell_content;
 				row.appendChild(cell);
 			}
 			ptTable.appendChild(row);
