@@ -231,6 +231,7 @@ if ($passed) {
 		$user->username = "admin";
 		$user->password = md5("admin");
 		$user->is_admin = 1;
+		$user->is_acting_admin = 1;
 		$db->insertObject($user,"user");
 	}
 	
