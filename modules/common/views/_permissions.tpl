@@ -77,7 +77,7 @@ function serializeData() {
 
 {if $user_form == 1}{literal}
 function realName(object) {
-	return object.var_firstname + ' ' + object.var_lastname;
+	return object.var_firstname + ' ' + object.var_lastname + ' (' + object.var_username + ')';
 }
 function sortRealname(a,b) {
 	return (a.var_firstname.toLowerCase() + ", " + a.var_lastname.toLowerCase() > b.var_firstname.toLowerCase() + ", " + b.var_lastname.toLowerCase() ? -1 : 1);
