@@ -30,6 +30,9 @@
 #
 # $Id$
 ##################################################
+
+if (!defined('PATHOS')) exit('');
+
 pathos_lang_loadDictionary('importers', 'usercsv');
 return array(
 	"name"=>TR_IMPORTER_USERCSV_NAME,

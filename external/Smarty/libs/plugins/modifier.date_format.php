@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('PATHOS')) exit('');
+
 /**
  * Smarty plugin
  * @package Smarty

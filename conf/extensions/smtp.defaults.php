@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 if (!defined('SMTP_SERVER')) define('SMTP_SERVER','localhost');
 if (!defined('SMTP_PORT')) define('SMTP_PORT',25);
 if (!defined('SMTP_AUTHTYPE')) define('SMTP_AUTHTYPE','NONE');

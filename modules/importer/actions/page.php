@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 if ($user && $user->is_admin) {
 	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "start");
 	$importer = (isset($_REQUEST['importer']) ? $_REQUEST['importer'] : "");

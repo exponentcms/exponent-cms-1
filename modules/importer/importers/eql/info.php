@@ -30,6 +30,9 @@
 #
 # $Id$
 ##################################################
+
+if (!defined('PATHOS')) exit('');
+
 pathos_lang_loadDictionary('importers', 'eql');
 return array(
 	"name"=>TR_IMPORTERMODULE_EQL_NAME,

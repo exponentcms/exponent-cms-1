@@ -18,6 +18,8 @@
 //
 // $Id$
 
+if (!defined('PATHOS')) exit('');
+
 require_once 'PEAR.php';
 
 /**

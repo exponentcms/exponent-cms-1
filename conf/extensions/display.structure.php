@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 pathos_lang_loadDictionary('config','display');
 
 $t = pathos_core_listThemes();

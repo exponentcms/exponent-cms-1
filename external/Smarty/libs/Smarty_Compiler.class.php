@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('PATHOS')) exit('');
+
 /**
  * Project:     Smarty: the PHP compiling template engine
  * File:        Smarty_Compiler.class.php
