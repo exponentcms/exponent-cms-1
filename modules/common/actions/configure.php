@@ -44,7 +44,7 @@ if (pathos_permissions_check("configure",$loc)) {
 	
 	$form = null;
 	
-	if ($db->tableExists($_GET['module']."_config")) {
+	if ($db->tableExists($_GET['module']."_config") && class_exists($_GET['module']."_config")) {
 		$config = $db->selectObject($_GET['module']."_config","location_data='".serialize($loc)."'");
 	
 		$form = call_user_func(array($_GET['module']."_config","form"),$config);
@@ -62,9 +62,10 @@ if (pathos_permissions_check("configure",$loc)) {
 	if ($container) {
 		$values = ($container->view_data != "" ? unserialize($container->view_data) : array());
 		$form = pathos_template_getViewConfigForm($loc->mod,$container->view,$form,$values);
-		$submit = $form->controls["submit"];
-		$form->unregister("submit");
-		
+		if (isset($form->controls['submit'])) { // Still have a submit button.
+			$submit = $form->controls["submit"];
+			$form->unregister("submit");
+		}
 		$hasConfig = 1;
 	}
 		
