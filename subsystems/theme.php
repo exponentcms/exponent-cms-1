@@ -64,6 +64,7 @@ function pathos_theme_includeCSS() {
  */
 function pathos_theme_sourceSelectorInfo() {
 	if (defined("SOURCE_SELECTOR") || defined("CONTENT_SELECTOR")) {
+		pathos_lang_loadDictionary('subsystems','theme');
 		?>
 		<script type="text/javascript">
 		window.resizeTo(800,600);
@@ -71,17 +72,17 @@ function pathos_theme_sourceSelectorInfo() {
 		<table cellspacing="0" cellpadding="5" width="100%" border="0">
 			<tr>
 				<td width="70%">
-					<b>Site Content Selector</b>
+					<b><?php echo TR_THEMESUBSYSTEM_CSELTITLE; ?></b>
 				</td>
 				<td width="30%" align="right">
-					[ <a class="mngmntlink" href="orphan_source_selector.php">Archived Content</a> ]
+					[ <a class="mngmntlink" href="orphan_source_selector.php"><?php echo TR_THEMESUBSYSTEM_ARCHIVEDCONTENT; ?></a> ]
 				</td>
 			</tr>
 		</table>
 		<table cellspacing="0" cellpadding="5" width="100%" border="0">
 			<tr>
 				<td colspan="2" style="background-color: #999; color: #fff; border-bottom: 1px solid #000; padding-bottom: .5em;">
-					<i>To use existing content, simply browse to the section the content appears in, and select the module.</i>
+					<i><?php echo TR_THEMESUBSYSTEM_CSELDESC; ?></i>
 				</td>
 			</tr>
 		</table>
@@ -269,7 +270,10 @@ function pathos_theme_main() {
 	} else {
 		if (isset($_REQUEST['module'])) {
 			include_once(BASE."modules/containermodule/actions/orphans_content.php");
-		} else echo "Select a module";
+		} else {
+			pathos_lang_loadDictionary('subsystems','theme');
+			echo TR_THEMESUBSYSTEM_SELECTMODULE;
+		}
 	}
 }
 
@@ -294,8 +298,14 @@ function pathos_theme_runAction() {
 		$actfile = "/" . $_REQUEST['module'] . "/actions/" . $_REQUEST['action'] . ".php";
 		if (isset($_REQUEST['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
 		
-		if (is_readable(BASE."modules/".$actfile)) include_once(BASE."modules/".$actfile);
-		else echo SITE_404_HTML . "<br /><br /><Hr size='1' />No such module action : " . $_REQUEST['module'] . ":" . $_REQUEST['action'] . "<br />";
+		if (is_readable(BASE.'modules/'.$actfile)) {
+			include_once(BASE.'modules/'.$actfile);
+		} else {
+			pathos_core_loadLang('subsystems','theme');
+			echo SITE_404_HTML . '<br /><br /><hr size="1" />';
+			echo sprintf(TR_THEMESUBSYSTEM_NOSUCHACTION,strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
+			echo '<br />';
+		}
 	}
 }
 
@@ -349,7 +359,7 @@ function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEM
 	$subs = array();
 	if ($include_default == true) {
 		// Caller wants us to include the default layout.
-		$subs[''] = "Default";
+		$subs[''] = DEFAULT_VIEW; // Not really its intended use, but it works.
 	}
 	
 	if (is_readable($base)) {
