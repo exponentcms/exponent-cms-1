@@ -206,10 +206,11 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 		else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
 	}
 	
-	if ($form_file == "") return $form;
-	
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
+	
+	if ($form == null) $form = new form();
+	if ($form_file == "") return $form;
 	
 	$form->register(null,"",new htmlcontrol("<hr size='1' /><b>Layout Configuration</b>"));
 	
@@ -228,9 +229,35 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 		}
 	}
 	
+	$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+	
 	pathos_forms_cleanup();
 	
 	return $form;
+}
+
+function pathos_template_getViewConfigOptions($module,$view) {
+	$form_file = "";
+	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
+	else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
+	else if ($view != "Default") {
+		$view = "Default";
+		if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
+		else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
+	}
+	echo "Form File:$form_file:";
+	if ($form_file == "") return array(); // no form file, no options
+	
+	$fh = fopen($form_file,"r");
+	$options = array();
+	while (($control_data = fgetcsv($fh,65536,"\t")) !== false) {
+		$data = array();
+		foreach ($control_data as $d) {
+			if ($d != "") $data[] = $d;
+		}
+		$options[$data[0]] = $data[1];
+	}
+	return $options;
 }
 
 ?>
