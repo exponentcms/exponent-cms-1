@@ -215,4 +215,22 @@ td.question {
 	font-size: 10px;
 	font-weight: bold;
 }
-	
+
+/*Article Module*/
+div.article_title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.article_body {
+	font-size: 10px;
+}
+
+td.article_summary {
+	font-size: 10px;
+}
+
+a.article_title_link {
+	font-size: 12px;
+	color: blue;
+}

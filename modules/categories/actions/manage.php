@@ -44,6 +44,7 @@ if (!defined("PATHOS")) exit("");
 		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
 	}	
 	usort($categories, "pathos_sorting_byRankAscending");
+	$template->assign("origmodule", $_GET['orig_module']);
 	$template->assign("categories",$categories);
 	$template->output();
 // END PERM CHECK

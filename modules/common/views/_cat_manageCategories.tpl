@@ -55,4 +55,4 @@ Below is a list of categories that can be used for events in this calendar.
 {/foreach}
 </table>
 <br /><br />
-<a href="{link module=categories action=edit orig_module=faqmodule}" class="mngmntlink calendar_mngmntlink">New Category</a>
+<a href="{link module=categories action=edit orig_module=$origmodule}" class="mngmntlink calendar_mngmntlink">New Category</a>
