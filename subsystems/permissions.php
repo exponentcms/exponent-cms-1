@@ -182,16 +182,41 @@ function pathos_permissions_check($permission,$location) {
 		if ($user->is_acting_admin == 1) return true;
 		if (pathos_permissions_getSourceUID($location->src) == $user->id) return true;
 	}
+	
+	if (!is_array($permission)) {
+		$permission = array($permission);
+	}
+	
+	$has_perm = false;
+	
 	if (is_callable(array($location->mod,"getLocationHierarchy"))) {
 		foreach (call_user_func(array($location->mod,"getLocationHierarchy"),$location) as $loc) {
-			if (isset($pathos_permissions_r[$loc->mod][$loc->src][$loc->int][$permission])) {
-				return true;
+			foreach ($permission as $perm) {
+				if (isset($pathos_permissions_r[$loc->mod][$loc->src][$loc->int][$perm])) {
+					$has_perm = true;
+					break;
+				}
 			}
 		}
-		return false;
 	} else {
-		return (isset($pathos_permissions_r[$location->mod][$location->src][$location->int][$permission]));
+		foreach ($permission as $perm) {
+			if (isset($pathos_permissions_r[$location->mod][$location->src][$location->int][$perm])) {
+				$has_perm = true;
+				break;
+			}
+		}
 	}
+	if (!$has_perm && $location->mod != 'navigationmodule') {
+		global $db;
+		foreach ($db->selectObjects('sectionref',"is_original=1 AND module='".$location->mod."' AND source='".$location->src."'") as $secref) {
+			if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$secref->section))) {
+				$has_perm = true;
+				break;
+			}
+		}
+	}
+	
+	return $has_perm;
 }
 
 /* exdoc
@@ -265,15 +290,23 @@ function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly 
 			}
 		}
 	}
-	if (!$implicit) {
+	if (!$implicit && $location->mod != 'navigationmodule') {
+		foreach ($db->selectObjects('sectionref',"is_original=1 AND module='".$location->mod."' AND source='".$location->src."'") as $secref) {
+			if (pathos_permissions_checkUser($user,'manage',pathos_core_makeLocation('navigationmodule','',$secref->section))) {
+				$implicit = true;
+				break;
+			}
+		}
+		
 		// Now check the section management
+		/*
 		$section_perms = $db->selectObjects('userpermission','uid='.$user->id." AND module='navigationmodule' AND permission='manage'");
 		foreach ($section_perms as $perm) {
 			if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
 				$implicit = true;
 				break;
 			}
-		}
+		}*/
 	}
 	return ($implicit || $explicit);
 }
