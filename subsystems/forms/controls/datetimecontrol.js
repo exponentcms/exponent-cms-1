@@ -2,7 +2,7 @@ function pathos_forms_disable_datetime(id,frm,disable) {
 	var elem = document.getElementById("__"+id);
 	var status = elem.value;
 	
-	var ctl_elems = array();
+	var ctl_elems = new Array();
 
 	if (status[0] == "1") {
 		ctl_elems.push(document.getElementById(id+"_month"));
