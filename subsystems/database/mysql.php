@@ -785,7 +785,7 @@ class mysql_database {
 	}
 	
 	function limit($num,$offset) {
-		return ' LIMIT '.$num.',',$offset.' ';
+		return ' LIMIT '.$num.','.$offset.' ';
 	}
 }
 
