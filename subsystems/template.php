@@ -160,7 +160,9 @@ class formtemplate extends basetemplate {
 		$this->viewdir = realpath(dirname($this->viewfile));
 		
 		$this->tpl->template_dir = $this->viewdir;
-		$this->tpl->compile_dir = $this->viewdir.'_c';
+		$this->tpl->compile_dir = BASE.'views_c';
+		
+		$this->tpl->compile_id = md5($this->viewfile);
 		
 		$this->tpl->assign("__view",$this->view);
 		
