@@ -874,7 +874,7 @@ class XMLSchema extends nusoap_base  {
 	function parseFile($xml,$type){
 		// parse xml file
 		if($xml != ""){
-			$xmlStr = @join("",@file($xml));
+			$xmlStr = @implode("",@file($xml));
 			if($xmlStr == ""){
 				$msg = 'Error reading XML from '.$xml;
 				$this->setError($msg);
@@ -3003,7 +3003,7 @@ class soap_server extends nusoap_base {
 		foreach($this->outgoing_headers as $hdr){
 			header($hdr, false);
 		}
-		$this->response = join("\r\n",$this->outgoing_headers)."\r\n".$payload;
+		$this->response = implode("\r\n",$this->outgoing_headers)."\r\n".$payload;
 		print $payload;
 	}
 

@@ -45,7 +45,7 @@ function smarty_modifier_format_date($timestamp,$format) {
 				array('%m/%d/%y','%#d','%y','%Y','%b','%b','%I:%M:%S %p','%H:%M','%H:%M:%S','%#H'),
 				$toks[$i]);
 		}
-		$format = join('%%',$toks);
+		$format = implode('%%',$toks);
 	}
 	return strftime($format,$timestamp);
 }

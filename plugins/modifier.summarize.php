@@ -43,7 +43,7 @@ function smarty_modifier_summarize($string, $strtype, $type) {
 			break;
 		default:
 			$words = split(" ",strip_tags($string));
-			return join(" ",array_slice($words,0,$type+0));
+			return implode(" ",array_slice($words,0,$type+0));
 			break;
 	}
 }
