@@ -280,6 +280,8 @@ function pathos_users_form($user = null) {
 		$form->register('pass1',TR_USERSSUBSYSTEM_PASSWORD, new passwordcontrol());
 		$form->register('pass2',TR_USERSSUBSYSTEM_CONFIRM,new passwordcontrol());
 		$form->register(null,'',new htmlcontrol('<br />'));
+		$form->register('groupcode','Signup Code',new textcontrol());
+		$form->register(null,'',new htmlcontrol('<br />'));
 	}
 	
 	// Register the basic user profile controls.
@@ -341,11 +343,13 @@ function pathos_users_groupForm($group = null) {
 		// the attributes of the group object so that the form->register
 		// calls can blindly dereference them.
 		$group->name = '';
+		$group->code = '';
 		$group->description = '';
 		$group->inclusive = 0;
 	}
 	// Populate the form with controls.
 	$form->register('name',TR_USERSSUBSYSTEM_GROUPNAME,new textcontrol($group->name));
+	$form->register('code','Signup Code',new textcontrol($group->code));
 	$form->register('description',TR_USERSSUBSYSTEM_GROUPDESC,new texteditorcontrol($group->description));
 	$form->register('inclusive',TR_USERSSUBSYSTEM_GROUP_ISDEFAULT,new checkboxcontrol($group->inclusive));
 	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE));
@@ -415,6 +419,7 @@ function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
  */
 function pathos_users_groupUpdate($formvalues, $group = null) {
 	$group->name = $formvalues['name'];
+	$group->code = $formvalues['code'];
 	$group->description = $formvalues['description'];
 	$group->inclusive = (isset($formvalues['inclusive']) ? 1 : 0);
 	return $group;
@@ -455,7 +460,12 @@ function pathos_users_create($formvalues) {
 	// of them.
 	$memb = null;
 	$memb->member_id = $u->id;
-	foreach($db->selectObjects('group','inclusive=1') as $g) {
+	// Also need to process the groupcodes, for promotional signup
+	$code_where = '';
+	if (isset($formvalues['groupcode']) && $formvalues['groupcode'] != '') {
+		$code_where = " OR code='".$formvalues['groupcode']."'";
+	}
+	foreach($db->selectObjects('group','inclusive=1'.$code_where) as $g) {
 		$memb->group_id = $g->id;
 		$db->insertObject($memb,'groupmembership');
 	}
