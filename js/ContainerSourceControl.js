@@ -176,7 +176,7 @@ if (document.body.appendChild) {
 	}
 	
 	function sourcePicked(src,desc) {
-		sourceSelected("existing_source",,src,desc);
+		sourceSelected("existing_source",true,src,desc);
 		
 		clearList(g_ta_description);
 		g_ta_description.appendChild(document.createTextNode(desc));
