@@ -86,7 +86,7 @@ class approvalpolicy {
 		$object->on_deny = $values['on_deny'];
 		$object->on_edit = $values['on_edit'];
 		$object->on_approve = $values['on_approve'];
-		$object->delete_on_deny = isset($values['delete_on_deny']);
+		$object->delete_on_deny = (isset($values['delete_on_deny']) ? 1 : 0);
 		return $object;
 	}
 }
