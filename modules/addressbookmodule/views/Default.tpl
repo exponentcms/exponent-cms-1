@@ -43,15 +43,13 @@
 		<td class="header addressbook_header">Name</td>
 		<td class="header addressbook_header">Email</td>
 		<td class="header addressbook_header">Phone</td>
-		<td class="header addressbook_header">Notes</td>
 		<td class="header addressbook_header">&nbsp;</td>
 	</tr>
 {foreach from=$contacts item=contact}
 	<tr>
 		<td>{$contact->firstname} {$contact->lastname}</td>
-		<td>{$contact->email}</td>
+		<td>{$contact->email|hide_email}</td>
 		<td>{$contact->phone}</td>
-		<td>{$contact->notes}</td>
 		<td>
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 				{if $permissions.administrate == true || $contact->permissions.administrate == true}
@@ -71,8 +69,8 @@
 					</a>
 				{/if}
 			{/permissions}
-			<a class="mngmntlink addressbook_mngmntlink" href="{link action=view id=$contact->id}" title="View this Address Contact" alt="View this Address Contact">
-				View
+			<a class="mngmntlink addressbook_mngmntlink" href="{link action=view id=$contact->id}">
+				<img border="0" src="{$smarty.const.ICON_RELATIVE}view.png" title="View this Address Contact" alt="View this Address Contact" />
 			</a>
 		</td>
 	</tr>
