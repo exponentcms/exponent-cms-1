@@ -42,7 +42,7 @@ pathos_lang_loadDictionary('modules','loginmodule');
 	$form = new form();
 	$form->meta('module','loginmodule');
 	$form->meta('action','resetpass_send');
-	$form->register('username',TR_LOGINMODULE_RESETUSER,new textcontrol());
+	$form->register('username',TR_LOGINMODULE_RESETUSERNAME,new textcontrol());
 	$form->register('submit','',new buttongroupcontrol(TR_LOGINMODULE_RESETPASSBTN));
 	
 	$template = new template('loginmodule','_form_resetpass',$loc);
