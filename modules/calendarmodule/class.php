@@ -168,7 +168,6 @@ class calendarmodule {
 						"edit"=>(pathos_permissions_check("edit",$thisloc) || pathos_permissions_check("edit",$loc)),
 						"delete"=>(pathos_permissions_check("delete",$thisloc) || pathos_permissions_check("delete",$loc))
 					);
-					#if ($days[$start][$j]->is_allday) $days[$start][$j]->eventstart = $start+86330;
 				}
 				usort($days[$start],"pathos_sorting_byEventStartAscending");
 			}
@@ -328,7 +327,7 @@ class calendarmodule {
 		$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
 		
 		if (!$config) {
-			$config->enable_categories = false;
+			$config->enable_categories = 0;
 		}
 		$template->assign("modconfig",$config);
 		

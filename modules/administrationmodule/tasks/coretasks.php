@@ -110,7 +110,7 @@ $stuff = array(
 	)
 );
 global $user;
-if (!$user || !$user->is_admin) {
+if (!$user || $user->is_admin == 0) {
 	unset($stuff[TR_CORETASKS_CAT_DATABASE]['import']);
 }
 

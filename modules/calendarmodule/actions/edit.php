@@ -63,7 +63,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 	
 	pathos_lang_loadDictionary('modules','calendarmodule');
 	
-	if ($config->enable_categories) {
+	if ($config->enable_categories == 1) {
 		$ddopts = array();
 		foreach ($db->selectObjects("category","location_data='".serialize($loc)."'") as $opt) {
 			$ddopts[$opt->id] = $opt->name;
@@ -73,7 +73,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$form->registerBefore("category", null, '', new htmlcontrol('<br />'));
 	}
 	
-	if ($config->enable_feedback) {
+	if ($config->enable_feedback == 1) {
 		$form->registerBefore("submit", null,'', new htmlcontrol('<hr size="1" />'));
 		$allforms = array();
 		$allforms[""] = TR_CALENDARMODULE_NOFEEDBACK;

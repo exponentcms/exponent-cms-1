@@ -40,10 +40,10 @@ if ($cat) {
 } else {
 	$loc->mod = $_POST['orig_module']; // Only need to update the module.
 	$cat->rank = $db->max('category', 'rank', 'location_data', "location_data='".serialize($loc)."'");
-	if ($cat->rank == null) {
+	if ($cat->rank === null) {
 		$cat->rank = 0;
 	} else { 
-		$cat->rank += 1;
+		$cat->rank ++;
 	}
 }
 // PERM CHECK

@@ -65,7 +65,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	
 	if (isset($item->id)) {
-		if ($item->is_recurring) {
+		if ($item->is_recurring == 1) {
 			// For recurring events, check some stuff.
 			// Were all dates selected?
 			$eventdates = $db->selectObjectsIndexedArray("eventdate","event_id=".$item->id);

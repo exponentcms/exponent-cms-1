@@ -36,7 +36,7 @@ if (!defined("PATHOS")) exit("");
 $item = $db->selectObject("calendar","id=".$_GET['id']);
 if ($item) {
 
-	if ($item->is_recurring) { // need to give user options
+	if ($item->is_recurring == 1) { // need to give user options
 		
 		$template = new template("calendarmodule","_form_delete");
 		

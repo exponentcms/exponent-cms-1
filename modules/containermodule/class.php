@@ -191,7 +191,7 @@ class containermodule {
 			unset($c->id);
 			$c->external = serialize($nloc);
 			
-			if (!$c->is_existing) { // Copy over content to a new source
+			if (!$c->is_existing == 1) { // Copy over content to a new source
 				$oldinternal = unserialize($c->internal);
 				$iloc = pathos_core_makeLocation($oldinternal->mod,'@random'.uniqid(''));
 				$c->internal = serialize($iloc);
