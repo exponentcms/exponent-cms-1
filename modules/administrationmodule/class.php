@@ -78,7 +78,7 @@ class administrationmodule {
 			$menu = array();
 			$dh = opendir(BASE."modules/administrationmodule/tasks");
 			while (($file = readdir($dh)) !== false) {
-				if (is_readable(BASE."modules/administrationmodule/tasks/$file") && is_file(BASE."modules/administrationmodule/tasks/$file")) {
+				if (substr($file,-4,4) == '.php' && is_readable(BASE."modules/administrationmodule/tasks/$file") && is_file(BASE."modules/administrationmodule/tasks/$file")) {
 					$menu = array_merge($menu,include(BASE."modules/administrationmodule/tasks/$file"));
 				}
 			}
