@@ -44,6 +44,8 @@ return array(
 		DB_FIELD_LEN=>32),
 	"is_admin"=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	"is_acting_admin"=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	"is_locked"=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	"firstname"=>array(
