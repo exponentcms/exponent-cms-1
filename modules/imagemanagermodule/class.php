@@ -62,16 +62,16 @@ class imagemanagermodule {
 	}
 	
 	function show($view,$loc,$title = '') {
+		
+		$template = new template('imagemanagermodule',$view,$loc);
+		
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$directory = 'files/imagemanagermodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
-			switch(pathos_files_makeDirectory($directory)) {
-				case SYS_FILES_FOUNDFILE:
-					echo 'Found a file in the directory path.';
-					return;
-				case SYS_FILES_NOTWRITABLE:
-					echo 'Unable to create directory to store files in.';
-					return;
+			$err = pathos_files_makeDirectory($directory);
+			if ($err != SYS_FILES_SUCCESS) {
+				$template->assign('noupload',1);
+				$template->assign('uploadError',$err);
 			}
 		}
 		
@@ -103,12 +103,8 @@ class imagemanagermodule {
 	function copyContent($oloc,$nloc) {
 		global $db;
 		$directory = 'files/imagemanagermodule/'.$nloc->src;
-		if (!file_exists(BASE.$directory)) {
-			switch(pathos_files_makeDirectory($directory)) {
-				case SYS_FILES_FOUNDFILE:
-				case SYS_FILES_NOTWRITABLE:
-					return;
-			}
+		if (!file_exists(BASE.$directory) && pathos_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
+			return;
 		}
 		foreach ($db->selectObjects("imagemanageritem","location_data='".serialize($oloc)."'") as $i) {
 			$file = $db->selectObject('file','id='.$i->file_id);
