@@ -172,6 +172,25 @@ class mysql_database {
 	 * @state <b>UNDOCUMENTED</b>
 	 * @node Undocumented
 	 */
+	function switchValues($table,$field,$a,$b,$additional_where = null) {
+		if ($additional_where == null) {
+			$additional_where = '1';
+		}
+		$object_a = $this->selectObject($table,"$field='$a' AND $additional_where");
+		$object_b = $this->selectObject($table,"$field='$b' AND $additional_where");
+		
+		$tmp = $object_a->$field;
+		$object_a->$field = $object_b->$field;
+		$object_b->$field = $tmp;
+		
+		$this->updateObject($object_a,$table);
+		$this->updateObject($object_b,$table);
+	}
+	
+	/* exdoc
+	 * @state <b>UNDOCUMENTED</b>
+	 * @node Undocumented
+	 */
 	function isValid() {
 		return ($this->connection != null && $this->havedb);
 	}
@@ -388,10 +407,11 @@ class mysql_database {
 	}
 	
 	/* exdoc
-	 * Count Objects matching Criteria
+	 * Count Objects matching a given criteria
 	 *
 	 * @param string $table The name of the table to count objects in.
 	 * @param string $where Criteria for counting.
+	 * @node Subsystems:Database:MySQL
 	 */
 	function countObjects($table,$where = null) {
 		if ($where == null) $where = "1";
@@ -412,8 +432,16 @@ class mysql_database {
 	}
 	
 	/* exdoc
-	 * @state <b>UNDOCUMENTED</b>
-	 * @node Undocumented
+	 * Insert an Object into some table in the Database
+	 *
+	 * This method will return the ID assigned to the new record by MySQL.  Note that
+	 * object attributes starting with an underscore ('_') will be ignored and NOT inserted
+	 * into the table as a field value.
+	 *
+	 * @param Object $object The object to insert.
+	 * @param string $table The logical table name to insert into.  This does not include the table prefix, which
+	 *    is automagically prepended for you.
+	 * @state Stable
 	 */
 	function insertObject($object,$table) {
 		$sql = "INSERT INTO `" . $this->prefix . "$table` (";
