@@ -70,6 +70,15 @@ class navigationmodule {
 		$template->output();
 	}
 	
+	
+	function deleteIn($loc) {
+	
+	}
+	
+	function copyContent($fromloc,$toloc) {
+	
+	}
+	
 	/**
 	 * @deprecated is it?
 	 */
@@ -214,6 +223,28 @@ class navigationmodule {
 		$section->id = $db->insertObject($section,"section");
 		
 		navigationmodule::process_section($section,$subtpl);
+	}
+	
+	function deleteLevel($parent) {
+		global $db;
+		$kids = $db->selectObjects("section","parent=$parent");
+		foreach ($kids as $kid) {
+			navigationmodule::deleteLevel($kid->id);
+		}
+		$secrefs = $db->selectObjects("sectionref","section=".$parent);
+		foreach ($secrefs as $secref) {
+			$loc = pathos_core_makeLocation($secref->module,$secref->source,$secref->internal);
+			pathos_core_decrementLocationReference($loc,$parent);
+			
+			foreach ($db->selectObjects("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
+				$modclass = $locref->module;
+				$mod = new $modclass();
+				$mod->deleteIn(pathos_core_makeLocation($locref->module,$locref->source,$locref->internal));
+			}
+			$db->delete("locationref","module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
+		}
+		$db->delete("sectionref","section=".$parent);
+		$db->delete("section","parent=$parent");
 	}
 }
 
