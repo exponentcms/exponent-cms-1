@@ -51,9 +51,9 @@ if ($tok == null) {
 	// Send message
 	if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
 	
-	$template = new template('loginmodule','_email_resetdone',$loc);
-	$template->assign('newpass',$newpass);
-	$msg = $template->render();
+	$e_template = new template('loginmodule','_email_resetdone',$loc);
+	$e_template->assign('newpass',$newpass);
+	$msg = $e_template->render();
 	
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$u = pathos_users_getUserById($tok->uid);

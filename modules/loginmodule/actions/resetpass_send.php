@@ -43,15 +43,14 @@ $template = new template('loginmodule','_resetsend');
 if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != '') {
 	if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
 	
-	md5(time()).uniqid('');
 	$tok = null;
 	$tok->uid = $u->id;
 	$tok->expires = time() + 2*3600;
 	$tok->token = md5(time()).uniqid('');;
 	
-	$template = new template('loginmodule','_email_resetconfirm',$loc);
-	$template->assign('token',$tok);
-	$msg = $template->render();
+	$e_template = new template('loginmodule','_email_resetconfirm',$loc);
+	$e_template->assign('token',$tok);
+	$msg = $e_template->render();
 	
 	// FIXME: smtp call prototype / usage has changed.
 	if (!pathos_smtp_mail($u->email,'Password Manager <password@'.$_SERVER['HTTP_HOST'].'>','Password Reset Confirmation',$msg)) {
