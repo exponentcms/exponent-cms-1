@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright 2005 James Hunt and OIC Group, Inc.
+# Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
 #
 # This file is part of Exponent
 #
