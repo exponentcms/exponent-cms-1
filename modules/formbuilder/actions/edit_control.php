@@ -36,7 +36,7 @@ if (!defined("PATHOS")) exit("");
 if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 
-$f = $db->selectObject("formbuilder_form","id=".$_GET['form_id']);
+$f = $db->selectObject("formbuilder_form","id=".(isset($_REQUEST['form_id'])?$_REQUEST['form_id']:0));
 if ($f) {
 	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
 		if (isset($_POST['control_type']) && $_POST['control_type']{0} == ".") {
@@ -54,10 +54,10 @@ if ($f) {
 			$ctl->name = uniqid("");
 			$ctl->caption = "";
 			$ctl->data = serialize($htmlctl);
-			$ctl->form_id = $form_id;
+			$ctl->form_id = $f->id;
 			$ctl->is_readonly = 1;
-			if (!$db->countObjects("formbuilder_control","form_id=".$form_id)) $ctl->rank = 0;
-			else $ctl->rank = $db->max("formbuilder_control","rank","form_id","form_id=".$form_id)+1;
+			if (!$db->countObjects("formbuilder_control","form_id=".$f->id)) $ctl->rank = 0;
+			else $ctl->rank = $db->max("formbuilder_control","rank","form_id","form_id=".$f->id)+1;
 			$db->insertObject($ctl,"formbuilder_control");
 			pathos_flow_redirect();
 		} else {
