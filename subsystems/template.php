@@ -100,6 +100,7 @@ class template extends basetemplate {
 		$this->tpl->plugins_dir[] = BASE."plugins";
 		
 		$this->viewfile = pathos_template_getModuleViewFile($module,$view);
+		$this->viewparams = pathos_template_getViewParams($this->viewfile);
 		$this->viewdir = realpath(dirname($this->viewfile));
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
@@ -433,6 +434,15 @@ function pathos_template_listModuleViews($module,$lang = LANG) {
 		return pathos_template_listModuleViews($module,'en');
 	}
 	return $views;
+}
+
+function pathos_template_getViewParams($viewfile) {
+	$base = substr($viewfile,0,-4);
+	$vparam = null;
+	if (is_readable($base.'.config')) {
+		$vparam = include($base.'.config');
+	}
+	return $vparam;
 }
 
 

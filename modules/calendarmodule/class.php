@@ -90,9 +90,9 @@ class calendarmodule {
 		$time = (isset($_GET['time']) ? $_GET['time'] : time());
 		$template->assign("time",$time);
 		
-		$viewconfig = array("type"=>"default");
-		if (is_readable($template->viewdir."/$view.config")) {
-			$viewconfig = include($template->viewdir."/$view.config");
+		$viewconfig = $template->viewparams;
+		if ($viewconfig === null) {
+			$viewconfig = array("type"=>"default");
 		}
 		
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
