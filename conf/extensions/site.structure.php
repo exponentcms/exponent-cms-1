@@ -115,7 +115,7 @@ return array(
 		),
 		'SSL_URL'=>array(
 			'title'=>TR_CONFIG_SITE_SSL_URL,
-			'description'=>TR_CONFIG_SITE_SSL_URL,
+			'description'=>TR_CONFIG_SITE_SSL_URL_DESC,
 			'control'=>new textcontrol()
 		)
 	)
