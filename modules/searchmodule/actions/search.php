@@ -66,7 +66,7 @@ if (!defined("PATHOS")) exit("");
 				$weight += preg_match("/(\s+".$term."[\s\.,:;]+)/",$title_l);
 			}
 			
-			if ($weight) {
+			if ($weight && navigationmodule::canView($section)) {
 				// find view link
 				if ($r->view_link == "") {
 					// No viewlink - go to the page
