@@ -1,10 +1,21 @@
 #!/bin/bash
 
+echo "Developer CVS File Update Tool"
+echo ""
+echo "by James Hunt"
+echo ""
+echo ""
+echo "This tool restores sanity to the file and"
+echo "directory structures in Exponent, and is"
+echo "intended to be run by developers checking"
+echo "out fresh CVS sources"
+echo ""
+
 cd ..
 
 ROOT=`pwd`;
 
-echo "ROOT set to $ROOT";
+echo "Exponent files root set to $ROOT";
 
 for MODULE in $ROOT/modules/*; do
 	echo -ne "Processing module : ";
@@ -15,11 +26,8 @@ for MODULE in $ROOT/modules/*; do
 		fi
 		chmod 777 $MODULE/views_c;
 		
+		# Generate a .cvsignore file to ignore compiled templates
 		echo "*" > $MODULE/views_c/.cvsignore
-		(
-		echo ".cvsignore";
-		echo "views_c"
-		) > $MODULE/.cvsignore
 	fi
 done
 
@@ -35,13 +43,20 @@ for THEME in $ROOT/themes/*; do
 					mkdir $MODULE/views_c;
 				fi
 				chmod 777 $MODULE/views_c;
+				
+				# Generate a .cvsignore file to ignore compiled templates
 				echo "*" > $MODULE/views_c/.cvsignore
-				(
-				echo ".cvsignore";
-				echo "views_c"
-				) > $MODULE/.cvsignore
+				
 			fi
 		done
+	fi
+	if [ -d $THEME/views/ ]; then
+		if [ ! -d $THEME/views_c ]; then
+			mkdir $THEME/views_c;
+		fi
+		chmod 777 views_c;
+		# Generate a .cvsignore file to ignore compiled templates
+		echo "*" > $THEME/views_c/.cvsignore
 	fi
 done
 
