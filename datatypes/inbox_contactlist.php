@@ -49,10 +49,36 @@ class inbox_contactlist {
 		$form->register("description","Description",new texteditorcontrol($object->description));
 		
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-		$users = pathos_users_getAllUsers();
+		global $user;
+		if (pathos_permissions_check("contact_all",pathos_core_makeLocation("inboxmodule"))) {
+			foreach (pathos_users_getAllUsers() as $u) {
+				$users[$u->id] = $u;
+			}
+		} else {
+			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
+				foreach (pathos_users_getUsersInGroup($g) as $u) {
+					$users[$u->id] = $u;
+				}
+			}
+		}
+		
 		foreach (array_keys($users) as $i) {
 			$users[$i] = $users[$i]->firstname . " " . $users[$i]->lastname . " (" . $users[$i]->username. ")";
 		}
+		
+		global $db;
+		// Process other uses who the current user has blocked, and remove them from the list
+		// Process other users who have blocked the current user, and remove them from the list.
+		foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id . " OR user_id=" . $user->id) as $blocked) {
+			if ($blocked->user_id == $user->id) {
+				// Blocked by someone else.  Remove the owner (user who blocked us)
+				unset($users[$blocked->owner]);
+			} else if ($blocked->owner == $user->id) {
+				// We blocked the user, remove the blocked user_id
+				unset($users[$blocked->user_id]);
+			}
+		}
+		
 		
 		$members = array();
 		
@@ -75,7 +101,7 @@ class inbox_contactlist {
 		pathos_forms_initialize();
 		$object->name = $values['name'];
 		$object->description = $values['description'];
-		$object->_members = listbuildercontrol::parseData($values['members']);
+		$object->_members = listbuildercontrol::parseData($values,"members");
 		pathos_forms_cleanup();
 		return $object;
 	}

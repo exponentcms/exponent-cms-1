@@ -39,15 +39,47 @@ class privatemessage {
 		$form = new form();
 		
 		$users = array();
+		$groups = array();
 		global $db, $user;
-		foreach ($db->selectObjects("inbox_contact","owner=".$user->id) as $c) {
-			$users[$c->user_id] = $c->display_name;
+		
+		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+		if (pathos_permissions_check("contact_all",pathos_core_makeLocation("inboxmodule"))) {
+			foreach (pathos_users_getAllUsers() as $u) {
+				$users[$u->id] = $u->firstname . " " . $u->lastname . " (" . $u->username . ")";
+			}
+		} else {
+			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
+				foreach (pathos_users_getUsersInGroup($g) as $u) {
+					$users[$u->id] = $u->firstname . " " . $u->lastname . " (" . $u->username . ")";
+				}
+			}
+		}
+		
+		// Process other uses who the current user has blocked, and remove them from the list
+		// Process other users who have blocked the current user, and remove them from the list.
+		foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id . " OR user_id=" . $user->id) as $blocked) {
+			if ($blocked->user_id == $user->id) {
+				// Blocked by someone else.  Remove the owner (user who blocked us)
+				unset($users[$blocked->owner]);
+			} else if ($blocked->owner == $user->id) {
+				// We blocked the user, remove the blocked user_id
+				unset($users[$blocked->user_id]);
+			}
 		}
 		uasort($users,"strnatcmp");
 		
 		$groups = array();
 		foreach ($db->selectObjects("inbox_contactlist","owner=".$user->id) as $g) {
-			$groups[$g->id] = $g->name;
+			$groups["list_".$g->id] = $g->name . " (personal list)";
+		}
+		if (pathos_permissions_check("contact_all",pathos_core_makeLocation("inboxmodule"))) {
+			foreach (pathos_users_getAllGroups(1,0) as $g) {
+				$groups["group_".$g->id] = $g->name . " (system group)";
+			}
+		} else {
+			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
+				$groups["group_".$g->id] = $g->name . " (system group)";
+			}
 		}
 		uasort($groups,"strnatcmp");
 		
@@ -77,9 +109,14 @@ class privatemessage {
 		//$form->register("recipient","Recipient",new textcontrol($object->recipient));
 		if (count($users)) {
 			$form->register("recipients",$recipient_caption,new listbuildercontrol($object->recipient,$users));
+		}
+		if (count($groups)) {
 			$form->register("group_recipients",$recipient_caption,new listbuildercontrol($object->group_recipient,$groups));
 		}
-		else $form->register(uniqid(""),"",new htmlcontrol("<i>You have no contacts in your personal contact list.</i>"));
+		
+		if (!count($groups) && !count($users)) {
+			$form->register(uniqid(""),"",new htmlcontrol("<i>You have no contacts in your personal contact list.</i>"));
+		}
 		
 		$form->register("subject","Subject",new textcontrol($object->subject));
 		$form->register("body","Message", new htmleditorcontrol($object->body));

@@ -39,16 +39,14 @@ class inbox_contactbanned {
 		$form = new form();
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 		
-		$users = pathos_users_getAllUsers();
+		$users = array();
+		foreach (pathos_users_getAllUsers() as $u) {
+			$users[$u->id] = $u->firstname . " " . $u->lastname . " (" . $u->username . ")";
+		}
+		
 		global $db,$user;
 		foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id) as $b) {
 			unset($users[$b->user_id]);
-		}
-		foreach ($db->selectObjects("inbox_contact","owner=".$user->id) as $c) {
-			unset($users[$c->user_id]);
-		}
-		foreach (array_keys($users) as $id) {
-			$users[$id] = $users[$id]->firstname . " " . $users[$id]->lastname . " (" . $users[$id]->username . ")";
 		}
 		
 		$form->register("uid","User",new dropdowncontrol(0,$users));

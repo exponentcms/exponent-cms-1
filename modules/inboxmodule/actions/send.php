@@ -49,27 +49,51 @@ if ($user) {
 	$failed->recipient = $user->id;
 	
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	pathos_forms_initialize();
 	
-	$recipients = array();
-	if (isset($_POST['recipients'])) {
-		$recipients = explode(":",$_POST['recipients']);
-	}
+	$recipients = listbuildercontrol::parseData($_POST,"recipients");
 	if (isset($_POST['replyto'])) {
 		$recipients[] = $_POST['replyto'];
 	}
 	
-	if (isset($_POST['group_recipients'])) {
-		$gr = explode(":",$_POST['group_recipients']);
-		foreach ($gr as $gid) {
+	$banned = array();
+	foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id." OR user_id=".$user->id) as $b) {
+		if ($b->owner == $user->id) {
+			$banned[$b->user_id] = $b->user_id;
+		} else {
+			$banned[$b->user_id] = $b->owner;
+		}
+	}
+	
+	$gr = listbuildercontrol::parseData($_POST,"group_recipients");
+	foreach ($gr as $ginfo) {
+		$toks = explode("_",$ginfo);
+		$gid = $toks[1];
+		if ($toks[0] == "group") {
+			foreach (pathos_users_getUsersInGroup(pathos_users_getGroupById($gid)) as $u) {
+				if (!in_array($u->id,$banned)) {
+					$recipients[] = $u->id;
+				}
+			}
+		} else {
 			$list = $db->selectObject("inbox_contactlist","id=".$gid);
 			if ($list->owner == $user->id) {
 				foreach ($db->selectObjects("inbox_contactlist_member","list_id=".$list->id) as $m) {
-					$recipients[] = $m->user_id;
+					if (!in_array($u->id,$banned)) {
+						$recipients[] = $m->user_id;
+					}
 				}
 			}
 		}
 	}
 	
+	// remove duplicates
+	$recipients = array_flip(array_flip($recipients));
+	
+	// Init SMTP subsystem
+	if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+	$emails = array();
 	foreach ($recipients as $id) {
 		if ($id != "") {
 			$u = pathos_users_getUserByID($id);
@@ -79,16 +103,30 @@ if ($user) {
 				$db->insertObject($failed,"privatemessage");
 			} else {
 				$ban = $db->selectObject("inbox_contactbanned","user_id=".$user->id." AND owner=".$id);
+				if (!$ban) $ban = $db->selectObject("inbox_contactbanned","user_id=".$id." AND owner=".$user->id);
 				if ($ban) {
 					$failed->body = "The following message was not delivered.";
 					$failed->body .= "<hr size='1' /><hr size='1' />" . $message->body;
 					$db->insertObject($failed,"privatemessage");
 				} else {
 					$message->recipient = $id;
-					$db->insertObject($message,"privatemessage");
-					
+					$inbox_userconfig = $db->selectObject("inbox_userconfig","id=".$id);
+					if ($inbox_userconfig->forward == 1 && $u->email != "") {
+						// Forward the message to their email account
+						$emails[] = $u->email;
+					} else {
+						// Send it through the 'normal' way
+						$db->insertObject($message,"privatemessage");
+					}
 				}
 			}
+		}
+	}
+	
+	if (count($emails)) {
+		$body = $message->body;		
+		if (pathos_smtp_mail($emails,"","Private Message: " . $message->subject,$message->body) == false) {
+			echo "Something didn't work with the email config";
 		}
 	}
 	pathos_flow_redirect();
