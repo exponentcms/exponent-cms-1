@@ -44,6 +44,7 @@ if (pathos_permissions_check("administrate",$loc)) {
 			pathos_permissions_grant($u,$perms[$i],$loc);
 		}
 	}
+	pathos_permissions_triggerRefresh();
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;
