@@ -289,7 +289,7 @@ if ($passed) {
 	<br /><br />Database tests passed. <br /><br />
 	The installer will now populate the database with default content.  This may take a few minutes.
 	<br /><b><span style="color: red">WARNING: This will clear any data from any existing tables.  If you are upgrading and want to preserve your data, see below.</span></b>
-	<br />To install default content, click <a href="?page=tmp_create_site">here</a>
+	<br />To install default content, click <a href="index.php?page=tmp_create_site">here</a>
 	
 	<br /><br />If you are upgrading, and wish to preserve your data, or want to install a new site with a clean database, click <a href="?page=final">here</a>.
 	<?php

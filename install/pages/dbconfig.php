@@ -45,7 +45,7 @@ In order to best manage your content, Exponent stores it in a relational databas
 Due to security reasons, you or your web server administrator will have to create an empty database.  For information on how to create the database, click <a href="" onClick="pop('db_create');">here</a>.  Optionally, you may choose to use a pre-existing database.  For information on using an existing database and what it entails, click <a href="" onClick="return pop('db_existing');">here</a>.
 <br /><br />
 
-<form method="post" action="">
+<form method="post" action="index.php">
 <input type="hidden" name="page" value="dbcheck" />
 
 <div class="form_section_header">Server Information</div>

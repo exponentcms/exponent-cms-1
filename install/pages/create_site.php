@@ -46,7 +46,7 @@ if (count($errors)) {
 	foreach ($errors as $e) echo $e . "<br />";
 } else {
 	echo "Site database built successfully!";
-	echo "<br />Click <a href='?page=final'>here</a> to complete the installation.";
+	echo "<br />Click <a href='index.php?page=final'>here</a> to complete the installation.";
 }
 //GREP:HARDCODEDTEXT
 ?>

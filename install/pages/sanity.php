@@ -136,7 +136,7 @@ if ($errcount > 0) {
 	?>
 	<br /><b>Note:</b> For permission errors (files or directories that are not writable / not readable) it is usually best to make sure that the Exponent files were uncompressed with options (-xzvpf) to preserve file permissions.
 	<br /><br />
-	After you have corrected the above errors, click <a href="?page=sanity">here</a> to run these environment checks again.
+	After you have corrected the above errors, click <a href="index.php?page=sanity">here</a> to run these environment checks again.
 	<?php
 } else if ($warncount > 0) {
 	?>
@@ -146,14 +146,14 @@ if ($errcount > 0) {
 		echo '<br /><br /><div style="font-weight: bold; color: red;">SAFE MODE IS ENABLED.  You may encounter many strange errors unless you give the web server user ownership of ALL Exponent files.  On UNIX, this can be done with a "chown -R" command</div>';
 	}
 	?>
-	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
+	<br />Please proceed to configure your database by clicking <a href="index.php?page=dbconfig">here</a>.
 	<?php
 	$write_file = 1;
 } else {
 	// No errors, and no warnings.  Let them through.
 	?>
 	The Exponent Install Wizard found no problems with the server environment.
-	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
+	<br />Please proceed to configure your database by clicking <a href="index.php?page=dbconfig">here</a>.
 	<?php
 	$write_file = 1;
 }

@@ -7,4 +7,4 @@ First, the Exponent Development Team and the OIC Group want to thank you for dow
 <br /><br />
 This installation wizard will guide you step by step through the configuration and setup of your new Exponent-powered website.
 <br /><br />
-To start the installation, click <a href="?page=sanity">here</a>
+To start the installation, click <a href="index.php?page=sanity">here</a>
