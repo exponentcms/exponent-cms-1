@@ -38,7 +38,7 @@ if (!defined("PATHOS_VERSION")) {
 	define("PATHOS_VERSION_REVISION",0);
 	define("PATHOS_VERSION_BUILDDATE","%%BUILDDATE%%");
 	define("PATHOS_VERSION_TYPE","beta");
-	define("PATHOS_VERSION_ITERATION",3); // only applies to betas/alphas / rcs
+	define("PATHOS_VERSION_ITERATION",4); // only applies to betas/alphas / rcs
 }
 
 return "0.96";
