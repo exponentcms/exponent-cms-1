@@ -77,7 +77,7 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 	if (!pathos_smtp_checkResponse($socket,"220")) {
 		return false;
 	}
-	
+
 	// Try EHLO (Extendend HELO) first
 	pathos_smtp_sendServerMessage($socket,"EHLO ".$_SERVER['HTTP_HOST']);
 	
@@ -126,7 +126,9 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 		
 		pathos_smtp_sendHeadersPart($socket,$headers);
 		pathos_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
-		pathos_smtp_sendServerMessage($socket,"\r\n.\r");
+		// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
+//		pathos_smtp_sendServerMessage($socket,"\r\n.\r");
+		pathos_smtp_sendServerMessage($socket,"\r\n.\r\n");
 		if (!pathos_smtp_checkResponse($socket,"250")) {
 			pathos_smtp_sendExit($socket);
 			return false;
@@ -166,7 +168,9 @@ function pathos_smtp_checkResponse($socket,$expected_response) {
  * @node Subsystems:SMTP
  */
 function pathos_smtp_sendServerMessage($socket,$message) {
-	if (substr($message,-1,1) != "\n") $message .="\n";
+	// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
+//	if (substr($message,-1,1) != "\n") $message .="\n";
+	if (substr($message,-1,1) != "\n") $message .="\r\n";
 	if ($message != null) fwrite($socket,$message);
 }
 
