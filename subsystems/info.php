@@ -89,26 +89,34 @@ function pathos_info_subsystems() {
  * @node Subsystems:Info
  */
 function pathos_info_files($type,$name) {
-	$dir = "";
-	$file = "manifest.php";
+	$dir = '';
+	$file = 'manifest.php';
+	$autofile = 'manifest.auto.php';
 	switch ($type) {
 		case CORE_EXT_MODULE:
-			$dir = BASE."modules/$name";
+			$dir = BASE.'modules/'.$name;
 			break;
 		case CORE_EXT_THEME:
-			$dir = BASE."themes/$name";
+			$dir = BASE.'themes/'.$name;
 			break;
 		case CORE_EXT_SUBSYSTEM:
 			$dir = BASE."subsystems";
-			$file = "$name.manifest.php";
+			$file = $name.'.manifest.php';
+			$autofile = $name.'.auto.manifest.php';
 			break;
 		default:
-			echo "Bad type: $type";
+			echo 'Bad type: '.$type;
 	}
 	
-	if (is_readable("$dir/$file")) return include("$dir/$file");
-	else if (!is_readable($dir)) return "No such extensions ($name)";
-	else return "Manifest file not found.";
+	if (is_readable($dir.'/'.$autofile)) {
+		return include($dir.'/'.$autofile);
+	} else if (is_readable($dir.'/'.$file)) {
+		return include($dir.'/'.$file);
+	} else if (!is_readable($dir)) {
+		return 'No such extensions ('.$name.')';
+	} else {
+		return 'Manifest file not found.';
+	}
 }
 
 /* exdoc
