@@ -56,8 +56,12 @@ class baseform {
 	
 	var $name    = "form";
 	var $method  = "post";
-	var $action  = "?";
+	var $action  = "";
 	var $enctype = "";
+
+	function baseform() {
+		$this->action = SCRIPT_RELATIVE.SCRIPT_FILENAME;
+	}
 
 	function meta($name,$value) {
 		if (!is_array($value)) {
