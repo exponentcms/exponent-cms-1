@@ -32,10 +32,10 @@
 ##################################################
 
 return array(
-	"module"=>array(
+	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"active"=>array(
+	'active'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 

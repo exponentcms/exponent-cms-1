@@ -32,14 +32,14 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"text"=>array(
+	'text'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100000),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250)
 );

@@ -32,22 +32,22 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"module"=>array(
+	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"source"=>array(
+	'source'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"internal"=>array(
+	'internal'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"section"=>array(
+	'section'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"refcount"=>array(
+	'refcount'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER)
 );
 

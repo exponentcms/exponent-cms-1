@@ -32,39 +32,39 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_INCREMENT=>true,
 		DB_PRIMARY=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
-	"subtheme"=>array(
+	'subtheme'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"public"=>array(
+	'public'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"active"=>array(
+	'active'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"parent"=>array(
+	'parent'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"rank"=>array(
+	'rank'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"page_title"=>array(
+	'page_title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
-	"keywords"=>array(
+	'keywords'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"description"=>array(
+	'description'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"alias_type"=>array(
+	'alias_type'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"external_link"=>array(
+	'external_link'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1024),
-	"internal_id"=>array(
+	'internal_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

@@ -32,25 +32,25 @@
 ##################################################
 
 return array(
-	"uid"=>array(
+	'uid'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true),
-	"address1"=>array(
+	'address1'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"address2"=>array(
+	'address2'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"city"=>array(
+	'city'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"state"=>array(
+	'state'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>2),
-	"zip"=>array(
+	'zip'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10),
-	"country"=>array(
+	'country'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100)
 );

@@ -32,27 +32,27 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"title"=>array(
+	'title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"body"=>array(
+	'body'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"is_private"=>array(
+	'is_private'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"poster"=>array(
+	'poster'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"posted"=>array(
+	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"edited"=>array(
+	'edited'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"editor"=>array(
+	'editor'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200)
 );

@@ -32,12 +32,12 @@
 ##################################################
 
 return array(
-	"template_id"=>array(
+	'template_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"module"=>array(
+	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"global"=>array(
+	'global'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 

@@ -32,18 +32,18 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"email"=>array(
+	'email'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"user_id"=>array(
+	'user_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"group_id"=>array(
+	'group_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"form_id"=>array(
+	'form_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

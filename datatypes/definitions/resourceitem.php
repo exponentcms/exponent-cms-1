@@ -32,32 +32,32 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"description"=>array(
+	'description'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	"file_id"=>array(
+	'file_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"flock_owner"=>array(
+	'flock_owner'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"approved"=>array(
+	'approved'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"posted"=>array(
+	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"poster"=>array(
+	'poster'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"edited"=>array(
+	'edited'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"editor"=>array(
+	'editor'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

@@ -32,7 +32,7 @@
 ##################################################
 
 return array(
-	DB_TABLE_COMMENT=>"Text Items",
+	DB_TABLE_COMMENT=>'Text Items',
 	DB_TABLE_WORKFLOW=>true
 );
 

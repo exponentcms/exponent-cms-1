@@ -32,28 +32,28 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"description"=>array(
+	'description'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1000),
 
-	"max_approvers"=>array(
+	'max_approvers'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"required_approvals"=>array(
+	'required_approvals'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"on_deny"=>array(
+	'on_deny'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"delete_on_deny"=>array(
+	'delete_on_deny'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"on_edit"=>array(
+	'on_edit'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"on_approve"=>array(
+	'on_approve'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER)
 );
 

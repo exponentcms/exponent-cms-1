@@ -32,36 +32,36 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"description"=>array(
+	'description'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>4000),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
-	"table_name"=>array(
+	'table_name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"is_email"=>array(
+	'is_email'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"is_saved"=>array(
+	'is_saved'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"response"=>array(
+	'response'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"submitbtn"=>array(
+	'submitbtn'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"resetbtn"=>array(
+	'resetbtn'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"subject"=>array(
+	'subject'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200)
 	);

@@ -32,16 +32,16 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"uid"=>array(
+	'uid'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"token"=>array(
+	'token'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"expires"=>array(
+	'expires'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP)
 );
 

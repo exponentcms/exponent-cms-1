@@ -32,21 +32,21 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"user_id"=>array(
+	'user_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"addressbook_contact_id"=>array(
+	'addressbook_contact_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"email"=>array(
+	'email'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"contact_info"=>array(
+	'contact_info'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250)
 );

@@ -32,13 +32,13 @@
 ##################################################
 
 return array(
-	"mimetype"=>array(
+	'mimetype'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"icon"=>array(
+	'icon'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100)
 );

@@ -32,13 +32,13 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"owner"=>array(
+	'owner'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"user_id"=>array(
+	'user_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

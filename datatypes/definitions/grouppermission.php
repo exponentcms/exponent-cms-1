@@ -32,18 +32,18 @@
 ##################################################
 
 return array(
-	"gid"=>array(
+	'gid'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"permission"=>array(
+	'permission'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>20),
-	"module"=>array(
+	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"source"=>array(
+	'source'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"internal"=>array(
+	'internal'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100)
 		

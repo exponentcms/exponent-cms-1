@@ -32,25 +32,25 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"parent_id"=>array(
+	'parent_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"title"=>array(
+	'title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"body"=>array(
+	'body'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"poster"=>array(
+	'poster'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"posted"=>array(
+	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"edited"=>array(
+	'edited'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"editor"=>array(
+	'editor'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

@@ -32,9 +32,9 @@
 ##################################################
 
 return array(
-	"member_id"=>array(
+	'member_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"group_id"=>array(
+	'group_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

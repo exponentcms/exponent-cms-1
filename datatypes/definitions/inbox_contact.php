@@ -32,18 +32,18 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"owner"=>array(
+	'owner'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"user_id"=>array(
+	'user_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"display_name"=>array(
+	'display_name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>50),
-	"notes"=>array(
+	'notes'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1000)
 );

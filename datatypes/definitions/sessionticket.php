@@ -32,33 +32,33 @@
 ##################################################
 
 return array(
-	"ticket"=>array(
+	'ticket'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>23, // uniqid("",true) returns 23-char strings
+		DB_FIELD_LEN=>23, // uniqid('',true) returns 23-char strings
 		DB_PRIMARY=>true),
-	"uid"=>array(
+	'uid'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"last_active"=>array(
+	'last_active'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"refresh"=>array(
+	'refresh'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"ip_address"=>array(
+	'ip_address'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>15),
-	"start_time"=>array(
+	'start_time'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"browser"=>array(
+	'browser'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	"last_section"=>array(
+	'last_section'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"last_action"=>array(
+	'last_action'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"last_module"=>array(
+	'last_module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"last_action_descriptive"=>array(
+	'last_action_descriptive'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250)
 	

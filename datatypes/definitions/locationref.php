@@ -32,18 +32,18 @@
 ##################################################
 
 return array(
-	"module"=>array(
+	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"source"=>array(
+	'source'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"internal"=>array(
+	'internal'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"refcount"=>array(
+	'refcount'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"description"=>array(
+	'description'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>500)
 );

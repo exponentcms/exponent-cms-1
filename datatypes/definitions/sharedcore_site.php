@@ -32,19 +32,19 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"path"=>array(
+	'path'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>500),
-	"core_id"=>array(
+	'core_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"inactive"=>array(
+	'inactive'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 

@@ -32,18 +32,18 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"type"=>array(
+	'type'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"locked"=>array(
+	'locked'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"site_id"=>array(
+	'site_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

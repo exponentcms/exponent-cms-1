@@ -32,9 +32,9 @@
 ##################################################
 
 return array(
-	"list_id"=>array(
+	'list_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"user_id"=>array(
+	'user_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID)
 );
 

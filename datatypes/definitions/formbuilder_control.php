@@ -32,26 +32,26 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"caption"=>array(
+	'caption'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"form_id"=>array(
+	'form_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"data"=>array(
+	'data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1000),
-	"rank"=>array(
+	'rank'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"is_readonly"=>array(
+	'is_readonly'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"is_static"=>array(
+	'is_static'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 

@@ -32,33 +32,33 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"original_id"=>array(
+	'original_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"title"=>array(
+	'title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>300),
-	"posted"=>array(
+	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"body"=>array(
+	'body'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>20000),
-	"view_link"=>array(
+	'view_link'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>512),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	"category"=>array(
+	'category'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"ref_module"=>array(
+	'ref_module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"ref_type"=>array(
+	'ref_type'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100)
 );

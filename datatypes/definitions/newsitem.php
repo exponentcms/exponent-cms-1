@@ -32,35 +32,35 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
-	"title"=>array(
+	'title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
-	"summary"=>array(
+	'summary'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>500),
-	"body"=>array(
+	'body'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
-	"publish"=>array(
+	'publish'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"unpublish"=>array(
+	'unpublish'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"posted"=>array(
+	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"poster"=>array(
+	'poster'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"edited"=>array(
+	'edited'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"editor"=>array(
+	'editor'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"approved"=>array(
+	'approved'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER)
 );
 

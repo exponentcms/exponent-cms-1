@@ -32,15 +32,15 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"event_id"=>array(
+	'event_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"date"=>array(
+	'date'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200)
 );

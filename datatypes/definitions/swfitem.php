@@ -32,28 +32,28 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"name"=>array(
+	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100,
 		DB_INDEX=>10),
-	"bgcolor"=>array(
+	'bgcolor'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>12),
-	"height"=>array(
+	'height'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"width"=>array(
+	'width'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"alignment"=>array(
+	'alignment'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"swf_id"=>array(
+	'swf_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"alt_image_id"=>array(
+	'alt_image_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"location_data"=>array(
+	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200)
 );

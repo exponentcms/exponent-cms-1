@@ -32,15 +32,15 @@
 ##################################################
 
 return array(
-	"policy_id"=>array(
+	'policy_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"module"=>array(
+	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"source"=>array(
+	'source'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"is_global"=>array(
+	'is_global'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 

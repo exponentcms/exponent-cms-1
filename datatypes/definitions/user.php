@@ -32,32 +32,32 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"username"=>array(
+	'username'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>30),
-	"password"=>array(
+	'password'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>32),
-	"is_admin"=>array(
+	'is_admin'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"is_acting_admin"=>array(
+	'is_acting_admin'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"is_locked"=>array(
+	'is_locked'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	"firstname"=>array(
+	'firstname'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"lastname"=>array(
+	'lastname'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"email"=>array(
+	'email'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"recv_html"=>array(
+	'recv_html'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 

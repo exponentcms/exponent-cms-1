@@ -32,20 +32,20 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"policy_id"=>array(
+	'policy_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"type"=>array(
+	'type'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"rank"=>array(
+	'rank'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"method"=>array(
+	'method'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"parameters"=>array(
+	'parameters'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000)
 );

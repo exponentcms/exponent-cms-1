@@ -32,28 +32,28 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"directory"=>array(
+	'directory'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	"filename"=>array(
+	'filename'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	"mimetype"=>array(
+	'mimetype'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
-	"poster"=>array(
+	'poster'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"posted"=>array(
+	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"filesize"=>array(
+	'filesize'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"accesscount"=>array(
+	'accesscount'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	"last_accessed"=>array(
+	'last_accessed'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP)
 );
 

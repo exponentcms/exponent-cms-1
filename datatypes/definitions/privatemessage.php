@@ -32,29 +32,29 @@
 ##################################################
 
 return array(
-	"id"=>array(
+	'id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID,
 		DB_PRIMARY=>true,
 		DB_INCREMENT=>true),
-	"date_sent"=>array(
+	'date_sent'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	"subject"=>array(
+	'subject'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
-	"body"=>array(
+	'body'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1500),
-	"from_id"=>array(
+	'from_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"from_name"=>array(
+	'from_name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	"recipient"=>array(
+	'recipient'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	"others"=>array(
+	'others'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>255),
-	"unread"=>array(
+	'unread'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 
