@@ -51,8 +51,8 @@ class container {
 			$newInternal = pathos_core_makeLocation($values['i_mod'],$src);
 			
 			// REFERENCES - Section and Location
-			$section = pathos_sessions_get("last_section");
-			pathos_core_incrementLocationReference($newInternal,$section);
+			//$sect = $db->selectObject('section','id='.$_POST['current_section']);
+			pathos_core_incrementLocationReference($newInternal,$_POST['current_section']);
 			
 			// Rank is only updateable from the order action
 			$object->rank = $values['rank'];

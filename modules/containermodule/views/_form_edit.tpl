@@ -52,6 +52,7 @@ if (!document.body.appendChild) {
 	{if $is_edit == 1}
 	<input type="hidden" id="existing_source" name="existing_source" value="{$container->internal->src}" />
 	{/if}
+	<input type="hidden" name="current_section" value="{$current_section}" />
 	
 	<table cellspacing="0" cellpadding="0" width="100%">
 		<tr><td valign="top">

@@ -243,11 +243,13 @@ function pathos_core_decrementLocationReference($loc,$section) {
 function pathos_core_incrementLocationReference($loc,$section) {
 	global $db;
 	$newLocRef = $db->selectObject("locationref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."'");
+	$is_new = false; // For the is_original sectionref attribute
 	if ($newLocRef != null) {
 		// Pulled an existing source.  Update refcount
 		$newLocRef->refcount += 1;
 		$db->updateObject($newLocRef,"locationref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."'");
 	} else {
+		$is_new = true;
 		// New source.  Populate reference
 		$newLocRef->module   = $loc->mod;
 		$newLocRef->source   = $loc->src;
@@ -276,6 +278,7 @@ function pathos_core_incrementLocationReference($loc,$section) {
 		$newSecRef->internal = $loc->int;
 		$newSecRef->section = $section;
 		$newSecRef->refcount = 1;
+		$newSecRef->is_original = ($is_new ? 1 : 0);
 		$db->insertObject($newSecRef,"sectionref");
 	}
 }

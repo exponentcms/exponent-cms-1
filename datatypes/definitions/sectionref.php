@@ -48,7 +48,9 @@ return array(
 	'section'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'refcount'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER)
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'is_original'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 
 ?>
