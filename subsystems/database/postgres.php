@@ -70,6 +70,10 @@ class postgres_database {
 			$in_error = false;
 		}
 	}
+	
+	function isValid() {
+		return ($this->connection != null);
+	}
 
 	function connect($username,$password,$hostname,$database,$new = false) {
 		$host_data = split(":",$hostname);
@@ -89,9 +93,38 @@ class postgres_database {
 	
 	function createTable($tablename,$datadef,$info) {
 		$sql = "CREATE TABLE \"".$this->prefix."$tablename\" (";
-		foreach ($datadef as $name=>$def) $sql .= $this->fieldSQL($name,$def) . ",";
+		$alter_sql = array();
+		
+		foreach ($datadef as $name=>$def) {
+			$sql .= $this->fieldSQL($name,$def) . ",";
+			// PostGres is stupid, you cant specify NOT NULL in the Create Table
+			if (!isset($def[DB_INCREMENT]) || !$def[DB_INCREMENT]) {
+				$alter_sql[] = 'ALTER TABLE "'.$this->prefix.$tablename . '" ALTER COLUMN "'.$name.'" SET NOT NULL';
+				$default = null;
+				if (isset($def[DB_DEFAULT])) $default = $def[DB_DEFAULT];
+				else {
+					switch ($def[DB_FIELD_TYPE]) {
+						case DB_DEF_ID:
+						case DB_DEF_INTEGER:
+						case DB_DEF_TIMESTAMP:
+						case DB_DEF_DECIMAL:
+						case DB_DEF_BOOLEAN:
+							$default = 0;
+							break;
+						default:
+							$default = '';
+							break;
+					}
+				}
+				$alter_sql[] = 'ALTER TABLE "'.$this->prefix.$tablename . '" ALTER COLUMN "'.$name.'" SET DEFAULT '."'".$default."'";				
+			}
+		}
 		$sql = substr($sql,0,-1) . ")";
-		@pg_query($this->connection,$sql);
+		pg_query($this->connection,$sql);
+		foreach ($alter_sql as $sql) {
+			echo '//'.$sql.'<br />';
+			pg_query($this->connection,$sql);
+		}
 		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
@@ -101,7 +134,7 @@ class postgres_database {
 	}
 	
 	function fieldSQL($name,$def) {
-		$sql = "$name";
+		$sql = '"'.$name.'"';
 		if (!isset($def[DB_FIELD_TYPE])) {
 			return false;
 		}
@@ -115,7 +148,7 @@ class postgres_database {
 		} else if ($type == DB_DEF_TIMESTAMP) {
 			$sql .= " int4";
 		} else if ($type == DB_DEF_BOOLEAN) {
-			$sql .= " bit";
+			$sql .= " int4";
 		} else if ($type == DB_DEF_STRING) {
 			$sql .= " text";
 		} else if ($type == DB_DEF_DECIMAL) {
@@ -126,7 +159,6 @@ class postgres_database {
 		
 		if (isset($def[DB_PRIMARY]) && $def[DB_PRIMARY]) $sql .= " PRIMARY KEY";
 		
-		#$sql .= " NOT NULL";
 		if (isset($def[DB_DEFAULT])) $sql .= " DEFAULT '" . $def[DB_DEFAULT] . "'";
 		
 		return $sql;
@@ -140,26 +172,21 @@ class postgres_database {
 			$oldcols = array_diff_assoc($dd, $newdatadef);
 			if (count($oldcols)) {
 				$modified = true;
-				$sql = "ALTER TABLE " . $this->prefix . "$tablename ";
 				foreach ($oldcols as $name=>$def) {
-					$sql .= " DROP COLUMN " . $name . ",";
+					$sql = "ALTER TABLE " . $this->prefix . $tablename . ' DROP COLUMN "' . $name .'"';
+					pg_query($this->connection,$sql);
 				}
-				$sql = substr($sql,0,-1);
-				
-				@pg_query($this->connection,$sql);
 			}
 		}
 		
 		$diff = array_diff_assoc($newdatadef,$dd);
 		if (count($diff)) {
 			$modified = true;
-			$sql = "ALTER TABLE " . $this->prefix . "$tablename ";
 			foreach ($diff as $name=>$def) {
-				$sql .= " ADD COLUMN " . $this->fieldSQL($name,$def) . ",";
+				$sql = 'ALTER TABLE "' . $this->prefix . $tablename . '" ADD COLUMN ' . $this->fieldSQL($name,$def);
+				#echo $sql .'<br />';
+				pg_query($this->connection,$sql);
 			}
-			$sql = substr($sql,0,-1);
-			
-			@pg_query($this->connection,$sql);
 		}
 		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
@@ -177,11 +204,11 @@ class postgres_database {
 	
 	function dropTable($table) {
 		$sql = "DROP TABLE ".$this->prefix.$table;
-		@pg_query($this->connection,$sql);
+		pg_query($this->connection,$sql);
 	}
 	
 	function sql($sql) {
-		$res = @pg_query($sql);
+		$res = pg_query($sql);
 		return $res;
 	}
 	
@@ -192,43 +219,44 @@ class postgres_database {
 		$this->checkError($res);
 		
 		$records = array();
-		for ($i = 0; $i < @pg_num_rows($res); $i++) {
+		for ($i = 0; $i < pg_num_rows($res); $i++) {
 			$records[] = pg_fetch_object($res);
 		}
-		@pg_free_result($res);
+		pg_free_result($res);
 		return $records;
 	}
 	
 	function selectObjectsIndexedArray($table,$where = null) {
 		$sql = "SELECT * FROM " . $this->prefix.$table;
 		if ($where != null) $sql .= " WHERE $where";
-		$res = @pg_query($sql);
+		$res = pg_query($sql);
 		$this->checkError($res);
 		
 		$records = array();
-		for ($i = 0; $i < @pg_num_rows($res); $i++) {
+		for ($i = 0; $i < pg_num_rows($res); $i++) {
 			$o = pg_fetch_object($res);
 			$records[$o->id] = $o;
 		}
-		@pg_free_result($res);
+		pg_free_result($res);
 		return $records;
 	}
 	
 	function countObjects($table,$where = null) {
 		$sql = "SELECT COUNT(*) as num FROM " . $this->prefix . $table;
 		if ($where != null) $sql .= " WHERE $where";
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		$this->checkError($res);
 		if ($res !== FALSE) {
-			$num = @pg_fetch_object($res);
-			@pg_free_result($res);
+			$num = pg_fetch_object($res);
+			pg_free_result($res);
 			return $num->num;
 		} else return 0;
 	}
 	
 	function selectObject($table,$where) {
 		$sql = "SELECT * FROM " . $this->prefix . $table . " WHERE $where";
-		$res = @pg_query($this->connection,$sql);
+		#echo $sql.'<br />';
+		$res = pg_query($this->connection,$sql);
 		$this->checkError($res);
 		if ($res == null) return null;
 		return pg_fetch_object($res);
@@ -241,12 +269,12 @@ class postgres_database {
 			$sql .= "$var,";
 			$values .= "'".str_replace("'","\\'",$val)."',";
 		}
-		if (@pg_query($this->connection,substr($sql,0,-1).substr($values,0,-1) . ")") != false) {
+		if (pg_query($this->connection,substr($sql,0,-1).substr($values,0,-1) . ")") !== false) {
 			$sql = "SELECT last_value FROM " . $this->prefix.$table ."_id_seq";
 			$res = @pg_query($this->connection,$sql);
 			if ($res) {
-				$o = @pg_fetch_object($res);
-				@pg_free_result($res);
+				$o = pg_fetch_object($res);
+				pg_free_result($res);
 				return $o->last_value;
 			} else return 0;
 		} else return 0;
@@ -255,7 +283,7 @@ class postgres_database {
 	function delete($table,$where = null) {
 		$sql = "DELETE FROM " . $this->prefix . $table;
 		if ($where != null) $sql .= " WHERE " . $where;
-		@pg_query($this->connection,$sql);
+		pg_query($this->connection,$sql);
 	}
 	
 	function updateObject($object,$table,$where=null) {
@@ -267,7 +295,8 @@ class postgres_database {
 		if ($where != null) $sql .= $where;
 		else $sql .= "id=" . $object->id;
 		
-		return (@pg_query($this->connection,$sql) != false);
+		echo '//'.$sql.'<br />';
+		return (pg_query($this->connection,$sql) != false);
 	}
 	
 	function max($table,$attribute,$groupfields = null,$where = null) {
@@ -275,10 +304,10 @@ class postgres_database {
 		$sql = "SELECT MAX($attribute) as fieldmax FROM " . $this->prefix . "$table";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		if ($res == null) return null;
-		$o = @pg_fetch_object($res);
-		@pg_free_result($res);
+		$o = pg_fetch_object($res);
+		pg_free_result($res);
 		if (!$o) return null;
 		return $o->fieldmax;
 	}
@@ -288,17 +317,17 @@ class postgres_database {
 		$sql = "SELECT MIN($attribute) as fieldmin FROM " . $this->prefix . "$table";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		if ($res == null) return null;
-		$o = @pg_fetch_object($res);
-		@pg_free_result($res);
+		$o = pg_fetch_object($res);
+		pg_free_result($res);
 		if (!$o) return null;
 		return $o->fieldmin;
 	}
 	
 	function switchValues($table,$field,$a,$b,$additional_where = null) {
 		if ($additional_where == null) {
-			$additional_where = '1';
+			$additional_where = 'true';
 		}
 		$object_a = $this->selectObject($table,"$field='$a' AND $additional_where");
 		$object_b = $this->selectObject($table,"$field='$b' AND $additional_where");
@@ -308,26 +337,26 @@ class postgres_database {
 		$object_b->$field = $tmp;
 		
 		$this->updateObject($object_a,$table);
-		$this->updateObject($object_b,$table);
+		$this->Object($object_b,$table);
 	}
 	
 	function tableExists($table) {
 		$sql = "SELECT COUNT(relname) as num FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON (relnamespace = pg_namespace.oid) WHERE relkind IN ('r') AND nspname = 'public' AND relname = '".$this->prefix.$table."'";
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		$this->checkError($res);
 		if ($res) {
 			$o = pg_fetch_object($res);
-			@pg_free_result($res);
+			pg_free_result($res);
 			return ($o->num != 0);
 		} else return false;
 	}
 	
 	function getTables($prefixed_only=true) {
 		$sql = "SELECT relname as tablename FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON (relnamespace = pg_namespace.oid) WHERE relkind IN ('r') AND nspname = 'public'";
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		$this->checkError($res);
 		$tables = array();
-		for ($i = 0; $i < @pg_num_rows($res); $i++) {
+		for ($i = 0; $i < pg_num_rows($res); $i++) {
 			$o = pg_fetch_object($res);
 			if ($prefixed_only && substr($o->tablename,0,strlen($this->prefix)) == $this->prefix) {
 				$tables[] = $o->tablename;
@@ -335,22 +364,22 @@ class postgres_database {
 				$tables[] = $o->tablename;
 			}
 		}
-		@pg_free_result($res);
+		pg_free_result($res);
 		return $tables;
 	}
 	
 	function optimize($table) {
 		$sql = 'VACUUM FULL "'. $this->prefix.$table.'"';
-		@pg_query($this->connection,$sql);
+		pg_query($this->connection,$sql);
 	}
 	
 	function tableInfo($table) {
 	// Logic here
 		$sql = "SELECT relpages * 8192 AS data_total FROM pg_class WHERE relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public') AND relname='$table'";
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		if ($res == null) return $this->translateTableStatus(null);
 		$sizeobj = pg_fetch_object($res);
-		@pg_free_result($res);
+		pg_free_result($res);
 		$sizeobj->rows = $this->countObjects($table);
 		if ($sizeobj->rows) {
 			$sizeobj->average_row_length = $sizeobj->data_total / $sizeobj->rows;
@@ -397,10 +426,10 @@ ENDSQL;
 		
 		$dd = array();
 		
-		$res = @pg_query($this->connection,$sql);
+		$res = pg_query($this->connection,$sql);
 		$this->checkError($res);
-		for ($i = 0; $i < @pg_num_rows($res); $i++) {
-			$o = @pg_fetch_object($res);
+		for ($i = 0; $i < pg_num_rows($res); $i++) {
+			$o = pg_fetch_object($res);
 			
 			$fld = array();
 			
@@ -433,9 +462,9 @@ ENDSQL;
 	}
 	
 	function increment($table,$field,$step,$where = null) {
-		if ($where == null) $where = '1';
+		if ($where == null) $where = 'true';
 		$sql = "UPDATE ".$this->prefix."$table SET $field=$field+$step WHERE $where";
-		return @pg_query($this->connection,$sql);
+		return pg_query($this->connection,$sql);
 	}
 	
 	function decrement($table,$field,$step,$where = null) {
@@ -495,7 +524,7 @@ ENDSQL;
 		$this->alterTable($tablename,$dd,array());
 		$o = null;
 		$o->name = "Alter Test";
-		$o->thirdcol = "Third Column";
+		$o->thirdcol = time();
 		if (!$this->insertObject($o,$tablename)) {
 			$status["ALTER TABLE"] = false;
 			return $status;
