@@ -109,10 +109,13 @@ class datetimecontrol extends formcontrol {
 	
 	function parseData($original_name,$formvalues,$for_db = false) {
 		$time = 0;
-		if (isset($formvalues[$original_name."_month"])) $time = mktime(0,0,0,$formvalues[$original_name.'_month'],$formvalues[$original_name.'_day'],$formvalues[$original_name.'_year']);
+		if (isset($formvalues[$original_name."_month"])) $time = mktime(8,0,0,$formvalues[$original_name.'_month'],$formvalues[$original_name.'_day'],$formvalues[$original_name.'_year']) - 8*3600;
 		
 		if (isset($formvalues[$original_name."_hour"])) {
-			$time += ($formvalues[$original_name.'_hour']*3600 + $formvalues[$original_name.'_minute']*60 + (12*3600*$formvalues[$original_name.'_ampm']));
+			if ($formvalues[$original_name.'_hour'] == 12 && $formvalues[$original_name.'_ampm'] == 'am') {
+				$formvalues[$original_name.'_hour'] = 0;
+			}
+			$time += ($formvalues[$original_name.'_hour']*3600 + $formvalues[$original_name.'_minute']*60 + (12*3600*($formvalues[$original_name.'_ampm'] == 'am' ? 0 : 1)));
 		}
 		
 		return $time;
