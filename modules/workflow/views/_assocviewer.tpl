@@ -32,7 +32,7 @@
 <hr size="1" />
 <div class="form_title">Manage Associations</div>
 <div class="form_header">Use the options below to manage the default module-to-policy associations.<br /><br />
-To override defaults, or apply a policy to just one module, click <a class="mngmntlink administration_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}source_selector.php?&dest='+escape('{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy')+'&vmod=workflow&vview=_sourcePicker','picker','title=no,toolbar=no,width=640,height=480,scrollbars=yes'); return false">here</a></div>
+To override defaults, or apply a policy to just one module, click <a class="mngmntlink administration_mngmntlink" href="#" onClick="openSelector('all','{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy','workflow','_sourcePicker'); return false">here</a></div>
 {if $policy_count == 0}
 <div style="font-style: italic;">Note: No policies have been defined.  You will have to define one or more approval policies before you can associate them with modules.</div>
 <hr size="1"/>
