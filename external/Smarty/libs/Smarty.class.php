@@ -1104,7 +1104,7 @@ class Smarty
      * @param string $compile_id
      * @param boolean $display
      */
-    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false, $render = true)
     {
         static $_cache_info = array();
         
@@ -1236,30 +1236,30 @@ class Smarty
 
         $_smarty_compile_path = $this->_get_compile_path($resource_name);
 
-        // if we just need to display the results, don't perform output
-        // buffering - for speed
-        $_cache_including = $this->_cache_including;
-        $this->_cache_including = false;
-        if ($display && !$this->caching && count($this->_plugins['outputfilter']) == 0) {
-            if ($this->_is_compiled($resource_name, $_smarty_compile_path)
-                    || $this->_compile_resource($resource_name, $_smarty_compile_path))
-            {
-                include($_smarty_compile_path);
-            }
-        } else {
-            ob_start();
-            if ($this->_is_compiled($resource_name, $_smarty_compile_path)
-                    || $this->_compile_resource($resource_name, $_smarty_compile_path))
-            {
-                include($_smarty_compile_path);
-            }
-            $_smarty_results = ob_get_contents();
-            ob_end_clean();
+		// if we just need to display the results, don't perform output
+		// buffering - for speed
+		$_cache_including = $this->_cache_including;
+		$this->_cache_including = false;
+		if ($display && !$this->caching && count($this->_plugins['outputfilter']) == 0) {
+			if ($this->_is_compiled($resource_name, $_smarty_compile_path)
+					|| $this->_compile_resource($resource_name, $_smarty_compile_path))
+			{
+				if ($render) include($_smarty_compile_path);
+			}
+		} else {
+			ob_start();
+			if ($this->_is_compiled($resource_name, $_smarty_compile_path)
+					|| $this->_compile_resource($resource_name, $_smarty_compile_path))
+			{
+				if ($render) include($_smarty_compile_path);
+			}
+			$_smarty_results = ob_get_contents();
+			ob_end_clean();
 
-            foreach ((array)$this->_plugins['outputfilter'] as $_output_filter) {
-                $_smarty_results = call_user_func_array($_output_filter[0], array($_smarty_results, &$this));
-            }
-        }
+			foreach ((array)$this->_plugins['outputfilter'] as $_output_filter) {
+				$_smarty_results = call_user_func_array($_output_filter[0], array($_smarty_results, &$this));
+			}
+		}
 
         if ($this->caching) {
             $_params = array('tpl_file' => $resource_name,
