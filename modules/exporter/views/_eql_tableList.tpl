@@ -47,6 +47,18 @@ function selectAll(checked) {
 		}
 	}
 }
+
+function isOneSelected() {
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,7) == "tables[") {
+			if (elems[key].checked) return true;
+		}
+	}
+	alert("You must select at least one table to export.");
+	return false;
+}
+
 {/literal}
 </script>
 
@@ -85,7 +97,7 @@ function selectAll(checked) {
 </tr>
 <tr>
 	<td colspan="4">
-		<input type="submit" value="Backup Selected" />
+		<input type="submit" value="Backup Selected" onClick="return true; return isOneSelected();" />
 	</td>
 </tr>
 </table>
