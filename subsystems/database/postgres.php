@@ -71,13 +71,18 @@ class postgres_database {
 		}
 	}
 
-	function connect($username,$password,$hostname,$database) {
+	function connect($username,$password,$hostname,$database,$new = false) {
 		$host_data = split(":",$hostname);
 		$hostname = $host_data[0];
 		$port = $hostname[1];
 		if ($hostname == "localhost") $dsn = "user=$username password=$password dbname=$database";
 		else $dsn = "host=$hostname user=$username password=$password dbname=$database";
-		$this->connection = pg_connect($dsn);
+		
+		if ($new) {
+			$this->connection = pg_connect($dsn,PGSQL_CONNECT_FORCE_NEW);
+		} else {
+			$this->connection = pg_connect($dsn);
+		}
 		
 		$this->prefix = DB_TABLE_PREFIX . '_';
 	}
@@ -127,11 +132,27 @@ class postgres_database {
 		return $sql;
 	}
 	
-	function alterTable($tablename,$newdatadef,$info) {
+	function alterTable($tablename,$newdatadef,$info,$aggressive = false) {
 		$dd = $this->getDataDefinition($tablename);
+		$modified = false;
+		
+		if ($aggressive) {
+			$oldcols = array_diff_assoc($dd, $newdatadef);
+			if (count($oldcols)) {
+				$modified = true;
+				$sql = "ALTER TABLE " . $this->prefix . "$tablename ";
+				foreach ($oldcols as $name=>$def) {
+					$sql .= " DROP COLUMN " . $name . ",";
+				}
+				$sql = substr($sql,0,-1);
+				
+				@pg_query($this->connection,$sql);
+			}
+		}
 		
 		$diff = array_diff_assoc($newdatadef,$dd);
 		if (count($diff)) {
+			$modified = true;
 			$sql = "ALTER TABLE " . $this->prefix . "$tablename ";
 			foreach ($diff as $name=>$def) {
 				$sql .= " ADD COLUMN " . $this->fieldSQL($name,$def) . ",";
@@ -139,20 +160,17 @@ class postgres_database {
 			$sql = substr($sql,0,-1);
 			
 			@pg_query($this->connection,$sql);
-			
-			if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
-				// Initialize workflow tables:
-				if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-				pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
-			}
-			
+		}
+		
+		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
+			// Initialize workflow tables:
+			if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+			pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
+		}
+		
+		if ($modified) {
 			return TABLE_ALTER_SUCCEEDED;
 		} else {
-			if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
-				// Initialize workflow tables:
-				if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-				pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
-			}
 			return TABLE_ALTER_NOT_NEEDED;
 		}
 	}
@@ -265,6 +283,34 @@ class postgres_database {
 		return $o->fieldmax;
 	}
 	
+	function min($table,$attribute,$groupfields = null,$where = null) {
+		if (is_array($groupfields)) $groupfields = implode(",",$groupfields);
+		$sql = "SELECT MIN($attribute) as fieldmin FROM " . $this->prefix . "$table";
+		if ($where != null) $sql .= " WHERE $where";
+		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
+		$res = @pg_query($this->connection,$sql);
+		if ($res == null) return null;
+		$o = @pg_fetch_object($res);
+		@pg_free_result($res);
+		if (!$o) return null;
+		return $o->fieldmin;
+	}
+	
+	function switchValues($table,$field,$a,$b,$additional_where = null) {
+		if ($additional_where == null) {
+			$additional_where = '1';
+		}
+		$object_a = $this->selectObject($table,"$field='$a' AND $additional_where");
+		$object_b = $this->selectObject($table,"$field='$b' AND $additional_where");
+		
+		$tmp = $object_a->$field;
+		$object_a->$field = $object_b->$field;
+		$object_b->$field = $tmp;
+		
+		$this->updateObject($object_a,$table);
+		$this->updateObject($object_b,$table);
+	}
+	
 	function tableExists($table) {
 		$sql = "SELECT COUNT(relname) as num FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON (relnamespace = pg_namespace.oid) WHERE relkind IN ('r') AND nspname = 'public' AND relname = '".$this->prefix.$table."'";
 		$res = @pg_query($this->connection,$sql);
@@ -294,13 +340,25 @@ class postgres_database {
 	}
 	
 	function optimize($table) {
-		$sql = "VACUUM ". $this->prefix.$table;
+		$sql = 'VACUUM FULL "'. $this->prefix.$table.'"';
 		@pg_query($this->connection,$sql);
 	}
 	
 	function tableInfo($table) {
 	// Logic here
-		return $this->translateTableStatus(null);
+		$sql = "SELECT relpages * 8192 AS data_total FROM pg_class WHERE relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public') AND relname='$table'";
+		$res = @pg_query($this->connection,$sql);
+		if ($res == null) return $this->translateTableStatus(null);
+		$sizeobj = pg_fetch_object($res);
+		@pg_free_result($res);
+		$sizeobj->rows = $this->countObjects($table);
+		if ($sizeobj->rows) {
+			$sizeobj->average_row_length = $sizeobj->data_total / $sizeobj->rows;
+		} else {
+			$sizeobj->average_row_length = 0;
+		}
+		$sizeobj->data_overhead = 0;
+		return $sizeobj;
 	}
 	
 	function tableIsEmpty($table) {
@@ -308,16 +366,12 @@ class postgres_database {
 	}
 	
 	function databaseInfo() {
-		
-	}
-	
-	function translateTableStatus($status) {
-		$data = null;
-		$data->rows = -1;
-		$data->average_row_length = -1;
-		$data->data_overhead = -1;
-		$data->data_total = -1;
-		return $data;
+		$stat = array();
+		$i = strlen($this->prefix);
+		foreach ($this->getTables(true) as $table) {
+			$stat[substr($table,$i)] = $this->tableInfo($table);
+		}
+		return $stat;
 	}
 	
 	function getDataDefinition($table) {
@@ -343,7 +397,7 @@ ENDSQL;
 		
 		$dd = array();
 		
-		$res = @pg_query($sql);
+		$res = @pg_query($this->connection,$sql);
 		$this->checkError($res);
 		for ($i = 0; $i < @pg_num_rows($res); $i++) {
 			$o = @pg_fetch_object($res);
@@ -376,6 +430,88 @@ ENDSQL;
 		}
 		
 		return $dd;
+	}
+	
+	function increment($table,$field,$step,$where = null) {
+		if ($where == null) $where = '1';
+		$sql = "UPDATE ".$this->prefix."$table SET $field=$field+$step WHERE $where";
+		return @pg_query($this->connection,$sql);
+	}
+	
+	function decrement($table,$field,$step,$where = null) {
+		return $this->increment($table,$field,-1*$step,$where);
+	}
+	
+	function testPrivileges() {
+		$status = array();
+		
+		$tablename = "___testertable".uniqid("");
+		$dd = array(
+			"id"=>array(
+				DB_FIELD_TYPE=>DB_DEF_ID,
+				DB_PRIMARY=>true,
+				DB_INCREMENT=>true),
+			"name"=>array(
+				DB_FIELD_TYPE=>DB_DEF_STRING,
+				DB_FIELD_LEN=>100)
+		);
+		
+		$this->createTable($tablename,$dd,array());
+		if (!$this->tableExists($tablename)) {
+			$status["CREATE TABLE"] = false;
+			return $status;
+		} else $status["CREATE TABLE"] = true;
+		
+		$o = null;
+		$o->name = "Testing Name";
+		$insert_id = $this->insertObject($o,$tablename);
+		if ($insert_id == 0) {
+			$status["INSERT"] = false;
+			return $status;
+		} else $status["INSERT"] = true;
+		
+		$o = $this->selectObject($tablename,"id=".$insert_id);
+		if ($o == null || $o->name != "Testing Name") {
+			$status["SELECT"] = false;
+			return $status;
+		} else $status["SELECT"] = true;
+		
+		$o->name = "Testing 2";
+		if (!$this->updateObject($o,$tablename)) {
+			$status["UPDATE"] = false;
+			return $status;
+		} else $status["UPDATE"] = true;
+		
+		$this->delete($tablename,"id=".$insert_id);
+		$o = $this->selectObject($tablename,"id=".$insert_id);
+		if ($o != null) {
+			$status["DELETE"] = false;
+			return $status;
+		} else $status["DELETE"] = true;
+		
+		$dd["thirdcol"] = array(
+			DB_FIELD_TYPE=>DB_DEF_TIMESTAMP);
+		
+		$this->alterTable($tablename,$dd,array());
+		$o = null;
+		$o->name = "Alter Test";
+		$o->thirdcol = "Third Column";
+		if (!$this->insertObject($o,$tablename)) {
+			$status["ALTER TABLE"] = false;
+			return $status;
+		} else $status["ALTER TABLE"] = true;
+		
+		$this->dropTable($tablename);
+		if ($this->tableExists($tablename)) {
+			$status["DROP TABLE"] = false;
+			return $status;
+		} else $status["DROP TABLE"] = true;
+		
+		foreach ($this->getTables() as $t) {
+			if (substr($t,0,14+strlen($this->prefix)) == $this->prefix."___testertable") $this->dropTable($t);
+		}
+		
+		return $status;
 	}
 	
 	function error() {
