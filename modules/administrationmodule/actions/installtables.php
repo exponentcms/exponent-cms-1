@@ -49,24 +49,19 @@ if (is_readable($dir)) {
 			$info = null;
 			if (is_readable("$dir/$tablename.info.php")) $info = include("$dir/$tablename.info.php");
 			if (!$db->tableExists($tablename)) {
-				$db->createTable($tablename,$dd,$info);
-				if ($db->tableExists($tablename)) {
-					$tables[$tablename] = TMP_TABLE_INSTALLED;
-				} else {
-					$tables[$tablename] = TMP_TABLE_FAILED;
+				foreach ($db->createTable($tablename,$dd,$info) as $key=>$status) {
+					$tables[$key] = $status;
 				}
 			} else {
-				if ($db->alterTable($tablename,$dd,$info) == TABLE_ALTER_NOT_NEEDED) {
-					$tables[$tablename] = TMP_TABLE_EXISTED;
-				} else {
-					$tables[$tablename] = TMP_TABLE_ALTERED;
+				foreach ($db->alterTable($tablename,$dd,$info) as $key=>$status) {
+					$tables[$key] = ($status == TABLE_ALTER_NOT_NEEDED ? DATABASE_TABLE_EXISTED : DATABASE_TABLE_ALTERED);
 				}
 			}
 		}
 	}
 	ksort($tables);
 	
-	$template = new Template("administrationmodule","_tableInstallSummary",$loc);
+	$template = new template("administrationmodule","_tableInstallSummary",$loc);
 	$template->assign("status",$tables);
 	$template->output();
 }

@@ -123,11 +123,20 @@ class mysql_database {
 		}
 		@mysql_query($sql,$this->connection);
 		
+		$return = array(
+			$tablename=>($this->tableExists($tablename) ? DATABASE_TABLE_INSTALLED : DATABASE_TABLE_FAILED)
+		);
+		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-			pathos_workflow_installWorkflowTables($tablename,$datadef);
+			$wf = pathos_workflow_installWorkflowTables($tablename,$datadef);
+			foreach ($wf as $key=>$status) {
+				$return[$key] = $status;
+			}
 		}
+		
+		return $return;
 	}
 	
 	/* exdoc
@@ -332,17 +341,20 @@ class mysql_database {
 			@mysql_query($sql,$this->connection);
 		} 
 		
+		$return = array(
+			$tablename=>($modified ? TABLE_ALTER_SUCCEEDED : TABLE_ALTER_NOT_NEEDED)
+		);
+		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-			pathos_workflow_alterWorkflowTables($tablename,$newdatadef,$aggressive);
+			$wf = pathos_workflow_alterWorkflowTables($tablename,$newdatadef,$aggressive);
+			foreach ($wf as $key=>$status) {
+				$return[$key] = $status;
+			}
 		}
 		
-		if ($modified) {
-			return TABLE_ALTER_SUCCEEDED;
-		} else {
-			return TABLE_ALTER_NOT_NEEDED;
-		}
+		return $return;
 	}
 	
 	/* exdoc

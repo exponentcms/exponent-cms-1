@@ -33,6 +33,11 @@
 
 if (!defined('PATHOS')) exit('');
 
+define("DATABASE_TABLE_EXISTED",		1);
+define("DATABASE_TABLE_INSTALLED",		2);
+define("DATABASE_TABLE_FAILED",			3);
+define("DATABASE_TABLE_ALTERED",		4);
+
 /**
  * Database Subsystem
  *
