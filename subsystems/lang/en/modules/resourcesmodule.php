@@ -2,6 +2,8 @@
 
 // I18N strings for the Resources Module
 
+define('TR_RESOURCESMODULE_SEARCHTYPE','File Resources');
+
 define('TR_RESOURCESMODULE_NAME','Name');
 define('TR_RESOURCESMODULE_DESCRIPTION','Description');
 

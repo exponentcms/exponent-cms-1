@@ -30,7 +30,7 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
 class resourcesmodule {
 	function name() { return "Resource Manager"; }
 	function author() { return "James Hunt"; }
@@ -63,54 +63,51 @@ class resourcesmodule {
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == "") return array($loc);
+		if ($loc->int == '') return array($loc);
 		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
 	}
 	
-	function show($view,$loc,$title = "") {
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+	function show($view,$loc,$title = '') {
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		
-		$directory = "files/resourcesmodule/" . $loc->src;
+		$template = new template('resourcesmodule',$view,$loc);
+		
+		$directory = 'files/resourcesmodule/' . $loc->src;
 		if (!file_exists(BASE.$directory)) {
-			switch(pathos_files_makeDirectory($directory)) {
-				case SYS_FILES_FOUNDFILE:
-					echo "Found a file in the directory path.";
-					return;
-				case SYS_FILES_NOTWRITABLE:
-					echo "Unable to create directory to store files in.";
-					return;
+			$err = pathos_files_makeDirectory($directory);
+			if ($err != SYS_FILES_SUCCESS) {
+				$template->assign('noupload',1);
+				$template->assign('uploadError',$err);
 			}
 		}
 		
-		$template = new template("resourcesmodule",$view,$loc);
-		
 		global $db;
 		
-		$resources = $db->selectObjects("resourceitem","location_data='".serialize($loc)."'");
+		$resources = $db->selectObjects('resourceitem',"location_data='".serialize($loc)."'");
 		$iloc = pathos_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($resources); $i++) {
 			$iloc->int = $resources[$i]->id;
 			$resources[$i]->permissions = array(
-				"administrate"=>pathos_permissions_check("administrate",$iloc),
-				"edit"=>pathos_permissions_check("edit",$iloc),
-				"delete"=>pathos_permissions_check("delete",$iloc),
+				'administrate'=>pathos_permissions_check('administrate',$iloc),
+				'edit'=>pathos_permissions_check('edit',$iloc),
+				'delete'=>pathos_permissions_check('delete',$iloc),
 			);
 		}
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($resources,"pathos_sorting_byNameAscending");
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($resources,'pathos_sorting_byNameAscending');
 		
 		$rfiles = array();
-		foreach ($db->selectObjects("file","directory='$directory'") as $file) {
-			$file->mimetype = $db->selectObject("mimetype","mimetype='".$file->mimetype."'");
+		foreach ($db->selectObjects('file',"directory='$directory'") as $file) {
+			$file->mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
 			$rfiles[$file->id] = $file;
 		}
 		
-		$template->assign("moduletitle",$title);
-		$template->assign("resources",$resources);
-		$template->assign("files",$rfiles);
+		$template->assign('moduletitle',$title);
+		$template->assign('resources',$resources);
+		$template->assign('files',$rfiles);
 		
 		$template->register_permissions(
-			array("administrate"/*,"configure"*/,"post","edit","delete"),
+			array('administrate','post','edit','delete'),
 			$loc);
 		
 		$template->output($view);
@@ -119,21 +116,21 @@ class resourcesmodule {
 	
 	function deleteIn($loc) {
 		global $db;
-		foreach($db->selectObjects("resourceitem","location_data='".serialize($loc)."'") as $res) {
-			foreach ($db->selectObjects("resourceitem_wf_revision","wf_original=".$res->id) as $wf_res) {
-				$file = $db->selectObject("file","id=".$wf_res->file_id);
+		foreach($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $res) {
+			foreach ($db->selectObjects('resourceitem_wf_revision','wf_original='.$res->id) as $wf_res) {
+				$file = $db->selectObject('file','id='.$wf_res->file_id);
 				file::delete($file);
-				$db->delete("file","id=".$file->id);
+				$db->delete('file','id='.$file->id);
 			}
-			$db->delete("resourceitem_wf_revision","wf_original=".$res->id);
+			$db->delete('resourceitem_wf_revision','wf_original='.$res->id);
 		}
-		rmdir(BASE."files/resourcesmodule/".$loc->src);
-		$db->delete("resourceitem","location_data='".serialize($loc)."'");
+		rmdir(BASE.'files/resourcesmodule/'.$loc->src);
+		$db->delete('resourceitem',"location_data='".serialize($loc)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
-		$directory = "files/resourcesmodule/".$nloc->src;
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		$directory = 'files/resourcesmodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory)) {
 			switch(pathos_files_makeDirectory($directory)) {
 				case SYS_FILES_FOUNDFILE:
@@ -143,47 +140,49 @@ class resourcesmodule {
 		}
 		
 		global $db;
-		foreach ($db->selectObjects("resourceitem","location_data='".serialize($oloc)."'") as $r) {
-			$file = $db->selectObject("file","id=".$r->file_id);
+		foreach ($db->selectObjects('resourceitem',"location_data='".serialize($oloc)."'") as $r) {
+			$file = $db->selectObject('file','id='.$r->file_id);
 			
-			copy($file->directory."/".$file->filename,$directory."/".$file->filename);
+			copy($file->directory.'/'.$file->filename,$directory.'/'.$file->filename);
 			$file->directory = $directory;
 			unset($file->id);
-			$file->id = $db->insertObject($file,"file");
+			$file->id = $db->insertObject($file,'file');
 			
 			$r->location_data = serialize($nloc);
 			$r->file_id = $file->id;
 			unset($r->id);
-			$db->insertObject($r,"resourceitem");
+			$db->insertObject($r,'resourceitem');
 		}
 	}
 	
 	function spiderContent($item = null) {
+		pathos_lang_loadDictionary('modules','resourcesmodule');
+		
 		global $db;
 		
-		if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
+		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
 		$search = null;
-		$search->category = "File Resources";
-		$search->view_link = ""; // FIXME : need a view action
-		$search->ref_module = "resourcesmodule";
-		$search->ref_type = "resourceitem";
+		$search->category = TR_RESOURCESMODULE_SEARCHTYPE;
+		$search->view_link = ''; // FIXME: need a view action
+		$search->ref_module = 'resourcesmodule';
+		$search->ref_type = 'resourceitem';
 		
 		if ($item) {
-			$db->delete("search","ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=" . $item->id);
+			$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->body = " " . pathos_search_removeHTML($item->description) . " ";
-			$search->title = " " . $item->name . " ";
+			$search->body = ' ' . pathos_search_removeHTML($item->description) . ' ';
+			$search->title = ' ' . $item->name . ' ';
 			$search->location_data = $item->location_data;
-			$db->insertObject($search,"search");
+			$db->insertObject($search,'search');
 		} else {
-			$db->delete("search","ref_module='resourcesmodule' AND ref_type='resourceitem'");
-			foreach ($db->selectObjects("resourceitem") as $item) {
+			$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem'");
+			foreach ($db->selectObjects('resourceitem') as $item) {
 				$search->original_id = $item->id;
-				$search->body = " " . pathos_search_removeHTML($item->description) . " ";
-				$search->title = " " . $item->name . " ";
+				$search->body = ' ' . pathos_search_removeHTML($item->description) . ' ';
+				$search->title = ' ' . $item->name . ' ';
 				$search->location_data = $item->location_data;
-				$db->insertObject($search,"search");
+				$db->insertObject($search,'search');
 			}
 		}
 	}
