@@ -42,7 +42,15 @@ return array(
 	"modules/calendarmodule/form.part"=>"",
 	"datatypes/definitions/eventdate.php"=>"7b811f4d8d97595b81142384d522ce66",
 	"modules/calendarmodule/actions/delete_process.php"=>"cf2ad0b0434ee48c3fd6580eb49193d7",
-	"datatypes/eventdate.php"=>"c2f7459f180e602a3cb56dfb23bfbe9c"
+	"datatypes/eventdate.php"=>"c2f7459f180e602a3cb56dfb23bfbe9c",
+	'modules/calendarmodule/actions/send_feedback.php'=>'',
+	'modules/calendarmodule/views/Administration.tpl'=>'',
+	'modules/calendarmodule/views/Default.form'=>'',
+	'modules/calendarmodule/views/_cat_viewCategories.tpl'=>'',
+	'modules/calendarmodule/views/_feedback_submitted.tpl'=>'',
+	'modules/calendarmodule/views/Administration.config'=>'',
+	'datatypes/definitions/calendarmodule_config.php'=>'',
+	'datatypes/calendarmodule_config.php'=>'',
 );
 
 ?>

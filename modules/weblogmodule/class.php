@@ -117,7 +117,7 @@ class weblogmodule {
 			if (pathos_permissions_check('view_private',$loc)) $where = '';
 			
 			$total = $db->countObjects('weblog_post',"location_data='".serialize($loc)."'".$where);
-			$posts = $db->selectObjects('weblog_post',"location_data='".serialize($loc)."'".$where . ' ORDER BY posted DESC LIMIT 0,'.$config->items_per_page);
+			$posts = $db->selectObjects('weblog_post',"location_data='".serialize($loc)."'".$where . ' ORDER BY posted DESC LIMIT '.$config->items_per_page . ' OFFSET 0');
 			if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 			for ($i = 0; $i < count($posts); $i++) {
 				$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);

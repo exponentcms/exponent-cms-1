@@ -9,6 +9,9 @@ return array(
 	"modules/searchmodule/actions/spider.php"=>"4aeaeed691f162a0a673c45d8e780f99",
 	"modules/searchmodule/deps.php"=>"",
 	"modules/searchmodule/manifest.php"=>1,
+	'datatypes/searchmodule_config.php'=>'',
+	'datatypes/definitions/searchmodule_config.php'=>'',
+	'modules/searchmodule/views/_results.tpl'=>'',
 );
 
 ?>

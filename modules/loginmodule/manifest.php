@@ -28,6 +28,9 @@ return array(
 	"modules/loginmodule/views/_login_redirect.tpl"=>"ccb7be92f156317288dbd96896419a43",
 	"modules/loginmodule/deps.php"=>"",
 	"modules/loginmodule/manifest.php"=>1,
+	'modules/loginmodule/actions/mygroups.php'=>'',
+	'modules/loginmodule/views/_resetsend.tpl'=>'',
+	'modules/loginmodule/views/_resetconfirm.tpl'=>'',
 );
 
 ?>

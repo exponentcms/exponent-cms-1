@@ -98,6 +98,14 @@ return array(
 	"js/HTMLAreaToolbarBuilder.js"=>"",
 	"modules/administrationmodule/manifest.php"=>1,
 	"modules/administrationmodule/deps.php"=>"",
+	'modules/administrationmodule/actions/umgr_edit.php'=>'',
+	'modules/administrationmodule/actions/umgr_membership.php'=>'',
+	'modules/administrationmodule/actions/umgr_savemembers.php'=>'',
+	'modules/administrationmodule/actions/umgr_lockuser.php'=>'',
+	'modules/administrationmodule/views/_usermembership.tpl'=>'',
+	'modules/administrationmodule/views/_config_results.tpl'=>'',
+	'modules/administrationmodule/views/_umgr_edit_which.tpl'=>'',
+
 );
 
 ?>

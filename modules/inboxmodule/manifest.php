@@ -38,6 +38,9 @@ return array(
 	"modules/inboxmodule/actions/view_contacts.php"=>"4dace47c7fdb4f0b5ac56ba68b61a804",
 	"modules/inboxmodule/actions/view_list.php"=>"37f5784736c2cd2cf737b921d5de04a8",
 	"modules/inboxmodule/manifest.php"=>1,
+	'subsystems/users/profileextensions/inboxextension.php'=>'',
+	'subsystems/users/profileextensions/inboxextension.php'=>'',
+	'datatypes/definitions/inbox_userconfig.php'=>'',
 );
 
 ?>
