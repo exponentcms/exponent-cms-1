@@ -272,22 +272,24 @@ function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array())
  * @node Subsystems:Files
  */
 function pathos_files_canCreate($dest) {
-	if (substr($dest,0,1) != "/") $dest = BASE.$dest;
+	if (substr($dest,0,1) == "/") $dest = str_replace(BASE,'',$dest);
 	$parts = explode("/",$dest);
-	$working = "";
+	$working = BASE;
 	for ($i = 0; $i < count($parts); $i++) {
 		if ($parts[$i] != "") {
-			$working .= "/";
 			if (!file_exists($working.$parts[$i])) {
 				return (is_writable($working) ? SYS_FILES_SUCCESS : SYS_FILES_NOTWRITABLE);
 			}
-			$working .= $parts[$i];
+			$working .= $parts[$i].'/';
 		}
 	}
 	if (!is_writable($working)) return SYS_FILES_NOTWRITABLE;
 	else {
-		if (is_file($working)) return SYS_FILES_FOUNDFILE;
-		else return SYS_FILES_NOTWRITABLE;
+		if (is_file($working)) {
+			return SYS_FILES_FOUNDFILE;
+		} else {
+			return SYS_FILES_NOTWRITABLE;
+		}
 	}
 }
 
