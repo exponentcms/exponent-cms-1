@@ -52,8 +52,12 @@ function GetResultingValue(ptObject, strInsert) {
 		var startPos = ptObject.selectionStart;
 		var endPos = ptObject.selectionEnd;
 		strPostValue = ptObject.value.substring(0, startPos) + strInsert + ptObject.value.substring(endPos, ptObject.value.length);
+	} 
+	//SAFARI support, 
+	//I know this isn't quite right, but if anyone can get it to work let us know!!
+	else if (window.getSelection) {
+		strPostValue = ptObject.value + strInsert;
 	}
-	
 	return strPostValue;
 }
 
