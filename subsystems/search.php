@@ -107,9 +107,13 @@ function pathos_search_removeHTML($str) {
  */
 function pathos_search_cleanSearchQuery($query) {
 	$exclude = array_map("trim",file(BASE."subsystems/search/exclude.en.list"));
-	$newquery = array();
+	$newquery = array('valid'=>array(),'excluded'=>array());
 	foreach ($query as $q_tok) {
-		if (!in_array($q_tok,$exclude)) $newquery[] = $q_tok;
+		if (!in_array($q_tok,$exclude)) {
+			$newquery['valid'][] = $q_tok;
+		} else {
+			$newquery['excluded'][] = $q_tok;
+		}
 	}
 	return $newquery;
 }
