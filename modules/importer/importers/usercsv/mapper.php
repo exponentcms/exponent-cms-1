@@ -117,7 +117,7 @@ if ($lineInfo == null) {
 	$form->meta("importer","usercsv");
 	$form->meta("filename",$directory."/".$file->filename);
 	$form->meta("delimiter",$_POST["delimiter"]); 
-	for ($i=0; $i< Count($lineInfo); $i++) {
+	for ($i=0; $i< count($lineInfo); $i++) {
 		$form->register("column[$i]", $lineInfo[$i], new dropdowncontrol("none", $colNames));
 	}
 	$form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,"", TR_IMPORTER_USERCSV_CANCEL));

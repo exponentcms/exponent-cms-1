@@ -70,7 +70,7 @@ if (in_array("password", $_POST["column"]) == false){
 	$pwordOptions = array("INFILE"=>TR_IMPORTER_USERCSV_PWORDINFILE);
 }
 
-if (Count($pwordOptions) == 1){
+if (count($pwordOptions) == 1){
 	$disabled = true;
 }else{
 	$disabled = false;
