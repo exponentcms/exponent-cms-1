@@ -120,7 +120,7 @@ class template extends basetemplate {
 		// View Config
 		global $db;
 		$container = $db->selectObject("container","internal='".serialize($loc)."'");
-		$viewconfig = ($container->view_data != "" ? unserialize($container->view_data) : array());
+		$viewconfig = ($container && $container->view_data != "" ? unserialize($container->view_data) : array());
 		$this->tpl->assign("__viewconfig",$viewconfig);
 	}
 	
