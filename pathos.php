@@ -70,10 +70,6 @@ pathos_sessions_initialize();
 // Load the site configuration (without initializing the config subsystem)
 include_once(BASE.'subsystems/config/load.php');
 
-// Initialize the language subsystem
-include_once(BASE.'subsystems/lang.php');
-pathos_lang_initialize();
-
 // After config config setup:
 
 // SEF URLs
@@ -155,6 +151,10 @@ if (!defined('MIMEICON_RELATIVE')) {
 		define('MIMEICON_RELATIVE',PATH_RELATIVE.'iconset/mimetypes/');
 	}
 }
+
+// Initialize the language subsystem
+include_once(BASE.'subsystems/lang.php');
+pathos_lang_initialize();
 
 // Initialize the AutoLoader Subsystem
 include_once(BASE.'subsystems/autoloader.php');

@@ -48,15 +48,15 @@
 	 * Define the Preview Readonly file, so that stuff works still.
 	 * @node General
 	 */
-	define("PREVIEW_READONLY",1);
+	define('PREVIEW_READONLY',1);
 	
 	$module = $_GET['module'];
 	$view = $_GET['view'];
 	$mod = new $module();
 	$title = $_GET['title'];
 	
-	$source = (isset($_GET['source']) ? $_GET['source'] : "@example");
-	$loc = pathos_core_makeLocation($module,$source,"");
+	$source = (isset($_GET['source']) ? $_GET['source'] : '@example');
+	$loc = pathos_core_makeLocation($module,$source,'');
 	$mod->show($view,$loc,$title);
 	?>
 	<script type="text/javascript">

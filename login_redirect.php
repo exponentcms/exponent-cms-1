@@ -34,47 +34,47 @@
 ob_start();
 
 // Initialize the Pathos Framework
-include_once("pathos.php");
+include_once('pathos.php');
 
 
-define("SCRIPT_RELATIVE",PATH_RELATIVE);
-define("SCRIPT_ABSOLUTE",BASE);
-define("SCRIPT_FILENAME","login_redirect.php");
+define('SCRIPT_RELATIVE',PATH_RELATIVE);
+define('SCRIPT_ABSOLUTE',BASE);
+define('SCRIPT_FILENAME','login_redirect.php');
 
 // Initialize the Sessions Subsystem
-if (!defined("SYS_SESSIONS")) include_once(BASE."subsystems/sessions.php");
+if (!defined('SYS_SESSIONS')) include_once(BASE.'subsystems/sessions.php');
 
-if (isset($_GET["redirecturl"])) {
-	$redirect = urldecode($_GET["redirecturl"]);
-	if (substr($redirect,0,4) != "http") {
-		$redirect = "http://".$_SERVER['HTTP_HOST'].PATH_RELATIVE.$redirect;
+if (isset($_GET['redirecturl'])) {
+	$redirect = urldecode($_GET['redirecturl']);
+	if (substr($redirect,0,4) != 'http') {
+		$redirect = 'http://'.$_SERVER['HTTP_HOST'].PATH_RELATIVE.$redirect;
 	}
-	pathos_sessions_set("redirecturl",$redirect);
+	pathos_sessions_set('redirecturl',$redirect);
 }
 
 // Initialize the Theme Subsystem
-if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
-$SYS_FLOW_REDIRECTIONPATH = "loginredirect"; 
+if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
+$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
 
 if (pathos_sessions_loggedIn()) {
-	$url = pathos_sessions_get("redirecturl");
-	if ($url . "" == "") {
-		$SYS_FLOW_REDIRECTIONPATH = "default";
+	$url = pathos_sessions_get('redirecturl');
+	if ($url . '' == '') {
+		$SYS_FLOW_REDIRECTIONPATH = 'default';
 		pathos_flow_redirect();
 	}
-	header("Location: " . $url);
+	header('Location: ' . $url);
 	exit;
-} else if (isset($_REQUEST["module"]) && isset($_REQUEST["action"])) {
+} else if (isset($_REQUEST['module']) && isset($_REQUEST['action'])) {
 	pathos_theme_runAction();
-	loginmodule::show("Default",null,"Log In");
+	loginmodule::show(DEFAULT_VIEW,null);
 } else {
 	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
-	loginmodule::show("Default",null,"Log In");
+	loginmodule::show(DEFAULT_VIEW,null);
 }
 
-$template = new standalonetemplate("loginredirect");
+$template = new standalonetemplate('loginredirect');
 
-$template->assign("output",ob_get_contents());
+$template->assign('output',ob_get_contents());
 ob_end_clean();
 $template->output();
 

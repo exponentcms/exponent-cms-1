@@ -32,7 +32,7 @@
 ##################################################
 
 // Define Content Selector constant as 2, since we are selecting orphaned content.
-define("CONTENT_SELECTOR",2);
+define('CONTENT_SELECTOR',2);
 
 // Initialize the Pathos Framework
 include_once('pathos.php');
@@ -42,6 +42,6 @@ define('SCRIPT_ABSOLUTE',BASE);
 define('SCRIPT_FILENAME','orphan_content_selector.php');
 
 // Include the real selector script, which does all of the heavy lifting.
-include_once("selector.php");
+include_once('selector.php');
 
 ?>

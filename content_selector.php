@@ -37,13 +37,13 @@ include_once('pathos.php');
  * Define Content Selector constant as 1, since we are not selecting orphaned content.
  * @node General
  */
-define("CONTENT_SELECTOR",1);
+define('CONTENT_SELECTOR',1);
 
 define('SCRIPT_RELATIVE',PATH_RELATIVE);
 define('SCRIPT_ABSOLUTE',BASE);
 define('SCRIPT_FILENAME','content_selector.php');
 
 // Include the Selector script, which does all of the real work.
-include_once("selector.php");
+include_once('selector.php');
 
 ?>

@@ -33,43 +33,45 @@
 //GREP:HARDCODEDTEXT
 
 ob_start();
-$microtime_str = explode(" ",microtime());
+$microtime_str = explode(' ',microtime());
 $i_start = $microtime_str[0] + $microtime_str[1];
 
 // Initialize the Pathos Framework
-include_once("pathos.php");
+include_once('pathos.php');
 
-define("SCRIPT_RELATIVE",PATH_RELATIVE);
-define("SCRIPT_ABSOLUTE",BASE);
-define("SCRIPT_FILENAME","index.php");
+pathos_lang_loadDictionary('standard','base');
+
+define('SCRIPT_RELATIVE',PATH_RELATIVE);
+define('SCRIPT_ABSOLUTE',BASE);
+define('SCRIPT_FILENAME','index.php');
 
 // Initialize the theme subsystem
-if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
+if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
-if (!DEVELOPMENT && is_readable(BASE."install")) {
+if (!DEVELOPMENT && is_readable(BASE.'install')) {
 	// In case we are not running in developer mode, and the install/ directory is readable,
 	// drop the user into the 'Not Yet Configured' warning page.
-	include(BASE."install_warn/install_warn.html");
+	include(BASE.'install_warn/install_warn.html');
 	exit();
 }
 
-$section = (pathos_sessions_isset("last_section") ? pathos_sessions_get("last_section") : SITE_DEFAULT_SECTION);
-$section = $db->selectObject("section","id=".$section);
+$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+$section = $db->selectObject('section','id='.$section);
 
 // Handle sub themes
-$page = ($section && $section->subtheme != "" && is_readable("themes/".DISPLAY_THEME."/subthemes/".$section->subtheme.".php") ?
-	"themes/".DISPLAY_THEME."/subthemes/".$section->subtheme.".php" :
-	"themes/".DISPLAY_THEME."/index.php"
+$page = ($section && $section->subtheme != '' && is_readable('themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
+	'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
+	'themes/'.DISPLAY_THEME.'/index.php'
 );
 
 if (is_readable(BASE.$page)) {
 	include_once(BASE.$page);
-} else echo BASE."$page not readable";
+} else echo sprintf(TR_BASE_PAGENOTREADABLE,BASE.$page);
 
-$microtime_str = explode(" ",microtime());
+$microtime_str = explode(' ',microtime());
 $i_end = $microtime_str[0] + $microtime_str[1];
 
-echo "<!- Execution: " . round($i_end - $i_start,4) . " seconds. -->";
+echo sprintf(TR_BASE_EXECUTIONTIME,round($i_end - $i_start,4));
 ob_end_flush();
 
 ?>
