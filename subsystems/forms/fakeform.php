@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+include_once(BASE."subsystems/forms/form.php");
+
 class fakeform extends form {
 	function toHTML($form_id) {
 		// Form validation script
