@@ -242,7 +242,7 @@ class section {
 		$form = section::_commonForm($object);
 		
 		// Add a dropdown to allow the user to choose an internal page.
-		$form->register('internal_id',TR_NAVIGATIONMODULE_INTLINK,new dropdowncontrol(0,navigationmodule::levelDropDownControlArray(0,0)));
+		$form->register('internal_id',TR_NAVIGATIONMODULE_INTLINK,new dropdowncontrol($object->internal_id,navigationmodule::levelDropDownControlArray(0,0)));
 		
 		// Add the'Public?' checkbox.  The 'Active?' checkbox is omitted, because it makes no sense.
 		$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));

@@ -49,7 +49,7 @@ function smarty_core_write_cache_file($params, &$smarty)
     } else {
         // use local cache file
 
-        if(!@is_writable($smarty->cache_dir)) {
+        if(!@is_really_writable($smarty->cache_dir)) {
             // cache_dir not writable, see if it exists
             if(!@is_dir($smarty->cache_dir)) {
                 $smarty->trigger_error('the $cache_dir \'' . $smarty->cache_dir . '\' does not exist, or is not a directory.', E_USER_ERROR);

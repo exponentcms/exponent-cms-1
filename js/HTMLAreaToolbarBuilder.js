@@ -29,7 +29,6 @@ function recurseClear(elem) {
 
 function regenerateTable() {
 	maxRowLength();
-	//alert(g_maxRowLength);
 
 	var tbody = document.getElementById("toolbar_workspace");
 	recurseClear(tbody);
@@ -58,25 +57,61 @@ function regenerateTable() {
 
 function addLinkTd(rownum,pos) {
 	var td = document.createElement("td");
-	td.setAttribute("onClick","clickedTd(this,"+rownum+","+pos+"); return false;");
-	td.setAttribute("onmouseover","this.style.background='grey'");
-	td.setAttribute("onmouseout","unColorLink(this,"+rownum+","+pos+")");
-	td.setAttribute("width","2");
-	td.setAttribute("height","20");
-	if (pos == g_pos && rownum == g_row) {
-		td.setAttribute("style","background-color: blue; cursor: pointer;");
-		lastTd = td;
+	if (document.all) {
+		td.attachEvent('onclick',function() {
+			clickedTd(event.srcElement,rownum,pos);
+		});
+
+		td.attachEvent('onmouseover',function() {
+			event.srcElement.style.backgroundColor = '#CCCCCC';
+		});
+
+		td.attachEvent('onmouseout',function() {
+			unColorLink(event.srcElement,rownum,pos);
+		});
+
+		td.width = 2;
+		td.height = 20;
+		td.style.border = "1px dashed #CCCCCC";
+	} else {
+		td.setAttribute("onClick","clickedTd(this,"+rownum+","+pos+"); return false;");
+		td.setAttribute("onmouseover","this.style.background='grey'");
+		td.setAttribute("onmouseout","unColorLink(this,"+rownum+","+pos+")");
+		td.setAttribute("width","2");
+		td.setAttribute("height","20");
 	}
-	else td.setAttribute("style","cursor: pointer;");
+	if (pos == g_pos && rownum == g_row) {
+		if (document.all) {
+			td.style.backgroundColor = '#0000FF';
+			td.style.cursor = 'pointer';
+		} else {
+			td.setAttribute("style","background-color: blue; cursor: pointer;");
+		}
+		lastTd = td;
+	} else {
+		if (document.all) {
+			td.style.cursor = 'pointer';
+		} else {
+			td.setAttribute("style","cursor: pointer;");
+		}
+	}
 	return td;
 }
 
 function unColorLink(td,rownum, pos) { 
 	if ((g_pos != pos) || (g_row != rownum)) {
-		td.style.background = "white";
+		if (document.all) {
+			td.style.backgroundColor = 'transparent';
+		} else {
+			td.style.background = 'transparent';
+		}
 	}
 	else {
-		td.style.background = "blue";
+		if (document.all) {
+			td.style.backgroundColor = '#0000FF';
+		} else {
+			td.style.background = "blue";
+		}
 	}
 }
 
@@ -90,7 +125,13 @@ function delRowLinkTd(rownum) {
 		img.setAttribute("src",removeIcon);
 	}
 	img.setAttribute("style","cursor: pointer;");
-	img.setAttribute("onClick","delRow("+rownum+")");
+	if (document.all) {
+		img.attachEvent('onclick',function() {
+			delRow(rownum);
+		});
+	} else {
+		img.setAttribute("onClick","delRow("+rownum+")");
+	}
 	
 	td.appendChild(img);
 	
@@ -99,11 +140,30 @@ function delRowLinkTd(rownum) {
 
 function iconTd(icon,rownum, pos) {
 	var td = document.createElement("td");
-	td.setAttribute("onClick","deleteIconTd(this,"+rownum+","+pos+"); return false;");
-	td.setAttribute("onmouseover","this.style.background='red'");
-	td.setAttribute("onmouseout","this.style.background='white'");
-	td.setAttribute("style","cursor: pointer;");
-	td.setAttribute("colspan",(toolbarIconSpan(icon)-1)*2+1);
+	if (document.all) {
+		td.attachEvent('onclick',function() { 
+			deleteIconTd(this,rownum,pos);
+		});
+
+		td.attachEvent('onmouseover',function() {
+			event.srcElement.style.backgroundColor = '#FF0000';
+		});
+		
+		td.attachEvent('onmouseout',function() {
+			event.srcElement.style.backgroundColor = 'transparent';
+		});
+		
+		td.style['cursor'] = 'pointer';
+		td.style['background-color'] = 'inherit';
+		td.style.border = "1px dashed #CCCCCC";
+		td.colspan = (toolbarIconSpan(icon)-1)*2+1;
+	} else {
+		td.setAttribute("onClick","deleteIconTd(this,"+rownum+","+pos+"); return false;");
+		td.setAttribute("onmouseover","this.style['background-color']='#FF0000'");
+		td.setAttribute("onmouseout","this.style['background-color']='inherit'");
+		td.setAttribute("style","cursor: pointer;");
+		td.setAttribute("colspan",(toolbarIconSpan(icon)-1)*2+1);
+	}
 	var img = document.createElement("img");
 	img.setAttribute("src",imagePrefix+icon+imageSuffix);
 	
@@ -123,8 +183,13 @@ function deleteIconTd(td,rownum,pos) {
 
 function blankTd() {
 	var td = document.createElement("td");
-	td.setAttribute("colspan","1");
-	td.setAttribute("style","background-color: lightgrey;");
+	if (document.all) {
+		td.style['backgroundColor'] = '#CCCCCC';
+		td.colspan = 1;
+	} else {
+		td.setAttribute("colspan","1");
+		td.setAttribute("style","background-color: lightgrey;");
+	}
 	
 	td.appendChild(document.createTextNode(" "));
 	
@@ -135,34 +200,34 @@ function clickedTd(td,new_row,new_pos) {
 	g_pos = new_pos;
 	g_row = new_row;
 	if (lastTd) {
-		lastTd.style.background="white";
+		if (document.all) {
+			lastTd.style.backgroundColor = 'transparent';
+		} else {
+			lastTd.style.background="inherit";
+		}
 	}
-	td.style.background = "blue";
+	if (document.all) {
+		td.style.backgroundColor = '#0000FF';
+	} else {
+		td.style.background = "blue";
+	}
 	lastTd = td;
 }
 
 function maxRowLength() {
 	g_maxRowLength = 0;
 	for (key in rowlens) {
-		//var rowlen = 0;
-		//for (key2 in rows[key]) {
-//			var tb_td = document.getElementById("td_"+rows[key][key2]);
-			//rowlen += parseInt(tb_td.getAttribute("colspan"));
-		//}
-		//if (rows[key].length > g_maxRowLength) g_maxRowLength = rows[key].length;
 		if (rowlens[key] > g_maxRowLength) g_maxRowLength = rowlens[key];
 	}
 }
 
 function register(icon) {
 	rows[g_row].splice(g_pos,0,icon);
-	//alert(rowlens);
 	rowlens[g_row] += (toolbarIconSpan(icon));
 	maxRowLength();
 	g_pos++;
 	regenerateTable();
 	disableToolbox(icon);
-	//alert(rowlens);
 }
 
 function toolbarIconSpan(icon) {
@@ -179,9 +244,16 @@ function enableToolbox(rownum, key) {
 				var a = document.getElementById("a_"+used[key2]);
 				
 				td.removeAttribute("style");
-				td.setAttribute("onmouseover","this.style.background=\"red\"");
-				td.setAttribute("onmouseout","this.style.background=\"white\"");
-				a.setAttribute("onClick","register('"+used[key2]+"')");
+				if (document.all) {
+					td.onmouseover = ie_highlight;
+					td.onmouseout = ie_unhighlight;
+					a.onclick = ie_register;
+					a.holding = used[key2];
+				} else {
+					td.setAttribute("onmouseover","this.style.background=\"red\"");
+					td.setAttribute("onmouseout","this.style.background=\"white\"");
+					a.setAttribute("onClick","register('"+used[key2]+"')");
+				}
 				used.splice(key2,1);
 			}
 		}
@@ -194,16 +266,22 @@ function disableToolbox(icon) {
 		
 		var td = document.getElementById("td_"+icon);
 		var a = document.getElementById("a_"+icon);
-		
-		td.setAttribute("style","background-color: grey");
-		td.removeAttribute("onmouseover");
-		td.removeAttribute("onmouseout");
-		
-		a.removeAttribute("onClick");
+		if (document.all) {
+			td.style.backgroundColor = '#CCCCCC';
+			td.onmouseover = function() { return false; };
+			td.onmouseout = function() { return false; };
+			a.onclick = function() { return false; };
+		} else {
+			td.setAttribute("style","background-color: grey");
+			td.removeAttribute("onmouseover");
+			td.removeAttribute("onmouseout");
+			
+			a.removeAttribute("onClick");
+		}
 	}
 }
 
-function delRow(key) {
+function delRow(rownum) {
 	for (key in rows[rownum]) {
 		for (key2 in used) {
 			if (used[key2] == rows[rownum][key]) {
@@ -211,9 +289,16 @@ function delRow(key) {
 				var a = document.getElementById("a_"+used[key2]);
 				
 				td.removeAttribute("style");
-				td.setAttribute("onmouseover","this.style.background=\"red\"");
-				td.setAttribute("onmouseout","this.style.background=\"white\"");
-				a.setAttribute("onClick","register('"+used[key2]+"')");
+				if (document.all) {
+					td.attachEvent('onmouseover',ie_highlight);
+					td.attachEvent('onmouseout',ie_unhighlight);
+					a.attachEvent('onclick',ie_register);
+					a.holding = used[key2];
+				} else {
+					td.setAttribute("onmouseover","this.style.background=\"red\"");
+					td.setAttribute("onmouseout","this.style.background=\"white\"");
+					a.setAttribute("onClick","register('"+used[key2]+"')");
+				}
 				used.splice(key2,1);
 			}
 		}
@@ -242,4 +327,19 @@ function save(frm) {
 	input = document.getElementById("config_htmlarea");
 	input.setAttribute("value",saveStr);
 	frm.submit();
+}
+
+
+// Stupid IE event interface functions
+
+function ie_highlight() {
+	event.srcElement.style.backgroundColor = '#FF0000';
+}
+
+function ie_unhighlight() {
+	event.srcElement.style.backgroundColor = 'transparent';
+}
+
+function ie_register() {
+	register(event.srcElement.holding);
 }

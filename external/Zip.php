@@ -2081,7 +2081,7 @@ class Archive_Zip
         //return $v_result;
       }
       // ----- Look if file is write protected
-      else if (!is_writable($p_entry['filename']))
+      else if (!is_really_writable($p_entry['filename']))
       {
 
         // ----- Change the file status

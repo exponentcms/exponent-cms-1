@@ -237,8 +237,8 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 	
 	if ($configname != "") {
 		// Wishing to save
-		if (	(file_exists($site_root."conf/profiles/$configname.php") && is_writable($site_root."conf/profiles/$configname.php")) ||
-			is_writable($site_root."conf/profiles")) {
+		if (	(file_exists($site_root."conf/profiles/$configname.php") && is_really_writable($site_root."conf/profiles/$configname.php")) ||
+			is_really_writable($site_root."conf/profiles")) {
 			
 			$fh = fopen($site_root."conf/profiles/$configname.php","w");
 			fwrite($fh,$str);
@@ -248,8 +248,8 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 	
 	if (isset($values['activate']) || $configname == "") {
 		if (
-			(file_exists($site_root."conf/config.php") && is_writable($site_root."conf/config.php")) ||
-			is_writable($site_root."conf")) {
+			(file_exists($site_root."conf/config.php") && is_really_writable($site_root."conf/config.php")) ||
+			is_really_writable($site_root."conf")) {
 			
 			$fh = fopen($site_root."conf/config.php","w");
 			fwrite($fh,$str);
@@ -342,7 +342,7 @@ function pathos_config_deleteProfile($profile) {
  * @node Subsystems:Config
  */
 function pathos_config_activateProfile($profile) {
-	if (is_readable(BASE."conf/profiles/$profile.php") && is_writable(BASE."conf/config.php")) {
+	if (is_readable(BASE."conf/profiles/$profile.php") && is_really_writable(BASE."conf/config.php")) {
 		copy(BASE."conf/profiles/$profile.php",BASE."conf/config.php");
 		$fh = fopen(BASE."conf/config.php","a");
 		fwrite($fh,"\n<?php\ndefine(\"CURRENTCONFIGNAME\",\"$profile\");\n?>");

@@ -90,7 +90,7 @@ function pathos_files_makeDirectory($dir,$mode=null,$is_full=false) {
 		if ($part != "" && !is_dir($parentdir.$part)) {
 			// No parent directory.  Create it.
 			if (is_file($parentdir.$part)) return SYS_FILES_FOUNDFILE;
-			if (is_writable($parentdir)) {
+			if (is_really_writable($parentdir)) {
 				if ($mode == null) $mode = DIR_DEFAULT_MODE+0;
 				mkdir($parentdir.$part,$mode);
 				chmod($parentdir.$part,$mode);
@@ -278,7 +278,7 @@ function pathos_files_canCreate($dest) {
 	for ($i = 0; $i < count($parts); $i++) {
 		if ($parts[$i] != '') {
 			if (!file_exists($working.$parts[$i])) {
-				return (is_writable($working) ? SYS_FILES_SUCCESS : SYS_FILES_NOTWRITABLE);
+				return (is_really_writable($working) ? SYS_FILES_SUCCESS : SYS_FILES_NOTWRITABLE);
 			}
 			$working .= $parts[$i].'/';
 		}
@@ -288,7 +288,7 @@ function pathos_files_canCreate($dest) {
 	// First however, we need to strip off the '/' that was added a few lines up as the last part of the for loop.
 	$working = substr($working,0,-1);
 	
-	if (!is_writable($working)) {
+	if (!is_really_writable($working)) {
 		return SYS_FILES_NOTWRITABLE;
 	} else {
 		if (is_file($working)) {

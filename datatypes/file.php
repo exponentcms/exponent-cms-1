@@ -70,7 +70,7 @@ class file {
 		
 		if (is_readable(BASE.$file->directory) && !file_exists(BASE.$file->directory.'/'.$file->filename)) return true;
 		
-		if (is_writable(BASE.$file->directory)) {
+		if (is_really_writable(BASE.$file->directory)) {
 			unlink($file->directory.'/'.$file->filename);
 			if (!file_exists(BASE.$file->directory.'/'.$file->filename)) return true;
 		}

@@ -49,7 +49,7 @@ if (	($item == null && pathos_permissions_check("post",$loc)) ||
 	$template = new template("imagemanagermodule","_form_edit",$loc);
 	
 	$directory = BASE."files/imagemanagermodule/".$loc->src;
-	if (!isset($item->id) && !is_writable($directory)) {
+	if (!isset($item->id) && !is_really_writable($directory)) {
 		$template->assign("dir_not_writable",1);
 		$form->controls['submit']->disabled = 1;
 	} else {

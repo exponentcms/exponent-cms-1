@@ -48,7 +48,7 @@ if (pathos_permissions_check('manage',$loc)) {
 	
 	pathos_lang_loadDictionary('modules','bannermodule');
 	
-	if (is_writable(BASE.'files/bannermodule/'.$loc->src)) {
+	if (is_really_writable(BASE.'files/bannermodule/'.$loc->src)) {
 		$form->registerBefore('submit','file',TR_BANNERMODULE_BANNERIMAGE,new uploadcontrol());
 	} else {
 		$form->controls['submit']->disabled = 1;

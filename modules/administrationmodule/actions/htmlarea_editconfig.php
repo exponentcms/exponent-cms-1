@@ -91,7 +91,7 @@ foreach ($iconconfig as $row) {
 <hr size="1" />
 <a class="mngmntlink administration_mngmntlink" href="#" onclick="newRow(); return false">New Row</a>
 <hr size="1" />
-<table cellpadding="2" cellspacing="2" rules="all" style="border: 1px dashed lightgrey">
+<table cellpadding="2" cellspacing="2" rules="all" border="0">
 <tbody id="toolbar_workspace">
 <tbody>
 </table>

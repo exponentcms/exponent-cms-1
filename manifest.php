@@ -262,6 +262,7 @@ return array(
 	'compat/http_build_query.php'=>'',
 	'compat/image_type_to_mime_type.php'=>'',
 	'compat/is_a.php'=>'',
+	'compat/is_really_writable.php'=>'',
 	'compat/md5_file.php'=>'',
 	'compat/ob_clean.php'=>'',
 	'compat/ob_flush.php'=>'',

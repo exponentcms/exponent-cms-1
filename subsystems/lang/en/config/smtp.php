@@ -33,6 +33,9 @@
 
 define('TR_CONFIG_SMTP_TITLE','SMTP Server Settings');
 
+define('TR_CONFIG_SMTP_USE_PHP_MAIL','Use PHP mail() Function?');
+define('TR_CONFIG_SMTP_USE_PHP_MAIL_DESC','If the Exponent implementation of raw SMTP does not work for you, either because of server issues or hosting configurations, check this option to use the standard mail() function provided by PHP.  NOTE: If you do so, you will not have to modify any other SMTP settings, as they will be ignored.');
+
 define('TR_CONFIG_SMTP_SERVER','SMTP Server');
 define('TR_CONFIG_SMTP_SERVER_DESC','The IP address or host/domain name of the server to connect to for sending email through smtp.');
 

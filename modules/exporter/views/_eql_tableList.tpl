@@ -91,13 +91,31 @@ function isOneSelected() {
 	<td colspan="2">
 		<a href="#" onClick="selectAll(true); return false">Select All</a>
 	</td>
+	<td></td>
 	<td colspan="2">
 		<a href="#" onClick="selectAll(false); return false">Deselect All</a>
 	</td>
 </tr>
 <tr>
-	<td colspan="4">
-		<input type="submit" value="Backup Selected" onClick="return true; return isOneSelected();" />
+	<td colspan="5"><br /></td>
+</td>
+<tr>
+	<td colspan="2" valign="top"><b>File name template:</b></td>
+	<td colspan="3">
+		<input type="text" name="filename" size="20" value="database" />
+	</td>
+</tr>
+	<td colspan="5">
+		<div style="border-top: 1px solid #CCCC;">
+			Use __DOMAIN__ for this website's domain name, __DB__ for the site's database name and any strftime options for time specification. The EQL extension will be added for you. Any other text will be preserved.
+			<br />
+		</div>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">&nbsp;</td>
+	<td colspan="3">
+		<input type="submit" value="Export Data" onClick="return true; return isOneSelected();" />
 	</td>
 </tr>
 </table>

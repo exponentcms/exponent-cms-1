@@ -80,7 +80,7 @@ if ($vars['action'] == "list") {
 	
 	$current = getChecksumsCurrent($files);
 	
-	if (is_writable(dirname($manifest))) {
+	if (is_really_writable(dirname($manifest))) {
 		writeArrayToFile($current,$manifest);
 	} else {
 		echo "Manifest file is not writable.   Dumping output\n\n";
@@ -98,7 +98,7 @@ if ($vars['action'] == "list") {
 		} else echo "WARNING: $file not readable.\n";
 	}
 	
-	if (is_writable(dirname($manifest))) {
+	if (is_really_writable(dirname($manifest))) {
 		writeArrayToFile($files,$manifest);
 	} else {
 		echo "Manifest file is not writable.   Dumping output\n\n";
@@ -114,7 +114,7 @@ if ($vars['action'] == "list") {
 		} else echo "WARNING: $dir is not a direcotry\n";
 	}
 	
-	if (is_writable(dirname($manifest))) {
+	if (is_really_writable(dirname($manifest))) {
 		writeArrayToFile($files,$manifest);
 	} else {
 		echo "Manifest file is not writable.   Dumping output\n\n";
@@ -129,7 +129,7 @@ if ($vars['action'] == "list") {
 		unset($files[$file]);
 	}
 	
-	if (is_writable(dirname($manifest))) {
+	if (is_really_writable(dirname($manifest))) {
 		writeArrayToFile($files,$manifest);
 	} else {
 		echo "Manifest file is not writable.   Dumping output\n\n";

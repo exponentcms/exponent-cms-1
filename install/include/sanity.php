@@ -78,10 +78,10 @@ function sanity_checkFile($file,$as_file,$flags) {
 		}
 	}
 	if ($flags == SANITY_READWRITE) {
-		if (!is_writable($file)) {
+		if (!is_really_writable($file)) {
 			@chmod($file,0777);
 		}
-		if (!is_writable($file)) {
+		if (!is_really_writable($file)) {
 			umask($__oldumask);
 			return SANITY_NOT_RW;
 		} else if ($not_r) {

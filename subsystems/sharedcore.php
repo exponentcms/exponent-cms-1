@@ -142,7 +142,7 @@ function pathos_sharedcore_setup($core,$site) {
 	if (!is_readable($linksrc)) {
 		return SHAREDCORE_ERR_LINKSRC_NOTREADABLE;
 	}
-	if (!is_writable($linkdest)) {
+	if (!is_really_writable($linkdest)) {
 		return SHAREDCORE_ERR_LINKDEST_NOTWRITABLE;
 	}
 	

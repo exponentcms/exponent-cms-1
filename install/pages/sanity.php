@@ -159,11 +159,14 @@ if ($errcount > 0) {
 }
 
 if ($write_file) {
-	#In CGI mode SCRIPT_NAME is not correct, so we will try PATH_INFO first...
-	if (isset($_SERVER['PATH_INFO'])) {
+	// The following checks work on Apache and IIS.  Any other success / failure stories are welcome.
+	if (strtolower(substr(php_sapi_name(),0,3)) == 'cgi') {
+		//In CGI mode SCRIPT_NAME is not correct, so we will try PATH_INFO first...
+		// We need to strip off the last two things, filename and the install dirname.
 		$components = join('/',array_splice(split('/',$_SERVER['PATH_INFO']),0,-2)).'/';
-	}
-	else {
+	} else {
+		// If we aren't in either cgi or cgi-fast, then we are compiled in and should use SCRIPT_NAME
+		// We need to strip off the last two things, filename and the install dirname.
 		$components = join('/',array_splice(split('/',$_SERVER['SCRIPT_NAME']),0,-2)).'/';
 	}
 	$path_relative = PATH_RELATIVE;

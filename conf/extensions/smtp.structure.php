@@ -38,6 +38,11 @@ pathos_lang_loadDictionary('config','smtp');
 return array(
 	TR_CONFIG_SMTP_TITLE,
 	array(
+		'SMTP_USE_PHP_MAIL'=>array(
+			'title'=>TR_CONFIG_SMTP_USE_PHP_MAIL,
+			'description'=>TR_CONFIG_SMTP_USE_PHP_MAIL_DESC,
+			'control'=>new checkboxcontrol()
+		),
 		'SMTP_SERVER'=>array(
 			'title'=>TR_CONFIG_SMTP_SERVER,
 			'description'=>TR_CONFIG_SMTP_SERVER_DESC,

@@ -49,7 +49,7 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	/* exdoc
 	 * This is the revision version number of Exponent; the 2 in 0.96.2-beta3
 	 */
-	define('PATHOS_VERSION_REVISION',0);
+	define('PATHOS_VERSION_REVISION',1);
 	/* exdoc
 	 * This is the date that this version of Exponent was exported from CVS and built.
 	 */
@@ -57,12 +57,12 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	/* exdoc
 	 * This specifies the type of release, either 'alpha','beta','rc' or '' (for stable).
 	 */
-	define('PATHOS_VERSION_TYPE','rc');
+	define('PATHOS_VERSION_TYPE','alpha');
 	/* exdoc
 	 * This number is bumped each time a distribution of a single version is
 	 * released.  For instance, the 3rd beta has an version type iteration of 3.
 	 */
-	define('PATHOS_VERSION_ITERATION',2); // only applies to betas/alphas / rcs
+	define('PATHOS_VERSION_ITERATION',1); // only applies to betas/alphas / rcs
 }
 
 return '0.96';

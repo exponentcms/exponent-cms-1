@@ -76,6 +76,9 @@ class popupdatetimecontrol extends formcontrol {
 			if ($this->disable_text == "") $this->default = time();
 			else $this->disabled = true;
 		}
+		elseif ($this->default == 0) {
+			$this->default = time();
+		}
 	}
 
 	function onRegister(&$form) {
@@ -87,7 +90,9 @@ class popupdatetimecontrol extends formcontrol {
 	
 	function controlToHTML($name) {
 		$html = "";
-		
+		if ($this->default == 0) {
+			$this->default = time();
+		}
 		$imgsrc = PATH_RELATIVE."external/jscalendar/img.gif";
 		if (is_readable(THEME_BASE."icons/calendar_trigger.gif")) {
 			$imgsrc = THEME_RELATIVE."icons/calendar_trigger.gif";
@@ -221,7 +226,10 @@ class popupdatetimecontrol extends formcontrol {
 	}
 	
 	function update($values, $object) {
-		if ($object == null) $object = new popupdatetimecontrol();
+		if ($object == null) {
+			$object = new popupdatetimecontrol();
+			$object->default = 0;
+		}
 		if ($values['identifier'] == "") {
 			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;

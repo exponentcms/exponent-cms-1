@@ -55,7 +55,7 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 		$form->registerBefore('submit','file',TR_RESOURCESMODULE_NEWFILE,new uploadcontrol());
 		
 		$dir = 'files/resourcesmodule/'.$loc->src;
-		if (!is_writable(BASE.$dir)) {
+		if (!is_really_writable(BASE.$dir)) {
 			$template->assign('dir_not_readable',1);
 			$form->controls['submit']->disabled = true;
 		} else {

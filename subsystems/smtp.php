@@ -54,91 +54,120 @@ define("SYS_SMTP",1);
  */
 function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callback="",$udata=null) {
 
+	debug('Current revision of file is $Id$');
+
+	// Ugly kluge
 	$from = SMTP_FROMADDRESS; // For shared hosters
 
 	if (!is_array($to_r)) $to_r = array($to_r);
 	if (!is_array($headers)) {
 		$headers = explode("\r\n",trim($headers));
 	}
-	$headers["Subject"] = $subject;
 	if (!isset($headers["From"])) $headers["From"] = $from;
-	if (!isset($headers["Date"])) $headers["Date"] = strftime("%a, %b %d %Y %R:%S %Z",time());
+	if (!isset($headers["Date"])) $headers["Date"] = date('r',time());
 	if (!isset($headers["Reply-to"])) $headers["Reply-to"] = $from;
 	
-	$m = str_replace("\n","\r\n",str_replace("\r\n","\n",$message));
+	if (SMTP_USE_PHP_MAIL == 0) {
+		// If we are not using PHP's mail() function (as per site config), go with raw SMTP
+		
+		$headers["Subject"] = $subject;
+		
+		$m = str_replace("\n","\r\n",str_replace("\r\n","\n",$message));
+		
+		$errno = 0;
+		$error = "";
+		$socket = @fsockopen(SMTP_SERVER, SMTP_PORT, $errno, $error, 1);
+		if ($socket === false) {
+			debug("Unable to open a socket to communicate with the server.");
+			debug("Error was : $errno : $error");
+			return false;
+		}
+		
+		if (!pathos_smtp_checkResponse($socket,"220")) {
+			return false;
+		}
 	
-	$errno = 0;
-	$error = "";
-	$socket = @fsockopen(SMTP_SERVER, SMTP_PORT, $errno, $error, 1);
-	if ($socket === false) {
-		return false;
-	}
-	
-	if (!pathos_smtp_checkResponse($socket,"220")) {
-		return false;
-	}
-
-	// Try EHLO (Extendend HELO) first
-	pathos_smtp_sendServerMessage($socket,"EHLO ".$_SERVER['HTTP_HOST']);
-	
-	if (!pathos_smtp_checkResponse($socket,"250")) {
-		// If EHLO failed, try to fallback to HELO, according to RFC2821
-		pathos_smtp_sendServerMessage($socket,"HELO ".$_SERVER['HTTP_HOST']);
+		// Try EHLO (Extendend HELO) first
+		pathos_smtp_sendServerMessage($socket,"EHLO ".$_SERVER['HTTP_HOST']);
+		
 		if (!pathos_smtp_checkResponse($socket,"250")) {
+			// If EHLO failed, try to fallback to HELO, according to RFC2821
+			pathos_smtp_sendServerMessage($socket,"HELO ".$_SERVER['HTTP_HOST']);
+			if (!pathos_smtp_checkResponse($socket,"250")) {
+				pathos_smtp_sendExit($socket);
+				return false;
+			}
+		} else {
+			// EHLO succeeded - try to figure out what we need for auth
+			//GREP:NOTIMPLEMENTED
+		}
+		
+		if (SMTP_AUTHTYPE != "NONE" && !pathos_smtp_authenticate($socket,SMTP_AUTHTYPE,SMTP_USERNAME,SMTP_PASSWORD)) {
 			pathos_smtp_sendExit($socket);
 			return false;
 		}
-	} else {
-		// EHLO succeeded - try to figure out what we need for auth
-		//GREP:NOTIMPLEMENTED
-	}
-	
-	if (SMTP_AUTHTYPE != "NONE" && !pathos_smtp_authenticate($socket,SMTP_AUTHTYPE,SMTP_USERNAME,SMTP_PASSWORD)) {
+		
+		if (!function_exists($callback)) $callback = "pathos_smtp_blankMailCallback";
+		
+		for ($i = 0; $i < count($to_r); $i++) {
+			$to = $to_r[$i];
+			$message = $m.'';
+			
+			$callback($i,$message,$subject,$headers,$udata);
+			
+			$headers["To"] = $to;
+		
+			pathos_smtp_sendServerMessage($socket,"MAIL FROM: <$from>");
+			if (!pathos_smtp_checkResponse($socket,"250")) {
+				pathos_smtp_sendExit($socket);
+				return false;
+			}
+			
+			pathos_smtp_sendServerMessage($socket,"RCPT TO: <$to>");
+			if (!pathos_smtp_checkResponse($socket,"250")) {
+				pathos_smtp_sendExit($socket);
+				return false;
+			}
+			
+			pathos_smtp_sendServerMessage($socket,"DATA");
+			if (!pathos_smtp_checkResponse($socket,"354")) {
+				return false;
+			}
+			
+			pathos_smtp_sendHeadersPart($socket,$headers);
+			pathos_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
+			// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
+			pathos_smtp_sendServerMessage($socket,"\r\n.\r\n");
+			if (!pathos_smtp_checkResponse($socket,"250")) {
+				pathos_smtp_sendExit($socket);
+				return false;
+			}
+			
+		}
+		
 		pathos_smtp_sendExit($socket);
-		return false;
+		
+		return true;
+	} else {
+		// If we are using PHP's mail() function, we need to set up to call mail
+		
+		$return = true;
+		
+		for ($i = 0; $i < count($to_r); $i++) {
+			$to = $to_r[$i];
+			
+			$callback($i,$message,$subject,$headers,$udata);
+			
+			$real_headers = join("\r\n",$headers);
+			
+			// Call the mail function -- for sending mass emails, this is potentially dangerous
+			if (mail($to,$subject,$message,$real_headers) == false) {
+				$return = false;
+			}
+		}
+		
+		return $return;
 	}
-	
-	if (!function_exists($callback)) $callback = "pathos_smtp_blankMailCallback";
-	
-	for ($i = 0; $i < count($to_r); $i++) {
-		$to = $to_r[$i];
-		$message = $m.'';
-		
-		$callback($i,$message,$subject,$headers,$udata);
-		
-		$headers["To"] = $to;
-	
-		pathos_smtp_sendServerMessage($socket,"MAIL FROM: <$from>");
-		if (!pathos_smtp_checkResponse($socket,"250")) {
-			pathos_smtp_sendExit($socket);
-			return false;
-		}
-		
-		pathos_smtp_sendServerMessage($socket,"RCPT TO: <$to>");
-		if (!pathos_smtp_checkResponse($socket,"250")) {
-			pathos_smtp_sendExit($socket);
-			return false;
-		}
-		
-		pathos_smtp_sendServerMessage($socket,"DATA");
-		if (!pathos_smtp_checkResponse($socket,"354")) {
-			return false;
-		}
-		
-		pathos_smtp_sendHeadersPart($socket,$headers);
-		pathos_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
-		// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
-//		pathos_smtp_sendServerMessage($socket,"\r\n.\r");
-		pathos_smtp_sendServerMessage($socket,"\r\n.\r\n");
-		if (!pathos_smtp_checkResponse($socket,"250")) {
-			pathos_smtp_sendExit($socket);
-			return false;
-		}
-		
-	}
-	
-	pathos_smtp_sendExit($socket);
-	return true;
 }
 
 /* exdoc
@@ -151,11 +180,15 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
  * @node Subsystems:SMTP
  */
 function pathos_smtp_checkResponse($socket,$expected_response) {
+	debug("Checking response from server.");
+	debug("Expecting to get back $expected_response");
 	$response = fgets($socket,256);
+	debug("Received response: ".substr($response,0,3));
 	$line = $response;
 	$count = 20;
 	while ($count && substr($line,3,1) == "-") {
 		$line = fgets($socket,256); // Clear the buffer, EHLO
+		debug("LINE: $line");
 		$count--;
 	}
 	return (substr($response,0,3) == $expected_response);
@@ -170,8 +203,10 @@ function pathos_smtp_checkResponse($socket,$expected_response) {
  */
 function pathos_smtp_sendServerMessage($socket,$message) {
 	// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
-//	if (substr($message,-1,1) != "\n") $message .="\n";
-	if (substr($message,-1,1) != "\n") $message .="\r\n";
+	debug("Sending Server Message");
+	debug("VARDUMP of message sent:");
+	dump_debug($message);
+	if (substr($message,-2,2) != "\r\n") $message .="\r\n";
 	if ($message != null) fwrite($socket,$message);
 }
 
@@ -180,7 +215,9 @@ function pathos_smtp_sendServerMessage($socket,$message) {
  * @node Undocumented
  */
 function pathos_smtp_sendExit($socket) {
+	debug("Sending RSET to server");
 	pathos_smtp_sendServerMessage($socket,"RSET");
+	debug("Sending QUIT to server");
 	pathos_smtp_sendServerMessage($socket,"QUIT");
 }
 
@@ -197,6 +234,9 @@ function pathos_smtp_sendHeadersPart($socket,$headers) {
 	foreach ($headers as $key=>$value) {
 		$headerstr .= $key.": ". $value . "\r\n";
 	}
+	debug("Sending email headers to server:");
+	debug("VARDUMP of headers sent:");
+	dump_debug($headerstr);
 	pathos_smtp_sendServerMessage($socket,$headerstr);
 }
 
@@ -209,10 +249,14 @@ function pathos_smtp_sendHeadersPart($socket,$headers) {
  * @node Subsystems:SMTP
  */
 function pathos_smtp_sendMessagePart($socket,$message) {
-	$message = preg_replace("/([^\r]{1})\n/","\\1\r\n",$message);
-	$message = preg_replace("/\n\n/","\n\r\n",$message);
-	$message = preg_replace("/\n\./","\n..",$message);
+	// Replace lonely \n characters with \r\n, but not replacing the \n component of a valid \r\n
+	$message = str_replace("\n","\r\n",str_replace("\r\n","\n",$message));
+	// Replace lines with a single period with double periods, to prevent premature end of message situations.
+	$message = preg_replace("/\n\.\r\n/","\n..\r\n",$message);
 	
+	debug("Sending email message to server:");
+	debug("VARDUMP of message body sent:");
+	dump_debug($message);
 	pathos_smtp_sendServerMessage($socket,$message);
 }
 

@@ -47,7 +47,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	
 	if (substr($site->path,-1,1) != "/") $site->path .= "/";
 	
-	if (is_writable($site->path)) {
+	if (is_really_writable($site->path)) {
 		if (!isset($site->id)) { // New -- link stuff
 			if (!file_exists($site->path."pathos_version.php")) {
 				if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");

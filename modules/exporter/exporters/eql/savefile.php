@@ -41,8 +41,14 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 	
 	ob_end_clean();
 	
+	$filename = str_replace(
+		array('__DOMAIN__','__DB__'),
+		array(str_replace('.','_',$_SERVER['HTTP_HOST']),DB_NAME),
+		$_POST['filename']);
+	$filename = strftime($filename,time()).'.eql';
+	
 	header('Content-type: application/octet-stream');
-	header('Content-Disposition: inline; filename="database.eql"');
+	header('Content-Disposition: inline; filename="'.$filename.'"');
 	
 	echo pathos_backup_dumpDatabase($db,array_keys($_POST['tables']));
 	

@@ -43,12 +43,23 @@ if (pathos_permissions_check("administrate",$loc)) {
 	/////////////////////////////
 	if (!defined("SYS_GROUPS")) include_once(BASE."subsystems/users.php");
 	$users = array(); // users = groups
+	
 	$modclass = $loc->mod;
 	$mod = new $modclass();
 	$perms = $mod->permissions($loc->int);
-	$have_users = 0;
+	// Create the anonymous group
+	$g = null;
+	$g->id = 0;
+	$g->name = "Anonymous Users";
+	foreach ($perms as $perm=>$name) {
+		$var = "perms_$perm";
+		if (pathos_permissions_checkGroup($g,$perm,$loc,true)) $g->$var = 1;
+		else if (pathos_permissions_checkGroup($g,$perm,$loc)) $g->$var = 2;
+		else $g->$var = 0;
+	}
+	$users[] = $g;
+	
 	foreach (pathos_users_getAllGroups() as $g) {
-		$have_users = 1;
 		foreach ($perms as $perm=>$name) {
 			$var = "perms_$perm";
 			if (pathos_permissions_checkGroup($g,$perm,$loc,true)) $g->$var = 1;
@@ -57,7 +68,7 @@ if (pathos_permissions_check("administrate",$loc)) {
 		}
 		$users[] = $g;
 	}
-	$template->assign("have_users",$have_users); // users = groups
+	$template->assign("have_users",1); // users = groups
 	$template->assign("users",$users); // users = groups
 	$template->assign("perms",$perms);
 	/////////////////////////////

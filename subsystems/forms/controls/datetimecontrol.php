@@ -69,7 +69,7 @@ class datetimecontrol extends formcontrol {
 	
 	function datetimecontrol($default = 0, $showdate = true, $showtime = true) {
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
-		if (!$default) $default = time();
+		if ($default == 0) $default = time();
 		$this->default = $default;
 		$this->showdate = $showdate;
 		$this->showtime = $showtime;
@@ -82,6 +82,7 @@ class datetimecontrol extends formcontrol {
 	
 	function controlToHTML($name) {
 		if (!$this->showdate && !$this->showtime) return "";
+		if ($this->default == 0) $this->default = time();
 		$default_date = getdate($this->default);
 		$hour = $default_date['hours'];
 		if ($hour > 12) $hour -= 12;
@@ -167,7 +168,10 @@ class datetimecontrol extends formcontrol {
 	}
 	
 	function update($values, $object) {
-		if ($object == null) $object = new datetimecontrol();
+		if ($object == null) { 
+			$object = new datetimecontrol();
+			$object->default = 0; //This will force the control to always show the current time as default
+		}
 		if ($values['identifier'] == "") {
 			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;

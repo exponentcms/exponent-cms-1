@@ -73,6 +73,7 @@ return array(
 	'subsystems/lang/en/config/smtp.php'=>'',
 	'subsystems/lang/en/extras/addressextension.php'=>'',
 	'subsystems/lang/en/extras/inboxextension.php'=>'',
+	'subsystems/lang/en/extras/phoneextension.php'=>'',
 	'subsystems/lang/en.php'=>'',
 
 );

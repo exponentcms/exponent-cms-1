@@ -38,7 +38,11 @@ if (pathos_permissions_check("administrate",$loc)) {
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	foreach ($groups as $group_str) {
 		$perms = explode(":",$group_str);
-		$g = pathos_users_getGroupById($perms[0]);
+		if ($perms[0] == 0) { // Anonymous Users
+			$g->id = 0;
+		} else {
+			$g = pathos_users_getGroupById($perms[0]);
+		}
 		pathos_permissions_revokeAllGroup($g,$loc);
 		for ($i = 1; $i < count($perms); $i++) {
 			pathos_permissions_grantGroup($g,$perms[$i],$loc);
