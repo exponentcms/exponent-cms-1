@@ -41,6 +41,11 @@ if (SITE_ALLOW_REGISTRATION == 1) {
 	$form = pathos_users_form(null);
 	$form->meta('module','loginmodule');
 	$form->meta('action','saveuser');
+	if (SITE_USE_CAPTCHA) {
+		pathos_lang_loadDictionary('modules','loginmodule');
+		$form->registerBefore('submit',null,'',new htmlcontrol(sprintf(TR_LOGINMODULE_CAPTCHADESC,'<img src="'.PATH_RELATIVE.'captcha.php" />'),false));
+		$form->registerBefore('submit','captcha_string','',new textcontrol('',6));
+	}
 	
 	$template = new template('loginmodule','_form_createUser',$loc);
 	$template->assign('form_html',$form->toHTML());

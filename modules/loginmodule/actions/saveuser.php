@@ -36,6 +36,7 @@ if (!defined('PATHOS')) exit('');
 if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 	pathos_lang_loadDictionary('modules','loginmodule');
 
+	$capcha_real = pathos_sessions_get('capcha_string');
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
 	if (pathos_users_getUserByName($_POST['username']) != null) {
@@ -61,10 +62,20 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
-			$u = pathos_users_create($_POST,null);
-			$u = pathos_users_saveProfileExtensions($_POST,$u,true);
-			pathos_users_login($_POST['username'],$_POST['pass1']);
-			pathos_flow_redirect();
+			// Finally, check the capcha
+			if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
+				$post = $_POST;
+				unset($post['captcha_string']);
+				$post['_formError'] = TR_LOGINMODULE_WRONGCAPTCHA;
+				pathos_sessions_set('last_POST',$post);
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+			} else {
+				pathos_sessions_unset('captcha_string');
+				$u = pathos_users_create($_POST,null);
+				$u = pathos_users_saveProfileExtensions($_POST,$u,true);
+				pathos_users_login($_POST['username'],$_POST['pass1']);
+				pathos_flow_redirect();
+			}
 		}
 	}
 } else {

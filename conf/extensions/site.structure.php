@@ -51,6 +51,11 @@ return array(
 			'description'=>TR_CONFIG_SITE_ALLOW_REGISTRATION_DESC,
 			'control'=>new checkboxcontrol()
 		),
+		'SITE_USE_CAPTCHA'=>array(
+			'title'=>TR_CONFIG_SITE_USE_CAPTCHA,
+			'description'=>TR_CONFIG_SITE_USE_CAPTCHA_DESC,
+			'control'=>new checkboxcontrol()
+		),
 		'SITE_KEYWORDS'=>array(
 			'title'=>TR_CONFIG_SITE_KEYWORDS,
 			'description'=>TR_CONFIG_SITE_KEYWORDS_DESC,
