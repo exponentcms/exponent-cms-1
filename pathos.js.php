@@ -38,6 +38,8 @@ include_once("pathos.php");
 
 var onLoadInits = new Array(); // array of functions
 
+var openWindows = new Array(); // array of window references.
+
 function pathosJSinitialize() {
 	for (i = 0; i < onLoadInits.length; i++) {
 		onLoadInits[i]();
@@ -91,9 +93,27 @@ function makeLink() {
 	return link;
 }
 
+function openWindow(url,name,options) {
+	for (key in openWindows) {
+		if (key == name) {
+			if (openWindows[key].focus()) {
+				return;
+			} else {
+				break;
+			}
+		}
+	}
+	openWindows[name] = window.open(url,name,options);
+}
+
 function openSelector(mod,dest,vmod,vview) {
 	var url = PATH_RELATIVE+"source_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod="+vmod+"&vview="+vview;
-	window.open(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+	openWindow(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+}
+
+function openContentSelector(mod,dest,view) {
+	var url = PATH_RELATIVE+"content_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod=containermodule&vview="+view;
+	openWindow(url,'contentPicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
 }
 
 function sourceSelected(hidden,showPreview,src,desc) {
