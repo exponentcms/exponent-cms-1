@@ -18,9 +18,9 @@ ROOT=`pwd`;
 echo "Exponent files root set to $ROOT";
 
 for MODULE in $ROOT/modules/*; do
-	echo -ne "Processing module : ";
-	echo `basename $MODULE`;
 	if [ -d $MODULE/views ]; then
+		echo -ne "Processing module : ";
+		echo `basename $MODULE`;
 		if [ ! -d $MODULE/views_c ]; then
 			mkdir $MODULE/views_c;
 		fi
@@ -32,13 +32,14 @@ for MODULE in $ROOT/modules/*; do
 done
 
 for THEME in $ROOT/themes/*; do
-	echo -ne "Processing theme : ";
-	echo `basename $THEME`;
 	if [ -d $THEME/modules/ ]; then
+		echo -ne "Processing theme : ";
+		echo `basename $THEME`;
 		for MODULE in $THEME/modules/*; do
-			echo -ne "Processing theme views for module : ";
-			echo `basename $MODULE`;
 			if [ -d $MODULE/views ]; then
+				echo -ne "Processing theme views for module : ";
+				echo `basename $MODULE`;
+				
 				if [ ! -d $MODULE/views_c ]; then
 					mkdir $MODULE/views_c;
 				fi
@@ -54,7 +55,7 @@ for THEME in $ROOT/themes/*; do
 		if [ ! -d $THEME/views_c ]; then
 			mkdir $THEME/views_c;
 		fi
-		chmod 777 views_c;
+		chmod 777 $THEME/views_c;
 		# Generate a .cvsignore file to ignore compiled templates
 		echo "*" > $THEME/views_c/.cvsignore
 	fi
@@ -67,6 +68,10 @@ chmod 777 $ROOT/conf/profiles
 
 echo "*" > $ROOT/files/.cvsignore
 
+if [ ! -d $ROOT/extensionuploads ]; then
+	mkdir $ROOT/extensionuploads
+fi
+chmod 777 $ROOT/extensionuploads
 
 if [ ! -f $ROOT/conf/config.php ]; then
 	touch $ROOT/conf/config.php;
@@ -89,5 +94,14 @@ echo "*" > $ROOT/files/.cvsignore
 
 
 echo "Finished setting up Exponent Environment.";
+echo "";
+echo "";
+echo "======================================";
+echo "============ IMPORTANT ==============="
+echo "======================================";
+echo "";
+echo "Don't forget to uncomment the line in pathos_version.php";
+echo "that defines the DEVELOPMENT constant.  Strange things";
+echo "may happen with regards to CVS directories if you don't.";
 
 cd sdk
