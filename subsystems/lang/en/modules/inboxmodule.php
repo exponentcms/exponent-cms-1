@@ -19,7 +19,9 @@ define('TR_INBOXMODULE_SEND',				'Send');
 
 define('TR_INBOXMODULE_REPLYTO',			'Reply to %s');
 define('TR_INBOXMODULE_COPYTO',				'Send a copy to');
-define('TR_INBOXMODULE_RECIPIENT',			'Recipient');
+define('TR_INBOXMODULE_GROUPCOPYTO',		'Send a copy to groups(s)');
+define('TR_INBOXMODULE_RECIPIENT',			'Recipient(s)');
+define('TR_INBOXMODULE_GROUPRECIPIENT',		'Group Recipient(s)');
 
 define('TR_INBOXMODULE_NOCONTACTSWARNING',	'You have no contacts in your personal contact list.');
 

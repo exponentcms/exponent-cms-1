@@ -87,6 +87,8 @@ class privatemessage {
 		uasort($groups,'strnatcmp');
 		
 		$recipient_caption = TR_INBOXMODULE_RECIPIENT;
+		$group_recipient_caption = TR_INBOXMODULE_GROUPRECIPIENT;
+		
 		$btn = new buttongroupcontrol(TR_INBOXMODULE_SEND,'',TR_CORE_CANCEL);
 		
 		$object->group_recipient = array();
@@ -107,13 +109,14 @@ class privatemessage {
 			unset($users[$u->id]);
 			
 			$recipient_caption = TR_INBOXMODULE_COPYTO;
+			$group_recipient_caption = TR_INBOXMODULE_GROUPCOPYTO;
 		}
 		
 		if (count($users)) {
 			$form->register('recipients',$recipient_caption,new listbuildercontrol($object->recipient,$users));
 		}
 		if (count($groups)) {
-			$form->register('group_recipients',$recipient_caption,new listbuildercontrol($object->group_recipient,$groups));
+			$form->register('group_recipients',$group_recipient_caption,new listbuildercontrol($object->group_recipient,$groups));
 		}
 		
 		if (!count($groups) && !count($users)) {
