@@ -135,6 +135,10 @@ function pathos_files_removeDirectory($dir) {
 	rmdir($dir);
 }
 
+function pathos_files_fixName($name) {
+	return preg_replace('/[^A-Za-z0-9\.]/','_',$name);
+}
+
 /* exdoc
  * Checks to see if the upload destination file exists.  This is to prevent
  * accidentally uploading over the top of another file.
@@ -147,7 +151,7 @@ function pathos_files_removeDirectory($dir) {
  * @node Subsystems:Files
  */
 function pathos_files_uploadDestinationFileExists($dir,$name) {
-	return (file_exists(BASE.$dir."/".$_FILES[$name]['name']));
+	return (file_exists(BASE.$dir."/".pathos_files_fixName($_FILES[$name]['name'])));
 }
 
 /* exdoc
