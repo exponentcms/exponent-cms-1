@@ -108,7 +108,9 @@ class template extends basetemplate {
 		$this->tpl->compile_dir = BASE.'/views_c';
 		$this->tpl->compile_id = md5($this->viewfile);
 		
-		$this->tpl->assign("__view",$this->view);
+		$expected_view = ($this->viewfile == TEMPLATE_FALLBACK_VIEW ? $view : $this->view);
+		
+		$this->tpl->assign("__view",$expected_view);
 		if ($loc == null) $loc = pathos_core_makeLocation($module);
 		$this->tpl->assign("__loc",$loc);
 		$this->tpl->assign("__redirect",pathos_flow_get());
@@ -147,7 +149,6 @@ class formtemplate extends basetemplate {
 		}
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
-		//echo 'this is the view'.$this->view;
 		$this->viewdir = realpath(dirname($this->viewfile));
 		
 		$this->tpl->template_dir = $this->viewdir;
@@ -309,7 +310,6 @@ function pathos_template_getViewConfigOptions($module,$view) {
 		if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
 		else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
 	}
-	echo "Form File:$form_file:";
 	if ($form_file == "") return array(); // no form file, no options
 	
 	$fh = fopen($form_file,"r");
