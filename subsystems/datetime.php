@@ -118,19 +118,37 @@ function pathos_datetime_duration($time_a,$time_b) {
 	return $duration;
 }
 
-#
-# The following STILL NEED TO TAKE DST INTO ACCOUNT
-#
-/* Month Functions */
+/**
+ * Retrieve Start of Month timestamp
+ *
+ * Given a timestamp, this function will calculate another timestamp
+ * that represents the beginning of the month that the passed timestamp
+ * falls into.  For instance, passing a timestamp representing January 25th 1984
+ * would return a timestamp representing January 1st 1984, at 12:00am
+ *
+ * @param timestamp $timestamp The original timestamp to use when calculating.
+ *
+ * @return timestamp The Start of Month timestamp.
+ */
 function pathos_datetime_startOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
 	return mktime(8,0,0,$info['mon'],1,$info['year']) - 8*3600;
 }
 
 function pathos_datetime_endOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
+	// No month has fewer than 28 days, even in leap year, so start out at 28.
+	// At most, we will loop through the while loop 3 times (29th, 30th, 31st)
 	$info['mday'] = 28;
+	// Keep incrementing the mday value until it is not valid, and use last valid value.
+	// This should get us the last day in the month, and take into account leap years
 	while (checkdate($info['mon'],$info['mday']+1,$info['year'])) $info['mday']++;
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
 	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
 }
 
@@ -146,13 +164,17 @@ function pathos_datetime_endOfMonthTimestamp($timestamp) {
  */
 function pathos_datetime_endOfMonthDay($timestamp) {
 	$info = getdate($timestamp);
+	// No month has fewer than 28 days, even in leap year, so start out at 28.
+	// At most, we will loop through the while loop 3 times (29th, 30th, 31st)
 	$last = 28;
+	// Keep incrementing the mday value until it is not valid, and use last valid value.
+	// This should get us the last day in the month, and take into account leap years
 	while (checkdate($info['mon'],$last+1,$info['year'])) $last++;
 	return $last;
 }
 
 /**
- * Return the timestamp for 12:00:01 am for any given day
+ * Return the timestamp for 12:00 am for any given day
  *
  * Looks at a timestamp and returns another timestamp representing
  * 12:00:01 am of the same day.
@@ -162,6 +184,9 @@ function pathos_datetime_endOfMonthDay($timestamp) {
  */
 function pathos_datetime_startOfDayTimestamp($timestamp) {
 	$info = getdate($timestamp);
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
 	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
 }
 
@@ -189,9 +214,13 @@ function pathos_datetime_makeDay($timestamp,$day) {
  */
 function pathos_datetime_startOfWeekTimestamp($timestamp) {
 	$info = getdate($timestamp);
+	// FIXME: The following line will sometimes calculate negative dates,
+	// FIXME: which will not work on Windows platforms.
 	$firstOfWeek = $info['mday'] - $info['wday'];
-	//FIXME WILL NOT WORK ON WINDOWS SERVERS
-	return mktime(0,0,0,$info['mon'],$firstOfWeek,$info['year']);
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
+	return mktime(8,0,0,$info['mon'],$firstOfWeek,$info['year']) - 8*3600;
 }
 
 // Recurring Dates
@@ -268,7 +297,7 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 		// criteria.  If $curdate ever falls outside the recurrence range, the
 		// loop will exit.
 		$dates[] = $curdate;
-		
+		$curdate += 8*3600; // Add 8 hours, to avoid DST problems
 		// Grab the date information (weekday, month, day, year, etc.) for
 		// the current date, so we can ratchet up to the next date in the series.
 		$dateinfo = getdate($curdate);
@@ -350,8 +379,12 @@ function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) 
 		// Make the next month's timestamp, by adding frequency to the month. 
 		// PHP can pick up on the fact that the 13th month of this year is the 1st
 		// month of the next year.
-		$curdate = mktime(8,0,0,$dateinfo['mon']+$freq,1,$dateinfo['year']);
-		$dateinfo = getdate($curdate);
+		#$curdate = mktime(8,0,0,$dateinfo['mon']+$freq,1,$dateinfo['year']);
+		#$dateinfo = getdate($curdate);
+		
+		// Manually update the month and monthday.
+		$dateinfo['mon'] += $freq;
+		$dateinfo['mday'] = 1;
 		
 		if ($by_day) {
 			// For by day recurrence (first tuesday of every month), we need to do a
@@ -380,6 +413,7 @@ function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) 
 				$mdate = $wday - $dateinfo['wday'] + ( 7 * ( $week - 1 ) ) + 1;
 			}
 		}
+		
 		// Re-assemble the $curdate value, using the correct $mdate.  If not doing by_day
 		// recurrence, this value remains essentially unchanged.  Otherwise, it will be
 		// set to reflect the new day of the Nth weekday.
