@@ -52,6 +52,8 @@ if ($user && $user->is_acting_admin == 1) {
 	}
 	
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

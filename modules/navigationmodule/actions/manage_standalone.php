@@ -41,6 +41,8 @@ if ($user && $user->is_acting_admin == 1) {
 	$sections = $db->selectObjects('section','parent=-1');
 	$template->assign('sections',$sections);
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

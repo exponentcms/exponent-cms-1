@@ -47,7 +47,11 @@ if ($user && $user->is_acting_admin == 1) {
 		$template->assign('subs',navigationmodule::getTemplateHierarchyFlat($page->id));
 		
 		$template->output();
-	} else echo SITE_404_HTML;
+	} else {
+		echo SITE_404_HTML;
+	}
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

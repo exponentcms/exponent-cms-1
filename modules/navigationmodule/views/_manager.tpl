@@ -29,14 +29,23 @@
  * $Id$
  *}
 
-<table cellpadding="0" cellspacing="0">
-<tr><td class="tab_btn tab_btn_current">
-<a href="{link action=manage}">Hierarchy</a>
-</td><td class="tab_btn tab_btn">
-<a href="{link action=manage_standalone}">Standalone&nbsp;Pages</a>
-</td><td class="tab_btn">
-<a href="{link action=manage_pagesets}">Pagesets</a>
-</td><td class="tab_spacer" width="50%">
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="tab_btn tab_btn_current">
+	<a href="{link action=manage}">Hierarchy</a>
+</td>
+{if $isAdministrator == 1}
+<td class="tab_btn tab_btn">
+	<a href="{link action=manage_standalone}">Standalone&nbsp;Pages</a>
+</td>
+<td class="tab_btn">
+	<a href="{link action=manage_pagesets}">Pagesets</a>
+</td>
+{else}
+<td></td>
+<td></td>
+{/if}
+<td class="tab_spacer" width="50%">
 &nbsp;
 </td></tr>
 <tr><td colspan="4" class="tab_main">
@@ -65,10 +74,11 @@ Manage the pages and site structure here.
 {$section->name}&nbsp;
 {/if}
 </td><td>
-{if $section->alias_type == 0}
+{if $section->alias_type == 0 && $section->canManage == 1}
 <a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">Add Subpage</a>
 {/if}
 </td><td>
+{if $section->canManage == 1}
 {if $section->alias_type == 0}
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage id=$section->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"></a>
 <a class="mngmntlink navigation_mngmntlink" href="{link action=remove id=$section->id}" onClick="return confirm('Are you sure you want to move this page and all of its subpages out of the site hiearchy?\r\n(They will not be deleted, but will instead become standalone pages)');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
@@ -81,11 +91,14 @@ Manage the pages and site structure here.
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_internalalias id=$section->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"></a>
 <a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this internal alias?');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
 {/if}
-
+{/if}
 </td><td>
+{if $section->canAdmin == 1}
 	<a href="{link int=$section->id action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions for viewing this page" alt="Assign user permissions for this page" /></a>
 	<a href="{link int=$section->id action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions for viewing this page" alt="Assign group permissions for this page" /></a>
+{/if}
 </td><td>
+{if $section->canManageRank == 1}
 {if $section->last == 0}
 	<a href="{link action=order parent=$section->parent a=$section->rank b=$nextrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0" /></a>
 {else}
@@ -95,6 +108,7 @@ Manage the pages and site structure here.
 	<a href="{link action=order parent=$section->parent a=$section->rank b=$prevrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" border="0" /></a>
 {else}
 	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" border="0" />
+{/if}
 {/if}
 </td></tr>
 {/foreach}

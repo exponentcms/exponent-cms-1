@@ -75,7 +75,7 @@ Pagesets are powerful tools that allow you to create sections with default conte
 </div>
 {/if}
 
-{if $haveStandalone != 0}
+{if $haveStandalone != 0 && $isAdministrator == 1}
 <div style="background-color: #CCC; padding: 5px;"><a class="mngmntlink navigation_mngmntlink" href="{link action=move_standalone parent=$parent->id}">
 Move Standalone Page
 </a>

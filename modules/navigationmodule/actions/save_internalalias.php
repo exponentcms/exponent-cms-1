@@ -35,21 +35,25 @@
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
 
-// FIXME: Allow non-administrative users to manage certain
-// FIXME: parts of the section hierarchy.
-if ($user && $user->is_acting_admin == 1) {
+$check_id = -1;
+$section = null;
+$old_parent = null;
+if (isset($_POST['id'])) {
+	// Saving an existing content page.  Read it from the database.
+	$section = $db->selectObject('section','id='.$_POST['id']);
+	if ($section) {
+		$old_parent = $section->parent;
+		$check_id = $section->id;
+	}
+} else {
+	$check_id = $_POST['parent'];
+}
+
+if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
 
 	pathos_lang_loadDictionary('modules','navigationmodule');
 
-	$section = null;
-	$old_parent = null;
-	if (isset($_POST['id'])) {
-		// Saving an existing content page.  Read it from the database.
-		$section = $db->selectObject('section','id='.$_POST['id']);
-		if ($section) {
-			$old_parent = $section->parent;
-		}
-	}
+	
 	// Update the section from the _POST data.
 	$section = section::updateInternalAlias($_POST,$section);
 	if ($section->active == 0) {

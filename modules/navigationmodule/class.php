@@ -34,9 +34,9 @@
 $navigationmodule_cached_sections = null;
 
 class navigationmodule {
-	function name() { return "Navigator"; }
-	function author() { return "James Hunt"; }
-	function description() { return "Allows users to navigate through pages on the site, and allows Administrators to manage the site page structure / hierarchy."; }
+	function name() { return 'Navigator'; }
+	function author() { return 'James Hunt'; }
+	function description() { return 'Allows users to navigate through pages on the site, and allows Administrators to manage the site page structure / hierarchy.'; }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -44,15 +44,41 @@ class navigationmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
-		return array(
-			"view"=>"View Section",
-			"manage"=>"Manage Section"
-		);
+	function permissions($internal = '') {
+		global $db;
+		$s = $db->selectObject('section','id='.$internal);
+		if ($s && !navigationmodule::isPublic($s)) { 
+			return array(
+				'administrate'=>'Administrate',
+				'view'=>'View Section',
+				'manage'=>'Manage Section',
+			);
+		} else {
+			return array(
+				'administrate'=>'Administrate',
+# Not too sure that this is a good idea, from a usability standpoint				
+#				'view'=>'View Section',
+				'manage'=>'Manage Section',
+			);
+		}
 	}
 	
-	function show($view,$loc = null,$title = "") {
-		$id = pathos_sessions_get("last_section");
+	function getLocationHierarchy($loc) {
+		$locs = array($loc);
+		
+		global $db;
+		$all = $db->selectObjectsIndexedArray('section','parent >= 0');
+			
+		$loc = pathos_core_makeLocation('navigationmodule','',$all[$loc->int]->parent);
+		while ($loc->int > 0) {
+			$locs[] = $loc;
+			$loc = pathos_core_makeLocation('navigationmodule','',$all[$loc->int]->parent);
+		}
+		return $locs;
+	}
+	
+	function show($view,$loc = null,$title = '') {
+		$id = pathos_sessions_get('last_section');
 		$current = null;
 		$sections = navigationmodule::getHierarchy();
 		foreach ($sections as $section) {
@@ -62,13 +88,11 @@ class navigationmodule {
 			}
 		}
 		
-		$template = new template("navigationmodule",$view,$loc);
-		$template->assign("sections",$sections);
-		$template->assign("current",$current);
-		//$template->assign("canManage",pathos_permissions_checkOnModule("administrate","navigationmodule"));
-		global $user;
-		$template->assign("canManage",(($user && $user->is_acting_admin == 1) ? 1 : 0));
-		$template->assign("title",$title);
+		$template = new template('navigationmodule',$view,$loc);
+		$template->assign('sections',$sections);
+		$template->assign('current',$current);
+		$template->assign('canManage',pathos_permissions_checkOnModule('manage','navigationmodule'));
+		$template->assign('title',$title);
 		
 		$template->output();
 	}
@@ -86,35 +110,6 @@ class navigationmodule {
 		// Do nothing, no content
 		return false;
 	}
-	
-	/*
-	 * @deprecated is it?
-	function levelDropDownControlArray($parent,$depth = 0,$ignore_ids = array(),$full=false) {
-		$ar = array();
-		if ($parent == 0 && $full) {
-			$ar[0] = "&lt;Top of Hierarchy&gt;";
-		}
-		global $db;
-		$nodes = $db->selectObjects("section","parent=$parent");
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($nodes,"pathos_sorting_byRankAscending");
-		foreach ($nodes as $node) {
-			if (($node->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$node->id))) && !in_array($node->id,$ignore_ids)) {
-				if ($node->active == 1) {
-					$text = str_pad("",($depth+($full?1:0))*3,".",STR_PAD_LEFT) . $node->name;
-				} else {
-					$text = str_pad("",($depth+($full?1:0))*3,".",STR_PAD_LEFT) . "(".$node->name.")";
-				}
-				$ar[$node->id] = $text;
-				foreach (navigationmodule::levelDropdownControlArray($node->id,$depth+1,$ignore_ids,$full) as $id=>$text) {
-					$ar[$id] = $text;
-				}
-			}
-		}
-		return $ar;
-		
-	}
-	 */
 	
 	/*
 	 * Retrieve either the entire hierarchy, or a subset of the hierarchy, as an array suitable for use
@@ -198,7 +193,7 @@ class navigationmodule {
 			
 			if ($subtree_depth) { // Found our sub tree
 				if ($section->depth > $subtree_depth) {
-					$new_hier[] = $section;
+					$new_hier[$section->id] = $section;
 				} else {
 					break;
 				}
@@ -231,13 +226,14 @@ class navigationmodule {
 	}
 	
 	function _appendChildren(&$master,&$blocks,$parent,$depth = 0, $parents = array()) {
+		global $db;
 		if ($parent != 0) $parents[] = $parent;
 		
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($blocks[$parent],'pathos_sorting_byRankAscending');
 		
 		foreach ($blocks[$parent] as $i=>$child) {
-			if ($child->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$child->id))) {
+			if ($child->public == 1 || navigationmodule::canView($child)) {
 				$child->numParents = count($parents);
 				$child->depth = $depth;
 				$child->first = ($i == 0 ? 1 : 0);
@@ -272,7 +268,7 @@ class navigationmodule {
 					$child->link = pathos_core_makeLink(array('section'=>$child->id));
 				}
 					
-				$master[] = $child;
+				$master[$child->id] = $child;
 				if (isset($blocks[$child->id])) {
 					navigationmodule::_appendChildren($master,$blocks,$child->id,$depth+1,$parents);
 				}
@@ -386,7 +382,7 @@ class navigationmodule {
 		global $db;
 		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
-			return pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$section->id));
+			return pathos_permissions_check(array('view','manage','administrate'),pathos_core_makeLocation('navigationmodule','',$section->id));
 		} else { // Is public.  check parents.
 			if ($section->parent <= 0) {
 				// Out of parents, and since we are still checking, we haven't hit a private section.
@@ -398,24 +394,7 @@ class navigationmodule {
 		}
 	}
 	
-	/* May not yet be needed
-	function canManage($section) {
-		global $db;
-		if ($section->public == 0) {
-			// Not a public section.  Check permissions.
-			return pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->id));
-		} else { // Is public.  check parents.
-			if ($section->parent <= 0) {
-				// Out of parents, and since we are still checking, we haven't hit a private section.
-				return true;
-			} else {
-				$s = $db->selectObject('section','id='.$section->parent);
-				return navigationmodule::canView($s);
-			}
-		}
-	}
-	//*/
-	
+	// Rewrite this.
 	function isPublic($section) {
 		global $db;
 		if ($section->public == 0) {

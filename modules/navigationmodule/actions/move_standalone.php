@@ -42,6 +42,8 @@ if ($user && $user->is_acting_admin == 1) {
 	$template = new template('navigationmodule','_move_standalone');
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

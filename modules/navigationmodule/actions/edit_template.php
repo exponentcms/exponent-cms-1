@@ -50,6 +50,8 @@ if ($user && $user->is_acting_admin == 1) {
 	$template->assign('form_html',$form->toHTML());
 	$template->assign('is_top',($page->parent == 0 ? 1 : 0));
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

@@ -41,6 +41,8 @@ if ($user && $user->is_acting_admin == 1) {
 	$tpls = $db->selectObjects('section_template','parent=0');
 	$template->assign('templates',$tpls);
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

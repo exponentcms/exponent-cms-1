@@ -33,19 +33,22 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user->is_acting_admin == 1) {
+$section = null;
+if (isset($_GET['id'])) {
 	$section = $db->selectObject("section","id=".$_GET['id']);
-	if ($section) {
+}
+
+if ($section) {
+	if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->id))) {
 		navigationmodule::deleteLevel($section->id);
 		$db->delete("section","id=" . $section->id);
 		$db->decrement("section","rank",1,"rank > " . $section->rank . " AND parent=".$section->parent);
 		pathos_flow_redirect();
 	} else {
-		echo SITE_404_HTML;
+		echo SITE_403_HTML;
 	}
-	ob_end_flush();
 } else {
-	echo SITE_403_HTML;
+	echo SITE_404_HTML;
 }
 
 ?>

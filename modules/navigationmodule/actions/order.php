@@ -33,9 +33,11 @@
 
 if (!defined("PATHOS")) exit("");
 
-if ($user && $user->is_acting_admin == 1) {
+if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$_GET['parent']))) {
 	$db->switchValues('section','rank',$_GET['a'],$_GET['b'],'parent=' . $_GET['parent']);
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

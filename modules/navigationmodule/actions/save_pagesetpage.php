@@ -35,13 +35,9 @@
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
 
-// FIXME: Allow non-administrative users to manage certain
-// FIXME: parts of the section hierarchy.
-if ($user && $user->is_acting_admin == 1) {
-	$section = null;
-	// Update the section from the _POST data.
-	$section = section::updatePageset($_POST,$section);
-	
+$section = section::updatePageset($_POST,null);
+
+if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->parent))) {
 	// Still have to do some pageset processing, mostly handled by a handy
 	// member method of the navigationmodule class.
 	
@@ -58,6 +54,8 @@ if ($user && $user->is_acting_admin == 1) {
 	
 	// Go back to where we came from.  Probably the navigation manager.
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>
