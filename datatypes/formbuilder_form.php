@@ -95,7 +95,7 @@ class formbuilder_form {
 			$defaults[$address->email] = $address->email;
 		}
 		
-		$form->register("addresses","Other Addersses",new listbuildercontrol($defaults,array()));
+		$form->register("addresses","Other Addresses",new listbuildercontrol($defaults,array()));
 		$form->register("subject","Email Subject",new textcontrol($object->subject));
 		$form->register(uniqid(""),"", new htmlcontrol("<br><br><b>Database Settings</b><br><hr><br>"));
 		$form->register("is_saved","Save Submitions to Database",new checkboxcontrol($object->is_saved,false));
