@@ -1,6 +1,6 @@
 <?php
 
-define('TR_CONFIG_DATABASE_ERROR_BADPREFIX',		'Invalid table prefix.  The table prefix can only contain alphanumeric characters and underscores ("_").');
+define('TR_CONFIG_DATABASE_ERROR_BADPREFIX',		'Invalid table prefix.  The table prefix can only contain alphanumeric characters.');
 define('TR_CONFIG_DATABASE_ERROR_CANTCONNECT',		'Unable to connect to database server.  Make sure that the database specified exists, and the user account specified has access to the server.');
 define('TR_CONFIG_DATABASE_ERROR_PERMDENIED',		'Unable to run %s commands.');
 
