@@ -62,7 +62,8 @@ if (!defined('PATH_RELATIVE')) {
 	} else {
 		// FIXME: PATH_RELATIVE definition will break in certain parts when the server does not offer the Document_root.
 		// FIXME: Notable, it breaks in the installer.
-		define('PATH_RELATIVE',dirname($_SERVER['SCRIPT_NAME']) . '/');
+		// This triggers on IIS, which has no DOCUMENT_ROOT.
+		define('PATH_RELATIVE',__relpath(dirname($_SERVER['SCRIPT_NAME']) . '/'));
 	}
 }
 

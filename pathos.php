@@ -44,7 +44,12 @@ if (get_magic_quotes_gpc()) {
 }
 
 function __realpath($path) {
-	return str_replace('\\','/',realpath($path));
+	$path = str_replace('\\','/',realpath($path));
+	if ($path{1} == ':') {
+		// We can't just check for C:/, because windows users may have the IIS webroot on X: or F:, etc.
+		$path = substr($path,2);
+	}
+	return $path;
 }
 
 // Process user-defined constants in overrides.php
@@ -64,6 +69,10 @@ pathos_sessions_initialize();
 
 // Load the site configuration (without initializing the config subsystem)
 include_once(BASE.'subsystems/config/load.php');
+
+// Initialize the language subsystem
+include_once(BASE.'subsystems/lang.php');
+pathos_lang_initialize();
 
 // After config config setup:
 
