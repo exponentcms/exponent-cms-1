@@ -104,7 +104,7 @@ class checkboxcontrol extends formcontrol {
 	
 	function form($object) {
 		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','save');
+		pathos_lang_loadDictionary('standard','core');
 	
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
