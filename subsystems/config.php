@@ -37,7 +37,7 @@
  * has been included for use.
  * @node Subsystems:Config
  */
-define("SYS_CONFIG",1);
+define('SYS_CONFIG',1);
 
 /* exdoc
  * Uses magical regular expressions voodoo to pull the
@@ -49,16 +49,19 @@ define("SYS_CONFIG",1);
  * @param string $configname Configuration Profile name
  * @node Subsystems:Config
  */
-function pathos_config_parse($configname) {
-	if ($configname == "") $file = BASE."conf/config.php";
-	else $file = BASE."conf/profiles/$configname.php";
+function pathos_config_parse($configname,$site_root = null) {
+// Last argument added in 0.96, for shared core.  Default it to the old hard-coded value
+	if ($site_root == null) $site_root = BASE;
+	
+	if ($configname == '') $file = $site_root.'conf/config.php';
+	else $file = $site_root."conf/profiles/$configname.php";
 	$options = array();
 	if (is_readable($file)) $options = pathos_config_parseFile($file);
-	if (is_readable(BASE."conf/extensions")) {
-		$dh = opendir(BASE."conf/extensions");
+	if (is_readable($site_root.'conf/extensions')) {
+		$dh = opendir($site_root.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
-			if (substr($file,-13,13) == ".defaults.php") {
-				$options = array_merge(pathos_config_parseFile(BASE."conf/extensions/$file"),$options);
+			if (substr($file,-13,13) == '.defaults.php') {
+				$options = array_merge(pathos_config_parseFile($site_root."conf/extensions/$file"),$options);
 			}
 		}
 	}
@@ -104,9 +107,10 @@ function pathos_config_parseFile($file) {
  *    for filling in default values.
  * @node Subsystems:Config
  */
-function pathos_config_configurationForm($configname) {
+function pathos_config_configurationForm($configname,$database=false) {
 	// $configname = "" for active config
 	if (is_readable(BASE."conf/extensions")) {
+		global $user;
 		$options = pathos_config_parse($configname);
 		// Debating if we need this or not.
 		//if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
@@ -114,30 +118,33 @@ function pathos_config_configurationForm($configname) {
 		
 		$form = new form();
 	
-		$form->register(uniqid(""),"",new htmlcontrol("<h3>Configuration Options</h3>"));
-		$form->register("configname","Profile Name",new textcontrol($configname));
-		$form->register("activate","Activate?",new checkboxcontrol((!defined("CURRENTCONFIGNAME") || CURRENTCONFIGNAME==$configname)));
+		$form->register(null,'',new htmlcontrol('<h3>Configuration Options</h3>'));
+		$form->register('configname','Profile Name',new textcontrol($configname));
+		$form->register('activate','Activate?',new checkboxcontrol((!defined('CURRENTCONFIGNAME') || CURRENTCONFIGNAME==$configname)));
 	
-		$dh = opendir(BASE."conf/extensions");
+		$dh = opendir(BASE.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
 			if (is_readable(BASE."conf/extensions/$file") && substr($file,-14,14) == ".structure.php") {
 				$arr = include(BASE."conf/extensions/$file");
-				$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/><h3>" . $arr[0] . "</h3>"));
-				foreach ($arr[1] as $directive=>$info) {
-					$form->register(null,"",new htmlcontrol("<div style='margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc'>".$info['title']."</div>"));
-					if ($info['description'] != "") {
-						$form->register(null,"",new customcontrol($info['description']));
+				// Check to see if the current user is a super admin, and only include database if so
+				if (substr($file,0,-14) != 'database' || $user->is_admin) {
+					$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/><h3>" . $arr[0] . "</h3>"));
+					foreach ($arr[1] as $directive=>$info) {
+						$form->register(null,"",new htmlcontrol("<div style='margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc'>".$info['title']."</div>"));
+						if ($info['description'] != "") {
+							$form->register(null,"",new customcontrol($info['description']));
+						}
+						if (isset($options[$directive])) $info["control"]->default = $options[$directive];
+						if (is_a($info['control'],"checkboxcontrol")) {
+							$form->meta("opts[$directive]",1);
+							$info['control']->flip = true;
+							$form->register('o[$directive]',$info['title'],$info['control']);
+						} else $form->register("c[$directive]",'',$info['control']);
 					}
-					if (isset($options[$directive])) $info["control"]->default = $options[$directive];
-					if (is_a($info['control'],"checkboxcontrol")) {
-						$form->meta("opts[$directive]",1);
-						$info["control"]->flip = true;
-						$form->register("o[$directive]",$info['title'],$info["control"]);
-					} else $form->register("c[$directive]","",$info["control"]);
 				}
 			}
 		}
-		$form->register("submit","",new buttongroupcontrol("Save"));
+		$form->register('submit','',new buttongroupcontrol('Save'));
 		
 		//pathos_forms_cleanup();
 		
@@ -157,9 +164,18 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 // Last argument added in 0.96, for shared core.  Default it to the old hard-coded value
 	if ($site_root == null) $site_root = BASE;
 
+	$configname = str_replace(" ","_",$values['configname']);
+
+	$original_config = pathos_config_parse($configname,$site_root);
+
 	$str = "<?php\n\n";
 	foreach ($values['c'] as $directive=>$value) {
 		$directive = strtoupper($directive);
+		
+		// Because we may not have all config options in the POST,
+		// we need to unset the ones we do have from the original config.
+		unset($original_config[$directive]);
+		
 		$str .= "define(\"$directive\",";
 		if (substr($directive,-5,5) == "_HTML") {
 			$value = htmlentities(stripslashes($value)); // slashes added by POST
@@ -171,11 +187,27 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 	}
 	foreach ($values['opts'] as $directive=>$val) {
 		$directive = strtoupper($directive);
+		
+		// Because we may not have all config options in the POST,
+		// we need to unset the ones we do have from the original config.
+		unset($original_config[$directive]);
+		
 		$str .= "define(\"$directive\"," . (isset($values['o'][$directive]) ? 1 : 0) . ");\n";
+	}
+	// Now pick up all of the unspecified values
+	// THIS MAY SCREW UP on checkboxes.
+	foreach ($original_config as $directive=>$value) {
+		$str .= "define(\"$directive\",";
+		if (substr($directive,-5,5) == "_HTML") {
+			$value = htmlentities(stripslashes($value)); // slashes added by POST
+			$str .= "html_entity_decode('$value')";
+		}
+		else if (is_int($value)) $str .= $value;
+		else $str .= "'".str_replace("'","\'",$value)."'";
+		$str .= ");\n";
 	}
 	$str .= "\n?>";
 	
-	$configname = str_replace(" ","_",$values['configname']);
 	if ($configname != "") {
 		// Wishing to save
 		if (	(file_exists($site_root."conf/profiles/$configname.php") && is_writeable($site_root."conf/profiles/$configname.php")) ||
