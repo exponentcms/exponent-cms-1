@@ -1,0 +1,14 @@
+<?php
+
+$_GET['action'] = 'view';
+$_GET['module'] = 'weblogmodule';
+$_REQUEST['action'] = 'view';
+$_REQUEST['module'] = 'weblogmodule';
+
+$request = explode('/',ereg_replace('^.*/content/blog/','',$_SERVER['REQUEST_URI']));
+$_GET['internal_name'] = $request[0];
+$_REQUEST['internal_name'] = $request[0];
+
+include_once('../index.php');
+
+?>

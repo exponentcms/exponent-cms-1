@@ -1,0 +1,14 @@
+<?php
+
+$_GET['action'] = 'view';
+$_GET['module'] = 'newsmodule';
+$_REQUEST['action'] = 'view';
+$_REQUEST['module'] = 'newsmodule';
+
+$request = explode('/',ereg_replace('^.*/content/news/','',$_SERVER['REQUEST_URI']));
+$_GET['internal_name'] = $request[0];
+$_REQUEST['internal_name'] = $request[0];
+
+include_once('../index.php');
+
+?>
