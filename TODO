@@ -6,3 +6,4 @@ remove infopopup.php
 Remove description from container add form
 SITE_TITLE support (overriding) in all themes
 View configurations for Resource Modules
+Add the ability to exclude posters from approval duties
