@@ -79,7 +79,7 @@ class listbuildercontrol extends formcontrol {
 	}
 
 	function controlToHTML($name) {
-		$html = '<input type="hidden" name="'.$name.'" id="'.$name.'" value="'.join("|!|",array_keys($this->default)).'" />';
+		$html = '<input type="hidden" name="'.$name.'" id="'.$name.'" value="'.implode("|!|",array_keys($this->default)).'" />';
 		$html .= '<table cellpadding="9" border="0" width="30"><tr><td width="10">';
 		if (!$this->newList) {
 			$html .= "<select id='source_$name' size='".$this->size."'>";

@@ -107,10 +107,10 @@ class mysql_database {
 		}
 		$sql = substr($sql,0,-1);
 		if (count($primary)) {
-			$sql .= ", PRIMARY KEY(`" . join("`,`",$primary) . "`)";
+			$sql .= ", PRIMARY KEY(`" . implode("`,`",$primary) . "`)";
 		}
 		foreach ($unique as $key=>$value) {
-			$sql .= ", UNIQUE `".$key."` ( `" . join("`,`",$value) . "`)";
+			$sql .= ", UNIQUE `".$key."` ( `" . implode("`,`",$value) . "`)";
 		}
 		foreach ($index as $key=>$value) {
 			$sql .= ", INDEX (`" . $key . "`" . (($value > 0)?"(".$value.")":"") . ")";
@@ -499,7 +499,7 @@ class mysql_database {
 	 * @node Undocumented
 	 */
 	function max($table,$attribute,$groupfields = null,$where = null) {
-		if (is_array($groupfields)) $groupfields = join(",",$groupfields);
+		if (is_array($groupfields)) $groupfields = implode(",",$groupfields);
 		$sql = "SELECT MAX($attribute) as fieldmax FROM `" . $this->prefix . "$table`";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
@@ -516,7 +516,7 @@ class mysql_database {
 	 * @node Undocumented
 	 */
 	function min($table,$attribute,$groupfields = null,$where = null) {
-		if (is_array($groupfields)) $groupfields = join(",",$groupfields);
+		if (is_array($groupfields)) $groupfields = implode(",",$groupfields);
 		$sql = "SELECT MIN($attribute) as fieldmin FROM `" . $this->prefix . "$table`";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";

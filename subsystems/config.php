@@ -170,7 +170,7 @@ function pathos_config_configurationForm($configname,$database=false) {
 				}
 			}
 		}
-		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" />'.join('&nbsp;&nbsp;|&nbsp;&nbsp;',$sections)));
+		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" />'.implode('&nbsp;&nbsp;|&nbsp;&nbsp;',$sections)));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		//pathos_forms_cleanup();

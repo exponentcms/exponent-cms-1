@@ -62,13 +62,13 @@ function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 	foreach ($fields as $field) {
 		switch ($type) {
 			case SEARCH_TYPE_ALL:
-				$where .= "(" . $field . " LIKE '%" . join("% ' AND $field LIKE ' %",$terms) . " %') ";
+				$where .= "(" . $field . " LIKE '%" . implode("% ' AND $field LIKE ' %",$terms) . " %') ";
 				break;
 			case SEARCH_TYPE_PHRASE:
-				$where .= $field . " LIKE '% " . join(" ",$terms) . " %' ";
+				$where .= $field . " LIKE '% " . implode(" ",$terms) . " %' ";
 				break;
 			default:
-				$where .= $field . " LIKE '%" . join("%' OR $field LIKE '%",$terms) . "%' ";
+				$where .= $field . " LIKE '%" . implode("%' OR $field LIKE '%",$terms) . "%' ";
 				break;
 		}
 		$where .= "OR ";

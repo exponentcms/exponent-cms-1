@@ -253,7 +253,7 @@ class postgres_database {
 	}
 	
 	function max($table,$attribute,$groupfields = null,$where = null) {
-		if (is_array($groupfields)) $groupfields = join(",",$groupfields);
+		if (is_array($groupfields)) $groupfields = implode(",",$groupfields);
 		$sql = "SELECT MAX($attribute) as fieldmax FROM " . $this->prefix . "$table";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";

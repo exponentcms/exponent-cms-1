@@ -121,7 +121,7 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 		// Check version and include necessary converters
 		if ($eql_version != $current_version) {
 			include_once(BASE.'subsystems/backup/'.$eql_version.'.php');
-			$fprefix = 'pathos_backup_'.join('',explode('.',$eql_version)).'_';
+			$fprefix = 'pathos_backup_'.implode('',explode('.',$eql_version)).'_';
 		}
 		
 		$table = '';

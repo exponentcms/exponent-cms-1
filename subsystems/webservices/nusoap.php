@@ -332,7 +332,7 @@ class nusoap_base {
 					$xml .= "<$name$xmlns xsi:type=\"xsd:boolean\"$atts>$val</$name>";
 				}
 				break;
-			case (is_int($val) || is_long($val) || $type == 'int'):
+			case (is_int($val) || is_int($val) || $type == 'int'):
 				if ($use == 'literal') {
 					$xml .= "<$name$xmlns $atts>$val</$name>";
 				} else {

@@ -118,7 +118,7 @@ function pathos_sharedcore_linkExtension($typedir,$name,$source,$destination) {
 					$fparts = explode("/",$file);
 					$file = $fparts[count($fparts)-1];
 					unset($fparts[count($fparts)-1]);
-					$dir = join("/",$fparts);
+					$dir = implode("/",$fparts);
 					
 					pathos_files_makeDirectory($destination."/".$dir,0755,true);
 					symlink($source."/".$dir."/".$file,$destination."/".$dir."/".$file);
@@ -141,7 +141,7 @@ function pathos_sharedcore_linkExtension($typedir,$name,$source,$destination) {
 				$fparts = explode("/",$file);
 				$file = $fparts[count($fparts)-1];
 				unset($fparts[count($fparts)-1]);
-				$dir = join("/",$fparts);
+				$dir = implode("/",$fparts);
 				
 				pathos_files_makeDirectory($destination."/".$dir,0755,true);
 				symlink($source."/".$dir."/".$file,$destination."/".$dir."/".$file);
