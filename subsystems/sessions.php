@@ -108,7 +108,7 @@ function pathos_sessions_validate() {
 		$ticket->last_active = time();
 		$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");
 	}
-	//define("SITE_403_HTML",SITE_403_REAL_HTML); // Really are hacking
+	define("SITE_403_HTML",SITE_403_REAL_HTML);
 }
 
 /**
