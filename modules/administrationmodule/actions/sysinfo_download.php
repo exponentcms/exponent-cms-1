@@ -74,7 +74,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	
 	$template->output();
 	
-	exit('');
+	exit(''); // Exit, since we are exporting.
 } else {
 	echo SITE_403_HTML;
 }
