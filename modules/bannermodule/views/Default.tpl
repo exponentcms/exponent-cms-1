@@ -41,8 +41,7 @@
 {/if}
 {/permissions}
 {foreach from=$banners item=banner}
-<a href="banner_click.php?id={$banner->id}">
-<!--{$banner->name}-->
+<a href="{$smarty.const.URL_FULL}modules/bannermodule/banner_click.php?id={$banner->id}">
 <img src="{$smarty.const.PATH_RELATIVE}{$banner->file->directory}/{$banner->file->filename}" border="0" />
 </a>
 <br />

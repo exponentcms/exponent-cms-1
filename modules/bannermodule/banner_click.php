@@ -31,9 +31,9 @@
 # $Id$
 ##################################################
 
-include_once("pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE);
-define("SCRIPT_ABSOLUTE",BASE);
+include_once("../../../pathos.php");
+define("SCRIPT_RELATIVE",PATH_RELATIVE.'modules/bannermodule/');
+define("SCRIPT_ABSOLUTE",BASE.'modules/bannermodule/');
 define("SCRIPT_FILENAME","banner_click.php");
 
 // Process click
