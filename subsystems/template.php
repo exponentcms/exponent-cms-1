@@ -57,6 +57,35 @@ define("SYS_TEMPLATE_CLEAR_USERS",2);
 
 include_once(BASE."external/Smarty/libs/Smarty.class.php");
 
+class basetemplate {
+	var $tpl;	
+	var $cache_id = "";
+	var $view = "";
+	
+	function assign($var,$val) {
+		$this->tpl->assign($var,$val);
+	}
+	
+	function output() {
+		$this->tpl->display($this->view.".tpl",$this->cache_id.$this->view);
+	}
+	
+	function register_permissions($perms,$locs) {
+		$permissions_register = array();
+		if (!is_array($perms)) $perms = array($perms);
+		if (!is_array($locs)) $locs = array($locs);
+		foreach ($perms as $perm) {
+			foreach ($locs as $loc) {
+				$permissions_register[$perm] = (pathos_permissions_check($perm,$loc) ? 1 : 0);
+			}
+		}
+		$this->tpl->assign("permissions",$permissions_register);
+	}
+	
+	function render() { // Caching support?
+		return $this->tpl->fetch($this->view.".tpl");
+	}
+}
 /**
  * Template Wrapper
  *
@@ -66,13 +95,9 @@ include_once(BASE."external/Smarty/libs/Smarty.class.php");
  * @package Subsystems
  * @subpackage Template
  */
-class template {
-	var $tpl;
-	
-	var $cache_id = "";
+class template extends basetemplate {	
 	var $viewdir = "";
 	var $viewfile = "";
-	var $view = "";
 	var $module = "";
 	
 	function template($module,$view = null,$loc=null,$caching=false) { // add viewfile someday
@@ -123,29 +148,27 @@ class template {
 		$this->tpl->assign("__viewconfig",$viewconfig);
 	}
 	
-	function assign($var,$val) {
-		$this->tpl->assign($var,$val);
-	}
 	
-	function output() {
-		$this->tpl->display($this->view.".tpl",$this->cache_id.$this->view);
-	}
+}
+
+/**
+ * Form Template Wrapper
+ *
+ * This class wraps is used for site wide forms.  
+ *
+ * @package Subsystems
+ * @subpackage Template
+ */
+class formtemplate extends basetemplate {
 	
-	function register_permissions($perms,$locs) {
-		$permissions_register = array();
-		if (!is_array($perms)) $perms = array($perms);
-		if (!is_array($locs)) $locs = array($locs);
-		foreach ($perms as $perm) {
-			foreach ($locs as $loc) {
-				$permissions_register[$perm] = (pathos_permissions_check($perm,$loc) ? 1 : 0);
-			}
-		}
-		$this->tpl->assign("permissions",$permissions_register);
-	}
-	
-	function render() { // Caching support?
-		return $this->tpl->fetch($this->view.".tpl");
-	}
+}
+
+class filetemplate extends basetemplate {
+
+}
+
+class standalonetemplate extends basetemplate {
+
 }
 
 /**
