@@ -93,7 +93,7 @@ if (!defined("PATHOS")) exit("");
 					$result->view_link = pathos_core_makeLink(
 						array("section"=>$sectionref->section));
 				} else {
-					$result->view_link = $r->view_link;
+					$result->view_link = URL_FULL.$r->view_link;
 				}
 				
 				// find title
