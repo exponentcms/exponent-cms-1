@@ -124,8 +124,12 @@ if ($user) {
 	}
 	
 	if (count($emails)) {
-		$body = $message->body;		
-		if (pathos_smtp_mail($emails,"",$message->subject,$message->body) == false) {
+		$body = $message->body;	
+		$headers = array(
+			"MIME-Version"=>"1.0",
+			"Content-type"=>"text/html; charset=iso-8859-1"
+		);
+		if (pathos_smtp_mail($emails,"",$message->subject,$message->body,$headers) == false) {
 			echo "Something didn't work with the email config";
 		}
 	}
