@@ -61,6 +61,8 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 	}
 	
 	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	
 	if (isset($item->id)) {
 		if ($item->is_recurring) {
@@ -87,11 +89,14 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		} else {
 			$item->approved = 1;
 			$db->updateObject($item,"calendar");
+			// There should be only one eventdate
+			$eventdate = $db->selectObject('eventdate','event_id = '.$item->id);
+			
+			$eventdate->date = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			$db->updateObject($eventdate,'eventdate');
 		}
 		calendarmodule::spiderContent($item);
 	} else {
-		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		$start_recur = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 		$stop_recur  = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
@@ -100,7 +105,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 			// Do recurrence
 			$freq = $_POST['recur_freq_'.$_POST['recur']];
 			
-			echo $_POST['recur'] . "<br />";
+			###echo $_POST['recur'] . "<br />";
 			
 			switch ($_POST['recur']) {
 				case "recur_daily":
