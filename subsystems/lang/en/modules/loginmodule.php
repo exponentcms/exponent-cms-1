@@ -16,6 +16,8 @@ define('TR_LOGINMODULE_RESETEMAILTITLE',		'Password Reset Notification'); // Mov
 define('TR_LOGINMODULE_UNMATCHEDPASSWORDS',		'Passwords do not match.');
 define('TR_LOGINMODULE_OLDPASSWRONG',			'Your old password is incorrect.');
 define('TR_LOGINMODULE_STRENGTHFAILED',			'Your password is not strong enough : %s');
+define('TR_LOGINMODULE_WRONGCAPTCHA',			'Verification failed.  Please re-enter the verification string (the image below)');
+define('TR_LOGINMODULE_CAPTCHADESC',			'%s<br />Please type the numbers and letters shown in the<br /> above image, to verify your registration.');
 
 define('TR_LOGINMODULE_USERNAMETAKEN',			'That username is already taken.');
 
