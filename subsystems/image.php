@@ -77,6 +77,7 @@ function pathos_image_sizeinfo($filename) {
  * @node Undocumented
  */
 function pathos_image_createFromFile($filename,$sizeinfo) {
+	if (!function_exists("gd_info")) return null;
 	$info = gd_info();
 
 	if ($sizeinfo['mime'] == "image/jpeg" && $info["JPG Support"] == true) {
