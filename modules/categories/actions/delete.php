@@ -37,8 +37,10 @@ $cat = null;
 if (isset($_GET['id'])) $cat = $db->selectObject("category","id=".$_GET['id']);
 if ($cat) {
 	$loc = unserialize($cat->location_data);
+	$loc->mod = $_GET['orig_module'];
 	// PERM CHECK
 	$db->delete("category","id=".$cat->id);
+	$db->decrement('category', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$cat->rank);
 	pathos_flow_redirect();
 	// END PERM CHECK
 } else {

@@ -39,6 +39,8 @@ return array(
 	"location_data"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	"category_id"=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	"question"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),

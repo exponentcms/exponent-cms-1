@@ -35,9 +35,15 @@ if (!defined("PATHOS")) exit("");
 
 // PERM CHECK
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-	$loc->mod = $_GET['m'];
-	$categories = $db->selectObjects("category","location_data='".serialize($loc)."'");
-	$template = new template($loc->mod,"_cat_manageCategories",$loc);
+	
+	$mloc = pathos_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
+	$categories = $db->selectObjects("category","location_data='".serialize($mloc)."'");
+	if (pathos_modules_getViewFile($mloc->mod,"_cat_manageCategories",false) == "") {
+		$template = new template("common","_cat_manageCategories",$loc);
+	} else {
+		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
+	}	
+	usort($categories, "pathos_sorting_byRankAscending");
 	$template->assign("categories",$categories);
 	$template->output();
 // END PERM CHECK

@@ -40,7 +40,9 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
 	"enable_categories"=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER)
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	"recalc"=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 
 ?>

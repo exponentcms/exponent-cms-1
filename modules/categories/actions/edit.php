@@ -38,12 +38,13 @@ if (isset($_GET['id'])) $cat = $db->selectObject("category","id=".$_GET['id']);
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 } else {
-	$loc->mod = $_GET['m']; // Update module in location
+	$loc->mod = $_GET['orig_module']; // Update module in location
 }
 // PERM CHECK
 	$form = category::form($cat);
 	$form->location($loc);
 	$form->meta("module","categories");
+	$form->meta("orig_module", $_GET['orig_module']);
 	$form->meta("action","save");
 	echo $form->toHTML();
 // END PERM CHECK

@@ -198,3 +198,21 @@ div.workflow_action_restored {
 div.workflow_action_posted {
 	border: 2px solid black;
 }
+
+/* FAQ Module*/
+div.faq_moduletitle {
+	font-size: 16px;
+}
+
+td.category_bg {
+	background-color: lightgrey;
+}
+td.category_title {
+	font-size: 12px;
+	font-weight: bold;
+}
+td.question {
+	font-size: 10px;
+	font-weight: bold;
+}
+	

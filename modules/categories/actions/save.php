@@ -38,7 +38,13 @@ if (isset($_POST['id'])) $cat = $db->selectObject("category","id=".$_POST['id'])
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 } else {
-	$loc->mod = $_POST['m']; // Only need to update the module.
+	$loc->mod = $_POST['orig_module']; // Only need to update the module.
+	$cat->rank = $db->max('category', 'rank', 'location_data', "location_data='".serialize($loc)."'");
+	if ($cat->rank == null) {
+		$cat->rank = 0;
+	} else { 
+		$cat->rank += 1;
+	}
 }
 // PERM CHECK
 	$cat = category::update($_POST,$cat);
