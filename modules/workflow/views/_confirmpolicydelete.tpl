@@ -53,5 +53,5 @@ There is no content under the authority of this approval policies.  It should be
 {/foreach}
 </table>
 <br /><hr size="1" />
-If you are sure you want to delete this policy, and the above unapproved content, click <a class="mngmntlink workflow_mngmntlink" href="{link admin_deletepolicy id=$policy->id}">here</a>.
+If you are sure you want to delete this policy, and the above unapproved content, click <a class="mngmntlink workflow_mngmntlink" href="{link action=admin_deletepolicy id=$policy->id}">here</a>.
 </div>
