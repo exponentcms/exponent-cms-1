@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+$navigationmodule_cached_sections = null;
+
 class navigationmodule {
 	function name() { return "Navigator"; }
 	function author() { return "James Hunt"; }
@@ -52,7 +54,7 @@ class navigationmodule {
 	function show($view,$loc = null,$title = "") {
 		$id = pathos_sessions_get("last_section");
 		$current = null;
-		$sections = navigationmodule::levelTemplate(0,0);
+		$sections = navigationmodule::getHierarchy();
 		foreach ($sections as $section) {
 			if ($section->id == $id) {
 				$current = $section;
@@ -60,7 +62,7 @@ class navigationmodule {
 			}
 		}
 		
-		$template = new Template("navigationmodule",$view,$loc);
+		$template = new template("navigationmodule",$view,$loc);
 		$template->assign("sections",$sections);
 		$template->assign("current",$current);
 		//$template->assign("canManage",pathos_permissions_checkOnModule("administrate","navigationmodule"));
@@ -87,33 +89,6 @@ class navigationmodule {
 	
 	/*
 	 * @deprecated is it?
-	 */
-	function levelShowDropdown($parent,$depth=0,$default=0,$ignore_ids = array()) {
-		$html = "";
-		global $db;
-		$nodes = $db->selectObjects("section","parent=$parent");
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($nodes,"pathos_sorting_byRankAscending");
-		foreach ($nodes as $node) {
-			if (($node->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$node->id))) && !in_array($node->id,$ignore_ids)) {
-				$html .= "<option value='" . $node->id . "' ";
-				if ($default == $node->id) $html .= "selected";
-				$html .= ">";
-				if ($node->active == 1) {
-					$html .= str_pad("",$depth*3,".",STR_PAD_LEFT) . $node->name;
-				} else {
-					$html .= str_pad("",$depth*3,".",STR_PAD_LEFT) . "(".$node->name.")";
-				}
-				$html .= "</option>";
-				$html .= navigationmodule::levelShowDropdown($node->id,$depth+1,$default,$ignore_ids);
-			}
-		}
-		return $html;
-	}
-	
-	/*
-	 * @deprecated is it?
-	 */
 	function levelDropDownControlArray($parent,$depth = 0,$ignore_ids = array(),$full=false) {
 		$ar = array();
 		if ($parent == 0 && $full) {
@@ -139,22 +114,134 @@ class navigationmodule {
 		return $ar;
 		
 	}
+	 */
 	
-	function levelTemplate($parent, $depth = 0, $parents = array()) {
+	/*
+	 * Retrieve either the entire hierarchy, or a subset of the hierarchy, as an array suitable for use
+	 * in a dropdowncontrol.  This is used primarily by the section datatype for moving and adding
+	 * sections to specific parts of the site hierarchy.
+	 *
+	 * @param $parent The id of the subtree parent.  If passed as 0 (the default), the entire subtree is parsed.
+	 * @param $ignore_ids a value-array of IDs to be ignored when generating the list.  This is used
+	 * when moving a section, since a section cannot be made a subsection of itself or any of its subsections.
+	 */
+	function hierarchyDropDownControlArray($parent = 0, $ignore_ids = array()) {
+		$options = array();
+		
+		$depth_offset = 1;
+		
+		if ($parent == 0) {
+			$options[0] = '&lt;Top of Hierarchy&gt;';
+		} else {
+			$section = $db->selectObject('section','id='.$parent);
+			$depth_offset = -1 * $section->depth;
+		}
+		
+		$ignore_depth = -1;
+		
+		foreach (navigationmodule::getHierarchy($parent) as $section) {
+			if ($ignore_depth == -1 && in_array($section->id,$ignore_ids)) {
+				$ignore_depth = $section->depth;
+				continue;
+			}
+			
+			if ($section->depth == $ignore_depth) {
+				$ignore_depth = -1;
+			}
+			
+			if ($ignore_depth == -1 || $section->depth < $ignore_depth) {
+				if ($section->active == 1) {
+					$options[$section->id] = str_pad('',($section->depth+$depth_offset)*3,'.',STR_PAD_LEFT) . $section->name;
+				} else {
+					$options[$section->id] = str_pad('',($section->depth+$depth_offset)*3,'.',STR_PAD_LEFT) . '(' . $section->name . ')';
+				}
+			}
+		}
+		return $options;
+	}
+	
+	function levelDropDownControlArray($parent = 0) {
+		$depth = 0;
+		if ($parent != 0) {
+			global $db;
+			$section = $db->selectObject('section','id='.$parent);
+			$depth = $section->depth;
+		}
+		
+		$options = array();
+		foreach (navigationmodule::getHierarchy($parent) as $section) {
+			if ($section->parent == $parent) {
+				if ($section->active == 1) {
+					$options[$section->id] = $section->name;
+				} else {
+					$options[$section->id] = '(' . $section->name . ')';
+				}
+			}
+		}
+		return $options;
+	}
+	
+	/*
+	 * Returns a flat representation of the full site hierarchy.
+	 */
+	function getHierarchy($parent = 0) {
+		$hier = navigationmodule::_getHierarchy();
+		if ($parent == 0) return $hier;
+		
+		$new_hier = array();
+		
+		$subtree_depth = 0;
+		foreach ($hier as $section) {
+			if ($section->id == $parent) {
+				$subtree_depth = $section->depth;
+			}
+			
+			if ($subtree_depth) { // Found our sub tree
+				if ($section->depth > $subtree_depth) {
+					$new_hier[] = $section;
+				} else {
+					break;
+				}
+			}
+		}
+		
+		return $new_hier;
+	}
+	
+	function _getHierarchy() {
+		global $db, $cached_sections;
+		
+		if ($cached_sections != null) {
+			return $cached_sections;
+		}
+		
+		$blocks = array();
+		foreach ($db->selectObjects('section','parent != -1') as $section) {
+			if (!isset($blocks[$section->parent])) {
+				$blocks[$section->parent] = array();
+			}
+			$blocks[$section->parent][] = $section;
+		}
+		
+		$hier = array();
+		navigationmodule::_appendChildren($hier,$blocks,0);
+		
+		$cached_sections = $hier;
+		return $hier;
+	}
+	
+	function _appendChildren(&$master,&$blocks,$parent,$depth = 0, $parents = array()) {
 		if ($parent != 0) $parents[] = $parent;
-		global $db;
-		$nodes = array();
-		$kids = $db->selectObjects("section","parent=$parent");
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($kids,"pathos_sorting_byRankAscending");
-		for ($i = 0; $i < count($kids); $i++) {
-			$child = $kids[$i];
-			//foreach ($kids as $child) {
+		
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($blocks[$parent],'pathos_sorting_byRankAscending');
+		
+		foreach ($blocks[$parent] as $i=>$child) {
 			if ($child->public == 1 || pathos_permissions_check("view",pathos_core_makeLocation("navigationmodule","",$child->id))) {
 				$child->numParents = count($parents);
 				$child->depth = $depth;
 				$child->first = ($i == 0 ? 1 : 0);
-				$child->last = ($i == count($kids)-1 ? 1 : 0);
+				$child->last = ($i == count($blocks[$parent])-1 ? 1 : 0);
 				$child->parents = $parents;
 				
 				// Generate the link attribute base on alias type.
@@ -185,11 +272,12 @@ class navigationmodule {
 					$child->link = pathos_core_makeLink(array('section'=>$child->id));
 				}
 					
-				$nodes[] = $child;
-				$nodes = array_merge($nodes,navigationmodule::levelTemplate($child->id,$depth+1,$parents));
+				$master[] = $child;
+				if (isset($blocks[$child->id])) {
+					navigationmodule::_appendChildren($master,$blocks,$child->id,$depth+1,$parents);
+				}
 			}
 		}
-		return $nodes;
 	}
 	
 	function getTemplateHierarchyFlat($parent,$depth = 1) {

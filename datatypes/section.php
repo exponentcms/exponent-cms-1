@@ -102,7 +102,7 @@ class section {
 			$form->meta('parent',$object->parent);
 		} else if ($object->parent >= 0) {
 			// Allow them to change parents, but not if the section is outside of the hiearchy (parent > 0)
-			$form->register('parent',TR_NAVIGATIONMODULE_PARENTSECTION,new dropdowncontrol($object->parent,navigationmodule::levelDropdownControlArray(0,0,array($object->id),1)));
+			$form->register('parent',TR_NAVIGATIONMODULE_PARENTSECTION,new dropdowncontrol($object->parent,navigationmodule::hierarchyDropdownControlArray(0,array($object->id))));
 		}
 		
 		// Return the form to the calling scope, which should always be a
@@ -242,7 +242,7 @@ class section {
 		$form = section::_commonForm($object);
 		
 		// Add a dropdown to allow the user to choose an internal page.
-		$form->register('internal_id',TR_NAVIGATIONMODULE_INTLINK,new dropdowncontrol($object->internal_id,navigationmodule::levelDropDownControlArray(0,0)));
+		$form->register('internal_id',TR_NAVIGATIONMODULE_INTLINK,new dropdowncontrol($object->internal_id,navigationmodule::hierarchyDropDownControlArray()));
 		
 		// Add the'Public?' checkbox.  The 'Active?' checkbox is omitted, because it makes no sense.
 		$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));

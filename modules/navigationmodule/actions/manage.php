@@ -36,9 +36,9 @@ if (!defined("PATHOS")) exit("");
 if ($user && $user->is_acting_admin == 1) {
 	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 	
-	$template = new Template("navigationmodule","_manager",$loc);
+	$template = new template("navigationmodule","_manager",$loc);
 	
-	$template->assign("sections",navigationmodule::levelTemplate(0,0));
+	$template->assign("sections",navigationmodule::getHierarchy());
 	// Templates
 	$tpls = $db->selectObjects("section_template","parent='0'");
 	$template->assign("templates",$tpls);

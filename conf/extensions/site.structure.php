@@ -81,7 +81,7 @@ return array(
 		'SITE_DEFAULT_SECTION'=>array(
 			'title'=>TR_CONFIG_SITE_DEFAULT_SECTION,
 			'description'=>TR_CONFIG_SITE_DEFAULT_SECTION_DESC,
-			'control'=>new dropdowncontrol('',navigationmodule::levelDropDownControlArray(0))
+			'control'=>new dropdowncontrol('',navigationmodule::hierarchyDropDownControlArray())
 		),
 		'SESSION_TIMEOUT'=>array(
 			'title'=>TR_CONFIG_SITE_SESSION_TIMEOUT,
