@@ -300,6 +300,8 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 		if (!isset($values[$data[0]])) $values[$data[0]] = 0;
 		if ($data[2] == "checkbox") {
 			$form->register("_viewconfig[".$data[0]."]",$data[1],new checkboxcontrol($values[$data[0]],true));
+		} else if ($data[2] == 'text') {
+			$form->register("_viewconfig[".$data[0]."]",$data[1],new textcontrol($values[$data[0]]));
 		} else {
 			$options = array_slice($data,3);
 			$form->register("_viewconfig[".$data[0]."]",$data[1],new dropdowncontrol($values[$data[0]],$options));
