@@ -311,7 +311,7 @@ function pathos_users_form($user = null) {
 	}
 	
 	// Add the submit button and return the complete form object to the caller.
-	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE));
+	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 	return $form;
 }
 
@@ -360,12 +360,14 @@ function pathos_users_groupForm($group = null) {
  * @param Object $user The user object to update.  This can be null.
  * @node Subsystems:Users
  */
-function pathos_users_update($formvalues, $user = null) {
-	$user->firstname = $formvalues['firstname'];
-	$user->lastname = $formvalues['lastname'];
-	$user->email = $formvalues['email'];
-	$user->recv_html = isset($formvalues['recv_html']);
-	return $user;
+function pathos_users_update($formvalues, $u = null) {
+	$u->firstname = $formvalues['firstname'];
+	$u->lastname = $formvalues['lastname'];
+	$u->email = $formvalues['email'];
+	$u->recv_html = isset($formvalues['recv_html']);
+	global $user;
+	$u->is_acting_admin = (isset($formvalues['is_acting_admin']) && $user->is_admin);
+	return $u;
 }
 
 /* exdoc
@@ -429,29 +431,36 @@ function pathos_users_groupUpdate($formvalues, $group = null) {
 function pathos_users_create($formvalues) {
 	// Update the user object (at this point we are not dealing with profile
 	// extensions, just the basic object).
-	$user = pathos_users_update($formvalues,null);
+	$u = pathos_users_update($formvalues,null);
+	
 	// The username is not included in the update method, so we define it here.
-	$user->username = $formvalues['username'];
+	$u->username = $formvalues['username'];
+	
 	// Make an md5 checksum hash of the password for storage.  That way no
 	// one can know a password without being told.
-	$user->password = md5($formvalues['pass1']);
-	// Pull the database object in from the global scope.
-	global $db;
+	$u->password = md5($formvalues['pass1']);
+	
+	// Set the acting admin flag if we need to.
+	global $user;
+	$u->is_acting_admin = (isset($formvalues['is_acting_admin']) && $user->is_admin);
+	
 	// Insert the user object into the database, and save the ID.
-	$user->id = $db->insertObject($user,'user');
+	global $db;
+	$u->id = $db->insertObject($u,'user');
 	
 	// Calculate Group Memeberships for newly created users.  Any groups that
 	// are marked as 'inclusive' automatically pick up new users.  This is the part
 	// of the code that goes out, finds those groups, and makes the new user a member
 	// of them.
 	$memb = null;
-	$memb->member_id = $user->id;
+	$memb->member_id = $u->id;
 	foreach($db->selectObjects('group','inclusive=1') as $g) {
 		$memb->group_id = $g->id;
 		$db->insertObject($memb,'groupmembership');
 	}
+	
 	// Return the newly created user object (complete with ID) to the caller.
-	return $user;
+	return $u;
 }
 
  // FIXME: Does pathos_users_userManagerFormTemplate still need to exist?

@@ -43,12 +43,6 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$u = pathos_users_getUserById($_POST['id']);
 		$u = pathos_users_update($_POST,$u);
-		if (isset($_POST['is_acting_admin'])) {
-			pathos_permissions_triggerSingleRefresh($u);
-			$u->is_acting_admin = 1;
-		} else {
-			$u->is_acting_admin = 0;
-		}
 		pathos_users_saveUser($u);
 		
 		pathos_flow_redirect();
