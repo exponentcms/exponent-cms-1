@@ -1,0 +1,11 @@
+Analysis of Exponent Logic
+
+These documents describe in detail the reasoning and
+logic behind the parts that make up Exponent.  They
+are intended to be a supplement to the in-line comments
+found in the source code, and will generally be unuseful
+to non-developers.
+
+The directory structure mirrors that of Exponent, so a
+description of the datetime subsystem would be found in
+sdk/analysis/subsystems/
