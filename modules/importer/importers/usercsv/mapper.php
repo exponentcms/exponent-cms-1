@@ -77,13 +77,14 @@ if ($_FILES["upload"]["error"] == UPLOAD_ERR_OK) {
 		exit("");
 	}
 }
-
+/*
 if (mime_content_type(BASE.$directory."/".$file->filename) != "text/plain"){
 	$post['_formError'] = "File is not a delimited text file.";
 	pathos_sessions_set("last_POST",$post);
 	header("Location: " . $_SERVER['HTTP_REFERER']);
 	exit("");
 }
+*/
 
 //split the line into its columns
 $fh = fopen(BASE.$directory."/".$file->filename,"r");
