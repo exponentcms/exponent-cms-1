@@ -322,4 +322,24 @@ function pathos_core_version($full = false, $build = false) {
 	return $vers;
 }
 
+/**
+ * Check URL Validity
+ *
+ * This function checks a full URL against a set of
+ * known protocls (like http and https) and determines
+ * if the URL is valid.
+ *
+ * @param string $url The URL to test for validity
+ *
+ * @return boolean True if the URL is valid, and false if otherwise.
+ */
+function pathos_core_URLisValid($url) {
+	return (
+		substr($url,0,7) == "http://" ||
+		substr($url,0,8) == "https://" ||
+		substr($url,0,9) == "mailto://" ||
+		substr($url,0,6) == "ftp://"
+	);
+}
+
 ?>
