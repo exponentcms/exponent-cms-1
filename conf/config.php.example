@@ -117,7 +117,7 @@ define("DB_PASS","not_configured");
 # by other scripts).  If you are using an
 # existing database, you may want to change this.
 #
-define("DB_TABLE_PREFIX","exponent_");
+define("DB_TABLE_PREFIX","exponent");
 
 
 ?>

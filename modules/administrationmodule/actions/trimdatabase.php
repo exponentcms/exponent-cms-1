@@ -37,8 +37,8 @@ if ($user && $user->is_admin) {
 	$dropped_tables = array();
 	
 	foreach ($db->getTables(true) as $table) {
-		if (strpos(DB_TABLE_PREFIX,$table) == 0) {
-			$table = str_replace(DB_TABLE_PREFIX,"",$table);
+		if (strpos(DB_TABLE_PREFIX.'_',$table) == 0) {
+			$table = str_replace(DB_TABLE_PREFIX.'_',"",$table);
 			if ($db->tableIsEmpty($table)) {
 				$db->dropTable($table);
 				$dropped_tables[] = $table;

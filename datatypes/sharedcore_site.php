@@ -140,7 +140,7 @@ class sharedcore_site {
 		if (isset($values['_db_config'])) {
 			// Test configuration, and return NULL if it doesn't work.
 			
-			if (preg_match("/[^A-Za-z0-9_]/",$values['db_table_prefix'])) {
+			if (preg_match("/[^A-Za-z0-9]/",$values['db_table_prefix'])) {
 				$post = $values;
 				$post['_formError'] = "Invalid table prefix.  The table prefix can only contain alphanumeric characters and underscores ('_').<br />";
 				pathos_sessions_set("last_POST",$post);
@@ -148,7 +148,7 @@ class sharedcore_site {
 			}
 			
 			$linkdb = pathos_database_connect($values['db_user'],$values['db_pass'],$values['db_host'].":".$values['db_port'],$values['db_name'],$values['db_engine'],true);
-			$linkdb->prefix = $values['db_table_prefix'];
+			$linkdb->prefix = $values['db_table_prefix']."_";
 			
 			if (!$linkdb->isValid()) {
 				$post = $values;

@@ -59,7 +59,7 @@ function echoFailure($msg = "") {
 }
 
 function isAllGood($str) {
-	return !preg_match("/[^A-Za-z0-9_]/",$str);
+	return !preg_match("/[^A-Za-z0-9]/",$str);
 }
 
 pathos_sessions_set("installer_config",$_POST['c']);

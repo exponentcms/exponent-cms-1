@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if (!defined("DB_TABLE_PREFIX")) define("DB_TABLE_PREFIX","exponent_");
+if (!defined("DB_TABLE_PREFIX")) define("DB_TABLE_PREFIX","exponent");
 if (!defined("DB_USER")) define("DB_USER","not_configured");
 if (!defined("DB_PASS")) define("DB_PASS","not_configured");
 if (!defined("DB_NAME")) define("DB_NAME","not_configured");

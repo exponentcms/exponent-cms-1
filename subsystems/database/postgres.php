@@ -79,7 +79,7 @@ class postgres_database {
 		else $dsn = "host=$hostname user=$username password=$password dbname=$database";
 		$this->connection = pg_connect($dsn);
 		
-		$this->prefix = DB_TABLE_PREFIX;
+		$this->prefix = DB_TABLE_PREFIX . '_';
 	}
 	
 	function createTable($tablename,$datadef,$info) {

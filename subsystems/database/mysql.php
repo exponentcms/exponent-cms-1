@@ -85,7 +85,7 @@ class mysql_database {
 		if ($this->connection) {
 			$this->havedb = (mysql_select_db($database,$this->connection) ? true : false);
 		}
-		$this->prefix = DB_TABLE_PREFIX;
+		$this->prefix = DB_TABLE_PREFIX.'_';
 	}
 	
 	/**

@@ -121,7 +121,7 @@ Due to security reasons, you or your web server administrator will have to creat
 	
 	<div class="control">
 		&#0149; <span class="control_caption">Table Prefix: </span>
-		<input class="text" type="text" name="c[db_table_prefix]" value="exponent_" />
+		<input class="text" type="text" name="c[db_table_prefix]" value="exponent" />
 		<div class="control_help">
 			A table prefix helps Exponent differentiate tables for this site from other tables that may already exist (or eventually be created by other scripts).  If you are using an existing database, you may want to change this.
 		</div>

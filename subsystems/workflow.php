@@ -497,7 +497,7 @@ function pathos_workflow_getInfoTables() {
 	$infotables = array();
 	foreach ($db->getTables() as $table) {
 		if (substr($table,-8,8) == "_wf_info") {
-			$infotables[] = str_replace(DB_TABLE_PREFIX,"",$table);
+			$infotables[] = str_replace(DB_TABLE_PREFIX.'_',"",$table);
 		}
 	}
 	return $infotables;

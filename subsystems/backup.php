@@ -86,7 +86,9 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
 		$tables = $db->getTables();
 		if (!function_exists("tmp_removePrefix")) {
 			function tmp_removePrefix($tbl) {
-				return substr($tbl,strlen(DB_TABLE_PREFIX));
+				return substr($tbl,strlen(DB_TABLE_PREFIX)+1);
+				// we add 1, because DB_TABLE_PREFIX  no longer has the trailing
+				// '_' character - that is automatically added by the database class.
 			}
 		}
 		$tables = array_map("tmp_removePrefix",$tables);
