@@ -31,11 +31,11 @@
 # $Id$
 ##################################################
 
-$dh = opendir(BASE."compat");
+$dh = opendir(BASE.'compat');
 while (($file = readdir($dh)) !== false) {
-	if (is_file(BASE."compat/".$file) && substr($file,-4,4) == ".php") {
+	if (is_file(BASE.'compat/'.$file) && substr($file,-4,4) == '.php') {
 		// Include each file in compat/, each of which is a function redefinition for older version of PHP
-		include_once(BASE."compat/".$file);
+		include_once(BASE.'compat/'.$file);
 	}
 }
 
