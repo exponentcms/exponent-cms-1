@@ -525,8 +525,9 @@ function pathos_users_clearPassword($uid) {
  */
 function pathos_users_delete($uid) {
 	global $db;
+	global $user;
 	$u = $db->selectObject('user','id='.$uid);
-	if ($u && $u->is_admin == 0 && $u->is_acting_admin == 0) {
+	if ($u && $u->is_admin == 0 && ($u->is_acting_admin == 0 || $user->is_admin == 1)) {
 		$db->delete('user','id='.$uid);
 		$db->delete('groupmembership','member_id='.$uid);
 		$db->delete('userpermission','uid='.$uid);
