@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (!defined('PATHOS')) exit('');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -39,6 +41,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<?php echo pathos_theme_metaInfo($section); ?>
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
+		<style type="text/css">
+		/*
+			img { behavior: url(external/png-opacity.htc); }
+			*/
+		</style>
 		<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>pathos.js.php"></script>
 	</head>
 	

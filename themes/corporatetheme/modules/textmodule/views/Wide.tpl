@@ -39,19 +39,19 @@
 		<td width="100%" height="100%">
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1}
-				<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.gif" /></a>&nbsp;
-				<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.gif" /></a>
+				<a href="{link action=userperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
+				<a href="{link action=groupperms _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
 			{/if}
 			{if $permissions.configure == 1}
-				<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" /></a>
+				<a href="{link action=configure _common=1}"><img border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
 			{/if}
 			{/permissions}
 			{permissions level=$smarty.const.UILEVEL_NORMAL} 
 			{if $permissions.edit == 1}
 				{if $textitem->approved != 1}
-					<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.gif" border="0" title="Editting Disabled - Content In Approval" />&nbsp;
+					<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" border="0" title="Editting Disabled - Content In Approval" />&nbsp;
 				{else}
-					<a class="mngmntlink text_mngmntlink" href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0" /></a>
+					<a class="mngmntlink text_mngmntlink" href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" /></a>
 				{/if}
 			{/if}
 			{if $textitem->approved != 1 && ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1)}

@@ -1,20 +1,22 @@
 <?php
 
+if (!defined('PATHOS')) exit('');
+
 return array(
 	array(
-		"name"=>"containermodule",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'containermodule',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	array(
-		"name"=>"navigationmodule",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'navigationmodule',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	array(
-		"name"=>"loginmodule",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'loginmodule',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	)
 );
 
