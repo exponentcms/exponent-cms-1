@@ -107,8 +107,13 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 <br />
 <a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="View Calendar Events in Approval" alt="View Calendar Events in Approval">View Approval</a>
 {/if}
-{if $modconfig->enable_categories == 1 && $permissions.administrate == 1}
+{if $modconfig->enable_categories == 1}
+{if $permissions.administrate == 1}
 <br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=cat_managecategories}" title="Manage Event Categories" alt="Manage Event Categories">Manage Categories</a>
+{else}
+<br />
+<a class="mngmntlink calendar_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}/popup.php?module={$__loc->mod}&action=cat_viewcategories&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="View Event Categories" alt="View Event Categories">View Categories</a>
+{/if}
 {/if}
 {/permissions}

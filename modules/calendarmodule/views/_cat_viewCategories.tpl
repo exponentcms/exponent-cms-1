@@ -2,10 +2,7 @@
  *
  *}
 <div class="form_title">Event Categories</div>
-<div class="form_header">
-Below is a list of categories that can be used for events in this calendar.
-</div>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table cellspacing="0" cellpadding="2" border="0">
 {foreach from=$categories item=category}
 	<td>{$category->name}</td>
 	<td>
