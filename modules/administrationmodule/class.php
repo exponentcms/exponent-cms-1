@@ -74,25 +74,23 @@ class administrationmodule {
 	
 	function show($view,$loc = null,$title = "") {
 		global $user;
-#		if ($user && $user->is_acting_admin == 1 && !defined("SELECTOR")) {
-			if (is_readable(BASE."modules/administrationmodule/tasks")) {
-				$menu = array();
-				$dh = opendir(BASE."modules/administrationmodule/tasks");
-				while (($file = readdir($dh)) !== false) {
-					if (is_readable(BASE."modules/administrationmodule/tasks/$file") && is_file(BASE."modules/administrationmodule/tasks/$file")) {
-						$menu = array_merge($menu,include(BASE."modules/administrationmodule/tasks/$file"));
-					}
+		if (is_readable(BASE."modules/administrationmodule/tasks")) {
+			$menu = array();
+			$dh = opendir(BASE."modules/administrationmodule/tasks");
+			while (($file = readdir($dh)) !== false) {
+				if (is_readable(BASE."modules/administrationmodule/tasks/$file") && is_file(BASE."modules/administrationmodule/tasks/$file")) {
+					$menu = array_merge($menu,include(BASE."modules/administrationmodule/tasks/$file"));
 				}
 			}
-			$template = new Template("administrationmodule",$view,$loc);
-			$template->assign("menu",$menu);
-			$template->assign("moduletitle",$title);
-			$template->assign("user",$user);
-			$template->assign('check_permissions',array_flip(administrationmodule::permissions()));
-			$template->register_permissions(array_keys(administrationmodule::permissions()),pathos_core_makeLocation("administrationmodule"));
-			
-			$template->output($view);
-#		}
+		}
+		$template = new Template("administrationmodule",$view,$loc);
+		$template->assign("menu",$menu);
+		$template->assign("moduletitle",$title);
+		$template->assign("user",$user);
+		$template->assign('check_permissions',array_flip(administrationmodule::permissions()));
+		$template->register_permissions(array_keys(administrationmodule::permissions()),pathos_core_makeLocation("administrationmodule"));
+		
+		$template->output($view);
 	}
 }
 
