@@ -90,10 +90,11 @@ if (is_readable(BASE.$page)) {
 	}
 	
 	pathos_sessions_set('source_select',$source_select);
-	
 	// Include the rendering page.
 	include_once(BASE.$page);
-} else echo sprintf(TR_BASE_PAGENOTREADABLE,BASE.$page);
+} else {
+	echo sprintf(TR_BASE_PAGENOTREADABLE,BASE.$page);
+}
 
 ob_end_flush();
 
