@@ -55,16 +55,22 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
  * @subpackage Forms
  */class htmlcontrol extends formcontrol {
 	var $html;
+	var $span;
 	
 	function name() { return "Static Text"; }
 	function isSimpleControl() { return true; }
 	
-	function htmlcontrol($html = "") {
+	function htmlcontrol($html = "",$span = true) {
+		$this->span = $span;
 		$this->html = $html;
 	}
 
 	function toHTML($label,$name) {
-		return "<tr><td colspan=\"2\">" . $this->html . "</td></tr>";
+		if ($this->span) {
+			return '<tr><td colspan="2">' . $this->html . '</td></tr>';
+		} else {
+			return parent::toHTML($label,$name);
+		}
 	}
 	
 	function controlToHTML($name) {
