@@ -96,8 +96,8 @@ function pathos_image_sizeinfo($filename) {
  * @node Subsystems:Images
  */
 function pathos_image_createFromFile($filename,$sizeinfo) {
-	if (!function_exists('gd_info')) return null;
 	$info = gd_info();
+	if ($info['GD Version'] == 'Not Supported') return null;
 
 	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
 		return imagecreatefromjpeg($_GET['file']);
@@ -121,8 +121,8 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
  * @node Subsystems:Image
  */
 function pathos_image_create($w,$h) {
-	if (!function_exists('gd_info')) return null;
 	$info = gd_info();
+	if ($info['GD Version'] == 'Not Supported') return null;
 	if (strpos($info['GD Version'],'2.0') != false) {
 		return imagecreatetruecolor($w,$h);
 	} else {
