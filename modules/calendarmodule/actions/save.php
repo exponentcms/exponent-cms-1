@@ -51,6 +51,15 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 	if (isset($_POST['category'])) $item->category_id = $_POST['category'];
 	else $item->category_id = 0;
 	
+	//Check to see if the feedback form is enabled and/or being used for this event.
+	if (isset($_POST['feedback_form'])) {
+		$item->feedback_form = $_POST['feedback_form'];
+		$item->feedback_email = $_POST['feedback_email'];
+	} else {
+		$item->feedback_form = "";
+		$item->feedback_email = "";
+	}
+	
 	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
 	
 	if (isset($item->id)) {

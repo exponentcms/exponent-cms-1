@@ -58,6 +58,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 	$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
 	if (!$config) {
 		$config->enable_categories = 0;
+		$config->enable_feedback = 0;
 	}
 	
 	if ($config->enable_categories) {
@@ -67,6 +68,12 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		}
 		uasort($ddopts,"strnatcmp");
 		$form->registerBefore("submit","category","Category",new dropdowncontrol($item->category_id,$ddopts));
+	}
+	
+	if ($config->enable_feedback) {
+		$form->registerBefore("submit", uniqid(""),"", new htmlcontrol("<hr size='1' />"));
+		$form->registerBefore("submit", 'feedback_form', 'Choose a Feedback Form', new dropdowncontrol("", pathos_template_getFormTemplates('email')));
+		$form->registerBefore("submit", 'feedback_email', 'Enter Feedback Email Address', new textcontrol("", 20));
 	}
 	
 	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");

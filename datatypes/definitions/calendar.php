@@ -64,7 +64,13 @@ return array(
 	"is_recurring"=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	"category_id"=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID)
+		DB_FIELD_TYPE=>DB_DEF_ID),
+	"feedback_form"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>100),
+	"feedback_email"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>1000)
 );
 
 ?>

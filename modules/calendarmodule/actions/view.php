@@ -54,9 +54,22 @@ if (!defined("PATHOS")) exit("");
 		$item->eventend += $eventdate->date;
 		$item->eventdate = $eventdate;
 		
-		$template = new Template("calendarmodule","_view",$loc);
-		$template->assign("item",$item);
+		$template = new Template("calendarmodule","_view",$loc);				
 		
+		if ($item->feedback_form != "") {
+			echo '<br>The form name is '.$item->feedback_form.'<br>';
+			$formtemplate = new formtemplate('email', $item->feedback_form);
+			//$formtemplate = new formtemplate('email', 'contactform');
+			$formtemplate->assign('formname', $item->feedback_form);
+			$formtemplate->assign('module','calendarmodule');
+			$formtemplate->assign('loc', $loc);
+			$formtemplate->assign('action', 'send_feedback');
+			$formtemplate->assign('id', $item->id);
+			$form = $formtemplate->render();			
+			$template->assign('form', $form);
+		} 
+		
+		$template->assign("item",$item);
 		$template->assign("directory","files/calendarmodule/".$loc->src);
 		$template->register_permissions(
 			array("post","edit","delete","administrate","manage_approval"),

@@ -160,10 +160,9 @@ class template extends basetemplate {
  * @subpackage Template
  */
 class formtemplate extends basetemplate {
-	function template($formtype,$view) {
+	function formtemplate($formtype,$view) {
 	
 		$this->tpl = new Smarty();
-		//$this->tpl->security = true;
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
 		$this->tpl->plugins_dir[] = BASE."plugins";
 		
@@ -176,12 +175,14 @@ class formtemplate extends basetemplate {
 		}
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
+		//echo 'this is the view'.$this->view;
 		$this->viewdir = realpath(dirname($this->viewfile));
 		
 		$this->tpl->template_dir = $this->viewdir;
 		$this->tpl->compile_dir = $this->viewdir."_c";
 		
 		$this->tpl->assign("__view",$view);
+		
 		$this->tpl->assign("__redirect",pathos_flow_get());
 	}
 	
@@ -345,6 +346,33 @@ function pathos_template_getViewConfigOptions($module,$view) {
 		$options[$data[0]] = $data[1];
 	}
 	return $options;
+}
+
+function pathos_template_getFormTemplates($type) {
+	$forms = array();
+	
+	//Get the forms from the base form diretory
+	if ($dh = opendir(BASE.'forms/'.$type)) {
+		 while (false !== ($file = readdir($dh))) {
+			if ( ($file != '.') && ($file != "..") && ($file{0} != '_') ) {
+				//$forms[$type.'/'.$file] = $file;
+				$forms[substr($file,0,-4)] = substr($file,0,-4);
+			}
+		}
+	}
+	
+	//Get the forms from the themes form directory.  If the theme has forms of the same
+	//name as the base form dir, then they will overwrite the ones already  in the array $forms.
+	if ($dh = opendir(THEME_ABSOLUTE.'forms/'.$type)) {
+		 while (false !== ($file = readdir($dh))) {
+			if ( ($file != '.') && ($file != "..") && ($file{0} != '_') ) {
+				$forms[substr($file,0,-4)] = substr($file,0,-4);
+				//$forms[substr($file,0,-4)] = $file;
+			}
+		}
+	}
+	
+	return $forms;
 }
 
 ?>
