@@ -52,9 +52,9 @@ Exponent requires that several permissions be set correctly in order to operate.
 <tr><td colspan="2" style="background-color: lightgrey;"><b>File and Directory Permission Tests</b></td></tr>
 <?php
 foreach ($status as $file=>$stat) {
-	echo '<tr><td width="55%"><span style="color: #AAA;">'.BASE.'</span><b>'.$file.'</b></td><td align="center" width="45%">';
-	if ($stat != SANITY_FINE) echo '<span style="color: red; font-weight: bold;">';
-	else echo '<span style="color: green; font-weight: bold;">';
+	echo '<tr><td width="55%"><span style="color: #AAA;">'.BASE.'</span>'.$file.'</td><td align="center" width="45%"';
+	if ($stat != SANITY_FINE) echo ' style="color: #C00; font-weight: bold; background-color: #999;">';
+	else echo ' style="color: green; font-weight: bold;">';
 	switch ($stat) {
 		case SANITY_NOT_E:
 			echo 'File Not Found';
@@ -67,13 +67,13 @@ foreach ($status as $file=>$stat) {
 			break;
 		case SANITY_FINE:
 			$errcount--;
-			echo 'OK';
+			echo 'Okay';
 			break;
 		default:
 			echo '????';
 			break;
 	}
-	echo '</span></td></tr>';
+	echo '</td></tr>';
 }
 ?>
 <tr><td colspan="2" style="background-color: lightgrey;"><b>Other Tests</b></td></tr>
@@ -128,6 +128,12 @@ $write_file = 0;
 if ($errcount > 0) {
 	// Had errors.  Force halt and fix.
 	?>
+	The Exponent Install Wizard found some major problems with the server environment, which you must fix before you can continue.
+	<?php
+	if (ini_get('safe_mode') == true) {
+		echo '<br /><br /><div style="font-weight: bold; color: red;">SAFE MODE IS ENABLED.  You may encounter many strange errors unless you give the web server user ownership of ALL Exponent files.  On UNIX, this can be done with a "chown -R" command</div>';
+	}
+	?>
 	<br /><b>Note:</b> For permission errors (files or directories that are not writable / not readable) it is usually best to make sure that the Exponent files were uncompressed with options (-xzvpf) to preserve file permissions.
 	<br /><br />
 	After you have corrected the above errors, click <a href="?page=sanity">here</a> to run these environment checks again.
@@ -135,6 +141,11 @@ if ($errcount > 0) {
 } else if ($warncount > 0) {
 	?>
 	The Exponent Install Wizard found some minor problems with the server environment, but you should be able to continue.
+	<?php
+	if (ini_get('safe_mode') == true) {
+		echo '<br /><br /><div style="font-weight: bold; color: red;">SAFE MODE IS ENABLED.  You may encounter many strange errors unless you give the web server user ownership of ALL Exponent files.  On UNIX, this can be done with a "chown -R" command</div>';
+	}
+	?>
 	<br />Please proceed to configure your database by clicking <a href="?page=dbconfig">here</a>.
 	<?php
 } else {

@@ -86,6 +86,22 @@ function sanity_checkFile($file,$as_file,$flags) {
 	return SANITY_FINE;
 }
 
+function sanity_checkDirectory($dir,$flag,&$status) {
+	$status[$dir] = sanity_checkFile(BASE.$dir,0,$flag);
+	if (is_readable(BASE.$dir)) {
+		$dh = opendir(BASE.$dir);
+		while (($file = readdir($dh)) !== false) {
+			if ($file{0} != '.' && $file != 'CVS') {
+				if (is_file(BASE.$dir.'/'.$file)) {
+					$status[$dir.'/'.$file] = sanity_checkFile(BASE.$dir.'/'.$file,1,$flag);
+				} else {
+					sanity_checkDirectory($dir.'/'.$file,$flag,$status);
+				}
+			}
+		}
+	}
+}
+
 function sanity_checkFiles() {
 	$status = array(
 		'conf/config.php'=>sanity_checkFile(BASE.'conf/config.php',1,SANITY_READWRITE),
@@ -96,6 +112,7 @@ function sanity_checkFiles() {
 		'views_c'=>sanity_checkFile(BASE.'views_c',0,SANITY_READWRITE),
 		'extensionuploads'=>sanity_checkFile(BASE.'extensionuploads',0,SANITY_READWRITE)
 	);
+	sanity_checkDirectory('files',SANITY_READWRITE,$status);
 	return $status;
 }
 
