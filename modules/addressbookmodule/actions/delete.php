@@ -43,7 +43,7 @@ if ($contact) {
 	
 	if (pathos_permissions_check('delete',$loc) || pathos_permissions_check('delete',$iloc)) {
 		$db->delete('addressbook_contact','id='.$contact->id);
-		pathos_template_clear();
+		pathos_flow_redirect(SYS_FLOW_SECTIONAL);
 	} else {
 		echo SITE_403_HTML;
 	}
