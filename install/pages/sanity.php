@@ -159,7 +159,13 @@ if ($errcount > 0) {
 }
 
 if ($write_file) {
-	$components = join('/',array_splice(split('/',$_SERVER['SCRIPT_NAME']),0,-2)).'/';
+	#In CGI mode SCRIPT_NAME is not correct, so we will try PATH_INFO first...
+	if (isset($_SERVER['PATH_INFO'])) {
+		$components = join('/',array_splice(split('/',$_SERVER['PATH_INFO']),0,-2)).'/';
+	}
+	else {
+		$components = join('/',array_splice(split('/',$_SERVER['SCRIPT_NAME']),0,-2)).'/';
+	}
 	$path_relative = PATH_RELATIVE;
 	
 	if ($components != $path_relative) {
