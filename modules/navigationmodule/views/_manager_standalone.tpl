@@ -69,6 +69,8 @@ Standalone pages do not appear in the site hiearchy, but still have their own co
 	<a href="{link int=$section->id action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions for viewing this page" alt="Assign user permissions for this page" /></a>
 	<a href="{link int=$section->id action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions for viewing this page" alt="Assign group permissions for this page" /></a>
 </td></tr>
+{foreachelse}
+<tr><td><i>No standalone pages found</i></td></tr>
 {/foreach}
 </table>
 
