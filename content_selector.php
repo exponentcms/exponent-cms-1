@@ -44,6 +44,6 @@ define('SCRIPT_ABSOLUTE',BASE);
 define('SCRIPT_FILENAME','content_selector.php');
 
 // Include the Selector script, which does all of the real work.
-include_once('selector.php');
+include_once(dirname(__realpath(__FILE__)).'/selector.php');
 
 ?>

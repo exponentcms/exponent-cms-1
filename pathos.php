@@ -53,13 +53,13 @@ function __realpath($path) {
 }
 
 // Process user-defined constants in overrides.php
-include_once('overrides.php');
-
-// Process PHP-wrapper settings (ini_sets and setting detectors)
-include_once('pathos_setup.php');
+include_once(dirname(__realpath(__FILE__)).'/overrides.php');
 
 // Auto-detect whatever variables the user hasn't overridden in overrides.php
-include_once('pathos_variables.php');
+include_once(dirname(__realpath(__FILE__)).'/pathos_variables.php');
+
+// Process PHP-wrapper settings (ini_sets and setting detectors)
+include_once(dirname(__realpath(__FILE__)).'/pathos_setup.php');
 
 // Initialize the Compatibility Layer
 include(BASE.'compat.php');

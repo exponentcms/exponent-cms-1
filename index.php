@@ -56,14 +56,14 @@ if (!DEVELOPMENT && is_readable(BASE.'install')) {
 }
 
 // Handle sub themes
-$page = ($section && $section->subtheme != '' && is_readable('themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
-	'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
-	'themes/'.DISPLAY_THEME.'/index.php'
+$page = ($section && $section->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
+	BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
+	BASE.'themes/'.DISPLAY_THEME.'/index.php'
 );
 
-if (is_readable(BASE.$page)) {
-	include_once(BASE.$page);
-} else echo sprintf(TR_BASE_PAGENOTREADABLE,BASE.$page);
+if (is_readable($page)) {
+	include_once($page);
+} else echo sprintf(TR_BASE_PAGENOTREADABLE,$page);
 
 $microtime_str = explode(' ',microtime());
 $i_end = $microtime_str[0] + $microtime_str[1];

@@ -32,11 +32,11 @@
 ##################################################
 
 // Initialize the Pathos Framework
-include_once('pathos.php');
+include_once(dirname(__realpath(__FILE__)).'/pathos.php');
 
 pathos_lang_loadDictionary('standard','dbrecover');
 
-#exit(TR_DBRECOVER_RECOVERYDISABLED);
+exit(TR_DBRECOVER_RECOVERYDISABLED);
 
 // If we made it here, the user has enabled the Database Recovery Script manually.
 
@@ -57,7 +57,7 @@ $user->is_acting_admin = 1;
 $loc = pathos_core_makeLocation('administrationmodule');
 
 // Simulate running the Install Tables action.
-include_once('modules/administrationmodule/actions/installtables.php');
+include_once(dirname(__realpath(__FILE__)).'/modules/administrationmodule/actions/installtables.php');
 
 // In case something is screwed up in the database, we need to 
 // create some records.
