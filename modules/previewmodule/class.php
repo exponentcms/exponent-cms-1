@@ -42,6 +42,18 @@ class previewmodule {
 	
 	function supportsWorkflow() { return false; }
 	
+	function permissions($internal = "") {
+	
+	}
+	
+	function deleteIn($loc) {
+	
+	}
+	
+	function copyContent($from_loc,$to_loc) {
+	
+	}
+	
 	function show($view,$loc = null, $title = "") {
 		$template = new template("previewmodule",$view,$loc);
 		
