@@ -122,7 +122,7 @@ class postgres_database {
 		$sql = substr($sql,0,-1) . ")";
 		pg_query($this->connection,$sql);
 		foreach ($alter_sql as $sql) {
-			echo '//'.$sql.'<br />';
+			#echo '//'.$sql.'<br />';
 			pg_query($this->connection,$sql);
 		}
 		
@@ -295,7 +295,7 @@ class postgres_database {
 		if ($where != null) $sql .= $where;
 		else $sql .= "id=" . $object->id;
 		
-		echo '//'.$sql.'<br />';
+		#echo '//'.$sql.'<br />';
 		return (pg_query($this->connection,$sql) != false);
 	}
 	
