@@ -44,7 +44,7 @@
 					{if $container->info.clickable && $container->info.hasContent}
 					{*<a class="mngmntlink container_mngmnltink" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}">*}
 					<a class="mngmntlink container_mngmnltink" href="{link action=content_selector module=$container->info.class src=$container->info.source channel_id=$dest}">
-					Use this Module's Content
+					Select Content from this Module
 					</a>
 					{/if}
 				</td>
