@@ -352,7 +352,7 @@ function pathos_users_groupForm($group = null) {
 	$form->register('code','Signup Code',new textcontrol($group->code));
 	$form->register('description',TR_USERSSUBSYSTEM_GROUPDESC,new texteditorcontrol($group->description));
 	$form->register('inclusive',TR_USERSSUBSYSTEM_GROUP_ISDEFAULT,new checkboxcontrol($group->inclusive));
-	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE));
+	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 	// Return the form object to the caller
 	return $form;
 }
