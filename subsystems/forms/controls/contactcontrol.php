@@ -73,9 +73,16 @@ class contactcontrol extends formcontrol {
 		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 		$users = array();
 		global $user;
-		foreach (pathos_users_getGroupsForUser($user) as $g) {
-			foreach (pathos_users_getUsersInGroup($g) as $u) {
+		if ($user->is_admin) {
+			$users = array();
+			foreach (pathos_users_getAllUsers() as $u) {
 				$users[$u->id] = $u;
+			}
+		} else {
+			foreach (pathos_users_getGroupsForUser($user) as $g) {
+				foreach (pathos_users_getUsersInGroup($g) as $u) {
+					$users[$u->id] = $u;
+				}
 			}
 		}
 		
