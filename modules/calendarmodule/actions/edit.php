@@ -72,7 +72,10 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 	
 	if ($config->enable_feedback) {
 		$form->registerBefore("submit", uniqid(""),"", new htmlcontrol("<hr size='1' />"));
-		$form->registerBefore("submit", 'feedback_form', 'Choose a Feedback Form', new dropdowncontrol("", pathos_template_getFormTemplates('email')));
+		$allforms = array();
+		$allforms[""] = "Don't Display Feedback Form";
+		$allforms = array_merge($allforms, pathos_template_getFormTemplates('email'));
+		$form->registerBefore("submit", 'feedback_form', 'Choose a Feedback Form', new dropdowncontrol("", $allforms));
 		$form->registerBefore("submit", 'feedback_email', 'Enter Feedback Email Address', new textcontrol("", 20));
 	}
 	
