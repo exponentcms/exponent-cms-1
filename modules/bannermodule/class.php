@@ -30,7 +30,7 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
 class bannermodule {
 	function name() { return "Banner Manager"; }
 	function author() { return "James Hunt"; }
@@ -117,37 +117,34 @@ class bannermodule {
 		
 			$directory = 'files/bannermodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
-				switch(pathos_files_makeDirectory($directory)) {
-					case SYS_FILES_FOUNDFILE:
-						echo "Found a file in the directory path.";
-						return;
-					case SYS_FILES_NOTWRITABLE:
-						echo "Unable to create directory to store files in.";
-						return;
+				$err = pathos_files_makeDirectory($directory);
+				if ($err != SYS_FILES_SUCCESS) {
+					$template->assign('noupload',1);
+					$template->assign('uploadError',$err);
 				}
 			}
 			
-			$all = $db->selectObjects("banner_ad","location_data='".serialize($loc)."'");
+			$all = $db->selectObjects('banner_ad',"location_data='".serialize($loc)."'");
 			
-			if ($viewconfig['type'] == "allbanners") {
-				$bfiles = $db->selectObjectsIndexedArray("file","directory='".$directory."'");
+			if ($viewconfig['type'] == 'allbanners') {
+				$bfiles = $db->selectObjectsIndexedArray('file','directory=''.$directory.''');
 				
-				$template->assign("affiliates",bannermodule::listAffiliates());
-				$template->assign("files",$bfiles);
-				$template->assign("banners",$all);
+				$template->assign('affiliates',bannermodule::listAffiliates());
+				$template->assign('files',$bfiles);
+				$template->assign('banners',$all);
 			} else {
 				$num = $viewconfig['number'];
 				shuffle($all);
 				$banners = array_slice($all,0,$num);
 				
 				for ($i = 0; $i < count($banners); $i++) {
-					$banners[$i]->file = $db->selectObject("file","id=".$banners[$i]->file_id);
+					$banners[$i]->file = $db->selectObject('file','id='.$banners[$i]->file_id);
 				}
-				$template->assign("banners",$banners);
+				$template->assign('banners',$banners);
 			}
 		}
 		$template->register_permissions(
-			array("administrate","manage","manage_af"),
+			array('administrate','manage','manage_af'),
 			$loc);
 		$template->output();
 	}
@@ -155,10 +152,10 @@ class bannermodule {
 	function listAffiliates() {
 		global $db;
 		$affiliates = array();
-		foreach ($db->selectObjects("banner_affiliate") as $af) {
+		foreach ($db->selectObjects('banner_affiliate') as $af) {
 			$affiliates[$af->id] = $af->name;
 		}
-		uasort($affiliates,"strnatcmp");
+		uasort($affiliates,'strnatcmp');
 		return $affiliates;
 	}
 }
