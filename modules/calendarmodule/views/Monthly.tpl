@@ -43,7 +43,7 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 <tr><td align="left">
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif" title="Previous Month" alt="Previous Month" /></a>
 </td>
-<td align="center" valign="top" colspan="5">{if $moduletitle != ""}{$moduletitle} {/if}{$now|date_format:"%B %Y"}</td>
+<td align="center" valign="top" colspan="5">{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B %Y"}</td>
 <td align="right">
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif" title="Next Month" alt="Next Month" /></a>
 </td></tr>
@@ -68,7 +68,7 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 					{if $number == 0}
 						{$day}
 					{else}
-						<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayts}" title="{$dayts|date_format:"%A, %B %e, %Y"}" alt="{$dayts|date_format:"%A, %B %e, %Y"}">{$day}</a>
+						<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayts}" title="{$dayts|format_date:"%A, %B %e, %Y"}" alt="{$dayts|format_date:"%A, %B %e, %Y"}">{$day}</a>
 					{/if}
 					</div>
 				{/if}

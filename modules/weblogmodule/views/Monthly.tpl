@@ -29,5 +29,5 @@
  * $Id$
  *}
 {foreach from=$months key=m_ts item=count}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_month month=$m_ts}">{$m_ts|date_format:"%B %Y"} ({$count})</a><br />
+	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_month month=$m_ts}">{$m_ts|format_date:"%B %Y"} ({$count})</a><br />
 {/foreach}

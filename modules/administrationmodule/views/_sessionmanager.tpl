@@ -51,12 +51,12 @@ Administrator sessions cannot be forcibly ended.</div>
 				<tr>
 					<td></td>
 					<td>Logged In: </td>
-					<td>{$session->start_time|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+					<td>{$session->start_time|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>Last Active: </td>
-					<td>{$session->last_active|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+					<td>{$session->last_active|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 				<tr>
 					<td></td>
 					<td>Browser: </td>

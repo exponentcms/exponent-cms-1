@@ -33,7 +33,7 @@
 <tr><td align="left">
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif"/></a>
 </td>
-<td align="center" valign="top" colspan="5">{$now|date_format:"%B"}</td>
+<td align="center" valign="top" colspan="5">{$now|format_date:"%B"}</td>
 <td align="right">
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif"/></a>
 </td></tr>

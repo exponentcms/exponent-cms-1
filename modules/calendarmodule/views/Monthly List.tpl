@@ -30,7 +30,7 @@
  *}
 <a href="{link _common=1 view=Monthly action=show_view time=$time}">Calendar View</a>&nbsp;&nbsp;|&nbsp;&nbsp;List View<br /><br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=show_view _common=1 view='Monthly List' time=$prev_timestamp}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif"/></a>
-<b>Month of {$time|date_format:"%B %Y"}</b>
+<b>Month of {$time|format_date:"%B %Y"}</b>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=show_view _common=1 view='Monthly List' time=$next_timestamp}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif"/></a>
 <br /><br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -45,13 +45,13 @@
 {foreach from=$days item=events key=ts}
 	{if_elements array=$events}
 	<div class="sectiontitle">
-	{$ts|date_format:"%A, %b %e"}
+	{$ts|format_date:"%A, %b %e"}
 	</div>
 	{assign var=none value=1}
 	{foreach from=$events item=event}
 		{assign var=none value=0}
 		<div class="paragraph">
-		{if $event->is_allday}{$event->eventstart|date_format:"%I:%M %P"}{/if}
+		{if $event->is_allday}{$event->eventstart|format_date:"%I:%M %P"}{/if}
 		<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}">{$event->title}</a>
 		{if $permissions.edit == 1 || $event->permissions.edit == 1 || $permissions.delete == 1 || $event->permissions.delete == 1 || $permissions.administrate == 1 || $event->permissions.administrate == 1}
 		<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

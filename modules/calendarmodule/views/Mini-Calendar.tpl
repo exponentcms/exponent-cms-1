@@ -38,7 +38,7 @@
 {/if}
 {/permissions}
 <table cellspacing="0" cellpadding="2" border="0" width="160">
-<tr><td align="center" class="calendar_header" colspan="7">{if $moduletitle != ""}{$moduletitle} {/if}{$now|date_format:"%B"}</td></tr>
+<tr><td align="center" class="calendar_header" colspan="7">{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B"}</td></tr>
 	<tr>
 		<td align="center" class="calendar_miniday">S</td>
 		<td align="center" class="calendar_miniday">M</td>
@@ -56,7 +56,7 @@
 				{if $dayinfo.number == 0}
 					{$day}
 				{else}
-					<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayinfo.ts}" title="{$dayinfo.ts|date_format:"%A, %B %e, %Y"}" alt="{$dayinfo.ts|date_format:"%A, %B %e, %Y"}"><b>{$day}</b></a>
+					<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayinfo.ts}" title="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}" alt="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}"><b>{$day}</b></a>
 				{/if}
 			{else}
 				&nbsp;
@@ -66,7 +66,7 @@
 	</tr>
 {/foreach}
 </table>
-<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth}" title="View the month of {$now|date_format:"%B"}" alt="View the month of {$now|date_format:"%B"}">View Whole Month</a>
+<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth}" title="View the month of {$now|format_date:"%B"}" alt="View the month of {$now|format_date:"%B"}">View Whole Month</a>
 <br />
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}

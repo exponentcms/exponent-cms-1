@@ -68,7 +68,7 @@
 {/if}
 {/permissions}
 </div>
-<div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+<div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body}</div>
 {if $config->allow_comments}
 	<div class="comments" style="padding-left: 35px;">
@@ -94,7 +94,7 @@
 				{/if}
 				{/permissions}
 				</div>
-				<div class="weblog_comment_attribution">Posted by {attribution user_id=$comment->poster} on {$comment->posted|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+				<div class="weblog_comment_attribution">Posted by {attribution user_id=$comment->poster} on {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 				<div class="weblog_comment_body">{$comment->body}</div>
 			</div>
 		{/foreach}

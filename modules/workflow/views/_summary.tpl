@@ -44,7 +44,7 @@
 	</tr>
 	<tr>
 		<td colspan="2" style="padding-left: 35px;padding-right: 35px; border: 1px solid lightgrey">
-			Last Updated: {$summary->updated|date_format:$smarty.const.DISPLAY_DATE_FORMAT}
+			Last Updated: {$summary->updated|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
 			<br />
 			Policy in effect: <b>{$summary->policy->name}</b>
 			<div class="workflow_comment">Comment: <i>{$summary->revision->wf_comment}</i></div>

@@ -53,7 +53,7 @@
 {foreach from=$items item=item}
 	<tr>
 		<td><a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$item->id date_id=$item->eventdate->id}">{$item->title}</a></td>
-		<td>{if $item->is_allday == 1}{$item->eventstart|date_format:$smarty.const.DISPLAY_DATE_FORMAT}{else}{$item->eventstart|date_format:"%a %b %e, %l:%M %P"} - {$item->eventend|date_format:"%l:%M %P"}{/if}</td>
+		<td>{if $item->is_allday == 1}{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{else}{$item->eventstart|format_date:"%a %b %e, %l:%M %P"} - {$item->eventend|format_date:"%l:%M %P"}{/if}</td>
 		{if $modconfig->enable_categories == 1}
 		<td>{assign var=catid value=$item->category_id}
 			<b>

@@ -29,7 +29,7 @@
  * $Id$
  *}
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif" title="Previous Week" alt="Previous Week" /></a>
-<span style="font-weight: bold; font-size: 16px">Events for the week of {$startweek|date_format:"%B %e, %Y"}</span>
+<span style="font-weight: bold; font-size: 16px">Events for the week of {$startweek|format_date:"%B %e, %Y"}</span>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startnextweek}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif" title="Next Week" alt="Next Week" /></a>
 <br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$startweek}" title="View Entire Month" alt="View Entire Month">View Month</a>
@@ -39,9 +39,9 @@
 		<hr size="1"/>
 		<b>
 		{if $counts[$ts] != 0}
-		<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$ts}">{$ts|date_format:"%A, %b %e"}</a>
+		<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$ts}">{$ts|format_date:"%A, %b %e"}</a>
 		{else}
-		{$ts|date_format:"%A, %b %e"}
+		{$ts|format_date:"%A, %b %e"}
 		{/if}
 		</b>
 	</td></tr>
@@ -77,7 +77,7 @@
 			{/if}
 			<div style="padding-left: 10px">
 				<b>{if $event->is_allday == 1}All Day{else}
-				{$event->eventstart|date_format:"%l:%M %P"} - {$event->eventend|date_format:"%l:%M %P"}
+				{$event->eventstart|format_date:"%l:%M %P"} - {$event->eventend|format_date:"%l:%M %P"}
 				{/if}</b><br />
 				{$event->summary}
 			</div>

@@ -41,7 +41,7 @@
 			<td>
 				<a class="mngmntlink news_mngmntlink" href="{$linkbase}view&id={$n->id}">{$n->title}</a>
 			</td>
-			<td>{$n->unpublish|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+			<td>{$n->unpublish|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 			<td>{time_duration assign=td duration=$n->difference type="dhm"}{$td.d} day{if $td.d != 1}s{/if}, {$td.h} hour{if $td.h != 1}s{/if} and {$td.m} minute{if $td.m != 1}s{/if}</td>
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
@@ -81,7 +81,7 @@
 			<td>
 				<a class="mngmntlink news_mngmntlink" href="{$linkbase}view&id={$n->id}">{$n->title}</a>
 			</td>
-			<td>{$n->publish|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+			<td>{$n->publish|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 			<td>{time_duration assign=td duration=$n->difference type="dhm"}{$td.d} day{if $td.d != 1}s{/if}, {$td.h} hour{if $td.h != 1}s{/if} and {$td.m} minute{if $td.m != 1}s{/if} from now</td>
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}

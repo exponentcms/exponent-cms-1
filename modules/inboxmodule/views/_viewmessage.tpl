@@ -30,7 +30,7 @@
  *}
 <b>{$message->subject}</b>
 <div style="padding: 5px; background-color: #CCC;">
-Sent on {$message->date_sent|date_format:$smarty.const.DISPLAY_DATE_FORMAT} by {$message->from_name}
+Sent on {$message->date_sent|format_date:$smarty.const.DISPLAY_DATE_FORMAT} by {$message->from_name}
 </div>
 <div style="padding: 5px; background-color: #DDD;">
 {$message->body}

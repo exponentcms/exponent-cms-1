@@ -29,7 +29,7 @@
  * $Id$
  *}
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$prevday}"><img border="0" src="{$smarty.const.ICON_RELATIVE}left.gif" title="Previous Day" alt="Previous Day" /></a>
-<span style="font-weight: bold; font-size: 16px">{$now|date_format:"%A, %B %e, %Y"}</span>
+<span style="font-weight: bold; font-size: 16px">{$now|format_date:"%A, %B %e, %Y"}</span>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$nextday}"><img border="0" src="{$smarty.const.ICON_RELATIVE}right.gif" title="Next Day" alt="Next Day" /></a>
 <br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$now}" title="View Entire Week" alt="View Entire Week">View Week</a>
@@ -67,7 +67,7 @@
 		{/if}
 		<div style="padding-left: 10px">
 			<b>{if $event->is_allday == 1}All Day{else}
-			{$event->eventstart|date_format:"%l:%M %P"} - {$event->eventend|date_format:"%l:%M %P"}
+			{$event->eventstart|format_date:"%l:%M %P"} - {$event->eventend|format_date:"%l:%M %P"}
 			{/if}</b><br />
 			{$event->body|summarize:"html":"para"}
 		</div>

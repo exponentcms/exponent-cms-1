@@ -35,7 +35,7 @@
 <table cellspacing="2" cellpadding="0" border="0">
 <tr><td>Version:&nbsp;&nbsp;</td><td>{$smarty.const.PATHOS_VERSION_MAJOR}.{$smarty.const.PATHOS_VERSION_MINOR}.{$smarty.const.PATHOS_VERSION_REVISION}</td></tr>
 <tr><td>Type of Release:&nbsp;&nbsp;</td><td>{$smarty.const.PATHOS_VERSION_TYPE}{if $smarty.const.PATHOS_VERSION_TYPE == ""}stable{else}-{$smarty.const.PATHOS_VERSION_ITERATION}{/if}</td></tr>
-<tr><td>Build Date:&nbsp;&nbsp;</td><td>{$smarty.const.PATHOS_VERSION_BUILDDATE|date_format:"%D %T"}</td></tr>
+<tr><td>Build Date:&nbsp;&nbsp;</td><td>{$smarty.const.PATHOS_VERSION_BUILDDATE|format_date:"%D %T"}</td></tr>
 </table>
 </div>
 

@@ -60,7 +60,7 @@ function confirmDelete() {
 			{if $revision->wf_minor == 0 && $revision->wf_major != $current}
 			<input type="checkbox" name="d[{$revision->id}]" onClick="registerCheck(this)" /> Delete?
 			{/if}</td>
-			<td align="right">{$revision->wf_updated|date_format:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+			<td align="right">{$revision->wf_updated|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 		</tr>
 		<tr>
 			<td colspan="2">{$revision->wf_comment}</td>
