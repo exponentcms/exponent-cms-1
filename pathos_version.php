@@ -62,7 +62,7 @@ if (!defined('PATHOS_VERSION')) {
 	 * This number is bumped each time a distribution of a single version is
 	 * released.  For instance, the 3rd beta has an version type iteration of 3.
 	 */
-	define('PATHOS_VERSION_ITERATION',8); // only applies to betas/alphas / rcs
+	define('PATHOS_VERSION_ITERATION',9); // only applies to betas/alphas / rcs
 }
 
 return '0.96';
