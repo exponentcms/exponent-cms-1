@@ -1,0 +1,10 @@
+<?php
+
+// I18N strings for the Image Manager Module
+
+define('TR_IMAGEMANAGERMODULE_NAME','XXXXX');
+define('TR_IMAGEMANAGERMODULE_DESCRIPTION','XXXXX');
+define('TR_IMAGEMANAGERMODULE_IMAGE','XXXXX');
+define('TR_IMAGEMANAGERMODULE_SCALE','XXXXX %');
+
+?>
