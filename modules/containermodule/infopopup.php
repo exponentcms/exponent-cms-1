@@ -31,10 +31,10 @@ exit();
 # $Id$
 ##################################################
 
-include("../../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."modules/containermodule/");
-define("SCRIPT_ABSOLUTE",BASE."modules/containermodule/");
+define("SCRIPT_EXP_RELATIVE","modules/containermodule/");
 define("SCRIPT_FILENAME","infopopup.php");
+
+include("../../pathos.php");
 
 $template = new template("containermodule","_popup_info");
 $locref = null;

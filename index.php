@@ -30,7 +30,9 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','index.php');
 
 ob_start();
 $microtime_str = explode(' ',microtime());
@@ -40,10 +42,6 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 include_once('pathos.php');
 
 pathos_lang_loadDictionary('standard','base');
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','index.php');
 
 // Initialize the theme subsystem
 if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');

@@ -31,10 +31,10 @@
 # $Id$
 ##################################################
 
-include_once("../../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."modules/workflow/");
-define("SCRIPT_ABSOLUTE",BASE."modules/workflow/");
+define("SCRIPT_EXP_RELATIVE","modules/workflow/");
 define("SCRIPT_FILENAME","assoc_edit.php");
+
+include_once("../../pathos.php");
 
 if (!defined("PATHOS")) exit("");
 

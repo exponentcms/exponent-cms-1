@@ -97,7 +97,7 @@ if (SEF_URLS == 1 && $_SERVER['QUERY_STRING'] == '') {
 	// Create a REQUEST_URI for people who don't have one.
 	// FIXME: Move this code (and other similar platform stuff) into a platform compat layer.
 	// FIXME:
-	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
+	$_SERVER['REQUEST_URI'] = URL_FULL.SCRIPT_RELATIVE.SCRIPT_FILENAME . '?' . $_SERVER['QUERY_STRING'];
 }
 
 if (isset($_REQUEST['section'])) {

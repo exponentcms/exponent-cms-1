@@ -31,10 +31,10 @@
 # $Id$
 ##################################################
 
-include_once('../../pathos.php');
-define('SCRIPT_RELATIVE',PATH_RELATIVE.'modules/bannermodule/');
-define('SCRIPT_ABSOLUTE',BASE.'modules/bannermodule/');
+define('SCRIPT_EXP_RELATIVE','modules/bannermodule/');
 define('SCRIPT_FILENAME','banner_click.php');
+
+include_once('../../pathos.php');
 
 // Process click
 $banner = $db->selectObject('banner_ad','id='.$_GET['id']);

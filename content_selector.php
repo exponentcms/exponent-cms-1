@@ -31,6 +31,9 @@
 # $Id$
 ##################################################
 
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','content_selector.php');
+
 // Initialize the Pathos Framework
 include_once('pathos.php');
 /* exdoc
@@ -38,10 +41,6 @@ include_once('pathos.php');
  * @node General
  */
 define('CONTENT_SELECTOR',1);
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','content_selector.php');
 
 // Include the Selector script, which does all of the real work.
 include_once(dirname(__realpath(__FILE__)).'/selector.php');

@@ -31,14 +31,13 @@
 # $Id$
 ##################################################
 
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','popup.php');
+
 ob_start();
 
 // Initialize the Pathos Framework
 include_once('pathos.php');
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','popup.php');
 
 // Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');

@@ -38,10 +38,12 @@ if (!file_exists('not_configured')) {
 if (isset($_POST['c'])) {
 	define("DB_BACKEND",$_POST['c']['db_engine']);
 }
-include_once("../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."install/");
-define("SCRIPT_ABSOLUTE",BASE."install/");
+
+
+define("SCRIPT_EXP_RELATIVE","install/");
 define("SCRIPT_FILENAME","index.php");
+
+include_once("../pathos.php");
 
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

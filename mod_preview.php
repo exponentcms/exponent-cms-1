@@ -30,17 +30,15 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','mod_preview.php');
 
 ob_start();
 // Initialize the Pathos Framework
 include_once('pathos.php');
 
 pathos_lang_loadDictionary('standard','modpreview');
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','mod_preview.php');
 
 $SYS_FLOW_REDIRECTIONPATH='previewreadonly';
 

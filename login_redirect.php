@@ -31,15 +31,13 @@
 # $Id$
 ##################################################
 
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','login_redirect.php');
+
 ob_start();
 
 // Initialize the Pathos Framework
 include_once('pathos.php');
-
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','login_redirect.php');
 
 // Initialize the Sessions Subsystem
 if (!defined('SYS_SESSIONS')) include_once(BASE.'subsystems/sessions.php');

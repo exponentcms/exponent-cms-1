@@ -31,6 +31,9 @@
 # $Id$
 ##################################################
 
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','db_recover.php');
+
 // Initialize the Pathos Framework
 include_once(dirname(realpath(__FILE__)).'/pathos.php');
 
@@ -39,10 +42,6 @@ pathos_lang_loadDictionary('standard','dbrecover');
 exit(TR_DBRECOVER_RECOVERYDISABLED);
 
 // If we made it here, the user has enabled the Database Recovery Script manually.
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','db_recover.php');
 
 // Save the old user data, in case current user is actually logged in.
 $oldu = $user;

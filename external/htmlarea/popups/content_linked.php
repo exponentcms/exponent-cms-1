@@ -1,8 +1,8 @@
 <?php
-include_once("../../../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."external/htmlarea/popups/");
-define("SCRIPT_ABSOLUTE",BASE."external/htmlarea/popups/");
+define("SCRIPT_EXP_RELATIVE","external/htmlarea/popups/");
 define("SCRIPT_FILENAME","content_linked.php");
+
+include_once("../../../pathos.php");
 ?>
 <html>
 	<body>

@@ -31,10 +31,10 @@
 # $Id$
 ##################################################
 
-include_once("../../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."modules/containermodule/");
-define("SCRIPT_ABSOLUTE",BASE."modules/containermodule/");
+define("SCRIPT_EXP_RELATIVE","modules/containermodule/");
 define("SCRIPT_FILENAME","picked_source.php");
+
+include_once("../../pathos.php");
 
 $src = $_GET['ss'];
 $mod = $_GET['sm'];

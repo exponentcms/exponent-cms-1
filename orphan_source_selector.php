@@ -31,12 +31,11 @@
 # $Id$
 ##################################################
 
+define('SCRIPT_EXP_RELATIVE','');
+define('SCRIPT_FILENAME','orphan_source_selector.php');
+
 // Initialize the Pathos Framework
 include_once('pathos.php');
-
-define('SCRIPT_RELATIVE',PATH_RELATIVE);
-define('SCRIPT_ABSOLUTE',BASE);
-define('SCRIPT_FILENAME','orphan_source_selector.php');
 
 define('PREVIEW_READONLY',1); // for mods
 define('SOURCE_SELECTOR',2);

@@ -31,12 +31,12 @@
 # $Id$
 ##################################################
 
+define("SCRIPT_EXP_RELATIVE","modules/navigationmodule/actions/");
+define("SCRIPT_FILENAME","edit_page.php");
+
 ob_start();
 
 include_once("../../../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."modules/navigationmodule/actions/");
-define("SCRIPT_ABSOLUTE",BASE."modules/navigationmodule/actions/");
-define("SCRIPT_FILENAME","edit_page.php");
 
 if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
 
