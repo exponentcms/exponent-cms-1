@@ -4,13 +4,13 @@
 
 <div class="form_title">Manage Categories</div>
 <div class="form_header">
-Below is a list of categories that can be used for events in this calendar.
+Below is a list of categories.
 </div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td class="header calendar_header" width="40">&nbsp;</td>
-	<td class="header calendar_header">Name</td>
-	<td class="header calendar_header"></td>
+	<td class="header" width="40">&nbsp;</td>
+	<td class="header">Name</td>
+	<td class="header"></td>
 </tr>
 {foreach name=a from=$categories item=category}
 {math equation="x-2" x=$smarty.foreach.a.iteration assign=prev}
@@ -24,14 +24,14 @@ Below is a list of categories that can be used for events in this calendar.
 		<b>{$category->name}</b>		
 	</td>
 	<td align="right">
-		<a href="{link module=categories action=edit id=$category->id orig_module=faqmodule}">
+		<a href="{link module=categories action=edit id=$category->id orig_module=$origmodule}">
 			<img src="{$smarty.const.ICON_RELATIVE}edit.gif" border="0" />
 		</a>
-		<a href="{link module=categories action=delete id=$category->id orig_module=faqmodule}">
+		<a href="{link module=categories action=delete id=$category->id orig_module=$origmodule}">
 			<img src="{$smarty.const.ICON_RELATIVE}delete.gif" border="0" />
 		</a>	
 		{if $smarty.foreach.a.first == 0}
-		<a href="{link action=rank_switch a=$this b=$prev id=$category->id orig_module=faqmodule}">
+		<a href="{link action=rank_switch a=$this b=$prev id=$category->id orig_module=$origmodule}">
 			<img src="{$smarty.const.ICON_RELATIVE}up.gif" border="0"/>
 		</a>
 		{else}
@@ -39,7 +39,7 @@ Below is a list of categories that can be used for events in this calendar.
 		{/if}
 		
 		{if $smarty.foreach.a.last == 0}
-		<a href="{link action=rank_switch a=$next b=$this id=$category->id orig_module=faqmodule}">
+		<a href="{link action=rank_switch a=$next b=$this id=$category->id orig_module=$origmodule}">
 			<img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0"/>
 		</a>
 		{else}
@@ -55,4 +55,4 @@ Below is a list of categories that can be used for events in this calendar.
 {/foreach}
 </table>
 <br /><br />
-<a href="{link module=categories action=edit orig_module=$origmodule}" class="mngmntlink calendar_mngmntlink">New Category</a>
+<a href="{link module=categories action=edit orig_module=$origmodule}" class="mngmntlink mngmntlink">New Category</a>
