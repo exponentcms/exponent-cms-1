@@ -41,7 +41,7 @@ if (!document.body.appendChild) {
 {if $nomodules == 1}
 	<b>The administrator has disabled all modules.  You will not be able to add new ones.</b>
 {else}
-<form name="form" method="post" action="{$smarty.const.SCRIPT_RELATIVE}{$smarty.const.SCRIPT_NAME}?" enctype="">
+<form name="form" method="post" action="{$smarty.const.SCRIPT_RELATIVE}{$smarty.const.SCRIPT_FILENAME}?" enctype="">
 	{if $is_edit}<input type="hidden" name="id" value="{$container->id}" />
 	{/if}<input type="hidden" name="rank" value="{$container->rank}" />
 	<input type="hidden" name="module" value="containermodule" />
