@@ -2,117 +2,117 @@
 
 return array(
 	array(
-		"name"=>"autoloader",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'autoloader',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"core",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'core',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"config",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'config',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"database",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'database',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"flow",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'flow',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"forms",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'forms',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"files",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'files',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"info",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'info',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"modules",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'modules',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"permissions",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'permissions',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"template",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'template',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"theme",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'theme',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"sessions",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'sessions',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"sorting",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'sorting',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"users",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'users',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	array(
-		"name"=>"workflow",
-		"type"=>CORE_EXT_SUBSYSTEM,
-		"comment"=>""
+		'name'=>'workflow',
+		'type'=>CORE_EXT_SUBSYSTEM,
+		'comment'=>''
 	),
 	
 	// Modules
 	array(
-		"name"=>"administrationmodule",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'administrationmodule',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	array(
-		"name"=>"common",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'common',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	array(
-		"name"=>"workflow",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'workflow',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	array(
-		"name"=>"filemanager",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'filemanager',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	array(
-		"name"=>"info",
-		"type"=>CORE_EXT_MODULE,
-		"comment"=>""
+		'name'=>'info',
+		'type'=>CORE_EXT_MODULE,
+		'comment'=>''
 	),
 	
 	array(
-		"name"=>"portaltheme",
-		"type"=>CORE_EXT_THEME,
-		"comment"=>""
+		'name'=>'portaltheme',
+		'type'=>CORE_EXT_THEME,
+		'comment'=>''
 	)
 );
 
