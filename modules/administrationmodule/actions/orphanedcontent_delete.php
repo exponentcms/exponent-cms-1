@@ -33,7 +33,7 @@
 
 // Part of the Database category
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin == 1) {
 	$src = urldecode($_GET['delsrc']);
 	
