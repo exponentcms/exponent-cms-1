@@ -12,7 +12,7 @@ function addSelectedItem(name) {
 			var newopt = document.createElement("OPTION")
 			newopt.text = sText;
 			newopt.value = sText;
-			ptChoices.add(newopt,ptChoices.options[ptChoices.length+1]);
+			ptChoices.options.add(newopt);
 		}
 		key = sText;
 	}
