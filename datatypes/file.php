@@ -49,7 +49,7 @@ class file {
 		}
 		pathos_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$object->filename);
 		if (!file_exists(BASE.$dest.'/'.$object->filename)) {
-			echo sprinft(TR_FILEMANAGER_CANTUPLOAD,$object->filename);
+			echo sprintf(TR_FILEMANAGER_CANTUPLOAD,$object->filename);
 			return null;
 		}
 		
@@ -70,7 +70,7 @@ class file {
 		
 		if (is_readable(BASE.$file->directory) && !file_exists(BASE.$file->directory.'/'.$file->filename)) return true;
 		
-		if (is_writeable(BASE.$file->directory)) {
+		if (is_writable(BASE.$file->directory)) {
 			unlink($file->directory.'/'.$file->filename);
 			if (!file_exists(BASE.$file->directory.'/'.$file->filename)) return true;
 		}
