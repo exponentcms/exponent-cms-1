@@ -52,7 +52,7 @@ return array(
 	'browser'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250),
-	'last_section'=>array(
+/*	'last_section'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	'last_action'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
@@ -63,7 +63,7 @@ return array(
 	'last_action_descriptive'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250)
-	
+*/	
 );
 
 ?>
