@@ -141,7 +141,7 @@ class radiogroupcontrol extends formcontrol {
 		$form->register("flip",TR_FORMCONTROLS_CAPTIONSONRIGHT, new checkboxcontrol($object->flip,false));
 		$form->register("cols",TR_FORMCONTROLS_NUMCOLS, new textcontrol($object->cols,4,false,2,"integer"));
 		$form->register(null,"", new htmlcontrol(TR_FORMCONTROLS_COLSPACING_MSG));
-		$form->register("spacing",TR_FORMCONRTOLS_COLSPACING, new textcontrol($object->spacing,5,false,4,"integer"));
+		$form->register("spacing",TR_FORMCONTROLS_COLSPACING, new textcontrol($object->spacing,5,false,4,"integer"));
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
