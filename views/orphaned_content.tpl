@@ -63,7 +63,10 @@
 			</td>
 			
 			<td width="80%" valign="top" style="border-left: 1px dashed #666;">
-			{$main_output}
+			{if $error == ''}{$main_output}
+			{elseif $error == 'needmodule'}Please select a module from the left
+			{elseif $error == 'nomodule'}<i>No archived modules were found.</i>
+			{/if}
 			</td>
 		</tr>
 	</table>
