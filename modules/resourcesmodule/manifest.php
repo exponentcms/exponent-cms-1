@@ -14,7 +14,6 @@ return array(
 	"modules/resourcesmodule/views/Descriptive - No Icons.tpl"=>"7ea2c87793754eac329bf7bc51813b46",
 	"modules/resourcesmodule/views/Descriptive.tpl"=>"e698a89931933645c75c09dca14af6a5",
 	"modules/resourcesmodule/views/_view.tpl"=>"306e79c9657cb703bf73bb2b152d7bdc",
-	"modules/resourcesmodule/views/_external_single.tpl"=>"23914ab9bc10baa9a692e721400c1db1",
 	"datatypes/definitions/resourceitem.php"=>"f83ff7587ead98c5f02793cddf62ceb5",
 	"datatypes/definitions/resourceitem.info.php"=>"f83ff7587ead98c5f02793cddf62ceb5",
 	"datatypes/resourceitem.php"=>"559b1b1685ef5e16314347a448530fb8",

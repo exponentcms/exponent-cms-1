@@ -7,7 +7,6 @@ return array(
 	"modules/textmodule/views/_form_edit.tpl"=>"6cf32a7e8603feec89a0c047ff8730e3",
 	"modules/textmodule/views/Default.tpl"=>"6dd2122671b2fd43ccdc354aa9235bfa",
 	"modules/textmodule/views/_workflowview.tpl"=>"c28b24ce58586f2464095734f26930fa",
-	"modules/textmodule/views/_external_single.tpl"=>"078c7004d38139c3570d74cadf383a70",
 	"datatypes/textitem.php"=>"2142869d843e005f38a5c6097ccaafcc",
 	"datatypes/definitions/textitem.php"=>"bd6211f7bdfff0ae201c1a551db32ca1",
 	"datatypes/definitions/textitem.info.php"=>"a6d273d307ae513a6a84b1d4f48ef569",

@@ -11,7 +11,6 @@ return array(
 	"modules/weblogmodule/actions/comment_save.php"=>"05f3a344c83398d53a81c23ed564a8f6",
 	"modules/weblogmodule/actions/comment_delete.php"=>"4fae1b36ed2c664bc79b682e02333ec4",
 	"modules/weblogmodule/views/Default.tpl"=>"899e603d2ea61d2c8ee4ed936e31ef6c",
-	"modules/weblogmodule/views/_external_single.tpl"=>"f58a40882aefd4c7a21789c07c8b4b28",
 	"modules/weblogmodule/views/_form_postEdit.tpl"=>"a23c6721a53ee11cf7a0b175e8ea885d",
 	"modules/weblogmodule/views/_form_commentEdit.tpl"=>"37c05909794b7f9dcdb2d2eb98081a0b",
 	"datatypes/definitions/weblog_comment.php"=>"6dd4e464492b30ed9c72a2775159aef9",

@@ -19,7 +19,6 @@ return array(
 	"modules/calendarmodule/views/Monthly.tpl"=>"21a247be447ffcf871189947a646277f",
 	"modules/calendarmodule/views/Weekly.config"=>"c2d71baf9ed8671b2edf9e50bf60b3a8",
 	"modules/calendarmodule/views/Weekly.tpl"=>"d881433ff7ba32983d2b7f84b2b0b9ba",
-	"modules/calendarmodule/views/_external_single.tpl"=>"f26e9036dfadd37982befbebbf58eb78",
 	"modules/calendarmodule/views/_view.tpl"=>"ccadb1cd71b08146c1e055a90e41e9b4",
 	"modules/calendarmodule/views/_viewday.tpl"=>"dd1282e76fc72e9810cd0f36f993b34b",
 	"modules/calendarmodule/views/_viewmonth.tpl"=>"baf5e1f56884cad1c254e57735b81b8d",

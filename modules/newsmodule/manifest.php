@@ -13,7 +13,6 @@ return array(
 	"modules/newsmodule/views/Default.tpl"=>"94a7644f0a320e67779b2ace0a3d2adf",
 	"modules/newsmodule/views/_viewSingle.tpl"=>"28806c178868bae6cb362864359b9d35",
 	"modules/newsmodule/views/_workflowview.tpl"=>"90694aa83564eb807a1d093142823c5f",
-	"modules/newsmodule/views/_external_single.tpl"=>"f58a40882aefd4c7a21789c07c8b4b28",
 	"modules/newsmodule/views/_view_unpublished.tpl"=>"5cde171a123ecc54fdd1fc82bd046bc7",
 	"datatypes/newsmodule_config.php"=>"27788801ebbc966baaef5a0daaffcf51",
 	"datatypes/newsitem.php"=>"33196c4cdfb64a7c85baaf4ccad1bdfa",
