@@ -240,7 +240,7 @@ function pathos_users_userManagerFormTemplate($template) {
 	}
 	usort($users,"pathos_sorting_byLastFirstAscending");
 	for ($i = 0; $i < count($users); $i++) {
-		$users[$i] = pathos_users_getFullProfile($users[$i]);
+		$users[$i] = pathos_users_getUserById($users[$i]->id);
 	}
 	
 	$template->assign("users",$users);
