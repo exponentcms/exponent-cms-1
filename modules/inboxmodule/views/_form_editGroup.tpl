@@ -28,8 +28,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Create Group</div>
+<div class="form_title">Personal List</div>
 <div class="form_header">
-Use this form to create a group of contacts, to make sending messages easier.
+Use this form to create or edit a group of contacts, to make sending messages easier.
 </div>
 {$form_html}
