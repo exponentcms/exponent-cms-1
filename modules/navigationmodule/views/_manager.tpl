@@ -72,10 +72,10 @@ Manage the pages and site structure here.
 </table>
 <hr size="1" />
 <br /><br />
-{* Pagesets are not quite ready for prime time.
 <div class="moduletitle navigation_moduletitle">Manage Pagesets</div>
 <div class="form_header">
-Manage default pagesets here.
+Pagesets are powerful tools to help you manage your site hierarchy.  A pageset is sort of like a sectional template layout - it allows you to define a commonly repeated structure as a miniature navigation hierarchy.  When you add a new section, you can set the page type to one of your Pagesets, and the sectional structure will be created for you, automatically.<br /><br />
+Another benefit of pagesets is default page content.  Any page in the page set can have modules on it, and the content of those modules is then copied to the newly created sections.
 <br />
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_template}">New Pageset</a>
 </div>
@@ -98,4 +98,3 @@ Manage default pagesets here.
 <tr><td><i>No pagesets found</i></td></tr>
 {/foreach}
 </table>
-*}
