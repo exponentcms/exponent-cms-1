@@ -60,7 +60,7 @@
 		if (object.var_is_member == 1) {
 			html += 'checked ';
 		}
-		html += 'onClick="makeMember('+object.__ID+',this.checked) />';
+		html += 'onClick="makeMember('+object.__ID+',this.checked)" />';
 		return html;
 	}
 	
