@@ -34,22 +34,22 @@
 ob_start();
 
 // Initialize the Pathos Framework
-include_once("pathos.php");
+include_once('pathos.php');
 
-define("SCRIPT_RELATIVE",PATH_RELATIVE);
-define("SCRIPT_ABSOLUTE",BASE);
-define("SCRIPT_FILENAME","popup.php");
+define('SCRIPT_RELATIVE',PATH_RELATIVE);
+define('SCRIPT_ABSOLUTE',BASE);
+define('SCRIPT_FILENAME','popup.php');
 
 // Initialize the Theme Subsystem
-if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
+if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
 $loc = pathos_core_makeLocation(
-	(isset($_GET['module'])?$_GET['module']:""),
-	(isset($_GET['src'])?$_GET['src']:""),
-	(isset($_GET['int'])?$_GET['int']:"")
+	(isset($_GET['module'])?$_GET['module']:''),
+	(isset($_GET['src'])?$_GET['src']:''),
+	(isset($_GET['int'])?$_GET['int']:'')
 );
 
-$SYS_FLOW_REDIRECTIONPATH="popup";
+$SYS_FLOW_REDIRECTIONPATH='popup';
 
 if (pathos_theme_inAction()) {
 	pathos_theme_runAction();
@@ -57,14 +57,14 @@ if (pathos_theme_inAction()) {
 	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 
 	$mod = new $_GET['module']();
-	$mod->show($_GET['view'],$loc,(isset($_GET['title'])?$_GET['title']:""));
+	$mod->show($_GET['view'],$loc,(isset($_GET['title'])?$_GET['title']:''));
 }
 
 $str = ob_get_contents();
 ob_end_clean();
 
-$template = new standalonetemplate("popup_".(isset($_GET['template'])?$_GET['template']:"general"));
-$template->assign("output",$str);
+$template = new standalonetemplate('popup_'.(isset($_GET['template'])?$_GET['template']:'general'));
+$template->assign('output',$str);
 $template->output();
 
 ?>

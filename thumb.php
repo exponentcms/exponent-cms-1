@@ -34,7 +34,7 @@
 if (defined('PATHOS')) return;
 
 // Initialize the Imaging Subsystem (this does not need the Pathos Framework to function)
-include_once("subsystems/image.php");
+include_once('subsystems/image.php');
 
 $file = $_GET['base'].$_GET['file'];
 
