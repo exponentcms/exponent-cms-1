@@ -98,6 +98,7 @@ function pathos_theme_metaInfo($section) {
 	$str = '<meta name="Generator" content="Exponent Content Management System" />' . "\n";
 	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
 	$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
+	$str .= "\t\t".'<style> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
 	return $str;
 }
 
