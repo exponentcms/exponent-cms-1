@@ -62,7 +62,7 @@ if (($news != null && pathos_permissions_check("edit_item",$loc)) ||
 	}
 	
 	if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
-	$channels = pathos_channels_list('post');
+	$channels = pathos_channels_list('post',$loc);
 	if (count($channels)) {
 		$form->registerBefore('submit',null,'',new htmlcontrol('<hr size="1" />Publish to Channels'));
 		foreach ($channels as $id=>$name) {
