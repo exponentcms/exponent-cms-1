@@ -107,8 +107,8 @@ return array(
 			'control'=>new textcontrol()
 		),
 		'SSL_URL'=>array(
-			'title'=>TR_CONFIG_SSL_URL,
-			'description'=>TR_CONFIG_SSL_URL,
+			'title'=>TR_CONFIG_SITE_SSL_URL,
+			'description'=>TR_CONFIG_SITE_SSL_URL,
 			'control'=>new textcontrol()
 		)
 	)

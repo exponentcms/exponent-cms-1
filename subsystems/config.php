@@ -133,11 +133,14 @@ function pathos_config_configurationForm($configname,$database=false) {
 		//if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		//pathos_forms_initialize();
 		
+		pathos_lang_loadDictionary('subsystems','config');
+		pathos_lang_loadDictionary('standard','core');
+		
 		$form = new form();
 	
-		$form->register(null,'',new htmlcontrol('<h3>Configuration Options</h3>'));
-		$form->register('configname','Profile Name',new textcontrol($configname));
-		$form->register('activate','Activate?',new checkboxcontrol((!defined('CURRENTCONFIGNAME') || CURRENTCONFIGNAME==$configname)));
+		$form->register(null,'',new htmlcontrol('<h3>'.TR_CONFIGSUBSYSTEM_FORMTITLE.'</h3>'));
+		$form->register('configname',TR_CONFIGSUBSYSTEM_PROFILE,new textcontrol($configname));
+		$form->register('activate',TR_CONFIGSUBSYSTEM_ACTIVATE,new checkboxcontrol((!defined('CURRENTCONFIGNAME') || CURRENTCONFIGNAME==$configname)));
 	
 		$dh = opendir(BASE.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
@@ -164,7 +167,7 @@ function pathos_config_configurationForm($configname,$database=false) {
 				}
 			}
 		}
-		$form->register('submit','',new buttongroupcontrol('Save'));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		//pathos_forms_cleanup();
 		
@@ -248,7 +251,7 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 			fwrite($fh,$str);
 			fwrite($fh,"\n<?php\ndefine(\"CURRENTCONFIGNAME\",\"$configname\");\n?>\n");
 			fclose($fh);
-		} else echo "Unable to write active configuration.<br />";
+		} else echo TR_CONFIGSUBSYSTEM_CONFNOTWRITABLE.'<br />';
 	}
 }
 
@@ -263,6 +266,8 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
  */
 function pathos_config_outputConfigurationTemplate($template,$configname) {
 	if (is_readable(BASE."conf/extensions")) {
+		pathos_lang_loadDictionary('subsystems','config');
+	
 		$categorized = array();
 		$options = pathos_config_parse($configname);
 		
@@ -273,7 +278,7 @@ function pathos_config_outputConfigurationTemplate($template,$configname) {
 				$categorized[$arr[0]] = array();
 				foreach ($arr[1] as $directive=>$info) {
 					if (is_a($info["control"],"passwordcontrol")) {
-						$info["value"] = "<i>&lt;hidden&gt;</i>";
+						$info["value"] = TR_CONFIGSUBSYSTEM_HIDDEN;
 					} else if (is_a($info["control"],"checkboxcontrol")) {
 						$info["value"] = (isset($options[$directive]) ? ($options[$directive]?"yes":"no") : "no");
 					} else if (is_a($info["control"],"dropdowncontrol") && isset($options[$directive])) {

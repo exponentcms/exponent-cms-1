@@ -49,7 +49,16 @@ return array(
 	'parent'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'rank'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER)
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'page_title'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),
+	'keywords'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000),
+	'description'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000)
 );
 
 ?>

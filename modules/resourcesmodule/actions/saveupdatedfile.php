@@ -41,16 +41,17 @@ if ($resource) {
 	if (pathos_permissions_check("edit",$loc) || pathos_permissions_check("edit",$iloc)) {
 	
 		if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
+			pathos_lang_loadDictionary('modules','filemanagermodule');
 			switch($_FILES["file"]["error"]) {
 					case UPLOAD_ERR_INI_SIZE:
 					case UPLOAD_ERR_FORM_SIZE:
-						echo "The file you attempted to upload is too large.  Contact your system administrator if this is a problem.";
+						echo TR_FILEMANAGER_FILETOOLARGE;
 						break;
 					case UPLOAD_ERR_PARTIAL:
-						echo "The file was only partially uploaded.";
+						echo TR_FILEMANAGER_PARTIALFILE;
 						break;
 					case UPLOAD_ERR_NO_FILE:
-						echo "No file was uploaded.";
+						echo TR_FILEMANAGER_NOFILEUPLOADED;
 						break;
 				}
 		} else {

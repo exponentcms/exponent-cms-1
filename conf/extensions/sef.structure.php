@@ -37,7 +37,7 @@ return array(
 	TR_CONFIG_SEF_TITLE,
 	array(
 		'SEF_URLS'=>array(
-			'title'=>TR_CONFIF_SEF_URLS,
+			'title'=>TR_CONFIG_SEF_URLS,
 			'description'=>TR_CONFIG_SEF_URLS_DESC,
 			'control'=>new checkboxcontrol(true,true)
 		)

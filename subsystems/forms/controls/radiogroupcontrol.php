@@ -131,16 +131,18 @@ class radiogroupcontrol extends formcontrol {
 			$object->cols = 1;
 			$object->items = array();
 		} 
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption / Value", new textcontrol($object->caption));
-		$form->register("items","Items", new listbuildercontrol($object->items,null));
-		$form->register("default","Default", new textcontrol($object->default));
-		$form->register("flip","Captions on Right", new checkboxcontrol($object->flip,false));
-		$form->register("cols","Number of Columns", new textcontrol($object->cols,4,false,2,"integer"));
-		$form->register(uniqid(""),"", new htmlcontrol(" *Setting Number of Columns to zero will put all items on one row.<br><br>"));
-		$form->register("spacing","Column Spacing", new textcontrol($object->spacing,5,false,4,"integer"));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTIONVALUE, new textcontrol($object->caption));
+		$form->register("items",TR_FORMCONTROLS_ITEMS, new listbuildercontrol($object->items,null));
+		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
+		$form->register("flip",TR_FORMCONTROLS_CAPTIONSONRIGHT, new checkboxcontrol($object->flip,false));
+		$form->register("cols",TR_FORMCONTROLS_NUMCOLS, new textcontrol($object->cols,4,false,2,"integer"));
+		$form->register(null,"", new htmlcontrol(TR_FORMCONTROLS_COLSPACING_MSG));
+		$form->register("spacing",TR_FORMCONRTOLS_COLSPACING, new textcontrol($object->spacing,5,false,4,"integer"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -149,8 +151,9 @@ class radiogroupcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new radiogroupcontrol();
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Identifier required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

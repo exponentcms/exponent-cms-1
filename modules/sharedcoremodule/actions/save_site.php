@@ -121,9 +121,11 @@ if (!defined("PATHOS")) exit("");
 						ksort($tables);
 						// End snip
 						
-						// Following code snipped from install.php
+						pathos_lang_loadDictionary('standard','dbrecover');
+						
+						// Following code snipped from db_recover.php
 						if ($newdb->tableIsEmpty("user")) {
-							echo "Creating default administrator account.<br />";
+							echo TR_DBRECOVER_CREATEDEFAULTADMIN.'<br />';
 							$u = null;
 							$u->username = "admin";
 							$u->password = md5("admin");
@@ -132,7 +134,7 @@ if (!defined("PATHOS")) exit("");
 						}
 						
 						if ($newdb->tableIsEmpty("modstate")) {
-							echo "Activating Administration Module by default.<br />";
+							echo TR_DBRECOVER_ACTIVATEADMINMOD.'<br />';
 							$modstate = null;
 							$modstate->module = "administrationmodule";
 							$modstate->active = 1;
@@ -140,9 +142,9 @@ if (!defined("PATHOS")) exit("");
 						}
 						
 						if ($newdb->tableIsEmpty("section")) {
-							echo "Creating default 'Home' section.<br />";
+							echo TR_DBRECOVER_CREATEDEFAULTSECTION.'<br />';
 							$section = null;
-							$section->name = "Home";
+							$section->name = TR_DBRECOVER_DEFAULTSECTION;
 							$section->public = 1;
 							$section->active = 1;
 							$section->rank = 0;
@@ -158,27 +160,22 @@ if (!defined("PATHOS")) exit("");
 					
 					// New site, time to go to the next place, the modules linker
 					$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
-					echo "<br />$url<br />";
 					header("Location: $url");
 					exit;
 				} else {
 					switch ($stat) {
 						case SHAREDCORE_ERR_LINKSRC_NOTREADABLE:
-							echo "Core is no longer readable.";
+							echo TR_SHAREDCOREMODULE_NOTREADABLENOW;
 							break;
 						case SHAREDCORE_ERR_LINKSRC_NOTEXISTS:
-							echo "Core no longer exists.";
+							echo TR_SHAREDCOREMODULE_NOTEXISTSNOW;
 							break;
 					}
 				}
 			} else {
 				$post = $_POST;
-				$version = "";
-				if (is_readable($site->path."pathos_version.php")) {
-					$v = @include($this->site."pathos_version.php");
-					$version = " (version " . $v . ")";
-				}
-				$post['_formError'] = "There is already an Exponent installation$version in '".$site->path."'";
+				$v = @include($this->site."pathos_version.php");
+				$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_DESTEXISTS,$v,$site->path);
 				pathos_sessions_set("last_POST",$post);
 				header("Location: " . $_SERVER['HTTP_REFERER']);
 			}
@@ -186,13 +183,12 @@ if (!defined("PATHOS")) exit("");
 			$db->updateObject($site,"sharedcore_site");
 			// Take them to the modules page, because that's probably why they went to edit in the first place.
 			$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
-			echo "<br />$url<br />";
 			header("Location: $url");
 			exit;
 		}
 	} else {
 		$post = $_POST;
-		$post['_formError'] = "The path you specified for the root of the new site ('".$site->path."') is not writable.";
+		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_DESTNOTWRITABLE,$site->path);
 		pathos_sessions_set("last_POST",$post);
 		header("Location: " . $_SERVER['HTTP_REFERER']);
 	}

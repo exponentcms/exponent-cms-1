@@ -181,4 +181,7 @@ pathos_sessions_validate();
 // Initialize permissions variables
 pathos_permissions_initialize();
 
+$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+$section = $db->selectObject('section','id='.$section);
+
 ?>

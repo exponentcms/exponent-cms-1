@@ -49,7 +49,6 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 				$revision = $db->selectObject($typename.'_wf_revision','wf_original='.$infos[$typename][$i]->real_id.' AND wf_major='.$infos[$typename][$i]->current_major.' AND wf_minor='.$infos[$typename][$i]->current_minor);
 				$infos[$typename][$i]->title = $revision->title;
 				$l = unserialize($revision->location_data);
-				#$infos[$typename][$i]->source = pathos_core_translateLocationSource($l->src);
 				$mclass = $l->mod;
 				$m = new $mclass();
 				$infos[$typename][$i]->module = $m->name();

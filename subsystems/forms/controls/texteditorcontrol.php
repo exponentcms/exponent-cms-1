@@ -97,13 +97,15 @@ class texteditorcontrol extends formcontrol {
 			$object->rows = 20;
 			$object->cols = 60;
 		} 
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
-		$form->register("default","Default",  new texteditorcontrol($object->default));
-		$form->register("rows","Rows", new textcontrol($object->rows,4,false,3,"integer"));
-		$form->register("cols","Cols", new textcontrol($object->cols,4, false,3,"integer"));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		$form->register("default",TR_FORMCONTROLS_DEFAULT,  new texteditorcontrol($object->default));
+		$form->register("rows",TR_FORMCONTROLS_ROWS, new textcontrol($object->rows,4,false,3,"integer"));
+		$form->register("cols",TR_FORMCONTROLS_COLS, new textcontrol($object->cols,4, false,3,"integer"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -112,8 +114,9 @@ class texteditorcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new texteditorcontrol();
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

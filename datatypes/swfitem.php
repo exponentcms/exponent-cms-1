@@ -66,11 +66,11 @@ class swfitem {
 		
 		$form->register('swf_name',TR_SWFMODULE_FLASHFILE, new uploadcontrol());
 		if ($object->swf_id != 0) {
-			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;*Leave Flash File blank to keep existing.<br>'));
+			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;'.TR_SWFMODULE_KEEPOLDFLASH.'<br>'));
 		}
 		$form->register('alt_image_name',TR_SWFMODULE_ALTIMAGE,new uploadcontrol());
 		if ($object->alt_image_id != 0) {
-			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;*Leave Alternative Image blank to keep existing.<br>'));
+			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;'.TR_SWFMODULE_KEEPOLDIMAGE.'<br>'));
 		}
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		

@@ -46,7 +46,7 @@ $form->register('oldpass',TR_LOGINMODULE_OLDPASS,new passwordcontrol());
 $form->register('pass1',TR_LOGINMODULE_NEWPASS,new passwordcontrol());
 $form->register('pass2',TR_LOGINMODULE_CONFIRMPASS,new passwordcontrol());
 
-$form->register('submit','',new buttongroupcontrol(TR_CONFIRMMODULE_CHANGEBTN));
+$form->register('submit','',new buttongroupcontrol(TR_LOGINMODULE_CHANGEBTN));
 
 $template = new template('loginmodule','_form_changePassword',$loc);
 $template->assign('form_html',$form->toHTML());

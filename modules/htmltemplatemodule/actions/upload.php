@@ -40,8 +40,10 @@ if (pathos_permissions_check("create",$loc)) {
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
+	pathos_lang_loadDictionary('modules','htmltemplatemodule');
+	
 	$form = htmltemplate::form($t);
-	$form->registerBefore("submit","file","Upload",new uploadcontrol());
+	$form->registerBefore("submit","file",TR_HTMLTEMPLATEMODULE_UPLOAD,new uploadcontrol());
 	$form->unregister("body");
 	$form->meta("module","htmltemplatemodule");
 	$form->meta("action","save_upload");

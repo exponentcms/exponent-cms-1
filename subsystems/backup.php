@@ -97,25 +97,29 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
  * @param array $errors A referenced array that stores errors.  Whatever
  * 	variable is passed in this argument will contain all errors encounterd
  *	during the parse/restore.
- * @param boolean $verbose Whether or not to output verbose progress information.
  * @node Subsystems:Backup
  */
-function pathos_backup_restoreDatabase($db,$file,&$errors,$verbose = 0) {
+function pathos_backup_restoreDatabase($db,$file,&$errors) {
 	$errors = array();
+	
+	pathos_lang_loadDictionary('subsystems','backup');
 	
 	if (is_readable($file)) {
 		$lines = @file($file);
 		
 		// Sanity check
 		if (count($lines) < 2 || trim($lines[0]) != EQL_HEADER) {
-			$errors[] = "Not a valid EQL file";
+			$errors[] = TR_BACKUPSUBSYSTEM_BADEQL;
 			return false;
 		}
 		
 		$version = explode(":",trim($lines[1]));
-		$version = $version[1];
+		$eql_version = $version[1]+0;
+		$current_version = PATHOS+0;
 		
-		if ($verbose) echo "EQL contains a database for version $version of Exponent<br />";
+		// Check version and run it through the necessary version converters.
+		
+		
 		
 		$table = "";
 		for ($i = 2; $i < count($lines); $i++) {
@@ -129,13 +133,12 @@ function pathos_backup_restoreDatabase($db,$file,&$errors,$verbose = 0) {
 				if ($pair[0] == "TABLE") {
 					$table = $pair[1];
 					if ($db->tableExists($table)) {
-						if ($verbose) echo "Clearing table $table<br />";
 						$db->delete($table);
 					} else {
 						if (!file_exists(BASE."datatypes/definitions/$table.php")) {
-							$errors[] = "Table $table not found in system (line $line_number)";
+							$errors[] = sprintf(TR_BACKUPSUBSYSTEM_DATADEFNOTFOUND,$table,$line_number);
 						} else if (!is_readable(BASE."datatypes/definitions/$table.php")) {
-							$errors[] = "Data definition file for $table (datatypes/definitsion/$table.php) is not readable (line $line_number)";
+							$errors[] = sprintf(TR_BACKUPSUBSYSTEM_DATADEFNOTREADABLE,$table,"datatypes/definitsion/$table.php",$line_number);
 						} else {
 							$dd = include(BASE."datatypes/definitions/$table.php");
 							$info = (is_readable(BASE."datatypes/definitions/$table.info.php") ? include(BASE."datatypes/definitions/$table.info.php") : array());
@@ -143,25 +146,18 @@ function pathos_backup_restoreDatabase($db,$file,&$errors,$verbose = 0) {
 						}
 					}
 				} else if ($pair[0] == "RECORD") {
+					// Here we need to check the conversion scripts.
 					$pair[1] = str_replace("\\r\\n","\r\n",$pair[1]);
 					$object = unserialize($pair[1]);
-					if ($verbose) echo "&nbsp;&nbsp;&nbsp;Inserting record into $table<br />";
-					if ($verbose > 1) {
-						echo "<xmp>Object Dump\n";
-						print_r($object);
-						echo "</xmp>";
-					}
-					#echo "db->insertObject($table,\$object);<br />";
 					$db->insertObject($object,$table);
-					if ($verbose > 1) echo pg_last_error();
 				} else {
-					$errors[] = "Invalid type on line $line_number";
+					$errors[] = sprintf(TR_BACKUPSUBSYSTEM_INVALIDTYPE,$line_number);
 				}
 			}
 		}
 		return true;
 	} else {
-		$errors[] = "Unable to read EQL file";
+		$errors[] = TR_BACKUPSUBSYSTEM_NOTREADABLE;
 		return false;
 	}
 }

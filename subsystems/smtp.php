@@ -215,7 +215,7 @@ function pathos_smtp_sendMessagePart($socket,$message) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_smpt_parseEHLO($socket) {
+function pathos_smtp_parseEHLO($socket) {
 	
 }
 

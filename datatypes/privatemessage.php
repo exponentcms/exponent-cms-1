@@ -33,6 +33,9 @@
 
 class privatemessage {
 	function form($object) {
+		pathos_lang_loadDictionary('modules','inboxmodule');
+		pathos_lang_loadDictionary('standard','core');
+	
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
@@ -70,21 +73,21 @@ class privatemessage {
 		
 		$groups = array();
 		foreach ($db->selectObjects('inbox_contactlist','owner='.$user->id) as $g) {
-			$groups['list_'.$g->id] = $g->name . ' (personal list)';
+			$groups['list_'.$g->id] = $g->name . ' ' . TR_INBOXMODULE_PERSONALLIST;
 		}
 		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllGroups(1,0) as $g) {
-				$groups['group_'.$g->id] = $g->name . ' (system group)';
+				$groups['group_'.$g->id] = $g->name . ' ' . TR_INBOXMODULE_SYSGROUP;
 			}
 		} else {
 			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
-				$groups['group_'.$g->id] = $g->name . ' (system group)';
+				$groups['group_'.$g->id] = $g->name . ' ' . TR_INBOXMODULE_SYSGROUP;
 			}
 		}
 		uasort($groups,'strnatcmp');
 		
-		$recipient_caption = 'Recipient';
-		$btn = new buttongroupcontrol('Save','','Cancel');
+		$recipient_caption = TR_INBOXMODULE_RECIPIENT;
+		$btn = new buttongroupcontrol(TR_INBOXMODULE_SEND,'',TR_CORE_CANCEL);
 		
 		$object->group_recipient = array();
 		
@@ -97,16 +100,15 @@ class privatemessage {
 		} else {
 			if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 			$u = pathos_users_getUserById($object->recipient);
-			$form->register(uniqid(''),'',new htmlcontrol('Reply to "'.$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')"'));
+			$form->register(null,'',new htmlcontrol(sprintf(TR_INBOXMODULE_REPLYTO,$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')')));
 			$form->meta('replyto',$object->recipient);
 			$object->recipient = array();
 			
 			unset($users[$u->id]);
 			
-			$recipient_caption = 'Send copy to';
+			$recipient_caption = TR_INBOXMODULE_COPYTO;
 		}
 		
-		//$form->register('recipient','Recipient',new textcontrol($object->recipient));
 		if (count($users)) {
 			$form->register('recipients',$recipient_caption,new listbuildercontrol($object->recipient,$users));
 		}
@@ -115,11 +117,11 @@ class privatemessage {
 		}
 		
 		if (!count($groups) && !count($users)) {
-			$form->register(uniqid(''),'',new htmlcontrol('<i>You have no contacts in your personal contact list.</i>'));
+			$form->register(null,'',new htmlcontrol('<div class="error">'.TR_INBOXMODULE_NOCONTACTSWARNING.'</div>'));
 		}
 		
-		$form->register('subject','Subject',new textcontrol($object->subject));
-		$form->register('body','Message', new htmleditorcontrol($object->body));
+		$form->register('subject',TR_INBOXMODULE_SUBJECT,new textcontrol($object->subject));
+		$form->register('body',TR_INBOXMODULE_MESSAGE, new htmleditorcontrol($object->body));
 		$form->register('submit','',$btn);
 		
 		pathos_forms_cleanup();

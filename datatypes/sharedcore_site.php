@@ -63,15 +63,16 @@ class sharedcore_site {
 		$form->register('path',TR_SHAREDCOREMODULE_SITEPATH, $t);
 		
 		if (!isset($object->id)) {
+			pathos_lang_loadDictionary('config','dabase');
 			// Setup initial database config
-			$form->register(null,'',new htmlcontrol('<hr size="1" /><b>Database Configuration</b>'));
-			$form->register('db_engine','Database Backend',new dropdowncontrol(DB_ENGINE,pathos_database_backends()));
-			$form->register('db_host','Server Address',new textcontrol(DB_HOST));
-			$form->register('db_port','Server Port',new textcontrol(DB_PORT));
-			$form->register('db_name','Database Name',new textcontrol(DB_NAME));
-			$form->register('db_user','Username',new textcontrol(DB_USER));
-			$form->register('db_pass','Password',new textcontrol());
-			$form->register('db_table_prefix','Table Prefix',new textcontrol(DB_TABLE_PREFIX));
+			$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.TR_CONFIG_DATABASE_TITLE.'</b>'));
+			$form->register('db_engine',TR_CONFIG_DATABASE_DB_ENGINE,new dropdowncontrol(DB_ENGINE,pathos_database_backends()));
+			$form->register('db_host',TR_CONFIG_DATABASE_DB_HOST,new textcontrol(DB_HOST));
+			$form->register('db_port',TR_CONFIG_DATABASE_DB_PORT,new textcontrol(DB_PORT));
+			$form->register('db_name',TR_CONFIG_DATABASE_DB_NAME,new textcontrol(DB_NAME));
+			$form->register('db_user',TR_CONFIG_DATABASE_DB_USERNAME,new textcontrol(DB_USER));
+			$form->register('db_pass',TR_CONFIG_DATABASE_DB_PASSWORD,new textcontrol());
+			$form->register('db_table_prefix',TR_CONFIG_DATABASE_DB_TABLE_PREFIX,new textcontrol(DB_TABLE_PREFIX));
 			$form->meta('_db_config',1);
 		}
 		
@@ -82,6 +83,9 @@ class sharedcore_site {
 	}
 	
 	function linkForm($object) {
+		pathos_lang_loadDictionary('standard','core');
+		pathos_lang_loadDictionary('modules','sharedcoremodule');
+	
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
@@ -105,7 +109,7 @@ class sharedcore_site {
 			$form->meta('site_id',$object->id);
 		}
 		
-		$form->register(uniqid(''),'',new htmlcontrol('<b>Modules</b>'));
+		$form->register(uniqid(''),'',new htmlcontrol('<b>'.TR_SHAREDCOREMODULE_MODULES.'</b>'));
 		// Get a list of modules from the chosen core.
 		$core = $db->selectObject('sharedcore_core','id='.$object->core_id);
 		$dh = opendir($core->path.'modules');
@@ -123,7 +127,7 @@ class sharedcore_site {
 			}
 		}
 		
-		$form->register(uniqid(''),'',new htmlcontrol('<b>Themes</b>'));
+		$form->register(uniqid(''),'',new htmlcontrol('<b>'.TR_SHAREDCOREMODULE_THEMES.'</b>'));
 		$dh = opendir($core->path.'themes');
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,0,1) != '.' && $file != 'CVS') {
@@ -135,17 +139,19 @@ class sharedcore_site {
 				$form->register("themes[$file]",$name,$cb);
 			}
 		}
-		$form->register('submit','',new buttongroupcontrol('Next'));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_NEXT));
 		return $form;
 	}
 	
 	function update($values,$object) {
 		if (isset($values['_db_config'])) {
+			pathos_lang_loadDictionary('config','database');
+		
 			// Test configuration, and return NULL if it doesn't work.
 			
 			if (preg_match('/[^A-Za-z0-9]/',$values['db_table_prefix'])) {
 				$post = $values;
-				$post['_formError'] = 'Invalid table prefix.  The table prefix can only contain alphanumeric characters and underscores ("_").<br />';
+				$post['_formError'] = TR_CONFIG_DATABASE_ERROR_BADPREFIX.'<br />';
 				pathos_sessions_set('last_POST',$post);
 				return null;
 			}
@@ -155,7 +161,7 @@ class sharedcore_site {
 			
 			if (!$linkdb->isValid()) {
 				$post = $values;
-				$post['_formError'] = 'Unable to connect to database server.  Make sure that the database specified exists, and the user account specified has access to the server.<br />';
+				$post['_formError'] = TR_CONFIG_DATABASE_ERROR_CANTCONNECT.'<br />';
 				pathos_sessions_set('last_POST',$post);
 				return null;
 			}
@@ -166,7 +172,7 @@ class sharedcore_site {
 			foreach ($status as $type=>$flag) {
 				if (!$flag) {
 					$failed = true;
-					$errors .= 'Unable to run $type commands<br />';
+					$errors .= sprintf(TR_CONFIG_DATABASE_ERROR_PERMDENIED,$type).'<br />';
 				}
 			}
 			if ($failed) {

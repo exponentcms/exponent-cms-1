@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-pathos_lang_load('config','database');
+pathos_lang_loadDictionary('config','database');
 
 return array(
 	TR_CONFIG_DATABASE_TITLE,

@@ -44,7 +44,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	if ($user->is_admin) { // Only do the database stuff if we are a super admin
 		$errors = '';
 		
-		pathos_land_loadDictionary('config','database');
+		pathos_lang_loadDictionary('config','database');
 		
 		// Test the prefix
 		if (preg_match("/[^A-Za-z0-9]/",$_POST['c']['DB_TABLE_PREFIX'])) {

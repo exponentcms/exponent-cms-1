@@ -58,7 +58,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$realpol = array(0=>TR_WORKFLOW_NOPOLICY);
 	foreach ($policies as $key=>$pol) $realpol[$key] = $pol;
 	
-	$form->register('policy','Policy',new dropdowncontrol($assoc->policy_id,$realpol));
+	$form->register('policy',TR_WORKFLOW_POLICY,new dropdowncontrol($assoc->policy_id,$realpol));
 	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 	
 	$form->meta('module','workflow');

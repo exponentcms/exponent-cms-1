@@ -31,28 +31,28 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
 	$site = null;
-	if (isset($_GET['site_id'])) $site = $db->selectObject("sharedcore_site","id=".$_GET['site_id']);
+	if (isset($_GET['site_id'])) $site = $db->selectObject('sharedcore_site','id='.$_GET['site_id']);
 	if ($site) {
 		/////
 		$form = sharedcore_site::linkForm($site);
-		$form->meta("module","sharedcoremodule");
+		$form->meta('module','sharedcoremodule');
 		if (isset($site->id)) {
-			$form->meta("action","save_extensions"); // Save without db conf if edit
+			$form->meta('action','save_extensions'); // Save without db conf if edit
 		} else {
 			// Need to go through initial db config for new sites.
-			$form->meta("action","edit_site_dbconf");
+			$form->meta('action','edit_site_dbconf');
 		}
 		
-		$form->meta("core_id",$_POST['core_id']);
-		$form->meta("name",$_POST['name']);
-		$form->meta("path",$_POST['path']);
+		$form->meta('core_id',$_POST['core_id']);
+		$form->meta('name',$_POST['name']);
+		$form->meta('path',$_POST['path']);
 		
-		$template = new template("sharedcoremodule","_form_editSite");
-		$template->assign("form_html",$form->toHTML());
+		$template = new template('sharedcoremodule','_form_editSite');
+		$template->assign('form_html',$form->toHTML());
 		$template->output();
 	} else echo SITE_404_HTML;
 // END PERM CHECK

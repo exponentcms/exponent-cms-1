@@ -31,18 +31,18 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
-	$site = $db->selectObject("sharedcore_site","id=".$_GET['id']);
+	$site = $db->selectObject('sharedcore_site','id='.$_GET['id']);
 	if ($site) {
-		$core = $db->selectObject("sharedcore_core","id=".$site->core_id);
+		$core = $db->selectObject('sharedcore_core','id='.$site->core_id);
 		if ($core) {
-			if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
+			if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
 			pathos_sharedcore_clear($site->path); // Not full
 			pathos_sharedcore_linkCore($core->path,$site->path);
 			
-			$extensions = $db->selectObjects("sharedcore_extension","site_id=".$site->id);
+			$extensions = $db->selectObjects('sharedcore_extension','site_id='.$site->id);
 			foreach ($extensions as $e) {
 				pathos_sharedcore_linkExtension($e->type,$e->name,$core->path,$site->path);
 			}

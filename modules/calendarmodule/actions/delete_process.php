@@ -31,19 +31,19 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject("calendar","id=".$_POST['id']);
+$item = $db->selectObject('calendar','id='.$_POST['id']);
 if ($item && $item->is_recurring) {
-	$eventdates = $db->selectObjectsIndexedArray("eventdate","event_id=".$item->id);
+	$eventdates = $db->selectObjectsIndexedArray('eventdate','event_id='.$item->id);
 	foreach (array_keys($_POST['dates']) as $d) {
 		if (isset($eventdates[$d])) {
-			$db->delete("eventdate","id=".$d);
+			$db->delete('eventdate','id='.$d);
 			unset($eventdates[$d]);
 		}
 	}
 	
-	if (!count($eventdates)) $db->delete("calendar","id=".$item->id);
+	if (!count($eventdates)) $db->delete('calendar','id='.$item->id);
 	
 	pathos_flow_redirect();
 } else echo SITE_404_HTML;

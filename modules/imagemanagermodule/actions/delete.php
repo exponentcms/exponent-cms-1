@@ -41,13 +41,9 @@ if ($item != null) {
 	if (pathos_permissions_check("delete",$loc)) {
 		$file = $db->selectObject("file","id=".$item->file_id);
 		
-		if (isset($_GET['force']) || ($file != null && file::delete($file))) {
-			$db->delete("file","id=".$file->id);
-			$db->delete("imagemanageritem","id=".$item->id);
-			pathos_flow_redirect();
-		} else {
-			echo "Could not delete actual file.  Click <a class='mngmntlink imagemanager_mngmntlink' href='".$_SERVER['REQUEST_URI']."&force'>here</a>. to delete this reference.";
-		}
+		$db->delete("file","id=".$file->id);
+		$db->delete("imagemanageritem","id=".$item->id);
+		pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

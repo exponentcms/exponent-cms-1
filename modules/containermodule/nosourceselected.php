@@ -31,12 +31,12 @@
 # $Id$
 ##################################################
 
-include_once("../../pathos.php");
-define("SCRIPT_RELATIVE",PATH_RELATIVE."modules/containermodule/");
-define("SCRIPT_ABSOLUTE",BASE."modules/containermodule/");
-define("SCRIPT_FILENAME","nosourceselected.php");
+include_once('../../pathos.php');
+define('SCRIPT_RELATIVE',PATH_RELATIVE.'modules/containermodule/');
+define('SCRIPT_ABSOLUTE',BASE.'modules/containermodule/');
+define('SCRIPT_FILENAME','nosourceselected.php');
 
-$template = new template("containermodule","_nocontent");
+$template = new template('containermodule','_nocontent');
 $template->output();
 
 ?>

@@ -36,7 +36,7 @@ ob_start();
 // Initialize the Pathos Framework
 include_once('pathos.php');
 
-pathos_lang_load('standard','modpreview');
+pathos_lang_loadDictionary('standard','modpreview');
 
 define('SCRIPT_RELATIVE',PATH_RELATIVE);
 define('SCRIPT_ABSOLUTE',BASE);

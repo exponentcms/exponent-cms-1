@@ -77,3 +77,7 @@
 {/if}
 {/permissions}
 <br />
+
+{if $modconfig->enable_categories == 1}
+<a href="{link module=categories m=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">Manage Categories</a>
+{/if}

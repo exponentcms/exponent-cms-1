@@ -74,7 +74,7 @@ if (!defined("PATHOS")) exit("");
 				"clickable"=>(($clickable_mods == null || in_array($modclass,$clickable_mods))?1:0)
 			);
 		} else {
-			$obj->output = "The module '" . $orphan->module . "' was not found in the system.";
+			$obj->output = sprintf(TR_CONTAINERMODULE_MODNOTFOUND,$orphan->module);
 			$containers[$i]->info = array(
 					"module"=>"Unknown:".$location->mod,
 					"source"=>$orphan->source,

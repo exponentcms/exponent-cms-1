@@ -31,21 +31,21 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
 	$orphan_mods = array();
-	foreach ($db->selectObjects("locationref","refcount = 0") as $orphan) {
+	foreach ($db->selectObjects('locationref','refcount = 0') as $orphan) {
 		if (!isset($orphan_mods[$orphan->module]) && class_exists($orphan->module)) {
 			$modclass = $orphan->module;
 			$mod = new $modclass();
 			$orphan_mods[$modclass] = $mod->name();
 		}
 	}
-	uasort($orphan_mods,"strnatcmp");
+	uasort($orphan_mods,'strnatcmp');
 	
-	$template = new template("containermodule","_orphans_modules");
-	$template->assign("orphan_mods",$orphan_mods);
+	$template = new template('containermodule','_orphans_modules');
+	$template->assign('orphan_mods',$orphan_mods);
 	$template->output();
 // END PERM CHECK
 

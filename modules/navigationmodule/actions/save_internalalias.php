@@ -38,6 +38,9 @@ if (!defined('PATHOS')) exit('');
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
 if ($user && $user->is_acting_admin == 1) {
+
+	pathos_lang_loadDictionary('modules','navigationmodule');
+
 	$section = null;
 	$old_parent = null;
 	if (isset($_POST['id'])) {
@@ -52,7 +55,7 @@ if ($user && $user->is_acting_admin == 1) {
 	if ($section->active == 0) {
 		// User tried to link to an inactive section.  This makes little or no sense in
 		// this context, so throw them back to the edit form, with an error message.
-		$_POST['_formError'] = 'You cannot link to an inactive section.  Inactive sections are shown with "(" and ")" around their names in the selection list.';
+		$_POST['_formError'] = TR_NAVIGATIONMODULE_INTERNALLINKERR;
 		pathos_sessions_set("last_POST",$_POST);
 		header("Location: " . $_SERVER['HTTP_REFERER']);
 		exit('');

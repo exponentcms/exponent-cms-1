@@ -136,12 +136,18 @@ class template extends basetemplate {
 class formtemplate extends basetemplate {
 	function formtemplate($formtype,$view) {
 	
+		$langdir = (LANG == 'en' ? '' : LANG.'/');
+	
 		$this->tpl = new Smarty();
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
 		$this->tpl->plugins_dir[] = BASE."plugins";
 		
-		if (is_readable(THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl")) {
+		if (is_readable(THEME_ABSOLUTE."forms/".$formtype."/".$langdir.$view.".tpl")) {
+			$this->viewfile = THEME_ABSOLUTE."forms/".$formtype."/".$langdir.$view.".tpl";
+		} else if (is_readable(THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl")) {
 			$this->viewfile = THEME_ABSOLUTE."forms/".$formtype."/".$view.".tpl";
+		} else if (is_readable(BASE."forms/".$formtype."/".$langdir.$view.".tpl")) {
+			$this->viewfile = BASE."forms/".$formtype."/".$langdir.$view.".tpl";
 		} else if (is_readable(BASE."forms/".$formtype."/".$view.".tpl")) {
 			$this->viewfile = BASE."forms/".$formtype."/".$view.".tpl";
 		} else {
@@ -248,8 +254,13 @@ function pathos_template_clear($type = SYS_TEMPLATE_CLEAR_ALL) {
  * @return string The filename of the view template, or "" if none found.
  */
 function pathos_template_getViewFile($view) {
-	if (is_readable(THEME_ABSOLUTE."views/$view.tpl")) {
+	$langdir = (LANG == 'en' ? '' : LANG.'/');
+	if (is_readable(THEME_ABSOLUTE."views/$langdir$view.tpl")) {
+		return THEME_ABSOLUTE."views/$langdir$view.tpl";
+	} else if (is_readable(THEME_ABSOLUTE."views/$view.tpl")) {
 		return THEME_ABSOLUTE."views/$view.tpl";
+	} else if (is_readable(BASE."views/$langdir$view.tpl")) {
+		return BASE."views/$langdir$view.tpl";
 	} else if (is_readable(BASE."views/$view.tpl")) {
 		return BASE."views/$view.tpl";
 	} else {
@@ -258,6 +269,8 @@ function pathos_template_getViewFile($view) {
 	}
 }
 
+
+// I thing these still need to be i18n-ized
 function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 	$form_file = "";
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";

@@ -57,7 +57,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 				$infos[$typename][$i]->approvers = count($infos[$typename][$i]->state[0]);
 				$infos[$typename][$i]->approvals = array_sum($infos[$typename][$i]->state[1]);
 				$l = unserialize($revision->location_data);
-				$infos[$typename][$i]->source = pathos_core_translateLocationSource($l->src);
+				$infos[$typename][$i]->source = '';
 				$mclass = $l->mod;
 				$m = new $mclass();
 				$infos[$typename][$i]->module = $m->name();
@@ -105,8 +105,10 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			$db->insertObject($action,'workflowaction');
 		}
 		
+		pathos_lang_loadDictionary('modules','workflow');
+		
 		$action->method = 'Show Message';
-		$action->parameters = 'Thank you for your participation in this approval process.  The content you approved has met all of the required criteria, and has been published live.';
+		$action->parameters = TR_WORKFLOW_DEFAULTTHANKYOU;
 		$action->rank = 0;
 		$action->type = SYS_WORKFLOW_ACTION_APPROVED_FINAL;
 		$db->insertObject($action,'workflowaction');

@@ -37,7 +37,7 @@ if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 
 //Get the I18N constants
-pathos_lang_loadDictionary('imports', 'eql');
+pathos_lang_loadDictionary('importers', 'eql');
 
 $form = new form();
 $form->meta("module","importer");

@@ -63,7 +63,6 @@ if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") !
 		' '=>TR_IMPORTER_USERCSV_DEMILITER_ARRAY_SPACE_KEY);
 
 	//Register the dropdown menus
-	#$form->register("unameOptions","User Name Generations Options", New dropdowncontrol("INFILE", $userNameOptionsArray));
 	$form->register("delimiter", TR_IMPORTER_USERCSV_DEMILITER, New dropdowncontrol(",", $delimiterArray));
 	$form->register("upload", TR_IMPORTER_USERCSV_UPLOAD, New uploadcontrol());
 	$form->register("rowstart", TR_IMPORTER_USERCSV_ROWSTART, New textcontrol("1",1,0,6));

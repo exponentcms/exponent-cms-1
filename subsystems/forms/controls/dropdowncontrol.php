@@ -56,7 +56,6 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
  */
 class dropdowncontrol extends formcontrol {
 	var $items = array();
-	//var $multiple = false;
 	var $size = 1;
 	var $jsHooks = array();
 	
@@ -75,7 +74,6 @@ class dropdowncontrol extends formcontrol {
 	
 	function controlToHTML($name) {
 		$html = '<select id="' . $name . '" name="' . $name . '" size="' . $this->size . '"';
-		//if ($this->multiple) $html .= ' multiple';
 		if ($this->disabled) $html .= ' disabled';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		foreach ($this->jsHooks as $hook=>$action) {
@@ -100,20 +98,20 @@ class dropdowncontrol extends formcontrol {
 			$object->identifier = "";
 			$object->caption = "";
 			$object->default = "";
-			//$object->multiple = false;
 			$object->size = 1;
 			$object->items = array();
 		} 
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
-		$form->register("items","Items", new listbuildercontrol($object->items,null));
-		$form->register("default","Default", new textcontrol($object->default));
-		//$form->register("multiple","Allow Multiple", new checkboxcontrol($object->multiple,false));
-		$form->register("size","Size", new textcontrol($object->size,3,false,2,"integer"));
-		$form->register(uniqid(""),"", new htmlcontrol("<br>*Size of 1 is a drop down control. Size greater then 1 is a list box.<br>"));
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		$form->register("items",TR_FORMCONTROLS_ITEMS, new listbuildercontrol($object->items,null));
+		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
+		$form->register("size",TR_FORMCONTROLS_SIZE, new textcontrol($object->size,3,false,2,"integer"));
+		
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -133,7 +131,6 @@ class dropdowncontrol extends formcontrol {
 		$object->caption = $values['caption'];
 		$object->default = $values['default'];
 		$object->items = listbuildercontrol::parseData($values,'items',true);
-		//$object->multiple = isset($values['multiple']);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
 		pathos_forms_cleanup();
 		return $object;

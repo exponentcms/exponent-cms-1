@@ -31,28 +31,28 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $container = null;
-if (isset($_GET['id'])) $container = $db->selectObject("container","id=".$_GET['id']);
+if (isset($_GET['id'])) $container = $db->selectObject('container','id='.$_GET['id']);
 if ($container != null) {
 	$iloc = unserialize($container->internal);
 	$cloc = unserialize($container->external);
 	$cloc->int = $container->id;
 
-	if (pathos_permissions_check("delete_module",$loc) || pathos_permissions_check("delete_module",$cloc) || pathos_permissions_check("administrate",$iloc)) {
+	if (pathos_permissions_check('delete_module',$loc) || pathos_permissions_check('delete_module',$cloc) || pathos_permissions_check('administrate',$iloc)) {
 		
 		container::delete($container,(isset($_GET['rerank']) ? 1 : 0));
-		$db->delete("container","id=".$container->id);
+		$db->delete('container','id='.$container->id);
 		pathos_template_clear();
 		
 		// Check to see if its the last reference
-		$locref = $db->selectObject("locationref","module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
-		if ($locref->refcount == 0 && pathos_permissions_check("administrate",$iloc) && call_user_func(array($iloc->mod,"hasContent")) == 1) {
+		$locref = $db->selectObject('locationref',"module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
+		if ($locref->refcount == 0 && pathos_permissions_check('administrate',$iloc) && call_user_func(array($iloc->mod,'hasContent')) == 1) {
 		
-			$template = new template("containermodule","_lastreferencedelete",$loc);
-			$template->assign("iloc",$iloc);
-			$template->assign("redirect",pathos_flow_get());
+			$template = new template('containermodule','_lastreferencedelete',$loc);
+			$template->assign('iloc',$iloc);
+			$template->assign('redirect',pathos_flow_get());
 			$template->output();
 		} else pathos_flow_redirect();
 	} else {

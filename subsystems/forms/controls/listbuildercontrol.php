@@ -132,12 +132,15 @@ class listbuildercontrol extends formcontrol {
 		if (!isset($object->identifier)) {
 			$object->identifier = "";
 			$object->caption = "";
-		} 
+		}
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -145,8 +148,9 @@ class listbuildercontrol extends formcontrol {
 	
 	function update($values, $object) {
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

@@ -31,18 +31,18 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject("calendar","id=".$_GET['id']);
+$item = $db->selectObject('calendar','id='.$_GET['id']);
 if ($item) {
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
 	
-	if (pathos_permissions_check("delete",$loc) ||
-		pathos_permissions_check("delete",$iloc)
+	if (pathos_permissions_check('delete',$loc) ||
+		pathos_permissions_check('delete',$iloc)
 	) {
-		$db->delete("calendar","id=".$item->id);
-		$db->delete("eventdate","event_id=".$item->id);
+		$db->delete('calendar','id='.$item->id);
+		$db->delete('eventdate','event_id='.$item->id);
 		
 		pathos_template_clear();
 		pathos_flow_redirect();

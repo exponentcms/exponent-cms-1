@@ -31,22 +31,22 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $contact = null;
 if (isset($_POST['id'])) {
-	$contact = $db->selectObject("contact_contact","id=".$_POST['id']);
+	$contact = $db->selectObject('contact_contact','id='.$_POST['id']);
 	if ($contact) $loc = unserialize($contact->location_data);
 }
 
-if (pathos_permissions_check("configure",$loc)) {
+if (pathos_permissions_check('configure',$loc)) {
 	$contact = contact_contact::update($_POST,$contact);
 	$contact->location_data = serialize($loc);
 	
 	if (isset($contact->id)) {
-		$db->updateObject($contact,"contact_contact");
+		$db->updateObject($contact,'contact_contact');
 	} else {
-		$db->insertObject($contact,"contact_contact");
+		$db->insertObject($contact,'contact_contact');
 	}
 } else {
 	echo SITE_403_HTML;

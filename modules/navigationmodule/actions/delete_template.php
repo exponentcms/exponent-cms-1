@@ -49,6 +49,9 @@ if (!defined("PATHOS")) exit("");
 	
 		if ($user && $user->is_acting_admin) {
 			$db->delete("section_template","id=".$page->id);
+			if ($page->parent != 0) {
+				$db->decrement('section_template','rank',1,'parent='.$page->parent.' AND rank >= '.$page->rank);
+			}
 			tmp_deleteLevel($page->id);
 	
 			pathos_flow_redirect();

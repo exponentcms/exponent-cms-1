@@ -31,15 +31,15 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
-	$site = $db->selectObject("sharedcore_site","id=".$_GET['id']);
+	$site = $db->selectObject('sharedcore_site','id='.$_GET['id']);
 	if ($site) {
-		if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
+		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
 		echo $site->path;
 		pathos_sharedcore_clear($site->path,true);
-		$db->delete("sharedcore_site","id=".$site->id);
+		$db->delete('sharedcore_site','id='.$site->id);
 	}
 	pathos_flow_redirect();
 // END PERM CHECK

@@ -31,11 +31,11 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
-	$db->delete("sharedcore_core","id=".$_GET['id']);
-	$db->delete("sharedcore_site","core_id=".$_GET['id']);
+	$db->delete('sharedcore_core','id='.$_GET['id']);
+	$db->delete('sharedcore_site','core_id='.$_GET['id']);
 	pathos_flow_redirect();
 // END PERM CHECK
 

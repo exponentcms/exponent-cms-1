@@ -205,12 +205,14 @@ class popupdatetimecontrol extends formcontrol {
 			$object->caption = "";
 			$object->showtime = true;
 		} 
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
-		$form->register("showtime","Show Time", new checkboxcontrol($object->showtime,false));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		$form->register("showtime",TR_FORMCONTROLS_SHOWTIME, new checkboxcontrol($object->showtime,false));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -219,8 +221,9 @@ class popupdatetimecontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new popupdatetimecontrol();
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

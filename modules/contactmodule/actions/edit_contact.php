@@ -31,22 +31,22 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $contact = null;
 if (isset($_GET['id'])) {
-	$contact = $db->selectObject("contact_contact","id=".$_GET['id']);
+	$contact = $db->selectObject('contact_contact','id='.$_GET['id']);
 	if ($contact) $loc = unserialize($contact->location_data);
 }
 
-if (pathos_permissions_check("configure",$loc)) {
+if (pathos_permissions_check('configure',$loc)) {
 	$form = contact_contact::form($contact);
 	$form->location($loc);
-	$form->meta("action","save_contact");
+	$form->meta('action','save_contact');
 	
-	$template = new template("contactmodule","_form_edit_contact",$loc);
-	$template->assign("form_html",$form->toHTML());
-	$template->assign("is_edit",isset($_GET['id']));
+	$template = new template('contactmodule','_form_edit_contact',$loc);
+	$template->assign('form_html',$form->toHTML());
+	$template->assign('is_edit',isset($_GET['id']));
 	$template->output();
 } else {
 	echo SITE_403_HTML;

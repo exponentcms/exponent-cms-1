@@ -32,6 +32,9 @@
 ##################################################
 
 	if (!defined("PATHOS")) exit("");
+	
+	pathos_lang_loadDictionary('modules','formbuilder');
+	
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	pathos_forms_initialize();
@@ -56,9 +59,9 @@
 				$captions[$name] = $c->caption;
 			}
 			
-			$captions['ip'] = "IP Address";
-			$captions['timestamp'] = "Posted Time";
-			$captions['user_id'] = "User ID";
+			$captions['ip'] = TR_FORMBUILDER_FIELD_IP;
+			$captions['timestamp'] = TR_FORMBUILDER_FIELD_TIMESTAMP;
+			$captions['user_id'] = TR_FORMBUILDER_FIELD_USERNAME;
 			$fields['ip'] = $data->ip;
 			$locUser =  pathos_users_getUserById($data->user_id);
 			$fields['user_id'] =  isset($locUser->username)?$locUser->username:'';

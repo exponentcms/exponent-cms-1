@@ -42,11 +42,13 @@ define("SYS_SECURITY");
  * @node Undocumented
  */
 function pathos_security_checkPasswordStrength($username,$password) {
+
+	pathos_lang_loadDictionary('subsystems','security');
 // Return blank string on success, error message on failure.
 // The error message should let the user know why their password is wrong.
-	if (strcasecmp($username,$password) == 0) return "Password cannot be equal to the username.";
+	if (strcasecmp($username,$password) == 0) return TR_SECURITYSUBSYSTEM_DIFFFROMNAME;
 	# For example purposes, the next line forces passwords to be over 8 characters long.
-	if (strlen($password) < 8) return "Passwords must be at least 8 letters long.";
+	if (strlen($password) < 8) return TR_SECURITYSUBSYSTEM_NOTLONGENOUGH;
 	
 	return ""; // by default, accept any passwords
 }

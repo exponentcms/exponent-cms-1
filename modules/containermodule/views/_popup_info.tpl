@@ -34,14 +34,14 @@
 </head>
 <body>
 <br /><br />
-<div align="center" style="font-weight: bold">{$name}</div>
+<div align="center" style="font-weight: bold">{if $name == ''}Unknown Module{else}{$name}{/if}</div>
 <br />
 
 <div style="border-top: 3px dashed lightgrey; padding: 3px;">
 <table cellpadding="0" cellspacing="0" border="0">
 {if $is_orphan}
 <tr>
-	<td>Orphaned Content</td>
+	<td>Archived Module</td>
 </tr>
 {else}
 <tr>
@@ -56,6 +56,6 @@
 </table>
 </div>
 
-<div style="border-top: 3px dashed lightgrey; padding: 3px;">{$info|nl2br}</div>
+<div style="border-top: 3px dashed lightgrey; padding: 3px;">{if $name == ''}<i>Module Not Found in the System</i>{elseif $info == ''}<i>No Description Provided</i>{else}{$info|nl2br}{/if}</div>
 </body>
 </html>

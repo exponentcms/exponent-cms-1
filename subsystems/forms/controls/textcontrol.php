@@ -103,14 +103,16 @@ class textcontrol extends formcontrol {
 			$object->size = 0;
 			$object->maxlength = 0;
 		} 
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
-		$form->register("default","Default", new textcontrol($object->default));
-		$form->register("size","Size", new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
-		$form->register("maxlength","Max Length", new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
+		$form->register("size",TR_FORMCONTROLS_SIZE, new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
+		$form->register("maxlength",TR_FORMCONTROLS_MAXLENGTH, new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -119,8 +121,9 @@ class textcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new textcontrol();
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

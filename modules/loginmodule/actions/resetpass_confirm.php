@@ -37,7 +37,7 @@ if (!defined('PATHOS')) exit('');
 $template = new template('loginmodule','_resetconfirm',$loc);
 
 $db->delete('passreset_token','expires < ' . time());
-$tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid']).' AND token=''.trim($_GET['token']) .''');
+$tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid'])." AND token='".trim($_GET['token']) ."'");
 if ($tok == null) {
 	$template->assign('state','expired');
 } else {

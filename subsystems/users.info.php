@@ -33,9 +33,9 @@
 pathos_lang_loadDictionary('subsystems', 'users');
 
 return array(
-	'name'=>TR_USERSUBSYSTEM_NAME,
+	'name'=>TR_USERSSUBSYSTEM_NAME,
 	'author'=>'James Hunt',
-	'description'=>TR_USERSUBSYSTEM_DESCRIPTION,
+	'description'=>TR_USERSSUBSYSTEM_DESCRIPTION,
 	'version'=>pathos_core_version(true)
 );
 ?>

@@ -45,6 +45,10 @@ class section_template {
 			$object->active = 1;
 			$object->public = 1;
 			$object->subtheme = '';
+			$object->page_title = SITE_TITLE;
+			$object->keywords = SITE_KEYWORDS;
+			$object->description = SITE_DESCRIPTION;
+			
 			if (!isset($object->parent)) $object->parent = 0;
 			// NOT IMPLEMENTED YET
 			//$object->subtheme='';
@@ -76,6 +80,11 @@ class section_template {
 		#if (!isset($object->id) && $object->parent != 0) {
 			$form->register('active',TR_NAVIGATIONMODULE_ISACTIVE,new checkboxcontrol($object->active));
 			$form->register('public',TR_NAVIGATIONMODULE_ISPUBLIC,new checkboxcontrol($object->public));
+			// Register the Page Meta Data controls.
+			$form->register('page_title',TR_NAVIGATIONMODULE_PAGETITLE,new textcontrol($object->page_title));
+			$form->register('keywords',TR_NAVIGATIONMODULE_KEYWORDS,new texteditorcontrol($object->keywords,5,25));
+			$form->register('description',TR_NAVIGATIONMODULE_PAGEDESC,new texteditorcontrol($object->keywords,5,25));
+			
 		#}
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		return $form;
@@ -84,6 +93,9 @@ class section_template {
 	function update($values,$object=null) {
 		$object->parent = $values['parent'];
 		$object->name = $values['name'];
+		$object->page_title = ($values['page_title'] != SITE_TITLE ? $values['page_title'] : "");
+		$object->keywords = ($values['keywords'] != SITE_KEYWORDS ? $values['keywords'] : "");
+		$object->description = ($values['description'] != SITE_DESCRIPTION ? $values['description'] : "");
 		$object->active = isset($values['active'])?1:0;
 		$object->public = isset($values['public'])?1:0;
 		if (isset($values['subtheme'])) $object->subtheme = $values['subtheme'];

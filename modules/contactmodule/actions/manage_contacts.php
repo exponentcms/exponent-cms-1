@@ -31,28 +31,28 @@
 # $Id$
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("configure",$loc)) {
+if (pathos_permissions_check('configure',$loc)) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$contacts = array();
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	
-	foreach ($db->selectObjects("contact_contact","location_data='".serialize($loc)."'") as $c) {
+	foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc)."'") as $c) {
 		if ($c->user_id != 0) {
 			$u = pathos_users_getUserById($c->user_id);
 			$c->email = $u->email;
-			$c->name = $u->firstname . " " . $u->lastname;
-			if ($c->name == "") $c->name = $u->username;
+			$c->name = $u->firstname . ' ' . $u->lastname;
+			if ($c->name == '') $c->name = $u->username;
 		} else {
-			$c->name = "<i>&lt;none&gt;</i>";
+			$c->name = '';
 		}
 		$contacts[] = $c;
 	}
 	
-	$template = new template("contactmodule","_contactmanager",$loc);
-	$template->assign("contacts",$contacts);
+	$template = new template('contactmodule','_contactmanager',$loc);
+	$template->assign('contacts',$contacts);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

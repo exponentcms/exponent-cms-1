@@ -32,36 +32,49 @@
 ##################################################
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * The definition of this constant lets other parts of the subsystem know
+ * that the Image Subsystem has been included for use.
+ * @node Subsystems:Image
  */
-define("SYS_IMAGE",1);
+define('SYS_IMAGE',1);
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Output the contents of the fallback preview image.
+ *
+ * This is used by the dynamic thumbnail script (/thumb.php)
+ * if it finds that the server does not have to appropriate GD
+ * support to generate a specific type of preview (i.e. no GIF support)
+ * or if GD isn't enabled at all.
+ *
+ * @param string $base The base directory of Exponent.  Refer to the BASE constant.
+ * @node Subsystems:Image
  */
 function pathos_image_showFallbackPreviewImage($base) {
-	$fh = fopen($base."subsystems/image/default_preview.gif","rb");
+	$fh = fopen($base.'subsystems/image/default_preview.gif','rb');
 	$img = fread($fh,65536);
 	fclose($fh);
-	header("Content-type: image/gif");
+	header('Content-type: image/gif');
 	echo $img;
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Return size and mimetype information about an image file,
+ * given its path/filename.  This is a wrapper around various
+ * GD functions, to make all implementations work identically.
+ *
+ * @param string $filename The path to the file to query.
+ * @node Subsystems:Image
  */
 function pathos_image_sizeinfo($filename) {
 	if (!is_readable($filename)) return null;
 	$sizeinfo = getimagesize($filename);
 	if (!isset($sizeinfo['mime'])) {
+		// In case this implementation of getimagesize
 		$types = array(
-			"jpg"=>"image/jpeg",
-			"jpeg"=>"image/jpeg",
-			"gif"=>"image/gif",
-			"png"=>"image/png"
+			'jpg'=>'image/jpeg',
+			'jpeg'=>'image/jpeg',
+			'gif'=>'image/gif',
+			'png'=>'image/png'
 		);
 		$lowerfile = strtolower($filename);
 		foreach ($types as $type=>$mime) {
@@ -73,18 +86,24 @@ function pathos_image_sizeinfo($filename) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Create an image resource handle (from GD) for a given filename.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ *
+ * @param string $filename The path/filename of the image.
+ * @param Array $sizeinfo Size information (as returned by pathos_image_sizeInfo
+ * @node Subsystems:Images
  */
 function pathos_image_createFromFile($filename,$sizeinfo) {
-	if (!function_exists("gd_info")) return null;
+	if (!function_exists('gd_info')) return null;
 	$info = gd_info();
 
-	if ($sizeinfo['mime'] == "image/jpeg" && $info["JPG Support"] == true) {
+	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
 		return imagecreatefromjpeg($_GET['file']);
-	} else if ($sizeinfo['mime'] == "image/png" && $info["PNG Support"] == true) {
+	} else if ($sizeinfo['mime'] == 'image/png' && $info['PNG Support'] == true) {
 		return imagecreatefrompng($_GET['file']);
-	} else if ($sizeinfo['mime'] == "image/gif" && $info["GIF Read Support"] == true) {
+	} else if ($sizeinfo['mime'] == 'image/gif' && $info['GIF Read Support'] == true) {
 		return imagecreatefromgif($_GET['file']);
 	} else {
 		return null;
@@ -92,19 +111,31 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
 }
 
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Create a new blank image resource, with the specified width and height.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ *
+ * @param integer $w Width of the image resource to create (in pixels)
+ * @param integer $h Height of the image resource to create (in pixels)
+ * @node Subsystems:Image
  */
 function pathos_image_create($w,$h) {
 	$info = gd_info();
-	if (strpos($info['GD Version'],"2.0") != false) return imagecreatetruecolor($w,$h);
+	if (strpos($info['GD Version'],'2.0') != false) return imagecreatetruecolor($w,$h);
 	else return imagecreate($w,$h);
 }
 
 // $scale should be in decimal notation (i.e. 0.5 for 50%)
 /* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
+ * Proportionally scale an image by a specific percentage
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ * 
+ * @param string $filename The path/filename of the image to scale.
+ * @param decimal $scale The scaling factor, as a decimal (i.e. 0.5 for 50%)
+ * @node Subsystems:Image
  */
 function pathos_image_scaleByPercent($filename,$scale) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
@@ -219,12 +250,12 @@ function pathos_image_scaleManually($filename,$width,$height) {
  * @node Undocumented
  */
 function pathos_image_output($img,$sizeinfo,$filename = null) {
-	header("Content-type: " . $sizeinfo['mime']);
-	if ($sizeinfo['mime'] == "image/jpeg") {
+	header('Content-type: ' . $sizeinfo['mime']);
+	if ($sizeinfo['mime'] == 'image/jpeg') {
 		($filename != null) ? imagejpeg($img,$filename) : imagejpeg($img);
-	} else if ($sizeinfo['mime'] == "image/png") {
+	} else if ($sizeinfo['mime'] == 'image/png') {
 		($filename != null) ? imagepng($img,$filename) : imagepng($img);
-	} else if ($sizeinfo['mime'] == "image/gif") {
+	} else if ($sizeinfo['mime'] == 'image/gif') {
 		($filename != null) ? imagepng($img,$filename) : imagepng($img);
 	}
 }

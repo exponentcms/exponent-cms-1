@@ -26,4 +26,12 @@ define('TR_FORMBUILDER_FIELD_IP',			'IP Address');
 define('TR_FORMBUILDER_FIELD_USERNAME',		'Username');
 define('TR_FORMBUILDER_FIELD_TIMESTAMP',	'Timestamp');
 
+define('TR_FORMBUILDER_ERR_BADIDENTIFIER',	'Identifier must be unique.');
+define('TR_FORMBUILDER_ERR_RESERVEDID',		'Identifier cannot be "%s".');
+define('TR_FORMBUILDER_ERR_SMTP',			'Could not send email... Check your settings.');
+
+define('TR_FORMBUILDER_SPACER',				'Spacer');
+define('TR_FORMBUILDER_HRLINE',				'Horizontal Line');
+define('TR_FORMBUILDER_PLEASESELECT',		'[Please Select]');
+
 ?>

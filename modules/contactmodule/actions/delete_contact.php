@@ -31,14 +31,14 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$contact = $db->selectObject("contact_contact","id=".$_GET['id']);
+$contact = $db->selectObject('contact_contact','id='.$_GET['id']);
 if ($contact) {
 	$loc = unserialize($contact->location_data);
 	
-	if (pathos_permissions_check("configure",$loc)) {
-		$db->delete("contact_contact","id=".$contact->id);
+	if (pathos_permissions_check('configure',$loc)) {
+		$db->delete('contact_contact','id='.$contact->id);
 		pathos_flow_redirect();
 	} else {
 		SITE_403_HTML;

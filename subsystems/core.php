@@ -112,39 +112,6 @@ function pathos_core_resolveDependencies($ext_name,$ext_type) {
 }
 
 /* exdoc
- * Takes a source string (the src attribute of a location object) and
- * does special translation on it.  Mostly, it just translates "@section$ID"
- * into "Sectional : $SECTION_NAME".
- *
- * @param $src The source to translate.
- * @param string The translated source.
- * @state Deprecated since 0.95beta8
- * @node Subsystems:Core
- */
-/*
-./modules/addressbookmodule/actions/copy.php
-./modules/addressbookmodule/actions/reference.php
-./modules/workflow/actions/admin_confirmdeletepolicy.php
-./modules/workflow/actions/admin_manage_policies.php
-./modules/workflow/actions/admin_savepolicy.php
-./subsystems/core.php
- */
-function pathos_core_translateLocationSource($src) {
-	if (substr($src,0,8) == "@section") {
-		global $db;
-		$sect = $db->selectObject("section","id=" . (substr($src,8)+0));
-		return "Sectional: " . $sect->name;
-	} else if ($src == "" || $src == null) {
-		return "&lt;None&gt;";
-	} else if (substr($src,0,7) == "@random") {
-		return "&lt;Non-Reusable Content&gt;";
-	} else if (substr($src,0,1) == "@") {
-		return "&lt;Special Content&gt;";
-	}
-	else return $src;
-}
-
-/* exdoc
  * Return a full URL, given the desired querystring arguments as an associative array.
  *
  * This function does take into account the SEF URLs settings and the SSL urls in the site config.
@@ -384,7 +351,8 @@ function pathos_core_maxUploadSizeMessage() {
 				$size_msg = $size . " bytes";
 			}
 	}
-	return 'The maximum size of uploaded files is ' . $size_msg . '.  Uploading files larger than that may result in erratic behavior.';
+	pathos_lang_loadDictionary('subsystems','core');
+	return sprintf(TR_CORESUBSYSTEM_MAXFILESIZEMSG,$size_msg);
 }
 
 ?>

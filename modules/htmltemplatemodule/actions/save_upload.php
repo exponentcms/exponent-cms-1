@@ -53,16 +53,17 @@ if (pathos_permissions_check("create",$loc)) {
 		}
 	} else {
 		$post = $_POST;
+		pathos_lang_loadDictionary('modules','filemanager');
 		switch($_FILES["file"]["error"]) {
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
-				$post['_formError'] = "The file you attempted to upload is too large.  Contact your system administrator if this is a problem.";
+				$post['_formError'] = TR_FILEMANAGER_FILETOOLARGE;
 				break;
 			case UPLOAD_ERR_PARTIAL:
-				$post['_formError'] = "The file was only partially uploaded.";
+				$post['_formError'] = TR_FILEMANAGER_PARTIALFILE;
 				break;
 			case UPLOAD_ERR_NO_FILE:
-				$post['_formError'] = "No file was uploaded.";
+				$post['_formError'] = TR_FILEMANAGER_NOFILEUPLOADED;
 				break;
 		}
 		pathos_sessions_set("last_POST",$post);

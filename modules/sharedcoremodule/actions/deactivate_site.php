@@ -31,24 +31,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
 
-	$site = $db->selectObject("sharedcore_site","id=".$_POST['site_id']);
+	$site = $db->selectObject('sharedcore_site','id='.$_POST['site_id']);
 	if ($site) {
-		if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
+		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
 		pathos_sharedcore_clear($site->path); // Do not delete other stuff.
 		
-		$template = new template("sharedcoremodule",$_POST['tpl']);
-		$template->assign("reason",$_POST['reason']);
+		$template = new template('sharedcoremodule',$_POST['tpl']);
+		$template->assign('reason',$_POST['reason']);
 		
-		$fh = fopen($site->path."index.php","w");
+		$fh = fopen($site->path.'index.php','w');
 		fwrite($fh,$template->render());
 		fclose($fh);
 		
 		$site->inactive = 1;
-		$db->updateObject($site,"sharedcore_site");
+		$db->updateObject($site,'sharedcore_site');
 		
 		pathos_flow_redirect();
 	} else echo SITE_404_HTML;

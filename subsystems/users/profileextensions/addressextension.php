@@ -37,6 +37,9 @@ class addressextension {
 	function description() { return "Stores an address for the user."; }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
+	
+		pathos_lang_loadDictionary('extras','addressextension');
+	
 		if (!isset($user->user_address)) {
 			$user->user_address = null;
 			$user->user_address->address1 = "";
@@ -46,13 +49,13 @@ class addressextension {
 			$user->user_address->zip = "";
 			$user->user_address->country = "";
 		}
-		$form->register(null,"",new htmlcontrol("<hr size='1' /><b>Address Information</b>"));
-		$form->register("address1","Address", new textcontrol($user->user_address->address1));
-		$form->register("address2","", new textcontrol($user->user_address->address2));
-		$form->register("city","City", new textcontrol($user->user_address->city));
-		$form->register("state","State", new textcontrol($user->user_address->state));
-		$form->register("zip","Zip Code", new textcontrol($user->user_address->zip));
-		$form->register("country","Country", new textcontrol($user->user_address->country));
+		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.TR_X_ADDRESSEXTENSION_HEADER.'</b>'));
+		$form->register("address1",TR_X_ADDRESSEXTENSION_ADDRESS, new textcontrol($user->user_address->address1));
+		$form->register("address2",TR_X_ADDRESSEXTENSION_ADDRESS2, new textcontrol($user->user_address->address2));
+		$form->register("city",TR_X_ADDRESSEXTENSION_CITY, new textcontrol($user->user_address->city));
+		$form->register("state",TR_X_ADDRESSEXTENSION_STATE, new textcontrol($user->user_address->state));
+		$form->register("zip",TR_X_ADDRESSEXTENSION_ZIPCODE, new textcontrol($user->user_address->zip));
+		$form->register("country",TR_X_ADDRESSEXTENSION_COUNTRY, new textcontrol($user->user_address->country));
 		
 		return $form;
 	}

@@ -255,6 +255,9 @@ class navigationmodule {
 		$section->active = $subtpl->active;
 		$section->public = $subtpl->public;
 		$section->rank = $subtpl->rank;
+		$section->page_title = $subtpl->page_title;
+		$section->keywords = $subtpl->keywords;
+		$section->description = $subtpl->description;
 		
 		$section->id = $db->insertObject($section,"section");
 		

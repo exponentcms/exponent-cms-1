@@ -34,7 +34,7 @@
 <tr>
 <td><b>&lt;Name of Section&gt;</b></td>
 <td>
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$template->id}">Add Sub-Pageset</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$template->id}">Add Subpage</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$template->id}">Properties</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$template->id}'); return false">Page Content</a> ]
 </td>
@@ -46,10 +46,10 @@
 <b>{$sub->name}</b>
 </td>
 <td>
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$sub->id}">Add Sub-Pageset</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$sub->id}">Add Subpage</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$sub->id}">Properties</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$sub->id}'); return false">Page Content</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=delete_template id=$sub->id}">Delete Pagest</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=delete_template id=$sub->id}">Delete</a> ]
 {if $sub->last == 0}
 	<a href="{link action=order_templates parent=$sub->parent a=$sub->rank b=$nextrank}"><img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0" /></a>
 {else}

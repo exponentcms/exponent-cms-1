@@ -105,8 +105,13 @@
 {if $in_approval != 0 && $canview_approval_link == 1}
 <a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="View Calendar Events in Approval" alt="View Calendar Events in Approval">View Approval</a>
 {/if}
-{/permissions}
-
 {if $modconfig->enable_categories == 1}
-<a href="{link action=cat_managecategories}" class="mngmntlink calendar_mngmntlink">Manage Categories</a>
+{if $permissions.administrate == 1}
+<br />
+<a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">Manage Categories</a>
+{else}
+<br />
+<a class="mngmntlink calendar_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}/popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="View Event Categories" alt="View Event Categories">View Categories</a>
 {/if}
+{/if}
+{/permissions}

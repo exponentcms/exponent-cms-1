@@ -32,6 +32,7 @@
 ##################################################
 
 function smarty_function_check_array($params,&$smarty) {
+	echo "QA:check_array is DEPRECATED";
 	$smarty->assign($params['assign'],(in_array($params['value'],$params['array']) ? 1 : 0));
 }
 

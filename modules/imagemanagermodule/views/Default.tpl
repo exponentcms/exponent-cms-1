@@ -102,7 +102,7 @@
 <div class="error">
 Uploads have been disabled.<br />
 {if $uploadError == $smarty.const.SYS_FILES_FOUNDFILE}Found a file in the directory path when creating the directory to store the files in.
-{else if $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}Unable to create directory to store files in.
+{elseif $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}Unable to create directory to store files in.
 {else}An unknown error has occurred.  Please contact the Exponent Developers.
 {/if}
 </div>

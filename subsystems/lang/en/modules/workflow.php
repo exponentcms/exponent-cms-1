@@ -23,7 +23,22 @@ define('TR_WORKFLOW_PARAMETER',				'Parameter');
 
 define('TR_WORKFLOW_NOPOLICY',				'No Policy');
 define('TR_WORKFLOW_POLICY',				'Policy');
+define('TR_WORKFLOW_DEFAULTPOLICY',			'Default: %s');
 
 define('TR_WORKFLOW_DENYCOMMENT',			'Comment');
+
+define('TR_WORKFLOW_DEFAULTTHANKYOU',		'Thank you for your participation in this approval process.  The content you approved has met all of the required criteria, and has been published live.');
+
+define('TR_WORKFLOW_POSTED',				'New Content Posted');
+define('TR_WORKFLOW_EDITED',				'Existing Content Edited');
+define('TR_WORKFLOW_APPROVED_APPROVED',		'Content Approved as-is');
+define('TR_WORKFLOW_APPROVED_EDITED',		'Content Edited, but approved');
+define('TR_WORKFLOW_APPROVED_DENIED',		'Content Denied Approval');
+define('TR_WORKFLOW_APPROVED_FINAL',		'Content Published');
+define('TR_WORKFLOW_DELETED',				'Approval Path Deleted');
+define('TR_WORKFLOW_RESTARTED',				'Approval Path Restarted');
+define('TR_WORKFLOW_IMPLICITAPPROVAL',		'New Content Implicitly Approved');
+define('TR_WORKFLOW_POSTED_ADMIN',			'Content posted or edited by an Administrator');
+define('TR_WORKFLOW_APPROVED_ADMIN',		'Content approved by an Administrator');
 
 ?>

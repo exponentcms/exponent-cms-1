@@ -39,6 +39,9 @@ define("SCRIPT_FILENAME","assoc_edit.php");
 if (!defined("PATHOS")) exit("");
 
 if ($user && $user->is_acting_admin) {
+
+	pathos_lang_loadDictionary('modules','workflow');
+	pathos_lang_loadDictionary('standard','core');
 	
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
@@ -61,14 +64,14 @@ if ($user && $user->is_acting_admin) {
 	$realpol = array();
 	$defaultpol = pathos_workflow_getDefaultPolicy($_GET['m']);
 	if ($defaultpol) {
-		$realpol = array(-1=>"No Policy",0=>"Default: " . $defaultpol->name);
+		$realpol = array(-1=>TR_WORKFLOW_NOPOLICY,0=>sprintf(TR_WORKFLOW_DEFAULTPOLICY,$defaultpol->name));
 	} else {
-		$realpol = array(-1=>"No Policy",0=>"Default: No Policy");
+		$realpol = array(-1=>TR_WORKFLOW_NOPOLICY,0=>sprintf(TR_WORKFLOW_DEFAULTPOLICY,TR_WORKFLOW_NOPOLICY));
 	}
 	foreach ($policies as $key=>$name) $realpol[$key] = $name;
 	
-	$form->register("policy","Policy",new dropdowncontrol($assoc->policy_id,$realpol));
-	$form->register("submit","",new buttongroupcontrol("Save"));
+	$form->register("policy",TR_WORKFLOW_POLICY,new dropdowncontrol($assoc->policy_id,$realpol));
+	$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE));
 	
 	$form->action = "http://".$_SERVER['HTTP_HOST'].PATH_RELATIVE."/modules/workflow/assoc_save.php";
 	$form->meta("module","workflow");

@@ -34,7 +34,7 @@
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK
-	htmltemplatemodule::show("Default");
+	htmltemplatemodule::show(DEFAULT_VIEW);
 // END PERM CHECK
 
 ?>

@@ -32,6 +32,7 @@
 ##################################################
 
 function smarty_function_pathos_getobject($params, &$smarty) {
+	echo "QA:pathos_getobject is DEPRECATED";
 	global $db;
 	$file = $db->selectObject($params['object'],"id=".$params['id']);
 	$smarty->assign($params['var'],$file);

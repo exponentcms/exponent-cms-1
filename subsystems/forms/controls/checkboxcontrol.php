@@ -103,6 +103,9 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	function form($object) {
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','save');
+	
 		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 	
@@ -114,12 +117,12 @@ class checkboxcontrol extends formcontrol {
 			$object->flip = false;
 		} 
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
-		$form->register("default","Default", new checkboxcontrol($object->default,false));
-		$form->register("flip","Caption on Right", new checkboxcontrol($object->flip,false));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		$form->register("default",TR_FORMCONTROLS_DEFAULT, new checkboxcontrol($object->default,false));
+		$form->register("flip",TR_FORMCONTROLS_CAPTIONONRIGHT, new checkboxcontrol($object->flip,false));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -128,8 +131,10 @@ class checkboxcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new checkboxcontrol();
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
+		
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

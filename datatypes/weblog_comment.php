@@ -44,8 +44,7 @@ class weblog_comment {
 			global $db;
 			$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
 			
-			$object->title = 'Re: ' . $post->title;
-			#$object->body = '<br /><br />-' . chunk_split($post->body,60,'<br />-');
+			$object->title = sprintf(TR_WEBLOGMODULE_RE,$post->title);
 			$object->body = '';
 			$form->meta('parent_id',$_GET['parent_id']);
 		} else {

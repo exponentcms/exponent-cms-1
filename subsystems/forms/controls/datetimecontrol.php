@@ -143,12 +143,15 @@ class datetimecontrol extends formcontrol {
 			$object->showtime = true;
 		} 
 		
-		$form->register("identifier","Identifier",new textcontrol($object->identifier));
-		$form->register("caption","Caption", new textcontrol($object->caption));
-		$form->register("showdate","Show Date", new checkboxcontrol($object->showdate,false));
-		$form->register("showtime","Show Time", new checkboxcontrol($object->showtime,false));
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
+		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
+		$form->register("showdate",TR_FORMCONTROLS_SHOWDATE, new checkboxcontrol($object->showdate,false));
+		$form->register("showtime",TR_FORMCONTROLS_SHOWTIME, new checkboxcontrol($object->showtime,false));
+		
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -157,8 +160,9 @@ class datetimecontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new datetimecontrol();
 		if ($values['identifier'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

@@ -37,13 +37,15 @@ class inboxextension {
 	function description() { return "Allow users to configure email forwarding, and view their private messages from their profile."; }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
+	
+		pathos_lang_loadDictionary('extras','inboxextension');
+	
 		if (!isset($user->_inbox_config)) {
-			echo "No inbox config";
 			$user->_inbox_config = null;
-			$user->_inbox_config->forward = 0;
+			$user->_inbox_config->forward = 1;
 		}
-		$form->register(null,"",new htmlcontrol("<hr size='1' /><b>Private Message Center Options</b>"));
-		$form->register("inbox_forward","Forward All Private Messages to my Email Address", new checkboxcontrol($user->_inbox_config->forward,true));
+		$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.TR_X_INBOXEXTENSION_HEADER.'</b>'));
+		$form->register("inbox_forward",TR_X_INBOXEXTENSION_FORWARD, new checkboxcontrol($user->_inbox_config->forward,true));
 		
 		return $form;
 	}

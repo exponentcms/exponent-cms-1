@@ -61,22 +61,24 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$config->enable_feedback = 0;
 	}
 	
+	pathos_lang_loadDictionary('modules','calendarmodule');
+	
 	if ($config->enable_categories) {
 		$ddopts = array();
 		foreach ($db->selectObjects("category","location_data='".serialize($loc)."'") as $opt) {
 			$ddopts[$opt->id] = $opt->name;
 		}
 		uasort($ddopts,"strnatcmp");
-		$form->registerBefore("submit","category","Category",new dropdowncontrol($item->category_id,$ddopts));
+		$form->registerBefore("submit","category",TR_CALENDARMODULE_CATEGORIES,new dropdowncontrol($item->category_id,$ddopts));
 	}
 	
 	if ($config->enable_feedback) {
-		$form->registerBefore("submit", uniqid(""),"", new htmlcontrol("<hr size='1' />"));
+		$form->registerBefore("submit", null,'', new htmlcontrol('<hr size="1" />'));
 		$allforms = array();
-		$allforms[""] = "Don't Display Feedback Form";
+		$allforms[""] = TR_CALENDARMODULE_NOFEEDBACK;
 		$allforms = array_merge($allforms, pathos_template_getFormTemplates('email'));
-		$form->registerBefore("submit", 'feedback_form', 'Choose a Feedback Form', new dropdowncontrol("", $allforms));
-		$form->registerBefore("submit", 'feedback_email', 'Enter Feedback Email Address', new textcontrol("", 20));
+		$form->registerBefore("submit", 'feedback_form', TR_CALENDARMODULE_FEEDBACKFORM, new dropdowncontrol("", $allforms));
+		$form->registerBefore("submit", 'feedback_email', TR_CALENDARMODULE_FEEDBACKEMAIL, new textcontrol("", 20));
 	}
 	
 	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");

@@ -32,6 +32,9 @@
 ##################################################
 	
 	if (!defined("PATHOS")) exit("");
+	
+	pathos_lang_loadDictionary('modules','formbuilder');
+	
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	pathos_forms_initialize();
@@ -60,7 +63,7 @@
 			
 			foreach (explode("|!|",$rpt->column_names) as $column_name) {
 				if ($column_name == "ip") {
-					$columndef .= 'new cColumn("IP Address","ip",null,null),';
+					$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_IP.'","ip",null,null),';
 				}
 				elseif ($column_name == "user_id") {
 					foreach ($items as $key=>$item) {
@@ -73,7 +76,7 @@
 						}
 						$items[$key] = $item;
 					}
-					$columndef .= 'new cColumn("User","user_id",null,null),';
+					$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_USERNAME.'","user_id",null,null),';
 				}
 				elseif ($column_name == "timestamp") {
 					$srt = $column_name."_srt";
@@ -82,7 +85,7 @@
 						$item->$column_name = strftime(DISPLAY_DATETIME_FORMAT,$item->$column_name);
 						$items[$key] = $item;
 					}
-					$columndef .= 'new cColumn("Timestamp","timestamp",null,f'.$srt.'),';
+					$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_TIMESTAMP.'","timestamp",null,f'.$srt.'),';
 					$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
 				
 				}

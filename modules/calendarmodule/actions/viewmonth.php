@@ -36,6 +36,7 @@ if (!defined("PATHOS")) exit("");
 // PERM CHECK ?
 	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
+	// PROBLEM
 	calendarmodule::show("Monthly",$loc);
 // END PERM CHECK ?
 

@@ -37,10 +37,17 @@ if ($user && $user->is_acting_admin) {
 	$page = null;
 	if (isset($_POST['id'])) $page = $db->selectObject("section_template","id=".$_POST['id']);
 	
-	$page = $form = section_template::update($_POST,$page);
+	$page = section_template::update($_POST,$page);
 	
-	if (isset($page->id)) $db->updateObject($page,"section_template");
-	else $db->insertObject($page,"section_template");
+	if (isset($page->id)) {
+		$db->updateObject($page,"section_template");	
+	} else {
+		if ($page->parent != 0) {
+			// May have to change the section rankings, because the user could have put us in between two previous pages
+			$db->increment('section_template','rank',1,'parent='.$page->parent.' AND rank >= ' . $page->rank);
+		}
+		$db->insertObject($page,"section_template");
+	}
 	
 	pathos_flow_redirect();
 }

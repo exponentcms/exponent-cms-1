@@ -55,9 +55,6 @@ if (!DEVELOPMENT && is_readable(BASE.'install')) {
 	exit();
 }
 
-$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
-$section = $db->selectObject('section','id='.$section);
-
 // Handle sub themes
 $page = ($section && $section->subtheme != '' && is_readable('themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
 	'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :

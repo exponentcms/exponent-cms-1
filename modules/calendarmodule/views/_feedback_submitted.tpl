@@ -28,5 +28,6 @@
  *
  * $Id$
  *}
- (EXPERIMENTAL)
-<a href="{link action=edit_properties id=$current->id}">Edit Properties</a>
+{if $success == 0}There was an error with the mail server.  Please contact your administrator.
+{else}Your feedback was successfully sent.
+{/if}

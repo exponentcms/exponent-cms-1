@@ -34,6 +34,9 @@
 if (!defined("PATHOS")) exit("");
 
 if ($user) {
+	
+	pathos_lang_loadDictionary('modules','inboxmodule');
+	
 	$message = privatemessage::update($_POST,null);
 	$message->from_id = $user->id;
 	$message->from_name = $user->firstname . " " . $user->lastname . " (" . $user->username . ")";
@@ -42,10 +45,10 @@ if ($user) {
 	
 	$failed = null;
 	$failed->from_id = 0;
-	$failed->from_name = "System Message";
+	$failed->from_name = TR_INBOXMODULE_FAILED_FROM;
 	$failed->date_sent = time();
 	$failed->unread = 1;
-	$failed->subject = "Failed Delivery";
+	$failed->subject = TR_INBOXMODULE_FAILED_TITLE;
 	$failed->recipient = $user->id;
 	
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
@@ -98,19 +101,20 @@ if ($user) {
 		if ($id != "") {
 			$u = pathos_users_getUserByID($id);
 			if (!$u) {
-				$failed->body = "The following message was not delivered because the recipient was not found in the system.";
-				$failed->body .= "<hr size='1' /><hr size='1' />" . $message->body;
+				$failed->body = sprintf(TR_INBOXMODULE_FAILED_404MSG,$message->body);
 				$db->insertObject($failed,"privatemessage");
 			} else {
 				$ban = $db->selectObject("inbox_contactbanned","user_id=".$user->id." AND owner=".$id);
 				if (!$ban) $ban = $db->selectObject("inbox_contactbanned","user_id=".$id." AND owner=".$user->id);
 				if ($ban) {
-					$failed->body = "The following message was not delivered.";
-					$failed->body .= "<hr size='1' /><hr size='1' />" . $message->body;
+					$failed->body = sprintf(INBOXMODULE_FAILED_MSG,$message->body);
 					$db->insertObject($failed,"privatemessage");
 				} else {
 					$message->recipient = $id;
 					$inbox_userconfig = $db->selectObject("inbox_userconfig","id=".$id);
+					if (!$inbox_userconfig) {
+						$inbox_userconfig->forward == 1;
+					}
 					if ($inbox_userconfig->forward == 1 && $u->email != "") {
 						// Forward the message to their email account
 						$emails[] = $u->email;
@@ -130,7 +134,7 @@ if ($user) {
 			"Content-type"=>"text/html; charset=iso-8859-1"
 		);
 		if (pathos_smtp_mail($emails,"",$message->subject,$message->body,$headers) == false) {
-			echo "Something didn't work with the email config";
+			echo TR_INBOXMODULE_ERR_SMTP;
 		}
 	}
 	pathos_flow_redirect();

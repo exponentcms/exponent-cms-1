@@ -95,10 +95,10 @@ Calendar View&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view="Monthly Lis
 {if $modconfig->enable_categories == 1}
 {if $permissions.administrate == 1}
 <br />
-<a class="mngmntlink calendar_mngmntlink" href="{link action=cat_managecategories}" title="Manage Event Categories" alt="Manage Event Categories">Manage Categories</a>
+<a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">Manage Categories</a>
 {else}
 <br />
-<a class="mngmntlink calendar_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}/popup.php?module={$__loc->mod}&action=cat_viewcategories&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="View Event Categories" alt="View Event Categories">View Categories</a>
+<a class="mngmntlink calendar_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}/popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="View Event Categories" alt="View Event Categories">View Categories</a>
 {/if}
 {/if}
 {/permissions}

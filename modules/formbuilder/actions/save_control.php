@@ -33,6 +33,8 @@
 
 if (!defined("PATHOS")) exit("");
 
+pathos_lang_loadDictionary('modules','formbuilder');
+
 if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 $f = $db->selectObject("formbuilder_form","id=".$_POST['form_id']);
@@ -54,12 +56,12 @@ if ($f) {
 			$name = preg_replace("/[^A-Za-z0-9]/","_",$ctl->identifier);
 			if (!isset($_POST['id']) && $db->countObjects("formbuilder_control","name='".$name."' and form_id=".$_POST['form_id']) > 0) {
 				$post = $_POST;
-				$post['_formError'] = "Identifier must be unique.";
+				$post['_formError'] = TR_FORMBUILDER_ERR_BADIDENTIFIER;
 				pathos_sessions_set("last_POST",$post);
 			} 
 			elseif ($name=='id' || $name=='ip' || $name=='user_id' || $name=='timestamp') {
 				$post = $_POST;
-				$post['_formError'] = "Identifer cannot be '".$name."'.";
+				$post['_formError'] = sprintf(TR_FORMBUILDER_RESERVEDID,$name);
 				pathos_sessions_set("last_POST",$post);
 			}
 			else {

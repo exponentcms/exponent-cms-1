@@ -53,7 +53,7 @@ if (isset($_POST['id'])) $f = $db->selectObject("formbuilder_form","id=".$_POST[
 			$f->id = $db->insertObject($f,"formbuilder_form");
 			//Create Default Report;
 			$rpt->name = "Default Report";
-			$rpt->description = "This is the auto generated default report. Leave the report defenition blank to use the default 'all fields' report.";
+			$rpt->description = "This is the auto generated default report. Leave the report definition blank to use the default 'all fields' report.";
 			$rpt->location_data = $f->location_data;
 			$rpt->text = "";
 			$rpt->column_names = "";

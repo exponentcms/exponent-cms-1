@@ -33,6 +33,8 @@
 
 if (!defined("PATHOS")) exit("");
 
+pathos_lang_loadDictionary('modules','formbuilder');
+
 if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 
@@ -65,10 +67,10 @@ if ($f) {
 		$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
 		
 		$types = pathos_forms_listControlTypes();
-		$types[".break"] = "Spacer";
-		$types[".line"] = "Horizontal Line";
+		$types[".break"] = TR_FORMBUILDER_SPACER;
+		$types[".line"] = TR_FORMBUILDER_HRLINE;
 		uasort($types,"strnatcmp");
-		array_unshift($types,"[Please Select]");
+		array_unshift($types,TR_FORMBUILDER_PLEASESELECT);
 		$template->assign("types",$types);
 		$template->assign("pickerurl","source_selector.php?showmodules=formmodule&dest='+escape(\"".PATH_RELATIVE."?module=formbuilder&action=picked_source&form_id=".$f->id."&s=".$loc->src."&m=".$loc->mod ."\")+'&vmod=containermodule&vview=_sourcePicker");
 		$template->output();

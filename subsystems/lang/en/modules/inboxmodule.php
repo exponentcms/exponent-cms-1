@@ -23,6 +23,13 @@ define('TR_INBOXMODULE_RECIPIENT',			'Recipient');
 
 define('TR_INBOXMODULE_NOCONTACTSWARNING',	'You have no contacts in your personal contact list.');
 
+define('TR_INBOXMODULE_FAILED_TITLE',		'Failed Delivery');
+define('TR_INBOXMODULE_FAILED_FROM',		'System Message');
+define('TR_INBOXMODULE_FAILED_MSG',			'The following message was not delivered because the recipient was not found in the system.<hr size="1" /><hr size="1" />%s');
+define('TR_INBOXMODULE_FAILED_404MSG',		'The following message was not delivered.<hr size="1" /><hr size="1" />%s');
+
+define('TR_INBOXMODULE_ERR_SMTP',			'Something didn\'t work with the email config');
+
 // Permissions
 define('TR_INBOXMODULE_PERM_ADMIN',			'Administrate');
 define('TR_INBOXMODULE_PERM_CONTACTALL',	'Contact All Users');

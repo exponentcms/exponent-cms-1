@@ -51,7 +51,7 @@ class formbuilder_report {
 		
 		$form->register('name',TR_FORMBUILDER_NAME,new textcontrol($object->name));
 		$form->register('description',TR_FORMBUILDER_DESCRIPTION,new texteditorcontrol($object->description));
-		$form->register(null,'', new htmlcontrol('<br><br>*Leave the report definition blank to use the default "all fields" report.<br><br>'));
+		$form->register(null,'', new htmlcontrol('<br><br>'.TR_FORMBUILDER_BLANKREPORTMSG.'<br><br>'));
 		$form->register('text',TR_FORMBUILDER_REPORTDEF,new htmleditorcontrol($object->text));
 		
 		$fields = array();
@@ -72,12 +72,12 @@ class formbuilder_report {
 					}
 				}
 			}
-			$fields['ip'] = 'IP Address';
-			if (in_array('ip',$cols)) $column_names['ip'] = 'IP Address';
-			$fields['user_id'] = 'Username';
-			if (in_array('user_id',$cols)) $column_names['user_id'] = 'Username';
-			$fields['timestamp'] = 'Time Stamp';
-			if (in_array('timestamp',$cols)) $column_names['timestamp'] = 'Time Stamp';
+			$fields['ip'] = TR_FORMBUILDER_FIELD_IP;
+			if (in_array('ip',$cols)) $column_names['ip'] = TR_FORMBUILDER_FIELD_IP;
+			$fields['user_id'] = TR_FORMBUILDER_FIELD_USERNAME;
+			if (in_array('user_id',$cols)) $column_names['user_id'] = TR_FORMBUILDER_FIELD_USERNAME;
+			$fields['timestamp'] = TR_FORMBUILDER_FIELD_TIMESTAMP;
+			if (in_array('timestamp',$cols)) $column_names['timestamp'] = TR_FORMBUILDER_FIELD_TIMESTAMP;
 		}
 
 		$form->register('column_names',TR_FORMBUILDER_REPORTCOLS, new listbuildercontrol($column_names,$fields));

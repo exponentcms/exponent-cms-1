@@ -254,6 +254,10 @@ function pathos_users_logout() {
  * @node Subsystems:Users
  */
 function pathos_users_form($user = null) {
+
+	pathos_lang_loadDictionary('subsystems','users');
+	pathos_lang_loadDictionary('standard','core');
+
 	// FIXME: Forms Subsystem may not be initialized at this point.
 	// FIXME:
 	$form = new form();
@@ -272,18 +276,18 @@ function pathos_users_form($user = null) {
 		$user->recv_html = 1;
 		// Username and Password can only be specified for a new user.  To change the password,
 		// a different form is used (part of the loginmodule)
-		$form->register('username','Desired Username',new textcontrol());
-		$form->register('pass1','Password', new passwordcontrol());
-		$form->register('pass2','Confirm',new passwordcontrol());
+		$form->register('username',TR_USERSSUBSYSTEM_DESIREDUSERNAME,new textcontrol());
+		$form->register('pass1',TR_USERSSUBSYSTEM_PASSWORD, new passwordcontrol());
+		$form->register('pass2',TR_USERSSUBSYSTEM_CONFIRM,new passwordcontrol());
 		$form->register(null,'',new htmlcontrol('<br />'));
 	}
 	
 	// Register the basic user profile controls.
-	$form->register('firstname','First Name',new textcontrol($user->firstname));
-	$form->register('lastname','Last Name',new textcontrol($user->lastname));
+	$form->register('firstname',TR_USERSSUBSYSTEM_FIRSTNAME,new textcontrol($user->firstname));
+	$form->register('lastname',TR_USERSSUBSYSTEM_LASTNAME,new textcontrol($user->lastname));
 	$form->register(null,'',new htmlcontrol('<br />'));
-	$form->register('email','Email',new textcontrol($user->email));
-	$form->register('recv_html','Receive HTML Email', new checkboxcontrol($user->recv_html,true));
+	$form->register('email',TR_USERSSUBSYSTEM_EMAIL,new textcontrol($user->email));
+	$form->register('recv_html',TR_USERSSUBSYSTEM_RECVHTML, new checkboxcontrol($user->recv_html,true));
 	$form->register(null,'',new htmlcontrol('<br />'));
 	
 	// Pull in form data for all active profile extensions.
@@ -307,7 +311,7 @@ function pathos_users_form($user = null) {
 	}
 	
 	// Add the submit button and return the complete form object to the caller.
-	$form->register('submit','',new buttongroupcontrol('Save'));
+	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE));
 	return $form;
 }
 
@@ -321,6 +325,9 @@ function pathos_users_form($user = null) {
  * @node Subsystems:Users
  */
 function pathos_users_groupForm($group = null) {
+	pathos_lang_loadDictionary('subsystems','users');
+	pathos_lang_loadDictionary('standard','core');
+
 	// FIXME: The forms subsystem may not be initialized at this point
 	// FIXME:
 	$form = new form();
@@ -337,10 +344,10 @@ function pathos_users_groupForm($group = null) {
 		$group->inclusive = false;
 	}
 	// Populate the form with controls.
-	$form->register('name','Name',new textcontrol($group->name));
-	$form->register('description','Description',new texteditorcontrol($group->description));
-	$form->register('inclusive','Default?',new checkboxcontrol($group->inclusive));
-	$form->register('submit','',new buttongroupcontrol('Save'));
+	$form->register('name',TR_USERSSUBSYSTEM_GROUPNAME,new textcontrol($group->name));
+	$form->register('description',TR_USERSSUBSYSTEM_GROUPDESC,new texteditorcontrol($group->description));
+	$form->register('inclusive',TR_USERSSUBSYSTEM_GROUP_ISDEFAULT,new checkboxcontrol($group->inclusive));
+	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE));
 	// Return the form object to the caller
 	return $form;
 }
@@ -491,10 +498,8 @@ function pathos_users_groupManagerFormTemplate($template) {
 	global $db;
 	$groups = $db->selectObjects('group');
 	
-	function sortTMPGroups($a,$b) {
-		return strnatcmp($a->name,$b->name);
-	}
-	usort($groups,'sortTMPGroups');
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	usort($groups,'pathos_sorting_byNameAscending');
 	
 	$template->assign('groups',$groups);
 	

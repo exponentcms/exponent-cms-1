@@ -71,7 +71,8 @@ if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
 if (pathos_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
 	pathos_flow_redirect();
 } else {
-	echo "Error sending email.  The site's SMTP settings may be wrong, or the mail server may be down.  Contact your administrator.";
+	pathos_lang_load('modules','contactmodule');
+	echo TR_CONTACTMODULE_SMTPERROR;
 }
 
 ?>

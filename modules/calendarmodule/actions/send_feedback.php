@@ -31,29 +31,28 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
-if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+if (!defined('PATHOS')) exit('');
+if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
 
 //filter the message thru the form template for formatting
-$msgtemplate = new formtemplate("email", '_'.$_POST['formname']);
+$msgtemplate = new formtemplate('email', '_'.$_POST['formname']);
 $msgtemplate->assign('post', $_POST);
 $msg = $msgtemplate->render();
 $ret = false;
 
 //make sure we this is from a valid event and that the email addresses are listed, then mail
 if (isset($_POST['id'])) {
-	$event = $db->selectObject('calendar',"id=".$_POST['id']);
+	$event = $db->selectObject('calendar','id='.$_POST['id']);
 	$email_addrs = array();
-	if ($event->feedback_email != "") {
-		$email_addrs = split(",", $event->feedback_email);
+	if ($event->feedback_email != '') {
+		$email_addrs = split(',', $event->feedback_email);
 		$email_addrs = array_map('trim', $email_addrs);
 		$ret = pathos_smtp_mail($email_addrs, 'website@'.$_SERVER['HTTP_HOST'],$_POST['subject'],$msg);
 	}
 }
 
-if ($ret == false) {
-	echo "There was an error with the mail server.  Please contact your administrator.";
-} else {
-	echo "Your feedback was successfully sent.";
-}
+$template = new template('calendarmodule','_feedback_submitted');
+$template->assign('success',($ret?1:0));
+$template->output();
+
 ?>

@@ -37,6 +37,9 @@ if (!defined("PATHOS")) exit("");
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
+	pathos_lang_loadDictionary('modules','htmltemplatemodule');
+	pathos_lang_loadDictionary('standard','core');
+	
 	$form = new form();
 	$templates = $db->selectObjectsIndexedArray("htmltemplate");
 	foreach ($db->selectObjects("htmltemplateassociation","module='".$_GET['mod']."'") as $existing) {
@@ -50,11 +53,11 @@ if (!defined("PATHOS")) exit("");
 	$form->meta("action","save_assoc");
 	
 	if (count($templates)) {
-		$form->register("template_id","Template", new dropdowncontrol(0,$templates));
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("template_id",TR_HTMLTEMPLATEMODULE_TEMPLATE, new dropdowncontrol(0,$templates));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 	} else {
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/><b>Note:</b>You cannot associate any more templates, because there are no unassociated templates left."));
-		$submit = new buttongroupcontrol("Save","","Cancel");
+		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/>".TR_HTMLTEMPLATEMODULE_NOUNASSOC));
+		$submit = new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL);
 		$submit->disabled = true;
 		$form->register("submit","",$submit);
 	}

@@ -66,8 +66,10 @@ function setIcon(src) {
 	g_hidden.setAttribute("value",src);
 }
 </script>
-<a class="mngmntlink" href="" onClick="window.open('iconspopup.php?icodir=$icodir','icons','title=Icons,width=400,height=400'); return false">(change)</a>
+<a class="mngmntlink" href="" onClick="window.open('iconspopup.php?icodir=$icodir','icons','title=Icons,width=400,height=400'); return false">
 EOD;
+		$html .= TR_FILEMANAGER_CHANGEICON;
+		$html .= '</a>';
 
 		$form->register('icon',TR_FILEMANAGER_ICON, new customcontrol($html));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));

@@ -39,7 +39,8 @@ if (!defined("PATHOS")) exit("");
 	$search_string = trim(strtolower($_POST['search_string']));
 	
 	if ($search_string == "") {
-		echo "You must specify at least one search keyword.";
+		pathos_lang_loadDictionary('modules','searchmodule');
+		echo TR_SEARCHMODULE_NEEDTERM;
 		return;
 	}
 	

@@ -100,13 +100,15 @@ class radiocontrol extends formcontrol {
 			$object->default = false;
 			$object->flip = false;
 		} 
+		pathos_lang_loadDictionary('standard','formcontrols');
+		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("groupname","Group Name",new textcontrol($object->groupname));
-		$form->register("caption","Caption / Value", new textcontrol($object->caption));
-		$form->register("default","Default", new checkboxcontrol($object->default,false));
-		$form->register("flip","Caption on Right", new checkboxcontrol($object->flip,false));
+		$form->register("groupname",TR_FORMCONTROLS_GROUPNAME,new textcontrol($object->groupname));
+		$form->register("caption",TR_FORMCONTROLS_CAPTIONVALUE, new textcontrol($object->caption));
+		$form->register("default",TR_FORMCONTROLS_DEFAULT, new checkboxcontrol($object->default,false));
+		$form->register("flip",TR_FORMCONTROLS_CAPTIONONRIGHT, new checkboxcontrol($object->flip,false));
 		
-		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
 		return $form;
@@ -115,8 +117,9 @@ class radiocontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new radiocontrol();
 		if ($values['groupname'] == "") {
+			pathos_lang_loadDictionary('standard','formcontrols');
 			$post = $_POST;
-			$post['_formError'] = "Group Name is required.";
+			$post['_formError'] = TR_FORMCONTROLS_GROUPNAME_REQUIRED;
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

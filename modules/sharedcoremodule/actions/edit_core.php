@@ -31,19 +31,19 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
 	$core = null;
-	if (isset($_GET['id'])) $core = $db->selectObject("sharedcore_core","id=".$_GET['id']);
+	if (isset($_GET['id'])) $core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
 	
 	$form = sharedcore_core::form($core);
-	$form->meta("module","sharedcoremodule");
-	$form->meta("action","save_core");
+	$form->meta('module','sharedcoremodule');
+	$form->meta('action','save_core');
 	
-	$template = new template("sharedcoremodule","_form_editCore");
-	$template->assign("is_edit",(!isset($core->id)));
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('sharedcoremodule','_form_editCore');
+	$template->assign('is_edit',(!isset($core->id)));
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 // END PERM CHECK
 

@@ -31,10 +31,10 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("delete",$loc)) {
-	$db->delete("htmltemplate","id=".$_GET['id']);
+if (pathos_permissions_check('delete',$loc)) {
+	$db->delete('htmltemplate','id='.$_GET['id']);
 	pathos_flow_redirect(SYS_FLOW_SECTIONAL);
 } else {
 	echo SITE_403_HTML;

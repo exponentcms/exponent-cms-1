@@ -121,7 +121,8 @@
 					"Content-type"=>"text/html; charset=iso-8859-1"
 				);
 				if (pathos_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
-					echo "Could not send email... Check your settings.";
+					pathos_lang_loadDictionary('modules','formbuilder');
+					echo TR_FORMBUILDER_ERR_SMTP;
 				}
 			}
 			

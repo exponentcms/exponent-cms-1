@@ -25,4 +25,6 @@ define('TR_NAVIGATIONMODULE_PAGESET',				'Pageset');
 define('TR_NAVIGATIONMODULE_ATTOP',					'At the Top');
 define('TR_NAVIGATIONMODULE_POSAFTER',				'After "%s"');
 
+define('TR_NAVIGATIONMODULE_INTERNALLINKERR',		'You cannot link to an inactive section.  Inactive sections are shown with "(" and ")" around their names in the selection list.');
+
 ?>

@@ -58,13 +58,12 @@ if (isset($_GET['id'])) {
 
 if ($locref) {
 	if (class_exists($locref->module)) $template->assign("name",call_user_func(array($locref->module,"name")));
-	else $template->assign("name","Unknown Module");
+	else $template->assign("name","");
 	
-	if ($locref->description != "") $template->assign("info",$locref->description);
-	else $template->assign("info","<i>No Description Provided</i>");
+	$template->assign("info",$locref->description);
 } else {
-	$template->assign("name","Unknown Module");
-	$template->assign("info","<i>Module not found in system</i>");
+	$template->assign("name","");
+	$template->assign("info","");
 }
 
 $template->output();

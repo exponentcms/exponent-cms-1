@@ -31,30 +31,31 @@
 # $Id$
 ##################################################
 //GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 // PERM CHECK
+	$template = new template('filemanager','_viewcode',$loc);
+
 	$file = $_GET['file'];
 	$path = realpath(BASE.$file);
 	if (strpos($path,BASE) != 0) {
-		echo "Security Problem.  You cannot view code outside of this site.";
-	}
-	
-	$ext = substr($path,-3,3);
-	if ($ext != "tpl" && $ext != "php") {
-		echo "Only PHP and Smarty template files can be viewed.";
+		$template->assign('error','security');
 	} else {
-		$contents = file_get_contents($path);
-		if ($ext == "php") {
-			if (!defined("SYS_INFO")) include_once(BASE."subsystems/info.php");
-			
-			$contents = pathos_info_highlightPHP($contents);
-		} else $contents = "<xmp>".$contents."</xmp>";
-	
-		$template = new template("filemanager","_viewcode",$loc);
-		$template->assign("code",$contents);
-		$template->output();
+		$ext = substr($path,-3,3);
+		if ($ext != 'tpl' && $ext != 'php') {
+			$template->assign('error','invalid');
+		} else {
+			$contents = file_get_contents($path);
+			if ($ext == 'php') {
+				if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
+				$contents = pathos_info_highlightPHP($contents);
+			} else $contents = '<xmp>'.$contents.'</xmp>';
+		
+			$template->assign('error','');
+			$template->assign('code',$contents);
+		}
 	}
+	$template->output();
 // END PERM CHECK
 
 ?>

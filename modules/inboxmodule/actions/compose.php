@@ -42,7 +42,7 @@ if ($user) {
 		$orig = $db->selectObject("privatemessage","id=".$_GET['replyto']);
 		$msg->recipient = $orig->from_id;
 		$msg->subject = "Re: " . $orig->subject;
-		$msg->body = "<br /><br /><br /><br /><hr size='1' />Original message from " . $orig->from_name . ":<br />" . $orig->body;
+		$msg->body = "";
 	} else {
 		if (isset($_GET['subject'])) $msg->subject = $_GET['subject'];
 		if (isset($_GET['body'])) $msg->body = $_GET['body'];
