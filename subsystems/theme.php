@@ -142,7 +142,6 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 		$src .= $section->id;
 	}
 	
-	
 	pathos_theme_showModule($module,$view,$title,$src,$pickable,$section);
 }
 
@@ -282,7 +281,6 @@ function pathos_theme_main() {
 	if ((!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1) && (!defined("CONTENT_SELECTOR") || CONTENT_SELECTOR == 1)) {
 		$last_section = pathos_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
-		
 		// View authorization will be taken care of by the runAction and mainContainer functions
 		if (pathos_theme_inAction()) {
 			pathos_theme_runAction();
@@ -346,13 +344,13 @@ function pathos_theme_goDefaultSection() {
 	$last_section = pathos_sessions_get("last_section");
 	if (defined("SITE_DEFAULT_SECTION") && SITE_DEFAULT_SECTION != $last_section) {
 		header("Location: ".URL_FULL."index.php?section=".SITE_DEFAULT_SECTION);
-		exit();
+		exit('Redirecting...');
 	} else {
 		global $db;
 		$section = $db->selectObject("section","public = 1 AND active = 1"); // grab first section, go there
 		if ($section) {
 			header("Location: ".URL_FULL."index.php?section=".$section->id);
-			exit();
+			exit('Redirecting...');
 		} else {
 			echo SITE_404_HTML;
 		}
@@ -372,15 +370,16 @@ function pathos_theme_mainContainer() {
 		echo SITE_403_HTML;
 		return;
 	}
+	
 	if (PUBLIC_SECTION) pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 	else pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
 		
-	if (pathos_sessions_isset("themeopt_override")) {
-		$config = pathos_sessions_get("themeopt_override");
+#	if (pathos_sessions_isset("themeopt_override")) {
+#		$config = pathos_sessions_get("themeopt_override");
 		pathos_theme_showSectionalModule("containermodule","Default","","@section");
-	} else {
-		pathos_theme_showSectionalModule("containermodule","Default","","@section");
-	}
+#	} else {
+#		pathos_theme_showSectionalModule("containermodule","Default","","@section");
+#	}
 }
 
 /* exdoc
