@@ -1,0 +1,29 @@
+Compatibility notes for Exponent CMS
+
+****************************************
+* PHP version mismatch incompatibilities:
+* 
+* The following notes are related to running
+* Exponent on different versions of PHP.
+****************************************
+
+ - mkdir (MUST be handled by programmer)
+    The mode argument (#2) is not optional prior to 4.2
+
+ - html_entity_decode (handled in compat.php)
+    . Not implemented prior to 4.3
+	. Implemented in compat.php through the use of
+        get_html_translation_table() and strtr()
+
+****************************************
+* Server configuration incompatibilities:
+*
+* The following notes are related to running
+* Exponent on different webserver setups
+****************************************
+
+   #### UNRESOLVED ####
+ - Symbolic Links 
+    . Using symbolic links to fool the DOCUMENT_ROOT
+	    causes the auto-path config constants to be
+		screwed up.

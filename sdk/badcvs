@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ "$1x" = "x" ]]; then
+	echo "You must specify a valid repository" >&2 
+	echo "Usage: $0 <repos>" >&2
+	exit
+fi
+
+echo "Finding files not under the control of" >&2
+echo "the $1 repository" >&2
+echo "--------------------------------------" >&2
+
+(
+for cvsdir in `find . -name "CVS"`; do
+	REPOS=`cat $cvsdir/Repository | cut -d / -f 1`
+	MODULE=`echo $cvsdir | cut -d / -f 2`
+	if [[ $REPOS != $1 ]]; then
+		echo "${REPOS}:${MODULE}"
+	fi
+done
+) | sort | uniq

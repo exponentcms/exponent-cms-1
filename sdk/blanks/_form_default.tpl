@@ -1,0 +1,8 @@
+{*
+ *
+ *}
+<div class="form_title">CHANGEME</div>
+<div class="form_header">
+CHANGEME
+</div>
+{$form_html}

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+FILELIST=`cvs -n update 2>/dev/null | grep "?" | cut -d " " -f 2 | grep -v "views_c"`
+for FILE in $FILELIST; do
+	if [[ -d $FILE ]]; then
+		echo "dir:	${FILE}/"
+	else
+		echo "file:	${FILE}"
+	fi
+done
