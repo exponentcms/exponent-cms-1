@@ -75,7 +75,7 @@ if (!isAllGood($config["db_table_prefix"])) {
 }
 
 if ($passed) {
-	$db = pathos_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name']);
+	$db = pathos_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name'],$config['db_engine'],1);
 	$db->prefix = $config['db_table_prefix'].'_';
 	
 	$status = array();
