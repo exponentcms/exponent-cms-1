@@ -69,17 +69,16 @@ class contact_contact {
 	}
 	
 	function update($values,$object) {
-		$attr = '';
 		switch ($values['contact_type']) {
 			case 0:
-				$attr = 'user_id';
+				$object->user_id = $values['contact'][0];
+				$object->email = '';
 				break;
 			case 1:
-				$attr = 'email';
+				$object->user_id = 0;
+				$object->email = $values['contact'][1];
 				break;
 		}
-		
-		if ($attr != '') $object->$attr = $values['contact'][$values['contact_type']];
 		return $object;
 	}
 }
