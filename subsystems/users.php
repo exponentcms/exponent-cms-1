@@ -783,39 +783,44 @@ function pathos_users_getUsersInGroup($g) {
  *    is set, an update is performed.  Otherwise, a new record is created.
  * @node Subsystems:Users
  */
-function pathos_users_saveUser($user) {
-	if ($user == null) {
+function pathos_users_saveUser($u) {
+	if ($u == null) {
 		// If the passed user is null, then we need to bail.
 		return null;
 	}
 	// Pull the database object in from the global scope.
 	global $db;
 	
+	// Reset the is_acting_admin flag, because that's what we really check.
+	if ($u->is_admin == 1) {
+		$u->is_acting_admin = 1;
+	}
+	
 	// Create a temporary object to house the standard
 	// member attributes stored in the passed object.  This block
 	// of code allows us to pass in user objects with 'extra' attributes
 	// without fearing breakage.
 	$tmp = null;
-	$tmp->username = $user->username;
-	$tmp->password = $user->password;
-	$tmp->is_admin = $user->is_admin;
-	$tmp->is_acting_admin = $user->is_acting_admin;
-	$tmp->is_locked = $user->is_locked;
-	$tmp->firstname = $user->firstname;
-	$tmp->lastname = $user->lastname;
-	$tmp->email = $user->email;
+	$tmp->username = $u->username;
+	$tmp->password = $u->password;
+	$tmp->is_admin = $u->is_admin;
+	$tmp->is_acting_admin = $u->is_acting_admin;
+	$tmp->is_locked = $u->is_locked;
+	$tmp->firstname = $u->firstname;
+	$tmp->lastname = $u->lastname;
+	$tmp->email = $u->email;
 	
-	if (isset($user->id)) {
+	if (isset($u->id)) {
 		// If the user already has an ID, an update should be performed.  For that,
 		// we need the original ID.
-		$tmp->id = $user->id;
+		$tmp->id = $u->id;
 		$db->updateObject($tmp,'user');
 	} else {
 		// Since no ID was set, we need to create a new record in the user table,
 		// and store the ID in the user object so that it can be returned.
-		$user->id = $db->insertObject($tmp,'user');
+		$u->id = $db->insertObject($tmp,'user');
 	}
-	return $user;
+	return $u;
 }
 
 /* exdoc
