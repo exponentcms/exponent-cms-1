@@ -31,7 +31,7 @@
 # $Id$
 ##################################################
 
-if (file_exists('configured')) {
+if (!file_exists('not_configured')) {
 	exit('This Exponent Site has already been configured.');
 }
 

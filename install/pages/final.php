@@ -43,7 +43,7 @@ Installation Compete - Congratulations!
 </div>
 <?php
 
-touch(BASE.'install/configured');
+unlink(BASE.'install/not_configured');
 if (!file_exists(BASE.'install/configured')) {
 	echo '<br /><br />';
 	echo 'Unable to create the file install/configured.  You will have to manually create this file.';
@@ -59,7 +59,5 @@ You can login to your new website using the following administrator account:
 <tr><td><b>Password:</b></td><td>admin</td></tr>
 </table>
 <br />
-For security reasons, you need to make this installation wizard inaccessible to the web user.  You can either delete it, rename it or change the directory permissions on install/ so that the web server cannot read it.
-<br /><br />
 You can visit your new website <a href="http://<?php echo $_SERVER['HTTP_HOST'].PATH_RELATIVE?>index.php" target="_blank">here</a>.
 <br /><br />
