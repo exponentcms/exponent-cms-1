@@ -56,7 +56,7 @@ if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") !
 	$delimiterArray = Array(
 		","=>"Comma",
 		";"=>"Semicolon",
-		"Tab"=>"Tab",
+		":"=>"Colon",
 		" "=>"Space");
 
 	//Register the dropdown menus
