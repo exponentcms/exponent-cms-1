@@ -60,7 +60,9 @@ class bannermodule {
 			$file = $db->selectObject("file","id=".$b->file_id);
 			file::delete($file);
 		}
-		rmdir(BASE."files/bannermodule/".$loc->src);
+		if (file_exists(BASE."files/bannermodule/".$loc->src)) {
+			rmdir(BASE."files/bannermodule/".$loc->src);
+		}
 		$db->delete("banner_ad","location_data='".serialize($loc)."'");
 	}
 	
