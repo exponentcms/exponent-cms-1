@@ -33,7 +33,7 @@
 
 #  Thanks to Daniel Grabert for this patch. - 1/12/05
 
-	if (isset($_REQUEST['section']) {
+	if (isset($_REQUEST['section'])) {
 		$section_id = $_REQUEST['section'];
 		$section_name = isset($_REQUEST['section_name']) ? $_REQUEST['section_name'] : '';
 	} else {
