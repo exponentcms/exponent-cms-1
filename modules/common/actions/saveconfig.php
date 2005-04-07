@@ -40,19 +40,24 @@ if (pathos_permissions_check("configure",$loc)) {
 	if (isset($config->id)) $db->updateObject($config,$_POST['module']."_config");
 	else $db->insertObject($config,$_POST['module']."_config");
 	
-	if (isset($_POST['channel_name'])) {
-		if ($_POST['channel_name'] == '') {
-			$db->delete('channel',"location_data='".serialize($loc)."'");
-		} else {
-			$channel = $db->selectObject('channel',"location_data='".serialize($loc)."'");
-			$channel->location_data = serialize($loc);
-			$channel->type = call_user_func(array($loc->mod,'channelType'));
+	if (isset($_POST['supports_channels'])) {
+		// Process Shared Content Channels
+		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+		$channel = pathos_channels_getChannel($loc);
+		$channel->is_open = (isset($_POST['open_channel']) ? 1 : 0);
+		if (isset($_POST['public_channel'])) {
 			$channel->name = $_POST['channel_name'];
-			if (isset($channel->id)) {
-				$db->updateObject($channel,'channel');
-			} else {
-				$db->insertObject($channel,'channel');
-			}
+		} else {
+			$channel->name = '';
+		}
+		
+		$channel->location_data = serialize($loc);
+		$channel->type = call_user_func(array($loc->mod,'channelType'));
+		
+		if (isset($channel->id)) {
+			$db->updateObject($channel,'channel');
+		} else {
+			$db->insertObject($channel,'channel');
 		}
 	}
 	

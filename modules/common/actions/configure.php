@@ -63,16 +63,17 @@ if (pathos_permissions_check('configure',$loc)) {
 
 	// Check for channels stuff.
 	if (is_callable(array($loc->mod,'channelType'))) {
+		$form->meta('supports_channels',1);
 		// Maybe display a message explaining what the channels stuff does?
-		$form->register(null,'',new htmlcontrol('<hr size="1" />Channel Settings'));
-		$channel = $db->selectObject('channel',"location_data='".serialize($loc)."'");
-		if (!$channel) {
-			$channel->name = '';
-			$form->register(null,'',new htmlcontrol('This module is not configured as a Channel.  Enter a channel name to make it into one.',false));
-		} else {
-			$form->register(null,'',new htmlcontrol('This module is configured as a Channel.  Change the channel name to nothing (empty field) to remove the channel status.',false));
-		}
-		$form->register('channel_name','Channel Name',new textcontrol($channel->name));
+		$form->register(null,'',new htmlcontrol('<hr size="1" />Shared Content Settings'));
+		
+		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+		$channel = pathos_channels_getChannel($loc);
+		
+		$form->register('open_channel','Allow others to use content from here.',new checkboxcontrol($channel->is_open,true));
+		
+		$form->register('public_channel','Allow others to submit Shared Content for review',new checkboxcontrol($channel->name != '',true));
+		$form->register('channel_name','Publishing Name',new textcontrol($channel->name));
 	}
 
 	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
