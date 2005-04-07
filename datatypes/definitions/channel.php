@@ -8,6 +8,8 @@ return array(
 	'name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	'is_open'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'type'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
