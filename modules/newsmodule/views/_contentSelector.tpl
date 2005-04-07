@@ -28,6 +28,8 @@
  *
  * $Id$
  *}
+ 
+{if $channel->is_open}
 <form method="post" action="">
 <input type="hidden" name="action" value="channel_pull" />
 <input type="hidden" name="module" value="common" />
@@ -47,3 +49,6 @@
 <input type="submit" value="Pull Selected" onClick="{literal}if (isOneSelected('item[newsitem')) return true; else { alert('You must select something.'); return false; }{/literal}" />
 {/if}
 </form>
+{else}
+This module is not currently sharing its content.
+{/if}

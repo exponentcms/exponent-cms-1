@@ -94,8 +94,8 @@
 {if $permissions.view_unpublished == 1}
 	<br /><a class="mngmntlink news_mngmntlink" href="{link action=view_expired}">Unpublished / Expired News</a>
 {/if}
-{if $is_channel && $permissions.manage_channel == 1}
-	<br /><a class="mngmntlink news_mngmntlink" href="{link action=manage_channel}">Channel Manager</a>
+{if $permissions.manage_channel == 1}
+	<br /><a class="mngmntlink news_mngmntlink" href="{link action=manage_channel}">Shared Content</a>
 	{if $hasNewChannelItems}(new items){/if}
 {/if}
 {/permissions}

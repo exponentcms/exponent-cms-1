@@ -1,4 +1,4 @@
-<div class="moduletitle news_moduletitle">Channel Items</div>
+<div class="moduletitle news_moduletitle">Shared Content</div>
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
@@ -31,7 +31,7 @@
 		</td>
 	</tr>
 	{foreachelse}
-	<tr><td colspan="3" align="center"><i>No Channel Items</i></td></tr>
+	<tr><td colspan="3" align="center"><i>No Shared Content</i></td></tr>
 	{/foreach}
 </table>
 <br />
