@@ -38,7 +38,7 @@
  * has been included for use.
  * @node Subsystems:Backup
  */
-define("SYS_BACKUP",1);
+define('SYS_BACKUP',1);
 
 /* exdoc
  * The EQL header string for object dump file formats.
@@ -46,7 +46,7 @@ define("SYS_BACKUP",1);
  * the current implementation of the Backup Subsystem.
  * @node Subsystems:Backup
  */
-define("EQL_HEADER","EQL-Exponent Query Language");
+define('EQL_HEADER','EQL-Exponent Query Language');
 
 /* exdoc
  * This function takes a database object and dumps
@@ -60,26 +60,26 @@ define("EQL_HEADER","EQL-Exponent Query Language");
  * @node Subsystems:Backup
  */
 function pathos_backup_dumpDatabase($db,$tables = null) {
-	$dump = EQL_HEADER."\n";
-	$dump .= "VERSION:".PATHOS."\n\n";
+	$dump = EQL_HEADER."\r\n";
+	$dump .= 'VERSION:'.PATHOS."\r\n\r\n";
 	if (!is_array($tables)) {
 		$tables = $db->getTables();
-		if (!function_exists("tmp_removePrefix")) {
+		if (!function_exists('tmp_removePrefix')) {
 			function tmp_removePrefix($tbl) {
 				return substr($tbl,strlen(DB_TABLE_PREFIX)+1);
 				// we add 1, because DB_TABLE_PREFIX  no longer has the trailing
 				// '_' character - that is automatically added by the database class.
 			}
 		}
-		$tables = array_map("tmp_removePrefix",$tables);
+		$tables = array_map('tmp_removePrefix',$tables);
 	}
-	usort($tables,"strnatcmp");
-	foreach ($tables as $table) {
-		$dump .= "TABLE:"."$table\n";
+	usort($tables,'strnatcmp');
+	for ($i = 0; $i < count($tables); $i++) {
+		$dump .= 'TABLE:'.$tables[$i]."\r\n";
 		foreach ($db->selectObjects($table) as $obj) {
 			$dump .= "RECORD:".str_replace(array("\r","\n"),array('\r','\n'),serialize($obj))."\n";
 		}
-		$dump .= "\n";
+		$dump .= "\r\n";
 	}
 	return $dump;
 }
