@@ -114,6 +114,19 @@ function pathos_theme_metaInfo($section) {
 	return "<!-- pathos_theme_metaInfo() is DEPRECATED.  Use pathos_theme_headerInfo instead-->\r\n\t\t".pathos_theme_headerInfo($section);
 }
 
+function pathos_theme_showPersonalModule($module,$view,$title,$prefix = null) {
+	global $user;
+	if ($prefix == null) $prefix = '';
+	$src = '@uid_'.$prefix .'_';
+	if ($user) {
+		$src .= $user->id;
+	} else {
+		$src .= '0';
+	}
+	
+	pathos_theme_showModule($module,$view,$title,$src,false);
+}
+
 /* exdoc
  * Calls the necessary methods to show a specific module, in a section-sensitive way.
  *
@@ -137,8 +150,9 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 		$src = $config['src_prefix'].$prefix;
 		$section = null;
 	} else {
-		$last_section = pathos_sessions_get("last_section");
-		$section = $db->selectObject("section","id=".$last_section);
+		global $section;
+		//$last_section = pathos_sessions_get("last_section");
+		//$section = $db->selectObject("section","id=".$last_section);
 		$src .= $section->id;
 	}
 	

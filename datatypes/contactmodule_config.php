@@ -46,6 +46,7 @@ class contactmodule_config {
 			$object->replyto_address = '';
 			$object->from_name = 'Webmaster';
 			$object->from_address = 'info@'.HOSTNAME;
+			$object->final_message = 'Thank you for your submission.';
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -54,6 +55,7 @@ class contactmodule_config {
 		$form->register('from_name',TR_CONTACTMODULE_FROMNAME,new textcontrol($object->from_name));
 		$form->register('from',TR_CONTACTMODULE_FROMADDRESS,new textcontrol($object->from_address));
 		$form->register('replyto',TR_CONTACTMODULE_REPLYTO,new textcontrol($object->replyto_address));
+		$form->register('final_message','Confirmation Message',new htmleditorcontrol($object->final_message));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		pathos_forms_cleanup();
@@ -61,10 +63,14 @@ class contactmodule_config {
 	}
 	
 	function update($values,$object) {
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		pathos_forms_initialize();
+		
 		$object->subject = $values['subject'];
 		$object->from_name = $values['from_name'];
 		$object->from_address = $values['from'];
 		$object->replyto_address = $values['replyto'];
+		$object->final_message = htmleditorcontrol::parseData('final_message',$values);
 		return $object;
 	}
 }

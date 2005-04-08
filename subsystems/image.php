@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+include_once(realpath(dirname(__FILE__).'/../compat/gd_info.php'));
+
 /* exdoc
  * The definition of this constant lets other parts of the subsystem know
  * that the Image Subsystem has been included for use.
@@ -144,15 +146,34 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
  * @node Subsystems:Image
  */
 function pathos_image_create($w,$h) {
-	$info = gd_info();
-	if ($info['GD Version'] == 'Not Supported') {
+	if (!PATHOS_HAS_GD) {
 		return IMAGE_ERR_NOGD;
 	}
-	
+	$info = gd_info();
+
 	if (strpos($info['GD Version'],'2.0') != false) {
-		return imagecreatetruecolor($w,$h);
+		$img = imagecreatetruecolor($w,$h);
+		
+		if (function_exists('imagesavealpha')) {
+			imagealphablending($img, false);
+			imagesavealpha($img, true);
+		}
+		
+		return $img;
 	} else {
 		return imagecreate($w,$h);
+	}
+}
+
+function pathos_image_copyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) {
+	if (!PATHOS_HAS_GD) {
+		return null;
+	}
+	$info = gd_info();
+	if (strpos($info['GD Version'],'2.0') != false) {
+		return imagecopyresampled($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+	} else {
+		return imagecopyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 	}
 }
 
@@ -190,6 +211,7 @@ function pathos_image_scaleByPercent($filename,$scale) {
 		// to our caller.
 		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
+	
 	return $thumb;
 }
 
@@ -226,6 +248,7 @@ function pathos_image_scaleToWidth($filename,$width) {
 		// to our caller.
 		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
+	
 	return $thumb;
 }
 
@@ -262,6 +285,7 @@ function pathos_image_scaleToWidth($filename,$width) {
 		// to our caller.
 		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
+	
 	return $thumb;
 }
 

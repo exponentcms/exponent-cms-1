@@ -62,7 +62,13 @@ class mysql_database {
 	 *   a distinctly new connection handle to the server.
 	 */
 	function connect($username,$password,$hostname,$database,$new=false) {
-		$this->connection = @mysql_connect($hostname,$username,$password,$new);
+		// The fourth parameter (new connection) was not added until 4.2.0
+		if (version_compare(phpversion(),'4.2.0','>=') > 0) {
+			// Current version of PHP is greater than or equal to 4.2.0 (so we can use a 4th param)
+			$this->connection = @mysql_connect($hostname,$username,$password,$new);
+		} else {
+			$this->connection = @mysql_connect($hostname,$username,$password);
+		}
 		if ($this->connection) {
 			$this->havedb = (mysql_select_db($database,$this->connection) ? true : false);
 		}

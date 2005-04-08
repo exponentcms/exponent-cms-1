@@ -52,6 +52,18 @@ Listed below are the module types that have uploaded files.  Select which type o
 <tr><td colspan="2">
 <a href="#" onClick="selectAll('mods[',true); return false;">Select All</a>&nbsp;|&nbsp;<a href="#" onClick="selectAll('mods[',false); return false;">Unselect All</a>
 </td></tr>
+<tr>
+	<td colspan="2" valign="top"><b>File name template:</b>
+		<input type="text" name="filename" size="20" value="files" />
+	</td>
+</tr>
+	<td colspan="2">
+		<div style="border-top: 1px solid #CCCC;">
+			Use __DOMAIN__ for this website's domain name and any strftime options for time specification. The extension will be added for you. Any other text will be preserved.
+			<br />
+		</div>
+	</td>
+</tr>
 </table>
 <input type="submit" onClick="{literal}if (isOneSelected('mods[')) { return true; } else { alert('You must select at least one module to export files for.'); return false; }{/literal}" value="Export" />
 </form>

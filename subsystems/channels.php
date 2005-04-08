@@ -25,7 +25,7 @@ function pathos_channels_list($type,$exclude_loc = null) {
 		$exclude_loc = serialize($exclude_loc);
 	}
 	$channels = array();
-	foreach ($db->selectObjects('channel',"type='".$type."' AND location_data != '".$exclude_loc."'") as $c) {
+	foreach ($db->selectObjects('channel',"type='".$type."' AND location_data != '".$exclude_loc."' AND name !=''") as $c) {
 		$channels[$c->id] = $c->name;
 	}
 	return $channels;
@@ -57,7 +57,15 @@ function pathos_channels_getItems($channel) {
 
 function pathos_channels_getChannel($loc) {
 	global $db;
-	return $db->selectObject('channel',"location_data='".serialize($loc)."'");
+	$o = $db->selectObject('channel',"location_data='".serialize($loc)."'");
+	if (!$o && is_callable(array($loc->mod,'channelType'))) {
+		$o->location_data = serialize($loc);
+		$o->is_open = 1;
+		$o->name = '';
+		$o->type = call_user_func(array($loc->mod,'channelType'));
+		$o->id = $db->insertObject($o,'channel');
+	}
+	return $o;
 }
 
 function pathos_channels_hasItems($loc,$all = false) {

@@ -59,7 +59,6 @@ if ($user) {
 	if ($db->tableExists($datatype."_wf_info")) {
 		$approveloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
 		$summaries = $db->selectObjects($datatype."_wf_info","location_data='".serialize($approveloc)."'");
-		echo mysql_error();
 		for ($i = 0; $i < count($summaries); $i++) {
 			$summaries[$i]->revision = $db->selectObject($datatype."_wf_revision","wf_original=".$summaries[$i]->real_id." AND wf_major=".$summaries[$i]->current_major." AND wf_minor=".$summaries[$i]->current_minor);
 		

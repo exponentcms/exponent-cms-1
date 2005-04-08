@@ -206,7 +206,7 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 		
 		$str .= "define(\"$directive\",";
 		if (substr($directive,-5,5) == "_HTML") {
-			$value = htmlentities(stripslashes($value),ENT_QUOTES); // slashes added by POST
+			$value = htmlentities(stripslashes($value),ENT_QUOTES,LANG_CHARSET); // slashes added by POST
 			$value = str_replace(array("\r\n","\r","\n"),"<br />",$value);
 			$str .= "html_entity_decode('$value')";
 		}
@@ -228,7 +228,7 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 	foreach ($original_config as $directive=>$value) {
 		$str .= "define(\"$directive\",";
 		if (substr($directive,-5,5) == "_HTML") {
-			$value = htmlentities(stripslashes($value)); // slashes added by POST
+			$value = htmlentities(stripslashes($value),ENT_COMPAT,LANG_CHARSET); // slashes added by POST
 			$str .= "html_entity_decode('$value')";
 		}
 		else if (is_int($value)) $str .= $value;

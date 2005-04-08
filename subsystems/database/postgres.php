@@ -337,7 +337,7 @@ class postgres_database {
 		$object_b->$field = $tmp;
 		
 		$this->updateObject($object_a,$table);
-		$this->Object($object_b,$table);
+		$this->updateObject($object_b,$table);
 	}
 	
 	function tableExists($table) {

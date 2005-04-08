@@ -47,12 +47,35 @@ foreach (array_keys($_POST['mods']) as $mod) {
 }
 
 $fname = tempnam(BASE.'/tmp','exporter_files_');
-$tar = new Archive_Tar($fname);
+$tar = new Archive_Tar($fname,'gz');
 $tar->createModify($files,'',BASE);
 
+$filename = str_replace(
+	array('__DOMAIN__','__DB__'),
+	array(str_replace('.','_',HOSTNAME),DB_NAME),
+	$_POST['filename']);
+$filename = preg_replace('/[^A-Za-z0-9_.-]/','-',strftime($filename,time()).'.tar.gz');
+
 ob_end_clean();
-header('Content-Type: application/tar');
-header('Content-Disposition: inline; filename="files.tar.gz"');
+
+// This code was lifted from phpMyAdmin, but this is Open Source, right?
+
+// 'application/octet-stream' is the registered IANA type but
+//        MSIE and Opera seems to prefer 'application/octetstream'
+$mime_type = (PATHOS_USER_BROWSER == 'IE' || PATHOS_USER_BROWSER == 'OPERA') ? 'application/octetstream' : 'application/octet-stream';
+
+header('Content-Type: ' . $mime_type);
+header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+// IE need specific headers
+if (PATHOS_USER_BROWSER == 'IE') {
+	header('Content-Disposition: inline; filename="' . $filename . '"');
+	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	header('Pragma: public');
+} else {
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+	header('Pragma: no-cache');
+}
+	
 $fh = fopen($fname,'rb');
 while (!feof($fh)) {
 	echo fread($fh,8192);

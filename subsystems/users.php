@@ -371,7 +371,15 @@ function pathos_users_update($formvalues, $u = null) {
 	$u->email = $formvalues['email'];
 	$u->recv_html = (isset($formvalues['recv_html']) ? 1 : 0);
 	global $user;
-	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : @$u->is_acting_admin);
+	// Set the is_acting_admin flag.  There a re a few ways that this should be done.
+	// If the admin is editing or creating a user, solely check if isset() 
+	//If the user is editing themselves, don't set it.
+	// If the user is signing up, set it to 0.
+	if ($user->is_admin == 1) {
+		$u->is_acting_admin = (isset($formvalues['is_acting_admin']) ? 1 : 0);
+	} else if (!isset($u->id)) {
+		$u->is_acting_admin = 0;
+	}
 	return $u;
 }
 

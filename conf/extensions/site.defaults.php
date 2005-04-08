@@ -50,9 +50,9 @@ if (!defined('ENABLE_SSL')) define('ENABLE_SSL',0);
 if (!defined('SSL_URL')) define('SSL_URL','https://my.domain/');
 if (!defined('NONSSL_URL')) define('NONSSL_URL','http://my.domain/');
 
-if (!defined('FILE_DEFAULT_MODE_STR')) define('FILE_DEFAULT_MODE_STR','0700');
+if (!defined('FILE_DEFAULT_MODE_STR')) define('FILE_DEFAULT_MODE_STR','0777');
 if (!defined('FILE_DEFAULT_MODE')) define('FILE_DEFAULT_MODE',octdec(FILE_DEFAULT_MODE_STR+0));
-if (!defined('DIR_DEFAULT_MODE_STR')) define('DIR_DEFAULT_MODE_STR','0700');
+if (!defined('DIR_DEFAULT_MODE_STR')) define('DIR_DEFAULT_MODE_STR','0777');
 if (!defined('DIR_DEFAULT_MODE')) define('DIR_DEFAULT_MODE',octdec(DIR_DEFAULT_MODE_STR+0));
 
 if (!defined('USE_LANG')) define('USE_LANG','en');

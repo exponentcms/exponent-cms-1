@@ -35,7 +35,7 @@ if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('config','site');
 
-return array(
+$stuff = array(
 	TR_CONFIG_SITE_TITLE,
 	array(
 		'SITE_TITLE'=>array(
@@ -120,5 +120,13 @@ return array(
 		)
 	)
 );
+
+$info = gd_info();
+if (!PATHOS_HAS_GD) {
+	$stuff[1]['SITE_USE_CAPTCHA']['description'] = TR_CONFIG_SITE_USE_CAPTCHA_DESC.'<br /><br />'.TR_CONFIG_SITE_USE_CAPTCHA_NOSUPPORT;
+	$stuff[1]['SITE_USE_CAPTCHA']['control']->disabled = true;
+}
+
+return $stuff;
 
 ?>

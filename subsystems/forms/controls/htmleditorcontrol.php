@@ -108,7 +108,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 							combos: [
 								{	label: "Template",
 									options: {"None":""<?php
-									foreach ($templates as $template) echo ',"'.$template->title . '":"' . str_replace(array("\r\n","\n"),"",str_replace('"','\"',$template->body)) . '"';
+									foreach ($templates as $template) echo ',"'.$template->title . '":"' . str_replace(array("\n","\r"),"",str_replace('"','\"',$template->body)) . '"';
 									?>}
 								}
 							]
@@ -168,7 +168,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 		htmleditorcontrols[htmleditorcontrols.length] = "<?php echo $name; ?>";
 		</script>
 		<textarea id="<?php echo $name; ?>" name="<?php echo $name; ?>" style="width:100%" rows="24" cols="80"><?php
-			echo htmlentities($this->default); 
+			echo htmlentities($this->default,ENT_COMPAT,LANG_CHARSET); 
 		?></textarea>
 		<?php
 		$html = ob_get_contents();
@@ -178,7 +178,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 	
 	function parseData($name, $values, $for_db = false) {
 		$html = $values[$name];
-		if ($html == "<br />\r\n") $html = "";
+		if (trim($html) == "<br />") $html = "";
 		return $html;
 	}
 }

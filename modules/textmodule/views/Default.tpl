@@ -38,6 +38,7 @@
 	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Text Module" alt="Change the configuration of this Text Module" /></a>
 {/if}
 {/permissions}
+{if $moduletitle != ""}<div class="moduletitle text_moduletitle">{$moduletitle}</div>{/if}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1}
 	{if $textitem->approved != 1}
@@ -55,7 +56,6 @@
 	</a>
 {/if}
 {/permissions}
-{if $moduletitle != ""}<div class="moduletitle text_moduletitle">{$moduletitle}</div>{/if}
 <div>
 {if $textitem->approved != 0}
 	{$textitem->text}

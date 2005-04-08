@@ -52,7 +52,10 @@ return array(
 		DB_FIELD_LEN=>100),
 	'from_name'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>100)
+		DB_FIELD_LEN=>100),
+	'final_message'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000),
 );
 
 ?>

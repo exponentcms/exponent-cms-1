@@ -39,16 +39,31 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 } else { // All good
 	if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
 	
-	ob_end_clean();
-	
 	$filename = str_replace(
 		array('__DOMAIN__','__DB__'),
 		array(str_replace('.','_',HOSTNAME),DB_NAME),
 		$_POST['filename']);
-	$filename = strftime($filename,time()).'.eql';
+	$filename = preg_replace('/[^A-Za-z0-9_.-]/','-',strftime($filename,time()).'.eql');
 	
-	header('Content-type: application/octet-stream');
-	header('Content-Disposition: inline; filename="'.$filename.'"');
+	ob_end_clean();
+	
+	// This code was lifted from phpMyAdmin, but this is Open Source, right?
+	
+	// 'application/octet-stream' is the registered IANA type but
+	//        MSIE and Opera seems to prefer 'application/octetstream'
+	$mime_type = (PATHOS_USER_BROWSER == 'IE' || PATHOS_USER_BROWSER == 'OPERA') ? 'application/octetstream' : 'application/octet-stream';
+	
+	header('Content-Type: ' . $mime_type);
+	header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	// IE need specific headers
+	if (PATHOS_USER_BROWSER == 'IE') {
+		header('Content-Disposition: inline; filename="' . $filename . '"');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+	} else {
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+		header('Pragma: no-cache');
+	}
 	
 	echo pathos_backup_dumpDatabase($db,array_keys($_POST['tables']));
 	

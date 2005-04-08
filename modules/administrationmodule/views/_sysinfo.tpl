@@ -32,7 +32,7 @@
 <div class="form_title">System Information</div>
 <div class="form_header">This information may be useful for support reasons and reporting bugs.
 <br /><br />
-<a href="{link action=sysinfo_download}">Export this information</a> and send it to an Exponent Developer or Support Technician by.
+<a href="{link action=sysinfo_download}">Export this information</a> and send it to an Exponent Developer or Support Technician for assistance in troubleshooting your installation.
 </div>
 <style type="text/css">
 {literal}

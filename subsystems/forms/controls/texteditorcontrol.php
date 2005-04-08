@@ -90,7 +90,7 @@ class texteditorcontrol extends formcontrol {
 			$html .= ' required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
 		$html .= ">";
-		$html .= htmlentities($this->default);
+		$html .= htmlentities($this->default,ENT_COMPAT,LANG_CHARSET);
 		$html .= "</textarea>";
 		return $html;
 	}

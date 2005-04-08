@@ -77,7 +77,7 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
 	foreach ($tables as $table) {
 		$dump .= "TABLE:"."$table\n";
 		foreach ($db->selectObjects($table) as $obj) {
-			$dump .= "RECORD:".str_replace("\r\n","\\r\\n",serialize($obj))."\n";
+			$dump .= "RECORD:".str_replace(array("\r","\n"),array('\r','\n'),serialize($obj))."\n";
 		}
 		$dump .= "\n";
 	}

@@ -130,7 +130,9 @@ function sanity_checkServer() {
 		'ZLib Compression'=>_sanity_checkZlib(),
 		'XML (Expat) Library'=>_sanity_checkXML(),
 		'Safe Mode'=>_sanity_CheckSafeMode(),
-		'Open BaseDir Restriction'=>_sanity_checkOpenBaseDir()
+		'Open BaseDir Restriction'=>_sanity_checkOpenBaseDir(),
+		'File Uploads'=>_sanity_checkTemp(ini_get('upload_tmp_dir')),
+		'Temporary File Creation'=>_sanity_checkTemp(BASE.'tmp'),
 	);
 	return $status;
 }
@@ -156,7 +158,7 @@ function sanity_checkModules() {
 function _sanity_checkGD() {
 	$info = gd_info();
 	if ($info['GD Version'] == 'Not Supported') {
-		return array(SANITY_ERROR,'Not Supported');
+		return array(SANITY_WARNING,'Not Supported');
 	} else if (strpos($info['GD Version'],'2.0') == false) {
 		return array(SANITY_WARNING,'Older Version Installed ('.$info['GD Version'].')');
 	}
@@ -203,6 +205,17 @@ function _sanity_checkOpenBaseDir() {
 		return array(SANITY_WARNING,'Enabled');
 	}
 }
+
+function _sanity_checkTemp($dir) {
+	$file = tempnam($dir,'temp');
+	if (is_readable($file) && is_really_writable($file)) {
+		unlink($file);
+		return array(SANITY_FINE,'Enabled');
+	} else {
+		return array(SANITY_ERROR,'Not Enabled');
+	}
+}
+
 
 //-------------------------------------------------------------------------
 

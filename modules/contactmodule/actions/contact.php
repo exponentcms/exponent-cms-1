@@ -69,7 +69,9 @@ foreach ($db->selectObjects("contact_contact","location_data='".serialize($loc).
 
 if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
 if (pathos_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
-	pathos_flow_redirect();
+	$template = new template('contactmodule','_final_message');
+	$template->assign('message',$config->final_message);
+	$template->output();
 } else {
 	pathos_lang_loadDictionary('modules','contactmodule');
 	echo TR_CONTACTMODULE_SMTPERROR;

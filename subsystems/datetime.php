@@ -115,7 +115,7 @@ function pathos_datetime_startOfMonthTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
-	return mktime(8,0,0,$info['mon'],1,$info['year']) - 8*3600;
+	return mktime(0,0,0,$info['mon'],1,$info['year']);
 }
 
 /* exdoc
@@ -138,7 +138,7 @@ function pathos_datetime_endOfMonthTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
-	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
+	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 }
 
 /* exdoc
@@ -172,9 +172,8 @@ function pathos_datetime_startOfDayTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
-	return mktime(8,0,0,$info['mon'],$info['mday'],$info['year']) - 8*3600;
+	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 }
-
 /* exdoc
  * Looks at a timestamp and returns another timestamp representing
  * 12:00:01 am of the Sunday of the same week.
@@ -190,8 +189,30 @@ function pathos_datetime_startOfWeekTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
-	return mktime(8,0,0,$info['mon'],$firstOfWeek,$info['year']) - 8*3600;
+	$ts = pathos_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));;
+	echo '<!--'.strftime("%D %T",$ts).'-->';
+	echo '<!--'.$ts.'-->';
+	return pathos_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));
+	#return mktime(0,0,0,$info['mon'],$firstOfWeek,$info['year']);
 }
+
+/*
+function pathos_datetime_DSTNormalize($timestamp,$ts) {
+	$orig = date('I',$timestamp);
+	$recalc = date('I',$ts);
+	echo "o:$orig;r:$recalc\r\n";
+	return $ts;
+	if ($orig != $recalc) {
+		echo "Need to normalize\r\n";
+		if ($recalc < $orig) {
+			$ts += 3600;
+		} else if ($recalc > $orig) {
+			$ts -= 3600;
+		}
+	}
+	return $ts;
+}
+*/
 
 // Recurring Dates
 
@@ -211,7 +232,7 @@ function pathos_datetime_recurringDailyDates($start,$end,$freq) {
 	$curdate = $start;
 	do {
 		$dates[] = $curdate;
-		$curdate += (86400 * $freq);
+		$curdate = pathos_datetime_startOfDayTimestamp($curdate + ((86400) * $freq)+3601);
 	} while ($curdate <= $end);
 	return $dates;
 }

@@ -31,18 +31,6 @@
 # $Id$
 ##################################################
 
-# Following code taken from http://us4.php.net/manual/en/function.get-magic-quotes-gpc.php
-#   - it allows magic_quotes to be on without screwing stuff up. 
-if (get_magic_quotes_gpc()) {
-	function stripslashes_deep($value) {
-		return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
-	}
-
-	$_POST = stripslashes_deep($_POST);
-	$_GET = stripslashes_deep($_GET);
-	$_COOKIE = stripslashes_deep($_COOKIE);
-}
-
 function __realpath($path) {
 	$path = str_replace('\\','/',realpath($path));
 	if ($path{1} == ':') {
@@ -52,17 +40,11 @@ function __realpath($path) {
 	return $path;
 }
 
-// Process user-defined constants in overrides.php
-include_once(dirname(__realpath(__FILE__)).'/overrides.php');
-
-// Auto-detect whatever variables the user hasn't overridden in overrides.php
-include_once(dirname(__realpath(__FILE__)).'/pathos_variables.php');
-
-// Process PHP-wrapper settings (ini_sets and setting detectors)
-include_once(dirname(__realpath(__FILE__)).'/pathos_setup.php');
-
-// Initialize the Compatibility Layer
-include(BASE.'compat.php');
+// Bootstrap, which will clean the _POST, _GET and _REQUEST arrays, and include 
+// necessary setup files (pathos_setup.php, pathos_variables.php) as well as initialize
+// the compatibility layer.
+// This was moved into its own file from this file so that 'lighter' scripts could bootstrap.
+include_once(dirname(__realpath(__FILE__)).'/pathos_bootstrap.php');
 
 // Put session stuff first.
 $user = null;

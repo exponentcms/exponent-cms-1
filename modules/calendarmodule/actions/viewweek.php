@@ -43,10 +43,10 @@ if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 $startweek = pathos_datetime_startOfWeekTimestamp($time);
 $days = array();
 $counts = array();
+$startinfo = getdate($startweek);
 for ($i = 0; $i < 7; $i++) {
-	$start = $startweek + ($i*86400);
+	$start = mktime(0,0,0,$startinfo['mon'],$startinfo['mday']+$i,$startinfo['year']);
 	$days[$start] = array();
-	#$days[$start] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
 	$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
 	for ($j = 0; $j < count($dates); $j++) {
 		$o = $db->selectObject("calendar","id=".$dates[$j]->event_id);

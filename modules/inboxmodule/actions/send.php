@@ -37,28 +37,13 @@ if ($user) {
 	
 	pathos_lang_loadDictionary('modules','inboxmodule');
 	
-	$message = privatemessage::update($_POST,null);
-	$message->from_id = $user->id;
-	$message->from_name = $user->firstname . " " . $user->lastname . " (" . $user->username . ")";
-	$message->date_sent = time();
-	$message->unread = 1;
-	
-	$failed = null;
-	$failed->from_id = 0;
-	$failed->from_name = TR_INBOXMODULE_FAILED_FROM;
-	$failed->date_sent = time();
-	$failed->unread = 1;
-	$failed->subject = TR_INBOXMODULE_FAILED_TITLE;
-	$failed->recipient = $user->id;
-	
 	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
 	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
+	// Process recipients first, so that we can save the built list in the last_POST var in case we need to return
 	$recipients = listbuildercontrol::parseData($_POST,"recipients");
-	if (isset($_POST['replyto'])) {
-		$recipients[] = $_POST['replyto'];
-	}
+	
 	
 	$banned = array();
 	foreach ($db->selectObjects("inbox_contactbanned","owner=".$user->id." OR user_id=".$user->id) as $b) {
@@ -69,6 +54,11 @@ if ($user) {
 		}
 	}
 	
+	if (isset($_POST['replyto'])) {
+		$recipients[] = $_POST['replyto'];
+	}
+	
+	$gr = array();
 	if (isset($_POST['group_recipients'])) {
 		$gr = listbuildercontrol::parseData($_POST,"group_recipients");
 		foreach ($gr as $ginfo) {
@@ -95,6 +85,52 @@ if ($user) {
 	
 	// remove duplicates
 	$recipients = array_flip(array_flip($recipients));
+	
+	$message = privatemessage::update($_POST,null);
+	if (trim($message->subject) == '') {
+		$post = $_POST;
+		unset($post['subject']);
+		$post['_formError'] = "You must enter a subject.";
+		$post['recipients'] = $recipients;
+		$post['group_recipients'] = $gr;
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		exit();
+	}
+	
+	if (count($recipients) == 0) {
+		$post = $_POST;
+		$post['_formError'] = "You must specify a user or group to send this message to.";
+		$post['recipients'] = $recipients;
+		$post['group_recipients'] = $gr;
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		exit();
+	}
+	$message->from_id = $user->id;
+	$message->from_name = $user->firstname . " " . $user->lastname . " (" . $user->username . ")";
+	$message->date_sent = time();
+	$message->unread = 1;
+	
+	// Set up the reply-to header, in case we need to send an email message
+	$reply_to = trim($user->firstname . " " . $user->lastname);
+	if ($reply_to == '') {
+		$reply_to = $username;
+	}
+	
+	if (trim($user->email) != '') {
+		$reply_to .= ' <'.$user->email.'>';
+	} else {
+		$reply_to .= ' <noreply@'.HOSTNAME.'>';
+	}
+	
+	$failed = null;
+	$failed->from_id = 0;
+	$failed->from_name = TR_INBOXMODULE_FAILED_FROM;
+	$failed->date_sent = time();
+	$failed->unread = 1;
+	$failed->subject = TR_INBOXMODULE_FAILED_TITLE;
+	$failed->recipient = $user->id;
 	
 	// Init SMTP subsystem
 	if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
@@ -132,9 +168,11 @@ if ($user) {
 		$body = $message->body;	
 		$headers = array(
 			"MIME-Version"=>"1.0",
-			"Content-type"=>"text/html; charset=iso-8859-1"
+			"Content-type"=>"text/html; charset=iso-8859-1",
+			'Reply-to'=>$reply_to,
+			'From'=>$reply_to,
 		);
-		if (pathos_smtp_mail($emails,"",$message->subject,$message->body,$headers) == false) {
+		if (pathos_smtp_mail($emails,"",$message->subject,'<html><body>'.$message->body.'</body></html>',$headers) == false) {
 			echo TR_INBOXMODULE_ERR_SMTP;
 		}
 	}

@@ -162,7 +162,7 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 			
 			$message = str_replace("\r\n","\n",$message);
 			
-			if (mail($to,$subject,'$message') == false) {
+			if (mail($to,$subject,$message,$real_headers) == false) {
 				$return = false;
 			}
 		} else { // need to do callbacks

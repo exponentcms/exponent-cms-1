@@ -111,10 +111,6 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 	$linksrc = $core->path;
 	$linkdest = $site->path;
 	
-	echo '<xmp>';
-	print_r($deps);
-	echo '</xmp>';
-	
 	foreach ($deps as $info) {
 		echo 'Linking.' .$info['name'].' : '.$info['type'].'<br />';
 		pathos_sharedcore_linkExtension($info['type'],$info['name'],$core->path,$site->path);
@@ -232,12 +228,7 @@ function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 		}
 	}
 	if ($files !== null) {
-		echo '<xmp>';
-		print_r($files);
-		echo '</xmp>';
 		pathos_sharedcore_linkFiles($source.'/',$destination.'/',$files);
-	} else {
-		echo 'FILES was null<br />';
 	}
 	return SHAREDCORE_ERR_OK;
 }

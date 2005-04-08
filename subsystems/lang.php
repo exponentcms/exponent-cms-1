@@ -59,6 +59,8 @@ function pathos_lang_initialize() {
 		setlocale(LC_ALL,$info['locale']);
 		// For view resolution
 		define('DEFAULT_VIEW',$info['default_view']);
+		// For anything related to character sets:
+		define('LANG_CHARSET',$info['charset']);
 	}
 }
 

@@ -44,6 +44,7 @@ define('TR_CONFIG_SITE_ALLOW_REGISTRATION_DESC','Whether or not new users should
 
 define('TR_CONFIG_SITE_USE_CAPTCHA','Use CAPTCHA Test?');
 define('TR_CONFIG_SITE_USE_CAPTCHA_DESC','A CAPTCHA (Computer Automated Public Turing Test to Tell Computers and Humans Apart) is a means to prevent massive account registration.  When registering a new user account, the visitor will be required to enter a series of letters and numbers appearing in an image.  This prevents scripted bots from registering a large quantity of accounts.');
+define('TR_CONFIG_SITE_USE_CAPTCHA_NOSUPPORT','<div class="error">The server\'s version and/or configuration of PHP does not include GD support, so you will not be able to activate or use the CAPTCHA test.</div>');
 
 define('TR_CONFIG_SITE_KEYWORDS','Keywords');
 define('TR_CONFIG_SITE_KEYWORDS_DESC','Search engine keywords for the site.');
