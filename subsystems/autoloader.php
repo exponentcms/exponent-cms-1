@@ -40,7 +40,7 @@ if (phpversion() >= 5) {
 	 * has been included for use.
 	 * @node Subsystems:Autoloader
 	 */
-	define("SYS_AUTOLOADER",1);
+	define('SYS_AUTOLOADER',1);
 	
 	/* exdoc
 	 * In PHP5, the autoloader function will check these
@@ -50,7 +50,7 @@ if (phpversion() >= 5) {
 	 * of autoloading
 	 * @node Subsystems:Autoloader
 	 */
-	$auto_dirs = array("datatypes"=>BASE."datatypes");
+	$auto_dirs = array('datatypes'=>BASE.'datatypes');
 	
 	/* exdoc
 	 * This function overrides the default PHP5 autoloader,
@@ -63,20 +63,20 @@ if (phpversion() >= 5) {
 	 */
 	function __autoload($class) {
 		global $auto_dirs;
-		foreach ($auto_dirs as $auto_dir) {
-			if (is_readable("$auto_dir/$class.php")) {
-				include_once("$auto_dir/$class.php");
+		for ($i = 0; $i < count($auto_dirs); $i++) {
+			if (is_readable($auto_dirs[$i] . '/' . $class . '.php')) {
+				include_once($auto_dirs[$i] . '/' . $class . '.php');
 				return;
 			}
 		}
 	}
 } else {
-	define("SYS_AUTOLOADER",2);
-	if (is_readable(BASE."datatypes")) {
-		$dh = opendir(BASE."datatypes");
+	define('SYS_AUTOLOADER',2);
+	if (is_readable(BASE . 'datatypes')) {
+		$dh = opendir(BASE . 'datatypes');
 		while (($file = readdir($dh)) !== false) {
-			if (is_readable(BASE."datatypes/$file") && substr($file,-4,4) == ".php") {
-				include_once(BASE."datatypes/$file");
+			if (is_readable(BASE . 'datatypes/' . $file) && substr($file,-4,4) == '.php') {
+				include_once(BASE . 'datatypes/' . $file);
 			}
 		}
 	}

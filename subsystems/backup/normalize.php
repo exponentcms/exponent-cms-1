@@ -41,12 +41,12 @@ function pathos_backup_normalize_sections($db,$parent = 0) {
 	$sections = $db->selectObjects('section','parent='.$parent);
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($sections,'pathos_sorting_byRankAscending');
-	$rank = 0;
-	foreach ($sections as $s) {
-		$s->rank = $rank;
+	
+	for ($i = 0; $i < count($sections); $i++) {
+		$s = $sections[$i];
+		$s->rank = $i;
 		$db->updateObject($s,'section');
 		pathos_backup_normalize_sections($db,$s->id); // Normalize children
-		$rank++;
 	}
 }
 
