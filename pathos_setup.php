@@ -33,6 +33,8 @@
 
 // Set up sessions to use cookies, NO MATTER WHAT
 ini_set('session.use_cookies',1);
+// Set the save_handler to files
+ini_set('session.save_handler','files');
 
 if (DEVELOPMENT) {
 	// In development mode, we need to turn on full throttle error reporting.
@@ -56,5 +58,53 @@ if (DEVELOPMENT >= 2) {
 	function dump_debug($var) { }
 }
 
+// The following code was lifted from phpMyAdmin, but then again, this is Open Source, right?
+
+// Determines platform (OS), browser and version of the user
+// Based on a phpBuilder article:
+//   see http://www.phpbuilder.net/columns/tim20000821.php
+if (!defined('PATHOS_USER_OS')) {
+    // 1. Platform
+    if (strstr($_SERVER['HTTP_USER_AGENT'], 'Win')) {
+        define('PATHOS_USER_OS', 'Win');
+    } else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Mac')) {
+        define('PATHOS_USER_OS', 'Mac');
+    } else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Linux')) {
+        define('PATHOS_USER_OS', 'Linux');
+    } else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Unix')) {
+        define('PATHOS_USER_OS', 'Unix');
+    } else if (strstr($_SERVER['HTTP_USER_AGENT'], 'OS/2')) {
+        define('PATHOS_USER_OS', 'OS/2');
+    } else {
+        define('PATHOS_USER_OS', 'Other');
+    }
+
+    // 2. browser and version
+    // (must check everything else before Mozilla)
+	$log_version = array();
+    if (preg_match('@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'], $log_version)) {
+        define('PATHOS_USER_BROWSER_VERSION', $log_version[2]);
+        define('PATHOS_USER_BROWSER', 'OPERA');
+    } else if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'], $log_version)) {
+        define('PATHOS_USER_BROWSER_VERSION', $log_version[1]);
+        define('PATHOS_USER_BROWSER', 'IE');
+    } else if (preg_match('@OmniWeb/([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'], $log_version)) {
+        define('PATHOS_USER_BROWSER_VERSION', $log_version[1]);
+        define('PATHOS_USER_BROWSER', 'OMNIWEB');
+    } else if (preg_match('@(Konqueror/)(.*)(;)@', $_SERVER['HTTP_USER_AGENT'], $log_version)) {
+        define('PATHOS_USER_BROWSER_VERSION', $log_version[2]);
+        define('PATHOS_USER_BROWSER', 'KONQUEROR');
+    } else if (preg_match('@Mozilla/([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'], $log_version)
+               && preg_match('@Safari/([0-9]*)@', $_SERVER['HTTP_USER_AGENT'], $log_version2)) {
+        define('PATHOS_USER_BROWSER_VERSION', $log_version[1] . '.' . $log_version2[1]);
+        define('PATHOS_USER_BROWSER', 'SAFARI');
+    } else if (preg_match('@Mozilla/([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'], $log_version)) {
+        define('PATHOS_USER_BROWSER_VERSION', $log_version[1]);
+        define('PATHOS_USER_BROWSER', 'MOZILLA');
+    } else {
+        define('PATHOS_USER_BROWSER_VERSION', 0);
+        define('PATHOS_USER_BROWSER', 'OTHER');
+    }
+}
 
 ?>
