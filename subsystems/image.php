@@ -38,6 +38,11 @@
  */
 define('SYS_IMAGE',1);
 
+define('IMAGE_ERR_NOGD','');
+define('IMAGE_ERR_NOTSUPPORTED','_unknown');
+define('IMAGE_ERR_FILENOTFOUND','_notfound');
+define('IMAGE_ERR_PERMISSIONDENIED','_denied');
+
 /* exdoc
  * Output the contents of the fallback preview image.
  *
@@ -49,8 +54,8 @@ define('SYS_IMAGE',1);
  * @param string $base The base directory of Exponent.  Refer to the BASE constant.
  * @node Subsystems:Image
  */
-function pathos_image_showFallbackPreviewImage($base) {
-	$fh = fopen($base.'subsystems/image/default_preview.gif','rb');
+function pathos_image_showFallbackPreviewImage($base,$error = IMAGE_ERR_NOGD) {
+	$fh = fopen($base.'subsystems/image/default_preview'.$error.'.gif','rb');
 	$img = fread($fh,65536);
 	fclose($fh);
 	header('Content-type: image/gif');
@@ -66,7 +71,12 @@ function pathos_image_showFallbackPreviewImage($base) {
  * @node Subsystems:Image
  */
 function pathos_image_sizeinfo($filename) {
-	if (!is_readable($filename)) return null;
+	if (!file_exists($filename)) {
+		return IMAGE_ERR_FILENOTFOUND;
+	}
+	if (!is_readable($filename)) {
+		return IMAGE_ERR_PERMISSIONDENIED;
+	}
 	$sizeinfo = @getimagesize($filename);
 	if (!isset($sizeinfo['mime'])) {
 		// In case this implementation of getimagesize
@@ -91,13 +101,25 @@ function pathos_image_sizeinfo($filename) {
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
  *
+ * At this point, the user should have called pathos_image_sizeInfo on the filename
+ * and verified that the file does indeed exist, and is readable.  A safeguard check
+ * is in place, however.
+ *
  * @param string $filename The path/filename of the image.
  * @param Array $sizeinfo Size information (as returned by pathos_image_sizeInfo
  * @node Subsystems:Image
  */
 function pathos_image_createFromFile($filename,$sizeinfo) {
+	if (!is_array($sizeinfo)) {
+		// If $sizeinfo came from pathos_image_sizeInfo($filename) and is NOT
+		// an array, it must be an error constant.  Return that to the caller.
+		return $sizeinfo;
+	}
+	
 	$info = gd_info();
-	if ($info['GD Version'] == 'Not Supported') return null;
+	if ($info['GD Version'] == 'Not Supported') {
+		return IMAGE_ERR_NOGD;
+	}
 
 	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
 		return imagecreatefromjpeg($_GET['file']);
@@ -106,7 +128,8 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
 	} else if ($sizeinfo['mime'] == 'image/gif' && $info['GIF Read Support'] == true) {
 		return imagecreatefromgif($_GET['file']);
 	} else {
-		return null;
+		// Either we have an unknown image type, or an unsupported image type.
+		return IMAGE_ERR_NOTSUPPORTED;
 	}
 }
 
@@ -122,7 +145,10 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
  */
 function pathos_image_create($w,$h) {
 	$info = gd_info();
-	if ($info['GD Version'] == 'Not Supported') return null;
+	if ($info['GD Version'] == 'Not Supported') {
+		return IMAGE_ERR_NOGD;
+	}
+	
 	if (strpos($info['GD Version'],'2.0') != false) {
 		return imagecreatetruecolor($w,$h);
 	} else {
@@ -142,19 +168,28 @@ function pathos_image_create($w,$h) {
  */
 function pathos_image_scaleByPercent($filename,$scale) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
-	if (!$sizeinfo) return null;
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
-	if (!$original) return null;
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
 	
-	if ($scale == 1) return $original;
+	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+	
+	if ($scale == 1) {
+		return $original;
+	}
 	
 	$w = $scale * $sizeinfo[0];
 	$h = $scale * $sizeinfo[1];
 	
 	$thumb = pathos_image_create($w,$h);
-	if (!$thumb) return null;
-	imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+	if (is_resource($thumb)) {
+		// If we got a resource back, resize it.  Otherwise we will just return the error returned
+		// to our caller.
+		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	}
 	return $thumb;
 }
 
@@ -170,19 +205,27 @@ function pathos_image_scaleByPercent($filename,$scale) {
  */
 function pathos_image_scaleToWidth($filename,$width) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
-	if (!$sizeinfo) return null;
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
 	$original = pathos_image_createFromFile($filename,$sizeinfo);
-	if (!$original) return null;
+	if (!is_resource($original)) {
+		return $sizeinfo;
+	}
 	
-	if ($width == $sizeinfo[0]) return $original;
+	if ($width == $sizeinfo[0]) {
+		return $original;
+	}
 	
 	$w = $width;
 	$h = ($width / $sizeinfo[0]) * $sizeinfo[1];
 	
 	$thumb = pathos_image_create($w,$h);
-	if (!$thumb) return null;
-	imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+	if ($thumb) {
+		// If we got a resource back, resize it.  Otherwise we will just return the error returned
+		// to our caller.
+		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	}
 	return $thumb;
 }
 
@@ -197,19 +240,28 @@ function pathos_image_scaleToWidth($filename,$width) {
  * @node Subsystems:Image
  */function pathos_image_scaleToHeight($filename,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
-	if (!$sizeinfo) return null;
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
-	if (!$original) return null;
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
 	
-	if ($height == $sizeinfo[1]) return $original;
+	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+	
+	if ($height == $sizeinfo[1]) {
+		return $original;
+	}
 	
 	$w = ($height / $sizeinfo[1]) * $sizeinfo[0];
 	$h = $height;
 	
 	$thumb = pathos_image_create($w,$h);
-	if (!$thumb) return null;
-	imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+	if ($thumb) {
+		// If we got a resource back, resize it.  Otherwise we will just return the error returned
+		// to our caller.
+		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	}
 	return $thumb;
 }
 
@@ -226,11 +278,18 @@ function pathos_image_scaleToWidth($filename,$width) {
  */
 function pathos_image_scaleToConstraint($filename,$width,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
-	if (!$sizeinfo) return null;
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
-	if (!$original) return null;
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
 	
-	if ($width >= $sizeinfo[0] && $height >= $sizeinfo[1]) return $original;
+	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+	
+	if ($width >= $sizeinfo[0] && $height >= $sizeinfo[1]) {
+		return $original;
+	}
 	
 	$w = $width;
 	$h = ($width / $sizeinfo[0]) * $sizeinfo[1];
@@ -241,8 +300,11 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
 	}
 	
 	$thumb = pathos_image_create($w,$h);
-	if (!$thumb) return null;
-	imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	if ($thumb) {
+		// If we got a resource back, resize it.  Otherwise we will just return the error returned
+		// to our caller.
+		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	}
 	
 	return $thumb;
 }
@@ -260,15 +322,25 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
  */
 function pathos_image_scaleManually($filename,$width,$height) {
 	$sizeinfo = pathos_image_sizeinfo($filename);
-	if (!$sizeinfo) return null;
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
-	if (!$original) return null;
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
 	
-	if ($width == $sizeinfo[0] && $height == $sizeinfo[1]) return $original;
+	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+	
+	if ($width == $sizeinfo[0] && $height == $sizeinfo[1]) {
+		return $original;
+	}
 	
 	$thumb = pathos_image_create($width,$height);
-	if (!$thumb) return null;
-	imagecopyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
+	if ($thumb) {
+		// If we got a resource back, resize it.  Otherwise we will just return the error returned
+		// to our caller.
+		imagecopyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
+	}
 	
 	return $thumb;
 }

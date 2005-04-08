@@ -50,7 +50,7 @@ if (isset($_GET['constraint'])) {
 	$thumb = pathos_image_scaleByPercent($file,$_GET['scale'] / 100);
 }
 
-if ($thumb) pathos_image_output($thumb,pathos_image_sizeinfo($file));
-else pathos_image_showFallbackPreviewImage($_GET['base']);
+if (is_resource($thumb)) pathos_image_output($thumb,pathos_image_sizeinfo($file));
+else pathos_image_showFallbackPreviewImage($_GET['base'],$thumb);
 
 ?>
