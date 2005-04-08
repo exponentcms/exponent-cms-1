@@ -32,18 +32,6 @@
 <div class="form_header">
 Listed below are the module types that have uploaded files.  Select which type of modules you want to export the files for.
 </div>
-<script type="text/javascript">
-{literal}
-function mods_selectUnselectAll(setChecked) {
-	var elems = document.getElementsByTagName("input")
-	for (key = 0; key < elems.length; key++) {
-		if (elems[key].type == "checkbox" && elems[key].name.substr(0,5) == "mods[") {
-			elems[key].checked = setChecked;
-		}
-	}
-}
-{/literal}
-</script>
 <form method="post" action="">
 <input type="hidden" name="module" value="exporter" />
 <input type="hidden" name="action" value="page" />
@@ -62,8 +50,8 @@ function mods_selectUnselectAll(setChecked) {
 </tr>
 {/foreach}
 <tr><td colspan="2">
-<a href="#" onClick="mods_selectUnselectAll(true); return false;">Select All</a>&nbsp;|&nbsp;<a href="#" onClick="mods_selectUnselectAll(false); return false;">Unselect All</a>
+<a href="#" onClick="selectAll('mods[',true); return false;">Select All</a>&nbsp;|&nbsp;<a href="#" onClick="selectAll('mods[',false); return false;">Unselect All</a>
 </td></tr>
 </table>
-<input type="submit" value="Export" />
+<input type="submit" onClick="{literal}if (isOneSelected('mods[')) { return true; } else { alert('You must select at least one module to export files for.'); return false; }{/literal}" value="Export" />
 </form>
