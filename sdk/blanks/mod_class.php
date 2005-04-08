@@ -32,9 +32,9 @@
 ##################################################
 
 class CHANGEME {
-	function name() { return ""; }
-	function description() { return ""; }
-	function author() { return ""; }
+	function name() { return ''; }
+	function description() { return ''; }
+	function author() { return ''; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
@@ -42,30 +42,35 @@ class CHANGEME {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
-		if ($internal == "") {
+	function permissions($internal = '') {
+		if ($internal == '') {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
+				'administrate'=>'Administrate',
+				'configure'=>'Configure',
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
+				'administrate'=>'Administrate',
+				'configure'=>'Configure',
 			);
 		}
 	}
 	
-	function show($view,$loc = null, $title = "") {
+	function show($view,$loc = null, $title = '') {
 	
 	}
 	
 	function deleteIn($loc) {
-	
+		// Do nothing, no content
 	}
 	
-	function copyContent($oloc,$nloc) {
+	function copyContent($from_loc,$to_loc) {
+		// Do nothing, no content
+	}
 	
+	function spiderContent($item = null) {
+		// Do nothing, no content
+		return false;
 	}
 }
 
