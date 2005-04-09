@@ -209,7 +209,7 @@ function pathos_image_scaleByPercent($filename,$scale) {
 	if (is_resource($thumb)) {
 		// If we got a resource back, resize it.  Otherwise we will just return the error returned
 		// to our caller.
-		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
 	
 	return $thumb;
@@ -246,7 +246,7 @@ function pathos_image_scaleToWidth($filename,$width) {
 	if ($thumb) {
 		// If we got a resource back, resize it.  Otherwise we will just return the error returned
 		// to our caller.
-		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
 	
 	return $thumb;
@@ -283,7 +283,7 @@ function pathos_image_scaleToWidth($filename,$width) {
 	if ($thumb) {
 		// If we got a resource back, resize it.  Otherwise we will just return the error returned
 		// to our caller.
-		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
 	
 	return $thumb;
@@ -327,7 +327,7 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
 	if ($thumb) {
 		// If we got a resource back, resize it.  Otherwise we will just return the error returned
 		// to our caller.
-		imagecopyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	}
 	
 	return $thumb;
@@ -363,7 +363,7 @@ function pathos_image_scaleManually($filename,$width,$height) {
 	if ($thumb) {
 		// If we got a resource back, resize it.  Otherwise we will just return the error returned
 		// to our caller.
-		imagecopyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
+		pathos_image_copyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
 	}
 	
 	return $thumb;
