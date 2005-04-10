@@ -287,6 +287,7 @@ return array(
 	'TODO'=>'',
 	'datatypes/database_importer.php'=>'',
 	'tmp/index.html'=>'',
+	'pathos_bootstrap.php'=>'',
 );
 
 ?>

@@ -1,7 +1,5 @@
 <?php
 
-# Manifest file
-
 return array(
 	'modules/common/actions/show_view.php'=>'',
 	'modules/common/actions/configure.php'=>'',
