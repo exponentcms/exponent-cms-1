@@ -20,4 +20,4 @@
 
 
 
-<div class="moduletitle MODULE_moduletitle">{$moduletitle}</div>
+{if $moduletitle != ''}<div class="moduletitle MODULE_moduletitle">{$moduletitle}</div>{/if}
