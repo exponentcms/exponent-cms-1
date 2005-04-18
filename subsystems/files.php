@@ -299,4 +299,18 @@ function pathos_files_canCreate($dest) {
 	}
 }
 
+function pathos_files_bytesToHumanReadable($size) {
+	if ($size >= 1024*1024*1024) { // Gigs
+		$size_msg = round(($size / (1024*1024*1024)),2) . " GB";
+	} else if ($size >= 1024*1024) { // Megs
+		$size_msg = round(($size / (1024*1024)),2) . " MB";
+	} else if ($size >= 1024) { // Kilo
+		$size_msg = round(($size / 1024),2) . " kB";
+	} else {
+		$size_msg = $size . " bytes";
+	}
+	
+	return $size_msg;
+}
+
 ?>
