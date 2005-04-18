@@ -50,10 +50,6 @@ if (pathos_permissions_check('configure',$loc)) {
 	
 		$form = call_user_func(array($_GET['module'].'_config','form'),$config);
 		
-		$form->location($loc);
-		$form->meta('action','saveconfig');
-		$form->meta('_common','1');
-		
 		if (isset($form->controls['submit'])) {
 			$submit = $form->controls['submit'];
 			$form->unregister('submit');
@@ -92,9 +88,15 @@ if (pathos_permissions_check('configure',$loc)) {
 		$form->register('submit','',$submit);
 	}
 	
-	if ($hasConfig) {
+	if ($hasConfig) {	
+		// Place these last, so they ALWAYS run
+		$form->location($loc);
+		$form->meta('action','saveconfig');
+		$form->meta('_common','1');
+		
 		$template->assign('form_html',$form->toHTML());
 	}
+	
 	$template->assign('hasConfig',$hasConfig);
 	
 	$template->output();

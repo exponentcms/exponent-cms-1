@@ -35,10 +35,12 @@ if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check("configure",$loc)) {
 	$config = $db->selectObject($_POST['module']."_config","location_data='".serialize($loc)."'");
-	$config = call_user_func(array($_POST['module']."_config","update"),$_POST,$config);
-	$config->location_data = serialize($loc);
-	if (isset($config->id)) $db->updateObject($config,$_POST['module']."_config");
-	else $db->insertObject($config,$_POST['module']."_config");
+	if (is_callable(array($_POST['module']."_config","update"))) {
+		$config = call_user_func(array($_POST['module']."_config","update"),$_POST,$config);
+		$config->location_data = serialize($loc);
+		if (isset($config->id)) $db->updateObject($config,$_POST['module']."_config");
+		else $db->insertObject($config,$_POST['module']."_config");
+	}
 	
 	if (isset($_POST['supports_channels'])) {
 		// Process Shared Content Channels
