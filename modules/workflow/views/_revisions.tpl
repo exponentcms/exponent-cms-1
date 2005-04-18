@@ -56,11 +56,11 @@ function confirmDelete() {
 	<div width="100%" style="width: 100%">
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 		<tr>
-			<td style="font-weight: bold">{if $revision->title != ""}'{$revision->title}' v{else}V{/if}ersion {$revision->wf_major}.{$revision->wf_minor}
+			<td style="font-weight: bold">{if $revision->title != ""}'{$revision->title}' v{else}V{/if}ersion {$revision->wf_major}.{$revision->wf_minor} :: {attribution user_id=$revision->wf_user_id}
 			{if $revision->wf_minor == 0 && $revision->wf_major != $current}
 			<input type="checkbox" name="d[{$revision->id}]" onClick="registerCheck(this)" /> Delete?
 			{/if}</td>
-			<td align="right">{$revision->wf_updated|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+			<td align="right">{$revision->wf_updated|format_date:$smarty.const.DISPLAY_DATETIME_FORMAT}</td>
 		</tr>
 		<tr>
 			<td colspan="2">{$revision->wf_comment}</td>
