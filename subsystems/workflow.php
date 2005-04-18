@@ -165,7 +165,9 @@ function pathos_workflow_dataDefinitions($tabledef) {
 				DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
 			'wf_comment'=>array(
 				DB_FIELD_TYPE=>DB_DEF_STRING,
-				DB_FIELD_LEN=>5000)
+				DB_FIELD_LEN=>5000),
+			'wf_user_id'=>array(
+				DB_FIELD_TYPE=>DB_DEF_ID)
 		)),
 		'_wf_info'=>array(
 			'real_id'=>array(
@@ -211,7 +213,7 @@ function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
 	
 	if (!$db->tableExists($existingname.'_wf_revision')) {
 		$tmp = $db->createTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
-		$return[$existingname.'_wf_revision'] = $return[$existingname.'_wf_revision'];
+		$return[$existingname.'_wf_revision'] = $tmp[$existingname.'_wf_revision'];
 	} else {
 		$tmp = $db->alterTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
 		$return[$existingname.'_wf_revision'] = $tmp[$existingname.'_wf_revision'];
@@ -347,6 +349,7 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 		array($user->id=>1)
 	);
 	$object->wf_state_data = serialize($state);
+	$object->wf_user_id = $user->id;
 	
 	// Now check approval right off the bat.  Admin is always exempt from workflow
 	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
@@ -412,12 +415,14 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 	$state = unserialize($latest->wf_state_data);
 	
 	$latest->wf_minor++;
+	$latest->wf_comment = $comment;
 
 	$dataobj = new $datatype(); // usually a static class, but we cant do that with var class name
 	
 	global $user;
 	$revoketype = SYS_WORKFLOW_REVOKE_NONE;
 	$latest->wf_type = -1;
+	$latest->wf_user_id = $user->id;
 	
 	// FIXME - need to check for repeat approvers / poster
 	if (!in_array($user->id+0,$state[0])) {
@@ -431,7 +436,7 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 			$latest->wf_type = SYS_WORKFLOW_ACTION_APPROVED_EDITED;
 			$latest = call_user_func(array($datatype,"update"),$_POST,$latest);
 			// Update the comment, also entered on the form.
-			$latest->wf_comment = $_POST['wf_comment'];
+			#$latest->wf_comment = $_POST['wf_comment'];
 			$state[1][$user->id] = 1;
 			break;
 		case SYS_WORKFLOW_APPROVE_APPROVE:
@@ -451,7 +456,7 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 				pathos_workflow_deleteRevisionPath($datatype,$latest->wf_original);
 			} else {
 				$latest->wf_type = SYS_WORKFLOW_ACTION_APPROVED_DENIED;
-				$latest->wf_comment = $comment;
+				#$latest->wf_comment = $comment;
 			}
 			break;
 	}
@@ -492,8 +497,10 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	$loc = unserialize($info->location_data);
 	if (is_callable(array($loc->mod,"spiderContent"))) call_user_func(array($loc->mod,"spiderContent"),$real);
 	
+	global $user;
 	unset($revision->id);
 	$revision->wf_updated = time();
+	$revision->wf_user_id = $user->id;
 	$db->insertObject($revision,$datatype."_wf_revision");
 	
 	// Delete the info object.
@@ -501,7 +508,6 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	
 	// run actions for ACTION_APPROVED_FINAL
 	$policy = $db->selectObject("approvalpolicy","id=".$info->policy_id);
-	global $user;
 	if ($user->is_acting_admin == 1) {
 		$action = SYS_WORKFLOW_ACTION_APPROVED_ADMIN;
 	} else {
@@ -517,10 +523,12 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
  * @node Undocumented
  */
 function pathos_workflow_handleRevision($revision,$datatype,$info) {
-	global $db;
+	global $db, $user;
 	
 	unset($revision->id);
 	$revision->wf_updated = time();
+	$revision->wf_user_id = $user->id;
+	
 	$db->insertObject($revision,$datatype."_wf_revision");
 	
 	// Update the info object.
@@ -595,7 +603,7 @@ function pathos_workflow_deleteRevisionPath($datatype,$id) {
  * @node Undocumented
  */
 function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
-	global $db;
+	global $db, $user;
 	
 	$info = $db->selectObject($datatype."_wf_info","real_id=".$real_id);
 	$revision = $db->selectObject($datatype."_wf_revision","wf_original=".$real_id." AND wf_major=$major AND wf_minor=0");
@@ -614,6 +622,7 @@ function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
 	$revision->wf_major = $db->max($datatype."_wf_revision","wf_major","wf_original","wf_original=".$real_id) + 1;
 	$revision->wf_type = SYS_WORKFLOW_ACTION_RESTORED;
 	$revision->wf_updated = time();
+	$revision->wf_user_id = $user->id;
 	
 	unset($revision->id);
 	
@@ -640,6 +649,7 @@ function pathos_workflow_convertToObject($revision) {
 	unset($object->wf_updated);
 	unset($object->wf_comment);
 	unset($object->wf_type);
+	unset($object->wf_user_id);
 	return $object;
 }
 
@@ -677,6 +687,8 @@ function pathos_workflow_getInfoTables() {
  * @node Undocumented
  */
 function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
+	global $db,$user;
+	
 	$state = unserialize($revision->wf_state_data);
 	$state = pathos_workflow_revoke($state,SYS_WORKFLOW_REVOKE_ALL);
 	
@@ -686,9 +698,10 @@ function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
 	$revision->wf_minor++;
 	$info->current_minor = $revision->wf_minor;
 	
+	$revision->wf_user_id = $user->id;
+	
 	$info->open_slots = $newpolicy->max_approvers + 1 - count($state[0]);
 	
-	global $db;
 	$policy = $db->selectObject("approvalpolicy","policy_id=".$info->policy_id);
 	return pathos_workflow_handleRevision($revision,$type,$info);
 	// run the restart action;
