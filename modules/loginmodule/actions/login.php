@@ -39,7 +39,11 @@ if (!defined('SYS_USERS')) include_once('subsystems/users.php');
 pathos_users_login($_POST['username'],$_POST['password']);
 
 if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {
-	echo TR_LOGINMODULE_LOGINERR;
+	if (MAINTENANCE_MODE) {
+		echo MAINTENANCE_MSG_HTML;
+	} else {
+		echo TR_LOGINMODULE_LOGINERR;
+	}
 } else {
 	pathos_flow_redirect();
 }

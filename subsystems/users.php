@@ -226,8 +226,12 @@ function pathos_users_login($username, $password) {
 	if ($user != null && ($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
 		// Retrieve the full profile, complete with all Extension data.
 		$user = pathos_users_getFullProfile($user);
-		// Call on the Sessions subsystem to log the user into the site.
-		pathos_sessions_login($user);
+		
+		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
+		if (!MAINTENANCE_MODE || $user->is_admin == 1 || $user->is_acting_admin == 1) {
+			// Call on the Sessions subsystem to log the user into the site.
+			pathos_sessions_login($user);
+		}
 	}
 }
 
@@ -274,6 +278,7 @@ function pathos_users_form($user = null) {
 		$user->lastname = '';
 		$user->email = '';
 		$user->recv_html = 1;
+##		$user->home_section = 0;
 		// Username and Password can only be specified for a new user.  To change the password,
 		// a different form is used (part of the loginmodule)
 		$form->register('username',TR_USERSSUBSYSTEM_DESIREDUSERNAME,new textcontrol());
@@ -290,6 +295,11 @@ function pathos_users_form($user = null) {
 	$form->register(null,'',new htmlcontrol('<br />'));
 	$form->register('email',TR_USERSSUBSYSTEM_EMAIL,new textcontrol($user->email));
 	$form->register('recv_html',TR_USERSSUBSYSTEM_RECVHTML, new checkboxcontrol($user->recv_html,true));
+	$form->register(null,'',new htmlcontrol('<br />'));
+##	// Register the nav hierarhcy dropdown for home section.
+##	$hier = navigationmodule::hierarchyDropDownControlArray();
+##	$hier[0] = '&lt;None&gt;';
+##	$form->register('home_section','Home Page',new dropdowncontrol($user->home_section,$hier));
 	$form->register(null,'',new htmlcontrol('<br />'));
 	
 	// Pull in form data for all active profile extensions.
@@ -370,6 +380,7 @@ function pathos_users_update($formvalues, $u = null) {
 	$u->lastname = $formvalues['lastname'];
 	$u->email = $formvalues['email'];
 	$u->recv_html = (isset($formvalues['recv_html']) ? 1 : 0);
+###	$u->home_section = $formvalues['home_section'];
 	global $user;
 	// Set the is_acting_admin flag.  There a re a few ways that this should be done.
 	// If the admin is editing or creating a user, solely check if isset() 
@@ -828,6 +839,7 @@ function pathos_users_saveUser($u) {
 	$tmp->firstname = $u->firstname;
 	$tmp->lastname = $u->lastname;
 	$tmp->email = $u->email;
+###	$tmp->home_section = $u->home_section;
 	
 	if (isset($u->id)) {
 		// If the user already has an ID, an update should be performed.  For that,

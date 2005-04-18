@@ -41,6 +41,17 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 // Initialize the Pathos Framework
 include_once('pathos.php');
 
+// Check to see if we are in maintenance mode.
+if (MAINTENANCE_MODE == 1) {
+	if (!$user || $user->is_admin == 0 || $user->is_acting_admin == 0) {
+		$template = new standalonetemplate('_maintenance');
+		$template->output();
+		exit();
+	} else {
+		echo '<div class="error">The site is currently in maintenance mode.</div>';
+	}
+}
+
 pathos_lang_loadDictionary('standard','base');
 
 // Initialize the theme subsystem
