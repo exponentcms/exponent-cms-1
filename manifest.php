@@ -156,6 +156,8 @@ return array(
 	'iconset/view.gif'=>'',
 	'iconset/package.gif'=>'',
 	'iconset/print.gif'=>'',
+	'iconset/right.disabled.png'=>'',
+	'iconset/left.disabled.png'=>'',
 	'views/loginredirect.tpl'=>'',
 	'views/orphaned_content.tpl'=>'',
 	'views/popup_general.tpl'=>'',
@@ -288,6 +290,7 @@ return array(
 	'datatypes/database_importer.php'=>'',
 	'tmp/index.html'=>'',
 	'pathos_bootstrap.php'=>'',
+	'views/_maintenance.tpl'=>'',
 );
 
 ?>
