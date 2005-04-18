@@ -45,7 +45,6 @@ class CHANGEME {
 		
 		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

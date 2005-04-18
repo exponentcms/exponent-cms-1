@@ -58,7 +58,6 @@ class contactmodule_config {
 		$form->register('final_message','Confirmation Message',new htmleditorcontrol($object->final_message));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

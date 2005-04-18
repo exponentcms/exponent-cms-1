@@ -57,7 +57,6 @@ class weblog_post {
 		$form->register('is_private',TR_WEBLOGMODULE_ISPRIVATE, new checkboxcontrol($object->is_private));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

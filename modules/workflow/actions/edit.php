@@ -53,8 +53,6 @@ if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0
 	$template = new template('workflow','_form_edit');
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

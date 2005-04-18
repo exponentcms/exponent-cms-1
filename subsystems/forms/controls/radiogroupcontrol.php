@@ -155,7 +155,6 @@ class radiogroupcontrol extends formcontrol {
 		$form->register("required",TR_FORMCONTROLS_REQUIREDSELECT, new checkboxcontrol(@$object->required,false)); 
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	
@@ -178,7 +177,7 @@ class radiogroupcontrol extends formcontrol {
 		$object->cols = intval($values['cols']);
 		$object->spacing = intval($values['spacing']);
 		$object->required = isset($values['required']);
-		pathos_forms_cleanup();
+		
 		return $object;
 	}
 }

@@ -52,8 +52,6 @@ if ($user) {
 	$template = new template('loginmodule','_form_changePassword',$loc);
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

@@ -107,7 +107,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		pathos_forms_initialize();
 		$start_recur = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 		$stop_recur  = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
-		pathos_forms_cleanup();
+		
 		if ($_POST['recur'] != "recur_none") {
 			// Do recurrence
 			$freq = $_POST['recur_freq_'.$_POST['recur']];
@@ -150,7 +150,6 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 			$db->insertObject($edate,"eventdate");
 		}
 		calendarmodule::spiderContent($item);
-		pathos_forms_cleanup();
 	}
 	pathos_flow_redirect();
 } else {

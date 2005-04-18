@@ -84,7 +84,5 @@ $form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,
 $template = New Template("importer", "_usercsv_form_geninfo");
 $template->assign("form_html", $form->tohtml());
 $template->output();
-pathos_forms_cleanup();
-
 
 ?>

@@ -51,7 +51,6 @@ class banner_affiliate {
 		$form->register('contact_info',TR_BANNERMODULE_CONTACTINFO, new texteditorcontrol($object->contact_info,12,50));
 		$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

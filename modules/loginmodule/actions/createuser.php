@@ -50,6 +50,5 @@ if (SITE_ALLOW_REGISTRATION == 1) {
 	$template = new template('loginmodule','_form_createUser',$loc);
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	pathos_forms_cleanup();
 }
 ?>

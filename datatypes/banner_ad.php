@@ -86,8 +86,6 @@ class banner_ad {
 		
 		$form->register('submit','',$submit);
 		
-		pathos_forms_cleanup();
-		
 		return $form;
 	}
 	

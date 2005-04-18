@@ -48,8 +48,6 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$template = new template('administrationmodule','_config_configuresite',$loc);
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

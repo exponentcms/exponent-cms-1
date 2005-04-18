@@ -127,7 +127,6 @@ class privatemessage {
 		$form->register('body',TR_INBOXMODULE_MESSAGE, new htmleditorcontrol($object->body));
 		$form->register('submit','',$btn);
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

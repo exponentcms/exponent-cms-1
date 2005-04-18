@@ -120,7 +120,6 @@ class dropdowncontrol extends formcontrol {
 		
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	
@@ -140,7 +139,6 @@ class dropdowncontrol extends formcontrol {
 		$object->items = listbuildercontrol::parseData($values,'items',true);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
 		$object->required = isset($values['required']);
-		pathos_forms_cleanup();
 		return $object;
 	}
 }

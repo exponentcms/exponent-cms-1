@@ -65,8 +65,6 @@ if (!defined("PATHOS")) exit("");
 	$template = new template("htmltemplatemodule","_form_editassoc",$loc);
 	$template->assign("form_html",$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 // END PERM CHECK
 
 ?>

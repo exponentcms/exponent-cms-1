@@ -51,7 +51,6 @@ class category {
 		$form->register('color',TR_CATEGORY_COLOR,new textcontrol($object->color));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

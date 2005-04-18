@@ -74,8 +74,6 @@ function pathos_config_parse($configname,$site_root = null) {
 		}
 	}
 	
-	pathos_forms_cleanup();
-	
 	$valid = array_flip($valid);
 	
 	foreach ($options as $key=>$value) {
@@ -173,8 +171,6 @@ function pathos_config_configurationForm($configname,$database=false) {
 		}
 		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" /><ul><li>'.implode('</li><li>',$sections).'</li></ul>'));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		
-		pathos_forms_cleanup();
 		
 		return $form;
 	}

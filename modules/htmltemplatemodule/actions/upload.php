@@ -51,8 +51,6 @@ if (pathos_permissions_check("create",$loc)) {
 	$template = new template("htmltemplatemodule","_form_upload",$loc);
 	$template->assign("form_html",$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

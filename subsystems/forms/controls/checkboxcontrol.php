@@ -131,7 +131,6 @@ class checkboxcontrol extends formcontrol {
 		
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

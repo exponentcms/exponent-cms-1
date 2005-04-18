@@ -62,8 +62,6 @@ if ($item) {
 		$template->assign('resource',$item);
 		
 		$template->output();
-		
-		pathos_forms_cleanup();
 	} else {
 		echo SITE_403_HTML;
 	}

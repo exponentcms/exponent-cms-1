@@ -143,8 +143,6 @@ class formmodule {
 			$template->register_permissions(array("administrate","editform","editformsettings","editreport","viewdata","editdata","deletedata"),$loc);
 			$template->output();
 		}
-		
-		pathos_forms_cleanup();
 	}
 	
 	function deleteIn($loc) {

@@ -55,7 +55,6 @@ class weblog_comment {
 		$form->register('body',TR_WEBLOGMODULE_COMMENTBODY, new htmleditorcontrol($object->body));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

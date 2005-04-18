@@ -86,7 +86,10 @@ if ($f) {
 		}
 		
 		pathos_flow_redirect();
-	} else echo SITE_403_HTML;
-} else echo SITE_404_HTML;
-pathos_forms_cleanup();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 ?>

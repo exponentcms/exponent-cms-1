@@ -49,8 +49,6 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	$template->assign('form_html',$form->toHTML());
 	$template->assign('is_edit',($g != null));
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

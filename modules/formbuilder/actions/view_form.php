@@ -74,9 +74,11 @@ if ($f) {
 		$template->assign("types",$types);
 		$template->assign("pickerurl","source_selector.php?showmodules=formmodule&dest='+escape(\"".PATH_RELATIVE."?module=formbuilder&action=picked_source&form_id=".$f->id."&s=".$loc->src."&m=".$loc->mod ."\")+'&vmod=containermodule&vview=_sourcePicker");
 		$template->output();
-	} else echo SITE_403_HTML;	
-} else echo SITE_404_HTML;
-
-pathos_forms_cleanup();
+	} else {
+		echo SITE_403_HTML;	
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

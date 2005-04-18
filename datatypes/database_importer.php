@@ -49,7 +49,6 @@ class database_importer {
 		$form->register('username',TR_DATABASE_USER,new textcontrol(DB_USER));
 		$form->register('pwd',TR_DATABASE_PWD,new passwordcontrol(''));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 }

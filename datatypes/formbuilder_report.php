@@ -83,7 +83,7 @@ class formbuilder_report {
 		$form->register('column_names',TR_FORMBUILDER_REPORTCOLS, new listbuildercontrol($column_names,$fields));
 		$form->register(null,'', new htmlcontrol('<br><br><br>'));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		pathos_forms_cleanup();
+		
 		return $form;
 	}
 	
@@ -94,7 +94,6 @@ class formbuilder_report {
 		$object->description = $values['description'];
 		$object->text = htmleditorcontrol::parseData('text',$values);
 		$object->column_names = $values['column_names'];
-		pathos_forms_cleanup();
 		return $object;
 	}
 }

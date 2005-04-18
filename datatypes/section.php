@@ -169,9 +169,6 @@ class section {
 		// Add a Submit / Cancel button.
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		// Cleanup the Forms subsystem, for PHP5 and autoloading.
-		pathos_forms_cleanup();
-		
 		// Return the form to the calling scope (usually an action in the navigation module).
 		return $form;
 	}
@@ -209,9 +206,6 @@ class section {
 		
 		// Add a Submit / Cancel button.
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		
-		// Cleanup the Forms subsystem, for PHP5 and autoloading.
-		pathos_forms_cleanup();
 		
 		// Return the form to the calling scope (usually an action in the navigation module).
 		return $form;
@@ -253,9 +247,6 @@ class section {
 		
 		// Add a Submit / Cancel button.
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		
-		// Cleanup the Forms subsystem, for PHP5 and autoloading.
-		pathos_forms_cleanup();
 		
 		// Return the form to the calling scope (usually an action in the navigation module).
 		return $form;
@@ -300,9 +291,6 @@ class section {
 		
 		// Add a Submit / Cancel button.
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		
-		// Cleanup the Forms subsystem, for PHP5 and autoloading.
-		pathos_forms_cleanup();
 		
 		// Return the form to the calling scope (usually an action in the navigation module).
 		return $form;

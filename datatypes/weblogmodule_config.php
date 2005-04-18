@@ -51,7 +51,6 @@ class weblogmodule_config {
 		$form->register('items_per_page',TR_WEBLOGMODULE_POSTSPERPAGE,new textcontrol($object->items_per_page));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

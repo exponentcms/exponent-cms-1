@@ -80,8 +80,6 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$template->assign('candelete',$candelete);
 	
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

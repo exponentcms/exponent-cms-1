@@ -69,6 +69,5 @@ if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") !
 	$form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,"", TR_IMPORTER_USERCSV_CANCEL));
 	$template->assign("form_html",$form->tohtml());
 	$template->output();
-	pathos_forms_cleanup();
 }
 ?>

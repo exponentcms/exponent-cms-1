@@ -51,8 +51,6 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 	$template = new template('administrationmodule','_form_uploadExt',$loc);
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

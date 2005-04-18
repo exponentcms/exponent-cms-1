@@ -51,8 +51,6 @@ class resourceitem {
 		$form->register('description',TR_RESOURCESMODULE_DESCRIPTION,new htmleditorcontrol($object->description));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
-		
 		return $form;
 	}
 	

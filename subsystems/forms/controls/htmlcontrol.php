@@ -93,7 +93,6 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 		$form->register("html",'',new htmleditorcontrol($object->html));
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

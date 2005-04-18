@@ -67,8 +67,6 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$template->assign('is_edit',(isset($action->id)?1:0));
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

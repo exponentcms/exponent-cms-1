@@ -30,49 +30,52 @@
 #
 # $Id$
 ##################################################
-	
-	if (!defined("PATHOS")) exit("");
-	
-	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-	pathos_forms_initialize();
-	
-	$f = $db->selectObject("formbuilder_form","id=".$_GET['form_id']);
-	$data = $db->selectObject("formbuilder_".$f->table_name,"id=".$_GET['id']);
-	$controls = $db->selectObjects("formbuilder_control","form_id=".$_GET['form_id']);
-	
-	if ($f && $data && $controls) {
-		if (pathos_permissions_check("editdata",unserialize($f->location_data))) {
-			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-			usort($controls,"pathos_sorting_byRankAscending");
-			
-			$form = new form();
-			foreach ($controls as $c) {
-				$ctl = unserialize($c->data);
-				$ctl->_id = $c->id;
-				$ctl->_readonly = $c->is_readonly;
-				if ($c->is_readonly == 0) {
-					$name = $c->name;
-					$ctl->default = $data->$name;
-				}
-				$form->register($c->name,$c->caption,$ctl);
-			}
-			$form->register(uniqid(""),"", new htmlcontrol("<br><br>"));
-			$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
-			$form->meta("action","submit_form");
-			$form->meta("m",$loc->mod);
-			$form->meta("s",$loc->src);
-			$form->meta("i",$loc->int);
-			$form->meta("id",$f->id);
-			$form->meta("data_id",$data->id);
-			$form->location($loc);
-			
-			$template = new template("formbuilder","_view_form");
-			$template->assign("form_html",$form->toHTML($f->id));
-			$template->assign("form",$f);
-			$template->assign("edit_mode",1);
-			$template->output();
-		} else echo SITE_403_HTML;
-	} else echo SITE_404_HTML;	
+
+if (!defined("PATHOS")) exit("");
+
+if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+pathos_forms_initialize();
+
+$f = $db->selectObject("formbuilder_form","id=".$_GET['form_id']);
+$data = $db->selectObject("formbuilder_".$f->table_name,"id=".$_GET['id']);
+$controls = $db->selectObjects("formbuilder_control","form_id=".$_GET['form_id']);
+
+if ($f && $data && $controls) {
+	if (pathos_permissions_check("editdata",unserialize($f->location_data))) {
+		if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
+		usort($controls,"pathos_sorting_byRankAscending");
 		
-	pathos_forms_cleanup();
+		$form = new form();
+		foreach ($controls as $c) {
+			$ctl = unserialize($c->data);
+			$ctl->_id = $c->id;
+			$ctl->_readonly = $c->is_readonly;
+			if ($c->is_readonly == 0) {
+				$name = $c->name;
+				$ctl->default = $data->$name;
+			}
+			$form->register($c->name,$c->caption,$ctl);
+		}
+		$form->register(uniqid(""),"", new htmlcontrol("<br><br>"));
+		$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
+		$form->meta("action","submit_form");
+		$form->meta("m",$loc->mod);
+		$form->meta("s",$loc->src);
+		$form->meta("i",$loc->int);
+		$form->meta("id",$f->id);
+		$form->meta("data_id",$data->id);
+		$form->location($loc);
+		
+		$template = new template("formbuilder","_view_form");
+		$template->assign("form_html",$form->toHTML($f->id));
+		$template->assign("form",$f);
+		$template->assign("edit_mode",1);
+		$template->output();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;	
+}
+
 ?>

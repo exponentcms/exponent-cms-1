@@ -60,9 +60,6 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	$template->assign('form_html',$form->toHTML());
 	$template->assign('is_edit',isset($u->id)?1:0);
 	$template->output();
-	
-	pathos_forms_cleanup();
-
 } else {
 	echo SITE_403_HTML;
 }

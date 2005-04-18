@@ -319,8 +319,6 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 	
 	$form->register("submit","",new buttongroupcontrol("Save","","Cancel"));
 	
-	pathos_forms_cleanup();
-	
 	return $form;
 }
 

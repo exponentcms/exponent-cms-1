@@ -125,7 +125,6 @@ if ($lineInfo == null) {
 	$template = New Template("importer", "_usercsv_form_mapping");
 	$template->assign("form_html", $form->tohtml());
 	$template->output();
-	pathos_forms_cleanup();
 }
 
 ?>

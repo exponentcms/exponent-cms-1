@@ -110,7 +110,6 @@ class formbuilder_form {
 		$form->register(null,'', new htmlcontrol('<br><br><br>'));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	
@@ -194,7 +193,6 @@ class formbuilder_form {
 			}
 		}
 		return $object->table_name;
-		pathos_forms_cleanup();
 	}
 	
 }

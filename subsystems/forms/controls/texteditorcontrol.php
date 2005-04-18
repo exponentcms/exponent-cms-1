@@ -121,7 +121,6 @@ class texteditorcontrol extends formcontrol {
 		$form->register("required",TR_FORMCONTROLS_REQUIRED, new checkboxcontrol(@$object->required,false)); 
 		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

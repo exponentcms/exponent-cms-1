@@ -49,7 +49,6 @@ class searchmodule_config {
 		$form->register('is_categorized',TR_SEARCHMODULE_CATEGORIZE,new checkboxcontrol($object->is_categorized,true));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

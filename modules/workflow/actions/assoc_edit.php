@@ -70,8 +70,8 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$template = new template('workflow','_form_editassoc');
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

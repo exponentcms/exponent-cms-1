@@ -103,7 +103,6 @@ class inbox_contactlist {
 			$form->register('submit','',$submit);
 		}
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	
@@ -113,7 +112,6 @@ class inbox_contactlist {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
 		$object->_members = listbuildercontrol::parseData($values,'members');
-		pathos_forms_cleanup();
 		return $object;
 	}
 }

@@ -48,6 +48,4 @@ $template = new template('loginmodule','_form_resetpass',$loc);
 $template->assign('form_html',$form->toHTML());
 $template->output();
 
-pathos_forms_cleanup();
-
 ?>

@@ -56,7 +56,6 @@ class imagemanageritem {
 		$form->register('scale',TR_IMAGEMANAGERMODULE_SCALE,new textcontrol($object->scale));
 		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

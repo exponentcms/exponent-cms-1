@@ -52,6 +52,4 @@ $template = new template("importer","_eql_restoreForm",$loc);
 $template->assign("form_html",$form->toHTML());
 $template->output();
 
-pathos_forms_cleanup();
-
 ?>

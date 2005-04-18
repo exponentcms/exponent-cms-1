@@ -56,7 +56,6 @@ class inbox_contactbanned {
 		$form->register('uid',TR_INBOXMODULE_USER,new dropdowncontrol(0,$users));
 		$form->register('submit','',new buttongroupcontrol(TR_INBOXMODULE_BLOCKUSER,'',TR_CORE_CANCEL));
 		
-		pathos_forms_cleanup();
 		return $form;
 	}
 	

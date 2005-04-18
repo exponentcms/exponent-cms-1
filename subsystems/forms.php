@@ -68,7 +68,9 @@ function pathos_forms_initialize() {
 					include_once("$forms_dir/$file");
 				}
 			}
-		} else echo "form directory not readable.";
+		} else {
+			echo "form directory not readable.";
+		}
 		if (is_readable($controls_dir)) {
 			$dh = opendir($controls_dir);
 			while (($file = readdir($dh)) !== false) {
@@ -76,13 +78,17 @@ function pathos_forms_initialize() {
 					include_once("$controls_dir/$file");
 				}
 			}
-		} else echo "control directory not readable.";
+		} else {
+			echo "control directory not readable.";
+		}
 	} else {
 		if (is_readable($controls_dir)) {
 			global $auto_dirs;
 			$auto_dirs["forms_forms"] = $forms_dir;
 			$auto_dirs["forms_controls"] = $controls_dir;
-		} else echo "control directory not readable.";
+		} else {
+			echo "control directory not readable.";
+		}
 	}
 }
 
