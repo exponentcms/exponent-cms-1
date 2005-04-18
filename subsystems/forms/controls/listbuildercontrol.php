@@ -65,9 +65,9 @@ class listbuildercontrol extends formcontrol {
 
 	function listbuildercontrol($default,$source,$size=8) {
 		if (is_array($default)) $this->default = $default;
-			else $this->default = array($default);
-			
-			$this->size = $size;
+		else $this->default = array($default);
+		
+		$this->size = $size;
 	
 		if ($source !== null) {
 			if (is_array($source)) $this->source = $source;
