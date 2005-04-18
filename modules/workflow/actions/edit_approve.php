@@ -40,7 +40,7 @@ $state = unserialize($object->wf_state_data);
 $rloc = unserialize($object->location_data);
 if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	pathos_workflow_processApproval($_POST['id'],$_POST['wf_datatype'],SYS_WORKFLOW_APPROVE_EDIT);
+	pathos_workflow_processApproval($_POST['id'],$_POST['wf_datatype'],SYS_WORKFLOW_APPROVE_EDIT,$_POST['wf_comment']);
 } else {
 	echo SITE_403_HTML;
 }
