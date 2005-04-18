@@ -124,11 +124,11 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
 	}
 
 	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
-		return imagecreatefromjpeg($_GET['file']);
+		return imagecreatefromjpeg($filename);
 	} else if ($sizeinfo['mime'] == 'image/png' && $info['PNG Support'] == true) {
-		return imagecreatefrompng($_GET['file']);
+		return imagecreatefrompng($filename);
 	} else if ($sizeinfo['mime'] == 'image/gif' && $info['GIF Read Support'] == true) {
-		return imagecreatefromgif($_GET['file']);
+		return imagecreatefromgif($filename);
 	} else {
 		// Either we have an unknown image type, or an unsupported image type.
 		return IMAGE_ERR_NOTSUPPORTED;
@@ -367,6 +367,63 @@ function pathos_image_scaleManually($filename,$width,$height) {
 	}
 	
 	return $thumb;
+}
+
+function pathos_image_rotate($filename,$degrees) {
+	$sizeinfo = pathos_image_sizeinfo($filename);
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
+	
+	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+	
+	$color = imagecolorclosesthwb($original,255,255,255);
+	
+	return imagerotate($original,$degrees,$color);
+}
+
+function pathos_image_flip($filename,$is_horizontal) {
+	$sizeinfo = pathos_image_sizeinfo($filename);
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
+	
+	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+	
+	// Horizontal - invert y coords
+	// Vertical - invert x coords
+	
+	$w = $sizeinfo[0];
+	$h = $sizeinfo[1];
+	$new = pathos_image_create($w,$h);	
+	
+	if ($is_horizontal) {
+		// Copy column by column
+		//$dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) {
+		for ($i = 0; $i < $w; $i++) {
+			imagecopy($new,$original, // DESTINATION, SOURCE
+			$i,0,		// dst_X, dst_Y
+			$w-$i-1,0,	// src_X,src_Y
+			1,$h);		//src_W, src_H
+		}
+	} else {
+		// Copy row by row.
+		//$dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) {
+		for ($i = 0; $i < $h; $i++) {
+			imagecopy($new,$original, // DESTINATION, SOURCE
+			0,$i,		// dst_X, dst_Y
+			0,$h-$i-1,	// src_X,src_Y
+			#$w,1,		// dst_W, dst_H
+			$w,1);		//src_W, src_H
+		}
+	}
+	return $new;
 }
 
 /* exdoc
