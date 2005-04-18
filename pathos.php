@@ -46,16 +46,16 @@ function __realpath($path) {
 // This was moved into its own file from this file so that 'lighter' scripts could bootstrap.
 include_once(dirname(__realpath(__FILE__)).'/pathos_bootstrap.php');
 
-// Put session stuff first.
-$user = null;
-// Initialize the Sessions Subsystem
-include_once(BASE.'subsystems/sessions.php');
-pathos_sessions_initialize();
 
 // Load the site configuration (without initializing the config subsystem)
 include_once(BASE.'subsystems/config/load.php');
 
 // After config config setup:
+// Put session stuff first.
+$user = null;
+// Initialize the Sessions Subsystem
+include_once(BASE.'subsystems/sessions.php');
+pathos_sessions_initialize();
 
 if (!isset($_SERVER['QUERY_STRING'])) {
 	$_SERVER['QUERY_STRING'] = '';
