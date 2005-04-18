@@ -33,10 +33,21 @@
 
 if (defined('PATHOS')) return;
 
+include_once('pathos_bootstrap.php');
 // Initialize the Imaging Subsystem (this does not need the Pathos Framework to function)
 include_once('subsystems/image.php');
 
-$file = $_GET['base'].$_GET['file'];
+if (isset($_GET['id'])) {
+	include_once('subsystems/config/load.php');
+	// Initialize the Database Subsystem
+	include_once(BASE.'subsystems/database.php');
+	$db = pathos_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
+	
+	$file_obj = $db->selectObject('file','id='.$_GET['id']);
+	$_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
+}
+
+$file = BASE.$_GET['file'];
 
 $thumb = null;
 
@@ -51,6 +62,6 @@ if (isset($_GET['constraint'])) {
 }
 
 if (is_resource($thumb)) pathos_image_output($thumb,pathos_image_sizeinfo($file));
-else pathos_image_showFallbackPreviewImage($_GET['base'],$thumb);
+else pathos_image_showFallbackPreviewImage(BASE,$thumb);
 
 ?>
