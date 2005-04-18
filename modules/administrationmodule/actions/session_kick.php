@@ -38,7 +38,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
 	$ticket = $db->selectObject('sessionticket',"ticket='".$_GET['ticket']."'");
 	if ($ticket) {
-		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		$u = pathos_users_getUserById($ticket->uid);
 		if ($u->is_acting_admin == 0 || ($user->is_admin == 1 && $u->is_admin == 0)) {
 			// We can only kick the user if they are A) not an acting admin, or B) The current user is a super user and the kicked user is not.

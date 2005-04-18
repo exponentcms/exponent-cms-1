@@ -42,7 +42,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$policies = $db->selectObjects('approvalpolicy');
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($policies,'pathos_sorting_byNameAscending');
 	
 	$template = new template('workflow','_policymanager',$loc);

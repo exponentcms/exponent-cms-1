@@ -38,7 +38,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
 	$droppable_tables = array();
 	
-	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	
 	foreach ($db->getTables(true) as $table) {
 		if (strpos(DB_TABLE_PREFIX.'_',$table) == 0) {

@@ -36,7 +36,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
-	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
+	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
 	pathos_config_activateProfile($_GET['configname']);
 	pathos_flow_redirect();
 } else {

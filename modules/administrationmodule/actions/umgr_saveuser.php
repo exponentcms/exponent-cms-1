@@ -38,8 +38,8 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin == 1) {
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-	if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$u = pathos_users_getUserById($_POST['id']);
 		$u = pathos_users_update($_POST,$u);

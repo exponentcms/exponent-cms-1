@@ -36,7 +36,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+	if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 	
 	$sessid = session_id();
 	$files = array();

@@ -39,7 +39,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 	if (isset($_GET['all'])) {
 		$db->delete('modstate');
 		$modstate->active = $_GET['activate'];
-		if (!defined('SYS_MODULES')) include_once(BASE.'subsystems/modules.php');
+		if (!defined('SYS_MODULES')) require_once(BASE.'subsystems/modules.php');
 		foreach (pathos_modules_list() as $mod) {
 			$modstate->module = $mod;
 			$db->insertObject($modstate,'modstate');

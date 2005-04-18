@@ -34,7 +34,7 @@
 define("SCRIPT_EXP_RELATIVE","modules/workflow/");
 define("SCRIPT_FILENAME","assoc_edit.php");
 
-include_once("../../pathos.php");
+require_once("../../pathos.php");
 
 if (!defined("PATHOS")) exit("");
 
@@ -43,7 +43,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	pathos_lang_loadDictionary('modules','workflow');
 	pathos_lang_loadDictionary('standard','core');
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
 	$form = new form();
@@ -53,7 +53,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	if (!$assoc) $assoc = $db->selectObject("approvalpolicyassociation","module='".$_GET['m']."' AND is_global='1'");
 	if (!$assoc) $assoc->policy_id = 0;
 	
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	if (pathos_workflow_moduleUsesDefaultPolicy($_GET['m'],$_GET['s'])) $assoc->policy_id = 0;
 	
 	foreach ($db->selectObjects("approvalpolicy") as $pol) {

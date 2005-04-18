@@ -62,7 +62,7 @@ if ($this_post) {
 		$prev_post = 0;
 	}
 	
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 
 	$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$this_post->id);
 	

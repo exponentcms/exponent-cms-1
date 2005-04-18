@@ -38,7 +38,7 @@ if (!defined("PATHOS")) exit("");
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 	$policy = unserialize(stripslashes($_POST['policy']));
 	
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	
 	foreach ($_POST['selection'] as $type=>$items) {
 		foreach ($items as $id=>$action) {

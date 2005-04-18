@@ -36,7 +36,7 @@ if (!defined("PATHOS")) exit("");
 $rloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
 if (pathos_permissions_check("manage_approval",$rloc)) {
 	if (isset($_POST['d'])) {
-		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 		
 		foreach (array_keys($_POST['d']) as $id) {
 			$rev = $db->selectObject($_POST['datatype']."_wf_revision","id=$id");

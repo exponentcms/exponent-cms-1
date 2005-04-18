@@ -1,6 +1,6 @@
 <?php
 
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+		if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 		// Don't forget to change CHANGEME
 		$directory = "files/CHANGEME/" . $loc->src;
 		if (!file_exists(BASE.$directory)) {

@@ -38,7 +38,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
-	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
+	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
 
 	$template = new template('administrationmodule','_modulemanager',$loc);
 	$template = pathos_modules_moduleManagerFormTemplate($template);

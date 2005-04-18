@@ -39,7 +39,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$template = new Template('administrationmodule','_groupmanager',$loc);
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	$groups = pathos_users_getAllGroups();
 	$template->assign('groups',$groups);
 	$template->assign('perm_level',2); // So we get the edit/delete links

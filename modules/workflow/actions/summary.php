@@ -52,7 +52,7 @@ if ($user) {
 	// and then decide whether or not to let the user in.
 	$canview = pathos_permissions_check("approve",$loc) || pathos_permissions_check("manage_approval",$loc);
 	
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 	
 	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 	

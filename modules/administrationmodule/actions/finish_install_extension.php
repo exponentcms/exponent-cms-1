@@ -43,7 +43,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 	if (!file_exists(BASE."extensionuploads/$sessid") || !is_dir(BASE."extensionuploads/$sessid")) {
 		$template->assign('nofiles',1);
 	} else {
-		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$success = array();
 		foreach (array_keys(pathos_files_listFlat(BASE."extensionuploads/$sessid",true,null,array(),BASE."extensionuploads/$sessid")) as $file) {
 			if ($file != '/archive.tar' && $file != '/archive.tar.gz' && $file != 'archive.tar.bz2' && $file != '/archive.zip') {

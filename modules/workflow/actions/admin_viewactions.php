@@ -41,7 +41,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	$actions = pathos_workflow_getActions($_GET['id']);
 	
 	// Workflow constants action names.

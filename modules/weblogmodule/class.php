@@ -100,7 +100,7 @@ class weblogmodule {
 			$max_date = $db->max('weblog_post','posted','location_data',$where);
 			
 			$months = array();
-			if (!defined('SYS_DATETIME')) include_once(BASE.'subsystems/datetime.php');
+			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 			$start_month = pathos_datetime_startOfMonthTimestamp($min_date);
 			$end_month = pathos_datetime_endOfMonthTimestamp($min_date)+86399;
 			do {
@@ -118,7 +118,7 @@ class weblogmodule {
 			
 			$total = $db->countObjects('weblog_post',"location_data='".serialize($loc)."'".$where);
 			$posts = $db->selectObjects('weblog_post',"location_data='".serialize($loc)."'".$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
-			if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			for ($i = 0; $i < count($posts); $i++) {
 				$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
 				
@@ -180,7 +180,7 @@ class weblogmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
+		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
 		
 		pathos_lang_loadDictionary('modules','weblogmodule');
 		

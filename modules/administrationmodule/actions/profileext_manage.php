@@ -36,7 +36,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	pathos_users_includeProfileExtensions();
 	
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
@@ -47,7 +47,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	
 	$exts = $db->selectObjects('profileextension');
 	
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($exts,'pathos_sorting_byRankAscending');
 	
 	for ($i = 0; $i < count($exts); $i++) {

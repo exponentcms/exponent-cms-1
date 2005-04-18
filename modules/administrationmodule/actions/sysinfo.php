@@ -51,8 +51,8 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	
 	$template->assign('phpinfo',$str);
 	
-	if (!defined('SYS_MODULES')) include_once(BASE.'subsystems/modules.php');
-	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
+	if (!defined('SYS_MODULES')) require_once(BASE.'subsystems/modules.php');
+	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
 	
 	$mods = array();
 	

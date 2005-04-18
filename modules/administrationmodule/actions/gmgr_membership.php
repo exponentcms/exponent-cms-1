@@ -44,7 +44,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 if ($perm_level) {
 	$group = $db->selectObject('group','id='.$_GET['id']);
 	if ($group != null) {
-		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		$users = pathos_users_getAllUsers(0);
 		
 		$members = array();

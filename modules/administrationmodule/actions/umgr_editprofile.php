@@ -36,8 +36,8 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 
 	$u = pathos_users_getUserById($_GET['id']);

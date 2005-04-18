@@ -40,8 +40,8 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 
 	$db->delete('sessionticket','last_active < ' . (time() - SESSION_TIMEOUT));
 	
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-	if (!defined('SYS_DATETIME')) include_once(BASE.'subsystems/datetime.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 	
 	$sessions = $db->selectObjects('sessionticket');
 	for ($i = 0; $i < count($sessions); $i++) {

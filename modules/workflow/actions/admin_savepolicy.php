@@ -41,7 +41,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	
 	$policy = approvalpolicy::update($_POST,$oldpolicy);
 	
-	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	
 	if ($oldpolicy) {
 		// Check for content in revision:

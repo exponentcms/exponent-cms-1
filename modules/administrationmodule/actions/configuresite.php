@@ -42,8 +42,8 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	
-	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$profiles = pathos_config_profiles();

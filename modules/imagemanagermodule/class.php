@@ -69,7 +69,7 @@ class imagemanagermodule {
 		if (pathos_sessions_isset("uilevel")) $uilevel = pathos_sessions_get("uilevel");
 		$template->assign('show',((defined('SELECTOR') || $uilevel > UILEVEL_PREVIEW) ? 1 : 0));
 		
-		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/imagemanagermodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
 			$err = pathos_files_makeDirectory($directory);

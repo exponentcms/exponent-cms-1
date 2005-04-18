@@ -40,8 +40,8 @@ $state = unserialize($object->wf_state_data);
 $rloc = unserialize($object->location_data);
 if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 
-	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = pathos_workflow_form($_GET['datatype'],$_GET['id']);

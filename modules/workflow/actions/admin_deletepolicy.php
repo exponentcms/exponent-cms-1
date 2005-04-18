@@ -41,7 +41,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		$db->delete("workflowaction","policy_id=".$policy->id);
 		
 		// Start deleting revisions
-		if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 		foreach(pathos_workflow_getInfoTables() as $table) {
 			// For each type underneath control of workflow, find
 			$typename = str_replace("_wf_info","",$table); // FIXME something better than str_replace

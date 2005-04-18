@@ -35,7 +35,7 @@ if (!defined('PATHOS')) exit('');
 
 pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-if (!defined('SYS_DATETIME')) include_once(BASE.'subsystems/datetime.php');
+if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 
 $time = (isset($_GET['month']) ? $_GET['month'] : time());
 $start_month = pathos_datetime_startOfMonthTimestamp($time);
@@ -52,7 +52,7 @@ if ($config == null) {
 }
 
 $posts = $db->selectObjects('weblog_post',$where);
-if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($posts); $i++) {
 	$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
 	

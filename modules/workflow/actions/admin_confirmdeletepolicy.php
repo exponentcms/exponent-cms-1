@@ -39,7 +39,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	
 	if ($policy) {
 
-		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+		if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 		$infos = array();
 		foreach(pathos_workflow_getInfoTables() as $table) {
 			$typename = str_replace('_wf_info','',$table);

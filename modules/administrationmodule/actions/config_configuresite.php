@@ -36,9 +36,9 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
-	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
+	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
 	
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	$form = pathos_config_configurationForm($configname);

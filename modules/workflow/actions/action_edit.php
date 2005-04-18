@@ -41,7 +41,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$action = null;
 	if (isset($_GET['id'])) $action = $db->selectObject('workflowaction','id='.$_GET['id']);
 	
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = new form();
@@ -55,7 +55,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		$action->parameters = '';
 	}
 	
-	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	
 	$actions = pathos_workflow_getAvailableActions();
 	uasort($actions,'strnatcmp');

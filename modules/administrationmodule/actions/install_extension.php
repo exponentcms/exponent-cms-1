@@ -78,7 +78,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 			pathos_lang_loadDictionary('modules','administrationmodule');
 			echo TR_ADMINISTRATIONMODULE_BADARCHIVE.'<br />';
 		} else {
-			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		
 			// Look for stale sessid directories:
 			$sessid = session_id();

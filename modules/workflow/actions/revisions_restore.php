@@ -35,7 +35,7 @@ if (!defined("PATHOS")) exit("");
 
 $rloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
 if (pathos_permissions_check("manage_approval",$rloc)) {
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	pathos_workflow_restoreRevision($_GET['datatype'],$_GET['id'],$_GET['major']);
 	pathos_flow_redirect();
 } else {
