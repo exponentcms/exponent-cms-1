@@ -50,7 +50,7 @@ class imagemanageritem {
 		$form->register('name',TR_IMAGEMANAGERMODULE_NAME,new textcontrol($object->name));
 		$form->register('description',TR_IMAGEMANAGERMODULE_DESCRIPTION, new texteditorcontrol($object->description));
 		if (!isset($object->id)) {
-			$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
+			$form->register('maxsizemsg','',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
 			$form->register('file',TR_IMAGEMANAGERMODULE_IMAGE,new uploadcontrol());
 		}
 		$form->register('scale',TR_IMAGEMANAGERMODULE_SCALE,new textcontrol($object->scale));
