@@ -34,8 +34,8 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user) {
-	if (!defined('SYS_USERS')) include_once('subsystems/users.php');
-	if (!defined('SYS_FORMS')) include_once('subsystems/forms.php');
+	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
+	if (!defined('SYS_FORMS')) require_once('subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	pathos_lang_loadDictionary('modules','loginmodule');

@@ -41,7 +41,7 @@ if ($config == null) {
 
 $template = new template('newsmodule','_contentSelector',$loc);
 
-if (!defined('SYS_CHANNEL')) include_once(BASE.'subsystems/channels.php');
+if (!defined('SYS_CHANNEL')) require_once(BASE.'subsystems/channels.php');
 $this_channel = pathos_channels_getChannel($loc);
 
 if ($this_channel->is_open) {
@@ -60,7 +60,7 @@ if ($this_channel->is_open) {
 		}
 		$template->assign('existing_items',$items);
 	}
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($news,($config->sortorder == 'DESC' ? 'pathos_sorting_byPostedDescending' : 'pathos_sorting_byPostedAscending'));
 
 	$template->assign('haveNews',count($news) != 0 ? 1 : 0);

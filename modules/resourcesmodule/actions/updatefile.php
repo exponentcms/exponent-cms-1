@@ -41,7 +41,7 @@ if ($item) {
 	if ((pathos_permissions_check('edit',$loc) || pathos_permissions_check('edit',$iloc)) &&
 		($item->flock_owner == 0 || $item->flock_owner == $user->id || $user->is_acting_admin == 1)
 	) {
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		pathos_lang_loadDictionary('standard','core');

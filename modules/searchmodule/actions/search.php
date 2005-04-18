@@ -40,7 +40,7 @@ if ($config == null) {
 	$config->is_categorized = 0;
 }
 
-if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
+if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
 $search_string = trim(strtolower($_GET['search_string']));
 
 if ($search_string == "") {

@@ -35,7 +35,7 @@ if (!defined("PATHOS")) exit("");
 
 pathos_lang_loadDictionary('modules','formbuilder');
 
-if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 $f = $db->selectObject("formbuilder_form","id=".$_POST['form_id']);
 if ($f) {

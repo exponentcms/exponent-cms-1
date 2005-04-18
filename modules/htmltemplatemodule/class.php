@@ -61,7 +61,7 @@ class htmltemplatemodule {
 		) {
 			$template = new template('htmltemplatemodule',$view,$loc);
 			
-			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 			$directory = 'files/htmltemplatemodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
 				$err = pathos_files_makeDirectory($directory);

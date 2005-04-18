@@ -33,7 +33,7 @@
 
 //Sanity Check
 if (!defined("PATHOS")) exit("");
-if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 //Create a new form object
 pathos_forms_initialize();
 

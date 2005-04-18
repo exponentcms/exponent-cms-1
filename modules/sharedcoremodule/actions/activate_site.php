@@ -47,7 +47,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 			
 			unlink($site->path."index.php");
 			
-			if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
+			if (!defined("SYS_SHAREDCORE")) require_once(BASE."subsystems/sharedcore.php");
 			
 			pathos_sharedcore_setup($core,$site);
 			

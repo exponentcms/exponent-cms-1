@@ -34,8 +34,8 @@
 
 if (!defined("PATHOS")) exit("");
 
-if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
-if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 
 $template = New template("importer", "_usercsv_form_start");
 

@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 
 $f = $db->selectObject("formbuilder_form","id=".(isset($_REQUEST['form_id'])?$_REQUEST['form_id']:0));
@@ -88,8 +88,11 @@ if ($f) {
 			
 			echo $form->toHTML();
 		}
-	} else echo SITE_403_HTML;
-} else echo SITE_404_HTML;
-pathos_forms_cleanup();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

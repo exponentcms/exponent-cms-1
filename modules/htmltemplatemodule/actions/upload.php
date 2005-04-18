@@ -37,7 +37,7 @@ if (pathos_permissions_check("create",$loc)) {
 	$t = null;
 	if (isset($_GET['id'])) $t = $db->selectObject("htmltemplate","id=".$_GET['id']);
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
 	pathos_lang_loadDictionary('modules','htmltemplatemodule');

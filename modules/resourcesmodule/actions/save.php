@@ -68,7 +68,7 @@ if (($resource == null && pathos_permissions_check("post",$loc)) ||
 				pathos_permissions_grant($user,"administrate",$iloc);
 				pathos_permissions_triggerSingleRefresh($user);
 				
-				if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+				if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 				$resource->id = $id;
 				$resource->poster = $user->id;
 				$resource->posted = time();

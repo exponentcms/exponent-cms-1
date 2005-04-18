@@ -33,7 +33,7 @@
 	
 	if (!defined("PATHOS")) exit("");
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
 	$f = $db->selectObject("formbuilder_form","id=".$_GET['form_id']);
@@ -42,7 +42,7 @@
 	
 	if ($f && $data && $controls) {
 		if (pathos_permissions_check("editdata",unserialize($f->location_data))) {
-			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
+			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 			usort($controls,"pathos_sorting_byRankAscending");
 			
 			$form = new form();

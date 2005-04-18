@@ -229,7 +229,7 @@ class navigationmodule {
 		global $db;
 		if ($parent != 0) $parents[] = $parent;
 		
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		usort($blocks[$parent],'pathos_sorting_byRankAscending');
 		
 		for ($i = 0; $i < count($blocks[$parent]); $i++) {
@@ -282,7 +282,7 @@ class navigationmodule {
 		
 		$arr = array();
 		$kids = $db->selectObjects('section_template','parent='.$parent);
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		usort($kids,'pathos_sorting_byRankAscending');
 		
 		for ($i = 0; $i < count($kids); $i++) {

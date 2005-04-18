@@ -37,8 +37,8 @@ if ($user) {
 	
 	pathos_lang_loadDictionary('modules','inboxmodule');
 	
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
 	// Process recipients first, so that we can save the built list in the last_POST var in case we need to return
@@ -133,7 +133,7 @@ if ($user) {
 	$failed->recipient = $user->id;
 	
 	// Init SMTP subsystem
-	if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+	if (!defined("SYS_SMTP")) require_once(BASE."subsystems/smtp.php");
 	$emails = array();
 	foreach ($recipients as $id) {
 		if ($id != "") {

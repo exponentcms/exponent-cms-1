@@ -36,7 +36,7 @@ if (!defined("PATHOS")) exit("");
 // PERM CHECK
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");
+	if (!defined("SYS_MODULES")) require_once(BASE."subsystems/modules.php");
 	//$mods = array_flip(pathos_modules_list());
 	foreach (pathos_modules_list() as $mod) {
 		if (call_user_func(array($mod,"hasContent")) == true) {

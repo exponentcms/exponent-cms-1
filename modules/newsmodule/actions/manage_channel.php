@@ -37,7 +37,7 @@ if (pathos_permissions_check('manage_channel',$loc)) {
 
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+	if (!defined('SYS_CHANNELS')) require_once(BASE.'subsystems/channels.php');
 	$channel = pathos_channels_getChannel($loc);
 	if ($channel) {
 		$items = pathos_channels_getItems($channel);

@@ -48,7 +48,7 @@ if (!defined('PATHOS')) exit('');
  * Manually include the class file for formcontrol, for PHP4
  * (This does not adversely affect PHP5)
  */
-include_once(BASE."subsystems/forms/controls/formcontrol.php");
+require_once(BASE."subsystems/forms/controls/formcontrol.php");
 
 /**
  * Contact Control
@@ -68,7 +68,7 @@ class datetimecontrol extends formcontrol {
 	}
 	
 	function datetimecontrol($default = 0, $showdate = true, $showtime = true) {
-		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+		if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
 		if ($default == 0) $default = time();
 		$this->default = $default;
 		$this->showdate = $showdate;
@@ -92,7 +92,7 @@ class datetimecontrol extends formcontrol {
 		if ($minute < 10) $minute = "0".$minute;
 		$html = "<input type='hidden' id='__".$name."' name='__".$name."' value='".($this->showdate?"1":"0").($this->showtime?"1":"0")."' />";
 		if ($this->showdate) {
-			if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+			if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
 			$html .= pathos_datetime_monthsDropdown($name . "_month",$default_date['mon']);
 			$html .= '<input type="text" id="' . $name . '_day" name="' . $name . '_day" size="3" maxlength="2" value="' . $default_date['mday'] . '" />';
 			$html .= '<input type="text" id="' . $name . '_year" name="' . $name . '_year" size="5" maxlength="4" value="' . $default_date['year'] . '" />';
@@ -146,7 +146,7 @@ class datetimecontrol extends formcontrol {
 	}
 	
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 	
 		$form = new form();

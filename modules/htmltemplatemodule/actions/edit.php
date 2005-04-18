@@ -35,13 +35,15 @@ if (!defined("PATHOS")) exit("");
 
 
 $t = null;
-if (isset($_GET['id'])) $t = $db->selectObject("htmltemplate","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$t = $db->selectObject("htmltemplate","id=".$_GET['id']);
+}
 
 if (	(!$t && pathos_permissions_check("create",$loc)) ||
 	($t  && pathos_permissions_check("edit",$loc))
 ) {
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
 	$form = htmltemplate::form($t);
@@ -52,8 +54,6 @@ if (	(!$t && pathos_permissions_check("create",$loc)) ||
 	$template->assign("is_edit",(isset($t->id) ? 1 : 0));
 	$template->assign("form_html",$form->toHTML());
 	$template->output();
-	
-	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

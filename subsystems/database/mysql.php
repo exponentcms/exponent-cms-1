@@ -135,7 +135,7 @@ class mysql_database {
 		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
-			if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 			$wf = pathos_workflow_installWorkflowTables($tablename,$datadef);
 			foreach ($wf as $key=>$status) {
 				$return[$key] = $status;
@@ -353,7 +353,7 @@ class mysql_database {
 		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
-			if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 			$wf = pathos_workflow_alterWorkflowTables($tablename,$newdatadef,$aggressive);
 			foreach ($wf as $key=>$status) {
 				$return[$key] = $status;

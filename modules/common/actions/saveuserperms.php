@@ -35,7 +35,7 @@ if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check("administrate",$loc)) {
 	$users = explode(";",$_POST['permdata']);
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 	foreach ($users as $user_str) {
 		$perms = explode(":",$user_str);
 		$u = pathos_users_getUserById($perms[0]);

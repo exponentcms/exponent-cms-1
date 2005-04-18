@@ -37,7 +37,7 @@ if (!defined("PATHOS")) exit("");
 if (pathos_permissions_check('searching',pathos_core_makeLocation('administrationmodule'))) {
 	$template = new template('searchmodule','_spiderSite');
 	
-	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");
+	if (!defined("SYS_MODULES")) require_once(BASE."subsystems/modules.php");
 	$db->delete("search");
 	$mods = array();
 	$modnames = array();

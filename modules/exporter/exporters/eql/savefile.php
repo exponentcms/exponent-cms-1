@@ -37,7 +37,7 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 	pathos_lang_loadDictionary('exporters','eql');
 	echo TR_EXPORT_EQL_NEEDONETABLE;
 } else { // All good
-	if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
+	if (!defined('SYS_BACKUP')) require_once(BASE.'subsystems/backup.php');
 	
 	$filename = str_replace(
 		array('__DOMAIN__','__DB__'),

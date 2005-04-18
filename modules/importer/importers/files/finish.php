@@ -35,7 +35,7 @@ if (!defined('PATHOS')) exit('');
 
 $dest_dir = pathos_sessions_get('dest_dir');
 $files = pathos_sessions_get('files_data');
-if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 if (!file_exists(BASE.'files')) {
 	mkdir(BASE.'files',0777);
 }

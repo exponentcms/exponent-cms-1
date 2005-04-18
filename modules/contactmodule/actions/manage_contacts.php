@@ -37,7 +37,7 @@ if (pathos_permissions_check('configure',$loc)) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$contacts = array();
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	
 	foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc)."'") as $c) {
 		if ($c->user_id != 0) {

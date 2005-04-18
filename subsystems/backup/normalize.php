@@ -39,7 +39,7 @@ if (!defined('PATHOS')) exit('');
 // Normalize Section Rankings
 function pathos_backup_normalize_sections($db,$parent = 0) {
 	$sections = $db->selectObjects('section','parent='.$parent);
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($sections,'pathos_sorting_byRankAscending');
 	
 	for ($i = 0; $i < count($sections); $i++) {

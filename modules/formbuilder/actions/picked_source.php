@@ -42,7 +42,7 @@
 	if ($f1 && $f2) {
 		if (pathos_permissions_check("editform",unserialize($f2->location_data))) {
 			$controls  = $db->selectObjects("formbuilder_control","form_id=".$f1->id);
-			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
+			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 			usort($controls,"pathos_sorting_byRankAscending");
 			
 			foreach ($controls as $control) {

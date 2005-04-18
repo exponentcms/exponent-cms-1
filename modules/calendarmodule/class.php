@@ -96,8 +96,8 @@ class calendarmodule {
 			$viewconfig = array("type"=>"default");
 		}
 		
-		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		
 		if (!function_exists("pathos_sorting_byEventStartAscending")) {
 			function pathos_sorting_byEventStartAscending($a,$b) {
@@ -353,7 +353,7 @@ class calendarmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
+		if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
 		
 		$search = null;
 		$search->category = 'Events';
@@ -385,7 +385,7 @@ class calendarmodule {
 	// The following functions are internal helper functions
 	
 	function _getEventsForDates($edates,$sort_asc = true) {
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		if ($sort_asc && !function_exists('pathos_sorting_byEventStartAscending')) {
 			function pathos_sorting_byEventStartAscending($a,$b) {
 				return ($a->eventstart < $b->eventstart ? 1 : -1);

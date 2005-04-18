@@ -33,7 +33,7 @@
 
 function smarty_function_object_to_js($params,&$smarty) {
 	
-	if (!defined("SYS_JAVASCRIPT")) include_once(BASE."subsystems/javascript.php");
+	if (!defined("SYS_JAVASCRIPT")) require_once(BASE."subsystems/javascript.php");
 	
 	echo "var ".$params['name']." = new Array();\n";
 	if (isset($params['objects']) && count($params['objects']) > 0) {

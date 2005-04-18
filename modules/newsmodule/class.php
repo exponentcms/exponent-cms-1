@@ -139,7 +139,7 @@ class newsmodule {
 			$loc
 		);
 		
-		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+		if (!defined('SYS_CHANNELS')) require_once(BASE.'subsystems/channels.php');
 		$channel = pathos_channels_getChannel($loc);
 		if ($channel) {
 			$template->assign('is_channel',1);
@@ -174,7 +174,7 @@ class newsmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
+		if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
 		
 		$search = null;
 		$search->category = "News";

@@ -33,7 +33,7 @@
 
 function smarty_block_paginate($params,$content,&$smarty) {
 	if ($content) {
-		if (!defined("SYS_JAVASCRIPT")) include_once(BASE."subsystems/javascript.php");
+		if (!defined("SYS_JAVASCRIPT")) require_once(BASE."subsystems/javascript.php");
 ?>
 	
 	<script language="JavaScript">

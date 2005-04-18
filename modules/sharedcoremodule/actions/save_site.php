@@ -50,7 +50,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	if (is_really_writable($site->path)) {
 		if (!isset($site->id)) { // New -- link stuff
 			if (!file_exists($site->path."pathos_version.php")) {
-				if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
+				if (!defined("SYS_SHAREDCORE")) require_once(BASE."subsystems/sharedcore.php");
 				
 				$core = $db->selectobject("sharedcore_core","id=".$site->core_id);
 				
@@ -58,7 +58,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 				if ($stat == 0) {
 					$site->id = $db->insertObject($site,"sharedcore_site");
 					// Update extensions table for this site.
-					if (!defined("SYS_INFO")) include_once(BASE."subsystems/info.php");
+					if (!defined("SYS_INFO")) require_once(BASE."subsystems/info.php");
 					$extension = null;
 					$extension->site_id = $site->id;
 					$extension->locked = 1;
@@ -96,7 +96,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 						"configname"=>"Default"
 					);
 					
-					if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");
+					if (!defined("SYS_CONFIG")) require_once(BASE."subsystems/config.php");
 					
 					pathos_config_saveConfiguration($values,$site->path);
 					

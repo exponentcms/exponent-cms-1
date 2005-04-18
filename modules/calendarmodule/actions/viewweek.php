@@ -39,7 +39,7 @@ $template = new template("calendarmodule","_viewweek",$loc,false);
 
 $time = (isset($_GET['time']) ? $_GET['time'] : time());
 
-if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
 $startweek = pathos_datetime_startOfWeekTimestamp($time);
 $days = array();
 $counts = array();

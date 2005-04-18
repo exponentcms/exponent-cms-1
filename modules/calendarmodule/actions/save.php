@@ -60,9 +60,9 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$item->feedback_email = "";
 	}
 	
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
-	if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
+	if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	
 	if (isset($item->id)) {
 		if ($item->is_recurring == 1) {

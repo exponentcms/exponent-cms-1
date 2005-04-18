@@ -55,7 +55,7 @@ $headers = array();
 $headers["From"] = $config->from_name . " <".$config->from_address.">";
 if ($config->replyto_address != "") $headers["Reply-to"] = $config->replyto_address;
 
-if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 
 $emails = array();
 foreach ($db->selectObjects("contact_contact","location_data='".serialize($loc)."'") as $c) {
@@ -67,7 +67,7 @@ foreach ($db->selectObjects("contact_contact","location_data='".serialize($loc).
 	}
 }
 
-if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+if (!defined("SYS_SMTP")) require_once(BASE."subsystems/smtp.php");
 if (pathos_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
 	$template = new template('contactmodule','_final_message');
 	$template->assign('message',$config->final_message);

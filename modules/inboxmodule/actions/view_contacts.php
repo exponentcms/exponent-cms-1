@@ -35,13 +35,8 @@ if (!defined("PATHOS")) exit("");
 
 if ($user) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-	#$contacts = $db->selectObjects("inbox_contact","owner=".$user->id);
-	#
-	#if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	#for ($i = 0; $i < count($contacts); $i++) {
-	#	$contacts[$i]->user = pathos_users_getUserById($contacts[$i]->user_id);
-	#}
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	
+	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 	
 	$groups = $db->selectObjects("inbox_contactlist","owner=".$user->id);
 	

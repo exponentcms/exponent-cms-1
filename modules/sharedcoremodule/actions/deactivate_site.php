@@ -40,7 +40,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	}
 	
 	if ($site) {
-		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
+		if (!defined('SYS_SHAREDCORE')) require_once(BASE.'subsystems/sharedcore.php');
 		pathos_sharedcore_clear($site->path); // Do not delete other stuff.
 		
 		$template = new template('sharedcoremodule',$_POST['tpl']);

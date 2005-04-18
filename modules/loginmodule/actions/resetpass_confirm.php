@@ -49,13 +49,13 @@ if ($tok == null) {
 	}
 
 	// Send message
-	if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
+	if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
 	
 	$e_template = new template('loginmodule','_email_resetdone',$loc);
 	$e_template->assign('newpass',$newpass);
 	$msg = $e_template->render();
 	
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	$u = pathos_users_getUserById($tok->uid);
 	
 	if (!pathos_smtp_mail($u->email,'Password Manager <passwords@pathos>','Your New Password',$msg)) {

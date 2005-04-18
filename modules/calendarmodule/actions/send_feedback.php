@@ -32,7 +32,8 @@
 ##################################################
 
 if (!defined('PATHOS')) exit('');
-if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
+
+if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
 
 //filter the message thru the form template for formatting
 $msgtemplate = new formtemplate('email', '_'.$_POST['formname']);

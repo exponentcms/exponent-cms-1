@@ -35,13 +35,13 @@ if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('modules','loginmodule');
 
-if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 $u = pathos_users_getUserByName($_POST['username']);
 
 $template = new template('loginmodule','_resetsend');
 
 if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != '') {
-	if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
+	if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
 	
 	$tok = null;
 	$tok->uid = $u->id;

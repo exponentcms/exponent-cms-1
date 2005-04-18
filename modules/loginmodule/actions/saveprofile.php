@@ -34,7 +34,7 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user) {
-	if (!defined('SYS_USERS')) include_once('subsystems/users.php');
+	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
 	$user = pathos_users_update($_POST,$user);
 	$user = pathos_users_saveUser($user);
 	$user = pathos_users_saveProfileExtensions($_POST,$user,false);

@@ -37,8 +37,8 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 	pathos_lang_loadDictionary('modules','loginmodule');
 
 	$capcha_real = pathos_sessions_get('capcha_string');
-	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-	if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
+	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
+	if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
 	if (pathos_users_getUserByName($_POST['username']) != null) {
 		$post = $_POST;
 		unset($post['username']);

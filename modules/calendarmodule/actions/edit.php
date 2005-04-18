@@ -83,7 +83,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		$form->registerBefore("feedback_form", null, '', new htmlcontrol('<br />'));
 	}
 	
-	if (!defined("SYS_MODULES")) include_once(BASE."subsystems/modules.php");
+	if (!defined("SYS_MODULES")) require_once(BASE."subsystems/modules.php");
 	$form->validationScript = pathos_modules_getJSValidationFile("calendarmodule","postedit");
 	
 	$template = new template("calendarmodule","_form_edit",$loc);

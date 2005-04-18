@@ -30,108 +30,109 @@
 #
 # $Id$
 ##################################################
-	
-	if (!defined("PATHOS")) exit("");
-	
-	pathos_lang_loadDictionary('modules','formbuilder');
-	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
-	pathos_forms_initialize();
-	
-	$template = new Template("formbuilder","_data_view");
-	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
-	
-	if (isset($_GET['id'])) {
-		$f = $db->selectObject("formbuilder_form","id=".$_GET['id']);
-		$rpt = $db->selectObject("formbuilder_report","form_id=".$_GET['id']);
-		$items = $db->selectObjects("formbuilder_".$f->table_name);
-		if (pathos_permissions_check("viewdata",unserialize($f->location_data))) {
-			$columndef = "paginate.columns = new Array(";
-			$sortfuncts = "";
-			if ($rpt->column_names == '') {
-				//define some default columns...
-				$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly = 0 and is_static = 0");
-				if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-				usort($controls,"pathos_sorting_byRankAscending");	
-				
-				foreach (array_slice($controls,0,5) as $control) {
-					if ($rpt->column_names != '') $rpt->column_names .= '|!|';
-					$rpt->column_names .= $control->name;
-				}
-			}
+
+if (!defined("PATHOS")) exit("");
+
+pathos_lang_loadDictionary('modules','formbuilder');
+
+if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+pathos_forms_initialize();
+
+$template = new Template("formbuilder","_data_view");
+pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+
+if (isset($_GET['id'])) {
+	$f = $db->selectObject("formbuilder_form","id=".$_GET['id']);
+	$rpt = $db->selectObject("formbuilder_report","form_id=".$_GET['id']);
+	$items = $db->selectObjects("formbuilder_".$f->table_name);
+	if (pathos_permissions_check("viewdata",unserialize($f->location_data))) {
+		$columndef = "paginate.columns = new Array(";
+		$sortfuncts = "";
+		if ($rpt->column_names == '') {
+			//define some default columns...
+			$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly = 0 and is_static = 0");
+			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
+			usort($controls,"pathos_sorting_byRankAscending");	
 			
-			foreach (explode("|!|",$rpt->column_names) as $column_name) {
-				if ($column_name == "ip") {
-					$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_IP.'","ip",null,null),';
-				}
-				elseif ($column_name == "user_id") {
-					foreach ($items as $key=>$item) {
-						if ($item->$column_name != 0) {
-							 $locUser = pathos_users_getUserById($item->$column_name);
-							 $item->$column_name = $locUser->username;
-						} 
-						else {
-							$item->$column_name = '';
-						}
-						$items[$key] = $item;
+			foreach (array_slice($controls,0,5) as $control) {
+				if ($rpt->column_names != '') $rpt->column_names .= '|!|';
+				$rpt->column_names .= $control->name;
+			}
+		}
+		
+		foreach (explode("|!|",$rpt->column_names) as $column_name) {
+			if ($column_name == "ip") {
+				$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_IP.'","ip",null,null),';
+			}
+			elseif ($column_name == "user_id") {
+				foreach ($items as $key=>$item) {
+					if ($item->$column_name != 0) {
+						 $locUser = pathos_users_getUserById($item->$column_name);
+						 $item->$column_name = $locUser->username;
+					} 
+					else {
+						$item->$column_name = '';
 					}
-					$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_USERNAME.'","user_id",null,null),';
+					$items[$key] = $item;
 				}
-				elseif ($column_name == "timestamp") {
+				$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_USERNAME.'","user_id",null,null),';
+			}
+			elseif ($column_name == "timestamp") {
+				$srt = $column_name."_srt";
+				foreach ($items as $key=>$item) {
+					$item->$srt = $item->$column_name;
+					$item->$column_name = strftime(DISPLAY_DATETIME_FORMAT,$item->$column_name);
+					$items[$key] = $item;
+				}
+				$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_TIMESTAMP.'","timestamp",null,f'.$srt.'),';
+				$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
+			
+			}
+			else {
+				$control = $db->selectObject("formbuilder_control","name='".$column_name."' and form_id=".$_GET['id']);
+				if ($control) {
+					$ctl = unserialize($control->data);
+					$control_type = get_class($ctl);
 					$srt = $column_name."_srt";
+					$datadef = call_user_func(array($control_type,'getFieldDefinition'));
 					foreach ($items as $key=>$item) {
-						$item->$srt = $item->$column_name;
-						$item->$column_name = strftime(DISPLAY_DATETIME_FORMAT,$item->$column_name);
+						//We have to add special sorting for date time columns!!!
+						if (isset($datadef[DB_FIELD_TYPE]) && $datadef[DB_FIELD_TYPE] == DB_DEF_TIMESTAMP) {
+							$item->$srt = $item->$column_name;
+						}
+						$item->$column_name = call_user_func(array($control_type,'templateFormat'),$item->$column_name,$ctl);
 						$items[$key] = $item;
 					}
-					$columndef .= 'new cColumn("'.TR_FORMBUILDER_FIELD_TIMESTAMP.'","timestamp",null,f'.$srt.'),';
-					$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
-				
-				}
-				else {
-					$control = $db->selectObject("formbuilder_control","name='".$column_name."' and form_id=".$_GET['id']);
-					if ($control) {
-						$ctl = unserialize($control->data);
-						$control_type = get_class($ctl);
-						$srt = $column_name."_srt";
-						$datadef = call_user_func(array($control_type,'getFieldDefinition'));
-						foreach ($items as $key=>$item) {
-							//We have to add special sorting for date time columns!!!
-							if (isset($datadef[DB_FIELD_TYPE]) && $datadef[DB_FIELD_TYPE] == DB_DEF_TIMESTAMP) {
-								$item->$srt = $item->$column_name;
-							}
-							$item->$column_name = call_user_func(array($control_type,'templateFormat'),$item->$column_name,$ctl);
-							$items[$key] = $item;
-						}
-						if (isset($datadef[DB_FIELD_TYPE]) && $datadef[DB_FIELD_TYPE] == DB_DEF_TIMESTAMP) {
-							$columndef .= 'new cColumn("' . $control->caption . '","'.$column_name.'",null,f'.$srt.'),';
-							$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
-						}
-						else {
-							$columndef .= 'new cColumn("' . $control->caption . '","'.$column_name.'",null,null),';
-						}
+					if (isset($datadef[DB_FIELD_TYPE]) && $datadef[DB_FIELD_TYPE] == DB_DEF_TIMESTAMP) {
+						$columndef .= 'new cColumn("' . $control->caption . '","'.$column_name.'",null,f'.$srt.'),';
+						$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
+					} else {
+						$columndef .= 'new cColumn("' . $control->caption . '","'.$column_name.'",null,null),';
 					}
 				}
 			}
-			
-			$template->assign("items",$items);
-			$template->assign("f",$f);
-			global $SYS_FLOW_REDIRECTIONPATH;
-			$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-			$template->assign("backlink",pathos_flow_get());
-			$template->register_permissions(array("administrate","editform","editformsettings","editreport","viewdata","editdata","deletedata"),unserialize($f->location_data));
-			$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
-			$columndef .= 'new cColumn("Links","",links,null)';
-			$columndef .= ');';
-			
-			//echo $sortfuncts;
-			$template->assign("columdef",$columndef);
-			$template->assign("sortfuncs",$sortfuncts);
-			$template->output();
-		} else echo SITE_403_HTML;
-	} else echo SITE_404_HTML;
-	
-	pathos_forms_cleanup();	
+		}
+		
+		$template->assign("items",$items);
+		$template->assign("f",$f);
+		global $SYS_FLOW_REDIRECTIONPATH;
+		$SYS_FLOW_REDIRECTIONPATH = "editfallback";
+		$template->assign("backlink",pathos_flow_get());
+		$template->register_permissions(array("administrate","editform","editformsettings","editreport","viewdata","editdata","deletedata"),unserialize($f->location_data));
+		$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
+		$columndef .= 'new cColumn("Links","",links,null)';
+		$columndef .= ');';
+		
+		//echo $sortfuncts;
+		$template->assign("columdef",$columndef);
+		$template->assign("sortfuncs",$sortfuncts);
+		$template->output();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

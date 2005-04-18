@@ -48,7 +48,7 @@ if (!defined('PATHOS')) exit('');
  * Manually include the class file for formcontrol, for PHP4
  * (This does not adversely affect PHP5)
  */
-include_once(BASE."subsystems/forms/controls/formcontrol.php");
+require_once(BASE."subsystems/forms/controls/formcontrol.php");
 
 /**
  * Custom Control

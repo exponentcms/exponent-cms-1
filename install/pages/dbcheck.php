@@ -267,7 +267,7 @@ if ($passed) {
 		"activate"=>1
 	);
 	
-	if (!defined("SYS_CONFIG")) include_once(BASE."subsystems/config.php");
+	if (!defined("SYS_CONFIG")) require_once(BASE."subsystems/config.php");
 	pathos_config_saveConfiguration($values);
 	// ERROR CHECKING
 	echoSuccess();

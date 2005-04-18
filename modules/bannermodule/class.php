@@ -67,7 +67,7 @@ class bannermodule {
 	}
 	
 	function copyContent($oloc,$nloc) {
-		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/bannermodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory) && pathos_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 			return;
@@ -107,12 +107,12 @@ class bannermodule {
 				$af[$i]->bannerCount = $db->countObjects('banner_ad','affiliate_id='.$af[$i]->id);
 				$af[$i]->contact_info = str_replace("\n","<br />",$af[$i]->contact_info);
 			}
-			if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			usort($af,'pathos_sorting_byNameAscending');
 			
 			$template->assign('affiliates',$af);
 		} else {
-			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		
 			$directory = 'files/bannermodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {

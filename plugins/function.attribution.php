@@ -33,7 +33,7 @@
 
 function smarty_function_attribution($params,&$smarty) {
 	if (isset($params['user_id'])) {
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 		$u = pathos_users_getUserById($params['user_id']);
 	} else if (isset($params['user'])) {
 		$u = $params['user'];

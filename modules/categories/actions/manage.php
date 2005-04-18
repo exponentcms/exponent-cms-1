@@ -44,7 +44,7 @@ if (pathos_permissions_check('manage_categories',$mloc)) {
 	} else {
 		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
 	}	
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($categories, "pathos_sorting_byRankAscending");
 	$template->assign("origmodule", $_GET['orig_module']);
 	$template->assign("categories",$categories);

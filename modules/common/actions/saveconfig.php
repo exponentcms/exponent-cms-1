@@ -44,7 +44,7 @@ if (pathos_permissions_check("configure",$loc)) {
 	
 	if (isset($_POST['supports_channels'])) {
 		// Process Shared Content Channels
-		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+		if (!defined('SYS_CHANNELS')) require_once(BASE.'subsystems/channels.php');
 		$channel = pathos_channels_getChannel($loc);
 		$channel->is_open = (isset($_POST['open_channel']) ? 1 : 0);
 		if (isset($_POST['public_channel'])) {

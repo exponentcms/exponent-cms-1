@@ -35,7 +35,7 @@ if (!defined('PATHOS')) exit('');
 
 pathos_lang_loadDictionary('modules','loginmodule');
 
-if (!defined('SYS_USERS')) include_once('subsystems/users.php');
+if (!defined('SYS_USERS')) require_once('subsystems/users.php');
 pathos_users_login($_POST['username'],$_POST['password']);
 
 if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {

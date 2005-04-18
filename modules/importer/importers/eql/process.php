@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-if (!defined("SYS_BACKUP")) include_once(BASE."subsystems/backup.php");
+if (!defined("SYS_BACKUP")) require_once(BASE."subsystems/backup.php");
 $errors = null;
 
 $template = new template("importer","_eql_results",$loc);

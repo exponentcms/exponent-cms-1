@@ -44,7 +44,7 @@ if (pathos_permissions_check('manage_core',$loc) || pathos_permissions_check('ma
 		if ($site->inactive == 0) {
 			$core = $db->selectObject('sharedcore_core','id='.$site->core_id);
 			if ($core) {
-				if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
+				if (!defined('SYS_SHAREDCORE')) require_once(BASE.'subsystems/sharedcore.php');
 				
 				pathos_sharedcore_clear($site->path); // Not full
 				

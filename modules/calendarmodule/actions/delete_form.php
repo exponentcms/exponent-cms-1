@@ -44,7 +44,7 @@ if ($item) {
 		$template->assign("checked_date",$eventdate);
 		
 		$eventdates = $db->selectObjects("eventdate","event_id=".$item->id);
-		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
+		if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 		if (!function_exists("pathos_sorting_byDateAscending")) {
 			function pathos_sorting_byDateAscending($a,$b) {
 				return ($a->date > $b->date ? 1 : -1);

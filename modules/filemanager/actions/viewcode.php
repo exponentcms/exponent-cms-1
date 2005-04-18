@@ -46,7 +46,7 @@ if (strpos($path,BASE) != 0) {
 	} else {
 		$contents = file_get_contents($path);
 		if ($ext == 'php') {
-			if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
+			if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');	
 			$contents = pathos_info_highlightPHP($contents);
 		} else $contents = '<xmp>'.$contents.'</xmp>';
 	

@@ -47,7 +47,7 @@ if ($resource != null) {
 	);
 	
 	if ($resource->flock_owner != 0) {
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 		$resource->lock_owner = pathos_users_getUserById($resource->flock_owner);
 		$resource->locked = 1;
 	} else {

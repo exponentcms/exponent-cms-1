@@ -97,7 +97,7 @@ class textmodule {
 		
 		pathos_lang_loadDictionary('modules','textmodule');
 		
-		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
+		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
 		
 		$search = null;
 		$search->title = '';

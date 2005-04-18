@@ -33,7 +33,7 @@
 
 //Sanity Check
 if (!defined("PATHOS")) exit("");
-if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 
 
 $file = fopen(BASE.$_POST["filename"],"r");

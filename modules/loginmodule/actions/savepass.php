@@ -38,8 +38,8 @@ if ($user) {
 	
 	if ($user->password == md5($_POST['oldpass'])) {
 		if ($_POST['pass1'] == $_POST['pass2']) {
-			if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-			if (!defined('SYS_SECURITY')) include_once(BASE.'subsystems/security.php');
+			if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
+			if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
 			$strength_error = pathos_security_checkPasswordStrength($user->username,$_POST['pass1']);
 			if ($strength_error != '') {
 				$post = $_POST;

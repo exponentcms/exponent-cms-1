@@ -70,7 +70,7 @@ if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) ||
 		$channels = array_flip($_POST['channels']);
 	}
 	
-	if (!defined("SYS_WORKFLOW")) include_once(BASE."subsystems/workflow.php");
+	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	pathos_workflow_post($news,"newsitem",$loc,$channels);
 } else {
 	echo SITE_403_HTML;

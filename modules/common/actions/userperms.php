@@ -41,7 +41,7 @@ if (pathos_permissions_check("administrate",$loc)) {
 	}
 	$template->assign("user_form",1);
 	/////////////////////////////
-	if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 	$users = array();
 	$modclass = $loc->mod;
 	$mod = new $modclass();

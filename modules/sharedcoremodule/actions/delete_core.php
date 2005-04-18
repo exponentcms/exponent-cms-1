@@ -42,7 +42,7 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 	if ($core) {
 		$db->delete('sharedcore_core','id='.$core->id);
 		
-		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
+		if (!defined('SYS_SHAREDCORE')) require_once(BASE.'subsystems/sharedcore.php');
 		foreach ($db->selectObjects('sharedcore_site','core_id='.$core->id) as $site) {
 			$db->delete('sharedcore_extension','site_id='.$site->id);
 			pathos_sharedcore_clear($site->path,true);

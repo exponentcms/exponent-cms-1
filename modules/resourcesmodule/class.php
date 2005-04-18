@@ -69,7 +69,7 @@ class resourcesmodule {
 	}
 	
 	function show($view,$loc,$title = '') {
-		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		
 		$template = new template('resourcesmodule',$view,$loc);
 		
@@ -94,7 +94,7 @@ class resourcesmodule {
 				'delete'=>pathos_permissions_check('delete',$iloc),
 			);
 		}
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		usort($resources,'pathos_sorting_byRankAscending');
 		
 		$rfiles = array();
@@ -130,7 +130,7 @@ class resourcesmodule {
 	}
 	
 	function copyContent($oloc,$nloc) {
-		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/resourcesmodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory) && pathos_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 			return;
@@ -157,7 +157,7 @@ class resourcesmodule {
 		
 		global $db;
 		
-		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
+		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
 		
 		$search = null;
 		$search->category = TR_RESOURCESMODULE_SEARCHTYPE;

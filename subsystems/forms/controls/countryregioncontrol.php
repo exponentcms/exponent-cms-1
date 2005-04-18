@@ -47,7 +47,7 @@ if (!defined('PATHOS')) exit('');
  * Manually include the class file for formcontrol, for PHP4
  * (This does not adversely affect PHP5)
  */
-include_once(BASE."subsystems/forms/controls/formcontrol.php");
+require_once(BASE."subsystems/forms/controls/formcontrol.php");
 
 /**
  * Country Region Control
@@ -75,7 +75,7 @@ class countryregioncontrol extends formcontrol {
 	function controlToHTML($name) {
 		$html = "";
 		
-		if (!defined("SYS_GEO")) include_once(BASE."subsystems/geo.php");
+		if (!defined("SYS_GEO")) require_once(BASE."subsystems/geo.php");
 		$countries = pathos_geo_listCountriesOnly();
 		$c_dd = new dropdowncontrol($this->country_default,$countries);
 		$c_dd->jsHooks["onChange"] = "geo_rebuildRegions(this,'".$name."_region_id'," . (($this->allow_entire_country)?'true':'false') . ");";
@@ -112,7 +112,7 @@ class countryregioncontrol extends formcontrol {
 			$html .= "		r_select.appendChild(o);";
 			$html .= "	}";
 			$html .= "}";
-			if (!defined("SYS_JAVACSRIPT")) include_once(BASE."subsystems/javascript.php");
+			if (!defined("SYS_JAVACSRIPT")) require_once(BASE."subsystems/javascript.php");
 			$region = null;
 			$region->parent_id = 0;
 			$region->id = 0;

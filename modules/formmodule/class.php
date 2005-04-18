@@ -68,7 +68,7 @@ class formmodule {
 	
 	function show($view,$loc = null) {
 		global $db;
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
 		if (defined("PREVIEW_READONLY") && !defined("SELECTOR")) {
@@ -108,7 +108,7 @@ class formmodule {
 			
 			$floc = unserialize($f->location_data);
 			$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id);
-			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
+			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 			usort($controls,"pathos_sorting_byRankAscending");
 			
 			$form = new form();

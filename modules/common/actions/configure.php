@@ -63,7 +63,7 @@ if (pathos_permissions_check('configure',$loc)) {
 		// Maybe display a message explaining what the channels stuff does?
 		$form->register(null,'',new htmlcontrol('<hr size="1" />Shared Content Settings'));
 		
-		if (!defined('SYS_CHANNELS')) include_once(BASE.'subsystems/channels.php');
+		if (!defined('SYS_CHANNELS')) require_once(BASE.'subsystems/channels.php');
 		$channel = pathos_channels_getChannel($loc);
 		
 		$form->register('open_channel','Allow others to use content from here.',new checkboxcontrol($channel->is_open,true));

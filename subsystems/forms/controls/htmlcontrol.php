@@ -48,7 +48,7 @@ if (!defined('PATHOS')) exit('');
  * Manually include the class file for formcontrol, for PHP4
  * (This does not adversely affect PHP5)
  */
-include_once(BASE."subsystems/forms/controls/formcontrol.php");
+require_once(BASE."subsystems/forms/controls/formcontrol.php");
 
 /**
  * HTML Control
@@ -80,7 +80,7 @@ include_once(BASE."subsystems/forms/controls/formcontrol.php");
 	}
 	
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 	
 		$form = new form();

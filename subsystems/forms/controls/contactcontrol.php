@@ -48,7 +48,7 @@ if (!defined('PATHOS')) exit('');
  * Manually include the class file for formcontrol, for PHP4
  * (This does not adversely affect PHP5)
  */
-include_once(BASE."subsystems/forms/controls/formcontrol.php");
+require_once(BASE."subsystems/forms/controls/formcontrol.php");
 
 /**
  * Contact Control
@@ -72,7 +72,7 @@ class contactcontrol extends formcontrol {
 
 	function controlToHTML($name) {
 		// First, grab the data for the users
-		if (!defined("SYS_USERS")) include_once(BASE."subsystems/users.php");
+		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 		$users = array();
 		
 		foreach (pathos_users_getAllUsers() as $u) {

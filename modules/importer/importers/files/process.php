@@ -70,7 +70,7 @@ if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
 			
 			$mods = array(); // Stores the mod classname, the files list, and the module's real name
 			
-			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 			
 			$dh = opendir($dest_dir.'/files');
 			while (($file = readdir($dh)) !== false) {

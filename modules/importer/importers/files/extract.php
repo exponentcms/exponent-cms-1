@@ -35,7 +35,7 @@ if (!defined('PATHOS')) exit('');
 
 $dest_dir = $_POST['dest_dir'];
 $files = array();
-if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 foreach (array_keys($_POST['mods']) as $mod) {
 	$files[$mod] = array(
 		'',

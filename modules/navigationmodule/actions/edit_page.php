@@ -36,9 +36,9 @@ define("SCRIPT_FILENAME","edit_page.php");
 
 ob_start();
 
-include_once("../../../pathos.php");
+require_once("../../../pathos.php");
 
-if (!defined("SYS_THEME")) include_once(BASE."subsystems/theme.php");
+if (!defined("SYS_THEME")) require_once(BASE."subsystems/theme.php");
 
 $id = -1;
 if (isset($_GET['sitetemplate_id'])) {

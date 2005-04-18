@@ -41,7 +41,7 @@ if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('adminis
 		$type = $db->selectObject('mimetype',"mimetype='".$_GET['type']."'");
 	}
 	
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = mimetype::form($type);
