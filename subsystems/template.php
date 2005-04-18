@@ -53,7 +53,7 @@ define("SYS_TEMPLATE_CLEAR_USERS",2);
 
 define('TEMPLATE_FALLBACK_VIEW',BASE."views/viewnotfound.tpl");
 
-include_once(BASE."external/Smarty/libs/Smarty.class.php");
+require_once(BASE."external/Smarty/libs/Smarty.class.php");
 
 class basetemplate {
 	var $tpl;
@@ -292,7 +292,7 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 		else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
 	}
 	
-	if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
 	if ($form == null) $form = new form();

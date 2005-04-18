@@ -183,7 +183,7 @@ function pathos_users_getFullProfile($user) {
 	// Get a list of all acrtive Profile Extenions.
 	$exts = $db->selectObjects('profileextension');
 	// Initialize the Sorting Subsystem, if this hasn't previously been done.
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	// Sort the active extension objects by their rank,
 	usort($exts,'pathos_sorting_byRankAscending');
 	foreach ($exts as $ext) {
@@ -315,7 +315,7 @@ function pathos_users_form($user = null) {
 	// Retrieve a list of the active profile extensions, and sort them by rank so that
 	// the form controls get added to the form in order.
 	$exts = $db->selectObjects('profileextension');
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($exts,'pathos_sorting_byRankAscending');
 	foreach ($exts as $ext) {
 		// Modify the form object by passing it through each profile extension, 
@@ -504,7 +504,7 @@ function pathos_users_userManagerFormTemplate($template) {
 	global $user;
 	$users = $db->selectObjects('user');
 	
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	if (!function_exists('pathos_sorting_byLastFirstAscending')) {
 		function pathos_sorting_byLastFirstAscending($a,$b) {
 			return strnatcmp($a->lastname . ', '. $a->firstname,$b->lastname . ', '. $b->firstname);
@@ -537,7 +537,7 @@ function pathos_users_groupManagerFormTemplate($template) {
 	global $db;
 	$groups = $db->selectObjects('group');
 	
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($groups,'pathos_sorting_byNameAscending');
 	
 	$template->assign('groups',$groups);

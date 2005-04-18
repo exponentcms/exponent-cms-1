@@ -36,7 +36,7 @@ class privatemessage {
 		pathos_lang_loadDictionary('modules','inboxmodule');
 		pathos_lang_loadDictionary('standard','core');
 	
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once((BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -45,7 +45,7 @@ class privatemessage {
 		$groups = array();
 		global $db, $user;
 		
-		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllUsers() as $u) {
 				$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
@@ -100,7 +100,7 @@ class privatemessage {
 			
 			if (!count($users) && !count($groups)) $btn->disabled = true;
 		} else {
-			if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+			if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 			$u = pathos_users_getUserById($object->recipient);
 			$form->register(null,'',new htmlcontrol(sprintf(TR_INBOXMODULE_REPLYTO,$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')')));
 			$form->meta('replyto',$object->recipient);

@@ -142,7 +142,7 @@ function pathos_sharedcore_setup($core,$site) {
 		return SHAREDCORE_ERR_LINKDEST_NOTWRITABLE;
 	}
 	
-	if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+	if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 	$exclude = array(
 		"external",
 		"modules",
@@ -212,8 +212,8 @@ function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 		pathos_files_copyDirectoryStructure($linksrc,$linkdest);
 	}
 		
-	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
-	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
+	if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
+	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
 	
 	$files = ($manifest == '' ? null : array());
 	if ($files !== null) {
@@ -252,7 +252,7 @@ function pathos_sharedcore_clear($linked_root,$full_delete = false) {
 	# absolutely everything.
 	if (substr($linked_root,-1,1) != "/") $linked_root .= "/";
 	
-	if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+	if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 	
 	$dh = opendir($linked_root);
 	while (($file = readdir($dh)) !== false) {
@@ -283,7 +283,7 @@ function pathos_sharedcore_clear($linked_root,$full_delete = false) {
  */
  # This may be deprecated
 function pathos_sharedcore_unlinkExtension($typedir,$name,$dir) {
-	if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+	if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 	pathos_files_removeDirectory("$dir/$typedir/$name");
 }
 

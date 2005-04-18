@@ -34,7 +34,7 @@
 class file {
 	function update($name,$dest,$object,$destname = null) {
 		pathos_lang_loadDictionary('modules','filemanager');
-		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 	
 		$object->mimetype = $_FILES[$name]['type'];
 		

@@ -83,7 +83,7 @@ class section {
 			if (count($sections) && $object->parent >= 0) {
 				// Initialize the sorting subsystem so that we can order the sections
 				// by rank, ascending, and get the proper ordering.
-				if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+				if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 				usort($sections,'pathos_sorting_byRankAscending');
 				
 				// Generate the Position dropdown array.
@@ -114,7 +114,7 @@ class section {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = section::_commonForm($object);
@@ -125,7 +125,7 @@ class section {
 		foreach ($db->selectObjects('section','parent = -1') as $s) {
 			$standalones[$s->id] = $s->name;
 		}
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		$form->register('page','Standalone Page',new dropdowncontrol(0,$standalones));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
@@ -146,7 +146,7 @@ class section {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		// Grab the basic form that all page types share
@@ -192,7 +192,7 @@ class section {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		// Grab the basic form that all page types share
@@ -233,7 +233,7 @@ class section {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		if (!isset($object->id)) {
@@ -276,7 +276,7 @@ class section {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','navigationmodule');
 		// Initialize the forms subsystem for use.
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		// Grab the basic form that all page types share

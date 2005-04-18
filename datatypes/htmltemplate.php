@@ -36,7 +36,7 @@ class htmltemplate {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','htmltemplatemodule');
 		
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();

@@ -124,7 +124,7 @@ function pathos_modules_moduleManagerFormTemplate($template) {
 		$moduleInfo[$module]->description = $mod->description();
 		$moduleInfo[$module]->active = ($modstate != null ? $modstate->active : 0);
 	}
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	uasort($moduleInfo,"pathos_sorting_byNameAscending");
 	
 	$template->assign("modules",$moduleInfo);

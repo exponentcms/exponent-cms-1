@@ -37,8 +37,8 @@ class formbuilder_form {
 		pathos_lang_loadDictionary('modules','formbuilder');
 		
 		global $db;
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		//global $user;
 		pathos_forms_initialize();
 		
@@ -129,7 +129,7 @@ class formbuilder_form {
 	function updateTable($object) {
 		global $db;
 		
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		if ($object->is_saved == 1) {
 			$datadef =  array(

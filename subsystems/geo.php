@@ -70,7 +70,7 @@ function pathos_geo_listCountriesAndRegions() {
 		}
 		uasort($countries[$c->id]->regions,"strnatcasecmp");
 	}
-	if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
+	if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 	uasort($countries,"pathos_sorting_byNameAscending");
 	return $countries;
 }

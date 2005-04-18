@@ -38,7 +38,7 @@ class calendar {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','calendarmodule');
 	
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -82,7 +82,7 @@ class calendar {
 			$template = new template('calendarmodule','_recur_dates');
 			global $db;
 			$eventdates = $db->selectObjects('eventdate','event_id='.$object->id);
-			if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			if (!function_exists('pathos_sorting_byDateAscending')) {
 				function pathos_sorting_byDateAscending($a,$b) {
 					return ($a->date > $b->date ? 1 : -1);
@@ -104,7 +104,7 @@ class calendar {
 	}
 	
 	function update($values,$object) {
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$object->title = $values['title'];

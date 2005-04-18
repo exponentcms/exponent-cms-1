@@ -37,7 +37,7 @@ class contactmodule_config {
 		pathos_lang_loadDictionary('modules','contactmodule');
 		pathos_lang_loadDictionary('standard','core');
 		
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -63,7 +63,7 @@ class contactmodule_config {
 	}
 	
 	function update($values,$object) {
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$object->subject = $values['subject'];

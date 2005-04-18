@@ -53,7 +53,7 @@ function pathos_config_parse($configname,$site_root = null) {
 // Last argument added in 0.96, for shared core.  Default it to the old hard-coded value
 	if ($site_root == null) $site_root = BASE;
 	
-	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	// We don't actually use the forms subsystem, but the .structure.php files do.
 	
@@ -131,7 +131,7 @@ function pathos_config_configurationForm($configname,$database=false) {
 		global $user;
 		$options = pathos_config_parse($configname);
 		
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
 		pathos_lang_loadDictionary('subsystems','config');

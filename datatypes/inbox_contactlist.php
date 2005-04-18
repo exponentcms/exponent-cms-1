@@ -37,7 +37,7 @@ class inbox_contactlist {
 		pathos_lang_loadDictionary('modules','inboxmodule');
 		pathos_lang_loadDictionary('standard','core');
 
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -53,7 +53,7 @@ class inbox_contactlist {
 		$form->register('description',TR_INBOXMODULE_DESCRIPTION,new texteditorcontrol($object->description));
 		
 		$users = array();
-		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		global $user;
 		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllUsers() as $u) {
@@ -108,7 +108,7 @@ class inbox_contactlist {
 	}
 	
 	function update($values,$object) {
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		$object->name = $values['name'];
 		$object->description = $values['description'];

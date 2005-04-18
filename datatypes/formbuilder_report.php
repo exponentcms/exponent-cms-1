@@ -37,7 +37,7 @@ class formbuilder_report {
 		pathos_lang_loadDictionary('modules','formbuilder');
 	
 		global $db;
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -88,7 +88,7 @@ class formbuilder_report {
 	}
 	
 	function update($values, $object) {
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		$object->name = $values['name'];
 		$object->description = $values['description'];

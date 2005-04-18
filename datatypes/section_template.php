@@ -36,7 +36,7 @@ class section_template {
 		pathos_lang_loadDictionary('standard','core');
 		pathos_lang_loadDictionary('modules','navigationmodule');
 	
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -63,7 +63,7 @@ class section_template {
 			$sections = $db->selectObjects('section_template','parent='.$object->parent);
 			
 			if (count($sections)) {
-				if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+				if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 				usort($sections,'pathos_sorting_byRankAscending');
 				
 				$dd = array(TR_NAVIGATIONMODULE_ATTOP);

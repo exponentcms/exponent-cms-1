@@ -37,11 +37,11 @@ class inbox_contactbanned {
 		pathos_lang_loadDictionary('modules','inboxmodule');
 		pathos_lang_loadDictionary('standard','core');
 		
-		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
-		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		
 		$users = array();
 		foreach (pathos_users_getAllUsers() as $u) {

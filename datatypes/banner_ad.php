@@ -53,7 +53,7 @@
  */
 class banner_ad {
 	function form($object) {
-		if (!defined("SYS_FORMS")) include_once(BASE."subsystems/forms.php");
+		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 	
 		$form = new form();
