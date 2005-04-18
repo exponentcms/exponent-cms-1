@@ -47,6 +47,7 @@ class resourcesmodule {
 		if ($internal == '') {
 			return array(
 				'administrate'=>TR_RESOURCESMODULE_PERM_ADMIN,
+				'configure'=>'Configure',
 				'post'=>TR_RESOURCESMODULE_PERM_POST,
 				'edit'=>TR_RESOURCESMODULE_PERM_EDIT,
 				'delete'=>TR_RESOURCESMODULE_PERM_DELETE,
@@ -107,7 +108,7 @@ class resourcesmodule {
 		$template->assign('files',$rfiles);
 		
 		$template->register_permissions(
-			array('administrate','post','edit','delete'),
+			array('administrate','configure','post','edit','delete'),
 			$loc);
 		
 		$template->output($view);
