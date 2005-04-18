@@ -13,6 +13,8 @@ return array(
 	'conf/extensions/site.structure.php'=>'',
 	'conf/extensions/sef.defaults.php'=>'',
 	'conf/extensions/sef.structure.php'=>'',
+	'conf/extensions/maint.defaults.php'=>'',
+	'conf/extensions/maint.structure.php'=>'',
 	'conf/data/date_format.dropdown'=>'',
 );
 
