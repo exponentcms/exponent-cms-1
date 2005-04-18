@@ -37,10 +37,10 @@ define('SCRIPT_FILENAME','popup.php');
 ob_start();
 
 // Initialize the Pathos Framework
-include_once('pathos.php');
+require_once('pathos.php');
 
 // Initialize the Theme Subsystem
-if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
+if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 $loc = pathos_core_makeLocation(
 	(isset($_GET['module'])?$_GET['module']:''),

@@ -44,17 +44,17 @@ function __realpath($path) {
 // necessary setup files (pathos_setup.php, pathos_variables.php) as well as initialize
 // the compatibility layer.
 // This was moved into its own file from this file so that 'lighter' scripts could bootstrap.
-include_once(dirname(__realpath(__FILE__)).'/pathos_bootstrap.php');
+require_once(dirname(__realpath(__FILE__)).'/pathos_bootstrap.php');
 
 
 // Load the site configuration (without initializing the config subsystem)
-include_once(BASE.'subsystems/config/load.php');
+require_once(BASE.'subsystems/config/load.php');
 
 // After config config setup:
 // Put session stuff first.
 $user = null;
 // Initialize the Sessions Subsystem
-include_once(BASE.'subsystems/sessions.php');
+require_once(BASE.'subsystems/sessions.php');
 pathos_sessions_initialize();
 
 if (!isset($_SERVER['QUERY_STRING'])) {
@@ -125,28 +125,28 @@ if (!defined('MIMEICON_RELATIVE')) {
 }
 
 // Initialize the language subsystem
-include_once(BASE.'subsystems/lang.php');
+require_once(BASE.'subsystems/lang.php');
 pathos_lang_initialize();
 
 // Initialize the AutoLoader Subsystem
-include_once(BASE.'subsystems/autoloader.php');
+require_once(BASE.'subsystems/autoloader.php');
 // Initialize the Core Subsystem
-include_once(BASE.'subsystems/core.php');
+require_once(BASE.'subsystems/core.php');
 
 // Initialize the Database Subsystem
-include_once(BASE.'subsystems/database.php');
+require_once(BASE.'subsystems/database.php');
 $db = pathos_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
 
 // Initialize the Modules Subsystem.
-include_once(BASE.'subsystems/modules.php');
+require_once(BASE.'subsystems/modules.php');
 pathos_modules_initialize();
 
 // Initialize the Template Subsystem.
-include_once(BASE.'subsystems/template.php');
+require_once(BASE.'subsystems/template.php');
 // Initialize the Permissions Subsystem.
-include_once(BASE.'subsystems/permissions.php');
+require_once(BASE.'subsystems/permissions.php');
 // Initialize the Flow Subsystem.
-if (!defined('SYS_FLOW')) include_once(BASE.'subsystems/flow.php');
+if (!defined('SYS_FLOW')) require_once(BASE.'subsystems/flow.php');
 
 // Validate session
 pathos_sessions_validate();

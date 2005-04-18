@@ -37,7 +37,7 @@ pathos_lang_loadDictionary('standard','base');
 
 ob_start();
 // Initialize the Theme Subsystem
-if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
+if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 $section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 $section = $db->selectObject('section','id='.$section);

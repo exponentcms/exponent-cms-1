@@ -37,12 +37,12 @@ define('SCRIPT_FILENAME','login.php');
 ob_start();
 
 // Initialize the Pathos Framework
-include_once('pathos.php');
+require_once('pathos.php');
 
 // Initialize the Sessions Subsystem
-if (!defined('SYS_SESSIONS')) include_once(BASE.'subsystems/sessions.php');
+if (!defined('SYS_SESSIONS')) require_once(BASE.'subsystems/sessions.php');
 // Initialize the Theme Subsystem
-if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
+if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 if (pathos_sessions_loggedIn()) {
 	$SYS_FLOW_REDIRECTIONPATH = 'pathos_default';

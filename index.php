@@ -39,7 +39,7 @@ $microtime_str = explode(' ',microtime());
 $i_start = $microtime_str[0] + $microtime_str[1];
 
 // Initialize the Pathos Framework
-include_once('pathos.php');
+require_once('pathos.php');
 
 // Check to see if we are in maintenance mode.
 if (MAINTENANCE_MODE == 1) {
@@ -55,7 +55,7 @@ if (MAINTENANCE_MODE == 1) {
 pathos_lang_loadDictionary('standard','base');
 
 // Initialize the theme subsystem
-if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
+if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
 	header('Location: install/index.php?page=welcome');
