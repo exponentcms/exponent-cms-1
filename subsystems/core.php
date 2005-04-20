@@ -132,9 +132,9 @@ function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @param Array $params An associative array of the desired querystring parameters.
  * @node Subsystems:Core
  */
-function pathos_core_makeLink($params) {
+function pathos_core_makeLink($params,$relative = false) {
 	$link = (ENABLE_SSL ? NONSSL_URL : "");
-	$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
+	$link .= ($relative ? '' : SCRIPT_RELATIVE) . SCRIPT_FILENAME . "?";
 	foreach ($params as $key=>$value) {
 		$value = chop($value);
 		$key = chop($key);
