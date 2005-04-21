@@ -46,7 +46,7 @@ if (	($item == null && pathos_permissions_check("post",$loc)) ||
 	$item->location_data = serialize($loc);
 	
 	if (!isset($item->id)) {
-		if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
+		if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 	
 		$directory = "files/imagemanagermodule/".$loc->src;
 		$fname = null;
