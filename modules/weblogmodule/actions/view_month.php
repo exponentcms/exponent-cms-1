@@ -41,7 +41,7 @@ $time = (isset($_GET['month']) ? $_GET['month'] : time());
 $start_month = pathos_datetime_startOfMonthTimestamp($time);
 $end_month = pathos_datetime_endOfMonthTimestamp($time);
 
-$where = "location_data='".serialize($loc)."' AND posted >= $start_month AND posted <= $end_month";
+$where = "location_data='".serialize($loc)."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).") AND posted >= $start_month AND posted <= $end_month";
 if (!pathos_permissions_check('view_private',$loc)) {
 	$where .= ' AND is_private = 0';
 }

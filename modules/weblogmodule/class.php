@@ -80,6 +80,10 @@ class weblogmodule {
 		$template = new template('weblogmodule',$view,$loc);
 		
 		global $db;
+		global $user;
+		
+		$user_id = ($user ? $user->id : -1);
+
 		$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
 			$config->allow_comments = 1;
@@ -91,9 +95,10 @@ class weblogmodule {
 			$viewconfig = include($template->viewdir."/$view.config");
 		}
 		
+		$where = '(is_draft = 0 OR poster = '.$user_id.") AND location_data='".serialize($loc)."'";
+			
 		if ($viewconfig['type'] == 'monthlist') {
 			$months = array();
-			$where = "location_data='".serialize($loc)."'";
 			if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 			
 			$min_date = $db->min('weblog_post','posted','location_data',$where);
@@ -113,11 +118,10 @@ class weblogmodule {
 			} while ($start_month < $max_date);
 			$template->assign('months',array_reverse($months,true));
 		} else {
-			$where = ' AND is_private = 0';
-			if (pathos_permissions_check('view_private',$loc)) $where = '';
+			if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 			
-			$total = $db->countObjects('weblog_post',"location_data='".serialize($loc)."'".$where);
-			$posts = $db->selectObjects('weblog_post',"location_data='".serialize($loc)."'".$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
+			$total = $db->countObjects('weblog_post',$where);
+			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			for ($i = 0; $i < count($posts); $i++) {
 				$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
@@ -190,20 +194,33 @@ class weblogmodule {
 		$search->ref_module = 'weblogmodule';
 		$search->ref_type = 'weblog_post';
 		
-		if ($item) {
+		$view_link = array(
+			'module'=>'weblogmodule',
+			'action'=>'view',
+			'id'=>0
+		);
+		
+		if ($item && $item->is_draft == 0) {
 			$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
 			$search->body = " " . pathos_search_removeHTML($item->body) . " ";
 			$search->title = " " . $item->title . " ";
 			$search->location_data = $item->location_data;
+			
+			$view_link['id'] = $item->id;
+			$search->view_link = pathos_core_makeLink($view_link,true);
 			$db->insertObject($search,'search');
 		} else {
 			$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post'");
-			foreach ($db->selectObjects('weblog_post') as $item) {
+			foreach ($db->selectObjects('weblog_post','is_private=0 AND is_draft=0') as $item) {
 				$search->original_id = $item->id;
 				$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
 				$search->title = ' ' . $item->title . ' ';
 				$search->location_data = $item->location_data;
+				
+				$view_link['id'] = $item->id;
+				$search->view_link = pathos_core_makeLink($view_link,true);
+				
 				$db->insertObject($search,'search');
 			}
 		}

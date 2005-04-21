@@ -42,7 +42,7 @@
 {/permissions}
 {foreach from=$posts item=post}
 <div>
-<div class="itemtitle weblog_itemtitle">{$post->title}
+<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}

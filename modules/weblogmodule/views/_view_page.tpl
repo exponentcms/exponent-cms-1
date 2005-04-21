@@ -43,8 +43,7 @@
 {if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$posts item=post}
 <div>
-<div class="itemtitle weblog_itemtitle">{$post->title}
-<br />
+<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
 <a href="{link action=userperms _common=1 int=$post->id}">

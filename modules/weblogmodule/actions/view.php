@@ -40,8 +40,8 @@ if ($config == null) {
 	$config->allow_comments = 1;
 }
 
-$where = ' AND is_private = 0';
-if (pathos_permissions_check('view_private',$loc)) $where = '';
+$where = '';
+if (!pathos_permissions_check('view_private',$loc)) $where = ' AND is_private = 0';
 
 $this_post = null;
 if (isset($_GET['id'])) {
@@ -50,44 +50,51 @@ if (isset($_GET['id'])) {
 	$this_post = $db->selectObject('weblog_post',"internal_name='".$_GET['internal_name']."'".$where);
 }
 
+$where = "location_data='".$this_post->location_data."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).")";
+if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
+
 if ($this_post) {
-	$loc = unserialize($this_post->location_data);
-
-	$next_post = $db->selectObject('weblog_post',"location_data='".$this_post->location_data."' AND posted >= ".$this_post->posted." AND id != ".$this_post->id.$where);
-	$prev_post = $db->selectObject('weblog_post',"location_data='".$this_post->location_data."' AND posted <= ".$this_post->posted." AND id != ".$this_post->id.$where);
-	if (!$next_post) {
-		$next_post = 0;
+	if ($this_post->is_draft == 0 || ($user && $this_post->poster == $user->id)) {
+		$loc = unserialize($this_post->location_data);
+	
+		$next_post = $db->selectObject('weblog_post',$where.' AND posted >= '.$this_post->posted.' AND id != '.$this_post->id);
+		$prev_post = $db->selectObject('weblog_post',$where.' AND posted <= '.$this_post->posted.' AND id != '.$this_post->id);
+		if (!$next_post) {
+			$next_post = 0;
+		}
+		if (!$prev_post) {
+			$prev_post = 0;
+		}
+		
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+	
+		$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$this_post->id);
+		
+		$this_post->permissions = array(
+			'administrate'=>pathos_permissions_check('administrate',$ploc),
+			'edit'=>pathos_permissions_check('edit',$ploc),
+			'delete'=>pathos_permissions_check('delete',$ploc),
+			'comment'=>pathos_permissions_check('comment',$ploc),
+			'edit_comments'=>pathos_permissions_check('edit_comments',$ploc),
+			'delete_comments'=>pathos_permissions_check('delete_comments',$ploc),
+			'view_private'=>pathos_permissions_check('view_private',$ploc),
+		);
+		
+		$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id);
+		usort($this_post->comments,'pathos_sorting_byPostedDescending');
+	
+		$template = new template('weblogmodule','_view',$loc);
+	
+		$template->assign('this_post',$this_post);
+		$template->assign('next_post',$next_post);
+		$template->assign('prev_post',$prev_post);
+		
+		$template->assign('config',$config);
+		
+		$template->output();
+	} else {
+		echo SITE_403_HTML;
 	}
-	if (!$prev_post) {
-		$prev_post = 0;
-	}
-	
-	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-
-	$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$this_post->id);
-	
-	$this_post->permissions = array(
-		'administrate'=>pathos_permissions_check('administrate',$ploc),
-		'edit'=>pathos_permissions_check('edit',$ploc),
-		'delete'=>pathos_permissions_check('delete',$ploc),
-		'comment'=>pathos_permissions_check('comment',$ploc),
-		'edit_comments'=>pathos_permissions_check('edit_comments',$ploc),
-		'delete_comments'=>pathos_permissions_check('delete_comments',$ploc),
-		'view_private'=>pathos_permissions_check('view_private',$ploc),
-	);
-	
-	$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id);
-	usort($this_post->comments,'pathos_sorting_byPostedDescending');
-
-	$template = new template('weblogmodule','_view',$loc);
-
-	$template->assign('this_post',$this_post);
-	$template->assign('next_post',$next_post);
-	$template->assign('prev_post',$prev_post);
-	
-	$template->assign('config',$config);
-	
-	$template->output();
 } else {
 	echo SITE_404_HTML;
 }

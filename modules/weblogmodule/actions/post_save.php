@@ -45,12 +45,21 @@ if (($post != null && pathos_permissions_check('edit',$loc)) ||
 	($post == null && pathos_permissions_check('post',$loc)) ||
 	($post != null && pathos_permissions_check('edit',$iloc))
 ) {
+	// Need to be able to update the posted date if switching from draft to non-draft.
+	$was_draft = 0;
+	if ($post) $was_draft = $post->is_draft;
+	
 	$post = weblog_post::update($_POST,$post);
 	$post->location_data = serialize($loc);
 	
 	if (isset($post->id)) {
-		$post->editor = $user->id;
-		$post->edited = time();
+		if ($was_draft && $post->is_draft == 0) {
+			// No longer a draft.
+			$post->posted = time();
+		} else {
+			$post->editor = $user->id;
+			$post->edited = time();
+		}
 		$db->updateObject($post,'weblog_post');
 	} else {
 		if ($db->countObjects('weblog_post',"internal_name='".$post->internal_name."'")) {
@@ -60,12 +69,13 @@ if (($post != null && pathos_permissions_check('edit',$loc)) ||
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit('');
 		}
-	
+		
 		$post->poster = $user->id;
 		$post->posted = time();
 		$post->id = $db->insertObject($post,'weblog_post');
 		
 		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+		
 		// New, so asign full perms.
 		pathos_permissions_grant($user,'edit',$iloc);
 		pathos_permissions_grant($user,'delete',$iloc);

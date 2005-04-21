@@ -47,11 +47,11 @@ if (isset($_GET['single'])) {
 	$config->items_per_page = 1;
 }
 
-$where = ' AND is_private = 0';
-if (pathos_permissions_check('view_private',$loc)) $where = '';
+$where = "location_data='".serialize($loc)."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).")";
+if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';;
 
-$total = $db->countObjects('weblog_post',"location_data='".serialize($loc)."'".$where);
-$posts = $db->selectObjects('weblog_post',"location_data='".serialize($loc)."'".$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,($_GET['page']*$config->items_per_page)));
+$total = $db->countObjects('weblog_post',$where);
+$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,($_GET['page']*$config->items_per_page)));
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($posts); $i++) {
 	$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
