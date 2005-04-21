@@ -45,11 +45,11 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	/* exdoc
 	 * This is the minor version number of Exponent; the 96 in 0.96.2-beta3
 	 */
-	define('PATHOS_VERSION_MINOR',96);
+	define('PATHOS_VERSION_MINOR',97);
 	/* exdoc
 	 * This is the revision version number of Exponent; the 2 in 0.96.2-beta3
 	 */
-	define('PATHOS_VERSION_REVISION',2);
+	define('PATHOS_VERSION_REVISION',0);
 	/* exdoc
 	 * This is the date that this version of Exponent was exported from CVS and built.
 	 */
