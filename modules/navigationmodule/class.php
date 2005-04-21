@@ -64,15 +64,23 @@ class navigationmodule {
 	}
 	
 	function getLocationHierarchy($loc) {
+		// Initialize the location hierarchy
 		$locs = array($loc);
 		
+		if ($loc->int == '') {
+			// $location contains no section id in the int attribute,
+			// so we can't genreate a lineage to the root.
+			return $locs;
+		}
+		
+		// Keep going and generate a lineage to the root
 		global $db;
 		$all = $db->selectObjectsIndexedArray('section','parent >= 0');
 			
-		$loc = pathos_core_makeLocation('navigationmodule','',$all[$loc->int]->parent);
+		$loc = pathos_core_makeLocation('navigationmodule','',@$all[$loc->int]->parent);
 		while ($loc->int > 0) {
 			$locs[] = $loc;
-			$loc = pathos_core_makeLocation('navigationmodule','',$all[$loc->int]->parent);
+			$loc = pathos_core_makeLocation('navigationmodule','',@$all[$loc->int]->parent);
 		}
 		return $locs;
 	}
