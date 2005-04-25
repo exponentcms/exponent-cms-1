@@ -41,7 +41,7 @@ if (isset($_GET['parent_id'])) {
 	$comment = $db->selectObject('weblog_comment','id='.$_GET['id']);
 	$post = $db->selectObject('weblog_post','id='.$comment->parent_id);
 }
-if ($post) {
+if ($post && $post->is_draft == 0) {
 	$loc = unserialize($post->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
 
