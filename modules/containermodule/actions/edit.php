@@ -37,7 +37,7 @@ $container = null;
 $iloc = null;
 $cloc = null;
 if (isset($_GET['id'])) {
-	$container = $db->selectObject("container","id=".$_GET['id']);
+	$container = $db->selectObject('container','id='.$_GET['id']);
 	if ($container != null) {
 		$iloc = unserialize($container->internal);
 		$cloc = unserialize($container->external);
@@ -47,49 +47,50 @@ if (isset($_GET['id'])) {
 	$container->rank = $_GET['rank'];
 }
 
-if (pathos_permissions_check("edit_module",$loc) || pathos_permissions_check("add_module",$loc) ||
-	($iloc != null && pathos_permissions_check("administrate",$iloc)) ||
-	($cloc != null && pathos_permissions_check("delete_module",$cloc))
+if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('add_module',$loc) ||
+	($iloc != null && pathos_permissions_check('administrate',$iloc)) ||
+	($cloc != null && pathos_permissions_check('delete_module',$cloc))
 ) {
 	#
 	# Initialize Container, in case its null
 	#
 	$locref = null;
 	if (!isset($container->id)) {
-		$locref->description = "";
-		$container->view = "";
+		$locref->description = '';
+		$container->view = '';
 		$container->internal = pathos_core_makeLocation();
-		$container->title = "";
+		$container->title = '';
 		$container->rank = $_GET['rank'];
+		$container->is_private = 0;
 	} else {
 		$container->internal = unserialize($container->internal);
-		$locref = $db->selectObject("locationref","module='".$container->internal->mod."' AND source='".$container->internal->src."'","container_edit");
+		$locref = $db->selectObject('locationref',"module='".$container->internal->mod."' AND source='".$container->internal->src."'");
 	}
 	
-	$template = new template("containermodule","_form_edit",$loc);
-	$template->assign("rerank",(isset($_GET['rerank']) ? 1 : 0));
-	$template->assign("container",$container);
-	$template->assign("locref",$locref);
-	$template->assign("is_edit",isset($container->id));
-	$template->assign("can_activate_modules",$user->is_acting_admin);
-	$template->assign("current_section",pathos_sessions_get('last_section'));
+	$template = new template('containermodule','_form_edit',$loc);
+	$template->assign('rerank',(isset($_GET['rerank']) ? 1 : 0));
+	$template->assign('container',$container);
+	$template->assign('locref',$locref);
+	$template->assign('is_edit',isset($container->id));
+	$template->assign('can_activate_modules',$user->is_acting_admin);
+	$template->assign('current_section',pathos_sessions_get('last_section'));
 	
-	if (!defined("SYS_JAVASCRIPT")) require_once(BASE."subsystems/javascript.php");
+	if (!defined('SYS_JAVASCRIPT')) require_once(BASE.'subsystems/javascript.php');
 	$haveclass = false;
 	$mods = array();
 	
 	$modules_list = (isset($container->id) ? pathos_modules_list() : pathos_modules_listActive());
 	
 	if (!count($modules_list)) { // No active modules
-		$template->assign("nomodules",1);
+		$template->assign('nomodules',1);
 	} else {
-		$template->assign("nomodules",0);
+		$template->assign('nomodules',0);
 	}
 	
-	if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-	usort($modules_list,"pathos_sorting_moduleClassByNameAscending");
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+	usort($modules_list,'pathos_sorting_moduleClassByNameAscending');
 	
-	$js_init = "<script type='text/javascript'>";
+	$js_init = '<script type="text/javascript">';
 		
 	foreach ($modules_list as $moduleclass) {
 		$module = new $moduleclass();
@@ -113,21 +114,21 @@ if (pathos_permissions_check("edit_module",$loc) || pathos_permissions_check("ad
 		natsort($mod->views);
 		
 		if (!$haveclass) {
-			$js_init .=  pathos_javascript_class($mod,"Module");
-			$js_init .=  "var modules = new Array();\n";
-			$js_init .=  "var modnames = new Array();\n\n";
+			$js_init .=  pathos_javascript_class($mod,'Module');
+			$js_init .=  "var modules = new Array();\r\n";
+			$js_init .=  "var modnames = new Array();\r\n\r\n";
 			$haveclass = true;
 		}
-		$js_init .=  "modules.push(" . pathos_javascript_object($mod,"Module") . ");\n";
-		$js_init .=  "modnames.push('" . $moduleclass . "');\n";
+		$js_init .=  "modules.push(" . pathos_javascript_object($mod,"Module") . ");\r\n";
+		$js_init .=  "modnames.push('" . $moduleclass . "');\r\n";
 		$mods[$moduleclass] = $module->name();
 	}
-	$js_init .= "\n</script>";
+	$js_init .= "\r\n</script>";
 	
-	$template->assign("js_init",$js_init);
-	$template->assign("modules",$mods);
-	$template->assign("loc",$loc);
-	$template->assign("back",pathos_flow_get());
+	$template->assign('js_init',$js_init);
+	$template->assign('modules',$mods);
+	$template->assign('loc',$loc);
+	$template->assign('back',pathos_flow_get());
 	$template->output();
 } else {
 	echo SITE_403_HTML;

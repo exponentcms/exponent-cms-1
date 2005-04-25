@@ -59,7 +59,9 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'view_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>10000)
+		DB_FIELD_LEN=>10000),
+	'is_private'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 );
 
 ?>

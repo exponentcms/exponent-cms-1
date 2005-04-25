@@ -88,6 +88,10 @@
 								{if $container->info.workflowPolicy != ""}<br />Uses '{$container->info.workflowPolicy}' Workflow Policy{/if}
 							</td>
 							<td align="right" valign="top">
+								{if $container->is_private == 1 && $permissions.administrate == 1}
+									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Define which user(s) can see this module" alt="Define which user(s) can see this module" /></a>&nbsp;
+									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Define which group(s) can see this module" alt="Define which group(s) can see this module" /></a>
+								{/if}
 								{if $smarty.foreach.c.first == false}
 									{if $permissions.order_modules == 1}
 									{math equation='x - 2' x=$smarty.foreach.c.iteration assign=a}

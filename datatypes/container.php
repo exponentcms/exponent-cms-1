@@ -64,7 +64,8 @@ class container {
 			$object->internal = serialize($newInternal);
 			$object->external = serialize($loc);
 		}
-			
+		
+		$object->is_private = (isset($_POST['is_private']) ? 1 : 0);
 		// UPDATE the container
 		$object->view = $values['view'];
 		$object->title = $values['title'];

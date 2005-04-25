@@ -117,6 +117,9 @@ if (!document.body.appendChild) {
 				</td>
 			</tr>
 			{/if}
+			<tr><td valign="top">Restrict Viewing?&nbsp;</td><td>
+				<input type="checkbox" name="is_private"{if $container->is_private == 1} checked{/if} />
+			</td></tr>
 			<tr><td valign="top">Description:&nbsp;</td><td>
 				Enter a short description of how this module will be used.
 				<textarea rows="5" cols="30" id="ta_description" {if $container->is_existing}disabled{/if} name="description">{$locref->description}</textarea>

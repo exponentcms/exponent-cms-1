@@ -44,13 +44,19 @@ class containermodule {
 	
 	function permissions($internal = '') {
 		pathos_lang_loadDictionary('modules','containermodule');
-		return array(
-			'administrate'=>TR_CONTAINERMODULE_PERM_ADMIN,
-			'add_module'=>TR_CONTAINERMODULE_PERM_ADD,
-			'edit_module'=>TR_CONTAINERMODULE_PERM_EDIT,
-			'delete_module'=>TR_CONTAINERMODULE_PERM_DELETE,
-			'order_modules'=>TR_CONTAINERMODULE_PERM_ORDER
-		);
+		if ($internal == '') {
+			return array(
+				'administrate'=>TR_CONTAINERMODULE_PERM_ADMIN,
+				'add_module'=>TR_CONTAINERMODULE_PERM_ADD,
+				'edit_module'=>TR_CONTAINERMODULE_PERM_EDIT,
+				'delete_module'=>TR_CONTAINERMODULE_PERM_DELETE,
+				'order_modules'=>TR_CONTAINERMODULE_PERM_ORDER
+			);
+		} else {
+			return array(
+				'view'=>'View this Module'
+			);
+		}
 	}
 	
 	function deleteIn($loc) {
@@ -113,7 +119,9 @@ class containermodule {
 		
 		$containers = array();
 		foreach ($db->selectObjects('container',"external='" . serialize($loc) . "'") as $c) {
-			$containers[$c->rank] = $c;
+			if ($c->is_private == 0 || pathos_permissions_check('view',pathos_core_makeLocation($loc->mod,$loc->src,$c->id))) {
+				$containers[$c->rank] = $c;
+			}
 		}
 		if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 		ksort($containers);
@@ -183,7 +191,6 @@ class containermodule {
 		);
 		
 		$template->output();
-		
 	}
 	
 	function copyContent($oloc,$nloc) {
