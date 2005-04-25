@@ -105,7 +105,6 @@ class navigationmodule {
 		$template->output();
 	}
 	
-	
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
@@ -235,7 +234,11 @@ class navigationmodule {
 	
 	function _appendChildren(&$master,&$blocks,$parent,$depth = 0, $parents = array()) {
 		global $db;
-		if ($parent != 0) $parents[] = $parent;
+		if ($parent != 0) {
+			$parents[] = $parent;
+			// numChildren added for Barry Goed's Explorer-style navigation view
+			$master[$parent]->numChildren = count($blocks[$parent]);
+		}
 		
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		usort($blocks[$parent],'pathos_sorting_byRankAscending');
@@ -244,6 +247,7 @@ class navigationmodule {
 			$child = $blocks[$parent][$i];
 			if ($child->public == 1 || navigationmodule::canView($child)) {
 				$child->numParents = count($parents);
+				$child->numChildren = 0;
 				$child->depth = $depth;
 				$child->first = ($i == 0 ? 1 : 0);
 				$child->last = ($i == count($blocks[$parent])-1 ? 1 : 0);
