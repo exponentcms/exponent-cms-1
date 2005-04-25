@@ -56,7 +56,7 @@
 				{if $dayinfo.number == 0}
 					{$day}
 				{else}
-					<a class="mngmntlink weblog_mngmntlink" href="{link action=view_day =$dayinfo.ts}" title="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}" alt="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}"><b>{$day}</b></a>
+					<a class="mngmntlink weblog_mngmntlink" href="{link action=view_day day=$dayinfo.ts}" title="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}" alt="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}"><b>{$day}</b></a>
 				{/if}
 			{else}
 				&nbsp;
