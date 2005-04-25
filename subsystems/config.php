@@ -66,9 +66,9 @@ function pathos_config_parse($configname,$site_root = null) {
 		$dh = opendir($site_root.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,-13,13) == '.defaults.php') {
-				$options = array_merge(pathos_config_parseFile($site_root."conf/extensions/$file"),$options);
+				$options = array_merge(pathos_config_parseFile($site_root.'conf/extensions/'.$file),$options);
 			} else if (substr($file,-14,14) == '.structure.php') {
-				$tmp = include($site_root."conf/extensions/$file");
+				$tmp = include($site_root.'conf/extensions/'.$file);
 				$valid = array_merge($valid,array_keys($tmp[1]));
 			}
 		}
@@ -102,8 +102,8 @@ function pathos_config_parseFile($file) {
 			if (count($opts) == 2) {
 				if (substr($opts[1],0,1) == '"' || substr($opts[1],0,1) == "'") $opts[1] = substr($opts[1],1,-3);
 				else $opts[1] = substr($opts[1],0,-2);
-				if (substr($opts[0],-5,5) == "_HTML") {
-					$opts[1] = eval("return ".$opts[1].";");
+				if (substr($opts[0],-5,5) == '_HTML') {
+					$opts[1] = eval('return '.$opts[1].';');
 					$opts[1] = preg_replace('/<[bB][rR]\s?\/?>/',"\r\n",$opts[1]);
 				}
 				$options[$opts[0]] = str_replace("\\'","'",$opts[1]);
@@ -125,11 +125,11 @@ function pathos_config_parseFile($file) {
  */
 function pathos_config_configurationForm($configname,$database=false) {
 	// $configname = "" for active config
-	if (is_readable(BASE."conf/extensions")) {
+	if (is_readable(BASE.'conf/extensions')) {
 		global $user;
 		$options = pathos_config_parse($configname);
 		
-		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		pathos_lang_loadDictionary('subsystems','config');
@@ -145,11 +145,11 @@ function pathos_config_configurationForm($configname,$database=false) {
 	
 		$dh = opendir(BASE.'conf/extensions');
 		while (($file = readdir($dh)) !== false) {
-			if (is_readable(BASE."conf/extensions/$file") && substr($file,-14,14) == ".structure.php") {
-				$arr = include(BASE."conf/extensions/$file");
+			if (is_readable(BASE.'conf/extensions/'.$file) && substr($file,-14,14) == '.structure.php') {
+				$arr = include(BASE.'conf/extensions/'.$file);
 				// Check to see if the current user is a super admin, and only include database if so
 				if (substr($file,0,-14) != 'database' || $user->is_admin == 1) {
-					$form->register(null,'',new htmlcontrol("<a name='config_".count($sections)."'></a><div style='font-weight: bold; margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc; font-size: 12pt;'>" . $arr[0] . "</div><a href='#config_top'>Top</a>"));
+					$form->register(null,'',new htmlcontrol('<a name="config_'.count($sections).'"></a><div style="font-weight: bold; margin-top: 1.5em; border-top: 1px solid black; border-bottom: 1px solid black; background-color: #ccc; font-size: 12pt;">' . $arr[0] . '</div><a href="#config_top">Top</a>'));
 					$sections[] = '<a href="#config_'.count($sections).'">'.$arr[0].'</a>';
 					foreach ($arr[1] as $directive=>$info) {
 						
@@ -166,11 +166,11 @@ function pathos_config_configurationForm($configname,$database=false) {
 							$form->register("c[$directive]",'<b>'.$info['title'].'</b>',$info['control'],$info['description']);
 						}
 					}
+					$form->register(null,'',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 				}
 			}
 		}
 		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" /><ul><li>'.implode('</li><li>',$sections).'</li></ul>'));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
 		
 		return $form;
 	}
