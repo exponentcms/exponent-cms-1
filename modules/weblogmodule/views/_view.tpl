@@ -73,6 +73,9 @@
 <div>{$this_post->body}</div>
 {if $config->allow_comments}
 	<div class="comments" style="padding-left: 35px;">
+	{if $post->is_draft}
+		<i>This is a draft.  Commenting has been disabled.</i>
+	{else}
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.comment == 1 || $this_post->permissions.comment == 1}
 		<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit parent_id=$this_post->id}">Comment</a>
@@ -99,6 +102,7 @@
 				<div class="weblog_comment_body">{$comment->body}</div>
 			</div>
 		{/foreach}
+	{/if}
 	</div>
 {/if}
 </div>
