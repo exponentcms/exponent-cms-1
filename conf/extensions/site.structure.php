@@ -117,7 +117,12 @@ $stuff = array(
 			'title'=>TR_CONFIG_SITE_SSL_URL,
 			'description'=>TR_CONFIG_SITE_SSL_URL_DESC,
 			'control'=>new textcontrol()
-		)
+		),
+		'WORKFLOW_REVISION_LIMIT'=>array(
+			'title'=>'Revision History Limit',
+			'description'=>'The maximum number of major revisions (excluding the "current" revision) to keep per item of content.  A limit of 0 (zero) means that all revisions will be kept.',
+			'control'=>new textcontrol()
+		),
 	)
 );
 

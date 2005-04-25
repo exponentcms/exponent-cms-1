@@ -43,7 +43,7 @@ if (!defined('SITE_KEYWORDS')) define('SITE_KEYWORDS','');
 if (!defined('SITE_DESCRIPTION')) define('SITE_DESCRIPTION','');
 if (!defined('SITE_DEFAULT_SECTION')) define('SITE_DEFAULT_SECTION',1);
 
-if (!defined('SESSION_TIMEOUT')) define('SESSION_TIMEOUT',3600);
+if (!defined('SESSION_TIMEOUT')) define('SESSION_TIMEOUT',5*3600);
 if (!defined('SESSION_TIMEOUT_HTML')) define('SESSION_TIMEOUT_HTML',html_entity_decode('<h3>Expired Login Session</h3>Your session has expired, because you were idle too long.  You will have to log back into the system to continue what you were doing.'));
 
 if (!defined('ENABLE_SSL')) define('ENABLE_SSL',0);
@@ -56,5 +56,7 @@ if (!defined('DIR_DEFAULT_MODE_STR')) define('DIR_DEFAULT_MODE_STR','0777');
 if (!defined('DIR_DEFAULT_MODE')) define('DIR_DEFAULT_MODE',octdec(DIR_DEFAULT_MODE_STR+0));
 
 if (!defined('USE_LANG')) define('USE_LANG','en');
+
+if (!defined('WORKFLOW_REVISION_LIMIT')) define('WORKFLOW_REVIOSION_LIMIT',0);
 
 ?>

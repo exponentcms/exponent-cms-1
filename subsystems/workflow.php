@@ -383,6 +383,8 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 	unset($object->id);
 	$db->insertObject($object,$table."_wf_revision");
 	
+	pathos_workflow_deleteOldRevisions($table,$object->wf_original);
+	
 	// Now that we are almost done, we need to call the onWorkflow stuff.
 	if (is_callable(array($table,'onWorkflowPost'))) {
 		if (!isset($real_object)) {
@@ -577,16 +579,16 @@ function pathos_workflow_revoke($state,$type) {
  */
 function pathos_workflow_deleteRevisionPath($datatype,$id) {
 	global $db;
-	$info = $db->selectObject($datatype."_wf_info","real_id=".$id);
-	$revision = $db->selectObject($datatype."_wf_revision","wf_original=".$id." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
+	$info = $db->selectObject($datatype.'_wf_info','real_id='.$id);
+	$revision = $db->selectObject($datatype.'_wf_revision','wf_original='.$id.' AND wf_major='.$info->current_major.' AND wf_minor='.$info->current_minor);
 
-	$db->delete($datatype."_wf_info","real_id=".$id);
-	$db->delete($datatype."_wf_revision","wf_original=".$id." AND wf_major=".$info->current_major);
+	$db->delete($datatype.'_wf_info','real_id='.$id);
+	$db->delete($datatype.'_wf_revision','wf_original='.$id.' AND wf_major='.$info->current_major);
 	$orig = $db->selectObject($datatype,"id=".$id);
 	
 	if ($orig->approved == 0) {
 		// Never been posted live.  Delete it
-		$db->delete($datatype,"id=".$id);
+		$db->delete($datatype,'id='.$id);
 	} else {
 		// Revision path deleted was an edit.  Restore original to fully-approved state.
 		$orig->approved = 1;
@@ -594,8 +596,23 @@ function pathos_workflow_deleteRevisionPath($datatype,$id) {
 	}
 	
 	// Run the actions for SYS_WORKFLOW_ACTION_DELETED
-	$policy = $db->selectObject("approvalpolicy","id=".$info->policy_id);
+	$policy = $db->selectObject('approvalpolicy','id='.$info->policy_id);
 	pathos_workflow_runActions($policy,SYS_WORKFLOW_ACTION_DELETED,$revision);
+}
+
+function pathos_workflow_deleteOldRevisions($datatype,$id) {
+	if (WORKFLOW_REVISION_LIMIT > 0) {
+		// User has specified that we delete older revisions
+		global $db;
+		$max_revision = $db->max($datatype.'_wf_revision','wf_major','wf_original','wf_original='.$id);
+		$min_revision = $db->min($datatype.'_wf_revision','wf_major','wf_original','wf_original='.$id);
+		if ($max_revision == null) {
+			return;
+		}
+		if ($max_revision - $min_revision > WORKFLOW_REVISION_LIMIT) {
+			$db->delete($datatype.'_wf_revision','wf_original='.$id.' AND wf_major < '.($max_revision - WORKFLOW_REVISION_LIMIT));
+		}
+	}
 }
 
 /* exdoc
