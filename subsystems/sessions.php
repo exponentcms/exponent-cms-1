@@ -38,15 +38,20 @@ if (!defined('PATHOS')) exit('');
  * that the subsystem has been included for use.
  * @node Subsystems:Sessions
  */
-define("SYS_SESSIONS",1);
+define('SYS_SESSIONS',1);
 
 // session key may be overridden
-if (!defined("SYS_SESSION_KEY")) {
+if (!defined('SYS_SESSION_KEY')) {
 	/* exdoc
 	 * @state <b>UNDOCUMENTED</b>
 	 * @node Undocumented
 	 */
-	define("SYS_SESSION_KEY",PATH_RELATIVE);
+	define('SYS_SESSION_KEY',PATH_RELATIVE);
+}
+
+// Name of session cookie may also be overridden
+if (!defined('SYS_SESSION_COOKIE')) {
+	define('SYS_SESSION_COOKIE','PHPSESSID');
 }
 
 /* exdoc
@@ -57,18 +62,20 @@ if (!defined("SYS_SESSION_KEY")) {
  * @node Subsystems:Sessions
  */
 function pathos_sessions_initialize() {	
-	$sesid  = "";
-	if (isset($_GET['expid'])) $sesid = $_GET['expid'];
-	else if (isset($_POST['expid'])) $sesid =  $_POST['expid'];
-	else if (!isset($_COOKIE['PHPSESSID'])) $sesid = md5(uniqid(rand(), true));
-	else $sesid = $_COOKIE['PHPSESSID'];
-	setcookie("PHPSESSID",$sesid);
-	$_COOKIE['PHPSESSID'] = $sesid;
+	$sessid  = '';
+	if (isset($_GET['expid'])) $sessid = $_GET['expid'];
+	else if (isset($_POST['expid'])) $sessid =  $_POST['expid'];
+	else if (!isset($_COOKIE[SYS_SESSION_COOKIE])) $sessid = md5(uniqid(rand(), true));
+	else $sessid = $_COOKIE[SYS_SESSION_COOKIE];
+	session_name(SYS_SESSION_COOKIE);
+	session_id($sessid);
+	$_COOKIE['PHPSESSID'] = $sessid;
+	session_set_cookie_params(SESSION_TIMEOUT*2); // Full cookie lasts twice as long as the login session.
 	
 	session_start();
 	if (!isset($_SESSION[SYS_SESSION_KEY])) $_SESSION[SYS_SESSION_KEY] = array();
 	if (!isset($_SESSION[SYS_SESSION_KEY]['vars'])) $_SESSION[SYS_SESSION_KEY]['vars'] = array();
-	if (isset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme'])) define("DISPLAY_THEME",$_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
+	if (isset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme'])) define('DISPLAY_THEME',$_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
 }
 
 /* exdoc
@@ -79,12 +86,12 @@ function pathos_sessions_initialize() {
 function pathos_sessions_validate() {
 	global $db;
 	if (pathos_sessions_loggedIn()) {
-		$ticket = $db->selectObject("sessionticket","ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
+		$ticket = $db->selectObject('sessionticket',"ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
 		$timeoutval = SESSION_TIMEOUT;
 		if ($timeoutval < 300) $timeoutval = 300;
 		if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
 			pathos_sessions_logout();
-			define("SITE_403_HTML",SESSION_TIMEOUT_HTML);
+			define('SITE_403_HTML',SESSION_TIMEOUT_HTML);
 			return;
 		}
 		
@@ -92,14 +99,14 @@ function pathos_sessions_validate() {
 		$user = $_SESSION[SYS_SESSION_KEY]['user'];
 		if ($ticket->refresh == 1) {
 			pathos_permissions_load($user);
-			$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");
+			$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
 		}
 		$ticket->refresh = 0;
 		
 		$ticket->last_active = time();
-		$db->updateObject($ticket,"sessionticket","ticket='" . $ticket->ticket . "'");
+		$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
 	}
-	define("SITE_403_HTML",SITE_403_REAL_HTML);
+	define('SITE_403_HTML',SITE_403_REAL_HTML);
 }
 
 /* exdoc
@@ -120,7 +127,7 @@ function pathos_sessions_login($user) {
 	$ticket->ip_address = $_SERVER['REMOTE_ADDR'];
 	
 	global $db;
-	$db->insertObject($ticket,"sessionticket");
+	$db->insertObject($ticket,'sessionticket');
 	
 	$_SESSION[SYS_SESSION_KEY]['ticket'] = $ticket->ticket;
 	$_SESSION[SYS_SESSION_KEY]['user'] = $user;
@@ -136,7 +143,7 @@ function pathos_sessions_login($user) {
  */
 function pathos_sessions_logout() {
 	global $db;
-	if (isset($_SESSION['ticket'])) $db->delete("sessionticket","ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
+	if (isset($_SESSION['ticket'])) $db->delete('sessionticket',"ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
 	
 	unset($_SESSION[SYS_SESSION_KEY]['ticket']);
 	unset($_SESSION[SYS_SESSION_KEY]['user']);
