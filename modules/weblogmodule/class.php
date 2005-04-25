@@ -96,10 +96,10 @@ class weblogmodule {
 		}
 		
 		$where = '(is_draft = 0 OR poster = '.$user_id.") AND location_data='".serialize($loc)."'";
+		if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 			
 		if ($viewconfig['type'] == 'monthlist') {
 			$months = array();
-			if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 			
 			$min_date = $db->min('weblog_post','posted','location_data',$where);
 			$max_date = $db->max('weblog_post','posted','location_data',$where);
@@ -117,9 +117,24 @@ class weblogmodule {
 				$end_month = pathos_datetime_endOfMonthTimestamp($start_month)+86399;
 			} while ($start_month < $max_date);
 			$template->assign('months',array_reverse($months,true));
-		} else {
-			if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
+		} else if ($viewconfig['type'] == 'calendar') {
+			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
+			$month_days = pathos_datetime_monthlyDaysTimestamp(time());
+			for ($i = 0; $i < count($month_days); $i++) {
+				foreach ($month_days[$i] as $mday=>$timestamp) {
+					if ($mday > 0) {
+						// Got a valid one.  Go with it.
+						$month_days[$i][$mday] = array(
+							'number'=>$db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp .' AND posted < '.strtotime('+1 day',$timestamp)),
+							'ts'=>$timestamp
+						);
+					}
+				}
+			}
 			
+			$template->assign('days',$month_days);
+			$template->assign('now',time());
+		} else {
 			$total = $db->countObjects('weblog_post',$where);
 			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
