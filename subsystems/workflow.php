@@ -342,7 +342,8 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 		$object->wf_type = SYS_WORKFLOW_ACTION_POSTED;
 	}
 	
-	$object->wf_major = $db->max($table.'_wf_revision','wf_major','wf_original','wf_original='.$object->wf_original);
+	$object->wf_major = $db->max($table."_wf_revision","wf_major","wf_original","wf_original=".$object->wf_original);
+	if ($object->wf_major == null) $object->wf_major = 0;
 	$object->wf_minor = 1;
 	$state = array(
 		array($user->id+0),

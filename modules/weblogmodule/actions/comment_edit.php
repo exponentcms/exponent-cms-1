@@ -35,11 +35,11 @@ if (!defined('PATHOS')) exit('');
 
 $post = null;
 $comment = null;
-if (isset($_GET['parent_id'])) {
-	$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
-} else if (isset($_GET['id'])) {
+if (isset($_GET['id'])) {
 	$comment = $db->selectObject('weblog_comment','id='.$_GET['id']);
 	$post = $db->selectObject('weblog_post','id='.$comment->parent_id);
+} else if (isset($_GET['parent_id'])) {
+	$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
 }
 if ($post && $post->is_draft == 0) {
 	$loc = unserialize($post->location_data);

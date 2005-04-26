@@ -22,6 +22,7 @@ return array(
 	'pathos.php'=>'',
 	'pathos_variables.php'=>'',
 	'pathos_version.php'=>'',
+	'pathos_bootstrap.php'=>'',
 	'popup.php'=>'',
 	'selector.php'=>'',
 	'source_selector.php'=>'',

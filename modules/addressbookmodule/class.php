@@ -47,6 +47,7 @@ class addressbookmodule {
 		if ($internal == '') {
 			return array(
 				'administrate'=>TR_ADDRESSBOOKMODULE_PERM_ADMIN,
+				'configure'=>'Configure',
 				'post'=>TR_ADDRESSBOOKMODULE_PERM_POST,
 				'edit'=>TR_ADDRESSBOOKMODULE_PERM_EDIT,
 				'delete'=>TR_ADDRESSBOOKMODULE_PERM_DELETE
@@ -67,14 +68,56 @@ class addressbookmodule {
 	
 	function show($view,$loc = null,$title = '') {
 		global $db;
+		
+		$config = $db->selectObject('addressbookmodule_config',"location_data='".serialize($loc)."'");
+		if (!$config) {
+			$config->sort_type = 'lastname_asc';
+		}
 		$contacts = addressbookmodule::getContacts($loc);
+		// Sorting
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		if (!function_exists('pathos_sorting_byFirstNameAscending')) {
+			function pathos_sorting_byFirstNameAscending($a,$b) {
+				return strnatcmp($a->firstname ,$b->firstname);
+			}
+		}
+		if (!function_exists('pathos_sorting_byFirstNameDescending')) {
+			function pathos_sorting_byFirstNameDescending($a,$b) {
+				return -1*strnatcmp($a->firstname ,$b->firstname);
+			}
+		}
+		if (!function_exists('pathos_sorting_byLastNameAscending')) {
+			function pathos_sorting_byLastNameAscending($a,$b) {
+				return strnatcmp($a->lastname ,$b->lastname);
+			}
+		}
+		if (!function_exists('pathos_sorting_byLastNameDescending')) {
+			function pathos_sorting_byLastNameDescending($a,$b) {
+				return -1*strnatcmp($a->lastname ,$b->lastname);
+			}
+		}
+		
+		switch ($config->sort_type) {
+			case 'lastname_asc':
+				usort($contacts,'pathos_sorting_byLastNameAscending');
+				break;
+			case 'lastname_desc':
+				usort($contacts,'pathos_sorting_byLastNameDescending');
+				break;
+			case 'firstname_asc':
+				usort($contacts,'pathos_sorting_byFirstNameAscending');
+				break;
+			case 'firstname_desc':
+				usort($contacts,'pathos_sorting_byFirstNameDescending');
+				break;
+		}
 		
 		$template = new template('addressbookmodule',$view,$loc);
 		
 		$template->assign('contacts',$contacts);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array('administrate','post','edit','delete'),
+			array('administrate','configure','post','edit','delete'),
 			$loc
 		);
 		

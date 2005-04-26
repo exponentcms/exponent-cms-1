@@ -150,8 +150,7 @@ function pathos_image_create($w,$h) {
 		return IMAGE_ERR_NOGD;
 	}
 	$info = gd_info();
-
-	if (strpos($info['GD Version'],'2.0') != false) {
+	if (strpos($info['GD Version'],'2.0') !== false) {
 		$img = imagecreatetruecolor($w,$h);
 		
 		if (function_exists('imagesavealpha')) {
@@ -170,7 +169,7 @@ function pathos_image_copyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $ds
 		return null;
 	}
 	$info = gd_info();
-	if (strpos($info['GD Version'],'2.0') != false) {
+	if (strpos($info['GD Version'],'2.0') !== false) {
 		return imagecopyresampled($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 	} else {
 		return imagecopyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);

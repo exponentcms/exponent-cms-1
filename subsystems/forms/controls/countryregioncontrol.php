@@ -97,7 +97,7 @@ class countryregioncontrol extends formcontrol {
 			$html .= "	}";
 			$html .= "   var count = 0;";
 			$html .= "	for (i = 0; i < geo_regions.length; i++) {";
-			$html .= "		if (geo_regions[i].var parent_id == country) {";
+			$html .= "		if (geo_regions[i].var_parent_id == country) {";
 			$html .= "			count++;";
 			$html .= "			var o = document.createElement('option');";
 			$html .= "			o.setAttribute('value',	geo_regions[i].var_id);";

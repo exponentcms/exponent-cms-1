@@ -138,6 +138,9 @@ function pathos_flow_redirect($url_type = SYS_FLOW_NONE) {
 			$url = pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_' . $access_level . '_' . $url_type);
 			break;
 	}
+	if ($url == '') {
+		$url = URL_FULL.'index.php?section='.SITE_DEFAULT_SECTION;
+	}
 	if (DEVELOPMENT >= 2) {
 		echo '<a href="'.$url.'">'.$url.'</a>';
 	} else {

@@ -72,13 +72,14 @@ class listbuildercontrol extends formcontrol {
 		if ($source !== null) {
 			if (is_array($source)) $this->source = $source;
 			else $this->source = array($source);
-			$this->source = array_diff_assoc($this->source,$this->default);
 		} else {
 			$this->newList = true;
 		}
 	}
 
 	function controlToHTML($name) {
+		$this->_normalize();
+	
 		$html = '<input type="hidden" name="'.$name.'" id="'.$name.'" value="'.implode("|!|",array_keys($this->default)).'" />';
 		$html .= '<table cellpadding="9" border="0" width="30"><tr><td width="10">';
 		if (!$this->newList) {
@@ -92,18 +93,40 @@ class listbuildercontrol extends formcontrol {
 		}
 		$html .= "</td>";
 		$html .= "<td valign='middle' width='10'>";
-		$html .= "<button onClick='addSelectedItem(&quot;$name&quot;); return false'>&gt;&gt;</button>";
-		$html .= "<br /><hr size='1'/>";
-		$html .= "<button onClick='removeSelectedItem(&quot;$name&quot;); return false;'>&lt;&lt;</button>";
+		$html .= "<input type='image' onClick='addSelectedItem(&quot;$name&quot;); return false' src='".ICON_RELATIVE."right.png' />";
+		$html .= "<br />";
+		$html .= "<input type='image' onClick='removeSelectedItem(&quot;$name&quot;); return false;' src='".ICON_RELATIVE."left.png' />";
 		$html .= "</td>";
 		$html .= "<td width='10' valign='top'><select id='dest_$name' size='".$this->size."'>";
 		foreach ($this->default as $key=>$value) {
+			if (isset($this->source[$key])) $value = $this->source[$key];
 			$html .= "<option value='$key'>$value</option>";
 		}
 		$html .= "</select>";
 		$html .= "</td><td width='100%'></td></tr></table>";
 		$html .= "<script>newList.$name = ".($this->newList?"true":"false").";</script>";
 		return $html;
+	}
+	
+	// Normalizes the $this->source and $this->defaults array
+	// This allows us to gracefully recover from _formErrors and programmer error
+	function _normalize() {
+		if (!$this->newList) { // Only do normalization if we are not creating a list from scratch.
+			// First, check to see if our parent has flipped the inError attribute to 1.
+			// If so, we need to normalize the $this->default based on the source.
+			if ($this->inError == 1) {
+				$default = array();
+				foreach ($this->default as $id) {
+					$default[$id] = $this->source[$id];
+					// Might as well normalize $this->source while we are here
+					unset($this->source[$id]);
+				}
+				$this->default = $default;
+			} else {
+				// No form Error.  Just normalize $this->source
+				$this->source = array_diff_assoc($this->source,$this->default);
+			}
+		}
 	}
 	
 	function onRegister(&$form) {

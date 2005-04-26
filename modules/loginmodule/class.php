@@ -30,10 +30,11 @@
 #
 # $Id$
 ##################################################
+
 class loginmodule {
-	function name() { return "Login Module"; }
-	function author() { return "James Hunt"; } 
-	function description() { return "Allows users to login to the site."; }
+	function name() { return 'Login Module'; }
+	function author() { return 'James Hunt'; } 
+	function description() { return 'Allows users to login to the site.'; }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -41,7 +42,7 @@ class loginmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
 		return array();
 	}
 	
@@ -53,13 +54,19 @@ class loginmodule {
 		// Do nothing, no content
 	}
 
-	function show($view,$loc=null,$title="") {
-		$template = new template("loginmodule",$view,$loc);
-		$template->assign("title",$title);
+	function show($view,$loc=null,$title='') {
+		$template = new template('loginmodule',$view,$loc);
+		$template->assign('title',$title);
 		if (pathos_sessions_loggedIn()) {
 			global $user, $db;
-			$template->assign("loggedin",1);
-			$template->assign("user",$user);
+			$template->assign('loggedin',1);
+			$template->assign('user',$user);
+			// Generate display name as username if the first and last name fields are blank.
+			$display_name = $user->firstname . ' ' .$user->lastname;
+			if (trim($display_name) == '') {
+				$display_name = $user->username;
+			}
+			$template->assign('displayname',$display_name);
 			// Need to check for groups and whatnot
 			if ($db->countObjects('groupmembership','member_id='.$user->id.' AND is_admin=1')) {
 				$template->assign('is_group_admin',1);

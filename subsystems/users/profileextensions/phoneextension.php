@@ -45,9 +45,9 @@ class phoneextension {
 		}
 		
 		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.TR_X_PHONEEXTENSION_HEADER.'</b>'));
-		$form->register("home_phone",TR_X_PHONEEXTENSION_HOME_PHONE, new textcontrol($user->user_phone->home_phone));
-		$form->register("bus_phone",TR_X_PHONEEXTENSION_BUS_PHONE, new textcontrol($user->user_phone->bus_phone));
-		$form->register("other_phone",TR_X_PHONEEXTENSION_OTHER_PHONE, new textcontrol($user->user_phone->other_phone));
+		$form->register("home_phone",TR_X_PHONEEXTENSION_HOME_PHONE, new textcontrol($user->user_phone->home_phone,16,false,15));
+		$form->register("bus_phone",TR_X_PHONEEXTENSION_BUS_PHONE, new textcontrol($user->user_phone->bus_phone,16,false,15));
+		$form->register("other_phone",TR_X_PHONEEXTENSION_OTHER_PHONE, new textcontrol($user->user_phone->other_phone,16,false,15));
 		
 		// Define pref_contact dropdown sources
 		$pref_array = array("", "Home Phone", "Business Phone", "Other Phone", "Email");

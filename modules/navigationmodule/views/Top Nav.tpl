@@ -47,7 +47,7 @@
 		&nbsp;&nbsp;|&nbsp;
 		{else}		
 			{if $section->active == 1}
-				<a class="navlink" href="{$section->link}">{$section->name}</a>
+				<a class="navlink" href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>
 			{else}
 				<span class="navlink">{$section->name}</span>
 			{/if}

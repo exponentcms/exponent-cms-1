@@ -39,6 +39,8 @@ if (isset($_GET['id'])) {
 }
 
 if ($contact) {
+	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+	
 	$loc = unserialize($contact->location_data);
 
 	$template = new template("addressbookmodule","_view",$loc);

@@ -332,12 +332,18 @@ class postgres_database {
 		$object_a = $this->selectObject($table,"$field='$a' AND $additional_where");
 		$object_b = $this->selectObject($table,"$field='$b' AND $additional_where");
 		
-		$tmp = $object_a->$field;
-		$object_a->$field = $object_b->$field;
-		$object_b->$field = $tmp;
-		
-		$this->updateObject($object_a,$table);
-		$this->updateObject($object_b,$table);
+		if ($object_a && $object_b) {
+			$tmp = $object_a->$field;
+			$object_a->$field = $object_b->$field;
+			$object_b->$field = $tmp;
+			
+			$this->updateObject($object_a,$table);
+			$this->updateObject($object_b,$table);
+			
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	function tableExists($table) {

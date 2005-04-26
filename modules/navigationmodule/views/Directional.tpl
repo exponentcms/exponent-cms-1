@@ -35,9 +35,7 @@
 {else}
 	{foreach from=$sections item=section}
 	{if $section->parent ==$current->parent && $section->rank==$prevrank}
-	<a href="{$section->link}">
-		&lt; Prev Page
-	</a>
+	<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>&lt; Prev Page</a>
 	{/if}
 	{/foreach}
 {/if}
@@ -58,7 +56,7 @@
 {assign var=gotlink value=0}
 {foreach from=$sections item=section }
 {if $section->parent == $current->parent && $section->rank == $nextrank}
-<a href="{$section->link}">Next Page &gt;</a>
+<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>Next Page &gt;</a>
 {assign var=gotlink value=1}
 {/if}
 {/foreach}

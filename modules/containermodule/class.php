@@ -148,7 +148,6 @@ class containermodule {
 					'hasSources'=>$mod->hasSources(),
 					'hasViews'=>$mod->hasViews(),
 					'class'=>$modclass,
-					'exportsContent'=>(method_exists($mod,'getContent') && method_exists($mod,'getContentType')),
 					'supportsWorkflow'=>($mod->supportsWorkflow()?1:0),
 					'workflowPolicy'=>($policy ? $policy->name : ''),
 					'workflowUsesDefault'=>(pathos_workflow_moduleUsesDefaultPolicy($location->mod,$location->src) ? 1 : 0),
@@ -163,7 +162,6 @@ class containermodule {
 					'hasSources'=>0,
 					'hasViews'=>0,
 					'class'=>$modclass,
-					'exportsContent'=>0,
 					'supportsWorkflow'=>0,
 					'workflowPolicy'=>'',
 					'workflowUsesDefault'=>0,
@@ -252,7 +250,6 @@ class containermodule {
 				'hasSources'=>$mod->hasSources(),
 				'hasViews'=>$mod->hasViews(),
 				'class'=>$modclass,
-				'exportsContent'=>(method_exists($mod,'getContent') && method_exists($mod,'getContentType')),
 				'clickable'=>($clickable_mods == null || in_array($modclass,$clickable_mods))
 			);
 			

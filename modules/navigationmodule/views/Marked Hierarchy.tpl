@@ -35,7 +35,7 @@
 <img src="{$smarty.const.ICON_RELATIVE}mark.gif" />
 {/if}
 {if $section->active == 1}
-<a href="{$section->link}" class="navlink">{$section->name}</a>&nbsp;
+<a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;
 {else}
 <span class="navlink">{$section->name}</span>&nbsp;
 {/if}

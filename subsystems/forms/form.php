@@ -197,6 +197,7 @@ class form extends baseform {
 			foreach (array_keys($this->controls) as $name) {
 				// may need to look to control a la parseData
 				$this->controls[$name]->default = @$last_POST[$name];
+				$this->controls[$name]->inError = 1; // Status flag for controls that need to do some funky stuff.
 			}
 			
 			$formError = @$last_POST['_formError'];

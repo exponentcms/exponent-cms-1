@@ -31,24 +31,37 @@
 # $Id$
 ##################################################
 
-if (!defined('PATHOS')) exit('');
-
-if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
-	$core = null;
-	if (isset($_GET['id'])) {
-		$core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
+class addressbookmodule_config {
+	function form($object) {
+		pathos_lang_loadDictionary('standard','core');
+	
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+		pathos_forms_initialize();
+		
+		$form = new form();
+		if (!isset($object->id)) {
+			$object->sort_type = 'lastname_asc';
+		} else {
+			$form->meta('id',$object->id);
+		}
+		
+		$sort = array(
+			'lastname_asc'=>'by Last Name, Alphabetical',
+			'lastname_desc'=>'by Last Name, Reverse Alphabetical',
+			'firstname_asc'=>'by First Name, Alphabetical',
+			'firstname_desc'=>'by First Name, Reverse Alphabetical'
+		);
+		
+		$form->register('sort_type','Sort Entries',new dropdowncontrol($object->sort_type,$sort));
+		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		
+		return $form;
 	}
 	
-	$form = sharedcore_core::form($core);
-	$form->meta('module','sharedcoremodule');
-	$form->meta('action','save_core');
-	
-	$template = new template('sharedcoremodule','_form_editCore');
-	$template->assign('is_edit',(isset($core->id) ? 1 : 0));
-	$template->assign('form_html',$form->toHTML());
-	$template->output();
-} else {
-	echo SITE_403_HTML;
+	function update($values,$object) {
+		$object->sort_type = $values['sort_type'];
+		return $object;
+	}
 }
 
 ?>

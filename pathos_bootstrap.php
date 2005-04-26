@@ -58,7 +58,9 @@ if (!function_exists('__realpath')) {
 }
 
 // Process user-defined constants in overrides.php
-include_once(dirname(__realpath(__FILE__)).'/overrides.php');
+// THIS CANNOT USE __realpath like the others, since this file could be
+// symlinked through the multi-site manager
+include_once('overrides.php');
 
 // Auto-detect whatever variables the user hasn't overridden in overrides.php
 include_once(dirname(__realpath(__FILE__)).'/pathos_variables.php');

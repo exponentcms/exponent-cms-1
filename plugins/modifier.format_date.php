@@ -42,7 +42,7 @@ function smarty_modifier_format_date($timestamp,$format) {
 		for ($i = 0; $i < count($toks); $i++) {
 			$toks[$i] = str_replace(
 				array('%D','%e','%g','%G','%h','%r','%R','%T','%l'),
-				array('%m/%d/%y','%#d','%y','%Y','%b','%b','%I:%M:%S %p','%H:%M','%H:%M:%S','%#H'),
+				array('%m/%d/%y','%#d','%y','%Y','%b','%I:%M:%S %p','%H:%M','%H:%M:%S','%#H'),
 				$toks[$i]);
 		}
 		$format = implode('%%',$toks);

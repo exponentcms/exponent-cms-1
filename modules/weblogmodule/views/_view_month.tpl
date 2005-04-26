@@ -82,7 +82,7 @@
 				<br />
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_comments == 1 || $post->permissions.edit_comments == 1}
-				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id parent_id=$post->id}">
+				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id}">
 					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Comment" alt="Edit this Comment" />
 				</a>
 				{/if}

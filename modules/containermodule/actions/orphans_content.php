@@ -70,7 +70,6 @@ if (!defined("PATHOS")) exit("");
 				"hasSources"=>$mod->hasSources(),
 				"hasViews"=>$mod->hasViews(),
 				"class"=>$modclass,
-				"exportsContent"=>(method_exists($mod,"getContent") && method_exists($mod,"getContentType")),
 				"clickable"=>(($clickable_mods == null || in_array($modclass,$clickable_mods))?1:0)
 			);
 		} else {
@@ -82,7 +81,6 @@ if (!defined("PATHOS")) exit("");
 					"hasSources"=>0,
 					"hasViews"=>0,
 					"class"=>$modclass,
-					"exportsContent"=>false,
 					"clickable"=>false
 				);
 		}

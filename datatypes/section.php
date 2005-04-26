@@ -52,6 +52,7 @@ class section {
 			$object->name = '';
 			$object->active = 1;
 			$object->public = 1;
+			$object->new_window = 0;
 			$object->subtheme = '';
 			
 			$object->page_title = SITE_TITLE;
@@ -104,6 +105,7 @@ class section {
 			// Allow them to change parents, but not if the section is outside of the hiearchy (parent < 0)
 			$form->register('parent',TR_NAVIGATIONMODULE_PARENTSECTION,new dropdowncontrol($object->parent,navigationmodule::hierarchyDropdownControlArray(0,array($object->id))));
 		}
+		$form->register('new_window','Open in New Window',new checkboxcontrol($object->new_window,true));
 		
 		// Return the form to the calling scope, which should always be a
 		// member method of this class.
@@ -313,6 +315,7 @@ class section {
 		$object->name = $values['name'];
 		if (isset($values['rank'])) $object->rank = $values['rank'];
 		if (isset($values['parent'])) $object->parent = $values['parent'];
+		$object->new_window = (isset($values['new_window']) ? 1 : 0);
 		return $object;
 	}
 	

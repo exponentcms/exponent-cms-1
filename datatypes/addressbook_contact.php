@@ -103,6 +103,9 @@ class addressbook_contact {
 		$object->zip = $values['zip'];
 		$object->email = $values['email'];
 		$object->webpage = $values['webpage'];
+		if (!pathos_core_URLisValid($object->webpage)) {
+			$object->webpage = 'http://'.$object->webpage;
+		}
 		$object->phone = $values['phone'];
 		$object->cell = $values['cell'];
 		$object->pager = $values['pager'];

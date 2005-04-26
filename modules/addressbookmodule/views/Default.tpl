@@ -33,6 +33,9 @@
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Address Book" alt="Assign user permissions on this Address Book" /></a>&nbsp;
 	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Address Book" alt="Assign group permissions on this Address Book" /></a>
 {/if}
+{if $permissions.configure == 1}
+	<a href="{link action=configure _common=1}" title="Configure this Address Book" alt="Configure this Address Book"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
+{/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
 {/if}

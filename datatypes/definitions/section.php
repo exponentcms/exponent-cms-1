@@ -48,6 +48,8 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'active'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'new_window'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'parent'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'rank'=>array(

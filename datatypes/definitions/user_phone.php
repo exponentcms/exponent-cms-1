@@ -39,13 +39,13 @@ return array(
 		DB_PRIMARY=>true),
 	'home_phone'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>10),
+		DB_FIELD_LEN=>15),
 	'bus_phone'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>10),
+		DB_FIELD_LEN=>15),
 	'other_phone'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>10),
+		DB_FIELD_LEN=>15),
 	'pref_contact'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>20),

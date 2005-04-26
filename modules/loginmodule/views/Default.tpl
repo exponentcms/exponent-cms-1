@@ -32,7 +32,7 @@
 <i>Logged-in users see this:</i><br />
 {/if}
 {if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
-<div class="login_welcom">Welcome, {$user->firstname} {$user->lastname}</div>
+<div class="login_welcom">Welcome, {$displayname}</div>
 <a href="{link action=editprofile}">Edit Profile</a><br />
 {if $is_group_admin}
 <a href="{link action=mygroups}">My Groups</a><br />

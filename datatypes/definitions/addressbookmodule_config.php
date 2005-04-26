@@ -33,22 +33,17 @@
 
 if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
-	$core = null;
-	if (isset($_GET['id'])) {
-		$core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
-	}
-	
-	$form = sharedcore_core::form($core);
-	$form->meta('module','sharedcoremodule');
-	$form->meta('action','save_core');
-	
-	$template = new template('sharedcoremodule','_form_editCore');
-	$template->assign('is_edit',(isset($core->id) ? 1 : 0));
-	$template->assign('form_html',$form->toHTML());
-	$template->output();
-} else {
-	echo SITE_403_HTML;
-}
+return array(
+	'id'=>array(
+		DB_FIELD_TYPE=>DB_DEF_ID,
+		DB_PRIMARY=>true,
+		DB_INCREMENT=>true),
+	'location_data'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),
+	'sort_type'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>20),
+);
 
 ?>
