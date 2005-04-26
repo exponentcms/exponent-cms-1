@@ -65,6 +65,10 @@ if (DEVELOPMENT >= 2) {
 //   see http://www.phpbuilder.net/columns/tim20000821.php
 if (!defined('PATHOS_USER_OS')) {
     // 1. Platform
+	if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+		$_SERVER['HTTP_USER_AGENT'] = 'Unknown';
+	}
+	
     if (strstr($_SERVER['HTTP_USER_AGENT'], 'Win')) {
         define('PATHOS_USER_OS', 'Win');
     } else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Mac')) {
@@ -105,6 +109,30 @@ if (!defined('PATHOS_USER_OS')) {
         define('PATHOS_USER_BROWSER_VERSION', 0);
         define('PATHOS_USER_BROWSER', 'OTHER');
     }
+}
+
+if (!defined('PATHOS_SERVER_OS')) {
+	switch (strtoupper(PHP_OS)) {
+		case 'LINUX':
+			define('PATHOS_SERVER_OS','Linux');
+			break;
+		case 'WIN32':
+		case 'WINNT':
+			define('PATHOS_SERVER_OS','Windows');
+			break;
+		case 'DARWIN':
+			define('PATHOS_SERVER_OS','Mac');
+			break;
+		case 'AIX':
+		case 'SUNOS':
+			define('PATHOS_SERVER_OS','UNIX');
+			break;
+		case 'OS/2':
+			define('PATHOS_SERVER_OS','OS/2');
+			break;
+		default:
+			define('PATHOS_SERVER_OS','Unknown');
+	}
 }
 
 ?>
