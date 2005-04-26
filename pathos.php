@@ -55,6 +55,7 @@ require_once(BASE.'subsystems/config/load.php');
 $user = null;
 // Initialize the Sessions Subsystem
 require_once(BASE.'subsystems/sessions.php');
+// Initializes the session.  This will populate the $user variable
 pathos_sessions_initialize();
 
 if (!isset($_SERVER['QUERY_STRING'])) {
