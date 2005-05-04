@@ -37,6 +37,13 @@
 # NOTE : Shared Core extension to Exponent only works on UNIX servers
 #   because Windows platforms do not support symlinks.
 #
+function __symlink($src_file,$dest_file) {
+	if (PATHOS_SERVER_OS == 'Windows' || PATHOS_SERVER_OS == 'Macintosh') {
+		copy($src_file,$dest_file);
+	} else {
+		symlink($src_file,$dest_file);
+	}
+}
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
@@ -119,7 +126,7 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 	foreach (include($linksrc."manifest.php") as $file=>$linkit) {
 		if ($linkit !== 0 && file_exists($linksrc.$file)) {
 			echo 'symlink('.$linksrc.$file.','.$linkdest.$file.');<br />';
-			symlink($linksrc.$file,$linkdest.$file);
+			__symlink($linksrc.$file,$linkdest.$file);
 		}
 	}
 	// Cleanup -- essentially, pathos.php needs to be a real file, so that __realpath(__FILE__) calls work properly
@@ -161,7 +168,7 @@ function pathos_sharedcore_setup($core,$site) {
 	mkdir($linkdest."modules",fileperms($linksrc."modules"));
 	mkdir($linkdest."themes",fileperms($linksrc."themes"));
 	mkdir($linkdest."subsystems",fileperms($linksrc."subsystems"));
-	symlink($linksrc."external",$linkdest."external");
+	__symlink($linksrc."external",$linkdest."external");
 	
 	return SHAREDCORE_ERR_OK;
 }
@@ -237,7 +244,7 @@ function pathos_sharedcore_linkFiles($source,$destination,$files) {
 	foreach ($files as $file=>$linkit) {
 		if ($linkit !== 0 && is_readable($source.$file) && !file_exists($destination.$file)) {
 			echo 'symlink('.$source.$file.','.$destination.$file.');<Br />';
-			symlink($source.$file,$destination.$file);
+			__symlink($source.$file,$destination.$file);
 		}
 	}
 }
