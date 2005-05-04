@@ -124,15 +124,21 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
 	}
 
 	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
-		return imagecreatefromjpeg($filename);
+		$img = imagecreatefromjpeg($filename);
 	} else if ($sizeinfo['mime'] == 'image/png' && $info['PNG Support'] == true) {
-		return imagecreatefrompng($filename);
+		$img = imagecreatefrompng($filename);
 	} else if ($sizeinfo['mime'] == 'image/gif' && $info['GIF Read Support'] == true) {
-		return imagecreatefromgif($filename);
+		$img = imagecreatefromgif($filename);
 	} else {
 		// Either we have an unknown image type, or an unsupported image type.
 		return IMAGE_ERR_NOTSUPPORTED;
 	}
+	
+	if (function_exists('imagesavealpha')) {
+		imagealphablending($img, false);
+		imagesavealpha($img, true);
+	}
+	return $img;
 }
 
 /* exdoc
