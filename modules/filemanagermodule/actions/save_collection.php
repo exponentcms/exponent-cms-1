@@ -33,42 +33,20 @@
 
 if (!defined('PATHOS')) exit('');
 
-return array(
-	'id'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID,
-		DB_PRIMARY=>true,
-		DB_INCREMENT=>true),
-	'directory'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>250),
-	'filename'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>250),
-	'name'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>250),
-	'collection_id'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	'mimetype'=>array(
-		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>100),
-	'poster'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
-	'posted'=>array(
-		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	'filesize'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	'accesscount'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	'last_accessed'=>array(
-		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
-	// IMAGES ONLY
-	'image_width'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	'image_height'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	'is_image'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
-);
+$collection = null;
+if (isset($_POST['id'])) {
+	$collection = $db->selectObject('file_collection','id='.$_POST['id']);
+}
+$loc = pathos_core_makeLocation('filemanagermodule');
+
+// PERM CHECK
+	$collection = file_collection::update($_POST,$collection);
+	if (isset($collection->id)) {
+		$db->updateObject($collection,'file_collection');
+	} else {
+		$db->insertObject($collection,'file_collection');
+	}
+	pathos_flow_redirect();
+// END PERM CHECK
 
 ?>

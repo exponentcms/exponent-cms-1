@@ -18,6 +18,12 @@ window.resizeTo(400, 100);
 echo 'window.relativePathos = "' . PATH_RELATIVE . "\"\n";
 ?>
 
+function efm_pickedFile(file_id,file_path) {
+	document.getElementById("f_url").value = file_path;
+	
+	window.onPreview();
+}
+
 function Init() {
   __dlg_init();
   var param = window.dialogArguments;
@@ -84,6 +90,8 @@ function onPreview() {
 };
 
 function onBrowse() {
+ window.open("<?php echo PATH_RELATIVE;?>modules/filemanagermodule/actions/picker.php?id=0");
+ return;
   window.open("../../../source_selector.php?showmodules=imagemanagermodule&dest=&vmod=imagemanagermodule&vview=_sourcePicker&hideOthers=1","palette","toolbar=no,title=no,width=640,height=480,scrollbars=yes");
 }
 </script>
