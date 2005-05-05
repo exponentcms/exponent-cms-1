@@ -30,7 +30,7 @@
  *}
  <table cellpadding="1" cellspacing="0" border="0" width="100%">
 {foreach from=$sections item=section}
-{if $section->numParents != 0 && ($section->parents[0] == $current->parents[0] || $section->parents[0] == $current->id)}
+{if $section->numParents != 0 && ($section->parents[0] == $current->id || $section->parents[0] == $current->parents[0])}
 <tr><td style="padding-left: {math equation="x*20-20" x=$section->depth}px">
 {if $section->active == 1}
 <a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;
