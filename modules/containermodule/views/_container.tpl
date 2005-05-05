@@ -84,7 +84,7 @@
 	{/if}
 {else}
 	{permissions level=$smarty.const.UILEVEL_STRUCTURE}
-	{if $permissions.add_module == 1 && $hidebox == 0}
+	{if $permissions.add_module == 1}
 		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="Add a new module here" alt="Add a new module here" /></a>
 	{/if}
 	{/permissions}

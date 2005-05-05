@@ -62,7 +62,7 @@
 	</div>
 </div>
 {/if}
-{if $permissions.add_module == 1 && $hidebox == 0}
+{if $permissions.add_module == 1}
 	<a href="{link action=edit rerank=1 rank=0}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="Add a new module here" alt="Add a new module here"/></a>
 {/if}
 {/permissions}
@@ -142,7 +142,7 @@
 			</div>
 		{/if}
 		{permissions level=$smarty.const.UILEVEL_STRUCTURE}
-		{if $permissions.add_module == 1 && $hidebox == 0}
+		{if $permissions.add_module == 1}
 			<a href="{link action=edit rerank=1 rank=$smarty.foreach.c.iteration}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="Add a new module here" alt="Add a new module here" /></a>
 		{/if}
 		{/permissions}
