@@ -32,9 +32,9 @@
 ##################################################
 
 class bannermodule {
-	function name() { return "Banner Manager"; }
-	function author() { return "James Hunt"; }
-	function description() { return "Manages advertisements and click throughs."; }
+	function name() { return 'Banner Manager'; }
+	function author() { return 'James Hunt'; }
+	function description() { return 'Manages advertisements and click-throughs.'; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
@@ -45,25 +45,27 @@ class bannermodule {
 	function permissions($internal = '') {	
 		pathos_lang_loadDictionary('modules','bannermodule');
 		return array(
-			"administrate"=>TR_BANNERMODULE_PERM_ADMIN,
-			"configure"=>TR_BANNERMODULE_PERM_CONFIG,
-			"manage"=>TR_BANNERMODULE_PERM_MANAGEBAN,
-			"manage_af"=>TR_BANNERMODULE_PERM_MANAGEAF
+			'administrate'=>TR_BANNERMODULE_PERM_ADMIN,
+			'configure'=>TR_BANNERMODULE_PERM_CONFIG,
+			'manage'=>TR_BANNERMODULE_PERM_MANAGEBAN,
+			'manage_af'=>TR_BANNERMODULE_PERM_MANAGEAF
 		);
 	}
 	
 	function deleteIn($loc) {
 		global $db;
-		$banners = $db->selectObjects("banner_ad","location_data='".serialize($loc)."'");
+		
+		$banners = $db->selectObjects('banner_ad',"location_data='".serialize($loc)."'");
+		
 		foreach ($banners as $b) {
-			$db->delete("banner_click","ad_id=".$b->id);
-			$file = $db->selectObject("file","id=".$b->file_id);
+			$db->delete('banner_click','ad_id='.$b->id);
+			$file = $db->selectObject('file','id='.$b->file_id);
 			file::delete($file);
 		}
-		if (file_exists(BASE."files/bannermodule/".$loc->src)) {
-			rmdir(BASE."files/bannermodule/".$loc->src);
+		if (file_exists(BASE.'files/bannermodule/'.$loc->src)) {
+			rmdir(BASE.'files/bannermodule/'.$loc->src);
 		}
-		$db->delete("banner_ad","location_data='".serialize($loc)."'");
+		$db->delete('banner_ad',"location_data='".serialize($loc)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {
