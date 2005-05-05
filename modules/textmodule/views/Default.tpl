@@ -29,13 +29,10 @@
  * $Id$
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}{permissions perm=1}
+{if $permissions.administrate == 1}
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Text Module" alt="Assign user permissions on this Text Module" /></a>&nbsp;
 	<a class="poermlink" href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Text Module" alt="Assign group permissions on this Text Module" /></a>
-	{/permissions}
-{/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Text Module" alt="Change the configuration of this Text Module" /></a>
+	<br />
 {/if}
 {/permissions}
 {if $moduletitle != ""}<div class="moduletitle text_moduletitle">{$moduletitle}</div>{/if}
