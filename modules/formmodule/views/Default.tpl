@@ -37,15 +37,12 @@
 {if $permissions.configure == 1}
 	<a href="{link action=configure _common=1}" title="Configure this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
 {/if}
-{/permissions}{permissions level=$smarty.const.UILEVEL_NORMAL}
- <table cellspacing="0" cellpadding="0" border="0" width="500">
-	<tr>
-		<td>{if $permissions.viewdata == 1 && $form->is_saved == 1}<a href="{link action=view_data module=formbuilder}&id={$form->id}">View Data</a>{/if}</td>
-		<td>{if $permissions.editformsettings == 1}<a href="{link action=edit_form module=formbuilder}&id={$form->id}">Edit Form Settings</a>{/if}</td>
-		<td>{if $permissions.editform == 1}<a href="{link action=view_form module=formbuilder}&id={$form->id}">Edit Form</a>{/if}</td>
-		<td>{if $permissions.editreport == 1}<a href="{link action=edit_report module=formbuilder}&id={$form->id}">Edit Report Settings</a>{/if}</td>
-	</tr>
-</table>
+{/permissions}
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+{if $permissions.viewdata == 1 && $form->is_saved == 1}<br /><a href="{link action=view_data module=formbuilder}&id={$form->id}">View Data</a>{/if}
+{if $permissions.editformsettings == 1}<br /><a href="{link action=edit_form module=formbuilder}&id={$form->id}">Edit Form Settings</a>{/if}
+{if $permissions.editform == 1}<br /><a href="{link action=view_form module=formbuilder}&id={$form->id}">Edit Form</a>{/if}
+{if $permissions.editreport == 1}<br /><a href="{link action=edit_report module=formbuilder}&id={$form->id}">Edit Report Settings</a>{/if}
 {/permissions}
 <br><br>
 {$formmsg}
