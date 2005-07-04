@@ -35,7 +35,7 @@ if (!defined("PATHOS")) exit("");
 
 pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-$resource = $db->selectObject("resourceitem","id=".$_GET['id']);
+$resource = $db->selectObject("resourceitem","id=".(int)$_GET['id']);
 if ($resource != null) {
 	$loc = unserialize($resource->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
