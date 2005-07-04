@@ -33,7 +33,7 @@
 
 if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject('resourceitem','id='.$_GET['id']);
+$item = $db->selectObject('resourceitem','id='.(int)$_GET['id']);
 if ($item) {
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
