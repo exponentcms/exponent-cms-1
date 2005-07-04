@@ -33,7 +33,7 @@
 
 if (!defined("PATHOS")) exit("");
 
-$item = $db->selectObject("resourceitem","id=".$_GET['id']);
+$item = $db->selectObject("resourceitem","id=".(int)$_GET['id']);
 if ($item ) {
 	if ($user) {
 		if ($item->flock_owner == 0) {
