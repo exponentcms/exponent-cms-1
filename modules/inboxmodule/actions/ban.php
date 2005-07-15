@@ -36,7 +36,7 @@ if (!defined("PATHOS")) exit("");
 $u = null;
 if (isset($_REQUEST['uid'])) {
 	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
-	$u = pathos_users_getUserById($_REQUEST['uid']);
+	$u = pathos_users_getUserById((int)$_REQUEST['uid']);
 }
 
 if ($user && $u) {
