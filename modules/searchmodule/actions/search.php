@@ -40,8 +40,10 @@ if ($config == null) {
 	$config->is_categorized = 0;
 }
 
+// HW: we need to either define what tags can be used in a search
+// or strip_tag it as well.
 if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
-$search_string = trim(strtolower($_GET['search_string']));
+$search_string = trim(strtolower(strip_tags($_GET['search_string'])));
 
 if ($search_string == "") {
 	pathos_lang_loadDictionary('modules','searchmodule');
