@@ -34,12 +34,16 @@
 if (!defined("PATHOS")) exit("");
 
 if ($user) {
-	$form = inbox_contactbanned::form(null);
-	$form->meta("module","inboxmodule");
-	$form->meta("action","ban");
-	
 	$template = new template("inboxmodule","_form_banUser",$loc);
-	$template->assign("form_html",$form->toHTML());
+	
+	$form = inbox_contactbanned::form(null);
+	if ($form == null) {
+		$template->assign('error','nousers');
+	} else {
+		$form->meta("module","inboxmodule");
+		$form->meta("action","ban");
+		$template->assign("form_html",$form->toHTML());
+	}
 	$template->output();
 }
 

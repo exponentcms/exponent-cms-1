@@ -33,7 +33,8 @@
 
 class inbox_contactbanned {
 	function form($object) {
-	
+		global $db,$user;
+		
 		pathos_lang_loadDictionary('modules','inboxmodule');
 		pathos_lang_loadDictionary('standard','core');
 		
@@ -45,12 +46,17 @@ class inbox_contactbanned {
 		
 		$users = array();
 		foreach (pathos_users_getAllUsers() as $u) {
-			$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
+			if ($u->is_acting_admin == 0 && $u->id != $user->id) {
+				$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
+			}
 		}
 		
-		global $db,$user;
 		foreach ($db->selectObjects('inbox_contactbanned','owner='.$user->id) as $b) {
 			unset($users[$b->user_id]);
+		}
+		
+		if (count($users) == 0) {
+			return null;
 		}
 		
 		$form->register('uid',TR_INBOXMODULE_USER,new dropdowncontrol(0,$users));
