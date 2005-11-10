@@ -58,7 +58,7 @@
 				{if $item->scale == 100}
 				<img src="{$smarty.const.PATH_RELATIVE}{$files[$fid]->directory}/{$files[$fid]->filename}" border="0" title="Use this Image" alt="Use this Image"/>
 				{else}
-				<img src="{$smarty.const.PATH_RELATIVE}thumb.php?base={$smarty.const.BASE}&file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" title="Use this Image" alt="Use this Image"/>
+				<img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" title="Use this Image" alt="Use this Image"/>
 				{/if}
 			</a>
 			{else}
@@ -66,7 +66,7 @@
 				{if $item->scale == 100}
 				<img src="{$smarty.const.PATH_RELATIVE}{$files[$fid]->directory}/{$files[$fid]->filename}" border="0" title="View this Image" alt="View this Image"/>
 				{else}
-				<img src="{$smarty.const.PATH_RELATIVE}thumb.php?base={$smarty.const.BASE}&file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" title="View this Image" alt="View this Image"/>
+				<img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" title="View this Image" alt="View this Image"/>
 				{/if}
 			</a>
 			{/if}
