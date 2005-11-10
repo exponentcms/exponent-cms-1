@@ -49,6 +49,6 @@ return array(
 		DB_FIELD_LEN=>3),
 	'iso_code_number'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER)
-)
+);
 
 ?>
