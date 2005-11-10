@@ -60,6 +60,16 @@ if (	($item == null && pathos_permissions_check("post",$loc)) ||
 			} while (file_exists(BASE.$directory."/$fname"));
 		}
 		
+		
+		// FIXME: Crude security fix for MIME type checking.
+		$ext3 = substr($_FILES['file']['name'],-3,3);
+		$ext4 = substr($_FILES['file']['name'],-4,4);
+		
+		if ($ext3 !== 'gif' && $ext3 != 'jpg' && $ext4 != 'jpeg' && $ext3 != 'png') {
+			echo 'You can only upload image files to the image manager.';
+			return;
+		}
+		
 		$file = file::update("file",$directory,null,$fname);
 		if ($file != null) {
 			$item->file_id = $db->insertObject($file,"file");
