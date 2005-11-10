@@ -83,7 +83,7 @@ if (!defined('URL_BASE')) {
 	 * It does not include the PATH_RELATIVE information.  The automatic
 	 * detection code can figure out if the server is running in SSL mode or not
 	 */
-	define('URL_BASE',((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://') . HOSTNAME);
+	define('URL_BASE',((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://') . HOSTNAME . (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 ? ':' . $_SERVER['SERVER_PORT'] : ''));
 }
 if (!defined('URL_FULL')) {
 	/*
