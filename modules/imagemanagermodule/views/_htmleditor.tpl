@@ -29,7 +29,7 @@
  * $Id$
  *}
 <script language="javascript" src="{$smarty.const.PATH_RELATIVE}js/ImageManagerHTMLArea.js"></script>
-<table cellpadding="2" cellspacing="0" border="0" width="100%" rules="rows" style="bortder: 1px solid lightgrey">
+<table cellpadding="2" cellspacing="0" border="0" width="100%" rules="rows" style="border: 1px solid lightgrey">
 {foreach from=$grid item=row}
 	<tr>
 	{foreach from=$row item=item}
