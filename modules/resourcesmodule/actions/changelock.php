@@ -28,24 +28,32 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id$
 ##################################################
 
 if (!defined("PATHOS")) exit("");
 
-$item = $db->selectObject("resourceitem","id=".(int)$_GET['id']);
+$item = $db->selectObject("resourceitem","id=".$_GET['id']);
 if ($item ) {
-	if ($user) {
-		if ($item->flock_owner == 0) {
-			$item->flock_owner = $user->id;
-		} else if ($item->flock_owner == $user->id || $user->is_acting_admin == 1) {
-			$item->flock_owner = 0;
-		}
-		$db->updateObject($item,"resourceitem");
-		pathos_flow_redirect();
-	}
+    $loc = unserialize($item->location_data);
+    $iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
+    
+    if (pathos_permissions_check('edit',$loc) || pathos_permissions_check('edit',$iloc)) {
+        if ($user) {
+            if ($item->flock_owner == 0) {
+                $item->flock_owner = $user->id;
+            } else if ($item->flock_owner == $user->id || $user->is_acting_admin == 1) {
+                $item->flock_owner = 0;
+            }
+            $db->updateObject($item,"resourceitem");
+            pathos_flow_redirect();
+        }
+    } else {
+        header("HTTP/1.1 403 Not Authorized");
+        echo SITE_403_HTML;
+    }
 } else {
-	echo SITE_404_HTML;
+    header("HTTP/1.1 404 Not Found");
+    echo SITE_404_HTML;
 }
 
 ?>
