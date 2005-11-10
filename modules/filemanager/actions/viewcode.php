@@ -37,7 +37,7 @@ $template = new template('filemanager','_viewcode',$loc);
 
 $file = $_GET['file'];
 $path = realpath(BASE.$file);
-if (strpos($path,BASE) != 0) {
+if (strpos($path,BASE) != 0 || $user->is_admin == 0) {
 	$template->assign('error','security');
 } else {
 	$ext = substr($path,-3,3);
