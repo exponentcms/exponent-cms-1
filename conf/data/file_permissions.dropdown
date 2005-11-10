@@ -15,17 +15,17 @@
 
 # The group options were added by faz2, 2/9/05.  Thanks faz!
 
-0700 
+0600 
 	Accessible only to Web Server 
  
-0766 
+0666 
 	World Readable and Writable 
  
-0760 
+0660 
 	Group Readable and Writable 
  
-0744 
+0644 
 	World Read-only 
  
-0740 
+0640 
 	Group Read-only
