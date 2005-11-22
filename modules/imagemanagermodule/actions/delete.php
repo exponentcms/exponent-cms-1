@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,11 +31,10 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 if (!defined("PATHOS")) exit("");
 
-$item = $db->selectObject("imagemanageritem","id=".$_GET['id']);
+$item = $db->selectObject("imagemanageritem","id=".intval($_GET['id']));
 if ($item != null) {
 	$loc = unserialize($item->location_data);
 	

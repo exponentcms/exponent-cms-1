@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -32,12 +33,12 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1}
 <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=edit id=$template->id}">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this HTML Template" alt="Edit this HTML Template" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 {/if}
 {if $permissions.delete == 1}
-<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=delete id=$template->id}" onClick="return confirm('Are you sure you want to delete this HTML Template?');">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this HTML Template" alt="Delete this HTML Template" />
+<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=delete id=$template->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}

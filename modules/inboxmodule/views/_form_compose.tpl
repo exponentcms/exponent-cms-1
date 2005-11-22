@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">Compose a Message</div>
-<div class="form_header">
-If you want to send this message to more than one user on the system, simply add their usernames to the list by highlighting them individually and clicking the '&gt;&gt;' button.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

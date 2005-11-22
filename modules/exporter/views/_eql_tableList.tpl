@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,10 +29,32 @@
  *
  * $Id$
  *}
-<div class="form_title">Export Current Database</div>
-<div class="form_header">
-Listed below are all of the tables in your site database.  Select which tables you wish to export, and then click the 'Export Data' button.  Doing so will generate an EQL file (which you must save) that contains the data in the selected tables.  This file can be used later to restore the database to the current state.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
+<script type="text/javascript">
+{literal}
+function selectAll(checked) {
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,7) == "tables[") {
+			elems[key].checked = checked;
+		}
+	}
+}
+
+function isOneSelected() {
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,7) == "tables[") {
+			if (elems[key].checked) return true;
+		}
+	}
+	alert("{/literal}{$_TR.at_least_one}{literal}");
+	return false;
+}
+
+{/literal}
+</script>
 
 <form method="post" action="?">
 <input type="hidden" name="module" value="exporter" />
@@ -60,33 +83,31 @@ Listed below are all of the tables in your site database.  Select which tables y
 {/section}
 <tr>
 	<td colspan="2">
-		<a href="#" onClick="selectAll('tables[',true); return false">Select All</a>
+		<a href="#" onClick="selectAll(true); return false">{$_TR.select_all}</a>
 	</td>
 	<td></td>
 	<td colspan="2">
-		<a href="#" onClick="selectAll('tables[',false); return false">Deselect All</a>
+		<a href="#" onClick="selectAll(false); return false">{$_TR.deselect_all}</a>
 	</td>
 </tr>
 <tr>
 	<td colspan="5"><br /></td>
 </td>
 <tr>
-	<td colspan="2" valign="top"><b>File name template:</b></td>
+	<td colspan="2" valign="top"><b>{$_TR.file_template}</b></td>
 	<td colspan="3">
 		<input type="text" name="filename" size="20" value="database" />
 	</td>
 </tr>
 	<td colspan="5">
-		<div style="border-top: 1px solid #CCCC;">
-			Use __DOMAIN__ for this website's domain name, __DB__ for the site's database name and any strftime options for time specification. The EQL extension will be added for you. Any other text will be preserved.
-			<br />
-		</div>
+		<div style="border-top: 1px solid #CCCC;">{$_TR.template_description}<br /></div>
 	</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<td colspan="3">
-		<input type="submit" value="Export Data" onClick="{literal}if (isOneSelected('tables[')) { return true; } else { alert('You must select at least one table to export.'); return false; }{/literal}" />
+		<input type="submit" value="{$_TR.export_data}" onClick="return true; return isOneSelected();" />
 	</td>
 </tr>
 </table>
+</form>

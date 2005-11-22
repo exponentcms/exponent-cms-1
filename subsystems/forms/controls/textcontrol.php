@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -111,26 +112,24 @@ class textcontrol extends formcontrol {
 			$object->maxlength = 0;
 			$object->required = false;
 		} 
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/textcontrol.php');
 		
-		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
-		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
-		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
-		$form->register("size",TR_FORMCONTROLS_SIZE, new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
-		$form->register("maxlength",TR_FORMCONTROLS_MAXLENGTH, new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
-		$form->register("required",TR_FORMCONTROLS_REQUIRED, new checkboxcontrol(@$object->required,false)); 
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register("identifier",$i18n['id'],new textcontrol($object->identifier));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("default",$i18n['default'], new textcontrol($object->default));
+		$form->register("size",$i18n['size'], new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
+		$form->register("maxlength",$i18n['maxlength'], new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
 		
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 	
 	function update($values, $object) {
 		if ($object == null) $object = new textcontrol();
 		if ($values['identifier'] == "") {
-			pathos_lang_loadDictionary('standard','formcontrols');
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/textcontrol.php');
 			$post = $_POST;
-			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
+			$post['_formError'] = $i18n['id_req'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

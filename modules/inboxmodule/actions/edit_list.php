@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,16 +32,16 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $list = null;
 if (isset($_GET['id'])) {
-	$list = $db->selectObject("inbox_contactlist","id=".$_GET['id']);
+	$list = $db->selectObject('inbox_contactlist','id='.intval($_GET['id']));
 }
 
 if ($user && ($list == null || $list->owner == $user->id)) {
 	if ($list != null) {
-		$membs = $db->selectObjects("inbox_contactlist_member","list_id=".$list->id);
+		$membs = $db->selectObjects('inbox_contactlist_member','list_id='.$list->id);
 		for ($i = 0; $i < count($membs); $i++) {
 			$membs[$i] = $membs[$i]->user_id;
 		}
@@ -48,12 +49,14 @@ if ($user && ($list == null || $list->owner == $user->id)) {
 	}
 	
 	$form = inbox_contactlist::form($list);
-	$form->meta("module","inboxmodule");
-	$form->meta("action","save_list");
+	$form->meta('module','inboxmodule');
+	$form->meta('action','save_list');
 
-	$template = new template("inboxmodule","_form_editGroup",$loc);
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('inboxmodule','_form_editGroup',$loc);
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

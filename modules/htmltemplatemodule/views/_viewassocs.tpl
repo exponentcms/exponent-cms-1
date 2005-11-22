@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,14 +30,13 @@
  * $Id$
  *}
 {if $template_count == 0}
-<div style="font-style: italic;">Note: No templates have been defined.  You will have to define one or more approval policies before you can associate them with modules.</div>
+<div style="font-style: italic;">{$_TR.note}</div>
 <hr size="1"/>
 {/if}
-Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=manage_templates}">Template Manager</a>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td width="5%" style="border-right: 2px solid darkgrey;">&nbsp;</td>
-	<td width="65%" class="header htmltemplate_header" style="padding-left: 10px;">Template</td>
+	<td width="65%" class="header htmltemplate_header" style="padding-left: 10px;">{$_TR.template}</td>
 	<td width="30%" colspan="2" class="header htmltemplate_header" style="padding-left: 10px; border-right: 2px solid darkgrey;"></td>
 </tr>
 {foreach name=s from=$modules item=module key=class}
@@ -44,7 +44,7 @@ Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=manage_
 <td colspan="2" style="padding: 4px; background-color: lightgrey; font-weight: bold">{$module->name}</td>
 <td colspan="2" align="right" style="padding: 4px; background-color: lightgrey;">
 	{if $template_count != 0}
-	<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=edit_assoc mod=$class}">Associate Template</a>
+	<a class="mngmntlink htmltemplate_mngmntlink" href="{link action=edit_assoc mod=$class}">{$_TR.associate}</a>
 	{/if}
 </td>
 </tr>
@@ -64,7 +64,7 @@ Jump to <a class="mngmntlink htmltemplate_mngmntlink" href="{link action=manage_
 		<tr>
 			<td width="5%" style="border-right: 2px solid darkgrey;">&nbsp;</td>
 			<td colspan="3" align="center" style="font-style: italic; border-right: 2px solid darkgrey;{if $smarty.foreach.s.last == 1} border-bottom: 2px solid darkgrey;{/if}">
-				No templates have been associated with this module.<br />
+				{$_TR.no_assocs}<br />
 			</td>
 		</tr>
 	{/foreach}

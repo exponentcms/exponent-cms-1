@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,41 +32,41 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-$resource = $db->selectObject("resourceitem","id=".(int)$_GET['id']);
+$resource = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 if ($resource != null) {
 	$loc = unserialize($resource->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	
 	$resource->permissions = array(
-		"administrate"=>pathos_permissions_check("administrate",$iloc),
-		"edit"=>pathos_permissions_check("edit",$iloc),
-		"delete"=>pathos_permissions_check("delete",$iloc),
+		'administrate'=>pathos_permissions_check('administrate',$iloc),
+		'edit'=>pathos_permissions_check('edit',$iloc),
+		'delete'=>pathos_permissions_check('delete',$iloc),
 	);
 	
 	if ($resource->flock_owner != 0) {
-		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 		$resource->lock_owner = pathos_users_getUserById($resource->flock_owner);
 		$resource->locked = 1;
 	} else {
 		$resource->locked = 0;
 	}
 	
-	$file = $db->selectObject("file","id=".$resource->file_id);
+	$file = $db->selectObject('file','id='.$resource->file_id);
 	if ($file != null) {
-		$mimetype = $db->selectObject("mimetype","mimetype='".$file->mimetype."'");
+		$mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
 	
-		$template = new template("resourcesmodule","_view",$loc);
-		$template->assign("resource",$resource);
-		$template->assign("user",$user);
-		$template->assign("file",$file);
-		$template->assign("mimetype",$mimetype);
+		$template = new template('resourcesmodule','_view',$loc);
+		$template->assign('resource',$resource);
+		$template->assign('user',$user);
+		$template->assign('file',$file);
+		$template->assign('mimetype',$mimetype);
 		
 		$template->register_permissions(
-			array("administrate","edit","delete","manage_approval"),
+			array('administrate','edit','delete','manage_approval'),
 			$loc
 		);
 		$template->output();

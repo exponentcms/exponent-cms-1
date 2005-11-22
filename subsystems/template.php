@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -38,36 +39,43 @@ if (!defined('PATHOS')) exit('');
  * that the subsystem has been included for use.
  * @node Subsystems:Template
  */
-define("SYS_TEMPLATE",1);
+define('SYS_TEMPLATE',1);
 
-/* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
- */
-define("SYS_TEMPLATE_CLEAR_ALL",  1);
-/* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
- */
-define("SYS_TEMPLATE_CLEAR_USERS",2);
+define('TEMPLATE_FALLBACK_VIEW',BASE.'views/viewnotfound.tpl');
 
-define('TEMPLATE_FALLBACK_VIEW',BASE."views/viewnotfound.tpl");
-
-require_once(BASE."external/Smarty/libs/Smarty.class.php");
+include_once(BASE.'external/Smarty/libs/Smarty.class.php');
 
 class basetemplate {
+	// Smarty template object.
 	var $tpl;
+	
+	// The full server-side filename of the .tpl file being used.
 	// This will be used by modules on the outside, for retrieving view configs.
 	var $viewfile = "";
+	
+	// Name of the view (for instance, 'Default' for 'Default.tpl')
 	var $view = "";
+	
+	// Full server-side directory path of the .tpl file being used.
 	var $viewdir = "";
 	
+	/*
+	 * Assign a variable to the template.
+	 *
+	 * @param string $var The name of the variable - how it will be referenced inside the Smarty code
+	 * @param mixed $val The value of the variable.
+	 */
 	function assign($var,$val) {
 		$this->tpl->assign($var,$val);
 	}
 	
+	/*
+	 * Render the template and echo it to the screen.
+	 */
 	function output() {
-		$this->tpl->display($this->view.".tpl");
+		// Load language constants
+		$this->tpl->assign('_TR',pathos_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
+		$this->tpl->display($this->view.'.tpl');
 	}
 	
 	function register_permissions($perms,$locs) {
@@ -79,11 +87,16 @@ class basetemplate {
 				$permissions_register[$perm] = (pathos_permissions_check($perm,$loc) ? 1 : 0);
 			}
 		}
-		$this->tpl->assign("permissions",$permissions_register);
+		$this->tpl->assign('permissions',$permissions_register);
 	}
 	
+	/*
+	 * Render the template and return the result to the caller.
+	 */
 	function render() { // Caching support?
-		return $this->tpl->fetch($this->view.".tpl");
+		// Load language constants
+		$this->tpl->assign('_TR',pathos_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
+		return $this->tpl->fetch($this->view.'.tpl');
 	}
 }
 /*
@@ -91,17 +104,17 @@ class basetemplate {
  * interface to templates.
  */
 class template extends basetemplate {	
-	var $module = "";
+	var $module = '';
 	
 	function template($module,$view = null,$loc=null,$caching=false) {
 		// Set up the Smarty template variable we wrap around.
 		$this->tpl = new Smarty();
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
-		$this->tpl->plugins_dir[] = BASE."plugins";
+		$this->tpl->plugins_dir[] = BASE.'plugins';
 		
 		$this->viewfile = pathos_template_getModuleViewFile($module,$view);
 		$this->viewparams = pathos_template_getViewParams($this->viewfile);
-		$this->viewdir = realpath(dirname($this->viewfile));
+		$this->viewdir = str_replace(BASE,'',realpath(dirname($this->viewfile)));
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
 		$this->tpl->template_dir = $this->viewdir;
@@ -213,7 +226,7 @@ class standalonetemplate extends basetemplate {
 		$file = pathos_template_getViewFile($view);
 		
 		$this->view = substr(basename($file),0,-4);
-		$this->viewdir = realpath(dirname($file) . "/..") . "/views";
+		$this->viewdir = str_replace(BASE,'',realpath(dirname($file)));
 		
 		$this->tpl->template_dir = $this->viewdir;
 		// Make way for i18n
@@ -223,33 +236,6 @@ class standalonetemplate extends basetemplate {
 		
 		$this->tpl->assign("__view",$view);
 		$this->tpl->assign("__redirect",pathos_flow_get());
-	}
-}
-
-/*
- * Clear Cached Templates
- *
- * Clears all cached template data, either for all logged-in viewers,
- * or all viewers (anonymous and logged-in)
- *
- * @param constant $type One of the following:
- *	<br>SYS_TEMPLATE_CLEAR_ALL - To clear all cached templates
- *	<br>SYS_TEMPLATE_CLEAR_USERS - To clear all cached templates for individual sessions
- */
-function pathos_template_clear($type = SYS_TEMPLATE_CLEAR_ALL) {
-	if (DISPLAY_CACHE) {
-		$s = new Smarty();
-		if ($type == SYS_TEMPLATE_CLEAR_ALL) {
-			$s->cache_dir = BASE."cache";
-			$s->clear_all_cache();
-			$__oldumask = umask(0);
-			mkdir(BASE."cache/sessions",0777);
-			umask($__oldumask);
-			#chmod(BASE."cache/session",0777);
-		} else {
-			$s->cache_dir = BASE."cache/sessions";
-			$s->clear_all_cache();
-		}
 	}
 }
 

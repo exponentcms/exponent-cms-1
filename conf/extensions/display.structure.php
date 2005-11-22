@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,37 +34,54 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('config','display');
+$themes = array();
+if (is_readable(BASE.'themes')) {
+	$theme_dh = opendir(BASE.'themes');
+	while (($theme_file = readdir($theme_dh)) !== false) {
+		if (is_readable(BASE.'themes/'.$theme_file.'/class.php')) {
+			// Need to avoid the duplicate theme problem.
+			if (!class_exists($theme_file)) {
+				include_once(BASE.'themes/'.$theme_file.'/class.php');
+			}
+			
+			if (class_exists($theme_file)) {
+				// Need to avoid instantiating non-existent classes.
+				$t = new $theme_file();
+				$themes[$theme_file] = $t->name();
+			}
+		}
+	}
+}
+uasort($themes,'strnatcmp');
 
-$t = pathos_core_listThemes();
-uasort($t,'strnatcmp');
+$i18n = pathos_lang_loadFile('conf/extensions/display.structure.php');
 
 return array(
-	TR_CONFIG_DISPLAY_TITLE,
+	$i18n['title'],
 	array(
 		'DISPLAY_THEME_REAL'=>array(
-			'title'=>TR_CONFIG_DISPLAY_THEME_REAL,
-			'description'=>TR_CONFIG_DISPLAY_THEME_REAL_DESC,
-			'control'=>new dropdowncontrol(null,$t)
+			'title'=>$i18n['theme_real'],
+			'description'=>$i18n['theme_real_desc'],
+			'control'=>new dropdowncontrol(null,$themes)
 		),
 		'DISPLAY_ATTRIBUTION'=>array(
-			'title'=>TR_CONFIG_DISPLAY_ATTRIBUTION,
-			'description'=>TR_CONFIG_DISPLAY_ATTRIBUTION_DESC,
+			'title'=>$i18n['attribution'],
+			'description'=>$i18n['attribution_desc'],
 			'control'=>new dropdowncontrol(null,array('firstlast'=>'John Doe','lastfirst'=>'Doe, John','first'=>'John','username'=>'jdoe'))
 		),
 		'DISPLAY_DATETIME_FORMAT'=>array(
-			'title'=>TR_CONFIG_DISPLAY_DATETIME_FORMAT,
-			'description'=>TR_CONFIG_DISPLAY_DATETIME_FORMAT_DESC,
+			'title'=>$i18n['datetime_format'],
+			'description'=>$i18n['datetime_format_desc'],
 			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('datetime_format'))
 		),
 		'DISPLAY_DATE_FORMAT'=>array(
-			'title'=>TR_CONFIG_DISPLAY_DATE_FORMAT,
-			'description'=>TR_CONFIG_DISPLAY_DATE_FORMAT_DESC,
+			'title'=>$i18n['date_format'],
+			'description'=>$i18n['date_format_desc'],
 			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('date_format'))
 		),
 		'DISPLAY_TIME_FORMAT'=>array(
-			'title'=>TR_CONFIG_DISPLAY_TIME_FORMAT,
-			'description'=>TR_CONFIG_DISPLAY_TIME_FORMAT_DESC,
+			'title'=>$i18n['time_format'],
+			'description'=>$i18n['time_format_desc'],
 			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('time_format'))
 		)
 	)

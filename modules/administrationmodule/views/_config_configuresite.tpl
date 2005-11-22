@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">Configure Site</div>
-<div class="form_header">
-This form lets you determine site-wide behavior.  Be especially careful when dealing with database settings, as you can quite easily lock yourself out of the site by switching databases.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_caption}</div>
 {$form_html}

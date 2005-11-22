@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,18 +32,18 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (!defined("SYS_BACKUP")) require_once(BASE."subsystems/backup.php");
+if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
 $errors = null;
 
-$template = new template("importer","_eql_results",$loc);
+$template = new template('importer','_eql_results',$loc);
 //GREP:UPLOADCHECK
-if (!pathos_backup_restoreDatabase($db,$_FILES["file"]["tmp_name"],$errors)) {
-	$template->assign("success",0);
-	$template->assign("errors",$errors);
+if (!pathos_backup_restoreDatabase($db,$_FILES['file']['tmp_name'],$errors)) {
+	$template->assign('success',0);
+	$template->assign('errors',$errors);
 } else {
-	$template->assign("success",1);
+	$template->assign('success',1);
 }
 $template->output();
 

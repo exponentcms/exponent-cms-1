@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,11 +31,11 @@
  *}
  <html>
 	<head>
-		<title>Site Deactivated</title>
+		<title>{$_TR.title}</title>
 	</head>
 	<body>
 		<center>
-			<h1>This site has been deactivated</h1>
+			<h1>{$_TR.header}</h1>
 
 			{if $reason != ""}<hr size='1' />{/if}
 

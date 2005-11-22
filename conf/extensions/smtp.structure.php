@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,44 +34,44 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('config','smtp');
+$i18n = pathos_lang_loadFile('conf/extensions/smtp.structure.php');
 
 return array(
-	TR_CONFIG_SMTP_TITLE,
+	$i18n['title'],
 	array(
 		'SMTP_USE_PHP_MAIL'=>array(
-			'title'=>TR_CONFIG_SMTP_USE_PHP_MAIL,
-			'description'=>TR_CONFIG_SMTP_USE_PHP_MAIL_DESC,
+			'title'=>$i18n['php_mail'],
+			'description'=>$i18n['php_mail_desc'],
 			'control'=>new checkboxcontrol()
 		),
 		'SMTP_SERVER'=>array(
-			'title'=>TR_CONFIG_SMTP_SERVER,
-			'description'=>TR_CONFIG_SMTP_SERVER_DESC,
+			'title'=>$i18n['server'],
+			'description'=>$i18n['server_desc'],
 			'control'=>new textcontrol()
 		),
 		'SMTP_PORT'=>array(
-			'title'=>TR_CONFIG_SMTP_PORT,
-			'description'=>TR_CONFIG_SMTP_PORT_DESC,
+			'title'=>$i18n['port'],
+			'description'=>$i18n['port_desc'],
 			'control'=>new textcontrol()
 		),
 		'SMTP_AUTHTYPE'=>array(
-			'title'=>TR_CONFIG_SMTP_AUTHTYPE,
-			'description'=>TR_CONFIG_SMTP_AUTHTYPE_DESC,
-			'control'=>new dropdowncontrol('',array('NONE'=>'No Authentication','LOGIN'=>'LOGIN','PLAIN'=>'PLAIN'))
+			'title'=>$i18n['auth'],
+			'description'=>$i18n['auth_desc'],
+			'control'=>new dropdowncontrol('',array('NONE'=>$i18n['auth_none'],'LOGIN'=>$i18n['auth_login'],'PLAIN'=>$i18n['auth_plain']))
 		),
 		'SMTP_USERNAME'=>array(
-			'title'=>TR_CONFIG_SMTP_USERNAME,
-			'description'=>TR_CONFIG_SMTP_USERNAME_DESC,
+			'title'=>$i18n['username'],
+			'description'=>$i18n['username_desc'],
 			'control'=>new textcontrol()
 		),
 		'SMTP_PASSWORD'=>array(
-			'title'=>TR_CONFIG_SMTP_PASSWORD,
-			'description'=>TR_CONFIG_SMTP_PASSWORD_DESC,
+			'title'=>$i18n['password'],
+			'description'=>$i18n['password'],
 			'control'=>new passwordcontrol()
 		),
 		'SMTP_FROMADDRESS'=>array(
-			'title'=>TR_CONFIG_SMTP_ADDRESS,
-			'description'=>TR_CONFIG_SMTP_ADDRESS_DESC,
+			'title'=>$i18n['from_address'],
+			'description'=>$i18n['from_address_desc'],
 			'control'=>new textcontrol()
 		),
 	)

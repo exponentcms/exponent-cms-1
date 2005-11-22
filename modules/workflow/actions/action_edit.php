@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,11 +36,12 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 
-	pathos_lang_loadDictionary('standard','core');
-	pathos_lang_loadDictionary('modules','workflow');
+	$i18n = pathos_lang_loadFile('modules/workflow/actions/action_edit.php');
 	
 	$action = null;
-	if (isset($_GET['id'])) $action = $db->selectObject('workflowaction','id='.$_GET['id']);
+	if (isset($_GET['id'])) {
+		$action = $db->selectObject('workflowaction','id='.intval($_GET['id']));
+	}
 	
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
@@ -50,7 +52,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	if ($action) $form->meta('id',$action->id);
 	else {
 		$form->meta('type',$_GET['type']); // CHECK
-		$form->meta('policy_id',$_GET['policy_id']); // CHECK
+		$form->meta('policy_id',intval($_GET['policy_id'])); // CHECK
 		$action->method = '';
 		$action->parameters = '';
 	}
@@ -59,9 +61,9 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	
 	$actions = pathos_workflow_getAvailableActions();
 	uasort($actions,'strnatcmp');
-	$form->register('method',TR_WORKFLOW_ACTION,new dropdowncontrol($action->method,$actions));
-	$form->register('parameters',TR_WORKFLOW_PARAMETERS, new texteditorcontrol($action->parameters));
-	$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+	$form->register('method',$i18n['action'],new dropdowncontrol($action->method,$actions));
+	$form->register('parameters',$i18n['parameters'], new texteditorcontrol($action->parameters));
+	$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 	
 	$template = new template('workflow','_form_editaction',$loc);
 	$template->assign('is_edit',(isset($action->id)?1:0));

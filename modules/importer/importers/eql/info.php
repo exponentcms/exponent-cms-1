@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,11 +34,12 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('importers', 'eql');
+$i18n = pathos_lang_loadFile('modules/importer/importers/eql/info.php');
+
 return array(
-	"name"=>TR_IMPORTERMODULE_EQL_NAME,
-	"description"=>TR_IMPORTERMODULE_EQL_DESCRIPTION,
-	"author"=>"James Hunt"
+	'name'=>$i18n['importer_name'],
+	'description'=>$i18n['importer_description'],
+	'author'=>'James Hunt'
 );
 
 ?>

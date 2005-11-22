@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class addressbookmodule {
-	function name() { return "Address Book"; }
-	function description() { return "Manages a list of contacts, storing information like names, addresses, emails and phone numbers."; }
-	function author() { return "James Hunt"; }
+	function name() { return pathos_lang_loadKey('modules/addressbookmodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/addressbookmodule/class.php','module_description'); }
+	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
@@ -43,27 +44,32 @@ class addressbookmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','addressbookmodule');
+		$i18n = pathos_lang_loadFile('modules/addressbookmodule/class.php');
+		
 		if ($internal == '') {
 			return array(
-				'administrate'=>TR_ADDRESSBOOKMODULE_PERM_ADMIN,
-				'configure'=>'Configure',
-				'post'=>TR_ADDRESSBOOKMODULE_PERM_POST,
-				'edit'=>TR_ADDRESSBOOKMODULE_PERM_EDIT,
-				'delete'=>TR_ADDRESSBOOKMODULE_PERM_DELETE
+				'administrate'=>$i18n['perm_administrate'],
+				'configure'=>$i18n['perm_configure'],
+				'post'=>$i18n['perm_post'],
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete'],
 			);
 		} else {
 			return array(
-				'administrate'=>TR_ADDRESSBOOKMODULE_PERM_ADMIN,
-				'edit'=>TR_ADDRESSBOOKMODULE_PERM_EDITONE,
-				'delete'=>TR_ADDRESSBOOKMODULE_PERM_DELETEONE
+				'administrate'=>$i18n['perm_administrate'],
+				'edit'=>$i18n['perm_edit_one'],
+				'delete'=>$i18n['perm_delete_one']
 			);
 		}
 	}
 
 	function getLocationHierarchy($loc) {
-		if ($loc->int == '') return array($loc);
-		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+		if ($loc->int == '') {
+			return array($loc);
+		}
+		else {
+			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+		}
 	}
 	
 	function show($view,$loc = null,$title = '') {

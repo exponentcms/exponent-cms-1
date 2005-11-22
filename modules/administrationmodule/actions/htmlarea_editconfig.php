@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All changes since 1.5.2.1 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -44,7 +45,7 @@ if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administration
 	$imagebase = PATH_RELATIVE."external/htmlarea/toolbaricons";
 	$confdir = BASE."external/htmlarea";
 
-	$config = $db->selectObject("htmlareatoolbar","id=".$_GET['id']);
+	$config = $db->selectObject("htmlareatoolbar","id=".intval($_GET['id']));
 
 	?>
 	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>js/HTMLAreaToolbarBuilder.js"></script>
@@ -141,7 +142,7 @@ regenerateTable();
 <?php if ($config->id) { ?><input type="hidden" name="id" value="<?php echo $config->id; ?>"/><?php } ?>
 <input type="hidden" name="config" value="" id="config_htmlarea" />
 Configuration Name:<br /><input type="text" name="config_name" value="<?php echo $config->name ?>" /><br />
-<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? "checked " : "");?>/> Activate?<br />
+<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? 'checked="checked" ' : '');?>/> Activate?<br />
 
 <input type="submit" value="Save" onclick="save(this.form); return false">
 </form>

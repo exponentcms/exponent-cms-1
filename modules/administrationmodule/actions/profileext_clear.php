@@ -38,6 +38,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	pathos_users_includeProfileExtensions();
+	// GREP:SECURITY -- SQL is created from a _GET parameter that is non-numeric.  Needs to be sanitized.
 	$existing = $db->selectObject('profileextension',"extension='".$_GET['ext']."'");
 	if ($existing == null) {
 		call_user_func(array($_GET['ext'],'clear'));

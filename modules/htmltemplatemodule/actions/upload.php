@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,25 +32,27 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("create",$loc)) {
+if (pathos_permissions_check('create',$loc)) {
 	$t = null;
-	if (isset($_GET['id'])) $t = $db->selectObject("htmltemplate","id=".$_GET['id']);
+	if (isset($_GET['id'])) {
+		$t = $db->selectObject('htmltemplate','id='.intval($_GET['id']));
+	}
 	
-	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
-	pathos_lang_loadDictionary('modules','htmltemplatemodule');
+	$i18n = pathos_lang_loadFile('modules/htmltemplatemodule/actions/upload.php');
 	
 	$form = htmltemplate::form($t);
-	$form->registerBefore("submit","file",TR_HTMLTEMPLATEMODULE_UPLOAD,new uploadcontrol());
-	$form->unregister("body");
-	$form->meta("module","htmltemplatemodule");
-	$form->meta("action","save_upload");
+	$form->registerBefore('submit','file',$i18n['upload'],new uploadcontrol());
+	$form->unregister('body');
+	$form->meta('module','htmltemplatemodule');
+	$form->meta('action','save_upload');
 	
-	$template = new template("htmltemplatemodule","_form_upload",$loc);
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('htmltemplatemodule','_form_upload',$loc);
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 } else {
 	echo SITE_403_HTML;

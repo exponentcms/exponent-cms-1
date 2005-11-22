@@ -134,7 +134,6 @@ function isOneSelected(prefix,enabledOnly) {
 	return false;
 }
 
-
 // Patch the String object, to make string parsing a little easier in Pathos
 String.prototype.isValid = function (alpha,numeric,others) {
 	for (var i = 0; i < this.length; i++) {

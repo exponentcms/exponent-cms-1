@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class textmodule {
-	function name()		{ return "Text Module"; }
-	function author()		{ return "James Hunt"; }
-	function description()	{ return "Manages text."; }
+	function name()		{ return pathos_lang_loadKey('modules/textmodule/class.php','module_name'); }
+	function author()		{ return 'James Hunt'; }
+	function description()	{ return pathos_lang_loadKey('modules/textmodule/class.php','module_description'); }
 
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -44,14 +45,14 @@ class textmodule {
 
 	function deleteIn($loc) {
 		global $user, $db;
-		$text = $db->selectObject("textitem","location_data='".serialize($loc)."'");
+		$text = $db->selectObject('textitem',"location_data='".serialize($loc)."'");
 		if ($text) {
-			$db->delete("textitem","location_data='".serialize($loc)."'");
-			$db->delete("textitem_wf_revision","wf_original=".$text->id);
-			$db->delete("textitem_wf_info","real_id=".$text->id);
+			$db->delete('textitem',"location_data='".serialize($loc)."'");
+			$db->delete('textitem_wf_revision','wf_original='.$text->id);
+			$db->delete('textitem_wf_info','real_id='.$text->id);
 			
 			// Remove search key
-			$db->delete("search","ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $text->id);
+			$db->delete('search',"ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $text->id);
 		}
 	}
 	
@@ -65,60 +66,60 @@ class textmodule {
 		}
 	}
 
-	function permissions($internal = "") {
-		pathos_lang_loadDictionary('modules','textmodule');
+	function permissions($internal = '') {
+		$i18n = pathos_lang_loadFile('modules/textmodule/class.php');
 		return array(
-			"administrate"=>TR_TEXTMODULE_PERM_ADMIN,
-		//	"configure"=>"Configure",
-			"edit"=>TR_TEXTMODULE_PERM_EDIT,
-			"approve"=>TR_TEXTMODULE_PERM_APPROVE,
-			"manage_approval"=>TR_TEXTMODULE_PERM_MANAGEAP
+			'administrate'=>$i18n['perm_administrate'],
+			'edit'=>$i18n['perm_edit'],
+			'approve'=>$i18n['perm_approve'],
+			'manage_approval'=>$i18n['perm_manage_approval']
 		);
 	}
 
-	function show($view,$loc,$title = "") {
-		$template = new template("textmodule",$view,$loc);
+	function show($view,$loc,$title = '') {
 		global $db;
-		$textitem = $db->selectObject("textitem","location_data='" . serialize($loc) . "'");
+		
+		$template = new template('textmodule',$view,$loc);
+		
+		$textitem = $db->selectObject('textitem',"location_data='" . serialize($loc) . "'");
 		if (!$textitem) {
 			$textitem->id = 0;
 			$textitem->approved = 1;
-			$textitem->text = "";
+			$textitem->text = '';
 		}
-		$template->assign("textitem",$textitem);
-		$template->assign("moduletitle",$title);
+		$template->assign('textitem',$textitem);
+		$template->assign('moduletitle',$title);
 		
-		$template->register_permissions(array("administrate"/*,"configure"*/,"edit","approve","manage_approval"),$loc);
+		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
+		
 		$template->output($view);
 	}
 	
 	function spiderContent($item=null) {
 		global $db;
 		
-		pathos_lang_loadDictionary('modules','textmodule');
-		
-		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
+		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
 		$search = null;
 		$search->title = '';
 		$search->view_link = '';
-		$search->category = TR_TEXTMODULE_SEARCHTYPE;
+		$search->category = pathos_lang_loadKey('modules/textmodule/class.php','search_post_type');
 		$search->ref_module = 'textmodule';
 		$search->ref_type = 'textitem';
 		
 		if ($item) {
-			$db->delete("search","ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $item->id);
+			$db->delete('search',"ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->body = " " . pathos_search_removeHTML($item->text) . " ";
+			$search->body = ' ' . pathos_search_removeHTML($item->text) . ' ';
 			$search->location_data = $item->location_data;
-			$db->insertObject($search,"search");
+			$db->insertObject($search,'search');
 		} else {
-			$db->delete("search","ref_module='textmodule' AND ref_type='textitem'");
-			foreach ($db->selectObjects("textitem") as $item) {
+			$db->delete('search',"ref_module='textmodule' AND ref_type='textitem'");
+			foreach ($db->selectObjects('textitem') as $item) {
 				$search->original_id = $item->id;
-				$search->body = " " . pathos_search_removeHTML($item->text) . " ";
+				$search->body = ' ' . pathos_search_removeHTML($item->text) . ' ';
 				$search->location_data = $item->location_data;
-				$db->insertObject($search,"search");
+				$db->insertObject($search,'search');
 			}
 		}
 		

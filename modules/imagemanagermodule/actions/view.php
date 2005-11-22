@@ -35,7 +35,7 @@ if (!defined("PATHOS")) exit("");
 
 $item = null;
 if (isset($_GET['id'])) {
-	$item = $db->selectObject("imagemanageritem","id=".$_GET['id']);
+	$item = $db->selectObject("imagemanageritem","id=".intval($_GET['id']));
 }
 
 if ($item) {

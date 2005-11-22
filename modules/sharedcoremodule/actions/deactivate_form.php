@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -36,14 +37,13 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
 	$site = null;
 	if (isset($_GET['id'])) {
-		$site = $db->selectObject('sharedcore_site','id='.$_GET['id']);
+		$site = $db->selectObject('sharedcore_site','id='.intval($_GET['id']));
 	}
 	
 	if ($site) {
-		pathos_lang_loadDictionary('modules','sharedcoremodule');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('modules/sharedcoremodule/actions/deactivate_form.php');
 		
-		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
 		$form = new form();
@@ -57,10 +57,10 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 		}
 		uksort($tpls,'strnatcmp');
 		
-		$form->meta('site_id',$_GET['id']);
-		$form->register('tpl',TR_SHAREDCOREMODULE_TEMPLATE,new dropdowncontrol('',$tpls));
-		$form->register('reason',TR_SHAREDCOREMODULE_REASON,new htmleditorcontrol());
-		$form->register('submit','',new buttongroupcontrol(TR_SHAREDCOREMODULE_DEACTIVATE,'',TR_CORE_CANCEL));
+		$form->meta('site_id',$site->id);
+		$form->register('tpl',$i18n['template'],new dropdowncontrol('',$tpls));
+		$form->register('reason',$i18n['reason'],new htmleditorcontrol());
+		$form->register('submit','',new buttongroupcontrol($i18n['deactivate'],'',$i18n['cancel']));
 	
 		$template = new template('sharedcoremodule','_form_deactivate');
 		$template->assign('form_html',$form->toHTML());

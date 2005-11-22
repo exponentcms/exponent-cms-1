@@ -58,7 +58,7 @@ $template->register_permissions(
 );
 
 $news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY posted " . $config->sortorder);
-if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 usort($news,($config->sortorder == "DESC" ? "pathos_sorting_byPostedDescending" : "pathos_sorting_byPostedAscending"));
 for ($i = 0; $i < count($news); $i++) {
 	$nloc = null;

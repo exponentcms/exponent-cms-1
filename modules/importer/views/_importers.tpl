@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,24 +29,22 @@
  *
  * $Id$
  *}
-<div class="form_title">Data Importers</div>
-<div class="form_header">This page lists all installed importers that Exponent recognizes, gives some information about each
-<br /><br />
-To install a new data importer, use the <a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension module=administrationmodule}">Extension Upload</a> form.</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	{foreach from=$importers item=importer key=impname}
 	<tr>
-		<td class="administration_modmgrheader"><b>{$importer.name}</b> by {$importer.author}</td>
+		<td class="administration_modmgrheader"><b>{$importer.name}</b> {$_TR.by|sprintf:$importer.author}</td>
 	</tr>
 	<tr>
 		<td class="administration_modmgrbody">
 			{$importer.description}
 			<hr size='1'/>
-			<a class="mngmntlink administration_mngmntlink" href="{link module=importer action=page page=start importer=$impname}">Run</a> Data Importer.
+			<a class="mngmntlink administration_mngmntlink" href="{link module=importer action=page page=start importer=$impname}">{$_TR.run}</a>
 		</td>
 	</tr>
 	<tr><td></td></tr>
 	{foreachelse}
-	<tr><td align="center"><i>No importers are installed.</i></td></tr>
+	<tr><td align="center"><i>{$_TR.no_importers}</i></td></tr>
 	{/foreach}
 </table>

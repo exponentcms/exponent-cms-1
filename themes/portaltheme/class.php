@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (class_exists('portaltheme')) return;
+
 class portaltheme {
 	function name() { return "Portal Site"; }
 	function author() { return "Jake Hamann (jake@jakehamann.com)"; }

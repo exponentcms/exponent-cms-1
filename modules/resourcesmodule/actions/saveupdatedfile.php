@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,34 +31,19 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
 
-$resource = $db->selectObject("resourceitem","id=".(int)$_POST['id']);
+if (!defined('PATHOS')) exit('');
+
+$resource = $db->selectObject('resourceitem','id='.$_POST['id']);
 if ($resource) {
 	$loc = unserialize($resource->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	
-	if (pathos_permissions_check("edit",$loc) || pathos_permissions_check("edit",$iloc)) {
-	
-		if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
-			pathos_lang_loadDictionary('modules','filemanagermodule');
-			switch($_FILES["file"]["error"]) {
-					case UPLOAD_ERR_INI_SIZE:
-					case UPLOAD_ERR_FORM_SIZE:
-						echo TR_FILEMANAGER_FILETOOLARGE;
-						break;
-					case UPLOAD_ERR_PARTIAL:
-						echo TR_FILEMANAGER_PARTIALFILE;
-						break;
-					case UPLOAD_ERR_NO_FILE:
-						echo TR_FILEMANAGER_NOFILEUPLOADED;
-						break;
-				}
-		} else {
-			$directory = "files/resourcesmodule/".$loc->src;
-			$file = file::update("file",$directory,null,time()."_".$_FILES['file']['name']);
-			$id = $db->insertObject($file,"file");
+	if (pathos_permissions_check('edit',$loc) || pathos_permissions_check('edit',$iloc)) {
+		$directory = 'files/resourcesmodule/'.$loc->src;
+		$file = file::update('file',$directory,null,time().'_'.$_FILES['file']['name']);
+		if (is_object($file)) {
+			$id = $db->insertObject($file,'file');
 			$resource->file_id = $id;
 			
 			$resource->editor = $user->id;
@@ -67,9 +53,15 @@ if ($resource) {
 				$resource->flock_owner = 0;
 			}
 			
-			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-			pathos_workflow_post($resource,"resourceitem",$loc);
-		}
+			if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+			pathos_workflow_post($resource,'resourceitem',$loc);
+		} else {
+			// If file::update() returns a non-object, it should be a string.  That string is the error message.
+			$post = $_POST;
+			$post['_formError'] = $file;
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}	
 	} else {
 		echo SITE_403_HTML;
 	}

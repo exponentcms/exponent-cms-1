@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,20 +34,19 @@
 
 if (!defined('PATHOS')) exit('');
 
-//GREP:UPLOADCHECK
+$i18n = pathos_lang_loadFile('modules/importers/importer/process.php');
 
 if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
-	pathos_lang_loadDictionary('modules','filemanager');
 	switch($_FILES['file']['error']) {
 		case UPLOAD_ERR_INI_SIZE:
 		case UPLOAD_ERR_FORM_SIZE:
-			echo TR_FILEMANAGER_FILETOOLARGE.'<br />';
+			echo $i18n['file_too_large'].'<br />';
 			break;
 		case UPLOAD_ERR_PARTIAL:
-			echo TR_FILEMANAGER_PARTIALFILE.'<br />';
+			echo $i18n['partial_file'].'<br />';
 			break;
 		case UPLOAD_ERR_NO_FILE:
-			echo TR_FILEMANAGER_NOFILEUPLOADED.'<br />';
+			echo $i18n['no_file'].'<br />';
 			break;
 	}
 } else {
@@ -58,13 +58,13 @@ if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
 	$dest_dir = BASE.'tmp/'.uniqid('');
 	@mkdir($dest_dir);
 	if (!file_exists($dest_dir)) {
-		echo 'Unable to create temporary directory to extract files archive.';
+		echo $i18n['file_cant_mkdir'];
 	} else {
 		$return = $tar->extract($dest_dir);
 		if (!$return) {
-			echo '<br />Error extracting TAR archive<br />';
+			echo '<br />'.$i18n['error_tar'].'<br />';
 		} else if (!file_exists($dest_dir.'/files') || !is_dir($dest_dir.'/files')) {
-			echo '<br />Invalid archive format<br />';
+			echo '<br />'.$i18n['bad_archive'].'<br />';
 		} else {
 			// Show the form for specifying which mod types to 'extract'
 			

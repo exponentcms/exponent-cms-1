@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,7 +34,7 @@
  
 if (!defined("PATHOS")) exit("");
 
-$item = $db->selectObject("calendar","id=" . $_GET['id']);
+$item = $db->selectObject("calendar","id=" . intval($_GET['id']));
 if ($item) {
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
@@ -48,12 +49,12 @@ if ($item) {
 		"delete"=>pathos_permissions_check("delete",$iloc),
 		"administrate"=>pathos_permissions_check("administrate",$iloc)
 	);
-	$eventdate = $db->selectObject("eventdate","id=".$_GET['date_id']);
+	$eventdate = $db->selectObject("eventdate","id=".intval($_GET['date_id']));
 	$item->eventstart += $eventdate->date;
 	$item->eventend += $eventdate->date;
 	$item->eventdate = $eventdate;
 	
-	$template = new Template("calendarmodule","_view",$loc);				
+	$template = new template("calendarmodule","_view",$loc);				
 	
 	if ($item->feedback_form != "") {
 		$formtemplate = new formtemplate('email', $item->feedback_form);

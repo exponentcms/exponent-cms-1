@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">Upload new Extension</div>
-<div class="form_header">
-This form allows you to upload modules, themes, plugins, and views to the website.  After you upload an archive containing an extension (or more) you will be shown a pre-installation summary page, outlining exactly what files will be installed where, and what each file contains (for security reasons).
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

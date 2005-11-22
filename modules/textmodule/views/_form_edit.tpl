@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">Edit Page Text</div>
-<div class="form_header">
-Simply type the text you want to appear on the site into the WYSIWYG editor below, and click Save.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

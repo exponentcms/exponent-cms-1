@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -53,36 +54,35 @@
  */
 class banner_ad {
 	function form($object) {
-		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->name = "";
+			$object->name = '';
 			$object->affiliate_id = 0;
-			$object->url = "http://";
+			$object->url = 'http://';
 		} else {
-			$form->meta("id",$object->id);
+			$form->meta('id',$object->id);
 			
 			global $db;
-			$file = $db->selectObject("file","id=".$object->file_id);
-			$form->register(uniqid(""),"",new htmlcontrol("<img src='".$file->directory."/".$file->filename."'/>"));
+			$file = $db->selectObject('file','id='.$object->file_id);
+			$form->register(uniqid(''),'',new htmlcontrol('<img src="'.$file->directory.'/'.$file->filename.'"/>'));
 		}
 		
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','bannermodule');
+		$i18n = pathos_lang_loadFile('datatypes/banner_ad.php');
 		
 		$affiliates = bannermodule::listAffiliates();
 		
-		$form->register('name',TR_BANNERMODULE_INTERNALNAME,new textcontrol($object->name));
-		$submit = new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL);
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$submit = new buttongroupcontrol($i18n['save'],'',$i18n['cancel']);
 		if (count($affiliates)) {
-			$form->register('affiliate_id',TR_BANNERMODULE_AFFILIATE, new dropdowncontrol($object->affiliate_id,$affiliates));
+			$form->register('affiliate_id',$i18n['affiliate_id'], new dropdowncontrol($object->affiliate_id,$affiliates));
 		} else {
-			$form->registerBefore('name',null,'',new htmlcontrol('<div class="error">'.TR_BANNERMODULE_NOAFFILIATES.'</div>'));
+			$form->registerBefore('name',null,'',new htmlcontrol('<div class="error">'.$i18n['no_affiliates'].'</div>'));
 			$submit->disabled = 1;
 		}
-		$form->register('url',TR_BANNERMODULE_DESTURL,new texteditorcontrol($object->url,2,40));
+		$form->register('url',$i18n['url'],new texteditorcontrol($object->url,2,40));
 		
 		$form->register('submit','',$submit);
 		

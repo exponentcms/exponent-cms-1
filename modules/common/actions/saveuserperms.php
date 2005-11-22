@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,13 +32,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("administrate",$loc)) {
-	$users = explode(";",$_POST['permdata']);
-	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+if (pathos_permissions_check('administrate',$loc)) {
+	$users = explode(';',$_POST['permdata']);
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	foreach ($users as $user_str) {
-		$perms = explode(":",$user_str);
+		$perms = explode(':',$user_str);
 		$u = pathos_users_getUserById($perms[0]);
 		pathos_permissions_revokeAll($u,$loc);
 		for ($i = 1; $i < count($perms); $i++) {

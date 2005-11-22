@@ -43,8 +43,7 @@ if (isset($_POST['id'])) {
 if (pathos_permissions_check('edit',$loc)) {
 	$textitem = textitem::update($_POST,$textitem);
 	$textitem->location_data = serialize($loc);
-	pathos_template_clear();
-	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	pathos_workflow_post($textitem,'textitem',$loc);
 } else {
 	echo SITE_403_HTML;

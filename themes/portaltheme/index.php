@@ -41,23 +41,23 @@ if (!defined('PATHOS')) exit('');
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 	
-	<body onLoad="pathosJSinitialize();">
+	<body onload="pathosJSinitialize();">
 		<?php pathos_theme_sourceSelectorInfo(); ?>
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tbody>
 				<tr>
-					<td width="48"><img width="48" src="<?php echo THEME_RELATIVE;?>images/leftbar_1.gif"></td>
+					<td width="48"><img width="48" src="<?php echo THEME_RELATIVE;?>images/leftbar_1.gif" alt="" /></td>
 					<td>
 						<table cellpadding="0" cellspacing="0" border="0" width="100%">
 							<tr>
-								<td width="221"><img src="<?php echo THEME_RELATIVE;?>images/middle-logo.jpg" /></td>
-								<td width="43"><img src="<?php echo THEME_RELATIVE;?>images/middle-angle.jpg" /></td>
+								<td width="221"><img src="<?php echo THEME_RELATIVE;?>images/middle-logo.jpg" alt="" /></td>
+								<td width="43"><img src="<?php echo THEME_RELATIVE;?>images/middle-angle.jpg" alt="" /></td>
 								<td width="100%" style="background-image: url(<?php echo THEME_RELATIVE; ?>images/middle-repeat.jpg);  background-repeat: repeat-x;"></td>
-								<td width="360"><img src="<?php echo THEME_RELATIVE;?>images/middle-image.jpg" /></td>
+								<td width="360"><img src="<?php echo THEME_RELATIVE;?>images/middle-image.jpg" alt="" /></td>
 							</tr>
 						</table>
 					</td>
-					<td width="48"><img width="48" src="<?php echo THEME_RELATIVE;?>images/rightbar_1.gif"></td>
+					<td width="48"><img width="48" src="<?php echo THEME_RELATIVE;?>images/rightbar_1.gif" alt="" /></td>
 				</tr>
 				<tr>
 					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/leftbar_2.gif);"></td>
@@ -97,9 +97,9 @@ if (!defined('PATHOS')) exit('');
 					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/rightbar_2.gif);"></td>
 				</tr>
 				<tr>
-					<td><img src="<?php echo THEME_RELATIVE;?>images/leftbar_3-1.gif"></td>
+					<td><img src="<?php echo THEME_RELATIVE;?>images/leftbar_3-1.gif" alt="" /></td>
 					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/bottom1.gif);"></td>
-					<td><img src="<?php echo THEME_RELATIVE;?>images/rightbar_3-1.gif"></td>
+					<td><img src="<?php echo THEME_RELATIVE;?>images/rightbar_3-1.gif" alt="" /></td>
 				</tr>
 				<tr>
 					<td style="background-image: url(<?php echo THEME_RELATIVE; ?>images/leftbar_3bg.gif); background-repeat: repeat-y;"></td>

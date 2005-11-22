@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -37,10 +38,6 @@ if (!defined('PATHOS')) exit('');
  * Radio Control
  *
  * An HTML radio button
- *
- * @author Greg Otte
- * @copyright 2004 OIC Group, Inc.
- * @version 0.95
  *
  * @package Subsystems
  * @subpackage Forms
@@ -105,10 +102,7 @@ class radiogroupcontrol extends formcontrol {
 			if (!$this->flip) $html .= $caption.'&nbsp;';
 			
 			$html .= '<input type="radio" value="'.$value .'" name="' . $name . '"';
-			if ($this->default == $value) $html .= ' checked';
-			if (@$this->required) {
-				$html .= " onClick='unregisterRG(\"".rawurlencode($this->caption)."\");'";
-			}
+			if ($this->default == $value) $html .= ' checked="checked"';
 			$html .= ' />';
 			
 			if ($this->flip) $html .= '&nbsp;'.$caption;
@@ -141,19 +135,18 @@ class radiogroupcontrol extends formcontrol {
 			$object->cols = 1;
 			$object->items = array();
 		} 
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
-		$form->register("caption",TR_FORMCONTROLS_CAPTIONVALUE, new textcontrol($object->caption));
-		$form->register("items",TR_FORMCONTROLS_ITEMS, new listbuildercontrol($object->items,null));
-		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
-		$form->register("flip",TR_FORMCONTROLS_CAPTIONSONRIGHT, new checkboxcontrol($object->flip,false));
-		$form->register("cols",TR_FORMCONTROLS_NUMCOLS, new textcontrol($object->cols,4,false,2,"integer"));
-		$form->register(null,"", new htmlcontrol(TR_FORMCONTROLS_COLSPACING_MSG));
-		$form->register("spacing",TR_FORMCONTROLS_COLSPACING, new textcontrol($object->spacing,5,false,4,"integer"));
-		$form->register("required",TR_FORMCONTROLS_REQUIREDSELECT, new checkboxcontrol(@$object->required,false)); 
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/radiogroupcontrol.php');
+		
+		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("items",$i18n['items'], new listbuildercontrol($object->items,null));
+		$form->register("default",$i18n['default'], new textcontrol($object->default));
+		$form->register("flip",$i18n['flip'], new checkboxcontrol($object->flip,false));
+		$form->register("cols",$i18n['cols'], new textcontrol($object->cols,4,false,2,"integer"));
+		$form->register(null,"", new htmlcontrol($i18n['spacing_msg']));
+		$form->register("spacing",$i18n['spacing'], new textcontrol($object->spacing,5,false,4,"integer"));
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}
@@ -161,9 +154,9 @@ class radiogroupcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new radiogroupcontrol();
 		if ($values['identifier'] == "") {
-			pathos_lang_loadDictionary('standard','formcontrols');
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/radiogroupcontrol.php');
 			$post = $_POST;
-			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
+			$post['_formError'] = $i18n['id_req'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

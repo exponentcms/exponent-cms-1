@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -44,12 +45,11 @@ class banner_affiliate {
 			$form->meta('id',$object->id);
 		}
 		
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','bannermodule');
+		$i18n = pathos_lang_loadFile('datatypes/banner_affiliate.php');
 		
-		$form->register('name',TR_BANNERMODULE_AFFILIATENAME, new textcontrol($object->name));
-		$form->register('contact_info',TR_BANNERMODULE_CONTACTINFO, new texteditorcontrol($object->contact_info,12,50));
-		$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('name',$i18n['name'], new textcontrol($object->name));
+		$form->register('contact_info',$i18n['contact_info'], new texteditorcontrol($object->contact_info,12,50));
+		$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

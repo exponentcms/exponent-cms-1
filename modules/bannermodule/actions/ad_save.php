@@ -47,9 +47,15 @@ if (pathos_permissions_check('manage',$loc)) {
 	if (!isset($banner->file_id)) {
 		$directory = 'files/bannermodule/'.$loc->src;
 		$file = file::update('file',$directory,null);
-		if ($file != null) {
+		if (is_object($file)) {
 			$banner->file_id = $db->insertObject($file,'file');
 			$db->insertObject($banner,'banner_ad');
+		} else {
+			// If file::update() returns a non-object, it should be a string.  That string is the error message.
+			$post = $_POST;
+			$post['_formError'] = $file;
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else {
 		$db->updateObject($banner,'banner_ad');

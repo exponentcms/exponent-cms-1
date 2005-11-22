@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class approvalpolicy {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','workflow');
+		$i18n = pathos_lang_loadFile('datatypes/approvalpolicy.php');
 	
 		if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
@@ -54,24 +54,24 @@ class approvalpolicy {
 			$object->delete_on_deny = 0;
 		}
 		
-		$form->register('name',TR_WORKFLOW_POLICYNAME,new textcontrol($object->name));
-		$form->register('description',TR_WORKFLOW_POLICYDESC,new texteditorcontrol($object->description));
-		$form->register('max_approvers',TR_WORKFLOW_MAXAPPROVERS,new textcontrol($object->max_approvers));
-		$form->register('required_approvals',TR_WORKFLOW_REQUIREDAPPROVALS,new textcontrol($object->required_approvals));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('description',$i18n['description'],new texteditorcontrol($object->description));
+		$form->register('max_approvers',$i18n['max_approvers'],new textcontrol($object->max_approvers));
+		$form->register('required_approvals',$i18n['required_approvals'],new textcontrol($object->required_approvals));
 		
 		$list = array(
-			SYS_WORKFLOW_REVOKE_NONE=>TR_WORKFLOW_REVOKENONE,
-			SYS_WORKFLOW_REVOKE_ALL=>TR_WORKFLOW_REVOKEALL,
-			SYS_WORKFLOW_REVOKE_POSTER=>TR_WORKFLOW_REVOKEPOSTER,
-			SYS_WORKFLOW_REVOKE_APPROVERS=>TR_WORKFLOW_REVOKEAPPROVERS,
-			SYS_WORKFLOW_REVOKE_OTHERS=>TR_WORKFLOW_REVOKEOTHERS
+			SYS_WORKFLOW_REVOKE_NONE=>$i18n['revoke_none'],
+			SYS_WORKFLOW_REVOKE_ALL=>$i18n['revoke_all'],
+			SYS_WORKFLOW_REVOKE_POSTER=>$i18n['revoke_poster'],
+			SYS_WORKFLOW_REVOKE_APPROVERS=>$i18n['revoke_approvers'],
+			SYS_WORKFLOW_REVOKE_OTHERS=>$i18n['revoke_others']
 		);
 		
-		$form->register('on_approve',TR_WORKFLOW_ONAPPROVE,new dropdowncontrol($object->on_approve,$list));
-		$form->register('on_edit',TR_WORKFLOW_ONEDIT,new dropdowncontrol($object->on_edit,$list));
-		$form->register('on_deny',TR_WORKFLOW_ONDENY,new dropdowncontrol($object->on_deny,$list));
-		$form->register('delete_on_deny',TR_WORKFLOW_DELETEONDENY,new checkboxcontrol($object->delete_on_deny));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('on_approve',$i18n['on_approve'],new dropdowncontrol($object->on_approve,$list));
+		$form->register('on_edit',$i18n['on_edit'],new dropdowncontrol($object->on_edit,$list));
+		$form->register('on_deny',$i18n['on_deny'],new dropdowncontrol($object->on_deny,$list));
+		$form->register('delete_on_deny',$i18n['delete_on_deny'],new checkboxcontrol($object->delete_on_deny));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

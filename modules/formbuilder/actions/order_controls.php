@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,22 +32,30 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$a = $db->selectObject("formbuilder_control","form_id=".$_GET['p']." AND rank=".$_GET['a']);
-$b = $db->selectObject("formbuilder_control","form_id=".$_GET['p']." AND rank=".$_GET['b']);
+$_GET['a'] = intval($_GET['a']);
+$_GET['b'] = intval($_GET['b']);
+$_GET['p'] = intval($_GET['p']);
+
+$a = $db->selectObject('formbuilder_control','form_id='.$_GET['p'].' AND rank='.$_GET['a']);
+$b = $db->selectObject('formbuilder_control','form_id='.$_GET['p'].' AND rank='.$_GET['b']);
 if ($a && $b) {
-	$f = $db->selectObject("formbuilder_form","id=".$a->form_id);
-	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
+	$f = $db->selectObject('formbuilder_form','id='.$a->form_id);
+	if (pathos_permissions_check('editform',unserialize($f->location_data))) {
 		$tmp = $a->rank;
 		$a->rank = $b->rank;
 		$b->rank = $tmp;
 		
-		$db->updateObject($a,"formbuilder_control");
-		$db->updateObject($b,"formbuilder_control");
+		$db->updateObject($a,'formbuilder_control');
+		$db->updateObject($b,'formbuilder_control');
 		
 		pathos_flow_redirect();
-	} else echo SITE_403_HTML;
-} else echo SITE_404_HTML;
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

@@ -34,7 +34,7 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user) {
-	$sections = navigationmodule::getHierarchy();
+	$sections = navigationmodule::levelTemplate(0,0);
 	$standalones = $db->selectObjects('section','parent = -1');
 	$template = new template('navigationmodule','_linker');
 	$template->assign('sections',$sections);

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,30 +29,28 @@
  *
  * $Id$
  *}
-<div class="form_title">Configure Site</div>
-<div class="form_header">
-This form lets you determine site-wide behavior.  Be especially careful when dealing with database settings, as you can quite easily lock yourself out of the site by switching databases.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_caption}</div>
 {$form_html}
 {if $smarty.const.CURRENTCONFIGNAME == $configname}
 	[ Activate ]
 	[Delete]
 {else}
 	{if $canactivate == 1}
-	[ <a class="mngmntlink administration_mngmntlink" href="{link action=run m=administrationmodule a=config_activate configname=$configname}">Activate</a> ]
+	[ <a class="mngmntlink administration_mngmntlink" href="{link action=config_activate configname=$configname}">{$_TR.activate}</a> ]
 	{elseif $configname != ""}
-		<i>(You cannot activate this profile - the active configuration file is unwritable.)</i><br />
+		<i>{$_TR.cannot_activate}</i><br />
 	{/if}
 	{if $candelete == 1}
-		[ <a class="mngmntlink administration_mngmntlink" href="{link action=run m=administrationmodule action=config_delete configname=$configname}">Delete</a> ]
+		[ <a class="mngmntlink administration_mngmntlink" href="{link action=config_delete configname=$configname}">{$_TR.delete}</a> ]
 	{elseif $configname != ""}
-		<i>(You cannot delete this profile - the profile configuration file is unwritable.)</i><br />
+		<i>{$_TR.cannot_delete}</i><br />
 	{/if}
 {/if}
 {if $canedit == 1}
-	[ <a class="mngmntlink administration_mngmntlink" href="{link action=run m=administrationmodule action=config_configuresite configname=$configname}">Edit</a> ]
+	[ <a class="mngmntlink administration_mngmntlink" href="{link action=config_configuresite configname=$configname}">{$_TR.edit}</a> ]
 {elseif $configname != ""}
-	<i>(You cannot edit or delete this profile - the profile's configuration file is unwritable.)</i>
+	<i>{$_TR.cannot_edit}</i>
 {/if}
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 {foreach from=$configuration key=category item=opts}

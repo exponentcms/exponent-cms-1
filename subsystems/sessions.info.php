@@ -33,12 +33,12 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('subsystems', 'sessions');
+$i18n = pathos_lang_loadFile('subsystems/sessions.info.php');
 
 return array(
-	'name'=>TR_SESSIONSSUBSYSTEM_NAME,
+	'name'=>$i18n['subsystem_name'],
 	'author'=>'James Hunt',
-	'description'=>TR_SESSIONSSUBSYSTEM_DESCRIPTION,
+	'description'=>$i18n['subsystem_description'],
 	'version'=>pathos_core_version(true)
 );
 

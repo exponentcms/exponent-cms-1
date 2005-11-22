@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,14 +29,14 @@
  *
  * $Id$
  *}
-<div class="form_title">Manage Categories</div>
+<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-Below is a list of categories.
+{$_TR.form_header}
 </div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td class="header" width="40">&nbsp;</td>
-	<td class="header">Name</td>
+	<td class="header">{$_TR.name}</td>
 	<td class="header"></td>
 </tr>
 {foreach name=a from=$categories item=category}
@@ -76,9 +77,9 @@ Below is a list of categories.
 <tr>
 {foreachelse}
 <tr>
-	<td colspan="2" align="center"><i>No Categories</i></td>
+	<td colspan="2" align="center"><i>{$_TR.no_categories}</i></td>
 </tr>
 {/foreach}
 </table>
 <br /><br />
-<a href="{link module=categories action=edit orig_module=$origmodule}" class="mngmntlink mngmntlink">New Category</a>
+<a href="{link module=categories action=edit orig_module=$origmodule}" class="mngmntlink mngmntlink">{$_TR.new_category}</a>

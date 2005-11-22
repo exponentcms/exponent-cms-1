@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit == 1}Edit News Item{else}Post a new News Item{/if}</div>
-<div class="form_header">
-The Publish and Unpublish dates are optional, and are not dependent on one another.  You can, for instance, specify a publish date without an Unpublish date.<br />
-<br />
-If you specify a Publish Date, the News Item will not appear on the site until that date and time.
-<br />
-If you specify an Unpublish Date, the News Item will disappear after that date and time.
-</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

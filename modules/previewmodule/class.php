@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class previewmodule {
-	function name() { return "Preview Link"; }
-	function description() { return "Allows logged-in users to preview the site as an anonymous user, and switch back.  Mostly useful for editors and administrators."; }
-	function author() { return "James Hunt"; }
+	function name() { return pathos_lang_loadKey('modules/previewmodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/previewmodule/class.php','module_description'); }
+	function author() { return 'James Hunt'; }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -42,7 +43,7 @@ class previewmodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
 	
 	}
 	

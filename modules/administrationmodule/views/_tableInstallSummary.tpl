@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Install and Update Tables</div>
-<div class="form_header">Exponent is currently updating existing tables in its database, and installing new tables that it needs.  Shown below is a summary of the actions that occured.</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
 <tr>
 	<td class="Header administration_header">Table Name</td>
@@ -40,13 +41,13 @@
 {$table}
 </td><td>
 {if $statusnum == $smarty.const.TMP_TABLE_EXISTED}
-<div style="color: blue; font-weight: bold">Table Exists</div>
+<div style="color: blue; font-weight: bold">{$_TR.table_exists}</div>
 {elseif $statusnum == $smarty.const.TMP_TABLE_INSTALLED}
-<div style="color: green; font-weight: bold">Succeeded</div>
+<div style="color: green; font-weight: bold">{$_TR.succeeded}</div>
 {elseif $statusnum == $smarty.const.TMP_TABLE_FAILED}
-<div style="color: red; font-weight: bold">Failed</div>
+<div style="color: red; font-weight: bold">{$_TR.failed}</div>
 {elseif $statusnum == $smarty.const.TMP_TABLE_ALTERED}
-<div style="color: green; font-weight: bold">Altered Existing Table</div>
+<div style="color: green; font-weight: bold">{$_TR.altered_existing}</div>
 {/if}
 </td></tr>
 {/foreach}

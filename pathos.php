@@ -44,11 +44,7 @@ function __realpath($path) {
 // necessary setup files (pathos_setup.php, pathos_variables.php) as well as initialize
 // the compatibility layer.
 // This was moved into its own file from this file so that 'lighter' scripts could bootstrap.
-require_once(dirname(__realpath(__FILE__)).'/pathos_bootstrap.php');
-
-
-// Load the site configuration (without initializing the config subsystem)
-require_once(BASE.'subsystems/config/load.php');
+include_once(dirname(__realpath(__FILE__)).'/pathos_bootstrap.php');
 
 // After config config setup:
 // Put session stuff first.
@@ -154,7 +150,12 @@ pathos_sessions_validate();
 // Initialize permissions variables
 pathos_permissions_initialize();
 
-$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+#$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
+	$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+} else {
+	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
+}
 $section = $db->selectObject('section','id='.$section);
 if (!navigationmodule::canView($section)) {
 	define('AUTHORIZED_SECTION',0);

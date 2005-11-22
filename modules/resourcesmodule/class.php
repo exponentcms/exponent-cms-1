@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class resourcesmodule {
-	function name() { return "Resource Manager"; }
-	function author() { return "James Hunt"; }
-	function description() { return "Manages uploaded files."; }
+	function name() { return pathos_lang_loadKey('modules/resourcesmodule/class.php','module_name'); }
+	function author() { return 'James Hunt'; }
+	function description() { return pathos_lang_loadKey('modules/resourcesmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasViews() { return true; }
@@ -43,29 +44,30 @@ class resourcesmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','resourcesmodule');
 		if ($internal == '') {
 			return array(
-				'administrate'=>TR_RESOURCESMODULE_PERM_ADMIN,
-				'configure'=>'Configure',
-				'post'=>TR_RESOURCESMODULE_PERM_POST,
-				'edit'=>TR_RESOURCESMODULE_PERM_EDIT,
-				'delete'=>TR_RESOURCESMODULE_PERM_DELETE,
-				'manage_approval'=>TR_RESOURCESMODULE_PERM_MANAGEREV
+				'administrate'=>$i18n['perm_administrate'],
+				'post'=>$i18n['perm_post'],
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete'],
+				'manage_approval'=>$i18n['perm_manage_approval']
 			);
 		} else {
 			return array(
-				'administrate'=>TR_RESOURCESMODULE_PERM_ADMIN,
-				'edit'=>TR_RESOURCESMODULE_PERM_EDITONE,
-				'delete'=>TR_RESOURCESMODULE_PERM_DELETEONE,
-				'manage_approval'=>TR_RESOURCESMODULE_PERM_MANAGEREV
+				'administrate'=>$i18n['perm_administrate'],
+				'edit'=>$i18n['perm_editone'],
+				'delete'=>$i18n['perm_deleteone'],
+				'manage_approval'=>$i18n['perm_manage_approval']
 			);
 		}
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == '') return array($loc);
-		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+		if ($loc->int == '') {
+			return array($loc);
+		} else {
+			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+		}
 	}
 	
 	function show($view,$loc,$title = '') {
@@ -153,15 +155,14 @@ class resourcesmodule {
 	}
 	
 	function spiderContent($item = null) {
-		pathos_lang_loadDictionary('modules','resourcesmodule');
+		$i18n = pathos_lang_loadFile('modules/resourcesmodule/class.php');
 		
 		global $db;
 		
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
 		
 		$search = null;
-		$search->category = TR_RESOURCESMODULE_SEARCHTYPE;
-		$search->view_link = ''; // FIXME: need a view action
+		$search->category = $i18n['search_category'];
 		$search->ref_module = 'resourcesmodule';
 		$search->ref_type = 'resourceitem';
 		
@@ -171,6 +172,7 @@ class resourcesmodule {
 			$search->body = ' ' . pathos_search_removeHTML($item->description) . ' ';
 			$search->title = ' ' . $item->name . ' ';
 			$search->location_data = $item->location_data;
+			$search->view_link = 'index.php?module=resourcesmodule&action=view&id='.$item->id;
 			$db->insertObject($search,'search');
 		} else {
 			$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem'");
@@ -179,6 +181,7 @@ class resourcesmodule {
 				$search->body = ' ' . pathos_search_removeHTML($item->description) . ' ';
 				$search->title = ' ' . $item->name . ' ';
 				$search->location_data = $item->location_data;
+				$search->view_link = 'index.php?module=resourcesmodule&action=view&id='.$item->id;
 				$db->insertObject($search,'search');
 			}
 		}

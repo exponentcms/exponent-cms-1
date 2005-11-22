@@ -2,8 +2,16 @@ The following things still need to be checked and / or implemented in Exponent
 
 Tab styles in all default themes
 Affiliate tracking reporting in banner module
-remove infopopup.php
-Remove description from container add form
-SITE_TITLE support (overriding) in all themes
-View configurations for Resource Modules
 Add the ability to exclude posters from approval duties
+
+Standard on BASE/tmp directory for temporary files (this means no more extensionuploads, or tmp directory for usercsv)
+
+
+Full i18n support
+	Pull out newly added English
+	Constants in view files.  Impact on performance?
+
+Documentation, Documentation and MORE Documentation
+
+Incorporate new logos into default themes
+Redesign default themes

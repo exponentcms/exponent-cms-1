@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,19 +34,21 @@
  
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('modules','loginmodule');
+$i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass.php');
 
-if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 pathos_forms_initialize();
 
 $form = new form();
 $form->meta('module','loginmodule');
 $form->meta('action','resetpass_send');
-$form->register('username',TR_LOGINMODULE_RESETUSERNAME,new textcontrol());
-$form->register('submit','',new buttongroupcontrol(TR_LOGINMODULE_RESETPASSBTN));
+$form->register('username',$i18n['username'],new textcontrol());
+$form->register('submit','',new buttongroupcontrol($i18n['reset']));
 
 $template = new template('loginmodule','_form_resetpass',$loc);
 $template->assign('form_html',$form->toHTML());
 $template->output();
+
+pathos_forms_cleanup();
 
 ?>

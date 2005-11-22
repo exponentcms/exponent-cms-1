@@ -33,12 +33,12 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('subsystems', 'workflow');
+$i18n = pathos_lang_loadFile('subsystems/workflow.info.php');
 
 return array(
-	'name'=>TR_WORKFLOWSUBSYSTEM_NAME,
+	'name'=>$i18n['subsystem_name'],
 	'author'=>'James Hunt',
-	'description'=>TR_WORKFLOWSUBSYSTEM_DESCRIPTION,
+	'description'=>$i18n['subsystem_description'],
 	'version'=>pathos_core_version(true)
 );
 

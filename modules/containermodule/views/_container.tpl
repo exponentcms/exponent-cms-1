@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -42,8 +43,8 @@
 					<tr>
 						<td valign="top" class="info">
 							{$container->info.module}
-							{if $container->view != ""}<br />Shown in {$container->view} view{/if}
-							{if $container->info.workflowPolicy != ""}<br />Uses '{$container->info.workflowPolicy}' Workflow Policy{/if}
+							{if $container->view != ""}<br />{$_TR.shown_in|sprintf:$container->view}{/if}
+							{if $container->info.workflowPolicy != ""}<br />{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}
 						</td>
 						<td align="right" valign="top">
 							{if $container->is_private == 1 && $permissions.administrate == 1}
@@ -52,12 +53,12 @@
 							{/if}
 							{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 								<a href="{link action=edit id=$container->id}">
-									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="Change the layout of this {$container->info.module}" alt="Change the layout of this {$container->info.module}" />
+									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.configure_module|sprintf:$container->info.module}" alt="{$_TR.configure_module|sprintf:$container->info.module}" />
 								</a>
 							{/if}
 							{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}
-								<a href="{link action=delete id=$container->id}" onClick="return confirm('Are you sure you want to delete this {$container->info.module}?');">
-									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="Delete this {$container->info.module}" alt="Delete this {$container->info.module}" />
+								<a href="{link action=delete id=$container->id}" onClick="return confirm('{$_TR.delete_confirm|sprintf:$container->info.module}');">
+									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
 								</a>
 							{/if}
 							
@@ -84,8 +85,8 @@
 	{/if}
 {else}
 	{permissions level=$smarty.const.UILEVEL_STRUCTURE}
-	{if $permissions.add_module == 1}
-		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="Add a new module here" alt="Add a new module here" /></a>
+	{if $permissions.add_module == 1 && $hidebox == 0}
+		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
 	{/if}
 	{/permissions}
 {/if}

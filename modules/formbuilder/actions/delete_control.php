@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,23 +32,29 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $ctl = null;
-if (isset($_GET['id'])) $ctl = $db->selectObject("formbuilder_control","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$ctl = $db->selectObject('formbuilder_control','id='.intval($_GET['id']));
+}
 
 
 if ($ctl) {
-	$f = $db->selectObject("formbuilder_form","id=".$ctl->form_id);
-	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
-		$db->delete("formbuilder_control","id=".$ctl->id);
-		$db->decrement("formbuilder_control","rank",1,"form_id=".$ctl->form_id." AND rank > " . $ctl->rank);
+	$f = $db->selectObject('formbuilder_form','id='.$ctl->form_id);
+	if (pathos_permissions_check('editform',unserialize($f->location_data))) {
+		$db->delete('formbuilder_control','id='.$ctl->id);
+		$db->decrement('formbuilder_control','rank',1,'form_id='.$ctl->form_id.' AND rank > ' . $ctl->rank);
 		
-		$f = $db->selectObject("formbuilder_form","id=".$ctl->form_id);
+		$f = $db->selectObject('formbuilder_form','id='.$ctl->form_id);
 		formbuilder_form::updateTable($f);
 		
 		pathos_flow_redirect();
-	} else echo SITE_403_HTML;
-} else echo SITE_404_HTML;
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

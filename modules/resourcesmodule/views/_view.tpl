@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -38,50 +39,51 @@
 	<b>{$resource->name}</b><br />
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
-	<a class="mngmntlink resources_mngmntlink" href="{link action=userperms int=$resource->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" border="0" title="Assign user permissions on this Resource" alt="Assign user permissions on this Resource" /></a>
-	<a class="mngmntlink resources_mngmntlink" href="{link action=groupperms int=$resource->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" border="0" title="Assign group permissions on this Resource" alt="Assign group permissions on this Resource" /></a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=userperms int=$resource->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" border="0" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=groupperms int=$resource->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" border="0" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 	{/if}
 	{/permissions}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1 || $resource->permissions.edit == 1}
-	<a class="mngmntlink resources_mngmntlink" href="{link action=edit id=$resource->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Resource" alt="Edit this Resource" /></a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=edit id=$resource->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 	{/if}
 	{if $permissions.delete == 1 || $resource->permissions.delete == 1}
-	<a class="mngmntlink resources_mngmntlink" href="{link action=delete id=$resource->id}" onClick="return confirm('Are you sure you want to delete this Resource?');">
-		<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Resource" alt="Delete this Resource" />
+	<a class="mngmntlink resources_mngmntlink" href="{link action=delete id=$resource->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+		<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 	</a>
 	{/if}
 	<br />
 	{if $resource->locked != 0 && $resource->flock_owner != $user->id && ($permissions.edit == 1 || $resource->permissions.edit == 1)}
 	<i>
-	This file is locked by {$resource->lock_owner->firstname} {$resource->lock_owner->lastname}
+	{capture assign=name}{$resource->lock_owner->firstname} {$resource->lock_owner->lastname}{/capture}
+	{$_TR.locked_by|sprintf:$name}
 	{if $user->is_acting_admin != 1}
-	You will not be able to edit or update it.
+	{$_TR.no_change}
 	{/if}
 	</i>
 	<br />
 	{elseif $resource->locked != 0 && $resource->flock_owner == $user->id}
-	<i>You have locked this file.  Other users will not be able to update it until you unlock it.</i>
+	<i>{$_TR.you_locked}</i>
 	<br />
 	{/if}
-	<a class="mngmntlink resources_mngmntlink" href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}">Download</a>
+	<a class="mngmntlink resources_mngmntlink" href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}">{$_TR.download}</a>
 	{if $permissions.edit == 1 || $resource->permissions.edit == 1}
 	{if $resource->locked == 0}
 	&nbsp;|&nbsp;
-	<a class="mngmntlink resources_mngmntlink" href="{link action=updatefile id=$resource->id}">Update File</a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=updatefile id=$resource->id}">{$_TR.update}</a>
 	&nbsp;|&nbsp;
-	<a class="mngmntlink resources_mngmntlink" href="{link action=changelock id=$resource->id}">Lock</a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=changelock id=$resource->id}">{$_TR.lock}</a>
 	{elseif $resource->flock_owner == $user->id || $user->is_acting_admin == 1}
 	&nbsp;|&nbsp;
-	<a class="mngmntlink resources_mngmntlink" href="{link action=updatefile id=$resource->id}">Update File</a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=updatefile id=$resource->id}">{$_TR>update}</a>
 	&nbsp;|&nbsp;
-	<a class="mngmntlink resources_mngmntlink" href="{link action=changelock id=$resource->id}">Unlock</a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=changelock id=$resource->id}">{$_TR.unlock}</a>
 	{/if}
 	{/if}
 	{if $permissions.manage_approval == 1 || $resource->permissions.manage_approval == 1}
 		&nbsp;|&nbsp;
 		<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=resourceitem m=resourcesmodule s=$__loc->src action=revisions_view id=$resource->id}">
-			Revisions
+			{$_TR.revisions}
 		</a>
 	{/if}
 	{/permissions}

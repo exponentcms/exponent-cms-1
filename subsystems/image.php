@@ -112,16 +112,11 @@ function pathos_image_sizeinfo($filename) {
  * @node Subsystems:Image
  */
 function pathos_image_createFromFile($filename,$sizeinfo) {
-	if (!is_array($sizeinfo)) {
-		// If $sizeinfo came from pathos_image_sizeInfo($filename) and is NOT
-		// an array, it must be an error constant.  Return that to the caller.
-		return $sizeinfo;
+	if (!PATHOS_HAS_GD) {
+		return null;
 	}
-	
+
 	$info = gd_info();
-	if ($info['GD Version'] == 'Not Supported') {
-		return IMAGE_ERR_NOGD;
-	}
 
 	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
 		$img = imagecreatefromjpeg($filename);
@@ -153,7 +148,7 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
  */
 function pathos_image_create($w,$h) {
 	if (!PATHOS_HAS_GD) {
-		return IMAGE_ERR_NOGD;
+		return null;
 	}
 	$info = gd_info();
 	if (strpos($info['GD Version'],'2.0') !== false) {
@@ -211,11 +206,8 @@ function pathos_image_scaleByPercent($filename,$scale) {
 	$h = $scale * $sizeinfo[1];
 	
 	$thumb = pathos_image_create($w,$h);
-	if (is_resource($thumb)) {
-		// If we got a resource back, resize it.  Otherwise we will just return the error returned
-		// to our caller.
-		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	}
+	if (!$thumb) return null;
+	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -248,11 +240,8 @@ function pathos_image_scaleToWidth($filename,$width) {
 	$h = ($width / $sizeinfo[0]) * $sizeinfo[1];
 	
 	$thumb = pathos_image_create($w,$h);
-	if ($thumb) {
-		// If we got a resource back, resize it.  Otherwise we will just return the error returned
-		// to our caller.
-		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	}
+	if (!$thumb) return null;
+	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -285,11 +274,8 @@ function pathos_image_scaleToWidth($filename,$width) {
 	$h = $height;
 	
 	$thumb = pathos_image_create($w,$h);
-	if ($thumb) {
-		// If we got a resource back, resize it.  Otherwise we will just return the error returned
-		// to our caller.
-		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	}
+	if (!$thumb) return null;
+	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -329,11 +315,8 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
 	}
 	
 	$thumb = pathos_image_create($w,$h);
-	if ($thumb) {
-		// If we got a resource back, resize it.  Otherwise we will just return the error returned
-		// to our caller.
-		pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	}
+	if (!$thumb) return null;
+	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -365,11 +348,8 @@ function pathos_image_scaleManually($filename,$width,$height) {
 	}
 	
 	$thumb = pathos_image_create($width,$height);
-	if ($thumb) {
-		// If we got a resource back, resize it.  Otherwise we will just return the error returned
-		// to our caller.
-		pathos_image_copyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
-	}
+	if (!$thumb) return null;
+	pathos_image_copyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }

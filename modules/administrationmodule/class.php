@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class administrationmodule {
-	function name() { return "Administration Control Panel"; }
-	function author() { return "James Hunt"; }
-	function description() { return "A control panel that gives administrators easy access to administrative tasks"; }
+	function name() { return pathos_lang_loadKey('modules/administrationmodule/class.php','module_name'); }
+	function author() { return 'James Hunt'; }
+	function description() { return pathos_lang_loadKey('modules/administrationmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -43,17 +44,21 @@ class administrationmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = "") {
-		// Do nothing (for now)
-		if (is_readable(BASE."modules/administrationmodule/tasks")) {
-			$menu = array();
-			$dh = opendir(BASE."modules/administrationmodule/tasks");
+		$i18n = pathos_lang_loadFile('modules/administrationmodule/class.php');
+		
+		$permissions = array('administrate'=>$i18n['perm_admin']);
+		
+		$menu = array();
+		$dir = BASE.'modules/administrationmodule/tasks';
+		if (is_readable($dir)) {
+			$dh = opendir($dir);
 			while (($file = readdir($dh)) !== false) {
-				if (is_readable(BASE."modules/administrationmodule/tasks/$file") && is_file(BASE."modules/administrationmodule/tasks/$file")) {
-					$menu = array_merge($menu,include(BASE."modules/administrationmodule/tasks/$file"));
+				if (substr($file,-4,4) == '.php' && is_readable($dir.'/'.$file) && is_file($dir.'/'.$file)) {
+					$menu = array_merge($menu,include($dir.'/'.$file));
 				}
 			}
 		}
-		$permissions = array("administrate"=>"Administrate");
+		
 		foreach (array_keys($menu) as $header) {
 			$permissions[strtolower(str_replace(' ','_',$header))] = $header;
 		}
@@ -68,6 +73,7 @@ class administrationmodule {
 		// Do nothing, no content
 	}
 	
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
@@ -75,21 +81,24 @@ class administrationmodule {
 	
 	function show($view,$loc = null,$title = "") {
 		global $user;
-		if (is_readable(BASE."modules/administrationmodule/tasks")) {
-			$menu = array();
-			$dh = opendir(BASE."modules/administrationmodule/tasks");
+		$menu = array();
+		$dir = BASE.'modules/administrationmodule/tasks';
+		if (is_readable($dir)) {
+			$dh = opendir($dir);
 			while (($file = readdir($dh)) !== false) {
-				if (substr($file,-4,4) == '.php' && is_readable(BASE."modules/administrationmodule/tasks/$file") && is_file(BASE."modules/administrationmodule/tasks/$file")) {
-					$menu = array_merge($menu,include(BASE."modules/administrationmodule/tasks/$file"));
+				if (substr($file,-4,4) == '.php' && is_readable($dir.'/'.$file) && is_file($dir.'/'.$file)) {
+					$menu = array_merge($menu,include($dir.'/'.$file));
 				}
 			}
 		}
-		$template = new Template("administrationmodule",$view,$loc);
-		$template->assign("menu",$menu);
-		$template->assign("moduletitle",$title);
-		$template->assign("user",$user);
-		$template->assign('check_permissions',array_flip(administrationmodule::permissions()));
-		$template->register_permissions(array_keys(administrationmodule::permissions()),pathos_core_makeLocation("administrationmodule"));
+		$template = new template('administrationmodule',$view,$loc);
+		$template->assign('menu',$menu);
+		$template->assign('moduletitle',$title);
+		$template->assign('user',$user);
+		
+		$perms = administrationmodule::permissions();
+		$template->assign('check_permissions',array_flip($perms));
+		$template->register_permissions(array_keys($perms),pathos_core_makeLocation('administrationmodule'));
 		
 		$template->output($view);
 	}

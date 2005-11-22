@@ -40,7 +40,7 @@ $template = new template("containermodule","_popup_info");
 $locref = null;
 
 if (isset($_GET['id'])) {
-	$container = $db->selectObject("container","id=".$_GET['id']);
+	$container = $db->selectObject("container","id=".intval($_GET['id']));
 	if ($container) {
 		$iloc = unserialize($container->internal);
 		$locref = $db->selectObject("locationref","module='".$iloc->mod."' AND source='".$iloc->src."'");
@@ -51,6 +51,7 @@ if (isset($_GET['id'])) {
 		exit(''.SITE_404_HTML);
 	}
 } else {
+	// GREP:SECURITY -- SQL created from _GET parameter that is non numeric.  Needs to be sanitized.
 	$locref = $db->selectObject("locationref","module='".$_GET['mod']."' AND source='".$_GET['src']."'");
 	$template->assign("is_orphan",1);
 }

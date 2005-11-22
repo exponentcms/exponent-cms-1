@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,13 +32,18 @@
 # $Id$
 ##################################################
 
-	if (!defined("PATHOS")) exit("");
-	
-	$f = $db->selectObject("formbuilder_form","id=".$_GET['form_id']);
-	if ($f) {
-		if (pathos_permissions_check("deletedata",unserialize($f->location_data))) {
-			$db->delete("formbuilder_".$f->table_name,"id=".$_GET['id']);
-			pathos_flow_redirect();
-		} else echo SITE_403_HTML;
-	} else echo SITE_404_HTML;
+if (!defined('PATHOS')) exit('');
+
+$f = $db->selectObject('formbuilder_form','id='.intval($_GET['form_id']));
+if ($f) {
+	if (pathos_permissions_check('deletedata',unserialize($f->location_data))) {
+		$db->delete('formbuilder_'.$f->table_name,'id='.$_GET['id']);
+		pathos_flow_redirect();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
+
 ?>

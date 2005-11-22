@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class uiswitchermodule {
-	function name() { return "UI Switcher"; }
-	function description() { return "Allows users with sufficient permissions to switch between different Editting Modes"; }
-	function author() { return "James Hunt"; }
+	function name() { return pathos_lang_loadKey('modules/uiswitchermodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/uiswitchermodule/class.php','module_description'); }
+	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
 	function hasContent() { return false; }
@@ -42,17 +43,17 @@ class uiswitchermodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal = "") {
+	function permissions($internal = '') {
 		return array();
 	}
 	
-	function show($view,$loc = null, $title = "") {
-		$ui_levels = pathos_sessions_get("uilevels");
+	function show($view,$loc = null, $title = '') {
+		$ui_levels = pathos_sessions_get('uilevels');
 		if (count($ui_levels)) {
-			$template = new template("uiswitchermodule",$view,$loc);
-			$template->assign("levels",$ui_levels);
-			$default = (pathos_sessions_isset("uilevel") ? pathos_sessions_get("uilevel") : max(array_keys($ui_levels)));
-			$template->assign("default_level",$default);
+			$template = new template('uiswitchermodule',$view,$loc);
+			$template->assign('levels',$ui_levels);
+			$default = (pathos_sessions_isset('uilevel') ? pathos_sessions_get('uilevel') : max(array_keys($ui_levels)));
+			$template->assign('default_level',$default);
 			$template->output();
 		}
 	}

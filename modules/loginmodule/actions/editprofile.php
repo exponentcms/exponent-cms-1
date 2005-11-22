@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -48,6 +49,5 @@ if ($user) {
 } else {
 	echo SITE_403_HTML;
 }
-
 
 ?>

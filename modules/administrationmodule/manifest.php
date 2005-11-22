@@ -106,8 +106,6 @@ return array(
 	'modules/administrationmodule/views/_usermembership.tpl'=>'',
 	'modules/administrationmodule/views/_config_results.tpl'=>'',
 	'modules/administrationmodule/views/_umgr_edit_which.tpl'=>'',
-	'modules/administrationmodule/actions/trimdatabase_final.php'=>'',
-	'modules/administrationmodule/views/_trimdatabaseWhich.tpl'=>'',
 );
 
 ?>

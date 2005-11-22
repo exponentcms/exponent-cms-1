@@ -57,7 +57,7 @@ define("DATABASE_TABLE_ALTERED",		4);
  * The definition of this constant lets other parts of the subsystem know
  * that the Database Subsystem has been included for use.
  */
-define("SYS_DATABASE",1);
+define('SYS_DATABASE',1);
 
 /**
  * Database Field Type specifier
@@ -66,7 +66,7 @@ define("SYS_DATABASE",1);
  * This index indicates what type of column should be created
  * in the table.
  */
-define("DB_FIELD_TYPE",	0);
+define('DB_FIELD_TYPE',	0);
 
 /**
  * Database Field Length specifier
@@ -75,7 +75,7 @@ define("DB_FIELD_TYPE",	0);
  * This index indicates the length of the column.  Currently,
  * this is only applicable to textual field types.
  */
-define("DB_FIELD_LEN",	1);
+define('DB_FIELD_LEN',	1);
 
 /**
  * Database Field Default specifier
@@ -83,7 +83,7 @@ define("DB_FIELD_LEN",	1);
  * An index for the Exponent Data Definition Language.
  * This index indicates the default value of a field in the table.
  */
-define("DB_DEFAULT",	2);
+define('DB_DEFAULT',	2);
 
 /**
  * Database Incremental Field specifier
@@ -96,7 +96,7 @@ define("DB_DEFAULT",	2);
  * @see DB_PRIMARY
  * @see DB_DEF_ID
  */
-define("DB_INCREMENT",	3);
+define('DB_INCREMENT',	3);
 
 /**
  * Database Primary Key Field specifier
@@ -109,22 +109,22 @@ define("DB_INCREMENT",	3);
  * @see DB_DEF_ID
  * @see DB_INCREMENT
  */
-define("DB_PRIMARY",	4);
+define('DB_PRIMARY',	4);
 
 /**
  * ????
  */
-define("DB_UNIQUE",	5);
+define('DB_UNIQUE',	5);
 
 /**
  * ????
  */
-define("DB_INDEX",		6);
+define('DB_INDEX',		6);
 
 /**
  * ??????
  */
-define("DB_DEF_IGNORE",	100);
+define('DB_DEF_IGNORE',	100);
 
 /**
  * Field Type specifier: Numeric ID
@@ -133,7 +133,7 @@ define("DB_DEF_IGNORE",	100);
  * This value, specified for the DB_FIELD_TYPE index,
  * denotes that the field should be a numeric ID.
  */
-define("DB_DEF_ID",	101);
+define('DB_DEF_ID',	101);
 
 /**
  * Field Type specifier: Text
@@ -146,7 +146,7 @@ define("DB_DEF_ID",	101);
  * @see DB_FIELD_TYPE
  * @see DB_FIELD_LEN
  */
-define("DB_DEF_STRING",	102);
+define('DB_DEF_STRING',	102);
 
 /**
  * Field Type specifier: Integer
@@ -155,7 +155,7 @@ define("DB_DEF_STRING",	102);
  * This value, specified for the DB_FIELD_TYPE index,
  * denotes that the field should be an integer.
  */
-define("DB_DEF_INTEGER",	103);
+define('DB_DEF_INTEGER',	103);
 
 /**
  * Field Type specifier: Boolean
@@ -165,7 +165,7 @@ define("DB_DEF_INTEGER",	103);
  * denotes that the field should be a boolean (1 or 0, true or
  * false).
  */
-define("DB_DEF_BOOLEAN",	104);
+define('DB_DEF_BOOLEAN',	104);
 
 /**
  * Field Type specifier: Timestamp
@@ -175,7 +175,7 @@ define("DB_DEF_BOOLEAN",	104);
  * denotes that the field should store a UNIX timestamp,
  * in order to portably manage dates and/or times.
  */
-define("DB_DEF_TIMESTAMP",	105);
+define('DB_DEF_TIMESTAMP',	105);
 
 /**
  * Field Type specifier: Decimal
@@ -184,7 +184,7 @@ define("DB_DEF_TIMESTAMP",	105);
  * This value, specified for the DB_FIELD_TYPE index,
  * denotes that the field should store a decimal number.
  */
-define("DB_DEF_DECIMAL",	106);
+define('DB_DEF_DECIMAL',	106);
 
 /**
  * Table Alteration Error Message - 200 : Alter Not Needed
@@ -192,7 +192,7 @@ define("DB_DEF_DECIMAL",	106);
  * A message constant returned by parts of the Database Subsystem
  * indicating that a table alteration need not take place.
  */
-define("TABLE_ALTER_NOT_NEEDED",	200);
+define('TABLE_ALTER_NOT_NEEDED',	200);
 
 /**
  * Table Alteration Error Message - 201 : Alter Succeeded
@@ -200,7 +200,7 @@ define("TABLE_ALTER_NOT_NEEDED",	200);
  * A message constant returned by parts of the Database Subsystem
  * indicating that a table alteration succeeded.
  */
-define("TABLE_ALTER_SUCCEEDED",	201);
+define('TABLE_ALTER_SUCCEEDED',	201);
 
 /**
  * Table Meta Info : Workflow Table
@@ -208,7 +208,7 @@ define("TABLE_ALTER_SUCCEEDED",	201);
  * If specified as true in a table info array, the workflow tables will
  * be created to match.
  */
-define("DB_TABLE_WORKFLOW",	300);
+define('DB_TABLE_WORKFLOW',	300);
 
 /**
  * Table Meta Info : Table Comment
@@ -216,10 +216,18 @@ define("DB_TABLE_WORKFLOW",	300);
  * If specified in a table info array, a comment will be inserted
  * for the table (if the database engine in use supports table comments)
  */
-define("DB_TABLE_COMMENT",	301);
+define('DB_TABLE_COMMENT',	301);
 
-if (!defined("DB_ENGINE")) define("DB_ENGINE","mysql");
-include_once(BASE."subsystems/database/".DB_ENGINE.".php");
+if (!defined('DB_ENGINE')) {
+	$backends = array_keys(pathos_database_backends(1));
+	if (count($backends)) {
+		define('DB_ENGINE',$backends[0]);
+	} else {
+		define('DB_ENGINE','NOTSUPPORTED');
+	}
+}
+
+(include_once(BASE.'subsystems/database/'.DB_ENGINE.'.php')) or exit('None of the installed Exponent Database Backends will work with this server\'s version of PHP.');
 
 /**
  * List all available database backends
@@ -231,22 +239,24 @@ include_once(BASE."subsystems/database/".DB_ENGINE.".php");
  *	The internal engine name is the key, and the external
  *	descriptive name is the value.
  */
-function pathos_database_backends() {
+function pathos_database_backends($valid_only = 1) {
 	$options = array();
-	$dh = opendir(BASE."subsystems/database");
+	$dh = opendir(BASE.'subsystems/database');
 	while (($file = readdir($dh)) !== false) {
-		if (is_file(BASE."subsystems/database/$file") && is_readable(BASE."subsystems/database/$file") && substr($file,-9,9) == ".info.php") {
-			$info = include(BASE."subsystems/database/$file");
-			$options[substr($file,0,-9)] = $info['name'];
+		if (is_file(BASE.'subsystems/database/'.$file) && is_readable(BASE.'subsystems/database/'.$file) && substr($file,-9,9) == '.info.php') {
+			$info = include(BASE.'subsystems/database/'.$file);
+			if ($info['is_valid'] == 1 || !$valid_only) {
+				$options[substr($file,0,-9)] = $info['name'];
+			}
 		}
 	}
 	return $options;
 }
 
-function pathos_database_connect($username,$password,$hostname,$database,$dbclass = "",$new=false) {
-	if ($dbclass == "" || $dbclass == null) $dbclass = DB_ENGINE;
-	include_once(BASE."subsystems/database/".$dbclass.".php");
-	$dbclass .= "_database";
+function pathos_database_connect($username,$password,$hostname,$database,$dbclass = '',$new=false) {
+	if ($dbclass == '' || $dbclass == null) $dbclass = DB_ENGINE;
+	(include_once(BASE.'subsystems/database/'.$dbclass.'.php')) or exit('The specified database backend  ('.$dbclass.') is not supported by Exponent');
+	$dbclass .= '_database';
 	$newdb = new $dbclass();
 	$newdb->connect($username,$password,$hostname,$database,$new);
 	return $newdb;

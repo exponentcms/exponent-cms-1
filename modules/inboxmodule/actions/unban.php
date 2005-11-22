@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,12 +32,12 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$ban = $db->selectObject("inbox_contactbanned","id=".$_GET['id']);
+$ban = $db->selectObject('inbox_contactbanned','id='.intval($_GET['id']));
 
 if ($user && $ban && $ban->owner = $user->id) {
-	$db->delete("inbox_contactbanned","id=".$ban->id);
+	$db->delete('inbox_contactbanned','id='.$ban->id);
 	pathos_flow_redirect();
 } else {
 	echo SITE_404_HTML;

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class weblog_comment {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','weblogmodule');
+		$i18n = pathos_lang_loadFile('datatypes/weblog_comment.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -42,18 +42,20 @@ class weblog_comment {
 		$form = new form();
 		if (!isset($object->id)) {
 			global $db;
+			// Sanitize the parent_id parameter, to protect against injection attacks.
+			$_GET['parent_id'] = intval($_GET['parent_id']);
 			$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
 			
-			$object->title = sprintf(TR_WEBLOGMODULE_RE,$post->title);
+			$object->title = sprintf($i18n['re'],$post->title);
 			$object->body = '';
 			$form->meta('parent_id',$_GET['parent_id']);
 		} else {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('title',TR_WEBLOGMODULE_COMMENTTITLE,new textcontrol($object->title));
-		$form->register('body',TR_WEBLOGMODULE_COMMENTBODY, new htmleditorcontrol($object->body));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('title',$i18n['title'],new textcontrol($object->title));
+		$form->register('body',$i18n['body'], new htmleditorcontrol($object->body));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

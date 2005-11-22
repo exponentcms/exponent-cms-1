@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -39,10 +40,10 @@ function registerCheck(cb) {
 
 function confirmDelete() {
 	if (selectionCount == 0) {
-		alert("You have not selected any revisions.");
+		alert("{/literal}{$_TR.none_selected}{literal}");
 		return false;
 	}
-	return confirm('Are you sure you want to delete these revisions?');
+	return confirm('{/literal}{$_TR.delete_confirm}{literal}');
 }
 {/literal}
 </script>
@@ -58,7 +59,7 @@ function confirmDelete() {
 		<tr>
 			<td style="font-weight: bold">{if $revision->title != ""}'{$revision->title}' v{else}V{/if}ersion {$revision->wf_major}.{$revision->wf_minor} :: {attribution user_id=$revision->wf_user_id}
 			{if $revision->wf_minor == 0 && $revision->wf_major != $current}
-			<input type="checkbox" name="d[{$revision->id}]" onClick="registerCheck(this)" /> Delete?
+			<input type="checkbox" name="d[{$revision->id}]" onClick="registerCheck(this)" /> {$_TR.delete}
 			{/if}</td>
 			<td align="right">{$revision->wf_updated|format_date:$smarty.const.DISPLAY_DATETIME_FORMAT}</td>
 		</tr>
@@ -67,14 +68,10 @@ function confirmDelete() {
 		</tr>
 		<tr>
 			<td colspan="2">
-				<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$smarty.get.datatype m=$smarty.get.m s=$smarty.get.s action=revisions_viewrevision id=$revision->id}">
-					View
-				</a>
+				<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$smarty.get.datatype m=$smarty.get.m s=$smarty.get.s action=revisions_viewrevision id=$revision->id}">{$_TR.view}</a>
 				{if $revision->wf_minor == 0 && $revision->wf_major != $current}
 					&nbsp;|&nbsp;
-					<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$smarty.get.datatype m=$smarty.get.m s=$smarty.get.s action=revisions_restore major=$revision->wf_major id=$revision->wf_original}">
-						Restore
-					</a>
+					<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$smarty.get.datatype m=$smarty.get.m s=$smarty.get.s action=revisions_restore major=$revision->wf_major id=$revision->wf_original}">{$_TR.restore}</a>
 				{/if}				
 			</td>
 		</tr>
@@ -82,7 +79,7 @@ function confirmDelete() {
 	</div>
 </div>
 {foreachelse}
-<div align="center"><i>No Revisions Found</i></div>
+<div align="center"><i>{$_TR.revisions}</i></div>
 {/foreach}
-<input type="submit" value="Delete Selected" onClick="return confirmDelete();" />
+<input type="submit" value="{$_TR.delete}" onClick="return confirmDelete();" />
 </form>

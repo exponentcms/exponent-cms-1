@@ -34,7 +34,9 @@
 if (!defined('PATHOS')) exit('');
 
 $banner = null;
-if (isset($_GET['id'])) $banner = $db->selectObject('banner_ad','id='.$_GET['id']);
+if (isset($_GET['id'])) {
+	$banner = $db->selectObject('banner_ad','id='.intval($_GET['id']));
+}
 
 if ($banner) {
 	$loc = unserialize($banner->location_data);

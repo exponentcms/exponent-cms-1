@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,7 +29,7 @@
  *
  * $Id$
  *}
-<div class="form_title">Event Categories</div>
+<div class="form_title">{$_TR.form_title}</div>
 <table cellspacing="0" cellpadding="2" border="0">
 {foreach from=$categories item=category}
 	<td>{$category->name}</td>
@@ -38,7 +39,7 @@
 </tr>
 {foreachelse}
 <tr>
-	<td colspan="2" align="center"><i>No Categories</i></td>
+	<td colspan="2" align="center"><i>{$_TR.no_categories}</i></td>
 </tr>
 {/foreach}
 </table>

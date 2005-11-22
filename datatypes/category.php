@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class category {
 	function form($object) {
-		pathos_lang_loadDictionary('modules','category');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('datatypes/category.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -47,9 +47,9 @@ class category {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('name',TR_CATEGORY_NAME,new textcontrol($object->name));
-		$form->register('color',TR_CATEGORY_COLOR,new textcontrol($object->color));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('color',$i18n['color'],new textcontrol($object->color));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

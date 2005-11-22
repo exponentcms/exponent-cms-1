@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -37,9 +38,9 @@ define('SCRIPT_FILENAME','db_recover.php');
 // Initialize the Pathos Framework
 include_once(dirname(realpath(__FILE__)).'/pathos.php');
 
-pathos_lang_loadDictionary('standard','dbrecover');
+$i18n = pathos_lang_loadFile('db_recover.php');
 
-exit(TR_DBRECOVER_RECOVERYDISABLED);
+exit($i18n['disabled']);
 
 // If we made it here, the user has enabled the Database Recovery Script manually.
 
@@ -64,7 +65,7 @@ include_once(dirname(__realpath(__FILE__)).'/modules/administrationmodule/action
 // Create the default administrative account (username:admin, password:admin)
 // if there are no users in the user table.
 if ($db->tableIsEmpty('user')) {
-	echo TR_DBRECOVER_CREATEDEFAULTADMIN.'<br />';
+	echo $i18n['create_admin'].'<br />';
 	$user = null;
 	$user->username = 'admin';
 	$user->password = md5('admin');
@@ -78,7 +79,7 @@ if ($db->tableIsEmpty('user')) {
 // be able to add the inactive Admin Control Panel to get access to the module
 // manager.  Activate at least the Administrative Module if there are no modules.
 if ($db->tableIsEmpty('modstate')) {
-	echo TR_DBRECOVER_ACTIVATEADMINMOD.'<br />';
+	echo $i18n['activate_panel'].'<br />';
 	$modstate = null;
 	$modstate->module = 'administrationmodule';
 	$modstate->active = 1;
@@ -88,9 +89,9 @@ if ($db->tableIsEmpty('modstate')) {
 // If therer are no sections in the database, we should create a default Home section
 // so that the user at least has a starting page.
 if ($db->tableIsEmpty('section')) {
-	echo TR_DBRECOVER_CREATEDEFAULTSECTION.'<br />';
+	echo $i18n['create_section'].'<br />';
 	$section = null;
-	$section->name = TR_DBRECOVER_DEFAULTSECTION;
+	$section->name = $i18n['home'];
 	$section->public = 1;
 	$section->active = 1;
 	$section->rank = 0;

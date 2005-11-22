@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,16 +29,14 @@
  *
  * $Id$
  *}
-<div class="moduletitle inbox_moduletitle">Personal Contacts</div>
-<div style="border-top: 1px solid lightgrey; border-bottom: 1px solid lightgrey; padding: 1em;">
-Here you can create contact lists and ban users.  Contact lists are like personal mailing lists which allow you to contact an entire group of people using one 'address'.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <br /><br />
-<b>Personal Lists</b>
+<b>{$_TR.lists}</b>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header inbox_header">List Name</td>
-		<td class="header inbox_header">Description</td>
+		<td class="header inbox_header">{$_TR.list_name}</td>
+		<td class="header inbox_header">{$_TR.description}</td>
 		<td class="header inbox_header"></td>
 	</tr>
 {foreach from=$groups item=group}
@@ -46,29 +45,29 @@ Here you can create contact lists and ban users.  Contact lists are like persona
 		<td valign="top">{$group->description}</td>
 		<td valign="top">
 			<a href="{link action=edit_list id=$group->id}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Contact List" alt="Edit this Contact List" />
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_editlist}" alt="{$_TR.alt_editlist}" />
 			</a>
-			<a href="{link action=delete_list id=$group->id}" onClick="return confirm('Are you sure you want to delete this Contact List?');">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Contact List" alt="Delete this Contact List" />
+			<a href="{link action=delete_list id=$group->id}" onClick="return confirm('{$_TR.deletelist_confirm}');">
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_deletelist}" alt="{$_TR.alt_deletelist}" />
 			</a>
 		</td>
 	</tr>
 {foreachelse}
 	<tr>
 		<td colspan="4">
-		<i>No personal lists found</i>
+		<i>{$_TR.no_lists}</i>
 		</td>
 	</tr>
 {/foreach}
 </table>
-<a class="mngmntlink inbox_mngmntlink" href="{link action=edit_list}">Create New List</a>
+<a class="mngmntlink inbox_mngmntlink" href="{link action=edit_list}">{$_TR.new_list}</a>
 
 <hr size="1" />
-<b>Blocked Users</b>
+<b>{$_TR.banned}</b>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header inbox_header">Name</td>
-		<td class="header inbox_header">User Name</td>
+		<td class="header inbox_header">{$_TR.banned_name}</td>
+		<td class="header inbox_header">{$_TR.banned_username}</td>
 		<td class="header inbox_header"></td>
 	</tr>
 {foreach from=$banned item=contact}
@@ -76,19 +75,19 @@ Here you can create contact lists and ban users.  Contact lists are like persona
 		<td valign="top">{$contact->user->firstname} {$contact->user->lastname}</td>
 		<td valign="top">{$contact->user->username}</td>
 		<td valign="top">
-			<a href="{link action=unban id=$contact->id}" onClick="return confirm('Are you sure you want to unblock this user?');">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Unblock this user" alt="Unblock this user"/>
+			<a href="{link action=unban id=$contact->id}" onClick="return confirm('{$_TR.unblock_confirm}');">
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_unblock}" alt="{$_TR.alt_unblock}"/>
 			</a>
 		</td>
 	</tr>
 {foreachelse}
 	<tr>
 		<td colspan="4">
-		<i>No blocked users found</i>
+		<i>{$_TR.no_banned}</i>
 		</td>
 	</tr>
 {/foreach}
 </table>
-<a class="mngmntlink inbox_mngmntlink" href="{link action=ban_user}">Block User</a>
+<a class="mngmntlink inbox_mngmntlink" href="{link action=ban_user}">{$_TR.block_user}</a>
 <hr size="1" />
-Back to <a class="mngmntlink inbox_mngmntlink" href="{link action=inbox}">Inbox</a>
+<a class="mngmntlink inbox_mngmntlink" href="{link action=inbox}">{$_TR.back}</a>

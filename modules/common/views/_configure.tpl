@@ -1,6 +1,7 @@
 {* 
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,11 +30,9 @@
  * $Id$
  *}
 {if $hasConfig == 1}
-<div class="form_title">Module Configuration</div>
-<div class="form_header">
-Use this form to configure the behavior of the module.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}
 {else}
-No Configuration Data Found.  This module cannot be configured.
+{$_TR.no_config}
 {/if}

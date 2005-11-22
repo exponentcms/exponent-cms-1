@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -32,11 +33,11 @@
 <hr size="1" />
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
-<td><b>&lt;Name of Section&gt;</b></td>
+<td><b>&lt;{$_TR.name}&gt;</b></td>
 <td>
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$template->id}">Add Subpage</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$template->id}">Properties</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$template->id}'); return false">Page Content</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$template->id}">{$_TR.subpage}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$template->id}">{$_TR.properties}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$template->id}'); return false">{$_TR.content}</a> ]
 </td>
 {foreach from=$subs item=sub}
 {math equation="x+1" x=$sub->rank assign=nextrank}
@@ -46,10 +47,10 @@
 <b>{$sub->name}</b>
 </td>
 <td>
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$sub->id}">Add Subpage</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$sub->id}">Properties</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$sub->id}'); return false">Page Content</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=delete_template id=$sub->id}">Delete</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$sub->id}">{$_TR.subpage}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$sub->id}">{$_TR.properties}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$sub->id}'); return false">{$_TR.content}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=delete_template id=$sub->id}">{$_TR.delete}</a> ]
 {if $sub->last == 0}
 	<a href="{link action=order_templates parent=$sub->parent a=$sub->rank b=$nextrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0" /></a>
 {else}
@@ -66,4 +67,4 @@
 </table>
 <br />
 <br />
-<a class="mngmntlink navigation_mngmntlink" href="{link action=manage}">Back to Manager</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=manage}">{$_TR.back}</a>

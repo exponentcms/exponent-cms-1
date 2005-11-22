@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -108,25 +109,23 @@ class dropdowncontrol extends formcontrol {
 			$object->items = array();
 		} 
 		
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/dropdowncontrol.php');
 		
-		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
-		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
-		$form->register("items",TR_FORMCONTROLS_ITEMS, new listbuildercontrol($object->items,null));
-		$form->register("default",TR_FORMCONTROLS_DEFAULT, new textcontrol($object->default));
-		$form->register("size",TR_FORMCONTROLS_SIZE, new textcontrol($object->size,3,false,2,"integer"));
-		$form->register("required",TR_FORMCONTROLS_REQUIRED, new checkboxcontrol(@$object->required,false)); 
+		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("items",$i18n['items'], new listbuildercontrol($object->items,null));
+		$form->register("default",$i18n['default'], new textcontrol($object->default));
+		$form->register("size",$i18n['size'], new textcontrol($object->size,3,false,2,"integer"));
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 	
 	function update($values, $object) {
 		if ($values['identifier'] == "") {
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/dropdowncontrol.php');
 			$post = $_POST;
-			$post['_formError'] = "Identifier is required.";
+			$post['_formError'] = $i18n['id_req'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}
@@ -138,7 +137,6 @@ class dropdowncontrol extends formcontrol {
 		$object->default = $values['default'];
 		$object->items = listbuildercontrol::parseData($values,'items',true);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
-		$object->required = isset($values['required']);
 		return $object;
 	}
 }

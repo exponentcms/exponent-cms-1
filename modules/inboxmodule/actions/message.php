@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,23 +32,27 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user) {
-	$msg = $db->selectObject("privatemessage","id=".$_GET['id']);
+	$msg = $db->selectObject('privatemessage','id='.intval($_GET['id']));
 	
 	if ($msg) {
 		if ($msg->recipient == $user->id) { // OR check for mng perms.
-			$template = new template("inboxmodule","_viewmessage",$loc);
+			$template = new template('inboxmodule','_viewmessage',$loc);
 			
-			$template->assign("message",$msg);
+			$template->assign('message',$msg);
 			
 			$template->output();
 			
 			$msg->unread = 0;
-			$db->updateObject($msg,"privatemessage");
+			$db->updateObject($msg,'privatemessage');
 		}
-	} else echo SITE_404_HTML;
+	} else {
+		echo SITE_404_HTML;
+	}
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

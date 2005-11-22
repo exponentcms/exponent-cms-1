@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,11 +29,11 @@
  *
  * $Id$
  *}
-<div class="form_title">Active Extensions</div>
-<div class="form_header">Active Profile Extensions let users store more information in their profile.  Users will only be able to manage information governed by the active extensions listed below.</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
-	<td class="header administration_header">Extension Name</td>
+	<td class="header administration_header">{$_TR.extension_name}</td>
 	<td class="header administration_header">&nbsp;</td>
 </tr>
 {foreach name=e from=$extensions item=extension}
@@ -41,7 +42,7 @@
 	<tr class="row {cycle values='odd,even'}_row">
 		<td>{$extension->name}</td>
 		<td>
-			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_delete id=$extension->id}" onClick="return confirm('Are you sure you want to deactivate the profile extension \'{$extension->name}\'?');">
+			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_delete id=$extension->id}" onClick="return confirm('{$_TR.deactivate_confirm}');">
 				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 			</a>
 			{if $smarty.foreach.e.first != 1}
@@ -63,27 +64,27 @@
 {foreachelse}
 	<tr>
 		<td colspan="2" align="center">
-			<i>No Active Extensions</i>
+			<i>{$_TR.no_active}</i>
 		</td>
 	</tr>
 {/foreach}
 </table>
 <br /><br />
 <hr size="1" />
-<div class="form_title">Inactive Extensions</div>
-<div class="form_header">The extensions listed below have been deactivated.  They will not show up as part of user profiles until they are activated.</div>
+<div class="form_title">{$_TR.form_title_inactive}</div>
+<div class="form_header">{$_TR.form_header_inactive}</div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
-	<td class="header administration_header">Extension Name</td>
+	<td class="header administration_header">{$_TR.extension_name}</td>
 	<td class="header administration_header">&nbsp;</td>
 </tr>
 {foreach from=$unused key=extclass item=extension}
 <tr class="row {cycle values='odd,even'}_row">
 	<td>{$extension->name}</td>
 	<td>
-		<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_save ext=$extclass}">Activate</a>
+		<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_save ext=$extclass}">{$_TR.activate}</a>
 		{if $extension->hasData == 1}
-		<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_clear ext=$extclass}">Clear Data</a>
+		<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_clear ext=$extclass}">{$_TR.clear_data}</a>
 		{else}
 		{/if}
 	</td>
@@ -91,7 +92,7 @@
 {foreachelse}
 	<tr>
 		<td colspan="2" align="center">
-			<i>All Inactive Extensions.</i>
+			<i>{$_TR.no_inactive}</i>
 		</td>
 	</tr>
 {/foreach}

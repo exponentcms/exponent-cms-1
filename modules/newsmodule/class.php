@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class newsmodule {
-	function name() { return "News Feed System"; }
-	function author() { return "James Hunt"; }
-	function description() { return "Manages news / announcements."; }
+	function name() { return pathos_lang_loadKey('modules/newsmodule/class.php','module_name'); }
+	function author() { return 'James Hunt'; }
+	function description() { return pathos_lang_loadKey('modules/newsmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -48,82 +49,77 @@ class newsmodule {
 	}
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','newsmodule');
+		$i18n = pathos_lang_loadFile('modules/newsmodule/class.php');
 		if ($internal == '') {
 			return array(
-				'administrate'=>TR_NEWSMODULE_PERM_ADMIN,
-				'configure'=>TR_NEWSMODULE_PERM_CONFIG,
-				'add_item'=>TR_NEWSMODULE_PERM_POST,
-				'delete_item'=>TR_NEWSMODULE_PERM_DELETE,
-				'edit_item'=>TR_NEWSMODULE_PERM_EDIT,
-				'view_unpublished'=>TR_NEWSMODULE_PERM_VIEWUNPUB,
-				'approve'=>TR_NEWSMODULE_PERM_APPROVE,
-				'manage_approval'=>TR_NEWSMODULE_PERM_MANAGEAP,
-				'manage_channel'=>'Manage Channel',
+				'administrate'=>$i18n['perm_administrate'],
+				'configure'=>$i18n['perm_configure'],
+				'add_item'=>$i18n['perm_add_item'],
+				'delete_item'=>$i18n['perm_delete_item'],
+				'edit_item'=>$i18n['perm_edit_item'],
+				'view_unpublished'=>$i18n['perm_view_unpublished'],
+				'approve'=>$i18n['perm_approve'],
+				'manage_approval'=>$i18n['perm_manage_approval']
 			);
 		} else {
 			return array(
-				'administrate'=>TR_NEWSMODULE_PERM_ADMIN,
-				'delete_item'=>TR_NEWSMODULE_PERM_DELETEONE,
-				'edit_item'=>TR_NEWSMODULE_PERM_EDITONE
+				'administrate'=>$i18n['perm_administrate'],
+				'delete_item'=>$i18n['perm_delete_item'],
+				'edit_item'=>$i18n['perm_edit_item']
 			);
 		}
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == '') return array($loc);
-		else return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+		if ($loc->int == '') {
+			return array($loc);
+		} else {
+			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+		}
 	}
 	
 	function deleteIn($location) {
 		global $db;
-		$items = $db->selectObjects("newsitem","location_data='".serialize($location)."'");
+		$items = $db->selectObjects('newsitem',"location_data='".serialize($location)."'");
 		foreach ($items as $i) {
-			$db->delete("newsitem_wf_revision","wf_original=".$i->id);
-			$db->delete("newsitem_wf_info","real_id=".$i->id);
+			$db->delete('newsitem_wf_revision','wf_original='.$i->id);
+			$db->delete('newsitem_wf_info','real_id='.$i->id);
 		}
-		$db->delete("newsitem","location_data='".serialize($location)."'");
-		$db->delete("newsmodule_config","location_data='".serialize($location)."'");
-		
-		$channel = $db->selectObject('channel',"location_data='".serialize($location)."'");
-		if ($channel) {
-			$db->delete('channelitem','channel_id='.$channel->id);
-			$db->delete('channel','id='.$channel->id);
-		}
+		$db->delete('newsitem',"location_data='".serialize($location)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {
 		global $db;
-		foreach ($db->selectObjects("newsitem","location_data='".serialize($oloc)."'") as $n) {
-			$revs = $db->selectObjects("newsitem_wf_revision","wf_original=".$n->id);
+		foreach ($db->selectObjects('newsitem',"location_data='".serialize($oloc)."'") as $n) {
+			$revs = $db->selectObjects('newsitem_wf_revision','wf_original='.$n->id);
 			
 			$n->location_data = serialize($nloc);
 			unset($n->id);
-			$n->id = $db->insertObject($n,"newsitem");
+			$n->id = $db->insertObject($n,'newsitem');
 			
 			foreach ($revs as $rev) {
 				unset($rev->id);
 				$rev->wf_original = $n->id;
 				$rev->location_data = serialize($nloc);
-				$db->insertObject($rev,"newsitem_wf_revision");
+				$db->insertObject($rev,'newsitem_wf_revision');
 			}
 		}
 	}
 	
-	function show($view,$loc = null,$title = "") {
+	function show($view,$loc = null,$title = '') {
 		global $db, $user;
 		
-		$config = $db->selectObject("newsmodule_config","location_data='".serialize($loc)."'");
+		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
-			$config->sortorder = "ASC";
-			$config->sortfield = "posted";
+			$config->sortorder = 'ASC';
+			$config->sortfield = 'posted';
 			$config->item_limit = 10;
 		}
 		// Check permissions for AP link
 		$canviewapproval = false;
-		if ($user) $canviewapproval = pathos_permissions_check("approve",$loc) || pathos_permissions_check("manage_approval",$loc);
+		if ($user) $canviewapproval = pathos_permissions_check('approve',$loc) || pathos_permissions_check('manage_approval',$loc);
 		if (!$canviewapproval) { // still not able to view
-			foreach($db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0") as $post) {
+			foreach($db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ') AND approved != 0') as $post) {
 				if ($user && $user->id == $post->poster) {
 					$canviewapproval = true;
 					break;
@@ -139,34 +135,24 @@ class newsmodule {
 			$loc
 		);
 		
-		if (!defined('SYS_CHANNELS')) require_once(BASE.'subsystems/channels.php');
-		$channel = pathos_channels_getChannel($loc);
-		if ($channel) {
-			$template->assign('is_channel',1);
-			$template->assign('hasChannelItems',pathos_channels_hasItems($loc,true));
-			$template->assign('hasNewChannelItems',pathos_channels_hasItems($loc,false));
-		} else {
-			$template->assign('is_channel',0);
-		}
-		
-		$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY ".$config->sortfield." " . $config->sortorder . $db->limit($config->item_limit,0));
+		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
 			
 			$news[$i]->permissions = array(
-				"edit_item"=>(pathos_permissions_check("edit_item",$loc) ? 1 : 0),
-				"delete_item"=>(pathos_permissions_check("delete_item",$loc) ? 1 : 0),
-				"administrate"=>(pathos_permissions_check("administrate",$loc) ? 1 : 0)
+				'edit_item'=>((pathos_permissions_check('edit_item',$loc) || pathos_permissions_check('edit_item',$nloc)) ? 1 : 0),
+				'delete_item'=>((pathos_permissions_check('delete_item',$loc) || pathos_permissions_check('delete_item',$nloc)) ? 1 : 0),
+				'administrate'=>((pathos_permissions_check('administrate',$loc) || pathos_permissions_check('administrate',$nloc)) ? 1 : 0)
 			);
 		}
 		
 		// EVIL WORKFLOW
-		$in_approval = $db->countObjects("newsitem_wf_info","location_data='".serialize($loc)."'");
-		$template->assign("canview_approval_link",$canviewapproval);
-		$template->assign("in_approval",$in_approval);
-		$template->assign("news",$news);
+		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");
+		$template->assign('canview_approval_link',$canviewapproval);
+		$template->assign('in_approval',$in_approval);
+		$template->assign('news',$news);
 		
-		$template->assign("morenews",count($news) < $db->countObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0"));
+		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
 		
 		$template->output();
 	}
@@ -174,30 +160,32 @@ class newsmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
+		$i18n = pathos_lang_loadFile('modules/newsmodule/class.php');
+		
+		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
 		$search = null;
-		$search->category = "News";
-		$search->ref_module = "newsmodule";
-		$search->ref_type = "newsitem";
+		$search->category = $i18n['search_category'];
+		$search->ref_module = 'newsmodule';
+		$search->ref_type = 'newsitem';
 		
 		if ($item) {
-			$db->delete("search","ref_module='newsmodule' AND ref_type='newsitem' AND original_id=" . $item->id);
+			$db->delete('search',"ref_module='newsmodule' AND ref_type='newsitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->title = " " . $item->title . " ";
-			$search->view_link = "index.php?module=newsmodule&action=view&id=".$item->id;
-			$search->body = " " . pathos_search_removeHTML($item->body) . " ";
+			$search->title = ' ' . $item->title . ' ';
+			$search->view_link = 'index.php?module=newsmodule&action=view&id='.$item->id;
+			$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
 			$search->location_data = $item->location_data;
-			$db->insertObject($search,"search");
+			$db->insertObject($search,'search');
 		} else {
-			$db->delete("search","ref_module='newsmodule' AND ref_type='newsitem'");
-			foreach ($db->selectObjects("newsitem") as $item) {
+			$db->delete('search',"ref_module='newsmodule' AND ref_type='newsitem'");
+			foreach ($db->selectObjects('newsitem') as $item) {
 				$search->original_id = $item->id;
-				$search->title = " " . $item->title . " ";
-				$search->view_link = "index.php?module=newsmodule&action=view&id=".$item->id;
-				$search->body = " " . pathos_search_removeHTML($item->body) . " ";
+				$search->title = ' ' . $item->title . ' ';
+				$search->view_link = 'index.php?module=newsmodule&action=view&id='.$item->id;
+				$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
 				$search->location_data = $item->location_data;
-				$db->insertObject($search,"search");
+				$db->insertObject($search,'search');
 			}
 		}
 		

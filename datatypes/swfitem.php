@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,12 +32,9 @@
 # $Id$
 ##################################################
 
-// GREP:HARDCODEDTEXT
-
 class swfitem {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','swfmodule');
+		$i18n = pathos_lang_loadFile('datatypes/swfitem.php');
 	
 		global $user;
 	
@@ -58,23 +56,23 @@ class swfitem {
 		} else {
 			$form->meta('id',$object->id);
 		}
-		$form->register('name',TR_SWFMODULE_NAME,new textcontrol($object->name));
-		$form->register('bgcolor',TR_SWFMODULE_BGCOLOR,new textcontrol($object->bgcolor),10,false,10);
-		$form->register('height',TR_SWFMODULE_HEIGHT,new textcontrol($object->height,5,false,5,'integer'));
-		$form->register('width',TR_SWFMODULE_WIDTH,new textcontrol($object->width,5,false,5,'integer'));
-		$align = array(TR_CORE_CENTER,TR_CORE_LEFT,TR_CORE_RIGHT);
-		$form->register('alignment', TR_SWFMODULE_ALIGNMENT, new dropdowncontrol($object->alignment,$align));
-		$form->register('loop','Loop Animation',new checkboxcontrol($object->loop,true));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('bgcolor',$i18n['bgcolor'],new textcontrol($object->bgcolor),10,false,10);
+		$form->register('height',$i18n['height'],new textcontrol($object->height,5,false,5,'integer'));
+		$form->register('width',$i18n['width'],new textcontrol($object->width,5,false,5,'integer'));
+		$align = array($i18n['center'],$i18n['left'],$i18n['right']);
+		$form->register('alignment', $i18n[''], new dropdowncontrol($object->alignment,$align));
+		$form->register('loop',$i18n['loop'],new checkboxcontrol($object->loop,true));
 		
-		$form->register('swf_name',TR_SWFMODULE_FLASHFILE, new uploadcontrol());
+		$form->register('swf_name',$i18n['swf_name'], new uploadcontrol());
 		if ($object->swf_id != 0) {
-			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;'.TR_SWFMODULE_KEEPOLDFLASH.'<br>'));
+			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;'.$i18n['keep_old_flash'].'<br />'));
 		}
-		$form->register('alt_image_name',TR_SWFMODULE_ALTIMAGE,new uploadcontrol());
+		$form->register('alt_image_name',$i18n['alt_image_name'],new uploadcontrol());
 		if ($object->alt_image_id != 0) {
-			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;'.TR_SWFMODULE_KEEPOLDIMAGE.'<br>'));
+			$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;'.$i18n['keep_old_image'].'<br />'));
 		}
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

@@ -58,8 +58,6 @@ return array(
 	'modules/calendarmodule/views/Upcoming Events - Summary.form'=>'',
 	'modules/calendarmodule/views/Upcoming Events - Summary.config'=>'',
 	'modules/calendarmodule/views/Upcoming Events - Summary.tpl'=>'',
-	'modules/calendarmodule/views/Monthly Summary.config'=>'',
-	'modules/calendarmodule/views/Monthly Summary.tpl'=>'',
 );
 
 ?>

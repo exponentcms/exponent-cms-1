@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,10 +31,10 @@
  *}
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header contact_header">Name</td>
-		<td class="header contact_header">Email</td>
-		<td class="header contact_header">Contact Type</td>
-		<td class="header contact_header">&nbsp;</td>
+		<td class="header contact_header">{$_TR.name}</td>
+		<td class="header contact_header">{$_TR.email}</td>
+		<td class="header contact_header">{$_TR.contact_type}</td>
+		<td class="header contact_header"></td>
 	</tr>
 {foreach from=$contacts item=c}
 	<tr>
@@ -41,24 +42,24 @@
 		<td>{$c->email}</td>
 		<td>
 			{if $c->user_id != 0}
-				User Account
+				{$_TR.user_account}
 			{else}
-				Manually Entered Address
+				{$_TR.manual_address}
 			{/if}
 		</td>
 		<td>
 			<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact id=$c->id}">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="Edit this Contact" alt="Edit this Contact" />
+				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
-			<a class="mngmntlink contact_mngmntlink" href="{link action=delete_contact id=$c->id}" onClick="return confirm('Are you sure you want to delete this Contact?');">
-				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="Delete this Contact" alt="Delete this Contact" />
+			<a class="mngmntlink contact_mngmntlink" href="{link action=delete_contact id=$c->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 			</a>
 		</td>
 	</tr>
 {foreachelse}
 	<tr>
-		<td><i>No contacts</i></td>
+		<td><i>{$_TR.no_contacts}</i></td>
 	</tr>
 {/foreach}
 </table>
-<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact}">New Contact</a>
+<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact}">{$_TR.new_contacts}</a>

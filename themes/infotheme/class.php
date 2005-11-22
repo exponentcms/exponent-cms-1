@@ -31,6 +31,9 @@
 # $Id$
 ##################################################
 
+
+if (class_exists('infotheme')) return;
+
 class infotheme {
 	function name() { return "Info Theme"; }
 	function author() { return "Shane Thomison"; }

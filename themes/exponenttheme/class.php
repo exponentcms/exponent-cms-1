@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (class_exists('exponenttheme')) return;
+
 class exponenttheme {
 	function name() { return "ExponentCMS.org"; }
 	function author() { return "James Hunt"; }

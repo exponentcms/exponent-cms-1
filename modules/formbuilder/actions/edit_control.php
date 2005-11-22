@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -36,7 +37,7 @@ if (!defined("PATHOS")) exit("");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 
-$f = $db->selectObject("formbuilder_form","id=".(isset($_REQUEST['form_id'])?$_REQUEST['form_id']:0));
+$f = $db->selectObject("formbuilder_form","id=".(isset($_REQUEST['form_id'])?intval($_REQUEST['form_id']):0));
 if ($f) {
 	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
 		if (isset($_POST['control_type']) && $_POST['control_type']{0} == ".") {
@@ -64,7 +65,7 @@ if ($f) {
 			$control_type = "";
 			$ctl = null;
 			if (isset($_GET['id'])) {
-				$control = $db->selectObject("formbuilder_control","id=".$_GET['id']);
+				$control = $db->selectObject("formbuilder_control","id=".intval($_GET['id']));
 				if ($control) {
 					$ctl = unserialize($control->data);
 					$ctl->identifier = $control->name;

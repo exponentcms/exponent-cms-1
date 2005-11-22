@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -21,7 +22,7 @@
 #
 # You should have received a copy of the GNU
 # General Public License along with Exponent; if
-# not, write to:
+# not, write to
 #
 # Free Software Foundation, Inc.,
 # 59 Temple Place,
@@ -32,9 +33,9 @@
 ##################################################
 
 class loginmodule {
-	function name() { return 'Login Module'; }
+	function name() { return pathos_lang_loadKey('modules/loginmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; } 
-	function description() { return 'Allows users to login to the site.'; }
+	function description() { return pathos_lang_loadKey('modules/loginmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -74,7 +75,7 @@ class loginmodule {
 				$template->assign('is_group_admin',0);
 			}
 		} else {
-			$template->assign("loggedin",0);
+			$template->assign('loggedin',0);
 		}
 		$template->output($view);
 	}

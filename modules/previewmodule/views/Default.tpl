@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,8 +30,8 @@
  * $Id$
  *}
 {if $editMode == 1}
-<a class="mngmntlink preview_mngmntlink" href="{link action=preview}">Preview</a>
+<a class="mngmntlink preview_mngmntlink" href="{link action=preview}">{$_TR.preview}</a>
 {/if}
 {if $previewMode == 1}
-<a class="mngmntlink preview_mngmntlink" href="{link action=normal}">Edit Mode</a>
+<a class="mngmntlink preview_mngmntlink" href="{link action=normal}">{$_TR.edit_mode}</a>
 {/if}

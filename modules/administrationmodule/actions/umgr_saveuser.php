@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,7 +31,6 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 // Part of the User Management category
 
@@ -47,19 +47,19 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		
 		pathos_flow_redirect();
 	} else {
-		pathos_lang_loadDictionary('modules','loginmodule');
+		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/umgr_saveuser.php');
 		
 		if (pathos_users_getUserByName($_POST['username']) != null) {
 			$post = $_POST;
 			unset($post['username']);
-			$post['_formError'] = TR_LOGINMODULE_USERNAMETAKEN;
+			$post['_formError'] = $i18n['name_taken'];
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else if ($_POST['pass1'] != $_POST['pass2']) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = TR_LOGINMODULE_UNMATCHEDPASSWORDS;
+			$post['_formError'] = $i18n['unmatched_passwords'];
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
@@ -68,7 +68,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
-				$post['_formError'] = sprintf(TR_LOGINMODULE_STRENGTHFAILED,$strength_error);
+				$post['_formError'] = sprintf($i18n['strength_failed'],$strength_error);
 				pathos_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {

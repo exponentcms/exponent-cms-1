@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,13 +31,8 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="Assign permissions on this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="Assign group permissions on this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
-{/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}" title="Configure this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
+	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" alt="{$_TR.alt_groupperm}" /></a>
 	<br />
 {/if}
 {/permissions}
@@ -46,6 +42,6 @@
 </div>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.manage == 1}
-<a href="{link action=manage}">Manage</a>
+<a href="{link action=manage}">{$_TR.manage}</a>
 {/if}
 {/permissions}

@@ -1,6 +1,7 @@
 {* 
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,7 +31,7 @@
  *}
 {foreach from=$views item=view}
 <div style="border-top: 2px dashed #DDD">
-<b>{$view->view} View</b><br />
+<b>{$view->view} {$_TR.viewname_view}</b><br />
 {$view->content}
 </div>
 {/foreach}

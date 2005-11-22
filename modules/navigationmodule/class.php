@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,9 +35,9 @@
 $navigationmodule_cached_sections = null;
 
 class navigationmodule {
-	function name() { return 'Navigator'; }
+	function name() { return pathos_lang_loadKey('modules/navigationmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return 'Allows users to navigate through pages on the site, and allows Administrators to manage the site page structure / hierarchy.'; }
+	function description() { return pathos_lang_loadKey('modules/navigationmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -45,44 +46,12 @@ class navigationmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		global $db;
-		$s = $db->selectObject('section','id='.$internal);
-		if ($s && !navigationmodule::isPublic($s)) { 
-			return array(
-				'administrate'=>'Administrate',
-				'view'=>'View Section',
-				'manage'=>'Manage Section',
-			);
-		} else {
-			return array(
-				'administrate'=>'Administrate',
-# Not too sure that this is a good idea, from a usability standpoint				
-#				'view'=>'View Section',
-				'manage'=>'Manage Section',
-			);
-		}
-	}
-	
-	function getLocationHierarchy($loc) {
-		// Initialize the location hierarchy
-		$locs = array($loc);
+		$i18n = pathos_lang_loadFile('modules/navigationmodule/class.php');
 		
-		if ($loc->int == '') {
-			// $location contains no section id in the int attribute,
-			// so we can't genreate a lineage to the root.
-			return $locs;
-		}
-		
-		// Keep going and generate a lineage to the root
-		global $db;
-		$all = $db->selectObjectsIndexedArray('section','parent >= 0');
-			
-		$loc = pathos_core_makeLocation('navigationmodule','',@$all[$loc->int]->parent);
-		while ($loc->int > 0) {
-			$locs[] = $loc;
-			$loc = pathos_core_makeLocation('navigationmodule','',@$all[$loc->int]->parent);
-		}
-		return $locs;
+		return array(
+			'view'=>$i18n['perm_view'],
+			'manage'=>$i18n['perm_manage'],
+		);
 	}
 	
 	function show($view,$loc = null,$title = '') {
@@ -99,8 +68,9 @@ class navigationmodule {
 		$template = new template('navigationmodule',$view,$loc);
 		$template->assign('sections',$sections);
 		$template->assign('current',$current);
-		$template->assign('canManage',pathos_permissions_checkOnModule('manage','navigationmodule'));
-		$template->assign('title',$title);
+		global $user;
+		$template->assign('canManage',(($user && $user->is_acting_admin == 1) ? 1 : 0));
+		$template->assign('moduletitle',$title);
 		
 		$template->output();
 	}
@@ -127,57 +97,24 @@ class navigationmodule {
 	 * @param $ignore_ids a value-array of IDs to be ignored when generating the list.  This is used
 	 * when moving a section, since a section cannot be made a subsection of itself or any of its subsections.
 	 */
-	function hierarchyDropDownControlArray($parent = 0, $ignore_ids = array()) {
-		$options = array();
-		
-		$depth_offset = 1;
-		
-		if ($parent == 0) {
-			$options[0] = '&lt;Top of Hierarchy&gt;';
-		} else {
-			$section = $db->selectObject('section','id='.$parent);
-			$depth_offset = -1 * $section->depth;
-		}
-		
-		$ignore_depth = -1;
-		
-		foreach (navigationmodule::getHierarchy($parent) as $section) {
-			if ($ignore_depth == -1 && in_array($section->id,$ignore_ids)) {
-				$ignore_depth = $section->depth;
-				continue;
-			}
-			
-			if ($section->depth == $ignore_depth) {
-				$ignore_depth = -1;
-			}
-			
-			if ($ignore_depth == -1 || $section->depth < $ignore_depth) {
-				if ($section->active == 1) {
-					$options[$section->id] = str_pad('',($section->depth+$depth_offset)*3,'.',STR_PAD_LEFT) . $section->name;
+	function levelShowDropdown($parent,$depth=0,$default=0,$ignore_ids = array()) {
+		$html = '';
+		global $db;
+		$nodes = $db->selectObjects('section','parent='.$parent);
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($nodes,'pathos_sorting_byRankAscending');
+		foreach ($nodes as $node) {
+			if (($node->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$node->id))) && !in_array($node->id,$ignore_ids)) {
+				$html .= '<option value="' . $node->id . '" ';
+				if ($default == $node->id) $html .= 'selected';
+				$html .= '>';
+				if ($node->active == 1) {
+					$html .= str_pad('',$depth*3,'.',STR_PAD_LEFT) . $node->name;
 				} else {
-					$options[$section->id] = str_pad('',($section->depth+$depth_offset)*3,'.',STR_PAD_LEFT) . '(' . $section->name . ')';
+					$html .= str_pad('',$depth*3,'.',STR_PAD_LEFT) . '('.$node->name.')';
 				}
-			}
-		}
-		return $options;
-	}
-	
-	function levelDropDownControlArray($parent = 0) {
-		$depth = 0;
-		if ($parent != 0) {
-			global $db;
-			$section = $db->selectObject('section','id='.$parent);
-			$depth = $section->depth;
-		}
-		
-		$options = array();
-		foreach (navigationmodule::getHierarchy($parent) as $section) {
-			if ($section->parent == $parent) {
-				if ($section->active == 1) {
-					$options[$section->id] = $section->name;
-				} else {
-					$options[$section->id] = '(' . $section->name . ')';
-				}
+				$html .= '</option>';
+				$html .= navigationmodule::levelShowDropdown($node->id,$depth+1,$default,$ignore_ids);
 			}
 		}
 		return $options;
@@ -186,23 +123,25 @@ class navigationmodule {
 	/*
 	 * Returns a flat representation of the full site hierarchy.
 	 */
-	function getHierarchy($parent = 0) {
-		$hier = navigationmodule::_getHierarchy();
-		if ($parent == 0) return $hier;
-		
-		$new_hier = array();
-		
-		$subtree_depth = 0;
-		foreach (array_keys($hier) as $sid) {
-			if ($sid == $parent) {
-				$subtree_depth = $hier[$sid]->depth;
-			}
-			
-			if ($subtree_depth) { // Found our sub tree
-				if ($hier[$sid]->depth > $subtree_depth) {
-					$new_hier[$hier[$sid]->id] = $hier[$sid];
+	function levelDropDownControlArray($parent,$depth = 0,$ignore_ids = array(),$full=false) {
+		$ar = array();
+		if ($parent == 0 && $full) {
+			$ar[0] = '&lt;Top of Hierarchy&gt;';
+		}
+		global $db;
+		$nodes = $db->selectObjects('section','parent='.$parent);
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($nodes,'pathos_sorting_byRankAscending');
+		foreach ($nodes as $node) {
+			if (($node->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$node->id))) && !in_array($node->id,$ignore_ids)) {
+				if ($node->active == 1) {
+					$text = str_pad('',($depth+($full?1:0))*3,'.',STR_PAD_LEFT) . $node->name;
 				} else {
-					break;
+					$text = str_pad('',($depth+($full?1:0))*3,'.',STR_PAD_LEFT) . '('.$node->name.')';
+				}
+				$ar[$node->id] = $text;
+				foreach (navigationmodule::levelDropdownControlArray($node->id,$depth+1,$ignore_ids,$full) as $id=>$text) {
+					$ar[$id] = $text;
 				}
 			}
 		}
@@ -234,18 +173,14 @@ class navigationmodule {
 	
 	function _appendChildren(&$master,&$blocks,$parent,$depth = 0, $parents = array()) {
 		global $db;
-		if ($parent != 0) {
-			$parents[] = $parent;
-			// numChildren added for Barry Goed's Explorer-style navigation view
-			$master[$parent]->numChildren = count($blocks[$parent]);
-		}
-		
-		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-		usort($blocks[$parent],'pathos_sorting_byRankAscending');
-		
-		for ($i = 0; $i < count($blocks[$parent]); $i++) {
-			$child = $blocks[$parent][$i];
-			if ($child->public == 1 || navigationmodule::canView($child)) {
+		$nodes = array();
+		$kids = $db->selectObjects('section','parent='.$parent);
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($kids,'pathos_sorting_byRankAscending');
+		for ($i = 0; $i < count($kids); $i++) {
+			$child = $kids[$i];
+			//foreach ($kids as $child) {
+			if ($child->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$child->id))) {
 				$child->numParents = count($parents);
 				$child->numChildren = 0;
 				$child->depth = $depth;
@@ -280,11 +215,9 @@ class navigationmodule {
 					// Normal link.  Just create the URL from the section's id.
 					$child->link = pathos_core_makeLink(array('section'=>$child->id));
 				}
-					
-				$master[$child->id] = $child;
-				if (isset($blocks[$child->id])) {
-					navigationmodule::_appendChildren($master,$blocks,$child->id,$depth+1,$parents);
-				}
+				$child->numChildren = $db->countObjects('section','parent='.$child->id);
+				$nodes[] = $child;
+				$nodes = array_merge($nodes,navigationmodule::levelTemplate($child->id,$depth+1,$parents));
 			}
 		}
 	}
@@ -294,7 +227,7 @@ class navigationmodule {
 		
 		$arr = array();
 		$kids = $db->selectObjects('section_template','parent='.$parent);
-		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($kids,'pathos_sorting_byRankAscending');
 		
 		for ($i = 0; $i < count($kids); $i++) {
@@ -359,7 +292,7 @@ class navigationmodule {
 	
 	function deleteLevel($parent) {
 		global $db;
-		$kids = $db->selectObjects('section','parent=$parent');
+		$kids = $db->selectObjects('section','parent='.$parent);
 		foreach ($kids as $kid) {
 			navigationmodule::deleteLevel($kid->id);
 		}
@@ -378,7 +311,7 @@ class navigationmodule {
 			$db->delete('locationref',"module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
 		}
 		$db->delete('sectionref','section='.$parent);
-		$db->delete('section','parent=$parent');
+		$db->delete('section','parent='.$parent);
 	}
 	
 	function removeLevel($parent) {
@@ -392,25 +325,17 @@ class navigationmodule {
 	}
 	
 	function canView($section) {
-		// *** WARNING ***
-		// This function CANNOT call navigationmodule::getHierarchy, since getHierarchy calls it.
-		// The end result of doing so is a hard to track down infinite loop bug that causes PHP to crash
-		// before anything useful gets echoed to the browser.
 		global $db;
-		$perms = array('view','manage','administrate');
-		$loc = pathos_core_makeLocation('navigationmodule','',$section->id);
-		while (true) {
-			if ($section->public == 0) {
-				// Not a public section.  Check permissions.
-				return pathos_permissions_check($perms,$loc);
-			} else { // Is public.  check parents.
-				if ($section->parent <= 0) {
-					// Out of parents, and since we are still checking, we haven't hit a private section.
-					return true;
-				} else {
-					$section = $db->selectObject('section','id='.$section->parent);
-					$loc->int = $section->id;
-				}
+		if ($section->public == 0) {
+			// Not a public section.  Check permissions.
+			return pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$section->id));
+		} else { // Is public.  check parents.
+			if ($section->parent <= 0) {
+				// Out of parents, and since we are still checking, we haven't hit a private section.
+				return true;
+			} else {
+				$s = $db->selectObject('section','id='.$section->parent);
+				return navigationmodule::canView($s);
 			}
 		}
 	}

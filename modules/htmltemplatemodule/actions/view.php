@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,7 +36,9 @@ if (!defined("PATHOS")) exit("");
 
 // PERM CHECK
 	$t = null;
-	if (isset($_GET['id'])) $t = $db->selectObject("htmltemplate","id=".$_GET['id']);
+	if (isset($_GET['id'])) {
+		$t = $db->selectObject("htmltemplate","id=".intval($_GET['id']));
+	}
 	if ($t) {
 		pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
@@ -46,7 +49,9 @@ if (!defined("PATHOS")) exit("");
 			array("administrate","edit","delete"),
 			$loc);
 		$template->output();
-	} else echo SITE_404_HTML;
+	} else {
+		echo SITE_404_HTML;
+	}
 // END PERM CHECK
 
 ?>

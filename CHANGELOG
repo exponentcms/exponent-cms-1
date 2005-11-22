@@ -1,126 +1,30 @@
-2005-03-18  filetreefrog  <filetreefrog@scooby>
+0.96.x
 
-	* ReleaseID, chlog.sh:
-	Added stuff for changelog generation using CVS logs
+- Removed Caching entirely (it wasn't being used, but now all the references to it are gone)
+- Added charsets to htmlentities calls (for better i18n support)
+- Fixed weblog bug so that comments can be edited.
+- Moved title in Text Module views so that it appears above the edit icons (since it cannot be edited).
+- Added version forcing to the EQL handler functions (backup subsystem)
+- Fixed some newline handling bugs in the EQL functions (backup subsystem)
+- Fixed the '$message' bug in the SMTP subsystem
+- Added a view link for Resources Module search results.
+- Better display name generation for the login module, in case the user has no first or last name.
+- Fixed some strange bugs related to grant and revocation of Acting Administrator status.
+- Fixed a blank page problem when logging in through login.php without visiting the site first.  Upon successful login, the user will be taken to the Default section.
+- Fixed the phantom last section bug, where a user is taken to the last page they visited, even if it was days ago.
+- Fixed bug in format_date plugin that caused misinterpretation of some strftime arguments on Windows.
+- Fixed the 'Unable to Add Codebase' bug in the MultiSite Manager (along with some other issues)
+- Corrected incomplete sentence in System Info page of Administration Control Panel
+- Increased field length of phone numbers in Address Book entries to 15 characters (from 10) for non-US phone numbers
+- URL validation now being performed in Address Book for website, and http:// prepended if something seems off.  This fixes some relative path bugs when linking.
+- Added the ability to sort Address Book entries by name.
+- Added gz compression to the archive created when exporting uploaded files through the Uploaded Files Exporter (previsouly, they were just straight tars, and rather large)
+Technical changes (this does not cover some of the stuff in the Release Notes) for 0.96.3, from 0.96.2
 
-	* ReleaseID, chlog.sh: New file.
-
-	* checks/module_functions.sh:
-	Tweaked the module_functions.sh script for performance
-
-2005-03-11  filetreefrog  <filetreefrog@scooby>
-
-	* buildFileReferences.php, highlighter.php, highlighter_proc.php:
-	Merging changes from 0.96.0 release
-
-2005-03-09  filetreefrog  <filetreefrog@scooby>
-
-	* highlighter.php, highlighter_proc.php:
-	Added code higlighter for documentation purposes
-
-	* highlighter.php, highlighter_proc.php: New file.
-
-	* buildFileReferences.php:
-	Replaced is_writable calls with is_really_writable (defined as a compat layer function, for windows writability)
-
-2005-02-26  filetreefrog  <filetreefrog@scooby>
-
-	* core_deps.php, subsys_deps.sh: Merge of RC2 changes
-
-2005-02-22  filetreefrog  <filetreefrog@scooby>
-
-	* subsys_deps.sh, core_deps.php: Added dep file checkers
-
-	* core_deps.php, subsys_deps.sh: New file.
-
-2005-02-21  filetreefrog  <filetreefrog@scooby>
-
-	* unclaimed_files.php:
-	Bugfix merge from 0.96rc1 (this is now 0.96.1 dev)
-
-	* unclaimed_files.php:
-	Removed compat directory from list of excluded files when checking unclaimed files.
-
-2005-02-19  filetreefrog  <filetreefrog@scooby>
-
-	* blanks/_form_default.tpl, blanks/config_datatype.php, blanks/datatype.php, blanks/formcontrol.php, blanks/license_placeholder.php, blanks/mod_action.php, blanks/mod_class.php, blanks/subsystem.info.php, blanks/theme_class.php:
-	Fixed copyright information
-	(2004-2005, stupid year change)
-
-2005-02-18  filetreefrog  <filetreefrog@scooby>
-
-	* versiontool/files_added.sh, versiontool/files_removed.sh:
-	Added release file comparison tools
-
-	* smarty_syntax.php: Added a view syntax checker
-
-2005-02-15  filetreefrog  <filetreefrog@scooby>
-
-	* unclaimed_files.php: Updated the unclaimed files script
-
-2005-02-14  filetreefrog  <filetreefrog@scooby>
-
-	* unclaimed_files.php: Updated the unclaimed files script
-
-2005-02-01  filetreefrog  <filetreefrog@scooby>
-
-	* blanks/theme_index_parts.php:
-	Updated blanks template for theme_index files
-
-2005-01-31  filetreefrog  <filetreefrog@scooby>
-
-	* testing/core/i18n.php, testing/core/spellcheck.php, testing/core/spellcheck.sh, testing/dist/boiler-php.sh, testing/dist/boiler-tpl.sh, testing/dist/boilers.sh:
-	Added some testing scripts
-
-	* blanks/view_parts.tpl: PNG Support
-
-2005-01-26  filetreefrog  <filetreefrog@scooby>
-
-	* tabledefs.php, tabledefs/0.95, tabledefs/0.96, compare.php:
-	Added table definition tracker and diff tool (for comparing table structure changes from version to version.
-
-2005-01-17  filetreefrog  <filetreefrog@scooby>
-
-	* blanks/undocumented_comment.php:
-	Added blank exdoc comment for undocumented functions
-
-	* checks/module_functions.sh:
-	Added module_functions checker script, for checking module implementation compliance
-
-2005-01-16  filetreefrog  <filetreefrog@scooby>
-
-	* environ.sh:
-	Added environment bootstrapping code for chmodding / creating views_c.
-
-	Changed final message in script to reflect new usage of the DEVELOPMENT constant.
-
-2005-01-13  filetreefrog  <filetreefrog@scooby>
-
-	* environ.sh:
-	Updated the environ script to remind developers to uncomment the define for DEVELOPMENT.  Also weeded out some nonsensical output (processing module : CVS)
-
-	* environ.sh: Fixing the environ script
-
-2005-01-12  filetreefrog  <filetreefrog@scooby>
-
-	* analysis/subsystems/datetime.txt:
-	Added formulaic analysis of the monthly recurring stuff (by weekday, which was all that needed analysis)
-
-2005-01-10  filetreefrog  <filetreefrog@scooby>
-
-	* analysis/README:
-	Starting to write analysis docs that analyze various algorithms and 'complicated' bits of code that require too much supplementary description and investigation to place in source code comments.  Most of these will be springboards and technical references for the Testing Documentation.
-
-	* analysis/subsystems/datetime.txt:
-	Added analysis of the datetime function pathos_datetime_recurringWeeklyDates()
-
-2005-01-09  filetreefrog  <filetreefrog@scooby>
-
-	* blanks/config_datatype.php, blanks/datatype.php, blanks/formcontrol.php, blanks/license_placeholder.php, blanks/mod_action.php, blanks/mod_class.php, blanks/subsystem.info.php, blanks/theme_class.php, blanks/view_parts.tpl:
-	Updating SDK
-
-2005-01-06  otte-o  <otte-o@scooby>
-
-	* blanks/_form_default.tpl, blanks/config_datatype.php, blanks/datatype.php, blanks/file_modules.php, blanks/form_header.html, blanks/formcontrol.php, blanks/info_warning_page.html, blanks/license_placeholder.php, blanks/logo.png, blanks/mod_action.php, blanks/mod_class.php, blanks/subsystem.info.php, blanks/theme_class.php, blanks/theme_index_parts.php, blanks/view_parts.tpl, badcvs, buildFileReferences.php, environ.sh, moduleRefs.sh, unclaimed_files.php, uncvs, COMPAT:
-	Adding the SDK stuff
-
+- Added ability to name archive of exported files, much like the EQL exporter lets you name the EQL file.
+- Fixed EQL download / save code for Windows browsers.
+- Fixed Monthly by Day recurrence bugs in Calendar module
+- Updated the Private Message Center so that error conditions on the form are handled a little more gracefully (especially with respect to recipient lists)
+- Added a final confirmation message to the Contact Form module (which is NOT being deprecated, contrary to popular belief)
+- Added the option to open Navigational pages in a new window.
+- Consolidated all file-upload error handling into one place.

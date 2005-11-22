@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,13 +29,12 @@
  *
  * $Id$
  *}
-<div class="form_title">Pageset Properties</div>
+<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-Pageset Properties are mapped onto section properties when a Pageset is selected as the Page Type.
+{$_TR.form_header}
 {if $is_top == 1}
-<br />
-<br />
-The name you specify for this Pageset will be used for reference only.  It will be replaced by whatever is entered into the name field of the 'Add Section' form.
+<br /><br />
+{$_TR.is_top}
 {/if}
 </div>
 {$form_html}

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -31,5 +32,5 @@
 {foreach from=$orphan_mods item=modname key=mod}
 <a class="navlink" href="{link module=$mod}">{$modname}</a><br />
 {foreachelse}
-<i>No Archived Modules</i>
+<i>{$_TR.no_modules}</i>
 {/foreach}

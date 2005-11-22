@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,30 +31,29 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
 if (!defined('PATHOS')) exit('');
 
-$template = new template('filemanager','_viewcode',$loc);
+$i18n = pathos_lang_loadFile('modules/filemanager/actions/viewcode.php');
 
 $file = $_GET['file'];
 $path = realpath(BASE.$file);
-if (strpos($path,BASE) != 0 || $user->is_admin == 0) {
-	$template->assign('error','security');
+if (strpos($path,BASE) !== 0) {
+	echo $i18n['security'];
 } else {
 	$ext = substr($path,-3,3);
 	if ($ext != 'tpl' && $ext != 'php') {
-		$template->assign('error','invalid');
+		echo $i18n['bad_type'];
 	} else {
 		$contents = file_get_contents($path);
 		if ($ext == 'php') {
-			if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');	
-			$contents = pathos_info_highlightPHP($contents);
-		} else $contents = '<xmp>'.$contents.'</xmp>';
-	
-		$template->assign('error','');
-		$template->assign('code',$contents);
+			if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
+			echo pathos_info_highlightPHP($contents);
+		} else {
+			echo '<xmp>'.$contents.'</xmp>';
+		}
 	}
+
 }
-$template->output();
 
 ?>

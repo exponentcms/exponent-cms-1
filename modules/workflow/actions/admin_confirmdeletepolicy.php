@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,7 +36,7 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 
-	$policy = $db->selectObject('approvalpolicy','id='.$_GET['id']);
+	$policy = $db->selectObject('approvalpolicy','id='.intval($_GET['id']));
 	
 	if ($policy) {
 
@@ -52,11 +53,13 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 				$m = new $mclass();
 				$infos[$typename][$i]->module = $m->name();
 			}
-			if (!count($infos[$typename])) unset($infos[$typename]);
+			if (!count($infos[$typename])) {
+				unset($infos[$typename]);
+			}
 		}
 		
 		if (count($infos)) {
-			$template = new Template('workflow','_confirmpolicydelete',$loc);
+			$template = new template('workflow','_confirmpolicydelete',$loc);
 			
 			$template->assign('affected',$infos);
 			$template->assign('policy',$policy);
@@ -68,7 +71,9 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			$db->delete('workflowaction','policy_id='.$policy->id);
 			pathos_flow_redirect();
 		}
-	} else echo SITE_404_HTML;
+	} else {
+		echo SITE_404_HTML;
+	}
 } else {
 	echo SITE_403_HTML;
 }

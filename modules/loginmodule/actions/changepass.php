@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -38,20 +39,21 @@ if ($user) {
 	if (!defined('SYS_FORMS')) require_once('subsystems/forms.php');
 	pathos_forms_initialize();
 	
-	pathos_lang_loadDictionary('modules','loginmodule');
+	$i18n = pathos_lang_loadFile('modules/loginmodule/actions/changepass.php');
 	
 	$form = new form();
 	$form->location($loc);
 	$form->meta('action','savepass');
-	$form->register('oldpass',TR_LOGINMODULE_OLDPASS,new passwordcontrol());
-	$form->register('pass1',TR_LOGINMODULE_NEWPASS,new passwordcontrol());
-	$form->register('pass2',TR_LOGINMODULE_CONFIRMPASS,new passwordcontrol());
+	$form->register('oldpass',$i18n['oldpass'],new passwordcontrol());
+	$form->register('pass1',$i18n['pass1'],new passwordcontrol());
+	$form->register('pass2',$i18n['pass2'],new passwordcontrol());
 	
-	$form->register('submit','',new buttongroupcontrol(TR_LOGINMODULE_CHANGEBTN));
+	$form->register('submit','',new buttongroupcontrol($i18n['change']));
 	
 	$template = new template('loginmodule','_form_changePassword',$loc);
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
+
 } else {
 	echo SITE_403_HTML;
 }

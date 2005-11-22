@@ -35,7 +35,6 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('order_modules',$loc)) {
 	$db->switchValues('container','rank',$_GET['a'],$_GET['b'],"external='".serialize($loc)."'");
-	pathos_template_clear();
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

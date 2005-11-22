@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,30 +34,28 @@
 
 if (!defined('PATHOS')) exit('');
 
+$i18n = pathos_lang_loadFile('install/pages/dbcheck.php');
+
 ?>
-<div class="installer_title">
-<img src="images/blocks.png" width="32" height="32" />
-Checking Database Configuration
-</div>
-<br /><br />
-The Exponent Install Wizard will now check to make sure that the database configuration information you provided is valid.
-<br /><br />
+<h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
 <table>
 <?php
 
 function echoStart($msg) {
-	echo '<tr><td valign="top">'.$msg.'</td><td valign="top">';
+	echo '<tr><td valign="top" class="bodytext">'.$msg.'</td><td valign="top" class="bodytext">';
 }
 
 function echoSuccess($msg = "") {
-	echo '<span class="success">Succeeded</span>';
-	if ($msg != "") echo " : $msg";
+	global $i18n;
+	echo '<span class="success">'.$i18n['succeeded'].'</span>';
+	if ($msg != "") echo ' : ' . $msg;
 	echo '</td></tr>';
 }
 
 function echoFailure($msg = "") {
-	echo '<span class="failed">Failed</span>';
-	if ($msg != "") echo " : $msg";
+	global $i18n;
+	echo '<span class="failed">'.$i18n['failed'].'</span>';
+	if ($msg != "") echo ' : ' . $msg;
 	echo '</td></tr>';
 }
 
@@ -69,8 +68,8 @@ $config = $_POST['c'];
 
 $passed = true;
 
-if (!isAllGood($config["db_table_prefix"])) {
-	echoFailure("Invalid table prefix.  The table prefix can only contain alphanumeric characters.");
+if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {
+	echoFailure($i18n['bad_prefix']);
 	$passed = false;
 }
 
@@ -80,7 +79,7 @@ if ($passed) {
 	
 	$status = array();
 	
-	echoStart("Connecting to database:");
+	echoStart($i18n['connecting'].':');
 
 	if ($db->connection == null) {
 		echoFailure($db->error());
@@ -114,7 +113,7 @@ $dd = array(
 if ($passed) {
 	$db->createTable($tablename,$dd,array());
 	
-	echoStart("Checking CREATE TABLE privilege:");
+	echoStart($i18n['check_create'].':');
 	if ($db->tableExists($tablename)) {
 		echoSuccess();
 	} else {
@@ -127,7 +126,7 @@ $insert_id = null;
 $obj = null;
 
 if ($passed) {
-	echoStart("Checking INSERT privilege:");
+	echoStart($i18n['check_insert'].':');
 	$obj->installer_test = "Exponent Installer Wizard";
 	$insert_id = $db->insertObject($obj,$tablename);
 	if ($insert_id == 0) {
@@ -139,7 +138,7 @@ if ($passed) {
 }
 
 if ($passed) {
-	echoStart("Checking SELECT privilege:");
+	echoStart($i18n['check_select'].':');
 	$obj = $db->selectObject($tablename,"id=".$insert_id);
 	if ($obj == null || $obj->installer_test != "Exponent Installer Wizard") {
 		$passed = false;
@@ -150,7 +149,7 @@ if ($passed) {
 }
 
 if ($passed) {
-	echoStart("Checking UPDATE privilege:");
+	echoStart($i18n['check_update'].':');
 	$obj->installer_test = "Exponent 2";
 	if (!$db->updateObject($obj,$tablename)) {
 		$passed = false;
@@ -161,7 +160,7 @@ if ($passed) {
 }
 
 if ($passed) {
-	echoStart("Checking DELETE privilege:");
+	echoStart($i18n['check_delete'].':');
 	$db->delete($tablename,"id=".$insert_id);
 	$error = $db->error();
 	$obj = $db->selectObject($tablename,"id=".$insert_id);
@@ -178,7 +177,7 @@ if ($passed) {
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>8);
 	
-	echoStart("Checking ALTER TABLE privilege:");
+	echoStart($i18n['check_alter'].':');
 	$db->alterTable($tablename,$dd,array());
 	$error = $db->error();
 	
@@ -196,7 +195,7 @@ if ($passed) {
 
 
 if ($passed) {
-	echoStart("Checking DROP TABLE privilege:");
+	echoStart($i18n['check_drop'].':');
 	$db->dropTable($tablename);
 	$error = $db->error();
 	if ($db->tableExists($tablename)) {
@@ -208,7 +207,7 @@ if ($passed) {
 }
 
 if ($passed) {
-	echoStart("Installing Tables:");
+	echoStart($i18n['installing_tables'].':');
 	
 	$dir = BASE."datatypes/definitions";
 	if (is_readable($dir)) {
@@ -228,46 +227,46 @@ if ($passed) {
 		}
 	}
 	
-	if ($db->tableIsEmpty("user")) {
+	if ($db->tableIsEmpty('user')) {
 		$user = null;
-		$user->username = "admin";
-		$user->password = md5("admin");
+		$user->username = 'admin';
+		$user->password = md5('admin');
 		$user->is_admin = 1;
 		$user->is_acting_admin = 1;
-		$db->insertObject($user,"user");
+		$db->insertObject($user,'user');
 	}
 	
-	if ($db->tableIsEmpty("modstate")) {
+	if ($db->tableIsEmpty('modstate')) {
 		$modstate = null;
-		$modstate->module = "administrationmodule";
+		$modstate->module = 'administrationmodule';
 		$modstate->active = 1;
-		$db->insertObject($modstate,"modstate");
+		$db->insertObject($modstate,'modstate');
 	}
 	
-	if ($db->tableIsEmpty("section")) {
+	if ($db->tableIsEmpty('section')) {
 		$section = null;
-		$section->name = "Home";
+		$section->name = 'Home';
 		$section->public = 1;
 		$section->active = 1;
 		$section->rank = 0;
 		$section->parent = 0;
-		$sid = $db->insertObject($section,"section");
+		$sid = $db->insertObject($section,'section');
 	}
 	
 	echoSuccess();
 }
 
 if ($passed) {
-	echoStart("Saving Configuration");
+	echoStart($i18n['saving_config']);
 	
 	$values = array(
-		"c"=>$config,
-		"opts"=>array(),
-		"configname"=>"Default",
-		"activate"=>1
+		'c'=>$config,
+		'opts'=>array(),
+		'configname'=>'Default',
+		'activate'=>1
 	);
 	
-	if (!defined("SYS_CONFIG")) require_once(BASE."subsystems/config.php");
+	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
 	pathos_config_saveConfiguration($values);
 	// ERROR CHECKING
 	echoSuccess();
@@ -281,22 +280,33 @@ if ($passed) {
 	// Do some final cleanup
 	foreach ($db->getTables() as $t) {
 		// FIX table prefix problem
-		if (substr($t,0,14+strlen($db->prefix)) == $db->prefix."installer_test") {
-			$db->dropTable(str_replace($db->prefix,"",$t));
+		if (substr($t,0,14+strlen($db->prefix)) == $db->prefix.'installer_test') {
+			$db->dropTable(str_replace($db->prefix,'',$t));
+		}
+	}
+	echo '<br /><br />';
+	echo $i18n['passed']; 
+	echo '<br /><br />';
+	
+	if (isset($_POST['install_default'])) {
+		if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
+
+		$eql = BASE.'install/sitetypes/db/_default.eql';
+		$errors = array();
+		pathos_backup_restoreDatabase($db,$eql,$errors,0);
+		if (count($errors)) {
+			echo $i18n['errors_encountered_eql'].'<br /><br />';
+			foreach ($errors as $e) echo $e . '<br />';
+		} else {
+			echo $i18n['eql_success'];
 		}
 	}
 	?>
-	<br /><br />Database tests passed. <br /><br />
-	The installer will now populate the database with default content.  This may take a few minutes.
-	<br /><b><span style="color: red">WARNING: This will clear any data from any existing tables.  If you are upgrading and want to preserve your data, see below.</span></b>
-	<br />To install default content, click <a href="index.php?page=tmp_create_site">here</a>
-	
-	<br /><br />If you are upgrading, and wish to preserve your data, or want to install a new site with a clean database, click <a href="?page=final">here</a>.
+	<br /><br /><a href='?page=admin_user'><?php echo $i18n['continue']; ?></a>.
 	<?php
 } else {
 	?>
-	<br /><br />Click <a href="?page=dbconfig" onClick="history.go(-1); return false;">here</a> to edit your settings after you have corrected whatever problems arise.
+	<br /><br /><a href="?page=dbconfig" onClick="history.go(-1); return false;"><?php echo $i18n['back']; ?></a>
 	<?php
 }
-//GREP:HARDCODEDTEXT
 ?>

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -42,6 +43,8 @@ define('SANITY_CREATEFILE',			4); // Read write, without the need for the file t
 
 define('SANITY_WARNING',			1);
 define('SANITY_ERROR',				2);
+
+$global_i18n = pathos_lang_loadFile('install/include/sanity.php');
 
 function sanity_checkFile($file,$as_file,$flags) {
 	$__oldumask = umask(0);
@@ -92,16 +95,26 @@ function sanity_checkFile($file,$as_file,$flags) {
 	return SANITY_FINE;
 }
 
-function sanity_checkDirectory($dir,$flag,&$status) {
-	$status[$dir] = sanity_checkFile(BASE.$dir,0,$flag);
+function sanity_checkDirectory($dir,$flag) {
+	$status = sanity_checkFile(BASE.$dir,0,$flag);
+	if ($status != SANITY_FINE) {
+		return $status;
+	}
+	
 	if (is_readable(BASE.$dir)) {
 		$dh = opendir(BASE.$dir);
 		while (($file = readdir($dh)) !== false) {
 			if ($file{0} != '.' && $file != 'CVS') {
 				if (is_file(BASE.$dir.'/'.$file)) {
-					$status[$dir.'/'.$file] = sanity_checkFile(BASE.$dir.'/'.$file,1,$flag);
+					$status = sanity_checkFile(BASE.$dir.'/'.$file,1,$flag);
+					if ($status != SANITY_FINE) {
+						return $status;
+					}
 				} else {
-					sanity_checkDirectory($dir.'/'.$file,$flag,$status);
+					$status = sanity_checkDirectory($dir.'/'.$file,$flag);
+					if ($status != SANITY_FINE) {
+						return $status;
+					}
 				}
 			}
 		}
@@ -111,139 +124,114 @@ function sanity_checkDirectory($dir,$flag,&$status) {
 function sanity_checkFiles() {
 	$status = array(
 		'conf/config.php'=>sanity_checkFile(BASE.'conf/config.php',1,SANITY_CREATEFILE),
-		'conf/profiles'=>sanity_checkFile(BASE.'conf/profiles',0,SANITY_READWRITE),
+		'conf/profiles/'=>sanity_checkFile(BASE.'conf/profiles',0,SANITY_READWRITE),
 		'overrides.php'=>sanity_checkFile(BASE.'overrides.php',1,SANITY_READWRITE),
-		'install'=>sanity_checkFile(BASE.'install',0,SANITY_READWRITE),
-		'modules'=>sanity_checkFile(BASE.'modules',0,SANITY_READONLY),
-		'views_c'=>sanity_checkFile(BASE.'views_c',0,SANITY_READWRITE),
-		'extensionuploads'=>sanity_checkFile(BASE.'extensionuploads',0,SANITY_READWRITE)
+		'install/'=>sanity_checkFile(BASE.'install',0,SANITY_READWRITE),
+		'modules/'=>sanity_checkFile(BASE.'modules',0,SANITY_READONLY),
+		'views_c/'=>sanity_checkFile(BASE.'views_c',0,SANITY_READWRITE),
+		'extensionuploads/'=>sanity_checkFile(BASE.'extensionuploads',0,SANITY_READWRITE),
+		'files/'=>sanity_checkDirectory('files',SANITY_READWRITE),
+		'tmp/'=>sanity_checkDirectory('tmp',SANITY_READWRITE)
 	);
-	sanity_checkDirectory('files',SANITY_READWRITE,$status);
-	sanity_checkDirectory('tmp',SANITY_READWRITE,$status);
+	
 	return $status;
 }
 
 function sanity_checkServer() {
+	global $global_i18n;
 	$status = array(
-		'GD Graphics Library'=>_sanity_checkGD(),
-		'PHP Version'=>_sanity_checkPHPVersion(),
-		'ZLib Compression'=>_sanity_checkZlib(),
-		'XML (Expat) Library'=>_sanity_checkXML(),
-		'Safe Mode'=>_sanity_CheckSafeMode(),
-		'Open BaseDir Restriction'=>_sanity_checkOpenBaseDir(),
-		'File Uploads'=>_sanity_checkTemp(ini_get('upload_tmp_dir')),
-		'Temporary File Creation'=>_sanity_checkTemp(BASE.'tmp'),
+		$global_i18n['check_db']=>_sanity_checkDB(),
+		$global_i18n['check_gd']=>_sanity_checkGD(),
+		'PHP 4.0.6+'=>_sanity_checkPHPVersion(),
+		$global_i18n['check_zlib']=>_sanity_checkZlib(),
+		$global_i18n['check_xml']=>_sanity_checkXML(),
+		$global_i18n['check_safemode']=>_sanity_CheckSafeMode(),
+		$global_i18n['check_basedir']=>_sanity_checkOpenBaseDir(),
+		$global_i18n['check_upload']=>_sanity_checkTemp(ini_get('upload_tmp_dir')),
+		$global_i18n['check_temp']=>_sanity_checkTemp(BASE.'tmp'),
 	);
 	return $status;
 }
 
-function sanity_checkModules() {
-	$status = array();
-	if (is_readable(BASE.'modules')) {
-		$dh = opendir(BASE.'modules');
-		while (($moddir = readdir($dh)) !== false) {
-			if (is_dir(BASE.'modules/'.$moddir) && substr($moddir,0,1) != "." && file_exists(BASE.'modules/'.$moddir."/views") && substr($moddir,-6,6) == "module") {
-				// Got a module.
-				if (!is_readable(BASE.'modules/'.$moddir."/class.php")) {
-					$status[$moddir] = array(SANITY_WARNING,'Can\'t read class file');
-				} else {
-					$status[$moddir] = array(SANITY_FINE,'Okay');
-				}
-			}
-		}
-	}
-	return $status;
-}
-
 function _sanity_checkGD() {
+	global $global_i18n;
 	$info = gd_info();
 	if ($info['GD Version'] == 'Not Supported') {
-		return array(SANITY_WARNING,'Not Supported');
+		return array(SANITY_WARNING,$global_i18n['no_gd']);
 	} else if (strpos($info['GD Version'],'2.0') === false) {
-		return array(SANITY_WARNING,'Older Version Installed ('.$info['GD Version'].')');
+		return array(SANITY_WARNING,sprintf($global_i18n['old_gd'],$info['GD Version']));
 	}
 	return array(SANITY_FINE,$info['GD Version']);
 }
 
 function _sanity_checkPHPVersion() {
-	if (version_compare(phpversion(),'4.0.6','>')) {
+	global $global_i18n;
+	if (version_compare(phpversion(),'4.0.6','>=')) {
 		return array(SANITY_FINE,phpversion());
 	} else {
-		return array(SANITY_ERROR,'PHP < 4.0.6 (not supported)');
+		return array(SANITY_ERROR,'PHP < 4.0.6 '.$global_i18n['not_supported']);
 	}
 }
 
 function _sanity_checkZlib() {
+	global $global_i18n;
 	if (function_exists('gzdeflate')) {
-		return array(SANITY_FINE,'Installed');
+		return array(SANITY_FINE,$global_i18n['passed']);
 	} else {
-		return array(SANITY_ERROR,'Not Installed');
+		return array(SANITY_ERROR,$global_i18n['failed']);
 	}
 }
 
 function _sanity_checkSafeMode() {
+	global $global_i18n;
 	if (ini_get('safe_mode') == 1) {
-		return array(SANITY_WARNING,'Enabled');
+		return array(SANITY_WARNING,$global_i18n['failed']);
 	} else {
-		return array(SANITY_FINE,'Not Enabled');
+		return array(SANITY_FINE,$global_i18n['passed']);
 	}
 }
 
 function _sanity_checkXML() {
+	global $global_i18n;
 	if (function_exists('xml_parser_create')) {
-		return array(SANITY_FINE,'Installed');
+		return array(SANITY_FINE,$global_i18n['passed']);
 	} else {
-		return array(SANITY_WARNING,'Not Installed');
+		return array(SANITY_WARNING,$global_i18n['failed']);
 	}
 }
 
 function _sanity_checkOpenBaseDir() {
+	global $global_i18n;
 	$path = ini_get('open_basedir');
 	if ($path == '') {
-		return array(SANITY_FINE,'Not Enabled');
+		return array(SANITY_FINE,$global_i18n['passed']);
 	} else {
-		return array(SANITY_WARNING,'Enabled');
+		return array(SANITY_WARNING,$global_i18n['failed']);
 	}
 }
 
 function _sanity_checkTemp($dir) {
+	global $global_i18n;
 	$file = tempnam($dir,'temp');
 	if (is_readable($file) && is_really_writable($file)) {
 		unlink($file);
-		return array(SANITY_FINE,'Enabled');
+		return array(SANITY_FINE,$global_i18n['passed']);
 	} else {
-		return array(SANITY_ERROR,'Not Enabled');
+		return array(SANITY_ERROR,$global_i18n['failed']);
 	}
 }
 
-
-//-------------------------------------------------------------------------
-
-function sanity_checkThemes() {
-	global $warnings, $errors;
-	$__oldumask = umask(0);
+function _sanity_checkDB() {
+	if (!defined('SYS_DATABASE')) require_once(BASE.'subsystems/database.php');
+	$have_good = false;
 	
-	$themebase = BASE."themes";
-	if (is_readable($themebase)) {
-		$basedh = opendir($themebase);
-		$one_readable = false;
-		while (($themedir = readdir($basedh)) !== false) {
-			if (is_dir($themebase."/".$themedir) && substr($themedir,0,1) != ".") {
-				if (!is_readable($themebase."/".$themedir)) {
-					$warnings[] = "Theme directory for '$themedir' (themes/$themedir) is not readable.  This theme will not be available for use.";
-				} else {
-					$one_readable = true;
-				}
-			}
-		}
-		if (!$one_readable) {
-			$errors[] = "No theme directories in themes/ are readable.";
-		}
-	} else $errors[] = "Themes directory (themes/) is not readable.";
-	
-	umask($__oldumask);
+	global $global_i18n;
+	if (count(pathos_database_backends(1)) > 0) {
+		return array(SANITY_FINE,$global_i18n['supported']);
+	} else {
+		return array(SANITY_ERROR,$global_i18n['no_db_support']);
+	}
 }
-
 
 ?>
 

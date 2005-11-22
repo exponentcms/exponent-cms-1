@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class formbuilder_report {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','formbuilder');
+		$i18n = pathos_lang_loadFile('datatypes/formbuilder_report.php');
 	
 		global $db;
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
@@ -49,10 +49,10 @@ class formbuilder_report {
 		}
 		
 		
-		$form->register('name',TR_FORMBUILDER_NAME,new textcontrol($object->name));
-		$form->register('description',TR_FORMBUILDER_DESCRIPTION,new texteditorcontrol($object->description));
-		$form->register(null,'', new htmlcontrol('<br><br>'.TR_FORMBUILDER_BLANKREPORTMSG.'<br><br>'));
-		$form->register('text',TR_FORMBUILDER_REPORTDEF,new htmleditorcontrol($object->text));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('description',$i18n['description'],new texteditorcontrol($object->description));
+		$form->register(null,'', new htmlcontrol('<br /><br />'.$i18n['blank_report_message'].'<br /><br />'));
+		$form->register('text',$i18n['text'],new htmleditorcontrol($object->text));
 		
 		$fields = array();
 		$column_names = array();
@@ -72,18 +72,17 @@ class formbuilder_report {
 					}
 				}
 			}
-			$fields['ip'] = TR_FORMBUILDER_FIELD_IP;
-			if (in_array('ip',$cols)) $column_names['ip'] = TR_FORMBUILDER_FIELD_IP;
-			$fields['user_id'] = TR_FORMBUILDER_FIELD_USERNAME;
-			if (in_array('user_id',$cols)) $column_names['user_id'] = TR_FORMBUILDER_FIELD_USERNAME;
-			$fields['timestamp'] = TR_FORMBUILDER_FIELD_TIMESTAMP;
-			if (in_array('timestamp',$cols)) $column_names['timestamp'] = TR_FORMBUILDER_FIELD_TIMESTAMP;
+			$fields['ip'] = $i18n['field_ip'];
+			if (in_array('ip',$cols)) $column_names['ip'] = $i18n['field_id'];
+			$fields['user_id'] = $field['field_user_id'];
+			if (in_array('user_id',$cols)) $column_names['user_id'] = $i18n['field_user_id'];
+			$fields['timestamp'] = $i18n['field_timestamp'];
+			if (in_array('timestamp',$cols)) $column_names['timestamp'] = $i18n['field_timestamp'];
 		}
 
-		$form->register('column_names',TR_FORMBUILDER_REPORTCOLS, new listbuildercontrol($column_names,$fields));
-		$form->register(null,'', new htmlcontrol('<br><br><br>'));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-		
+		$form->register('column_names',$i18n['column_names'], new listbuildercontrol($column_names,$fields));
+		$form->register(null,'', new htmlcontrol('<br /><br /><br />'));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 	

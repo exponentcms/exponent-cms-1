@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,17 +32,16 @@
 # $Id$
 ##################################################
 
+$i18n = pathos_lang_loadFile('install/popups/db_existing.php');
+
 ?>
-<div class="installer_title">
-<img src="images/blocks.png" width="16" height="16" />
-Using an Existing Database
+<b><?php echo $i18n['title']; ?></b>
+<div class="bodytext">
+<?php echo $i18n['p1']; ?>
+<br /><br />
+<?php echo $i18n['p2']; ?>
+<br /><br />
+<?php echo $i18n['p3']; ?>
+<br /><br />
+<?php echo $i18n['p4']; ?>
 </div>
-<br /><br />
-A pre-existing database can be used to store the content of your website, however a few issues must be dealt with.
-<br /><br />
-Exponent needs its own set of tables within a pre-existing database in order to function properly.  This can be accomplished by specifying a new table prefix.
-<br /><br />
-The table prefix is used to make each table's name in the database unique.  It is prepended to the name of each table.  This means that two Exponent sites can use the database 'db' if one has a table prefix of "exponent_" and the other uses "cms_".
-<br /><br />
-By convention, a table prefix ends with an underscore.  This improves database readability, and helps with troubleshooting.
-<br />

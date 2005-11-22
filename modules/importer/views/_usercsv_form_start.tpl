@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,7 @@
  *
  * $Id$
  *}
-<div class="form_title">Import User - Enter CSV Options</div>
-<div class="form_header">
-Please enter the delimiter character of the csv file, the csv file to be uploaded, and the row within the csv file to start at. The start row is for files that have <br>
-column headers, or if you just want to skip records in the csv file.
-</div>
-<span style="color:red;">
-{$error}
-</span>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
+<span style="color:red;">{$error}</span>
 {$form_html}

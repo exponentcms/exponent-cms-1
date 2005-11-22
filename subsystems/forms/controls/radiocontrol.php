@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -37,10 +38,6 @@ if (!defined('PATHOS')) exit('');
  * Radio Control
  *
  * An HTML radio button
- *
- * @author Greg Otte
- * @copyright 2004 OIC Group, Inc.
- * @version 0.95
  *
  * @package Subsystems
  * @subpackage Forms
@@ -85,7 +82,7 @@ class radiocontrol extends formcontrol {
 	
 	function controlToHTML($name) {
 		$html = '<input type="radio" value="'.$this->value .'" name="' . $this->groupname . '"';
-		if ($this->default) $html .= ' checked';
+		if ($this->default) $html .= ' checked="checked"';
 		$html .= ' />';
 		return $html;
 	}
@@ -102,15 +99,14 @@ class radiocontrol extends formcontrol {
 			$object->default = false;
 			$object->flip = false;
 		} 
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/radiocontrol.php');
 		
-		$form->register("groupname",TR_FORMCONTROLS_GROUPNAME,new textcontrol($object->groupname));
-		$form->register("caption",TR_FORMCONTROLS_CAPTIONVALUE, new textcontrol($object->caption));
-		$form->register("default",TR_FORMCONTROLS_DEFAULT, new checkboxcontrol($object->default,false));
-		$form->register("flip",TR_FORMCONTROLS_CAPTIONONRIGHT, new checkboxcontrol($object->flip,false));
+		$form->register("groupname",$i18n['groupname'],new textcontrol($object->groupname));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("default",$i18n['default'], new checkboxcontrol($object->default,false));
+		$form->register("flip",$i18n['flip'], new checkboxcontrol($object->flip,false));
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}
@@ -118,9 +114,9 @@ class radiocontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new radiocontrol();
 		if ($values['groupname'] == "") {
-			pathos_lang_loadDictionary('standard','formcontrols');
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/radiocontrol.php');
 			$post = $_POST;
-			$post['_formError'] = TR_FORMCONTROLS_GROUPNAME_REQUIRED;
+			$post['_formError'] = $i18n['groupname_req'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

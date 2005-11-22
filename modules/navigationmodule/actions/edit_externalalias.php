@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,13 +36,18 @@
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
 
-$section = null;
-if (isset($_GET['id'])) {
-	// Check to see if an id was passed in get.  If so, retrieve that section from
-	// the database, and perform an edit on it.
-	$section = $db->selectObject('section','id='.$_GET['id']);
-	if ($section) {
-		$check_id = $section->id;
+// FIXME: Allow non-administrative users to manage certain
+// FIXME: parts of the section hierarchy.
+if ($user && $user->is_acting_admin == 1) {
+	$section = null;
+	if (isset($_GET['id'])) {
+		// Check to see if an id was passed in get.  If so, retrieve that section from
+		// the database, and perform an edit on it.
+		$section = $db->selectObject('section','id='.intval($_GET['id']));
+	} else if (isset($_GET['parent'])) {
+		// The isset check is merely a precaution.  This action should
+		// ALWAYS be invoked with a parent or id value in the GET.
+		$section->parent = $_GET['parent'];
 	}
 } else if (isset($_GET['parent'])) {
 	// The isset check is merely a precaution.  This action should
@@ -64,6 +70,8 @@ if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocatio
 	// conventional name of 'form_html'.
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

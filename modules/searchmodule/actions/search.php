@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,7 +31,6 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 //GREP:VIEWIFY
 if (!defined("PATHOS")) exit("");
 
@@ -40,14 +40,11 @@ if ($config == null) {
 	$config->is_categorized = 0;
 }
 
-// HW: we need to either define what tags can be used in a search
-// or strip_tag it as well.
-if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
+if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 $search_string = trim(strtolower(strip_tags($_GET['search_string'])));
 
 if ($search_string == "") {
-	pathos_lang_loadDictionary('modules','searchmodule');
-	echo TR_SEARCHMODULE_NEEDTERM;
+	echo pathos_lang_loadKey('modules/searchmodule/actions/search.php','need_term');
 	return;
 }
 
@@ -159,6 +156,7 @@ foreach ($db->selectObjects("search",pathos_search_whereClause(array("title","bo
 
 $template = new template('searchmodule','_results');
 $template->assign('config',$config);
+$template->assign('query',join(' ',$terms));
 $template->assign('good_terms',$terms);
 $template->assign('excluded_terms',$term_status['excluded']);
 $template->assign('have_excluded_terms',count($term_status['excluded']));

@@ -33,6 +33,9 @@
 
 if (!defined('PATHOS')) exit('');
 
+// Sanitize querystring parameters.
+$_GET['id'] = intval($_GET['id']);
+
 $post = $db->selectObject('weblog_post','id='.$_GET['id']);
 if ($post) {
 	$loc = unserialize($post->location_data);

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,34 +31,25 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 if (!defined('PATHOS')) exit('');
 
-pathos_sessions_unset("installer_config");
+pathos_sessions_unset('installer_config');
+$i18n = pathos_lang_loadFile('install/pages/final.php');
 
 ?>
-<div class="installer_title">
-<img src="images/blocks.png" width="32" height="32" />
-Installation Compete - Congratulations!
-</div>
+<h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
 <?php
 
 unlink(BASE.'install/not_configured');
 if (file_exists(BASE.'install/not_configured')) {
 	echo '<br /><br />';
-	echo '<span style="color: red">Unable to remove the file install/not_configured.  You will have to manually remove this file.</span>';
+	echo '<span style="color: red">'.$i18n['no_remove'].'</span>';
 }
 
 ?>
 <br /><br />
-Configuration and setup for your new website is complete.
+<?php echo $i18n['success']; ?>
 <br /><br />
-You can login to your new website using the following administrator account:
-<table cellpadding="0" cellspacing="2" border="0">
-<tr><td><b>Username:</b></td><td>admin</td></tr>
-<tr><td><b>Password:</b></td><td>admin</td></tr>
-</table>
-<br />
-You can visit your new website <a href="<?php echo URL_FULL; ?>index.php">here</a>.
+<a href="<?php echo URL_FULL; ?>index.php"><?php echo $i18n['visit']; ?></a>.
 <br /><br />

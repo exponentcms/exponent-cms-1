@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,7 +35,7 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
-	pathos_lang_loadDictionary('modules','sharedcoremodule');
+	$i18n = pathos_lang_loadFile('modules/sharecoremodule/actions/save_site.php');
 
 	$site = null;
 	if (isset($_POST['id'])) $site = $db->selectObject("sharedcore_site","id=".$_POST['id']);
@@ -135,39 +136,41 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 						ksort($tables);
 						// End snip
 						
-						pathos_lang_loadDictionary('standard','dbrecover');
+						// Use the db recover library
+						$i18n_db = pathos_lang_loadFile('db_recover.php');
 						
 						// Following code snipped from db_recover.php
-						if ($newdb->tableIsEmpty("user")) {
-							echo TR_DBRECOVER_CREATEDEFAULTADMIN.'<br />';
+						if ($newdb->tableIsEmpty('user')) {
+							echo $i18n_db['create_admin'].'<br />';
 							$u = null;
-							$u->username = "admin";
-							$u->password = md5("admin");
+							$u->username = 'admin';
+							$u->password = md5('admin');
 							$u->is_admin = 1;
-							$newdb->insertObject($u,"user");
+							$u->is_acting_admin = 1;
+							$newdb->insertObject($u,'user');
 						}
 						
-						if ($newdb->tableIsEmpty("modstate")) {
-							echo TR_DBRECOVER_ACTIVATEADMINMOD.'<br />';
+						if ($newdb->tableIsEmpty('modstate')) {
+							echo $i18n_db['activate_panel'].'<br />';
 							$modstate = null;
-							$modstate->module = "administrationmodule";
+							$modstate->module = 'administrationmodule';
 							$modstate->active = 1;
-							$newdb->insertObject($modstate,"modstate");
+							$newdb->insertObject($modstate,'modstate');
 						}
 						
-						if ($newdb->tableIsEmpty("section")) {
-							echo TR_DBRECOVER_CREATEDEFAULTSECTION.'<br />';
+						if ($newdb->tableIsEmpty('section')) {
+							echo $i18n_db['create_section'].'<br />';
 							$section = null;
-							$section->name = TR_DBRECOVER_DEFAULTSECTION;
+							$section->name = $i18n_db['home'];
 							$section->public = 1;
 							$section->active = 1;
 							$section->rank = 0;
 							$section->parent = 0;
-							$sid = $newdb->insertObject($section,"section");
+							$sid = $newdb->insertObject($section,'section');
 						}
 						
-						$template = new template("administrationmodule","_tableInstallSummary",$loc);
-						$template->assign("status",$tables);
+						$template = new template('administrationmodule','_tableInstallSummary',$loc);
+						$template->assign('status',$tables);
 						$template->output();
 					}
 					// End snip
@@ -179,27 +182,27 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 				} else {
 					switch ($stat) {
 						case SHAREDCORE_ERR_LINKSRC_NOTREADABLE:
-							echo TR_SHAREDCOREMODULE_ERR_NOTREADABLENOW;
+							echo $i18n['no_longer_readable'];
 							break;
 						case SHAREDCORE_ERR_LINKSRC_NOTEXISTS:
-							echo TR_SHAREDCOREMODULE_ERR_NOTEXISTSNOW;
+							echo $i18n['no_longer_exists'];
 							break;
 					}
 				}
 			} else {
 				$post = $_POST;
-				$v = @include($this->site."pathos_version.php");
-				$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_DESTEXISTS,$v,$site->path);
-				pathos_sessions_set("last_POST",$post);
-				header("Location: " . $_SERVER['HTTP_REFERER']);
+				$v = @include($this->site.'pathos_version.php');
+				$post['_formError'] = sprintf($i18n['dest_exists'],$v,$site->path);
+				pathos_sessions_set('last_POST',$post);
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}
 		} else { // Old -- update object
-			$db->updateObject($site,"sharedcore_site");
+			$db->updateObject($site,'sharedcore_site');
 			if ($site->inactive == 0) {
 				// Take them to the modules page, because that's probably why they went to edit in the first place.
-				$url = URL_FULL . "index.php?module=sharedcoremodule&action=edit_site_modules&site_id=".$site->id;
-				header("Location: $url");
-				exit('Redirecting');
+				$url = URL_FULL . 'index.php?module=sharedcoremodule&action=edit_site_modules&site_id='.$site->id;
+				header('Location: '.$url);
+				exit;
 			} else {
 				// For inactive sites, we can't go through the edit modules page, because it would relink and defeat the purpose of the deactivation
 				pathos_flow_redirect();
@@ -207,9 +210,9 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 		}
 	} else {
 		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_DESTNOTWRITABLE,$site->path);
-		pathos_sessions_set("last_POST",$post);
-		header("Location: " . $_SERVER['HTTP_REFERER']);
+		$post['_formError'] = sprintf($i18n['dest_not_writable'],$site->path);
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 } else {
 	echo SITE_403_HTML;

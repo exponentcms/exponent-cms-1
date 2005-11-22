@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,6 @@
  *
  * $Id$
  *}
- {if $error == "nousers"}
- There are no users to ban.
- {else}
-<div class="form_title">Block User</div>
-<div class="form_header">
-Use this form to block a user from contacting you.  You will be unable to contact any users you have blocked.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}
-{/if}

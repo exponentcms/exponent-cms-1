@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,55 +32,55 @@
 # $Id$
 ##################################################
 
-define("SCRIPT_EXP_RELATIVE","modules/navigationmodule/actions/");
-define("SCRIPT_FILENAME","edit_page.php");
+define('SCRIPT_EXP_RELATIVE','modules/navigationmodule/actions/');
+define('SCRIPT_FILENAME','edit_page.php');
 
 ob_start();
 
-require_once("../../../pathos.php");
+include_once('../../../pathos.php');
 
-if (!defined("SYS_THEME")) require_once(BASE."subsystems/theme.php");
+if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
 $id = -1;
 if (isset($_GET['sitetemplate_id'])) {
-	pathos_sessions_set("sitetemplate_id",$_GET['sitetemplate_id']);
+	pathos_sessions_set('sitetemplate_id',$_GET['sitetemplate_id']);
 	$id = $_GET['sitetemplate_id'];
-} else if (pathos_sessions_isset("sitetemplate_id")) {
-	$id = pathos_sessions_get("sitetemplate_id");
+} else if (pathos_sessions_isset('sitetemplate_id')) {
+	$id = pathos_sessions_get('sitetemplate_id');
 }
 
-$template = $db->selectObject("section_template","id=".$id);
-$page = ($template && $template->subtheme != "" && is_readable(BASE."themes/".DISPLAY_THEME."/subthemes/".$template->subtheme.".php") ?
-	"themes/".DISPLAY_THEME."/subthemes/".$template->subtheme.".php" :
-	"themes/".DISPLAY_THEME."/index.php"
+$template = $db->selectObject('section_template','id='.$id);
+$page = ($template && $template->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$template->subtheme.'.php') ?
+	'themes/'.DISPLAY_THEME.'/subthemes/'.$template->subtheme.'.php' :
+	'themes/'.DISPLAY_THEME.'/index.php'
 );
 
-pathos_sessions_set("themeopt_override",array(
-	"src_prefix"=>"@st".$id,
-	"ignore_mods"=>array(
-		"navigationmodule",
-		"loginmodule"
+$i18n = pathos_lang_loadFile('modules/navigationmodule/actions/edit_page.php');
+
+pathos_sessions_set('themeopt_override',array(
+	'src_prefix'=>'@st'.$id,
+	'ignore_mods'=>array(
+		'navigationmodule',
+		'loginmodule'
 	),
-	"mainpage"=>PATH_RELATIVE."modules/navigationmodule/actions/edit_page.php",
-	"backlinktext"=>"Back to Template"
+	'mainpage'=>PATH_RELATIVE.'modules/navigationmodule/actions/edit_page.php',
+	'backlinktext'=>$i18n['back']
 ));
 
-#define("PREVIEW_READONLY",1);
-$REDIRECTIONPATH = "section_template";
+#define('PREVIEW_READONLY',1);
+$REDIRECTIONPATH = 'section_template';
 
 if ($user && $user->is_acting_admin == 1) {
 	
 	if (is_readable(BASE.$page)) {
 		include_once(BASE.$page);
 	} else {
-		echo BASE."$page not readable";
+		echo sprintf($i18n['err_not_readable'],BASE.$page);
 	}
 
-	pathos_sessions_unset("themeopt_override");
+	pathos_sessions_unset('themeopt_override');
 } else {
 	echo SITE_403_HTML;
 }
-
-ob_end_flush();
 
 ?>

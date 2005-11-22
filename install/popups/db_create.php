@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,6 +32,8 @@
 # $Id$
 ##################################################
 
+$i18n = pathos_lang_loadFile('install/popups/db_create.php');
+
 ?>
 <script type="text/javascript">
 <!--
@@ -57,37 +60,35 @@ function buildHelp(dbname,username,password,target) {
 
 //-->
 </script>
-<div class="installer_title">
-<img src="images/blocks.png" width="16" height="16" />
-Creating a New Database
-</div>
-<br /><br />
-Exponent supports both the MySQL database server and the PostGreSQL database server as backends.
+<b><?php echo $i18n['title']; ?></b>
+
+<div class="bodytext">
+<?php echo $i18n['header']; ?>
 <br /><br />
 <div align="center">
-|&nbsp;<a href="#mysql">MySQL</a>&nbsp;|&nbsp;<a href="#pgsql">PostGreSQL</a>&nbsp;|
+|&nbsp;<a href="#mysql"><?php echo $i18n['mysql']; ?></a>&nbsp;|&nbsp;<a href="#pgsql"><?php echo $i18n['postgres']; ?></a>&nbsp;|
 </div>
 <br />
 
 <a name="form"></a>
 <br />
 <div class="important_box">
-Fill out the form below and click 'Go' to generate SQL statements for each supported database server.
+<?php echo $i18n['instructions']; ?>
 <br />
 <form>
 <table>
 <tr>
-	<td>Database:&nbsp;</td>
-	<td><input class="text" type="text" name="dbname" value="<dbname>" /></td>
+	<td><?php echo $i18n['database']; ?>:&nbsp;</td>
+	<td><input class="text" type="text" name="dbname" value="" /></td>
 </tr><tr>
-	<td>Username:&nbsp;</td>
-	<td><input class="text" type="text" name="username" value="<username>" /></td>
+	<td><?php echo $i18n['username']; ?>:&nbsp;</td>
+	<td><input class="text" type="text" name="username" value="" /></td>
 </tr><tr>
-	<td>Password:&nbsp;</td>
-	<td><input class="text" type="text" name="password" value="<password>" /></td>
+	<td><?php echo $i18n['password']; ?>:&nbsp;</td>
+	<td><input class="text" type="text" name="password" value="" /></td>
 </tr><tr>
 	<td></td>
-	<td><input class="text" type="button" value="For MySQL..." onClick="buildHelp(this.form.dbname.value,this.form.username.value,this.form.password.value,'mysql'); return false" /></td>
+	<td><input class="text" type="button" value="<?php echo $i18n['for_mysql']; ?>" onClick="buildHelp(this.form.dbname.value,this.form.username.value,this.form.password.value,'mysql'); return false" /></td>
 </tr>
 </form>
 </table>
@@ -97,14 +98,14 @@ Fill out the form below and click 'Go' to generate SQL statements for each suppo
 <a name="mysql"></a>
 <hr size="1" />
 <img src="images/mysql.png" /><br />
-<b>MySQL Database Creation</b>
+<b><?php echo $i18n['mysql_title']; ?></b>
 <br /><br />
-If you have access to the database server, and have sufficient privileges to create databases, you can use the following SQL statements to setup the database for Exponent.  Note that you will have to fill in the <a href="#form">form</a> above before using these.
+<?php echo $i18n['mysql_instructions']; ?>
 <br /><br />
-<b>Create the Database</b><br />
-<textarea id="mysql_create" rows="1" style="width: 100%">(fill in the above form and click 'go' to generate SQL)</textarea>
-<b>Grant Database Rights</b><br />
-<textarea id="mysql_perms" rows="3" style="width: 100%">(fill in the above form and click 'go' to generate SQL)</textarea>
+<b><?php echo $i18n['create_db']; ?></b><br />
+<textarea id="mysql_create" rows="1" style="width: 100%">(<?php echo $i18n['fill_out']; ?>)</textarea>
+<b><?php echo $i18n['create_privs']; ?></b><br />
+<textarea id="mysql_perms" rows="3" style="width: 100%">(<?php echo $i18n['fill_out']; ?>)</textarea>
 <script type="text/javascript">
 ids.push("mysql_create");
 tpls.push("CREATE DATABASE __DBNAME__;");
@@ -117,9 +118,7 @@ tpls.push("GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP to _
 <a name="pgsql"></a>
 <hr size="1" />
 <img src="images/pgsql.gif" /><br />
-<b>PostGreSQL Database Creation</b>
+<b><?php echo $i18n['postgres_title']; ?></b>
 <br /><br />
-Because PostGreSQL does not maintain its own set of users like MySQL (and instead relies on system users) you will have to refer to the <a href="http://www.postgresql.org/">online documentation</a> for information on creating new databases and assigning user permissions.
-<br /><br />
-Note that the Exponent support for PostGreSQL is still <b>experimental</b>.  It is not recommended to use PostGreSQL in a production environment.
-<br />
+<?php echo $i18n['postgres_instructions']; ?>
+</div>

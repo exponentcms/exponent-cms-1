@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,18 +32,14 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("administrate",$loc)) {
-	$groups = explode(";",$_POST['permdata']);
-	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+if (pathos_permissions_check('administrate',$loc)) {
+	$groups = explode(';',$_POST['permdata']);
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	foreach ($groups as $group_str) {
-		$perms = explode(":",$group_str);
-		if ($perms[0] == 0) { // Anonymous Users
-			$g->id = 0;
-		} else {
-			$g = pathos_users_getGroupById($perms[0]);
-		}
+		$perms = explode(':',$group_str);
+		$g = pathos_users_getGroupById($perms[0]);
 		pathos_permissions_revokeAllGroup($g,$loc);
 		for ($i = 1; $i < count($perms); $i++) {
 			pathos_permissions_grantGroup($g,$perms[$i],$loc);

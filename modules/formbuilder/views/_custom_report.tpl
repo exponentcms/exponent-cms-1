@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,11 +29,10 @@
  *
  * $Id$
  *}
- 
- 
- {eval var=$template}
- 
-  {if $is_email == 0}
-  <br><br>
-	<a href="{$backlink}">Back</a>
+
+{eval var=$template}
+
+ {if $is_email == 0}
+<br /><br />
+<a href="{$backlink}">{$_TR.back}</a>
  {/if}

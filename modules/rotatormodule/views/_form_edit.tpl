@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit}Edit Content{else}New Content{/if}</div>
-<div class="form_header">
-Enter the content below, and it will be added to the rotator.
-</div>
+<div class="form_title">{if $is_edit}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

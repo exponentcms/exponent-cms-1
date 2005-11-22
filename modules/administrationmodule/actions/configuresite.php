@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -38,7 +39,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
-	pathos_lang_loadDictionary('modules','administrationmodule');
+	$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/configuresite.php');
 
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	
@@ -65,7 +66,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$dd = new dropdowncontrol($configname,$profiles);
 	$href = preg_replace("/&configname.*/",'',$_SERVER['REQUEST_URI']);
 	$dd->jsHooks['onChange'] = "document.location.href = makeLink('module','administrationmodule','action','configuresite','configname',this.options[this.selectedIndex].value);";
-	$form->register('configname',TR_ADMINISTRATIONMODULE_PROFILE,$dd);
+	$form->register('configname',$i18n['profile'],$dd);
 	$template->assign('form_html',$form->toHTML());
 	
 	$template = pathos_config_outputConfigurationTemplate($template,$configname);

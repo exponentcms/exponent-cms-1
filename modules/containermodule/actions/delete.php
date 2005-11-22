@@ -34,7 +34,10 @@
 if (!defined('PATHOS')) exit('');
 
 $container = null;
-if (isset($_GET['id'])) $container = $db->selectObject('container','id='.$_GET['id']);
+if (isset($_GET['id'])) {
+	$container = $db->selectObject('container','id='.intval($_GET['id']));
+}
+
 if ($container != null) {
 	$iloc = unserialize($container->internal);
 	$cloc = unserialize($container->external);
@@ -44,7 +47,6 @@ if ($container != null) {
 		
 		container::delete($container,(isset($_GET['rerank']) ? 1 : 0));
 		$db->delete('container','id='.$container->id);
-		pathos_template_clear();
 		
 		// Check to see if its the last reference
 		$locref = $db->selectObject('locationref',"module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
@@ -54,7 +56,9 @@ if ($container != null) {
 			$template->assign('iloc',$iloc);
 			$template->assign('redirect',pathos_flow_get());
 			$template->output();
-		} else pathos_flow_redirect();
+		} else {
+			pathos_flow_redirect();
+		}
 	} else {
 		echo SITE_403_HTML;
 	}

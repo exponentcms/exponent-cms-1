@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class htmltemplatemodule {
-	function name() { return "HTML Template Editor"; }
-	function description() { return "Allows you to create, upload and edit HTML templates, which can be hooked into text controls."; }
-	function author() { return "James Hunt"; }
+	function name() { return pathos_lang_loadKey('modules/htmltemplatemodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/htmltemplatemodule/class.php','module_description'); }
+	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
 	function hasContent() { return true; }
@@ -43,12 +44,12 @@ class htmltemplatemodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','htmltemplatemodule');
+		$i18n = pathos_lang_loadFile('modules/htmltemplatemodule/class.php');
 		return array(
-			'administrate'=>TR_IMAGEMANAGERMODULE_PERM_ADMIN,
-			'create'=>TR_IMAGEMANAGERMODULE_PERM_POST,
-			'edit'=>TR_IMAGEMANAGERMODULE_PERM_EDIT,
-			'delete'=>TR_IMAGEMANAGERMODULE_PERM_DELETE
+			'administrate'=>$i18n['perm_administrate'],
+			'create'=>$i18n['perm_create'],
+			'edit'=>$i18n['perm_edit'],
+			'delete'=>$i18n['perm_delete']
 		);
 	}
 	
@@ -61,7 +62,10 @@ class htmltemplatemodule {
 		) {
 			$template = new template('htmltemplatemodule',$view,$loc);
 			
-			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
+			$template->assign('noupload',0);
+			$template->assign('uploadError','');
+				
+			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 			$directory = 'files/htmltemplatemodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
 				$err = pathos_files_makeDirectory($directory);

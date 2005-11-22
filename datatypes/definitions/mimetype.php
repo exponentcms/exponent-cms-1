@@ -34,6 +34,10 @@
 if (!defined('PATHOS')) exit('');
 
 return array(
+	'id'=>array(
+		DB_FIELD_TYPE=>DB_DEF_ID,
+		DB_PRIMARY=>true,
+		DB_INCREMENT=>true),
 	'mimetype'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),

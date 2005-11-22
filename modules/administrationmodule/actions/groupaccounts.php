@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -38,8 +39,8 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
-	$template = new Template('administrationmodule','_groupmanager',$loc);
-	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
+	$template = new template('administrationmodule','_groupmanager',$loc);
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	$groups = pathos_users_getAllGroups();
 	$template->assign('groups',$groups);
 	$template->assign('perm_level',2); // So we get the edit/delete links

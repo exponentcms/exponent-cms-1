@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,11 +30,11 @@
  * $Id$
  *}
 <br /><hr size='1' />
-<b>Approval Actions:&nbsp;&nbsp;&nbsp;&nbsp;</b>
-[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=cancel}">Cancel</a> ]
+<b>{$_TR.actions}:&nbsp;&nbsp;&nbsp;&nbsp;</b>
+[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=cancel}">{$_TR.cancel}</a> ]
 &nbsp;&nbsp;&nbsp;
-[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=approve}">Approve As-Is</a> ]
+[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=approve}">{$_TR.approve}</a> ]
 &nbsp;&nbsp;&nbsp;
-[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=edit}">Edit</a> ]
+[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=edit}">{$_TR.edit}</a> ]
 &nbsp;&nbsp;&nbsp;
-[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=deny_comment}">Deny Approval</a> ]
+[ <a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype mod=$mod id=$id action=deny_comment}">{$_TR.deny}</a> ]

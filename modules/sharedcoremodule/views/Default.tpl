@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,8 +31,8 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="Assign permissions on this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="Assign group permissions on this Module"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
 	<br />
 {/if}
 {/permissions}
@@ -49,7 +50,7 @@
 				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 			</a>
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=delete_core id=$core->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" onClick="return confirm('Are you sure you want to delete this codebase and all sites deployed from it?');" />
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" onClick="return confirm('{$_TR.delete_core_confirm}');" />
 			</a>
 			{/if}
 			{/permissions}
@@ -73,7 +74,7 @@
 				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=edit_site id=$site->id}">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 				</a>
-				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}" onClick="return confirm('Are you sure you want to delete this deployed site?');">
+				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}" onClick="return confirm('{$_TR.delete_site_confirm}');">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 				</a>
 				{if $site->inactive == 1}
@@ -95,21 +96,21 @@
 	{foreachelse}
 		<tr>
 			<td colspan="3" style="padding-left: 50px">
-				<i>No sites have been deployed from this codebase.</i>
+				<i>{$_TR.no_sites}</i>
 			</td>
 		</tr>
 	{/foreach}
 {foreachelse}
 	{assign var=nocores value=1}
-	<tr><td align="center"><i>No codebases found</td></tr>
+	<tr><td align="center"><i>{$_TR.no_cores}</td></tr>
 {/foreach}
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.manage == 1}
-<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core}">New Codebase</a>
+<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core}">{$_TR.new_codebase}</a>
 {if $nocores == 0}
 <br />
-<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_site core_id=$core->id}">Deploy New Site</a>
+<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_site core_id=$core->id}">{$_TR.new_site}</a>
 {/if}
 {/if}
 {/permissions}

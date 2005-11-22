@@ -41,7 +41,7 @@ if (!defined('PATHOS')) exit('');
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 	
-	<body onLoad="pathosJSinitialize();">
+	<body onload="pathosJSinitialize();">
 	<?php pathos_theme_sourceSelectorInfo(); ?>
 		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%; table-layout: fixed;<?php if (defined("SOURCE_SELECTOR")) echo 'border:3px dashed black;'; ?>">
 			<tr><!--

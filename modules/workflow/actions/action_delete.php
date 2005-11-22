@@ -34,7 +34,7 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
-	$action = $db->selectObject('workflowaction','id='.$_GET['id']);
+	$action = $db->selectObject('workflowaction','id='.intval($_GET['id']));
 	$db->delete('workflowaction','id='.$action->id);
 	$db->decrement('workflowaction','rank',1,'rank >= ' . $action->rank . ' AND policy_id='.$action->policy_id . ' AND type='.$action->type);
 

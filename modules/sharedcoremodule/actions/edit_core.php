@@ -36,7 +36,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
 	$core = null;
 	if (isset($_GET['id'])) {
-		$core = $db->selectObject('sharedcore_core','id='.$_GET['id']);
+		$core = $db->selectObject('sharedcore_core','id='.intval($_GET['id']));
 	}
 	
 	$form = sharedcore_core::form($core);

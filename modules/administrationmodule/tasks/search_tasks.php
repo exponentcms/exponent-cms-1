@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,12 +34,12 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('admintasks','search_tasks');
+$i18n = pathos_lang_loadFile('modules/administrationmodule/tasks/search_tasks.php');
 
 return array(
-	TR_SEARCHTASKS_CAT_NAME=>array(
+	$i18n['searching']=>array(
 		'spider'=>array(
-			'title'=>TR_SEARCHTASKS_ITEM_SPIDER,
+			'title'=>$i18n['spider_site'],
 			'module'=>'searchmodule',
 			'action'=>'spider'
 		)

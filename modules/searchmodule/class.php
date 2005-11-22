@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,8 +33,8 @@
 ##################################################
 
 class searchmodule {
-	function name() { return 'Search Module'; }
-	function description() { return 'Allows users to search the content of the site.'; }
+	function name() { return pathos_lang_loadKey('modules/searchmodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/searchmodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return true; }
@@ -43,10 +44,10 @@ class searchmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','searchmodule');
+		$i18n = pathos_lang_loadFile('modules/searchmodule/class.php');
 		return array(
-			'administrate'=>TR_SEARCHMODULE_PERM_ADMIN,
-			'configure'=>TR_SEARCHMODULE_PERM_CONFIG
+			'administrate'=>$i18n['perm_administrate'],
+			'configure'=>$i18n['perm_configure']
 		);
 	}
 	

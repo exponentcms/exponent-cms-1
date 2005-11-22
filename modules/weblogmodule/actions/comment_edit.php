@@ -36,10 +36,10 @@ if (!defined('PATHOS')) exit('');
 $post = null;
 $comment = null;
 if (isset($_GET['id'])) {
-	$comment = $db->selectObject('weblog_comment','id='.$_GET['id']);
+	$comment = $db->selectObject('weblog_comment','id='.intval($_GET['id']));
 	$post = $db->selectObject('weblog_post','id='.$comment->parent_id);
 } else if (isset($_GET['parent_id'])) {
-	$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
+	$post = $db->selectObject('weblog_post','id='.intval($_GET['parent_id']));
 }
 if ($post && $post->is_draft == 0) {
 	$loc = unserialize($post->location_data);
@@ -54,11 +54,13 @@ if ($post && $post->is_draft == 0) {
 		$form->location($loc);
 		$form->meta('action','comment_save');
 		
-		if (isset($_GET['parent_id'])) $form->meta('parent_id',$_GET['parent_id']);
+		if (isset($_GET['parent_id'])) {
+			$form->meta('parent_id',intval($_GET['parent_id']));
+		}
 		
 		$template = new template('weblogmodule','_form_commentEdit',$loc);
 		$template->assign('form_html',$form->toHTML());
-		$template->assign('is_edit',isset($_GET['id']));
+		$template->assign('is_edit', (isset($_GET['id']) ? 1 : 0) );
 		$template->output();
 	} else {
 		echo SITE_403_HTML;

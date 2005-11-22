@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,44 +34,44 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('config','database');
+$i18n = pathos_lang_loadFile('conf/extensions/database.structure.php');
 
 return array(
-	TR_CONFIG_DATABASE_TITLE,
+	$i18n['title'],
 	array(
 		'DB_ENGINE'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_ENGINE,
-			'description'=>TR_CONFIG_DATABASE_DB_ENGINE_DESC,
+			'title'=>$i18n['db_engine'],
+			'description'=>$i18n['db_engine_desc'],
 			'control'=>new dropdowncontrol('',pathos_database_backends())
 		),
 		'DB_NAME'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_NAME,
-			'description'=>TR_CONFIG_DATABASE_DB_NAME_DESC,
+			'title'=>$i18n['db_name'],
+			'description'=>$i18n['db_name_desc'],
 			'control'=>new textcontrol()
 		),
 		'DB_USER'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_USER,
-			'description'=>TR_CONFIG_DATABASE_DB_USER_DESC,
+			'title'=>$i18n['db_user'],
+			'description'=>$i18n['db_user_desc'],
 			'control'=>new textcontrol()
 		),
 		'DB_PASS'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_PASS,
-			'description'=>TR_CONFIG_DATABASE_DB_PASS_DESC,
+			'title'=>$i18n['db_pass'],
+			'description'=>$i18n['db_pass_desc'],
 			'control'=>new passwordcontrol()
 		),
 		'DB_HOST'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_HOST,
-			'description'=>TR_CONFIG_DATABASE_DB_HOST_DESC,
+			'title'=>$i18n['db_host'],
+			'description'=>$i18n['db_host_desc'],
 			'control'=>new textcontrol()
 		),
 		'DB_PORT'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_PORT,
-			'description'=>TR_CONFIG_DATABASE_DB_PORT_DESC,
+			'title'=>$i18n['db_port'],
+			'description'=>$i18n['db_port_desc'],
 			'control'=>new textcontrol()
 		),
 		'DB_TABLE_PREFIX'=>array(
-			'title'=>TR_CONFIG_DATABASE_DB_TABLE_PREFIX,
-			'description'=>TR_CONFIG_DATABASE_DB_TABLE_PREFIX_DESC,
+			'title'=>$i18n['db_table_prefix'],
+			'description'=>$i18n['db_table_prefix_desc'],
 			'control'=>new textcontrol()
 		)
 	)

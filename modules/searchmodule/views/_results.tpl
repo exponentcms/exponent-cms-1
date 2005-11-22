@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,9 +31,9 @@
  *}
 <b>Search Results</b>
 <br />
-Your search for "{' '|join:$good_terms}" returned {$num_results} result{if $num_results != 1}s{/if}<br />
+{$_TR.search_returned|sprintf:$query:$num_results}<br />
 {if $have_excluded_terms != 0}
-<i>The following search terms were ignored: {', '|join:$excluded_terms}<br />
+<i>{$_TR.ignored_terms}: {', '|join:$excluded_terms}<br />
 {/if}
 {if $config->is_categorized == 0}{* not categorized, we just have a list of crap *}
 {foreach from=$results item=result}

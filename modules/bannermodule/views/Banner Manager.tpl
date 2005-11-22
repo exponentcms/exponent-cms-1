@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,9 +31,9 @@
  *}
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
 <tr>
-	<td class="header banner_header">Banner</td>
-	<td class="header banner_header">Affiliate</td>
-	<td class="header banner_header">&nbsp;</td>
+	<td class="header banner_header">{$_TR.banner}</td>
+	<td class="header banner_header">{$_TR.affiliate}</td>
+	<td class="header banner_header"></td>
 </tr>
 {foreach from=$banners item=banner}
 {assign var=aid value=$banner->affiliate_id}
@@ -47,7 +48,7 @@
 		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_edit id=$banner->id}">
 			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
 		</a>
-		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_delete id=$banner->id}" onClick="return confirm('Are you sure you want to delete \'{$banner->name}\'?');">
+		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_delete id=$banner->id}" onClick="return confirm('{$_TR.delete_confirm}');">
 			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 		</a>
 	</td>
@@ -56,16 +57,16 @@
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.manage == 1 && $noupload != 1}
-<a class="mngmntlink banner_mngmntlink" href="{link action=ad_edit}">New Banner</a>
+<a class="mngmntlink banner_mngmntlink" href="{link action=ad_edit}">{$_TR.new_banner}</a>
 {/if}
 {/permissions}
 
 {if $noupload == 1}
 <div class="error">
-Uploads have been disabled.<br />
-{if $uploadError == $smarty.const.SYS_FILES_FOUNDFILE}Found a file in the directory path when creating the directory to store the files in.
-{elseif $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}Unable to create directory to store files in.
-{else}An unknown error has occurred.  Please contact the Exponent Developers.
+{$_TR.uploads_disabled}<br />
+{if $uploadError == $smarty.const.SYS_FILES_FOUNDFILE}{$_TR.err_foundfile}
+{elseif $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}{$_TR.err_cantmkdir}
+{else}{$_TR.err_unknown}
 {/if}
 </div>
 {/if}

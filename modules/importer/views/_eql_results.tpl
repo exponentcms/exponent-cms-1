@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,8 @@
  *
  * $Id$
  *}
-{if $success == 1}Data restored successfully from backup.{else}
-Errors were encountered trying to restore database<br />
+{if $success == 1}{$_TR.success}{else}
+{$_TR.failure}<br />
 <div style='padding-left: 25px;'>
 {foreach from=$errors item=error}
 {$error}<br />

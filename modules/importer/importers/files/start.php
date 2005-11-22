@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -38,13 +39,15 @@ $template = new template('importer','_files_uploadForm');
 if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 pathos_forms_initialize();
 
+$i18n = pathos_lang_loadFile('modules/importer/importers/files/start.php');
+
 $form = new form();
 $form->meta('module','importer');
 $form->meta('action','page');
 $form->meta('importer','files');
 $form->meta('page','process');
-$form->register('file','Files Archive',new uploadControl());
-$form->register('submit','',new buttongroupcontrol('Restore'));
+$form->register('file',$i18n['file'],new uploadcontrol());
+$form->register('submit','',new buttongroupcontrol($i18n['restore']));
 
 $template->assign('form_html',$form->toHTML());
 $template->output();

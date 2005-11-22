@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -33,8 +34,8 @@
 {assign var=warn value=0}
 <table cellpadding="0" cellspacing="0" width="100%" border="0">
 <tr>
-	<td class="header administration_header">File</td>
-	<td class="header administration_header">Status</td>
+	<td class="header administration_header">{$_TR.file}</td>
+	<td class="header administration_header">{$_TR.status}</td>
 	<td class="header administration_header"></td>
 </tr>
 {foreach from=$files item=file}
@@ -42,20 +43,20 @@
 	<td>{$file.absolute}</td>
 	<td>
 	{if $file.canCreate == $smarty.const.SYS_FILES_SUCCESS}
-	<span style="color: green;">passed</span>
+	<span style="color: green;">{$_TR.passed}</span>
 	{elseif $file.canCreate == $smarty.const.SYS_FILES_FOUNDFILE || $file.canCreate == $smarty.const.SYS_FILES_FOUNDDIR}
 	{assign var=warn value=1}
-	<span style="color: orange;">file exists</span>
+	<span style="color: orange;">{$_TR.file_exists}</span>
 	{else}
 	{assign var=failed value=1}
-	<span style="color: red;">failed</span>
+	<span style="color: red;">{$_TR.failed}</span>
 	{/if}
 	</td>
 	<td>
 	{if $file.ext == "tpl" || $file.ext == "php"}
 	{capture assign="filearg"}{$smarty.const.PATH_RELATVE}{$relative}{$file.absolute}{/capture}
 		<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=viewcode file=$filearg}">
-			{if $file.ext == "tpl"}View Template{else}View PHP Code{/if}
+			{if $file.ext == "tpl"}{$_TR.view_template}{else}{$_TR.view_php}{/if}
 		</a>
 	{/if}
 	</td>
@@ -63,7 +64,7 @@
 {foreachelse}
 {assign var=haveFiles value=0}
 <tr><td colspan="3">
-<i>No files were found in the archive</i>
+<i>{$_TR.no_files}</i>
 </td></tr>
 {/foreach}
 </table>
@@ -71,9 +72,9 @@
 <br />
 <hr size="1" />
 {if $failed == 0}
-{if $warn == 1}<b>Note:</b> Continuing with the installation will overwrite existing files.  It is <b>highly recommended</b> that you ensure that you want to do this.<br /><br />{/if}
-To install these files on the website, click <a class="mngmntlink administration_mngmntlink" href="{link action=finish_install_extension}">continue</a>.
+{if $warn == 1}{$_TR.overwrite_warning}<br /><br />{/if}
+<a class="mngmntlink administration_mngmntlink" href="{link action=finish_install_extension}">{$_TR.install}</a>.
 {else}
-Permissions on the webserver are preventing the installation of this extension.  Please make the necessary directories writable, and then reload this page to continue.
+{$_TR.bad_permissions}
 {/if}
 {/if}

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,9 +29,9 @@
  *
  * $Id$
  *}
-  <div class="form_title">Please log in to proceed</div>
-	<table align="left">
-		<tr>
-			<td align="left">{$output}</td>
-		</tr>
-	</table>
+  <div class="form_title">{$_TR.form_title}</div>
+<table align="left">
+	<tr>
+		<td align="left">{$output}</td>
+	</tr>
+</table>

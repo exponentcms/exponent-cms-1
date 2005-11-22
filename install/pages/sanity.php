@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,44 +31,40 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 if (!defined('PATHOS')) exit('');
 
-include_once("include/sanity.php");
+include_once('include/sanity.php');
+
+$i18n = pathos_lang_loadFile('install/pages/sanity.php');
 
 $status = sanity_checkFiles();
 // Run sanity checks
 $errcount = count($status);
 $warncount = 0; // No warnings with permissions
 ?>
-<div class="installer_title">
-<img src="images/blocks.png" width="32" height="32" />
-Sanity Checks
-</div>
-<br /><br />
-Exponent requires that several permissions be set correctly in order to operate.  Sanity checks are being run right now to ensure that the web server directory you wish to install Exponent in is suitable.
-<br /><br />
+<h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
 <table cellspacing="0" cellpadding="3" rules="all" border="0" style="border:1px solid grey;" width="100%">
-<tr><td colspan="2" style="background-color: lightgrey;"><b>File and Directory Permission Tests</b></td></tr>
+<tr><td colspan="2" style="background-color: lightgrey;"><b><?php echo $i18n['filedir_tests']; ?></b></td></tr>
 <?php
+
 foreach ($status as $file=>$stat) {
-	echo '<tr><td width="55%"><span style="color: #AAA;">'.BASE.'</span>'.$file.'</td><td align="center" width="45%"';
-	if ($stat != SANITY_FINE) echo ' style="color: #C00; font-weight: bold; background-color: #999;">';
-	else echo ' style="color: green; font-weight: bold;">';
+	echo '<tr><td width="55%" class="bodytext">'.$file.'</td><td align="center" width="45%"';
+	if ($stat != SANITY_FINE) echo ' class="bodytext error">';
+	else echo ' class="bodytext success">';
 	switch ($stat) {
 		case SANITY_NOT_E:
-			echo 'File Not Found';
+			echo $i18n['file_not_found'];
 			break;
 		case SANITY_NOT_R:
-			echo 'Not Readable';
+			echo $i18n['not_r'];
 			break;
 		case SANITY_NOT_RW:
-			echo 'Not Readable / Writable';
+			echo $i18n['not_rw'];
 			break;
 		case SANITY_FINE:
 			$errcount--;
-			echo 'Okay';
+			echo $i18n['okay'];
 			break;
 		default:
 			echo '????';
@@ -76,46 +73,27 @@ foreach ($status as $file=>$stat) {
 	echo '</td></tr>';
 }
 ?>
-<tr><td colspan="2" style="background-color: lightgrey;"><b>Other Tests</b></td></tr>
+<tr><td colspan="2" style="background-color: lightgrey;"><b><?php echo $i18n['other_tests']; ?></b></td></tr>
 <?php
 
 $status = sanity_checkServer();
 $errcount += count($status);
 $warncount += count($status);
 foreach ($status as $test=>$stat) {
-	echo '<tr><td width="55%">'.$test.'</td>';
+	echo '<tr><td width="55%" class="bodytext">'.$test.'</td>';
 	echo '<td align="center" width="45%" ';
 	if ($stat[0] == SANITY_FINE) {
 		$warncount--;
 		$errcount--;
-		echo 'style="color: green; font-weight: bold;">';
+		echo 'class="bodytext success">';
 	} else if ($stat[0] == SANITY_ERROR) {
 		$warncount--;
-		echo 'style="color: red; font-weight: bold; background-color: #999;">';
+		echo 'class="bodytext error">';
 	} else {
 		$errcount--;
-		echo 'style="color: yellow; font-weight: bold; background-color: #999;">';
+		echo 'class="bodytext warning">';
 	}
 	echo $stat[1].'</td></tr>';
-}
-
-$status = sanity_checkModules();
-if (count($status)) {
-	?>
-	<tr><td colspan="2" style="background-color: lightgrey;"><b>Module Tests</b></td></tr>
-	<?php
-	$errcount += count($status);
-	foreach ($status as $mod=>$stat) {
-		echo '<tr><td width="55%">'.$mod.'</td>';
-		echo '<td align="center" width="45%" ';
-		if ($stat[0] == SANITY_FINE) {
-			$errcount--;
-			echo 'style="color: green; font-weight: bold;">';
-		} else {
-			echo 'style="color: red; font-weight: bold; background-color: #999;">';
-		}
-		echo $stat[1].'</td></tr>';
-	}
 }
 
 ?>
@@ -127,35 +105,40 @@ $write_file = 0;
 
 if ($errcount > 0) {
 	// Had errors.  Force halt and fix.
-	?>
-	The Exponent Install Wizard found some major problems with the server environment, which you must fix before you can continue.
-	<?php
+	echo $i18n['found_major'];
+	
 	if (ini_get('safe_mode') == true) {
-		echo '<br /><br /><div style="font-weight: bold; color: red;">SAFE MODE IS ENABLED.  You may encounter many strange errors unless you give the web server user ownership of ALL Exponent files.  On UNIX, this can be done with a "chown -R" command</div>';
+		echo '<br /><br /><div style="font-weight: bold; color: red;">'.$i18n['safe_mode'].'</div>';
 	}
 	?>
-	<br /><b>Note:</b> For permission errors (files or directories that are not writable / not readable) it is usually best to make sure that the Exponent files were uncompressed with options (-xzvpf) to preserve file permissions.
 	<br /><br />
-	After you have corrected the above errors, click <a href="index.php?page=sanity">here</a> to run these environment checks again.
+	<a href="index.php?page=sanity"><?php echo $i18n['rerun']; ?></a>
 	<?php
 } else if ($warncount > 0) {
-	?>
-	The Exponent Install Wizard found some minor problems with the server environment, but you should be able to continue.
-	<?php
+	echo $i18n['found_minor'];
+	
 	if (ini_get('safe_mode') == true) {
-		echo '<br /><br /><div style="font-weight: bold; color: red;">SAFE MODE IS ENABLED.  You may encounter many strange errors unless you give the web server user ownership of ALL Exponent files.  On UNIX, this can be done with a "chown -R" command</div>';
+		echo '<br /><br /><div class="important_message">'.$i18n['safe_mode'].'</div>';
 	}
-	?>
-	<br />Please proceed to configure your database by clicking <a href="index.php?page=dbconfig">here</a>.
-	<?php
+	
 	$write_file = 1;
 } else {
 	// No errors, and no warnings.  Let them through.
-	?>
-	The Exponent Install Wizard found no problems with the server environment.
-	<br />Please proceed to configure your database by clicking <a href="index.php?page=dbconfig">here</a>.
-	<?php
+	echo $i18n['found_none'];
+	
 	$write_file = 1;
+}
+
+if ($errcount == 0) {
+	if ($_REQUEST['type'] == 'new') {
+	?>
+	<br /><a href="index.php?page=dbconfig"><?php echo $i18n['continue_new']; ?></a>.
+	<?php
+	} else {
+	?>
+	<br /><a href="index.php?page=upgrade_version"><?php echo $i18n['continue_upgrade']; ?></a>.
+	<?php
+	}
 }
 
 if ($write_file) {

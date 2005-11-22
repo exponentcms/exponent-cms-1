@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -43,9 +44,13 @@ if ($item && $item->is_recurring == 1) {
 		}
 	}
 	
-	if (!count($eventdates)) $db->delete('calendar','id='.$item->id);
+	if (!count($eventdates)) {
+		$db->delete('calendar','id='.$item->id);
+	}
 	
 	pathos_flow_redirect();
-} else echo SITE_404_HTML;
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

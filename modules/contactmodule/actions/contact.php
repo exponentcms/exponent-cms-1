@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,50 +32,51 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$template = new template("contactmodule",$_POST['msg'],$loc);
-$template->assign("post",$_POST);
+$i18n = pathos_lang_loadFile('modules/contactmodule/actions/contact.php');
+
+$template = new template('contactmodule',$_POST['msg'],$loc);
+$template->assign('post',$_POST);
 
 $msg = $template->render();
 
-$config = $db->selectObject("contactmodule_config","location_data='".serialize($loc)."'");
+$config = $db->selectObject('contactmodule_config',"location_data='".serialize($loc)."'");
 if ($config == null) {
-	$config->subject = 'Email Communication From Site';
+	$config->subject = $i18n['default_subject'];
 	$config->replyto_address = '';
 	$config->from_address = 'info@'.HOSTNAME;
-	$config->from_name = 'Exponent Website';
+	$config->from_name = $i18n['default_from'];
 	
 } else {
-	if ($config->subject == "") {
-		$config->subject = "Email Communication From Site";
+	if ($config->subject == '') {
+		$config->subject = $i18n['default_subject'];
 	}
 }
 
 $headers = array();
-$headers["From"] = $config->from_name . " <".$config->from_address.">";
-if ($config->replyto_address != "") $headers["Reply-to"] = $config->replyto_address;
+$headers['From'] = $config->from_name . ' <'.$config->from_address.'>';
+if ($config->replyto_address != '') $headers['Reply-to'] = $config->replyto_address;
 
-if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 
 $emails = array();
-foreach ($db->selectObjects("contact_contact","location_data='".serialize($loc)."'") as $c) {
+foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc)."'") as $c) {
 	if ($c->user_id != 0) {
 		$u = pathos_users_getUserById($c->user_id);
 		$emails[] = $u->email;
-	} else if ($c->email != "") {
+	} else if ($c->email != '') {
 		$emails[] = $c->email;
 	}
 }
 
-if (!defined("SYS_SMTP")) require_once(BASE."subsystems/smtp.php");
+if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
 if (pathos_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
 	$template = new template('contactmodule','_final_message');
 	$template->assign('message',$config->final_message);
 	$template->output();
 } else {
-	pathos_lang_loadDictionary('modules','contactmodule');
-	echo TR_CONTACTMODULE_SMTPERROR;
+	echo $i18n['smtp_error'];
 }
 
 ?>

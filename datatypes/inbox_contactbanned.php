@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,10 +34,7 @@
 
 class inbox_contactbanned {
 	function form($object) {
-		global $db,$user;
-		
-		pathos_lang_loadDictionary('modules','inboxmodule');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('database/inbox_contactbanned.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -55,12 +53,8 @@ class inbox_contactbanned {
 			unset($users[$b->user_id]);
 		}
 		
-		if (count($users) == 0) {
-			return null;
-		}
-		
-		$form->register('uid',TR_INBOXMODULE_USER,new dropdowncontrol(0,$users));
-		$form->register('submit','',new buttongroupcontrol(TR_INBOXMODULE_BLOCKUSER,'',TR_CORE_CANCEL));
+		$form->register('uid',$i18n['uid'],new dropdowncontrol(0,$users));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

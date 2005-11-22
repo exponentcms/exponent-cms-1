@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,25 +31,27 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 // Part of the Extensions category
 
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+	
+	$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/install_extension.php');
+		
 	if ($_FILES['mod_archive']['error'] != UPLOAD_ERR_OK) {
-		pathos_lang_loadDictionary('modules','filemanager');
+		
 		switch($_FILES['mod_archive']['error']) {
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
-				echo TR_FILEMANAGER_FILETOOLARGE.'<br />';
+				echo $i18n['file_too_large'].'<br />';
 				break;
 			case UPLOAD_ERR_PARTIAL:
-				echo TR_FILEMANAGER_PARTIALFILE.'<br />';
+				echo $i18n['partial_file'].'<br />';
 				break;
 			case UPLOAD_ERR_NO_FILE:
-				echo TR_FILEMANAGER_NOFILEUPLOADED.'<br />';
+				echo $i18n['no_file'].'<br />';
 				break;
 		}
 	} else {
@@ -75,8 +78,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 		}
 		
 		if ($ext == '') {
-			pathos_lang_loadDictionary('modules','administrationmodule');
-			echo TR_ADMINISTRATIONMODULE_BADARCHIVE.'<br />';
+			echo $i18n['bad_archive'].'<br />';
 		} else {
 			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		
@@ -88,13 +90,13 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 				switch ($return) {
 					case SYS_FILES_FOUNDFILE:
 					case SYS_FILES_FOUNDDIR:
-						echo 'Found file or directory in the way.<br />';
+						echo $i18n['file_in_parh'].'<br />';
 						break;
 					case SYS_FILES_NOTWRITABLE:
-						echo 'Destination parent is not writable.<br />';
+						echo $i18n['dest_not_w'].'<br />';
 						break;
 					case SYS_FILES_NOTREADABLE:
-						echo 'Destination parent is not readable.<br />';
+						echo $i18n['dest_not_r'].'<br />';
 						break;
 				}
 			}
@@ -110,7 +112,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 				PEAR::setErrorHandling(PEAR_ERROR_PRINT);
 				$return = $tar->extract(dirname($dest));
 				if (!$return) {
-					echo '<br />Error extracting TAR archive<br />';
+					echo '<br />'.$i18n['error_tar'].'<br />';
 				} else {
 					header('Location: ' . URL_FULL . 'index.php?module=administrationmodule&action=verify_extension&type=tar');
 				}
@@ -121,7 +123,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 				
 				PEAR::setErrorHandling(PEAR_ERROR_PRINT);
 				if ($zip->extract(array('add_path'=>dirname($dest))) == 0) {
-					echo '<br />Error extracting ZIP archive:<br />';
+					echo '<br />'.$i18n['error_zip'].':<br />';
 					echo $zip->_error_code . ' : ' . $zip->_error_string . '<br />';
 				} else {
 					header('Location: ' . URL_FULL . 'index.php?module=administrationmodule&action=verify_extension&type=zip');

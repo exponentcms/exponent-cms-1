@@ -38,6 +38,9 @@ if (!defined('PATHOS')) exit('');
 // First, retrieve the parent section from the database.
 $parent = null;
 if (isset($_GET['parent'])) {
+	// Sanitize the parent parameter up here to make things more clear and straightforward.
+	$_GET['parent'] = intval($_GET['parent']);
+	
 	// May have been passed a '0', indicating that we want a top-level section
 	if ($_GET['parent'] <= 0) {
 		// Set $parent->id to passed value, so that $parent is not null.  The view will use this information

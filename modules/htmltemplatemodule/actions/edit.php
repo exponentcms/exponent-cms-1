@@ -31,28 +31,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
-
+if (!defined('PATHOS')) exit('');
 
 $t = null;
+$loc = pathos_core_makeLocation('htmltemplatemodule');
 if (isset($_GET['id'])) {
-	$t = $db->selectObject("htmltemplate","id=".$_GET['id']);
+	$t = $db->selectObject('htmltemplate','id='.intval($_GET['id']));
 }
 
-if (	(!$t && pathos_permissions_check("create",$loc)) ||
-	($t  && pathos_permissions_check("edit",$loc))
-) {
-	
-	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+if ((!$t && pathos_permissions_check('create',$loc)) || ($t  && pathos_permissions_check('edit',$loc))) {
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = htmltemplate::form($t);
-	$form->meta("module","htmltemplatemodule");
-	$form->meta("action","save");
+	$form->meta('module','htmltemplatemodule');
+	$form->meta('action','save');
 	
-	$template = new template("htmltemplatemodule","_form_edit",$loc);
-	$template->assign("is_edit",(isset($t->id) ? 1 : 0));
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('htmltemplatemodule','_form_edit',$loc);
+	$template->assign('is_edit',(isset($t->id) ? 1 : 0));
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 } else {
 	echo SITE_403_HTML;

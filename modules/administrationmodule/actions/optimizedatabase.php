@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -42,7 +43,7 @@ if (pathos_permissions_check('database',pathos_core_makeLocation('administration
 	}
 	$after = $db->databaseInfo();
 	
-	$template = new Template('administrationmodule','_optimizedatabase',$loc);
+	$template = new template('administrationmodule','_optimizedatabase',$loc);
 	$template->assign('before',$before);
 	$template->assign('after',$after);
 	

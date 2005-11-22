@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,8 +31,7 @@
  *}
 <form method="post">
 	<input type="hidden" name="module" value="uiswitchermodule" />
-	<input type="hidden" name="action" value="switch" />
-	User Interface: 
+	<input type="hidden" name="action" value="switch" /> 
 	<select name="level" onChange="this.form.submit()">
 	{foreach from=$levels key=i item=level}
 		<option value="{$i}"{if $default_level == $i} selected{/if}>{$level}</option>

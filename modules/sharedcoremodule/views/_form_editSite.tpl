@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,14 +29,10 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit == 1}Edit Site Properties{else}Deploy New Site{/if}</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
 <div class="form_header">
-{if $is_edit == 1}
-You cannot change the path of an existing deployment.
-{else}
-To deploy a new site, choose a codebase, and enter the file system path for the new site.
-{/if}
+{if $is_edit == 1}{$_TR.form_header_edit}{else}{$_TR.form_header_new}{/if}
 <br /><br />
-Note: Which modules and themes are available to this site is decided on the next page.
+{$_TR.form_header}
 </div>
 {$form_html}

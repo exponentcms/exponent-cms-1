@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class htmltemplate {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','htmltemplatemodule');
+		$i18n = pathos_lang_loadFile('datatypes/htmltemplate.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -47,10 +47,10 @@ class htmltemplate {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('title',TR_HTMLTEMPLATEMODULE_TITLE,new textcontrol($object->title));
-		$form->register('body',TR_HTMLTEMPLATEMODULE_TEMPLATE,new htmleditorcontrol($object->body));
+		$form->register('title',$i18n['name'],new textcontrol($object->title));
+		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
 		
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

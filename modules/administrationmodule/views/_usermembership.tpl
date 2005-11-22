@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Group Membership for {$user->firstname} {$user->lastname} ({$user->username})</div>
-<div class="form_header">Use this form to manage which groups this user belongs to.</div>
+<div class="form_title">{$_TR.form_title}: {$user->firstname} {$user->lastname} ({$user->username})</div>
+<div class="form_header">{$_TR.form_header}</div>
 
 
 {paginate objects=$groups}
@@ -138,6 +139,6 @@
 </form>
 <br />
 
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(true); return false;">Select All</a>
+<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(true); return false;">{$_TR.select_all}</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(false); return false;">Unselect All</a>
+<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(false); return false;">{$_TR.unselect_all}</a>

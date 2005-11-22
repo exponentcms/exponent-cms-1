@@ -28,16 +28,16 @@
  *
  * $Id$
  *}
-<div class="form_title">Manage File Types</div>
-<div class="form_header">Whenever a file is uploaded to the site, information about the file format (its MIME type) is stored.  Here, you can define what MIME types are recognized by the site, and optionally associate an icon with each type.
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}
 <br /><br />
-To add support for a MIME type, use the <a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype}">New MIME Type</a> form.
+<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype}">{$_TR.create_new}</a>
 </div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
-	<td class="header administration_header">MIME Type</td>
-	<td class="header administration_header">Name</td>
-	<td align="center" class="header administration_header">Icon</td>
+	<td class="header administration_header">{$_TR.mime_type}</td>
+	<td class="header administration_header">{$_TR.name}</td>
+	<td align="center" class="header administration_header">{$_TR.icon}</td>
 	<td class="header administration_header"></td>
 </tr>
 {foreach from=$types item=type}
@@ -48,7 +48,7 @@ To add support for a MIME type, use the <a class="mngmntlink administration_mngm
 	{if $type->icon != ""}
 	<img class="mngmnt_icon" src="{$smarty.const.MIMEICON_RELATIVE}{$type->icon}"/>
 	{else}
-	(no icon)
+	{$_TR.no_icon}
 	{/if}
 </td>
 <td>
@@ -59,4 +59,4 @@ To add support for a MIME type, use the <a class="mngmntlink administration_mngm
 {/foreach}
 </table>
 <br />
-<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_restoremimetypes}">Restore Defaults</a>
+<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_restoremimetypes}">{$_TR.restore}</a>

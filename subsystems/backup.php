@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,7 +31,7 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
 /* exdoc
  * SYS Flag for Backup Subsystem.
  * The definition of this constant lets other parts
@@ -59,9 +60,14 @@ define('EQL_HEADER','EQL-Exponent Query Language');
  * @param Database $db The database object to dump to EQL.
  * @node Subsystems:Backup
  */
-function pathos_backup_dumpDatabase($db,$tables = null) {
+function pathos_backup_dumpDatabase($db,$tables = null,$force_version = null) {
 	$dump = EQL_HEADER."\r\n";
-	$dump .= 'VERSION:'.PATHOS."\r\n\r\n";
+	if ($force_version == null) {
+		$dump .= 'VERSION:'.PATHOS."\r\n\r\n";
+	} else {
+		$dump .= 'VERSION:'.$force_version."\r\n\r\n";
+	}
+	
 	if (!is_array($tables)) {
 		$tables = $db->getTables();
 		if (!function_exists('tmp_removePrefix')) {
@@ -74,10 +80,10 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
 		$tables = array_map('tmp_removePrefix',$tables);
 	}
 	usort($tables,'strnatcmp');
-	for ($i = 0; $i < count($tables); $i++) {
-		$dump .= 'TABLE:'.$tables[$i]."\r\n";
+	foreach ($tables as $table) {
+		$dump .= 'TABLE:'.$table."\r\n";
 		foreach ($db->selectObjects($table) as $obj) {
-			$dump .= "RECORD:".str_replace(array("\r","\n"),array('\r','\n'),serialize($obj))."\n";
+			$dump .= 'RECORD:'.str_replace(array("\r","\n"),array('\r','\n'),serialize($obj))."\r\n";
 		}
 		$dump .= "\r\n";
 	}
@@ -99,22 +105,26 @@ function pathos_backup_dumpDatabase($db,$tables = null) {
  *	during the parse/restore.
  * @node Subsystems:Backup
  */
-function pathos_backup_restoreDatabase($db,$file,&$errors) {
+function pathos_backup_restoreDatabase($db,$file,&$errors,$force_version = null) {
 	$errors = array();
 	
-	pathos_lang_loadDictionary('subsystems','backup');
+	$i18n = pathos_lang_loadFile('subsystems/backup.php');
 	
 	if (is_readable($file)) {
 		$lines = @file($file);
 		
 		// Sanity check
 		if (count($lines) < 2 || trim($lines[0]) != EQL_HEADER) {
-			$errors[] = TR_BACKUPSUBSYSTEM_BADEQL;
+			$errors[] = $i18n['bad_eql'];
 			return false;
 		}
 		
-		$version = explode(":",trim($lines[1]));
-		$eql_version = $version[1]+0;
+		if ($force_version == null) {
+			$version = explode(':',trim($lines[1]));
+			$eql_version = $version[1]+0;
+		} else {
+			$eql_version = $force_version;
+		}
 		$current_version = PATHOS+0;
 		
 		$clear_function = '';
@@ -149,19 +159,19 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 							$clear_function($db,$table);
 						}
 					} else {
-						if (!file_exists(BASE."datatypes/definitions/$table.php")) {
-							$errors[] = sprintf(TR_BACKUPSUBSYSTEM_DATADEFNOTFOUND,$table,$line_number);
-						} else if (!is_readable(BASE."datatypes/definitions/$table.php")) {
-							$errors[] = sprintf(TR_BACKUPSUBSYSTEM_DATADEFNOTREADABLE,$table,"datatypes/definitsion/$table.php",$line_number);
+						if (!file_exists(BASE.'datatypes/definitions/'.$table.'.php')) {
+							$errors[] = sprintf($i18n['no_definition'],$table,$line_number);
+						} else if (!is_readable(BASE.'datatypes/definitions/'.$table.'.php')) {
+							$errors[] = sprintf($i18n['unreadable_definition'],$table,'datatypes/definitsion/'.$table.'.php',$line_number);
 						} else {
-							$dd = include(BASE."datatypes/definitions/$table.php");
-							$info = (is_readable(BASE."datatypes/definitions/$table.info.php") ? include(BASE."datatypes/definitions/$table.info.php") : array());
+							$dd = include(BASE.'datatypes/definitions/'.$table.'.php');
+							$info = (is_readable(BASE.'datatypes/definitions/'.$table.'.info.php') ? include(BASE.'datatypes/definitions/'.$table.'.info.php') : array());
 							$db->createTable($table,$dd,$info);
 						}
 					}
-				} else if ($pair[0] == "RECORD") {
+				} else if ($pair[0] == 'RECORD') {
 					// Here we need to check the conversion scripts.
-					$pair[1] = str_replace("\\r\\n","\r\n",$pair[1]);
+					$pair[1] = str_replace('\r\n',"\r\n",$pair[1]);
 					$object = unserialize($pair[1]);
 					if (function_exists($table_function)) {
 						$table_function($db,$object);
@@ -169,7 +179,7 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 						$db->insertObject($object,$table);
 					}
 				} else {
-					$errors[] = sprintf(TR_BACKUPSUBSYSTEM_INVALIDTYPE,$line_number);
+					$errors[] = sprintf($i18n['invalid_type'],$pair[0],$line_number);
 				}
 			}
 		}
@@ -178,7 +188,7 @@ function pathos_backup_restoreDatabase($db,$file,&$errors) {
 		}
 		return true;
 	} else {
-		$errors[] = TR_BACKUPSUBSYSTEM_NOTREADABLE;
+		$errors[] = $i18n['eql_not_r'];
 		return false;
 	}
 }

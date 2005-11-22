@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,8 +31,10 @@
  *}
 <script type="text/javascript">
 {literal}
-if (confirm("It appears that no one else is using the content of this module.  Would you like to remove this content from the database?\n\nIf you do not remove it, it will be archived, and still available for reuse later.")) {
+if (confirm("{$_TR.confirm}")) {
 	document.location = {/literal}"{link m=$iloc->mod s=$iloc->src i=$iloc->int action=delete_content}";{literal}
-} else document.location = {/literal}"{$redirect}";{literal}
+} else {
+	document.location = {/literal}"{$redirect}";{literal}
+}
 {/literal}
 </script>

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -104,10 +105,10 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			$db->insertObject($action,'workflowaction');
 		}
 		
-		pathos_lang_loadDictionary('modules','workflow');
+		$i18n = pathos_lang_loadFile('modules/workflow/actions/admin_savepolicy.php');
 		
 		$action->method = 'Show Message';
-		$action->parameters = TR_WORKFLOW_DEFAULTTHANKYOU;
+		$action->parameters = $i18n['default_thank_you'];
 		$action->rank = 0;
 		$action->type = SYS_WORKFLOW_ACTION_APPROVED_FINAL;
 		$db->insertObject($action,'workflowaction');
@@ -120,6 +121,8 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		
 		pathos_flow_redirect();
 	}
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

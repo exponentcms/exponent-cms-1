@@ -1,5 +1,7 @@
 Exponent CMS, Credits
 
+The Exponent team wants to recognize the following people for their contribution(s) to and support of the Exponent project.  Exponent wouldn't be where it is today without the help and support of these people.
+
 =====================
 Core Development Team
 =====================
@@ -14,8 +16,39 @@ Daniel Grabert - For fixing the section linker code
 Xavier Basty - For fixing some CRLF problems with the SMTP Subsystem implementation
 faz2 - For suggesting some file and directory permission options
 Michael Anthon - For patching the paginator to work with Opera 7.x.x
+jacobmesu - For the Interbase database handler
+Jeremy Shinall (OIC Group, Inc.)
 
 =====================
 Testing / Bug Hunting
 =====================
-notepad           - for uncovering the realpath() PATH_RELATIVE bug
+tipichris
+thinkinfinity
+schultkl
+mouton_io
+jacobmesu
+g14
+dwgoodale
+dgharrison
+chris_meeder
+
+=================================
+User Feedback / Community Support
+=================================
+arglborps
+beehock
+chris_meeder
+contentino
+dgharrison
+g14
+gboerman
+krayc
+thinkinfinity
+generare
+wilko_76
+optiondelete
+chrisjlocke
+
+
+
+(Last updated 2005.05.06, release 0.96.3)

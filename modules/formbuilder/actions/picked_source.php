@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,38 +32,43 @@
 # $Id$
 ##################################################
 
-	if (!defined("PATHOS")) exit("");
+if (!defined("PATHOS")) exit("");
 
-	$f1_loc = pathos_core_makeLocation($_GET['sm'],$_GET['ss']);
-	$f1 = $db->selectObject("formbuilder_form","location_data='".serialize($f1_loc)."'");
-	
-	$f2_loc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
-	$f2 = $db->selectObject("formbuilder_form","location_data='".serialize($f2_loc)."'");
-	
-	if ($f1 && $f2) {
-		if (pathos_permissions_check("editform",unserialize($f2->location_data))) {
-			$controls  = $db->selectObjects("formbuilder_control","form_id=".$f1->id);
-			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-			usort($controls,"pathos_sorting_byRankAscending");
-			
-			foreach ($controls as $control) {
-				$count = 0;
-				$name = $control->name;
-				$rank = $db->max("formbuilder_control","rank","form_id","form_id=".$f2->id);
-				//insure that we have a unique name;
-				while ($db->countObjects("formbuilder_control","form_id=".$f2->id." and name='".$name."'")) {
-					$count++;
-					$name = $control->name . $count;
-				}
-				$control->name = $name;
-				unset($control->id);
-				$control->rank = ++$rank;
-				$control->form_id = $f2->id;
-				$db->insertObject($control,"formbuilder_control");
+$f1_loc = pathos_core_makeLocation($_GET['sm'],$_GET['ss']);
+$f1 = $db->selectObject("formbuilder_form","location_data='".serialize($f1_loc)."'");
+
+$f2_loc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
+$f2 = $db->selectObject("formbuilder_form","location_data='".serialize($f2_loc)."'");
+
+if ($f1 && $f2) {
+	if (pathos_permissions_check("editform",unserialize($f2->location_data))) {
+		$controls  = $db->selectObjects("formbuilder_control","form_id=".$f1->id);
+		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
+		usort($controls,"pathos_sorting_byRankAscending");
+		
+		foreach ($controls as $control) {
+			$count = 0;
+			$name = $control->name;
+			$rank = $db->max("formbuilder_control","rank","form_id","form_id=".$f2->id);
+			//insure that we have a unique name;
+			while ($db->countObjects("formbuilder_control","form_id=".$f2->id." and name='".$name."'")) {
+				$count++;
+				$name = $control->name . $count;
 			}
-			formbuilder_form::updateTable($f2);
-			
-			echo '<script>window.opener.location = window.opener.location; window.close();</script>';
-		} else echo SITE_403_HTML;
-	} else echo SITE_404_HTML;
+			$control->name = $name;
+			unset($control->id);
+			$control->rank = ++$rank;
+			$control->form_id = $f2->id;
+			$db->insertObject($control,"formbuilder_control");
+		}
+		formbuilder_form::updateTable($f2);
+		
+		echo '<script>window.opener.location = window.opener.location; window.close();</script>';
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
+
 ?>

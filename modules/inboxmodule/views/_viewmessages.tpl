@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,12 +31,12 @@
  *}
 <b>Private Messages for {$user->firstname} {$user->lastname}</b>
 <br />
-{$totalMessages} messages, {$unreadMessages} unread.
+{$_TR.messages|sprintf:$totalMessages:$unreadMessages}
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header inbox_header">Subject</td>
-		<td class="header inbox_header">Sender</td>
-		<td class="header inbox_header">Date Sent</td>
+		<td class="header inbox_header">{$_TR.subject}</td>
+		<td class="header inbox_header">{$_TR.sender}</td>
+		<td class="header inbox_header">{$_TR.date_sent}</td>
 		<td class="header inbox_header">&nbsp;</td>
 	</tr>
 {foreach from=$messages item=message}
@@ -49,18 +50,18 @@
 		<td>{$message->from_name}</td>
 		<td>{$message->date_sent|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
 		<td>
-			<a class="mngmntlink inbox_mngmntlink" href="{link action=delete id=$message->id}" onClick="return confirm('Are you sure you want to delete this Private Message?');">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this Private Message" alt="Delete this Private Message" />
+			<a class="mngmntlink inbox_mngmntlink" href="{link action=delete id=$message->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete}" alt="{$_TR.delete}" />
 			</a>
 		</td>
 	</tr>
 {foreachelse}
 	<tr>
-		<td colspan="4" align="center"><i>No messages in inbox</i></td>
+		<td colspan="4" align="center"><i>{$_TR.no_messages}</i></td>
 	</tr>
 {/foreach}
 </table>
 <hr size="1" />
-<a class="mngmntlink inbox_mngmntlink" href="{link action=compose}">Compose Message</a>
+<a class="mngmntlink inbox_mngmntlink" href="{link action=compose}">{$_TR.compose}</a>
 <br />
-<a class="mngmntlink inbox_mngmntlink" href="{link action=view_contacts}">Personal Contacts</a>
+<a class="mngmntlink inbox_mngmntlink" href="{link action=view_contacts}">{$_TR.address_book}</a>

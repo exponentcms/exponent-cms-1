@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -40,12 +41,12 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
-	pathos_lang_loadDictionary('standard','core');
-	pathos_lang_loadDictionary('modules','workflow');
+	$i18n = pathos_lang_loadFile('modules/workflow/actions/assoc_edit.php');
 	
 	$form = new form();
 	$policies = array();
 	
+	// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.	
 	$assoc = $db->selectObject('approvalpolicyassociation',"module='".$_GET['m']."' AND is_global=1");
 	if (!$assoc) $assoc->policy_id = 0;
 	
@@ -54,11 +55,11 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	}
 	uasort($policies,'strnatcasecmp');
 	
-	$realpol = array(0=>TR_WORKFLOW_NOPOLICY);
+	$realpol = array(0=>$i18n['no_policy']);
 	foreach ($policies as $key=>$pol) $realpol[$key] = $pol;
 	
-	$form->register('policy',TR_WORKFLOW_POLICY,new dropdowncontrol($assoc->policy_id,$realpol));
-	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+	$form->register('policy',$i18n['policy'],new dropdowncontrol($assoc->policy_id,$realpol));
+	$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 	
 	$form->meta('module','workflow');
 	$form->meta('action','assoc_save');

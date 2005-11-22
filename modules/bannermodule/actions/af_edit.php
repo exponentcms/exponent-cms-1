@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,7 +36,7 @@ if (!defined('PATHOS')) exit('');
 
 $af = null;
 if (isset($_GET['id'])) {
-	$af = $db->selectObject('banner_affiliate','id='.$_GET['id']);
+	$af = $db->selectObject('banner_affiliate','id='.intval($_GET['id']));
 }
 
 if (pathos_permissions_check('manage_af',$loc)) {
@@ -45,7 +46,7 @@ if (pathos_permissions_check('manage_af',$loc)) {
 	
 	$template = new template('bannermodule','_form_af_edit',$loc);
 	$template->assign('form_html',$form->toHTML());
-	$template->assign('is_edit',isset($_GET['id']));
+	$template->assign('is_edit',(isset($_GET['id'])?1:0));
 	$template->output();
 } else {
 	echo SITE_403_HTML;

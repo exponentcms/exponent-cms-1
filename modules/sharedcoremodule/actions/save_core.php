@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,7 +35,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
-	pathos_lang_loadDictionary('modules','sharedcoremodule');
+	$i18n = pathos_lang_loadFile('modules/sharedcoremodule/actions/save_core.php');
 
 	$core = null;
 	if (isset($_POST['id'])) {
@@ -46,13 +47,16 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 	$existing = $db->countObjects('sharedcore_core',"path='".$core->path."'");
 	if ($existing && !isset($core->id)) {
 		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_COREEXISTS,$core->path);
+		$post['_formError'] = sprintf($i18n['core_exists'],$core->path);
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit('Redirecting...');
 	}
 	
-	if (substr($core->path,-1,1) != '/') $core->path .= '/';
+	if (substr($core->path,-1,1) != '/') {
+		$core->path .= '/';
+	}
+	
 	if (file_exists($core->path.'pathos_version.php')) {
 		if (isset($core->id)) $db->updateObject($core,'sharedcore_core');
 		else $db->insertObject($core,'sharedcore_core');
@@ -60,7 +64,7 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 		pathos_flow_redirect();
 	} else {
 		$post = $_POST;
-		$post['_formError'] = sprintf(TR_SHAREDCOREMODULE_ERR_INVALIDCORE,$core->path);
+		$post['_formError'] = sprintf($i18n['bad_core'],$core->path);
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}

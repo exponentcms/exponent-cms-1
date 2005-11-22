@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,37 +32,39 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject("calendar","id=".$_GET['id']);
+$item = $db->selectObject('calendar','id='.intval($_GET['id']));
 if ($item) {
 
 	if ($item->is_recurring == 1) { // need to give user options
 		
-		$template = new template("calendarmodule","_form_delete");
+		$template = new template('calendarmodule','_form_delete');
 		
-		$eventdate = $db->selectObject("eventdate","id=".$_GET['date_id']);
-		$template->assign("checked_date",$eventdate);
+		$eventdate = $db->selectObject('eventdate','id='.intval($_GET['date_id']));
+		$template->assign('checked_date',$eventdate);
 		
-		$eventdates = $db->selectObjects("eventdate","event_id=".$item->id);
-		if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-		if (!function_exists("pathos_sorting_byDateAscending")) {
+		$eventdates = $db->selectObjects('eventdate','event_id='.$item->id);
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		if (!function_exists('pathos_sorting_byDateAscending')) {
 			function pathos_sorting_byDateAscending($a,$b) {
 				return ($a->date > $b->date ? 1 : -1);
 			}
 		}
-		usort($eventdates,"pathos_sorting_byDateAscending");
+		usort($eventdates,'pathos_sorting_byDateAscending');
 		
-		$template->assign("dates",$eventdates);
+		$template->assign('dates',$eventdates);
 		
-		$template->assign("event",$item);
+		$template->assign('event',$item);
 		
 		$template->output();
 		
 	}  else {
 		// Process a regular delete
-		include(BASE."modules/calendarmodule/delete.php");
+		include(BASE.'modules/calendarmodule/delete.php');
 	}
-} else echo SITE_404_HTML;
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

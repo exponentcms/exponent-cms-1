@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class searchmodule_config {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','searchmodule');
+		$i18n = pathos_lang_loadFile('datatypes/searchmodule_config.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -46,8 +46,8 @@ class searchmodule_config {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('is_categorized',TR_SEARCHMODULE_CATEGORIZE,new checkboxcontrol($object->is_categorized,true));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('is_categorized',$i18n['is_categorized'],new checkboxcontrol($object->is_categorized,true));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

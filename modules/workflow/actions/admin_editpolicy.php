@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,7 +36,9 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 	$policy = null;
-	if (isset($_GET['id'])) $policy = $db->selectObject('approvalpolicy','id='.$_GET['id']);
+	if (isset($_GET['id'])) {
+		$policy = $db->selectObject('approvalpolicy','id='.intval($_GET['id']));
+	}
 	
 	$form = approvalpolicy::form($policy);
 	$form->meta('module','workflow');
@@ -45,6 +48,8 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$template->assign('is_edit',(isset($policy->id) ? 1 : 0));
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

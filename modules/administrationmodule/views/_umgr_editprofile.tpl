@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,12 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit}Edit User Account{else}New User Account{/if}</div>
+<div class="form_title">{if $is_edit}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
 <div class="form_header">
 {if $is_edit}
-Use this form to modify a user's profile.
+{$_TR.form_header_edit}
 {else}
-Use this form to create a new user.
+{$_TR.form_header_new}
 {/if}
 </div>
 {$form_html}

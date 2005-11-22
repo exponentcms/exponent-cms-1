@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,11 +30,11 @@
  * $Id$
  *}
 {if $success == 1}
-<br /><br />Configuration Saved!  Click <a class="mngmntlink" href="{$backlink}">here</a> to continue.<br /><hr size="1" />
+<br /><br />{$_TR.configuration_saved} <br /><a class="mngmntlink" href="{$backlink}">{$_TR.continue}</a><hr size="1" />
 {else}
-<div class="error">Errors were encountered with your database connection settings:</div>
-<div style="padding-left: 15px;">';
+<div class="error">{$_TR.errors}:</div>
+<div style="padding-left: 15px;">
 {$errors}
-<br /><br />Site configuration was <b>not</b> saved.  Click <a class="mngmntlink" href="{$smarty.server.HTTP_REFERER}">here</a> to go back and reconfigure.<br /><br />';
+<br /><br />{$_TR.not_saved}<br /><a class="mngmntlink" href="{$smarty.server.HTTP_REFERER}">{$_TR.reconfigure}</a><br /><br />
 </div>
 {/if}

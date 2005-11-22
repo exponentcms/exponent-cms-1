@@ -32,8 +32,6 @@ while (($file = readdir($subsys_dh)) != false) {
 }
 
 ksort($all_files);
-#print_r($all_files);
-//$all_files = array_keys($all_files);
 
 function checkFiles($rel_dir,$all_files,&$unclaimed) {
 	$rel_dir = $rel_dir . ($rel_dir != "" ? "/" : "");

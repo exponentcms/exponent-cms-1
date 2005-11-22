@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,12 @@
  *
  * $Id$
  *}
-<b>Expired News</b>
+<b>{$_TR.expired_news}</b>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header news_header" width="30%">Title</td>
-		<td class="header news_header" width="30%">Expiration date</td>
-		<td class="header news_header" width="30%">Expired for</td>
+		<td class="header news_header" width="30%">{$_TR.title}</td>
+		<td class="header news_header" width="30%">{$_TR.expired_on}</td>
+		<td class="header news_header" width="30%">{$_TR.expired_for}</td>
 		<td class="header news_header" width="10%"></td>
 	</tr>
 	{foreach from=$expired item=n}
@@ -46,34 +47,34 @@
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 					{else}
-					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
+					<a onClick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 					{/if}
 				{/if}
 			</td>
 		</tr>
 	{foreachelse}
 		<tr>
-			<td colspan="3" align="center"><i>No Expired News</i></td>
+			<td colspan="3" align="center"><i>{$_TR.no_expired}</i></td>
 		</tr>
 	{/foreach}
 </table>
 
 <hr size="1" />
-<b>Awaiting Publication</b>
+<b>{$_TR.unpublished_news}</b>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header news_header" width="30%">Title</td>
-		<td class="header news_header" width="30%">Publication Date</td>
-		<td class="header news_header" width="30%">Time to publication</td>
+		<td class="header news_header" width="30%">{$_TR.title}</td>
+		<td class="header news_header" width="30%">{$_TR.pub_date}</td>
+		<td class="header news_header" width="30%">{$_TR.time_to_pub}</td>
 		<td class="header news_header" width="10%"></td>
 	</tr>
 	{foreach from=$unpublished item=n}
@@ -86,23 +87,23 @@
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="Editting Disabled - News Item In Approval" alt="Editting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="Edit this News Item" alt="Edit this News Item" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="Editting Disabled - News Item In Approval" alt="Deleting Disabled - News Item In Approval" />
+					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 					{else}
-					<a onClick="return confirm('Are you sure you want to delete this news item?');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="Delete this News Item" alt="Delete this News Item" /></a>
+					<a onClick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 					{/if}
 				{/if}
 			</td>
 		</tr>
 	{foreachelse}
 		<tr>
-			<td colspan="3" align="center"><i>No Unpublished News</i></td>
+			<td colspan="3" align="center"><i>{$_TR.no_unpublished}</i></td>
 		</tr>
 	{/foreach}
 </table>

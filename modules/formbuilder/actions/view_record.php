@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,22 +32,27 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('modules','formbuilder');
+$i18n = pathos_lang_loadFile('modules/formbuilder/actions/view_record.php');
 
-if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
+if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 pathos_forms_initialize();
 
-$f = $db->selectObject("formbuilder_form","id=".$_GET['form_id']);
-$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly=0 and is_static = 0");
-$data = $db->selectObject("formbuilder_".$f->table_name,"id=".$_GET['id']);
-$rpt = $db->selectObject("formbuilder_report","form_id=".$_GET['form_id']);
+// Sanitize required _GET variables.
+$_GET['id'] = intval($_GET['id']);
+$_GET['form_id'] = intval($_GET['form_id']);
+
+$f = $db->selectObject('formbuilder_form','id='.$_GET['form_id']);
+$controls = $db->selectObjects('formbuilder_control','form_id='.$f->id.' and is_readonly=0 and is_static = 0');
+$data = $db->selectObject('formbuilder_'.$f->table_name,'id='.$_GET['id']);
+$rpt = $db->selectObject('formbuilder_report','form_id='.$_GET['form_id']);
+
 if ($f && $controls && $data && $rpt) {
-	if (pathos_permissions_check("viewdata",unserialize($f->location_data))) {
-		if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-		usort($controls,"pathos_sorting_byRankAscending");
+	if (pathos_permissions_check('viewdata',unserialize($f->location_data))) {
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		usort($controls,'pathos_sorting_byRankAscending');
 		
 		
 		$fields = array();
@@ -59,24 +65,24 @@ if ($f && $controls && $data && $rpt) {
 			$captions[$name] = $c->caption;
 		}
 		
-		$captions['ip'] = TR_FORMBUILDER_FIELD_IP;
-		$captions['timestamp'] = TR_FORMBUILDER_FIELD_TIMESTAMP;
-		$captions['user_id'] = TR_FORMBUILDER_FIELD_USERNAME;
+		$captions['ip'] = $i18n['ip'];
+		$captions['timestamp'] = $i18n['timestamp'];
+		$captions['user_id'] = $i18n['username'];
 		$fields['ip'] = $data->ip;
 		$locUser =  pathos_users_getUserById($data->user_id);
 		$fields['user_id'] =  isset($locUser->username)?$locUser->username:'';
 		$fields['timestamp'] = strftime(DISPLAY_DATETIME_FORMAT,$data->timestamp);
 	
-		if ($rpt->text == "") {
-			$template = new template("formbuilder","_default_report");
+		if ($rpt->text == '') {
+			$template = new template('formbuilder','_default_report');
 		} else {
-			$template = new template("formbuilder","_custom_report");
-			$template->assign("template",$rpt->text);
+			$template = new template('formbuilder','_custom_report');
+			$template->assign('template',$rpt->text);
 		}
-		$template->assign("fields",$fields);
-		$template->assign("captions",$captions);
-		$template->assign("backlink",pathos_flow_get());
-		$template->assign("is_email",0);
+		$template->assign('fields',$fields);
+		$template->assign('captions',$captions);
+		$template->assign('backlink',pathos_flow_get());
+		$template->assign('is_email',0);
 		$template->output();
 	} else {
 		echo SITE_403_HTML;
@@ -84,6 +90,5 @@ if ($f && $controls && $data && $rpt) {
 } else {
 	echo SITE_404_HTML;
 }
-
 
 ?>

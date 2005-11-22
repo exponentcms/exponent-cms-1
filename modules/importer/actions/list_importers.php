@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,21 +32,23 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_admin == 1) {
 	$importers = array();
-	$idh = opendir(BASE."modules/importer/importers");
+	$idh = opendir(BASE.'modules/importer/importers');
 	while (($imp = readdir($idh)) !== false) {
-		if (substr($imp,0,1) != "." && is_readable(BASE."modules/importer/importers/$imp/start.php") && is_readable(BASE."modules/importer/importers/$imp/info.php")) {
-			$importers[$imp] = include(BASE."modules/importer/importers/$imp/info.php");
+		if (substr($imp,0,1) != '.' && is_readable(BASE.'modules/importer/importers/'.$imp.'/start.php') && is_readable(BASE.'modules/importer/importers/'.$imp.'/info.php')) {
+			$importers[$imp] = include(BASE.'modules/importer/importers/'.$imp.'/info.php');
 		}
 	}
 	
-	$template = new template("importer","_importers");
-	$template->assign("importers",$importers);
+	$template = new template('importer','_importers');
+	$template->assign('importers',$importers);
 	$template->output();
 	
-} else echo SITE_403_HTML;
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

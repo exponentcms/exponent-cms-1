@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -41,18 +42,18 @@
 	<table width="100%" cellpadding="0" cellspacing="3" border="0" class="container_editheader">
 		<tr>
 			<td valign="top" class="info">
-				Container Module
-				<br />Shown in {$__view} view
+				{$_TR.container_module}
+				<br />{$_TR.shown_in|sprintf:$__view}
 			</td>
 			<td align="right" valign="top">
 				{if $permissions.administrate == 1}
-					<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Container Module" alt="Assign user permissions on this Container Module" /></a>&nbsp;
-					<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Container Module" alt="Assign group permissions on this Container Module" /></a>
+					<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+					<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 				{/if}
 			
 				{if $permissions.edit_module == 1}
 					<a href="{link action=edit id=$top->id}">
-						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="Change the layout of this Container Module" alt="Change the layout of this Container Module" />
+						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" />
 					</a>
 				{/if}
 			</td>

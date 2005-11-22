@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,85 +34,93 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('admintasks','coretasks');
+$i18n = pathos_lang_loadFile('modules/administrationmodule/tasks/coretasks.php');
 
 $stuff = array(
-	TR_CORETASKS_CAT_USERMANAGEMENT=>array(
+	$i18n['user_management']=>array(
 		'useraccounts'=>array(
-			'title'=>TR_CORETASKS_ITEM_USERACCOUNTS,
+			'title'=>$i18n['user_accounts'],
 			'module'=>'administrationmodule',
 			'action'=>'useraccounts'),
 		'usersessions'=>array(
-			'title'=>TR_CORETASKS_ITEM_USERSESSIONS,
+			'title'=>$i18n['user_sessions'],
 			'module'=>'administrationmodule',
 			'action'=>'usersessions'),
 		'groupaccounts'=>array(
-			'title'=>TR_CORETASKS_ITEM_GROUPACCOUNTS,
+			'title'=>$i18n['group_accounts'],
 			'module'=>'administrationmodule',
 			'action'=>'groupaccounts'),
 		'profiledefinitions'=>array(
-			'title'=>TR_CORETASKS_ITEM_PROFILEDEFS,
+			'title'=>$i18n['profile_definitions'],
 			'module'=>'administrationmodule',
 			'action'=>'profileext_manage')
 	),
-	TR_CORETASKS_CAT_EXT=>array(
+	$i18n['extensions']=>array(
 		'managemodules'=>array(
-			'title'=>TR_CORETASKS_ITEM_MANAGEMODULES,
+			'title'=>$i18n['manage_modules'],
 			'module'=>'administrationmodule',
 			'action'=>'managemodules'),
 		'managethemes'=>array(
-			'title'=>TR_CORETASKS_ITEM_MANAGETHEMES,
+			'title'=>$i18n['manage_themes'],
 			'module'=>'administrationmodule',
 			'action'=>'managethemes'),
 		'managesubsystems'=>array(
-			'title'=>TR_CORETASKS_ITEM_MANAGESUBSYSTEMS,
+			'title'=>$i18n['manage_subsystems'],
 			'module'=>'administrationmodule',
 			'action'=>'managesubsystems'),
 		'upload_extension'=>array(
-			'title'=>TR_CORETASKS_ITEM_UPLOADEXT,
+			'title'=>$i18n['upload_extension'],
 			'module'=>'administrationmodule',
 			'action'=>'upload_extension')
 	),
-	TR_CORETASKS_CAT_DATABASE=>array(
+	$i18n['database']=>array(
 		'orphanedcontent'=>array(
-			'title'=>TR_CORETASKS_ITEM_ARCHIVEDMODS,
+			'title'=>$i18n['archived_modules'],
 			'module'=>'administrationmodule',
 			'action'=>'orphanedcontent'),
 		'installdatabase'=>array(
-			'title'=>TR_CORETASKS_ITEM_INSTALLTABLES,
+			'title'=>$i18n['install_tables'],
 			'module'=>'administrationmodule',
 			'action'=>'installtables'),
 		'trimdatabase'=>array(
-			'title'=>TR_CORETASKS_ITEM_TRIMDB,
+			'title'=>$i18n['trim_database'],
 			'module'=>'administrationmodule',
 			'action'=>'trimdatabase'),
 		'optimizedatabase'=>array(
-			'title'=>TR_CORETASKS_ITEM_OPTIMIZEDB,
+			'title'=>$i18n['optimize_database'],
 			'module'=>'administrationmodule',
 			'action'=>'optimizedatabase'),
 		'import'=>array(
-			'title'=>TR_CORETASKS_ITEM_IMPORTDATA,
+			'title'=>$i18n['import_data'],
 			'module'=>'importer',
 			'action'=>'list_importers'),
 		'export'=>array(
-			'title'=>TR_CORETASKS_ITEM_EXPORTDATA,
+			'title'=>$i18n['export_data'],
 			'module'=>'exporter',
 			'action'=>'list_exporters'),
 	),
-	TR_CORETASKS_CAT_CONFIG=>array(
+	$i18n['configuration']=>array(
 		'configuresite'=>array(
-			'title'=>TR_CORETASKS_ITEM_CONFIGSITE,
+			'title'=>$i18n['configure_site'],
 			'module'=>'administrationmodule',
 			'action'=>'configuresite'),
+		'mimetypes'=>array(
+			'title'=>$i18n['file_types'],
+			'module'=>'filemanager',
+			'action'=>'admin_mimetypes'),
+		'manage_policies'=>array(
+			'title'=>$i18n['workflow_policies'],
+			'module'=>'workflow',
+			'action'=>'admin_manage_policies'),
 		'sysinfo'=>array(
-			'title'=>TR_CORETASKS_ITEM_SYSINFO,
+			'title'=>$i18n['system_info'],
 			'module'=>'administrationmodule',
-			'action'=>'sysinfo')
+			'action'=>'sysinfo'),
 	)
 );
 global $user;
 if (!$user || $user->is_admin == 0) {
-	unset($stuff[TR_CORETASKS_CAT_DATABASE]['import']);
+	unset($stuff[$i18n['database']]['import']);
 }
 
 return $stuff;

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,25 +32,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user) {
 	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	
-	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+	$groups = $db->selectObjects('inbox_contactlist','owner='.$user->id);
 	
-	$groups = $db->selectObjects("inbox_contactlist","owner=".$user->id);
-	
-	$banned = $db->selectObjects("inbox_contactbanned","owner=".$user->id);
+	$banned = $db->selectObjects('inbox_contactbanned','owner='.$user->id);
 	for ($i = 0; $i < count($banned); $i++) {
 		$banned[$i]->user = pathos_users_getUserById($banned[$i]->user_id);
 	}
 	
-	$template = new template("inboxmodule","_viewcontacts",$loc);
-	#$template->assign("contacts",$contacts);
-	$template->assign("groups",  $groups);
-	$template->assign("banned",  $banned);
+	$template = new template('inboxmodule','_viewcontacts',$loc);
+	$template->assign('groups',  $groups);
+	$template->assign('banned',  $banned);
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

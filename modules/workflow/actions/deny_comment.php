@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,29 +34,34 @@
 
 if (!defined('PATHOS')) exit('');
 
+// Sanitize required _GET parameters
+$_GET['id'] = intval($_GET['id']);
+
+// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
 $info = $db->selectObject($_GET['datatype']."_wf_info","real_id=".$_GET['id']);
 $object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
 $state = unserialize($object->wf_state_data);
 
 $rloc = unserialize($object->location_data);
 if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
-	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
-	pathos_lang_loadDictionary('standard','core');
-	pathos_lang_loadDictionary('modules','workflow');
+	$i18n = pathos_lang_loadFile('modules/workflow/actions/deny_comment.php');
 	
 	$form = new form();
 	$form->meta('module','workflow');
 	$form->meta('action','deny');
 	$form->meta('id',$_GET['id']);
 	$form->meta('datatype',$_GET['datatype']);
-	$form->register('wf_comment',TR_WORKFLOW_DENYCOMMENT,new texteditorcontrol());
-	$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+	$form->register('wf_comment',$i18n['deny_comment'],new texteditorcontrol());
+	$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 	
 	$template = new template('workflow','_form_denycomment',$loc);
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
+	
+	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

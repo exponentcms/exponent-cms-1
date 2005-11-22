@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,14 +29,14 @@
  *
  * $Id$
  *}
-<div class="form_title">Manage User Accounts</div>
-<div class="form_header">From here, you can create, modify and remove normal user accounts.  You will not be able to create, modify or remove administrator accounts (these options will be disabled).
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}
 <br /><br />
 {if $smarty.const.SITE_ALLOW_REGISTRATION == 0}
-<i>Note: Since user registration has been disallowed in the global site configuration, this is the only way to create new user accounts.</i>
+<i>{$_TR.no_registration}</i>
 <br /><br />
 {/if}
-To create a new user account, use the <a class="mngmntlink administration_mngmntlink" href="{link action=umgr_editprofile id=0}">New User Account</a> form.
+<a class="mngmntlink administration_mngmntlink" href="{link action=umgr_editprofile id=0}">{$_TR.new_user}</a>
 </div>
  
  {paginate objects=$users paginateName="useradmin" modulePrefix="administration" rowsPerPage=20}{literal}

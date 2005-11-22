@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (class_exists('personaltheme')) return;
+
 class personaltheme {
 	function name() { return "Personal Site"; }
 	function author() { return "Shane Thomison"; }

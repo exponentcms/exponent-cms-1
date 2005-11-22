@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,7 +31,7 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
+
 /* exdoc
  * The definition of this constant lets other parts
  * of the system know that the Configuration Subsystem
@@ -102,8 +103,8 @@ function pathos_config_parseFile($file) {
 			if (count($opts) == 2) {
 				if (substr($opts[1],0,1) == '"' || substr($opts[1],0,1) == "'") $opts[1] = substr($opts[1],1,-3);
 				else $opts[1] = substr($opts[1],0,-2);
-				if (substr($opts[0],-5,5) == '_HTML') {
-					$opts[1] = eval('return '.$opts[1].';');
+				if (substr($opts[0],-5,5) == "_HTML") {
+					$opts[1] = eval("return ".$opts[1].";");
 					$opts[1] = preg_replace('/<[bB][rR]\s?\/?>/',"\r\n",$opts[1]);
 				}
 				$options[$opts[0]] = str_replace("\\'","'",$opts[1]);
@@ -125,21 +126,21 @@ function pathos_config_parseFile($file) {
  */
 function pathos_config_configurationForm($configname,$database=false) {
 	// $configname = "" for active config
-	if (is_readable(BASE.'conf/extensions')) {
+	
+	$this_i18n = pathos_lang_loadFile('subsystems/config.php');
+	
+	if (is_readable(BASE."conf/extensions")) {
 		global $user;
 		$options = pathos_config_parse($configname);
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
-		pathos_lang_loadDictionary('subsystems','config');
-		pathos_lang_loadDictionary('standard','core');
-		
 		$form = new form();
 	
-		$form->register(null,'',new htmlcontrol('<a name="config_top"></a><h3>'.TR_CONFIGSUBSYSTEM_FORMTITLE.'</h3>'));
-		$form->register('configname',TR_CONFIGSUBSYSTEM_PROFILE,new textcontrol($configname));
-		$form->register('activate',TR_CONFIGSUBSYSTEM_ACTIVATE,new checkboxcontrol((!defined('CURRENTCONFIGNAME') || CURRENTCONFIGNAME==$configname)));
+		$form->register(null,'',new htmlcontrol('<a name="config_top"></a><h3>'.$this_i18n['form_title'].'</h3>'));
+		$form->register('configname',$this_i18n['profile'],new textcontrol($configname));
+		$form->register('activate',$this_i18n['activate'],new checkboxcontrol((!defined('CURRENTCONFIGNAME') || CURRENTCONFIGNAME==$configname)));
 	
 		$sections = array();
 	
@@ -170,7 +171,10 @@ function pathos_config_configurationForm($configname,$database=false) {
 				}
 			}
 		}
-		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" /><ul><li>'.implode('</li><li>',$sections).'</li></ul>'));
+		$form->registerAfter('activate',null,'',new htmlcontrol('<hr size="1" />'.implode('&nbsp;&nbsp;|&nbsp;&nbsp;',$sections)));
+		$form->register('submit','',new buttongroupcontrol($this_i18n['save'],'',$this_i18n['cancel']));
+		
+		pathos_forms_cleanup();
 		
 		return $form;
 	}
@@ -185,8 +189,11 @@ function pathos_config_configurationForm($configname,$database=false) {
  * @node Subsystems:Config
  */
 function pathos_config_saveConfiguration($values,$site_root=null) {
-// Last argument added in 0.96, for shared core.  Default it to the old hard-coded value
-	if ($site_root == null) $site_root = BASE;
+	if ($site_root == null) {
+		$site_root = BASE;
+	}
+	
+	$i18n = pathos_lang_loadFile('subsystems/config.php');
 
 	$configname = str_replace(" ","_",$values['configname']);
 
@@ -241,7 +248,9 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 			$fh = fopen($site_root."conf/profiles/$configname.php","w");
 			fwrite($fh,$str);
 			fclose($fh);
-		} else echo "Unable to write profile configuration.<br />";
+		} else {
+			echo $i18n['profile_not_writable'].'<br />';
+		}
 	}
 	
 	if (isset($values['activate']) || $configname == "") {
@@ -253,7 +262,9 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
 			fwrite($fh,$str);
 			fwrite($fh,"\n<?php\ndefine(\"CURRENTCONFIGNAME\",\"$configname\");\n?>\n");
 			fclose($fh);
-		} else echo TR_CONFIGSUBSYSTEM_CONFNOTWRITABLE.'<br />';
+		} else {
+			echo $i18n['active_not_writable'].'<br />';
+		}
 	}
 }
 
@@ -267,9 +278,10 @@ function pathos_config_saveConfiguration($values,$site_root=null) {
  * @node Subsystems:Config
  */
 function pathos_config_outputConfigurationTemplate($template,$configname) {
-	if (is_readable(BASE."conf/extensions")) {
-		pathos_lang_loadDictionary('subsystems','config');
+	// $i18n variable gets overwritten by included files.
+	$this_i18n = pathos_lang_loadFile('subsystems/config.php');
 	
+	if (is_readable(BASE."conf/extensions")) {
 		$categorized = array();
 		$options = pathos_config_parse($configname);
 		
@@ -280,7 +292,7 @@ function pathos_config_outputConfigurationTemplate($template,$configname) {
 				$categorized[$arr[0]] = array();
 				foreach ($arr[1] as $directive=>$info) {
 					if (is_a($info["control"],"passwordcontrol")) {
-						$info["value"] = TR_CONFIGSUBSYSTEM_HIDDEN;
+						$info["value"] = '&lt;'.$this_i18n['hidden'].'&gt;';
 					} else if (is_a($info["control"],"checkboxcontrol")) {
 						$info["value"] = (isset($options[$directive]) ? ($options[$directive]?"yes":"no") : "no");
 					} else if (is_a($info["control"],"dropdowncontrol") && isset($options[$directive])) {

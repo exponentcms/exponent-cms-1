@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,12 +31,11 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 class imagemanagermodule {
-	function name() { return "Image Manager"; }
-	function author() { return "James Hunt"; }
-	function description()  { return "A tie-in module that allows images to be uploaded and then used from the HTML Editor Control."; }
+	function name() { return pathos_lang_loadKey('modules/imagemanagermodule/class.php','module_name'); }
+	function author() { return 'James Hunt'; }
+	function description()  { return pathos_lang_loadKey('modules/imagemanagermodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -44,19 +44,19 @@ class imagemanagermodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal) {
-		pathos_lang_loadDictionary('modules','imagemanagermodule');
+		$i18n = pathos_lang_loadFile('modules/imagemanagermodule/class.php');
+		
 		if ($internal == '') {
 			return array(
-				'administrate'=>TR_IMAGEMANAGERMODULE_PERM_ADMIN,
-				'post'=>TR_IMAGEMANAGERMODULE_PERM_POST,
-				'edit'=>TR_IMAGEMANAGERMODULE_PERM_EDIT,
-				'delete'=>TR_IMAGEMANAGERMODULE_PERM_DELETE
+				'administrate'=>$i18n['perm_administrate'],
+				'post'=>$i18n['perm_post'],
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete']
 			);
 		} else {
 			return array(
-				#'post'=>'Upload',
-				'edit'=>TR_IMAGEMANAGERMODULE_PERM_EDITONE,
-				'delete'=>TR_IMAGEMANAGERMODULE_PERM_DELETEONE
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete']
 			);
 		}
 	}
@@ -69,7 +69,7 @@ class imagemanagermodule {
 		if (pathos_sessions_isset("uilevel")) $uilevel = pathos_sessions_get("uilevel");
 		$template->assign('show',((defined('SELECTOR') || $uilevel > UILEVEL_PREVIEW) ? 1 : 0));
 		
-		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$directory = 'files/imagemanagermodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
 			$err = pathos_files_makeDirectory($directory);

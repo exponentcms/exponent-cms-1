@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (class_exists('defaulttheme')) return;
+
 class defaulttheme {
 	function name() { return "Default Theme"; }
 	function author() { return "Shane Thomison"; }

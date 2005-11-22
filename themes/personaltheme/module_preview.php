@@ -45,7 +45,7 @@ if (!defined('PATHOS')) exit('');
 		<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>pathos.js.php"></script>
 	</head>
 	
-	<body onLoad="pathosJSinitialize()">
+	<body onload="pathosJSinitialize()">
 	<?php
 	define("PREVIEW_READONLY",1);
 	

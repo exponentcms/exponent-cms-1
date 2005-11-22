@@ -28,4 +28,4 @@
  *
  * $Id$
  *}
-The view '{$__view}' was not found in the system.
+{$_TR.error|sprintf:$__view}

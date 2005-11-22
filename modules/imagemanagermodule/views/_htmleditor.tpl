@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -44,6 +45,6 @@
 	{/foreach}
 	</tr>
 {foreachelse}
-	<tr><td>No images</td></tr>
+	<tr><td>{$_TR.no_images}</td></tr>
 {/foreach}
 </table>

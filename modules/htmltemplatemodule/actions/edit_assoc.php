@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -37,11 +38,11 @@ if (!defined("PATHOS")) exit("");
 	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 	pathos_forms_initialize();
 	
-	pathos_lang_loadDictionary('modules','htmltemplatemodule');
-	pathos_lang_loadDictionary('standard','core');
+	$i18n = pathos_lang_loadFile('modules/htmltemplatemodule/actions/edit_assoc.php');
 	
 	$form = new form();
 	$templates = $db->selectObjectsIndexedArray("htmltemplate");
+	// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
 	foreach ($db->selectObjects("htmltemplateassociation","module='".$_GET['mod']."'") as $existing) {
 		unset($templates[$existing->template_id]);
 	}
@@ -53,11 +54,11 @@ if (!defined("PATHOS")) exit("");
 	$form->meta("action","save_assoc");
 	
 	if (count($templates)) {
-		$form->register("template_id",TR_HTMLTEMPLATEMODULE_TEMPLATE, new dropdowncontrol(0,$templates));
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
+		$form->register("template_id",$i18n['template'], new dropdowncontrol(0,$templates));
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],"",$i18n['cancel']));
 	} else {
-		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/>".TR_HTMLTEMPLATEMODULE_NOUNASSOC));
-		$submit = new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL);
+		$form->register(uniqid(""),"",new htmlcontrol("<hr size='1'/>".$i18n['no_unassoc']));
+		$submit = new buttongroupcontrol($i18n['save'],"",$i18n['cancel']);
 		$submit->disabled = true;
 		$form->register("submit","",$submit);
 	}

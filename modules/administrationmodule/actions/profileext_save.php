@@ -37,7 +37,9 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
 	$ext = null;
-	if (isset($_GET['id'])) $ext = $db->selectObject('profileextension','id='.$_GET['id']);
+	if (isset($_GET['id'])) {
+		$ext = $db->selectObject('profileextension','id='.intval($_GET['id']));
+	}
 	
 	$ext->extension = $_GET['ext'];
 	if (!isset($ext->id)) {

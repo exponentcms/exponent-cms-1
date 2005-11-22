@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,12 +34,10 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('modules','loginmodule');
+$i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass_send.php');
 
 if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 $u = pathos_users_getUserByName($_POST['username']);
-
-$template = new template('loginmodule','_resetsend');
 
 if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != '') {
 	if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
@@ -53,15 +52,14 @@ if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != 
 	$msg = $e_template->render();
 	
 	// FIXME: smtp call prototype / usage has changed.
-	if (!pathos_smtp_mail($u->email,'Password Manager <password@'.HOSTNAME.'>','Password Reset Confirmation',$msg)) {
-		$template->assign('state','smtp_error');
+	if (!pathos_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
+		echo $i18n['smtp_error'];
 	} else {
 		$db->insertObject($tok,'passreset_token');
-		$template->assign('state','sent');
+		echo $i18n['sent'];
 	}
 } else {
-	$template->assign('state','unable');
+	echo $i18n['unable'];
 }
-$template->output();
 
 ?>

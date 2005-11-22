@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -31,18 +32,18 @@
  
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="Assign permissions on this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="Assign group permissions on this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}" title="Configure this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
+	<a href="{link action=configure _common=1}" title="{$_TR.alt_configure}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
 {/if}
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.viewdata == 1 && $form->is_saved == 1}<br /><a href="{link action=view_data module=formbuilder}&id={$form->id}">View Data</a>{/if}
-{if $permissions.editformsettings == 1}<br /><a href="{link action=edit_form module=formbuilder}&id={$form->id}">Edit Form Settings</a>{/if}
-{if $permissions.editform == 1}<br /><a href="{link action=view_form module=formbuilder}&id={$form->id}">Edit Form</a>{/if}
-{if $permissions.editreport == 1}<br /><a href="{link action=edit_report module=formbuilder}&id={$form->id}">Edit Report Settings</a>{/if}
+{if $permissions.viewdata == 1 && $form->is_saved == 1}<br /><a href="{link action=view_data module=formbuilder}&id={$form->id}">{$_TR.view_data}</a>{/if}
+{if $permissions.editformsettings == 1}<br /><a href="{link action=edit_form module=formbuilder}&id={$form->id}">{$_TR.edit_settings}</a>{/if}
+{if $permissions.editform == 1}<br /><a href="{link action=view_form module=formbuilder}&id={$form->id}">{$_TR.edit_form}</a>{/if}
+{if $permissions.editreport == 1}<br /><a href="{link action=edit_report module=formbuilder}&id={$form->id}">{$_TR.edit_report}</a>{/if}
 {/permissions}
 <br><br>
 {$formmsg}

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -36,7 +37,7 @@ if (!defined('PATHOS')) exit('');
 if ($user && $user->is_acting_admin == 1) {
 	$page = null;
 	if (isset($_GET['id'])) {
-		$page = $db->selectObject('section_template','id='.$_GET['id']);
+		$page = $db->selectObject('section_template','id='.intval($_GET['id']));
 	}
 	if ($page == null) {
 		$page->parent = (isset($_GET['parent']) ? $_GET['parent'] : 0);

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit}Edit Group Account{else}Create Group Account{/if}</div>
-<div class="form_header">
-If you check the 'Default?' checkbox, user accounts created after this group is saved will be added to it.  This will not retro-actively add existing users to this group.
-</div>
+<div class="form_title">{if $is_edit}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

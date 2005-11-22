@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -68,7 +69,7 @@ class datetimecontrol extends formcontrol {
 	}
 	
 	function datetimecontrol($default = 0, $showdate = true, $showtime = true) {
-		if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
+		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 		if ($default == 0) $default = time();
 		$this->default = $default;
 		$this->showdate = $showdate;
@@ -157,16 +158,14 @@ class datetimecontrol extends formcontrol {
 			$object->showtime = true;
 		} 
 		
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/datetimecontrol.php');
 		
-		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
-		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
-		$form->register("showdate",TR_FORMCONTROLS_SHOWDATE, new checkboxcontrol($object->showdate,false));
-		$form->register("showtime",TR_FORMCONTROLS_SHOWTIME, new checkboxcontrol($object->showtime,false));
+		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("showdate",$i18n['showdate'], new checkboxcontrol($object->showdate,false));
+		$form->register("showtime",$i18n['showtime'], new checkboxcontrol($object->showtime,false));
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
-		
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],"",$i18n['cancel']));
 		return $form;
 	}
 	
@@ -176,9 +175,10 @@ class datetimecontrol extends formcontrol {
 			$object->default = 0; //This will force the control to always show the current time as default
 		}
 		if ($values['identifier'] == "") {
-			pathos_lang_loadDictionary('standard','formcontrols');
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/datetimecontrol.php');
+			
 			$post = $_POST;
-			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
+			$post['_formError'] = $i18n['id_req'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

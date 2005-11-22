@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -30,8 +31,8 @@
  *}
  {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Flash Module" alt="Assign user permissions on this News Feed System" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Flash Module" alt="Assign group permissions on this News Feed System" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
 	<a href="{link action=edit}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
@@ -64,10 +65,10 @@ function FlashInstalled()
 
 {if $noupload == 1}
 <div class="error">
-Uploads have been disabled.<br />
-{if $uploadError == $smarty.const.SYS_FILES_FOUNDFILE}Found a file in the directory path when creating the directory to store the files in.
-{elseif $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}Unable to create directory to store files in.
-{else}An unknown error has occurred.  Please contact the Exponent Developers.
+{$_TR.uploads_disabled}<br />
+{if $uploadError == $smarty.const.SYS_FILES_FOUNDFILE}{$_TR.err_foundfile}
+{elseif $uploadError == $smarty.const.SYS_FILES_NOTWRITABLE}{$_TR.err_cantmkdir}
+{else}{$_TR.err_unknown}
 {/if}
 </div>
 {/if}
@@ -76,7 +77,7 @@ Uploads have been disabled.<br />
 	<tr>
 		<td align='{$data->_align}'>
 		{if $data->_noflash == 1}
-			No Flash file has been loaded.
+			{$_TR.no_flash}
 		{else}
 		<script language="javascript">
 			var flash_url = "{$data->_flashurl}";

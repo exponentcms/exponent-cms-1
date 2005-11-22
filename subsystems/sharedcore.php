@@ -119,14 +119,12 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 	$linkdest = $site->path;
 	
 	foreach ($deps as $info) {
-		echo 'Linking.' .$info['name'].' : '.$info['type'].'<br />';
 		pathos_sharedcore_linkExtension($info['type'],$info['name'],$core->path,$site->path);
 	}
 	
 	foreach (include($linksrc."manifest.php") as $file=>$linkit) {
 		if ($linkit !== 0 && file_exists($linksrc.$file)) {
-			echo 'symlink('.$linksrc.$file.','.$linkdest.$file.');<br />';
-			__symlink($linksrc.$file,$linkdest.$file);
+			symlink($linksrc.$file,$linkdest.$file);
 		}
 	}
 	// Cleanup -- essentially, pathos.php needs to be a real file, so that __realpath(__FILE__) calls work properly
@@ -149,7 +147,7 @@ function pathos_sharedcore_setup($core,$site) {
 		return SHAREDCORE_ERR_LINKDEST_NOTWRITABLE;
 	}
 	
-	if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
+	if (!defined("SYS_FILES")) include_once(BASE."subsystems/files.php");
 	$exclude = array(
 		"external",
 		"modules",
@@ -168,7 +166,7 @@ function pathos_sharedcore_setup($core,$site) {
 	mkdir($linkdest."modules",fileperms($linksrc."modules"));
 	mkdir($linkdest."themes",fileperms($linksrc."themes"));
 	mkdir($linkdest."subsystems",fileperms($linksrc."subsystems"));
-	__symlink($linksrc."external",$linkdest."external");
+	symlink($linksrc."external",$linkdest."external");
 	
 	return SHAREDCORE_ERR_OK;
 }
@@ -219,13 +217,11 @@ function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 		pathos_files_copyDirectoryStructure($linksrc,$linkdest);
 	}
 		
-	if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
-	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
+	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+	if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');
 	
 	$files = ($manifest == '' ? null : array());
 	if ($files !== null) {
-		echo $source.'/'.$auto_manifest.'<br />';
-		echo $source.'/'.$manifest.'<br />';
 		if (is_readable($source.'/'.$auto_manifest)) {
 			$files = include($source.'/'.$auto_manifest);
 		} else if (is_readable($source.'/'.$manifest)) {
@@ -243,8 +239,7 @@ function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 function pathos_sharedcore_linkFiles($source,$destination,$files) {
 	foreach ($files as $file=>$linkit) {
 		if ($linkit !== 0 && is_readable($source.$file) && !file_exists($destination.$file)) {
-			echo 'symlink('.$source.$file.','.$destination.$file.');<Br />';
-			__symlink($source.$file,$destination.$file);
+			symlink($source.$file,$destination.$file);
 		}
 	}
 }

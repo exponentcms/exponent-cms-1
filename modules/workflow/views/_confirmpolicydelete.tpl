@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,15 +30,14 @@
  * $Id$
  *}
 <div>
-<b>Warning:</b> There are currently posts under the authority of this approval policy.  Deleting this policy will delete these revisions - an action wich is <b>not</b> reversible.
+{$_TR.warning}
 <br /><hr size="1" /><br />
 
 <table cellpadding="4" cellspacing="1" width="100%" border="0">
 	<tr>
-		<td class="header workflow_header">Title</td>
-		<td class="header workflow_header"> Version</td>
-		<td class="header workflow_header">Module</td>
-		<td class="header workflow_header">Source</td>
+		<td class="header workflow_header">{$_TR.title}</td>
+		<td class="header workflow_header"> {$_TR.version}</td>
+		<td class="header workflow_header">{$_TR.module}</td>
 	</tr>
 {foreach from=$affected key=type item=posts}
 {foreach from=$posts item=post}
@@ -45,13 +45,12 @@
 		<td>{$post->title}</td>
 		<td>{$post->current_major}.{$post->current_minor}</td>
 		<td>{$post->module}</td>
-		<td>{$post->source}</td>
 	</tr>
 {/foreach}
 {foreachelse}
-There is no content under the authority of this approval policies.  It should be safe to delete it.
+{$_TR.no_paths}
 {/foreach}
 </table>
 <br /><hr size="1" />
-If you are sure you want to delete this policy, and the above unapproved content, click <a class="mngmntlink workflow_mngmntlink" href="{link action=admin_deletepolicy id=$policy->id}">here</a>.
+<a class="mngmntlink workflow_mngmntlink" href="{link action=admin_deletepolicy id=$policy->id}">{$_TR.delete}</a>
 </div>

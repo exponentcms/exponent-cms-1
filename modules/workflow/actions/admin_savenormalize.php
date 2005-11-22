@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,23 +34,23 @@
 
 // Part of the Administration Control Panel : Workflow category
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 	$policy = unserialize(stripslashes($_POST['policy']));
 	
-	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	
 	foreach ($_POST['selection'] as $type=>$items) {
 		foreach ($items as $id=>$action) {
-			$info = $db->selectObject($type."_wf_info","real_id=$id");
-			$revision = $db->selectObject($type."_wf_revision","wf_original=".$info->real_id." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
+			$info = $db->selectObject($type.'_wf_info','real_id=$id');
+			$revision = $db->selectObject($type.'_wf_revision','wf_original='.$info->real_id.' AND wf_major='.$info->current_major.' AND wf_minor='.$info->current_minor);
 			
 			switch ($action) {
-				case "restart":
+				case 'restart':
 					$revision = pathos_workflow_restartRevisionPath($revision,$type,$policy,$info);
 					break;
-				case "eval":
+				case 'eval':
 					$revision = pathos_workflow_evaluateRevisionPath($revision,$type,$policy,$info);
 					break;
 			}
@@ -58,9 +59,11 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	
 	// In either case, we have to update the revision info object
 	// Having gotten $revision from the handler functions, it should be up to date.
-	$db->updateObject($policy,"approvalpolicy","id=".$policy->id);
+	$db->updateObject($policy,'approvalpolicy','id='.$policy->id);
 	
 	pathos_flow_redirect();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

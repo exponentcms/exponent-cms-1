@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,23 +32,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $page = null;
-if (isset($_GET['id'])) $page = $db->selectObject("section_template","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$page = $db->selectObject('section_template','id='.intval($_GET['id']));
+}
 
 if ($page) {
 	function tmp_deleteLevel($parent) {
 		global $db;
-		$kids = $db->selectObjects("section_template","parent=$parent");
+		$kids = $db->selectObjects('section_template','parent='.$parent);
 		foreach ($kids as $kid) {
 			tmp_deleteLevel($kid->id);
 		}
-		$db->delete("section_template","parent=$parent");
+		$db->delete('section_template','parent='.$parent);
 	}
 
 	if ($user && $user->is_acting_admin == 1) {
-		$db->delete("section_template","id=".$page->id);
+		$db->delete('section_template','id='.$page->id);
 		if ($page->parent != 0) {
 			$db->decrement('section_template','rank',1,'parent='.$page->parent.' AND rank >= '.$page->rank);
 		}

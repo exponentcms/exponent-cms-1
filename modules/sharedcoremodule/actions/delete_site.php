@@ -36,11 +36,11 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
 	$site = null;
 	if (isset($_GET['id'])) {
-		$site = $db->selectObject('sharedcore_site','id='.$_GET['id']);
+		$site = $db->selectObject('sharedcore_site','id='.intval($_GET['id']));
 	}
 	
 	if ($site) {
-		if (!defined('SYS_SHAREDCORE')) require_once(BASE.'subsystems/sharedcore.php');
+		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
 		pathos_sharedcore_clear($site->path,true);
 		
 		$db->delete('sharedcore_site','id='.$site->id);

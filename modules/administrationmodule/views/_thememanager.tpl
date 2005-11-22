@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,24 +29,22 @@
  *
  * $Id$
  *}
-<div class="form_title">Manage Themes</div>
-<div class="form_header">This page lists all installed themes that are recognized by Exponent.  When you click the 'Preview' link, the site layout will be switched to that theme for the duration of your session.  Other uses will still see the configured theme.  If you log out or close your browser window, the previewing will stop.
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}
 <br /><br />
-To change the current configured theme, you will have to edit the <a class="mngmntlink administration_mngmntlink" href="{link action=configuresite}">Site Configuration</a>.
-<br /><br />
-To install a new theme, use the <a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension}">Extension Upload</a> form.
+<a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension}">{$_TR.new_theme}</a>.
 </div>
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 {foreach name=t from=$themes key=class item=theme}
 	{math equation="x % 2" x=$smarty.foreach.t.iteration assign="even"}
 	<tr>
-		<td style="background-color: lightgrey"><b>{$theme->name}</b> by {$theme->author}</td>
+		<td style="background-color: lightgrey"><b>{$theme->name}</b> {$_TR.by} {$theme->author}</td>
 		<td style="background-color: lightgrey" align="right">
 			{if $smarty.const.DISPLAY_THEME_REAL == $class}
-				<span style="color: green" />Current</span>
+				<span style="color: green" />{$_TR.current}</span>
 			{/if}
 			{if $smarty.const.DISPLAY_THEME == $class and $smarty.const.DISPLAY_THEME != $smarty.const.DISPLAY_THEME_REAL}
-				<span style="color: blue" />Previewing</span>
+				<span style="color: blue" />{$_TR.previewing}</span>
 			{/if}
 		</td>
 	</tr>
@@ -54,14 +53,14 @@ To install a new theme, use the <a class="mngmntlink administration_mngmntlink" 
 			{if $even == 0}
 				{$theme->description}
 			{else}
-				<img src="{$theme->preview}" style="broder: 1px solid ligthgrey" />
+				<img src="{$theme->preview}" style="border: 1px solid ligthgrey" />
 				<br />
 				{if $class != $smarty.const.DISPLAY_THEME}
-				[ <a class="mngmntlink administration_mngmntlink" href="{link action=theme_preview theme=$class}">Preview</a> ]
+				[ <a class="mngmntlink administration_mngmntlink" href="{link action=theme_preview theme=$class}">{$_TR.preview}</a> ]
 				{else}
-				[ Preview ]
+				[ {$_TR.preview} ]
 				{/if}
-				&nbsp;&nbsp;[ <a href="{link module=info action=showfiles type=$smarty.const.CORE_EXT_THEME name=$class}">View Files</a> ]
+				&nbsp;&nbsp;[ <a href="{link module=info action=showfiles type=$smarty.const.CORE_EXT_THEME name=$class}">{$_TR.view_files}</a> ]
 			{/if}
 		</td>
 		<td align="{if $even == 1}left{else}center{/if}" style="padding-left: 10px; border-right: 1px solid lightgrey; border-bottom: 1px solid lightgrey;">
@@ -71,11 +70,11 @@ To install a new theme, use the <a class="mngmntlink administration_mngmntlink" 
 				<img src="{$theme->preview}" style="broder: 1px solid ligthgrey" />
 				<br />
 				{if $class != $smarty.const.DISPLAY_THEME}
-				[ <a class="mngmntlink administration_mngmntlink" href="{link action=theme_preview theme=$class}">Preview</a> ]
+				[ <a class="mngmntlink administration_mngmntlink" href="{link action=theme_preview theme=$class}">{$_TR.preview}</a> ]
 				{else}
-				[ Preview ]
+				[ {$_TR.preview} ]
 				{/if}
-				&nbsp;&nbsp;[ <a href="{link module=info action=showfiles type=$smarty.const.CORE_EXT_THEME name=$class}">View Files</a> ]
+				&nbsp;&nbsp;[ <a href="{link module=info action=showfiles type=$smarty.const.CORE_EXT_THEME name=$class}">{$_TR.view_files}</a> ]
 			{/if}
 		</td>
 	</tr>

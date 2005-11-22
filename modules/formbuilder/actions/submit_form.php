@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -111,32 +112,35 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions
 			//This is an easy way to remove duplicates
 			$emaillist = array_flip(array_flip($emaillist));
 			
-			if (!defined("SYS_SMTP")) require_once(BASE."subsystems/smtp.php");
-			$headers = array(
-				"MIME-Version"=>"1.0",
-				"Content-type"=>"text/html; charset=iso-8859-1"
-			);
-			if (pathos_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
-				pathos_lang_loadDictionary('modules','formbuilder');
-				echo TR_FORMBUILDER_ERR_SMTP;
+			if (count($emaillist)) {
+				//This is an easy way to remove duplicates
+				$emaillist = array_flip(array_flip($emaillist));
+				
+				if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+				$headers = array(
+					"MIME-Version"=>"1.0",
+					"Content-type"=>"text/html; charset=iso-8859-1"
+				);
+				if (pathos_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
+					$i18n = pathos_lang_loadFile('modules/formbuilder/actions/submitform.php');
+					echo $i18n['err_smtp'];
+				}
 			}
 		}
-		
-	}
-	//If is a new post show response, otherwise redirect to the flow.
-	if (!isset($_POST['data_id'])) {
-		$template = new template("formbuilder","_view_response");
-		global $SYS_FLOW_REDIRECTIONPATH;
-		$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-		$template->assign("backlink",pathos_flow_get());
-		$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
-		$template->assign("response_html",$f->response);
-		$template->output();
+		//If is a new post show response, otherwise redirect to the flow.
+		if (!isset($_POST['data_id'])) {
+			$template = new template("formbuilder","_view_response");
+			global $SYS_FLOW_REDIRECTIONPATH;
+			$SYS_FLOW_REDIRECTIONPATH = "editfallback";
+			$template->assign("backlink",pathos_flow_get());
+			$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
+			$template->assign("response_html",$f->response);
+			$template->output();
+		}
+		else {
+			pathos_flow_redirect();
+		}
 	} else {
-		pathos_flow_redirect();
+		echo SITE_403_HTML;
 	}
-} else {
-	echo SITE_403_HTML;
-}
-
 ?>

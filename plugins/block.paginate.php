@@ -303,7 +303,12 @@ function smarty_block_paginate($params,$content,&$smarty) {
 			
 			for (var data in this.columns) {
 				cell = document.createElement("td");
-				cell.setAttribute("class","header " + this.modulePrefix + "_header");
+				if (document.all) {
+					// IE is different
+					cell.setAttribute("className","header " + this.modulePrefix + "_header");
+				} else {
+					cell.setAttribute("class","header " + this.modulePrefix + "_header");
+				}
 				cell_content = this.columns[data].headerText;
 				if (this.columns[data].attribute != "" || this.columns[data].sortFunc != null) {
 					cell_content = "<a href='#' onClick='paginate.sort(\""+data+"\"); return false;'>"+this.columns[data].headerText+"</a>";
@@ -324,7 +329,12 @@ function smarty_block_paginate($params,$content,&$smarty) {
 					rowCounter++;
 					if ((rowCounter > startCount) && (rowCounter <= (startCount + this.rowsPerPage))) {
 						row = document.createElement("tr");
-						row.setAttribute("class","row " + ((rowCycle == 0)?"odd":"even") + "_row");
+						if (document.all) {
+							// IE is different
+							row.setAttribute("className","row " + ((rowCycle == 0)?"odd":"even") + "_row");
+						} else {
+							row.setAttribute("class","row " + ((rowCycle == 0)?"odd":"even") + "_row");
+						}
 						rowCycle = !rowCycle;
 						for (var data in this.columns) {
 							cell = document.createElement("td");
@@ -348,7 +358,12 @@ function smarty_block_paginate($params,$content,&$smarty) {
 				}
 			} else {
 				row = document.createElement("tr");
-				row.setAttribute("class","row");
+				if (document.all) {
+					// IE is different
+					row.setAttribute("className","row");
+				} else {
+					row.setAttribute("class","row");
+				}
 				cell = document.createElement("td");
 				cell.setAttribute("style","text-align: center; font-style: italic");
 				cell.setAttribute("colspan",this.columns.length);

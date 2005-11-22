@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,10 +35,10 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
-	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "start");
-	$exporter = (isset($_REQUEST['exporter']) ? $_REQUEST['exporter'] : "");
-	$file = BASE."modules/exporter/exporters/$exporter/$page.php";
-	if ($exporter != "" && is_readable($file) && is_file($file)) {
+	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 'start');
+	$exporter = (isset($_REQUEST['exporter']) ? $_REQUEST['exporter'] : '');
+	$file = BASE.'modules/exporter/exporters/'.$exporter.'/'.$page.'.php';
+	if ($exporter != '' && is_readable($file) && is_file($file)) {
 		include($file);
 	} else {
 		echo SITE_404_HTML;

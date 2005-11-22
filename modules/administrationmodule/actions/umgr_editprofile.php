@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -40,7 +41,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 
-	$u = pathos_users_getUserById($_GET['id']);
+	$u = pathos_users_getUserById(intval($_GET['id']));
 	if ($u == null) {
 		$u->is_admin = 0;
 		$u->is_acting_admin = 0;
@@ -52,8 +53,8 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	
 	if ($user->is_admin == 1 && $u->is_admin == 0) {
 		// Super user editting a 'lesser' user.
-		pathos_lang_loadDictionary('modules','administrationmodule');
-		$form->registerBefore('submit','is_acting_admin',TR_ADMINISTRATIONMODULE_ISADMIN,new checkboxcontrol($u->is_acting_admin,true));
+		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/umgr_editprofile.php');
+		$form->registerBefore('submit','is_acting_admin',$i18n['is_admin'],new checkboxcontrol($u->is_acting_admin,true));
 	}
 	
 	$template = new template('administrationmodule','_umgr_editprofile',$loc);

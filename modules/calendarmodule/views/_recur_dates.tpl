@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -31,7 +32,7 @@
 {foreach from=$dates item=d}
 <tr class="row {cycle values='even_row,odd_row'}">
 	<td width="10">
-		<input type="checkbox" name="dates[{$d->id}]" {if $d->id == $checked_date->id}checked {/if}/>
+		<input type="checkbox" name="dates[{$d->id}]" {if $d->id == $checked_date->id}checked="checked" {/if}/>
 	</td>
 	<td>
 		{$d->date|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
@@ -52,8 +53,8 @@
 		}
 		</script>
 	{/literal}
-		<a class="mngmntlink calendar_mngmntlink" href="#" onClick="recur_selectUnselectAll(true); return false;">Select All</a>
+		<a class="mngmntlink calendar_mngmntlink" href="#" onClick="recur_selectUnselectAll(true); return false;">{$_TR.select_all}</a>
 		&nbsp;/&nbsp;
-		<a class="mngmntlink calendar_mngmntlink" href="#" onClick="recur_selectUnselectAll(false); return false;">Unselect All</a>
+		<a class="mngmntlink calendar_mngmntlink" href="#" onClick="recur_selectUnselectAll(false); return false;">{$_TR.deselect_all}</a>
 	</td>
 </tr>

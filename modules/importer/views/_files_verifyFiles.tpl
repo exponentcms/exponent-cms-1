@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -43,25 +44,25 @@
 		<span style="color: green;">passed</span>
 		{elseif $status == $smarty.const.SYS_FILES_FOUNDFILE || $status == $smarty.const.SYS_FILES_FOUNDDIR}
 		{assign var=warn value=1}
-		<span style="color: orange;">file exists</span>
+		<span style="color: orange;">{$_TR.file_exists}</span>
 		{else}
 		{assign var=failed value=1}
-		<span style="color: red;">failed</span>
+		<span style="color: red;">{$_TR.failed}</span>
 		{/if}
 	</td>
 </tr>
-{foreachelse}<tr><td colspan="2"><i>No Files found</i></td></tr>
+{foreachelse}<tr><td colspan="2"><i>{$_TR.no_files}</i></td></tr>
 {/foreach}
-{foreachelse}<tr><td colspan="2"><i>No Module Types Selected</i></td></tr>
+{foreachelse}<tr><td colspan="2"><i>{$_TR.no_modules}</i></td></tr>
 {/foreach}
 </table>
 {if $haveFiles == 1}
 <br />
 <hr size="1" />
 {if $failed == 0}
-{if $warn == 1}<b>Note:</b> Continuing with the installation will overwrite existing files.  It is <b>highly recommended</b> that you ensure that you want to do this.<br /><br />{/if}
-To install restore these files, click <a class="mngmntlink" href="{link action=page page=finish importer=files}">continue</a>.
+{if $warn == 1}{$_TR.overwrite_warning}<br /><br />{/if}
+<a class="mngmntlink" href="{link action=page page=finish importer=files}">{$_TR.restore_files}</a>
 {else}
-Permissions on the webserver are preventing the restoration of these files.  Please make the necessary directories and/or files writable, and then reload this page to continue.
+{$_TR.bad_permissions}
 {/if}
 {/if}

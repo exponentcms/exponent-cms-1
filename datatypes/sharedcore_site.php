@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class sharedcore_site {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','sharedcoremodule');
+		$i18n = pathos_lang_loadFile('datatypes/sharedcore_site.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -58,44 +58,43 @@ class sharedcore_site {
 		uasort($codebases,'strnatcmp');
 		
 		
-		$form->register('core_id',TR_SHAREDCOREMODULE_SITECORE, new dropdowncontrol($object->core_id,$codebases));
-		$form->register('name',TR_SHAREDCOREMODULE_SITENAME, new textcontrol($object->name));
+		$form->register('core_id',$i18n['core'], new dropdowncontrol($object->core_id,$codebases));
+		$form->register('name',$i18n['name'], new textcontrol($object->name));
 		
 		$path_ctl = new textcontrol($object->path);
 		if (isset($object->id)) $path_ctl->disabled = true;
-		$form->register('path',TR_SHAREDCOREMODULE_SITEPATH, $path_ctl);
+		$form->register('path',$i18n['path'], $path_ctl);
 		
 		$host_ctl = new textcontrol($object->host);
 		if (isset($object->id)) $host_ctl->disabled = true;
-		$form->register('host',TR_SHAREDCOREMODULE_SITEHOST, $host_ctl);
+		$form->register('host',$i18n['host'], $host_ctl);
 		
 		$relpath_ctl = new textcontrol($object->relpath);
 		if (isset($object->id)) $relpath_ctl->disabled = true;
-		$form->register('relpath',TR_SHAREDCOREMODULE_SITERELPATH, $relpath_ctl);
+		$form->register('relpath',$i18n['relpath'], $relpath_ctl);
 		
 		
 		if (!isset($object->id)) {
-			pathos_lang_loadDictionary('config','database');
+			$local_i18n = pathos_lang_loadFile('conf/extensions/database.structure.php');
 			// Setup initial database config
-			$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.TR_CONFIG_DATABASE_TITLE.'</b>'));
-			$form->register('db_engine',TR_CONFIG_DATABASE_DB_ENGINE,new dropdowncontrol(DB_ENGINE,pathos_database_backends()));
-			$form->register('db_host',TR_CONFIG_DATABASE_DB_HOST,new textcontrol(DB_HOST));
-			$form->register('db_port',TR_CONFIG_DATABASE_DB_PORT,new textcontrol(DB_PORT));
-			$form->register('db_name',TR_CONFIG_DATABASE_DB_NAME,new textcontrol(DB_NAME));
-			$form->register('db_user',TR_CONFIG_DATABASE_DB_USER,new textcontrol(DB_USER));
-			$form->register('db_pass',TR_CONFIG_DATABASE_DB_PASS,new textcontrol());
-			$form->register('db_table_prefix',TR_CONFIG_DATABASE_DB_TABLE_PREFIX,new textcontrol(DB_TABLE_PREFIX));
+			$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.$local_i18n['title'].'</b>'));
+			$form->register('db_engine',$local_i18n['db_engine'],new dropdowncontrol(DB_ENGINE,pathos_database_backends()));
+			$form->register('db_host',$local_i18n['db_host'],new textcontrol(DB_HOST));
+			$form->register('db_port',$local_i18n['db_port'],new textcontrol(DB_PORT));
+			$form->register('db_name',$local_i18n['db_name'],new textcontrol(DB_NAME));
+			$form->register('db_user',$local_i18n['db_user'],new textcontrol(DB_USER));
+			$form->register('db_pass',$local_i18n['db_pass'],new textcontrol());
+			$form->register('db_table_prefix',$local_i18n['db_table_prefix'],new textcontrol(DB_TABLE_PREFIX));
 			$form->meta('_db_config',1);
 		}
 		
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}
 	
 	function linkForm($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','sharedcoremodule');
+		$i18n = pathos_lang_loadFile('datatypes/sharedcore_site.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -120,7 +119,7 @@ class sharedcore_site {
 			$form->meta('site_id',$object->id);
 		}
 		
-		$form->register(uniqid(''),'',new htmlcontrol('<b>'.TR_SHAREDCOREMODULE_MODULES.'</b>'));
+		$form->register(uniqid(''),'',new htmlcontrol('<b>'.$i18n['modules'].'</b>'));
 		// Get a list of modules from the chosen core.
 		$core = $db->selectObject('sharedcore_core','id='.$object->core_id);
 		$dh = opendir($core->path.'modules');
@@ -138,7 +137,7 @@ class sharedcore_site {
 			}
 		}
 		
-		$form->register(uniqid(''),'',new htmlcontrol('<b>'.TR_SHAREDCOREMODULE_THEMES.'</b>'));
+		$form->register(uniqid(''),'',new htmlcontrol('<b>'.$i18n['themes'].'</b>'));
 		$dh = opendir($core->path.'themes');
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,0,1) != '.' && $file != 'CVS') {
@@ -150,19 +149,19 @@ class sharedcore_site {
 				$form->register("themes[$file]",$name,$cb);
 			}
 		}
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_NEXT));
+		$form->register('submit','',new buttongroupcontrol($i18n['next']));
 		return $form;
 	}
 	
 	function update($values,$object) {
 		if (isset($values['_db_config'])) {
-			pathos_lang_loadDictionary('config','database');
+			$i18n = pathos_lang_loadFile('datatypes/sharedcore_site.php');
 		
 			// Test configuration, and return NULL if it doesn't work.
 			
 			if (preg_match('/[^A-Za-z0-9]/',$values['db_table_prefix'])) {
 				$post = $values;
-				$post['_formError'] = TR_CONFIG_DATABASE_ERROR_BADPREFIX.'<br />';
+				$post['_formError'] = $i18n['bad_prefix'].'<br />';
 				pathos_sessions_set('last_POST',$post);
 				return null;
 			}
@@ -172,7 +171,7 @@ class sharedcore_site {
 			
 			if (!$linkdb->isValid()) {
 				$post = $values;
-				$post['_formError'] = TR_CONFIG_DATABASE_ERROR_CANTCONNECT.'<br />';
+				$post['_formError'] = $i18n['cant_connect'].'<br />';
 				pathos_sessions_set('last_POST',$post);
 				return null;
 			}
@@ -183,7 +182,7 @@ class sharedcore_site {
 			foreach ($status as $type=>$flag) {
 				if (!$flag) {
 					$failed = true;
-					$errors .= sprintf(TR_CONFIG_DATABASE_ERROR_PERMDENIED,$type).'<br />';
+					$errors .= sprintf($i18n['perm_denied'],$type).'<br />';
 				}
 			}
 			if ($failed) {

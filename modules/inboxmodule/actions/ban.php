@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,25 +32,20 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $u = null;
 if (isset($_REQUEST['uid'])) {
-	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
-	$u = pathos_users_getUserById((int)$_REQUEST['uid']);
+	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+	$u = pathos_users_getUserById($_REQUEST['uid']);
 }
 
 if ($user && $u) {
-	if ($user->id == $u->id || $u->is_acting_admin == 1) {
-		// GREP:HARDCODEDTEXT
-		echo 'You cannot ban yourself or an administrator from sending mail.';
-	} else {
-		$ban = null;
-		$ban->owner = $user->id;
-		$ban->user_id = $u->id;
-		$db->insertObject($ban,"inbox_contactbanned");
-		pathos_flow_redirect();
-	}
+	$ban = null;
+	$ban->owner = $user->id;
+	$ban->user_id = $u->id;
+	$db->insertObject($ban,'inbox_contactbanned');
+	pathos_flow_redirect();
 } else {
 	echo SITE_404_HTML;
 }

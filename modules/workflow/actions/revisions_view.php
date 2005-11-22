@@ -33,6 +33,11 @@
 
 if (!defined("PATHOS")) exit("");
 
+// Sanitize required _GET parameters
+$_GET['id'] = intval($_GET['id']);
+
+// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
+
 $rloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
 if (pathos_permissions_check("manage_approval",$rloc)) {
 
@@ -41,13 +46,13 @@ if (pathos_permissions_check("manage_approval",$rloc)) {
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 
 	$template = new template("workflow","_revisions",$loc);
-	
+
 	$current = $db->max($_GET['datatype']."_wf_revision","wf_major","wf_original","wf_original=".$_GET['id']);
 	$template->assign("current",$current);
 	$template->assign("datatype",$_GET['datatype']);
 	
 	$revisions = $db->selectObjects($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']);
-	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($revisions,"pathos_sorting_workflowRevisionDescending");
 	$template->assign("revisions",$revisions);
 	

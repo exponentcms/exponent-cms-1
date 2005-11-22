@@ -31,6 +31,5 @@ function validate(frm) {
 		return false;
 	}
 	
-//	alert("Validation Passed");
 	return true;
 }

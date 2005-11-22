@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -43,12 +44,16 @@ define('SYS_SECURITY',1);
  */
 function pathos_security_checkPasswordStrength($username,$password) {
 
-	pathos_lang_loadDictionary('subsystems','security');
+	$i18n = pathos_lang_loadFile('subsystems/security.php');
 // Return blank string on success, error message on failure.
 // The error message should let the user know why their password is wrong.
-	if (strcasecmp($username,$password) == 0) return TR_SECURITYSUBSYSTEM_DIFFFROMNAME;
+	if (strcasecmp($username,$password) == 0) {
+		return $i18n['not_username'];
+	}
 	# For example purposes, the next line forces passwords to be over 8 characters long.
-	if (strlen($password) < 8) return TR_SECURITYSUBSYSTEM_NOTLONGENOUGH;
+	if (strlen($password) < 8) {
+		return $i18n['pass_len'];
+	}
 	
 	return ""; // by default, accept any passwords
 }

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,27 +29,24 @@
  *
  * $Id$
  *}
-<div class="form_title">Users Entered to Database</div>
-<div class="form_header">
-The following users were added to the database.  If the user info is highlighted green, then the user was addded to the database with changes to the username.  If the user
-info is highlighted in red, that user record could not be added to the database due to errors.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <table cellspacing="0" cellpadding="2" border="0" width="100%">
 	<tr>
-		<td class="header importer_header">Status</td>
-		<td class="header importer_header">User ID</td>
-		<td class="header importer_header">User Name</td>
-		<td class="header importer_header">Password</td>
-		<td class="header importer_header">First Name</td>
-		<td class="header importer_header">Last Name</td>
-		<td class="header importer_header">Email Address</td>
+		<td class="header importer_header">{$_TR.status}</td>
+		<td class="header importer_header">{$_TR.user_id}</td>
+		<td class="header importer_header">{$_TR.username}</td>
+		<td class="header importer_header">{$_TR.password}</td>
+		<td class="header importer_header">{$_TR.first_name}</td>
+		<td class="header importer_header">{$_TR.last_name}</td>
+		<td class="header importer_header">{$_TR.email}</td>
 	</tr>
 {foreach from=$userarray item=user}
 <tr class="row {cycle values=even_row,odd_row}">
 	<td style="background-color:inherit;">
-		{if $user->changed == 1}<span style="color:green;">Changed</span>
-		{elseif $user->changed == "skipped"}<span style="color:red;">Ignored&nbsp;(Line&nbsp;{$user->linenum}&nbsp;)</span>
-		{else}<span style="color:black;">Success</span>
+		{if $user->changed == 1}<span style="color:green;">{$_TR.changed}</span>
+		{elseif $user->changed == "skipped"}<span style="color:red;">{$_TR.skipped|sprintf:$user->linenum})</span>
+		{else}<span style="color:black;">{$_TR.success}</span>
 		{/if}
 	</td>
 	<td>{$user->id}</td>
@@ -59,5 +57,4 @@ info is highlighted in red, that user record could not be added to the database 
 	<td>{$user->email}</td>
 </tr>
 {/foreach}
-		 
 </table>

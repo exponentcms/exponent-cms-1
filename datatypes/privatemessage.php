@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class privatemessage {
 	function form($object) {
-		pathos_lang_loadDictionary('modules','inboxmodule');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('datatypes/privatemessage.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -73,23 +73,23 @@ class privatemessage {
 		
 		$groups = array();
 		foreach ($db->selectObjects('inbox_contactlist','owner='.$user->id) as $g) {
-			$groups['list_'.$g->id] = $g->name . ' ' . TR_INBOXMODULE_PERSONALLIST;
+			$groups['list_'.$g->id] = $g->name . ' ' . $i18n['personal_list'];
 		}
 		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
 			foreach (pathos_users_getAllGroups(1,0) as $g) {
-				$groups['group_'.$g->id] = $g->name . ' ' . TR_INBOXMODULE_SYSGROUP;
+				$groups['group_'.$g->id] = $g->name . ' ' . $i18n['system_group'];
 			}
 		} else {
 			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
-				$groups['group_'.$g->id] = $g->name . ' ' . TR_INBOXMODULE_SYSGROUP;
+				$groups['group_'.$g->id] = $g->name . ' ' . $i18n['system_group'];
 			}
 		}
 		uasort($groups,'strnatcmp');
 		
-		$recipient_caption = TR_INBOXMODULE_RECIPIENT;
-		$group_recipient_caption = TR_INBOXMODULE_GROUPRECIPIENT;
+		$recipient_caption = $i18n['recipient'];
+		$group_recipient_caption = $i18n['group_recipient'];
 		
-		$btn = new buttongroupcontrol(TR_INBOXMODULE_SEND,'',TR_CORE_CANCEL);
+		$btn = new buttongroupcontrol($i18n['save'],'',$i18n['cancel']);
 		
 		$object->group_recipient = array();
 		
@@ -102,14 +102,14 @@ class privatemessage {
 		} else {
 			if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 			$u = pathos_users_getUserById($object->recipient);
-			$form->register(null,'',new htmlcontrol(sprintf(TR_INBOXMODULE_REPLYTO,$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')')));
+			$form->register(null,'',new htmlcontrol(sprintf($i18n['replyto'],$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')')));
 			$form->meta('replyto',$object->recipient);
 			$object->recipient = array();
 			
 			unset($users[$u->id]);
 			
-			$recipient_caption = TR_INBOXMODULE_COPYTO;
-			$group_recipient_caption = TR_INBOXMODULE_GROUPCOPYTO;
+			$recipient_caption = $i18n['copyto'];
+			$group_recipient_caption = $i18n['group_copyto'];
 		}
 		
 		if (count($users)) {
@@ -120,11 +120,11 @@ class privatemessage {
 		}
 		
 		if (!count($groups) && !count($users)) {
-			$form->register(null,'',new htmlcontrol('<div class="error">'.TR_INBOXMODULE_NOCONTACTSWARNING.'</div>'));
+			$form->register(null,'',new htmlcontrol('<div class="error">'.$i18n['nocontacts'].'</div>'));
 		}
 		
-		$form->register('subject',TR_INBOXMODULE_SUBJECT,new textcontrol($object->subject));
-		$form->register('body',TR_INBOXMODULE_MESSAGE, new htmleditorcontrol($object->body));
+		$form->register('subject',$i18n['subject'],new textcontrol($object->subject));
+		$form->register('body',$i18n['body'], new htmleditorcontrol($object->body));
 		$form->register('submit','',$btn);
 		
 		return $form;

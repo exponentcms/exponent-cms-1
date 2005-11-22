@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,89 +34,89 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('config','site');
+$i18n = pathos_lang_loadFile('conf/extensions/site.structure.php');
 
 $stuff = array(
-	TR_CONFIG_SITE_TITLE,
+	$i18n['title'],
 	array(
 		'SITE_TITLE'=>array(
-			'title'=>TR_CONFIG_SITE_SITE_TITLE,
-			'description'=>TR_CONFIG_SITE_SITE_TITLE_DESC,
+			'title'=>$i18n['site_title'],
+			'description'=>$i18n['site_title_desc'],
 			'control'=>new textcontrol()
 		),
 		'USE_LANG'=>array(
-			'title'=>TR_CONFIG_SITE_USE_LANG,
-			'description'=>TR_CONFIG_SITE_USE_LANG,
+			'title'=>$i18n['use_lang'],
+			'description'=>$i18n['use_lang_desc'],
 			'control'=>new dropdowncontrol(0,pathos_lang_list())
 		),
 		'SITE_ALLOW_REGISTRATION'=>array(
-			'title'=>TR_CONFIG_SITE_ALLOW_REGISTRATION,
-			'description'=>TR_CONFIG_SITE_ALLOW_REGISTRATION_DESC,
+			'title'=>$i18n['allow_registration'],
+			'description'=>$i18n['allow_registration_desc'],
 			'control'=>new checkboxcontrol()
 		),
 		'SITE_USE_CAPTCHA'=>array(
-			'title'=>TR_CONFIG_SITE_USE_CAPTCHA,
-			'description'=>TR_CONFIG_SITE_USE_CAPTCHA_DESC,
+			'title'=>$i18n['use_captcha'],
+			'description'=>$i18n['use_captcha_desc'],
 			'control'=>new checkboxcontrol()
 		),
 		'SITE_KEYWORDS'=>array(
-			'title'=>TR_CONFIG_SITE_KEYWORDS,
-			'description'=>TR_CONFIG_SITE_KEYWORDS_DESC,
+			'title'=>$i18n['site_keywords'],
+			'description'=>$i18n['site_keywords_desc'],
 			'control'=>new texteditorcontrol('',10,30)
 		),
 		'SITE_DESCRIPTION'=>array(
-			'title'=>TR_CONFIG_SITE_DESCRIPTION,
-			'description'=>TR_CONFIG_SITE_DESCRIPTION_DESC,
+			'title'=>$i18n['site_description'],
+			'description'=>$i18n['site_description_desc'],
 			'control'=>new texteditorcontrol('',15,50)
 		),
 		'SITE_404_HTML'=>array(
-			'title'=>TR_CONFIG_SITE_404,
-			'description'=>TR_CONFIG_SITE_404_DESC,
+			'title'=>$i18n['site_404'],
+			'description'=>$i18n['site_404_desc'],
 			'control'=>new texteditorcontrol('',15,50)
 		),
 		'SITE_403_REAL_HTML'=>array(
-			'title'=>TR_CONFIG_SITE_403,
-			'description'=>TR_CONFIG_SITE_403_DESC,
+			'title'=>$i18n['site_403'],
+			'description'=>$i18n['site_403_desc'],
 			'control'=>new texteditorcontrol('',15,50)
 		),
 		'SITE_DEFAULT_SECTION'=>array(
-			'title'=>TR_CONFIG_SITE_DEFAULT_SECTION,
-			'description'=>TR_CONFIG_SITE_DEFAULT_SECTION_DESC,
-			'control'=>new dropdowncontrol('',navigationmodule::hierarchyDropDownControlArray())
+			'title'=>$i18n['default_section'],
+			'description'=>$i18n['default_section_desc'],
+			'control'=>new dropdowncontrol('',navigationmodule::levelDropDownControlArray(0))
 		),
 		'SESSION_TIMEOUT'=>array(
-			'title'=>TR_CONFIG_SITE_SESSION_TIMEOUT,
-			'description'=>TR_CONFIG_SITE_SESSION_TIMEOUT_DESC,
+			'title'=>$i18n['session_timeout'],
+			'description'=>$i18n['session_timeout_desc'],
 			'control'=>new textcontrol()
 		),
 		'SESSION_TIMEOUT_HTML'=>array(
-			'title'=>TR_CONFIG_SITE_TIMEOUT_ERROR,
-			'description'=>TR_CONFIG_SITE_TIMEOUT_ERROR_DESC,
+			'title'=>$i18n['timeout_error'],
+			'description'=>$i18n['timeout_error_desc'],
 			'control'=>new texteditorcontrol('',15,50)
 		),
 		'FILE_DEFAULT_MODE_STR'=>array(
-			'title'=>TR_CONFIG_SITE_FILEPERMS,
-			'description'=>TR_CONFIG_SITE_FILEPERMS_DESC,
+			'title'=>$i18n['fileperms'],
+			'description'=>$i18n['fileperms_desc'],
 			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('file_permissions'))
 		),
 		'DIR_DEFAULT_MODE_STR'=>array(
-			'title'=>TR_CONFIG_SITE_DIRPERMS,
-			'description'=>TR_CONFIG_SITE_DIRPERMS_DESC,
+			'title'=>$i18n['dirperms'],
+			'description'=>$i18n['dirperms_desc'],
 			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('dir_permissions'))
 		),
 		'ENABLE_SSL'=>array(
-			'title'=>TR_CONFIG_SITE_ENABLE_SSL,
-			'description'=>TR_CONFIG_SITE_ENABLE_SSL_DESC,
+			'title'=>$i18n['ssl'],
+			'description'=>$i18n['ssl_desc'],
 			'control'=>new checkboxcontrol()
 		),
 		'NONSSL_URL'=>array(
-			'title'=>TR_CONFIG_SITE_NONSSL_URL,
-			'description'=>TR_CONFIG_SITE_NONSSL_URL_DESC,
+			'title'=>$i18n['nonssl_url'],
+			'description'=>$i18n['nonssl_url_desc'],
 			'control'=>new textcontrol()
 		),
 		'SSL_URL'=>array(
-			'title'=>TR_CONFIG_SITE_SSL_URL,
-			'description'=>TR_CONFIG_SITE_SSL_URL_DESC,
+			'title'=>$i18n['ssl_url'],
+			'description'=>$i18n['ssl_url_desc'],
 			'control'=>new textcontrol()
 		),
 		'WORKFLOW_REVISION_LIMIT'=>array(
@@ -128,7 +129,7 @@ $stuff = array(
 
 $info = gd_info();
 if (!PATHOS_HAS_GD) {
-	$stuff[1]['SITE_USE_CAPTCHA']['description'] = TR_CONFIG_SITE_USE_CAPTCHA_DESC.'<br /><br />'.TR_CONFIG_SITE_USE_CAPTCHA_NOSUPPORT;
+	$stuff[1]['SITE_USE_CAPTCHA']['description'] = $i18n['use_captcha_desc'].'<br /><br />'.$i18n['no_gd_support'];
 	$stuff[1]['SITE_USE_CAPTCHA']['control']->disabled = true;
 }
 

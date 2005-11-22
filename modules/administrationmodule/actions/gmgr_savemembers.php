@@ -35,6 +35,9 @@
 
 if (!defined('PATHOS')) exit('');
 
+// Sanitize required _GET parameters
+$_GET['id'] = intval($_GET['id']);
+
 $memb = $db->selectObject('groupmembership','member_id='.$user->id.' AND group_id='.$_GET['id'].' AND is_admin=1');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule')) || $memb) {

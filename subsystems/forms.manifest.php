@@ -14,6 +14,7 @@ return array(
 	'subsystems/forms/controls/htmlcontrol.php'=>'',
 	'subsystems/forms/controls/htmleditorcontrol.php'=>'',
 	'subsystems/forms/controls/passwordcontrol.php'=>'',
+	'subsystems/forms/controls/monthyearcontrol.php'=>'',
 	'subsystems/forms/controls/popupdatetimecontrol.php'=>'',
 	'js/PopupDateTimeControl.js'=>'',
 	'subsystems/forms/controls/textcontrol.php'=>'',

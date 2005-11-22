@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,7 +34,7 @@
 
 class rotator_item {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('datatypes/rotator_item.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -45,8 +46,8 @@ class rotator_item {
 		} else {
 			$form->meta('id',$object->id);
 		}
-		$form->register('text','',new htmleditorcontrol($object->text));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('text',$i18n['text'],new htmleditorcontrol($object->text));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

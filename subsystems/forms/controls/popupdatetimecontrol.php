@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -133,7 +134,7 @@ class popupdatetimecontrol extends formcontrol {
 		$html .= "\n";
 		if ($this->disable_text != "") {// popupdatetimecontrol_enable(this.form,\''.$name.'\');
 			$html .= '<input align="texttop" style="margin-top: -2px;" type="checkbox" name="'.$name.'_disabled" onChange="popupdatetimecontrol_enable(this.form,\''.$name.'\');" onClick="popupdatetimecontrol_enable(this.form,\''.$name.'\');" ';
-			if ($this->disabled) $html .= ' checked';
+			if ($this->disabled) $html .= ' checked="checked"';
 			$html .= '/>'.$this->disable_text;
 		} else {
 		#	$html .= '<input type="hidden" name="'.$name.'_enabled" value="1" />';
@@ -212,15 +213,14 @@ class popupdatetimecontrol extends formcontrol {
 			$object->caption = "";
 			$object->showtime = true;
 		} 
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
 		
-		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
-		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
-		$form->register("showtime",TR_FORMCONTROLS_SHOWTIME, new checkboxcontrol($object->showtime,false));
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
+		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("showtime",$i18n['showtime'], new checkboxcontrol($object->showtime,false));
 		
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],"",$i18n['cancel']));
 		return $form;
 	}
 	
@@ -230,9 +230,9 @@ class popupdatetimecontrol extends formcontrol {
 			$object->default = 0;
 		}
 		if ($values['identifier'] == "") {
-			pathos_lang_loadDictionary('standard','formcontrols');
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
 			$post = $_POST;
-			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
+			$post['_formError'] = $i18n['id_req'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -38,46 +39,13 @@ if (pathos_permissions_checkOnModule('manage','navigationmodule')) {
 	
 	$template = new template('navigationmodule','_manager',$loc);
 	
-	$sections = navigationmodule::getHierarchy();
-	$last_manage_depth = -1;
-	$last_admin_depth = -1;
-	
-	if ($user && $user->is_acting_admin) {
-		foreach (array_keys($sections) as $id) {
-			$sections[$id]->canManage = 1;
-			$sections[$id]->canManageRank = 1;
-			$sections[$id]->canAdmin = 1;
-		}
-	} else {
-		$thisloc = pathos_core_makelocation('navigationmodule');
-		foreach (array_keys($sections) as $id) {
-			$thisloc->int = $id;
-			$depth = $sections[$id]->depth;
-			if ($last_manage_depth == -1 && pathos_permissions_check('manage',$thisloc)) {
-				$sections[$id]->canManage = 1;
-				$sections[$id]->canManageRank = 0;
-				$last_manage_depth = $depth;
-			} else if ($depth <= $last_manage_depth) {
-				$last_manage_depth = -1;
-			} else {
-				$sections[$id]->canManage = ($last_manage_depth == -1 ? 0 : 1);
-				$sections[$id]->canManageRank = $sections[$id]->canManage;
-			}
-			
-			if ($last_admin_depth == -1 && pathos_permissions_check('administrate',$thisloc)) {
-				$sections[$id]->canAdmin = 1;
-				$last_admin_depth = $depth;
-			} else if ($depth <= $last_admin_depth) {
-				$last_admin_depth = -1;
-			} else {
-				$sections[$id]->canAdmin = ($last_admin_depth == -1 ? 0 : 1);
-			}
-		}
-	}
-	
-	$template->assign('isAdministrator',($user && $user->is_acting_admin ? 1 : 0));
-	$template->assign('sections',$sections);
+	$template->assign('sections',navigationmodule::levelTemplate(0,0));
+	// Templates
+	$tpls = $db->selectObjects('section_template','parent=0');
+	$template->assign('templates',$tpls);
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>

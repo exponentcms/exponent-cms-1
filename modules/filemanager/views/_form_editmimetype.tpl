@@ -28,8 +28,6 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit}Edit MIME Type{else}New MIME Type{/if}</div>
-<div class="form_header">
-Clicking on the '(change)' link will bring up the icon picker, which allows you to assign an icon to this MIME type.
-</div>
+<div class="form_title">{if $is_edit}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
+<div class="form_header">{$_TR.form_header}</div>
 {$form_html}

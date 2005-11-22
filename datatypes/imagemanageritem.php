@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class imagemanageritem {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','imagemanagermodule');
+		$i18n = pathos_lang_loadFile('datatypes/imagemanageritem.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -47,14 +47,14 @@ class imagemanageritem {
 		} else {
 			$form->meta('id',$object->id);
 		}
-		$form->register('name',TR_IMAGEMANAGERMODULE_NAME,new textcontrol($object->name));
-		$form->register('description',TR_IMAGEMANAGERMODULE_DESCRIPTION, new texteditorcontrol($object->description));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('description',$i18n['description'], new texteditorcontrol($object->description));
 		if (!isset($object->id)) {
-			$form->register('maxsizemsg','',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
-			$form->register('file',TR_IMAGEMANAGERMODULE_IMAGE,new uploadcontrol());
+			$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
+			$form->register('file',$i18n['file'],new uploadcontrol());
 		}
-		$form->register('scale',TR_IMAGEMANAGERMODULE_SCALE,new textcontrol($object->scale));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('scale',$i18n['scale'],new textcontrol($object->scale));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

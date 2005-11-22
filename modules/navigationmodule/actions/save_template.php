@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,24 +32,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_acting_admin == 1) {
 	$page = null;
 	if (isset($_POST['id'])) {
-		$page = $db->selectObject("section_template","id=".$_POST['id']);
+		$page = $db->selectObject('section_template','id='.$_POST['id']);
 	}
 	
 	$page = section_template::update($_POST,$page);
 	
 	if (isset($page->id)) {
-		$db->updateObject($page,"section_template");	
+		$db->updateObject($page,'section_template');	
 	} else {
 		if ($page->parent != 0) {
 			// May have to change the section rankings, because the user could have put us in between two previous pages
 			$db->increment('section_template','rank',1,'parent='.$page->parent.' AND rank >= ' . $page->rank);
 		}
-		$db->insertObject($page,"section_template");
+		$db->insertObject($page,'section_template');
 	}
 	
 	pathos_flow_redirect();

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,7 +35,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (!$user && SITE_ALLOW_REGISTRATION == 1) {
-	pathos_lang_loadDictionary('modules','loginmodule');
+	$i18n = pathos_lang_loadFile('modules/loginmodule/actions/saveuser.php');
 
 	$capcha_real = pathos_sessions_get('capcha_string');
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
@@ -42,14 +43,14 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 	if (pathos_users_getUserByName($_POST['username']) != null) {
 		$post = $_POST;
 		unset($post['username']);
-		$post['_formError'] = TR_LOGINMODULE_USERNAMETAKEN;
+		$post['_formError'] = $i18n['username_taken'];
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	} else if ($_POST['pass1'] != $_POST['pass2']) {
 		$post = $_POST;
 		unset($post['pass1']);
 		unset($post['pass2']);
-		$post['_formError'] = TR_LOGINMODULE_UNMATCHEDPASSWORDS;
+		$post['_formError'] = $i18n['unmatched_passwords'];
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	} else {
@@ -58,7 +59,7 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = sprintf(TR_LOGINMODULE_STRENGTHFAILED,$strength_error);
+			$post['_formError'] = sprintf($i18n['not_strong_enough'],$strength_error);
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
@@ -66,7 +67,7 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 			if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
 				$post = $_POST;
 				unset($post['captcha_string']);
-				$post['_formError'] = TR_LOGINMODULE_WRONGCAPTCHA;
+				$post['_formError'] = $i18n['bad_captcha'];
 				pathos_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {

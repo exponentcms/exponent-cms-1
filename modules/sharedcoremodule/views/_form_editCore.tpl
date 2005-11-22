@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,10 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit == 1}Edit Codebase{else}New Codebase{/if}</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
 <div class="form_header">
-{if $is_edit}
-You can only change the name of an existing Codebase.
-{else}
-This form allows you to register an Exponent installation as a Codebase, in order to deploy sites from it later.  Enter a descriptive name for the codebase, and the path to the root directory.
+{if $is_edit}{$_TR.form_header_edit}
+{else}{$_TR.form_header_new}
 {/if}
 </div>
 {$form_html}

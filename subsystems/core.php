@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -132,16 +133,29 @@ function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @param Array $params An associative array of the desired querystring parameters.
  * @node Subsystems:Core
  */
-function pathos_core_makeLink($params,$relative = false) {
-	$link = (ENABLE_SSL ? NONSSL_URL : "");
-	$link .= ($relative ? '' : SCRIPT_RELATIVE) . SCRIPT_FILENAME . "?";
-	foreach ($params as $key=>$value) {
-		$value = chop($value);
-		$key = chop($key);
-		if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
+function pathos_core_makeLink($params) {
+	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
+#	if (SEF_URLS == 0) {
+		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
+		foreach ($params as $key=>$value) {
+			$value = chop($value);
+			$key = chop($key);
+			if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
+		}
+		$link = substr($link,0,-1);
+		return htmlspecialchars($link,ENT_QUOTES);
+/*	} else {
+		$link .= SCRIPT_RELATIVE  . SCRIPT_FILENAME . "/";
+		ksort($params);
+		foreach ($params as $key=>$value) {
+			$value = chop($value);
+			$key = chop($key);
+			if ($value != "") $link .= urlencode($key)."/".urlencode($value)."/";
+		}
+		$link = substr($link,0,-1);
+		return $link;
 	}
-	$link = substr($link,0,-1);
-	return $link;
+*/
 }
 
 
@@ -165,28 +179,6 @@ function pathos_core_makeSecureLink($params) {
 	}
 	$link = substr($link,0,-1);
 	return $link;
-}
-
-/* exdoc
- * Looks through the themes directory and returns a list
- * of themes. returns an associative array. For each key=>value pair, the
- * key is the theme class name, and the value is the
- * user-friendly theme name ("Default Theme")
- * @node Subsystems:Core
- */
-function pathos_core_listThemes() {
-	$themes = array();
-	if (is_readable(BASE."themes")) {
-		$dh = opendir(BASE."themes");
-		while (($file = readdir($dh)) !== false) {
-			if (is_readable(BASE."themes/$file/class.php")) {
-				include_once(BASE."themes/$file/class.php");
-				$t = new $file();
-				$themes[$file] = $t->name();
-			}
-		}
-	}
-	return $themes;
 }
 
 /* exdoc
@@ -343,8 +335,8 @@ function pathos_core_maxUploadSizeMessage() {
 				$size_msg = $size . " bytes";
 			}
 	}
-	pathos_lang_loadDictionary('subsystems','core');
-	return sprintf(TR_CORESUBSYSTEM_MAXFILESIZEMSG,$size_msg);
+	$i18n = pathos_lang_loadFile('subsystems/core.php');
+	return sprintf($i18n['max_upload'],$size_msg);
 }
 
 ?>

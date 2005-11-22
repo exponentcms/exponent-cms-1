@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class bannermodule {
-	function name() { return 'Banner Manager'; }
-	function author() { return 'James Hunt'; }
-	function description() { return 'Manages advertisements and click-throughs.'; }
+	function name() { return pathos_lang_loadKey('modules/bannermodule/class.php','module_name'); }
+	function author() { return "James Hunt"; }
+	function description() { return pathos_lang_loadKey('modules/bannermodule/class.php','module_description'); }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
@@ -43,20 +44,18 @@ class bannermodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {	
-		pathos_lang_loadDictionary('modules','bannermodule');
+		$i18n = pathos_lang_loadFile('modules/bannermodule/class.php');
 		return array(
-			'administrate'=>TR_BANNERMODULE_PERM_ADMIN,
-			'configure'=>TR_BANNERMODULE_PERM_CONFIG,
-			'manage'=>TR_BANNERMODULE_PERM_MANAGEBAN,
-			'manage_af'=>TR_BANNERMODULE_PERM_MANAGEAF
+			'administrate'=>$i18n['perm_administrate'],
+			'configure'=>$i18n['perm_configure'],
+			'manage'=>$i18n['perm_manage'],
+			'manage_af'=>$i18n['perm_manage_af'],
 		);
 	}
 	
 	function deleteIn($loc) {
 		global $db;
-		
 		$banners = $db->selectObjects('banner_ad',"location_data='".serialize($loc)."'");
-		
 		foreach ($banners as $b) {
 			$db->delete('banner_click','ad_id='.$b->id);
 			$file = $db->selectObject('file','id='.$b->file_id);
@@ -76,7 +75,7 @@ class bannermodule {
 		}
 		
 		global $db;
-		foreach ($db->selectObjects("banner_ad","location_data='".serialize($oloc)."'") as $banner) {
+		foreach ($db->selectObjects('banner_ad',"location_data='".serialize($oloc)."'") as $banner) {
 			$file = $db->selectObject('file','id='.$banner->file_id);
 			
 			copy($file->directory.'/'.$file->filename,$directory.'/'.$file->filename);

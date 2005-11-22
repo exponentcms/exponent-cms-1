@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,16 +35,18 @@
 if (!defined('PATHOS')) exit('');
 
 if (!isset($_POST['mods'])) {
-	echo 'You must select at least one module to export files for.';
+	$i18n = pathos_lang_loadFile('modules/exporter/exporters/files/export.php');
+	echo $i18n['need_one'];
 	return;
 }
 
 include_once(BASE.'external/Tar.php');
-echo 'Preparing to create Tar archive<Br />';
 
 $files = array();
 foreach (array_keys($_POST['mods']) as $mod) {
-	$files[] = BASE.'files/'.$mod;
+	foreach ($db->selectObjects('file',"directory LIKE 'files/".$mod."%'") as $file) {
+		$files[] = BASE.$file->directory.'/'.$file->filename;
+	}
 }
 
 $fname = tempnam(BASE.'/tmp','exporter_files_');

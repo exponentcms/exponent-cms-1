@@ -41,7 +41,7 @@ if (!defined('PATHOS')) exit('');
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 	
-	<body onLoad="pathosJSinitialize()">
+	<body onload="pathosJSinitialize()">
 	
 		<img id="header" src="<?php echo THEME_RELATIVE;?>images/header1.jpg" height="126" width="319" />
 		<div id="logo_holder"><img id="logo" src="<?php echo THEME_RELATIVE;?>images/logo.jpg" height="66" width="280" /></div>

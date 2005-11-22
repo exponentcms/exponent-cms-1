@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,41 +30,32 @@
  * $Id$
  *}
 
-<table cellpadding="0" cellspacing="0" width="100%">
-<tr>
-<td class="tab_btn tab_btn_current">
-	<a href="{link action=manage}">Hierarchy</a>
-</td>
-{if $isAdministrator == 1}
-<td class="tab_btn tab_btn">
-	<a href="{link action=manage_standalone}">Standalone&nbsp;Pages</a>
-</td>
-<td class="tab_btn">
-	<a href="{link action=manage_pagesets}">Pagesets</a>
-</td>
-{else}
-<td></td>
-<td></td>
-{/if}
-<td class="tab_spacer" width="50%">
+<table cellpadding="0" cellspacing="0">
+<tr><td class="tab_btn tab_btn_current">
+<a href="{link action=manage}">{$_TR.hierarchy}</a>
+</td><td class="tab_btn tab_btn">
+<a href="{link action=manage_standalone}">{$_TR.standalone_pages}</a>
+</td><td class="tab_btn">
+<a href="{link action=manage_pagesets}">{$_TR.pagesets}</a>
+</td><td class="tab_spacer" width="50%">
 &nbsp;
 </td></tr>
 <tr><td colspan="4" class="tab_main">
 
-<div class="moduletitle navigation_moduletitle">Manage Site Navigation</div>
+<div class="moduletitle navigation_moduletitle">{$_TR.form_title}</div>
 <div class="form_header">
-Manage the pages and site structure here.
+{$_TR.form_header}
 <br />
-<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=0}">New Top Level Page</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=0}">{$_TR.new_top_level}</a>
 </div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
-<tr>
-	<td class="header navigation_header">Name</td>
-	<td class="header navigation_header"><!-- Add Links --></td>
-	<td class="header navigation_header"><!-- Edit/Delete Links --></td>
-	<td class="header navigation_header"><!-- Permission Links --></td>
-	<td class="header navigation_header"><!-- Ranking Links --></td>
-</tr>
+	<tr>
+		<td class="header"></td>
+		<td class="header"></td>
+		<td class="header"></td>
+		<td class="header"></td>
+		<td class="header"></td>
+	</tr>
 {foreach from=$sections item=section}
 {math equation="x+1" x=$section->rank assign=nextrank}
 {math equation="x-1" x=$section->rank assign=prevrank}
@@ -74,29 +66,27 @@ Manage the pages and site structure here.
 {$section->name}&nbsp;
 {/if}
 </td><td>
-{if $section->alias_type == 0 && $section->canManage == 1}
-<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">Add Subpage</a>
+{if $section->alias_type == 0}
+<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">{$_TR.new_subpage}</a>
 {/if}
 </td><td>
 {if $section->canManage == 1}
 {if $section->alias_type == 0}
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage id=$section->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"></a>
-<a class="mngmntlink navigation_mngmntlink" href="{link action=remove id=$section->id}" onClick="return confirm('Are you sure you want to move this page and all of its subpages out of the site hiearchy?\r\n(They will not be deleted, but will instead become standalone pages)');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=remove id=$section->id}" onClick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
 {elseif $section->alias_type == 1}
 {* External Link *}
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_externalalias id=$section->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"></a>
-<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this external alias?');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('{$_TR.delete_ext_confirm}');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
 {else}
 {* Internal Alias *}
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_internalalias id=$section->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"></a>
-<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('Are you sure you want to delete this internal alias?');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=delete id=$section->id}" onClick="return confirm('{$_TR.delete_int_confirm}');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"></a>
 {/if}
 {/if}
 </td><td>
-{if $section->canAdmin == 1}
-	<a href="{link int=$section->id action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions for viewing this page" alt="Assign user permissions for this page" /></a>
-	<a href="{link int=$section->id action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions for viewing this page" alt="Assign group permissions for this page" /></a>
-{/if}
+	<a href="{link int=$section->id action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
+	<a href="{link int=$section->id action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_userperm}" /></a>
 </td><td>
 {if $section->canManageRank == 1}
 {if $section->last == 0}

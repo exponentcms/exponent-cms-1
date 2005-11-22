@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -90,7 +91,7 @@ class checkboxcontrol extends formcontrol {
 	
 	function controlToHTML($name) {
 		$html = '<input type="checkbox" name="' . $name . '" value="1"';
-		if ($this->default) $html .= ' checked';
+		if ($this->default) $html .= ' checked="checked"';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
 		if ($this->disabled) $html .= ' disabled';
@@ -110,8 +111,7 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	function form($object) {
-		pathos_lang_loadDictionary('standard','formcontrols');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
 	
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
@@ -124,12 +124,12 @@ class checkboxcontrol extends formcontrol {
 			$object->flip = false;
 		} 
 		
-		$form->register("identifier",TR_FORMCONTROLS_IDENTIFIER,new textcontrol($object->identifier));
-		$form->register("caption",TR_FORMCONTROLS_CAPTION, new textcontrol($object->caption));
-		$form->register("default",TR_FORMCONTROLS_DEFAULT, new checkboxcontrol($object->default,false));
-		$form->register("flip",TR_FORMCONTROLS_CAPTIONONRIGHT, new checkboxcontrol($object->flip,false));
+		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
+		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
+		$form->register("default",$i18n['default'], new checkboxcontrol($object->default,false));
+		$form->register("flip",$i18n['caption_right'], new checkboxcontrol($object->flip,false));
 		
-		$form->register("submit","",new buttongroupcontrol(TR_CORE_SAVE,"",TR_CORE_CANCEL));
+		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}
@@ -137,10 +137,10 @@ class checkboxcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new checkboxcontrol();
 		if ($values['identifier'] == "") {
-			pathos_lang_loadDictionary('standard','formcontrols');
+			$i18n = pathos_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
 		
 			$post = $_POST;
-			$post['_formError'] = TR_FORMCONTROLS_IDENTIFIER_REQUIRED;
+			$post['_formError'] = $i18n['id_required'];
 			pathos_sessions_set("last_POST",$post);
 			return null;
 		}

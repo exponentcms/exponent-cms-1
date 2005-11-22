@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,9 +34,7 @@
 
 class contact_contact {
 	function form($object) {
-	
-		pathos_lang_loadDictionary('modules','contactmodule');
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('datatypes/contact_contact.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -60,9 +59,9 @@ class contact_contact {
 			}
 		}
 		
-		$form->register('contact',TR_CONTACTMODULE_CONTACT,new contactcontrol($default,$type));
+		$form->register('contact',$i18n['contact'],new contactcontrol($default,$type));
 		
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class newsmodule_config {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','newsmodule');
+		$i18n = pathos_lang_loadFile('datatypes/newsmodule_config.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -45,13 +45,12 @@ class newsmodule_config {
 			$object->sortfield = 'posted';
 			$object->item_limit = 10;
 		}
-		$opts  = array('ASC'=>TR_CORE_ASCENDING,'DESC'=>TR_CORE_DESCENDING);
-		$fields = array('posted'=>TR_NEWSMODULE_POSTEDDATE,'publish'=>TR_NEWSMODULE_PUBDATE);
-		$form->register('item_limit',TR_NEWSMODULE_ITEMLIMIT,new textcontrol($object->item_limit));
-		$form->register('sortorder',TR_NEWSMODULE_SORTORDER, new dropdowncontrol($object->sortorder,$opts));
-		$form->register('sortfield',TR_NEWSMODULE_SORTFIELD, new dropdowncontrol($object->sortfield,$fields));
-		
-		$form->register('submit','', new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$opts  = array('ASC'=>$i18n['ascending'],'DESC'=>$i18n['descending']);
+		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate']);
+		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
+		$form->register('sortorder',$i18n['sortorder'], new dropdowncontrol($object->sortorder,$opts));
+		$form->register('sortfield',$i18n['sortfield'], new dropdowncontrol($object->sortfield,$fields));
+		$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

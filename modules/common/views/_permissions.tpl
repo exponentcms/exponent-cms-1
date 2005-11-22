@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -33,8 +34,8 @@
 {if $user_form == 1}{assign var="pgname" value="groupperms"}{/if}
 {paginate objects=$users paginateName=$pgname modulePrefix="administration" rowsPerPage=20}
 
-{if $user_form == 1}paginate.noRecords = "No normal user accounts exist.";
-{else}paginate.noRecords = "No groups exist.";
+{if $user_form == 1}paginate.noRecords = "{$_TR.no_users}";
+{else}paginate.noRecords = "{$_TR.no_groups}";
 {/if}
 
 {literal}
@@ -85,8 +86,8 @@ function sortRealname(a,b) {
 {/literal}{/if}
 
 paginate.columns = new Array(
-	{if $user_form == 1}new cColumn("User","",realName,sortRealname),
-	{else}new cColumn("Group","name",null,null),
+	{if $user_form == 1}new cColumn("{$_TR.user}","",realName,sortRealname),
+	{else}new cColumn("{$_TR.group}","name",null,null),
 	{/if}
 {foreach from=$perms key=perm item=name name=p}
 	new cColumn("{$name}","",perms_{$perm},null){if $smarty.foreach.p.last == false},{/if}
@@ -113,6 +114,6 @@ paginate.columns = new Array(
 {/if}
 <input type="hidden" name="_common" value="1" />
 <input type="hidden" id="permdata" name="permdata" value="" />
-<input type="submit" value="Save Permissions" onClick="serializeData(); return true;"{if $have_users == 0} disabled{/if} />
-<input type="button" value="Cancel" onClick="document.location.href = '{$smarty.server.HTTP_REFERER}';" />
+<input type="submit" value="{$_TR.save}" onClick="serializeData(); return true;"{if $have_users == 0} disabled{/if} />
+<input type="button" value="{$_TR.cancel}" onClick="document.location.href = '{$smarty.server.HTTP_REFERER}';" />
 </form>

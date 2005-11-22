@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class newsitem {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','newsmodule');
+		$i18n = pathos_lang_loadFile('datatypes/newsitem.php');
 	
 		global $user;
 	
@@ -54,13 +54,11 @@ class newsitem {
 			if ($object->unpublish == 0) $object->unpublish = null;
 		}
 		
-		$form->register('title',TR_NEWSMODULE_HEADLINE,new textcontrol($object->title));
-		$form->register('internal_name','Internal Name',new textcontrol($object->internal_name));
-		$form->register('body',TR_NEWSMODULE_BODY,new htmleditorcontrol($object->body));
-		$form->register('publish',TR_NEWSMODULE_PUBLISH,new popupdatetimecontrol($object->publish,TR_NEWSMODULE_NOPUBLISH));
-		$form->register('unpublish',TR_NEWSMODULE_UNPUBLISH,new popupdatetimecontrol($object->unpublish,TR_NEWSMODULE_NOUNPUBLISH));
-		
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('title',$i18n['title'],new textcontrol($object->title));
+		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
+		$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
+		$form->register('unpublish',$i18n['unpublish'],new popupdatetimecontrol($object->unpublish,$i18n['nounpublish']));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

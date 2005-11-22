@@ -35,7 +35,8 @@ if (!defined('PATHOS')) exit('');
 
 $contact = null;
 if (isset($_GET['id'])) {
-	$contact = $db->selectObject('addressbook_contact','id='.$_GET['id']);
+	// Sanitize required _GET variable, to protect against injection attacks
+	$contact = $db->selectObject('addressbook_contact','id='.intval($_GET['id']));
 }
 if ($contact) {
 	$loc = unserialize($contact->location_data);

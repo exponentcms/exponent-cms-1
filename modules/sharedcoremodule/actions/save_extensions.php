@@ -49,7 +49,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 			// Remove previous 'unfrozen' extensions
 			$db->delete("sharedcore_extension","site_id=".$site->id." AND locked = 0");
 			
-			if (!defined("SYS_SHAREDCORE")) require_once(BASE."subsystems/sharedcore.php");
+			if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
 			
 			// Need to clear the old path.
 			pathos_sharedcore_clear($site->path); // Do not do a full delete

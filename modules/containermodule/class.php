@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class containermodule {
-	function name() { return "Container Module"; }
-	function author() { return "James Hunt"; }
-	function description() { return "Contains other modules"; }
+	function name() { return pathos_lang_loadKey('modules/containermodule/class.php','module_name'); }
+	function author() { return 'James Hunt'; }
+	function description() { return pathos_lang_loadKey('modules/containermodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -43,20 +44,14 @@ class containermodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','containermodule');
-		if ($internal == '') {
-			return array(
-				'administrate'=>TR_CONTAINERMODULE_PERM_ADMIN,
-				'add_module'=>TR_CONTAINERMODULE_PERM_ADD,
-				'edit_module'=>TR_CONTAINERMODULE_PERM_EDIT,
-				'delete_module'=>TR_CONTAINERMODULE_PERM_DELETE,
-				'order_modules'=>TR_CONTAINERMODULE_PERM_ORDER
-			);
-		} else {
-			return array(
-				'view'=>'View this Module'
-			);
-		}
+		$i18n = pathos_lang_loadFile('modules/containermodule/class.php');
+		return array(
+			'administrate'=>$i18n['perm_administrate'],
+			'add_module'=>$i18n['perm_add_module'],
+			'edit_module'=>$i18n['perm_edit_module'],
+			'delete_module'=>$i18n['perm_delete_module'],
+			'order_modules'=>$i18n['perm_order_modules'],
+		);
 	}
 	
 	function deleteIn($loc) {
@@ -74,7 +69,7 @@ class containermodule {
 	}
 	
 	function show($view,$loc = null,$title = '') {
-		pathos_lang_loadDictionary('modules','containermodule');
+		$i18n = pathos_lang_loadFile('modules/containermodule/class.php');
 	
 		$source_select = array();
 		$clickable_mods = null; // Show all
@@ -123,7 +118,7 @@ class containermodule {
 				$containers[$c->rank] = $c;
 			}
 		}
-		if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
+		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		ksort($containers);
 		foreach (array_keys($containers) as $i) {
 			$location = unserialize($containers[$i]->internal);
@@ -154,9 +149,9 @@ class containermodule {
 					'clickable'=>($clickable_mods == null || in_array($modclass,$clickable_mods))
 				);
 			} else {
-				$containers[$i]->output = sprintf(TR_CONTAINERMODULE_MODNOTFOUND,$location->mod);
+				$containers[$i]->output = sprintf($i18n['mod_not_found'],$location->mod);
 				$containers[$i]->info = array(
-					'module'=>sprintf(TR_CONTAINERMODULE_UNKNOWNMOD,$location->mod),
+					'module'=>sprintf($i18n['unknown'],$location->mod),
 					'source'=>$location->src,
 					'hasContent'=>0,
 					'hasSources'=>0,

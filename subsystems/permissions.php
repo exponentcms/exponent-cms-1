@@ -37,28 +37,28 @@
  * that the subsystem has been included for use.
  * @node Subsystems:Permissions
  */
-define("SYS_PERMISSIONS",1);
+define('SYS_PERMISSIONS',1);
 
 /* exdoc
  * UI Level of Preview - No management links of any kind should be shown.
  * @node Subsystems:Permissions
  */
-define("UILEVEL_PREVIEW",0);
+define('UILEVEL_PREVIEW',0);
 /* exdoc
 * UI Level of Norma - Only normal management links (edit, delete, etc.) should be shown.
 * @node Subsystems:Permissions
 */
-define("UILEVEL_NORMAL",1);
+define('UILEVEL_NORMAL',1);
 /* exdoc
 * UI Level of Permissions - Permission Management links (user and group perms) should be shown.
 * @node Subsystems:Permissions
 */
-define("UILEVEL_PERMISSIONS",2);
+define('UILEVEL_PERMISSIONS',2);
 /* exdoc
 * UI Level of Structure - All management links are shown.
 * @node Subsystems:Permissions
 */
-define("UILEVEL_STRUCTURE",3);
+define('UILEVEL_STRUCTURE',3);
 
 // Stores the permission data for the current user.  This should not be modified
 // by anything outside of the permissions subsystem.
@@ -445,7 +445,7 @@ function pathos_permissions_revokeComplete($location) {
  */
 function pathos_permissions_revokeAllGroup($group,$location) {
 	global $db;
-	return $db->delete("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
+	return $db->delete('grouppermission','gid=' . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
 
 /* exdoc
@@ -458,8 +458,7 @@ function pathos_permissions_triggerRefresh() {
 	global $db;
 	$obj = null;
 	$obj->refresh = 1;
-	$db->updateObject($obj,"sessionticket","true"); // force a global refresh
-	pathos_template_clear(SYS_TEMPLATE_CLEAR_USERS);
+	$db->updateObject($obj,'sessionticket','true'); // force a global refresh
 }
 
 /* exdoc
@@ -472,8 +471,7 @@ function pathos_permissions_triggerSingleRefresh($user) {
 	global $db;
 	$obj = null;
 	$obj->refresh = 1;
-	$db->updateObject($obj,"sessionticket","uid=".$user->id); // force a global refresh
-	pathos_template_clear(SYS_TEMPLATE_CLEAR_USERS);
+	$db->updateObject($obj,'sessionticket','uid='.$user->id); // force a global refresh
 }
 
 /* exdoc

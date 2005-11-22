@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,16 +31,16 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 if (!defined('PATHOS')) exit('');
 
-$template = new template('loginmodule','_resetconfirm',$loc);
+$i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass_confirm.php');
 
 $db->delete('passreset_token','expires < ' . time());
+// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
 $tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid'])." AND token='".trim($_GET['token']) ."'");
 if ($tok == null) {
-	$template->assign('state','expired');
+	echo $i18n['expired'];
 } else {
 	$newpass = '';
 	for ($i = 0; $i < rand(12,20); $i++) {
@@ -58,8 +59,8 @@ if ($tok == null) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	$u = pathos_users_getUserById($tok->uid);
 	
-	if (!pathos_smtp_mail($u->email,'Password Manager <passwords@pathos>','Your New Password',$msg)) {
-		$template->assign('state','smtp_error');
+	if (!pathos_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
+		echo $i18n['smtp_error'];
 	} else {
 		// Save new password
 		$u->password = md5($newpass);
@@ -67,9 +68,8 @@ if ($tok == null) {
 		
 		$db->delete('passreset_token','uid='.$tok->uid);
 		
-		$template->assign('state','sent');
+		echo $i18n['sent'];
 	}
 }
-$template->output();
 
 ?>

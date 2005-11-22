@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,17 +32,18 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check("administrate",$loc)) {
-	if (pathos_template_getModuleViewFile($loc->mod,"_grouppermissions",false) == TEMPLATE_FALLBACK_VIEW) {
-		$template = new template("common","_grouppermissions",$loc);
+if (pathos_permissions_check('administrate',$loc)) {
+	if (pathos_template_getModuleViewFile($loc->mod,'_grouppermissions',false) == TEMPLATE_FALLBACK_VIEW) {
+		$template = new template('common','_grouppermissions',$loc);
 	} else {
-		$template = new template($loc->mod,"_grouppermissions",$loc);
+		$template = new template($loc->mod,'_grouppermissions',$loc);
 	}
-	$template->assign("user_form",0);
-	/////////////////////////////
-	if (!defined("SYS_GROUPS")) require_once(BASE."subsystems/users.php");
+	$template->assign('user_form',0);
+	
+	if (!defined('SYS_GROUPS')) include_once(BASE.'subsystems/users.php');
+	
 	$users = array(); // users = groups
 	
 	$modclass = $loc->mod;
@@ -61,17 +63,21 @@ if (pathos_permissions_check("administrate",$loc)) {
 	
 	foreach (pathos_users_getAllGroups() as $g) {
 		foreach ($perms as $perm=>$name) {
-			$var = "perms_$perm";
-			if (pathos_permissions_checkGroup($g,$perm,$loc,true)) $g->$var = 1;
-			else if (pathos_permissions_checkGroup($g,$perm,$loc)) $g->$var = 2;
-			else $g->$var = 0;
+			$var = 'perms_'.$perm;
+			if (pathos_permissions_checkGroup($g,$perm,$loc,true)) {
+				$g->$var = 1;
+			} else if (pathos_permissions_checkGroup($g,$perm,$loc)) {
+				$g->$var = 2;
+			} else {
+				$g->$var = 0;
+			}
 		}
 		$users[] = $g;
 	}
-	$template->assign("have_users",1); // users = groups
-	$template->assign("users",$users); // users = groups
-	$template->assign("perms",$perms);
-	/////////////////////////////
+	$template->assign('have_users',$have_users); // users = groups
+	$template->assign('users',$users); // users = groups
+	$template->assign('perms',$perms);
+	
 	$template->output();
 } else {
 	echo SITE_403_HTML;

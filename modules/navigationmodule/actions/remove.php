@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,17 +32,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-$section = null;
-if (isset($_GET['id'])) {
-	$section = $db->selectObject("section","id=".$_GET['id']);
-}
-
-if ($section) {
-	if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->id))) {
+if ($user->is_acting_admin == 1) {
+	$section = $db->selectObject('section','id='.intval($_GET['id']));
+	if ($section) {
 		navigationmodule::removeLevel($section->id);
-		$db->decrement("section","rank",1,"rank > " . $section->rank . " AND parent=".$section->parent);
+		$db->decrement('section','rank',1,'rank > ' . $section->rank . ' AND parent='.$section->parent);
 		$section->parent = -1;
 		$db->updateObject($section,'section');
 		pathos_flow_redirect();

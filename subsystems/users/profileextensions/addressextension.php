@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,24 +33,24 @@
 ##################################################
 
 class addressextension {
-	function name() { return "Address Extension"; }
+	function name() { return pathos_lang_loadKey('subsystems/users/profileextensions/addressextension.php','extension_name'); }
 	function author() { return "James Hunt"; }
-	function description() { return "Stores an address for the user."; }
+	function description() { return pathos_lang_loadKey('subsystems/users/profileextensions/addressextension.php','extension_description'); }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
 	
-		pathos_lang_loadDictionary('extras','addressextension');
+		$i18n = pathos_lang_loadFile('subsystems/users/profileextensions/addressextension.php');
 	
 		if (!isset($user->user_address) || $user->user_address == null) {
 			$user->user_address = addressextension::_blankAddress();
 		}
-		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.TR_X_ADDRESSEXTENSION_HEADER.'</b>'));
-		$form->register("address1",TR_X_ADDRESSEXTENSION_ADDRESS, new textcontrol($user->user_address->address1));
-		$form->register("address2",TR_X_ADDRESSEXTENSION_ADDRESS2, new textcontrol($user->user_address->address2));
-		$form->register("city",TR_X_ADDRESSEXTENSION_CITY, new textcontrol($user->user_address->city));
-		$form->register("state",TR_X_ADDRESSEXTENSION_STATE, new textcontrol($user->user_address->state));
-		$form->register("zip",TR_X_ADDRESSEXTENSION_ZIPCODE, new textcontrol($user->user_address->zip));
-		$form->register("country",TR_X_ADDRESSEXTENSION_COUNTRY, new textcontrol($user->user_address->country));
+		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.$i18n['header'].'</b>'));
+		$form->register("address1",$i18n['address1'], new textcontrol($user->user_address->address1));
+		$form->register("address2",$i18n['address2'], new textcontrol($user->user_address->address2));
+		$form->register("city",$i18n['city'], new textcontrol($user->user_address->city));
+		$form->register("state",$i18n['state'], new textcontrol($user->user_address->state));
+		$form->register("zip",$i18n['zip'], new textcontrol($user->user_address->zip));
+		$form->register("country",$i18n['country'], new textcontrol($user->user_address->country));
 		
 		return $form;
 	}

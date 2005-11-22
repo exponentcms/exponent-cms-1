@@ -3,11 +3,9 @@ Release Notes for Exponent Content Management System
 For a complete list of the changes made from release to release, see the
 CHANGELOG
 
-0.96.0-rc1 - ???
+0.96.3     - May 07 2005
 ========================
- - This release candidate features a whole bunch of bug fixes, architectural rewrites, new features and new modules.  It is the culmination of almost 2 months of solid development and testing.
- 
-Notable additions include search capabilities, shared core, recurring events, acting administrators, standalone pages and page sets.
+ - This release is essentially a large bugfix / patch release.  It also introduces a new installer with an upgrade option.
 
 0.95.0     - Dec 20 2004
 ========================

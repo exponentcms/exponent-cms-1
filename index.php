@@ -52,8 +52,6 @@ if (MAINTENANCE_MODE == 1) {
 	}
 }
 
-pathos_lang_loadDictionary('standard','base');
-
 // Initialize the theme subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
@@ -68,14 +66,18 @@ $page = ($section && $section->subtheme != '' && is_readable(BASE.'themes/'.DISP
 	BASE.'themes/'.DISPLAY_THEME.'/index.php'
 );
 
+$base_i18n = pathos_lang_loadFile('index.php');
+
 if (is_readable($page)) {
 	include_once($page);
-} else echo sprintf(TR_BASE_PAGENOTREADABLE,$page);
+} else {
+	echo sprintf($base_i18n['not_readable'],$page);
+}
 
 $microtime_str = explode(' ',microtime());
 $i_end = $microtime_str[0] + $microtime_str[1];
 
-echo sprintf(TR_BASE_EXECUTIONTIME,round($i_end - $i_start,4));
+echo "\r\n<!--".sprintf($base_i18n['exec_time'],round($i_end - $i_start,4)).'-->';
 ob_end_flush();
 
 ?>

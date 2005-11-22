@@ -35,6 +35,8 @@
 
 if (!defined('PATHOS')) exit('');
 
+$_GET['activate'] = intval($_GET['activate']);
+
 if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
 	if (isset($_GET['all'])) {
 		$db->delete('modstate');
@@ -45,6 +47,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 			$db->insertObject($modstate,'modstate');
 		}
 	} else {
+		// GREP:SECURITY -- SQL created off of _GET parameter that is non-numeric.  Needs to be sanitized.
 		$modstate = $db->selectObject('modstate',"module='".$_GET['mod']."'");
 		if ($modstate == null) {
 			$modstate->active = $_GET['activate'];

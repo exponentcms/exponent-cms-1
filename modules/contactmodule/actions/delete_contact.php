@@ -33,7 +33,7 @@
 
 if (!defined('PATHOS')) exit('');
 
-$contact = $db->selectObject('contact_contact','id='.$_GET['id']);
+$contact = $db->selectObject('contact_contact','id='.intval($_GET['id']));
 if ($contact) {
 	$loc = unserialize($contact->location_data);
 	

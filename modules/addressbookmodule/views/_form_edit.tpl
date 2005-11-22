@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+* All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,11 +29,6 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit == 1}Edit Contact{else}Create New Contact{/if}</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.edit_contact}{else}{$_TR.create_contact}{/if}</div>
 <hr size="1" />
-<!--
-<div class="form_header">
-CHANGEME
-</div>
--->
 {$form_html}

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,20 +31,22 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
-if (!defined("PATHOS")) exit("");
+
+if (!defined('PATHOS')) exit('');
 
 $resource = null;
 $iloc = null;
 if (isset($_POST['id'])) {
-	$resource = $db->selectObject("resourceitem","id=".(int)$_POST['id']);
-	$loc = unserialize($resource->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+	$resource = $db->selectObject('resourceitem','id='.$_POST['id']);
+	if ($resource) {
+		$loc = unserialize($resource->location_data);
+		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+	}
 }
 
-if (($resource == null && pathos_permissions_check("post",$loc)) ||
-	($resource != null && pathos_permissions_check("edit",$loc)) ||
-	($iloc != null && pathos_permissions_check("edit",$iloc))
+if (($resource == null && pathos_permissions_check('post',$loc)) ||
+	($resource != null && pathos_permissions_check('edit',$loc)) ||
+	($iloc != null && pathos_permissions_check('edit',$iloc))
 ) {
 	$resource = resourceitem::update($_POST,$resource);
 	$resource->location_data = serialize($loc);
@@ -54,45 +57,35 @@ if (($resource == null && pathos_permissions_check("post",$loc)) ||
 	}
 	
 	if (!isset($resource->file_id)) {
-		$directory = "files/resourcesmodule/".$loc->src;
+		$directory = 'files/resourcesmodule/'.$loc->src;
 		
-		if ($_FILES["file"]["error"] == UPLOAD_ERR_OK) {
-			$file = file::update("file",$directory,null,time()."_".$_FILES['file']['name']);
-			if ($file != null) {
-				$resource->file_id = $db->insertObject($file,"file");
-				$id = $db->insertObject($resource,"resourceitem");
-				// Assign new perms on loc
-				$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$id);
-				pathos_permissions_grant($user,"edit",$iloc);
-				pathos_permissions_grant($user,"delete",$iloc);
-				pathos_permissions_grant($user,"administrate",$iloc);
-				pathos_permissions_triggerSingleRefresh($user);
-				
-				if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-				$resource->id = $id;
-				$resource->poster = $user->id;
-				$resource->posted = time();
-				pathos_workflow_post($resource,"resourceitem",$loc);
-			}
+		$file = file::update('file',$directory,null,time().'_'.$_FILES['file']['name']);
+		if (is_object($file)) {
+			$resource->file_id = $db->insertObject($file,'file');
+			$id = $db->insertObject($resource,'resourceitem');
+			// Assign new perms on loc
+			$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$id);
+			pathos_permissions_grant($user,'edit',$iloc);
+			pathos_permissions_grant($user,'delete',$iloc);
+			pathos_permissions_grant($user,'administrate',$iloc);
+			pathos_permissions_triggerSingleRefresh($user);
+			
+			if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+			$resource->id = $id;
+			$resource->poster = $user->id;
+			$resource->posted = time();
+			pathos_workflow_post($resource,'resourceitem',$loc);
 		} else {
-			pathos_lang_loadDictionary('modules','filemanager');
-			switch($_FILES["file"]["error"]) {
-				case UPLOAD_ERR_INI_SIZE:
-				case UPLOAD_ERR_FORM_SIZE:
-					echo TR_FILEMANAGER_FILETOOLARGE;
-					break;
-				case UPLOAD_ERR_PARTIAL:
-					echo TR_FILEMANAGER_PARTIALFILE;
-					break;
-				case UPLOAD_ERR_NO_FILE:
-					echo TR_FILEMANAGER_NOFILEUPLOADED;
-					break;
-			}
+			// If file::update() returns a non-object, it should be a string.  That string is the error message.
+			$post = $_POST;
+			$post['_formError'] = $file;
+			pathos_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else {
 		$resource->editor = $user->id;
 		$resource->edited = time();
-		$db->updateObject($resource,"resourceitem");
+		$db->updateObject($resource,'resourceitem');
 		pathos_flow_redirect();
 	}
 } else {

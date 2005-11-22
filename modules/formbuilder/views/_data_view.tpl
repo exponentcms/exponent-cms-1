@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -33,7 +34,7 @@
 function links(object) {literal}{{/literal}
 	out = '<a href="{link action=view_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}view.png" /></a>'; 
 	out += '{if $permissions.editdata == 1}<a href="{link action=edit_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>{/if}'; 
-	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}" onClick="return confirm(\'Are you sure you want to delete this record?\');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>{/if}'; 
+	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}" onClick="return confirm(\'{$_TR.delete_confirm}\');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>{/if}'; 
 	
 	return out;
 {literal}}{/literal}
@@ -58,4 +59,4 @@ function links(object) {literal}{{/literal}
 <script language="JavaScript">
 	paginate.drawTable();
 </script>
-<a href="{$backlink}">Back</a>
+<a href="{$backlink}">{$_TR.back}</a>

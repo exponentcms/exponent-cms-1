@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,10 +29,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Delete This Recurring Event?</div>
-<div class="form_header">
-The event you have opted to delete is a recurring event.  You can decide to delete just this instance of it, or all instances, below.
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <form action="?" method="post">
 <input type="hidden" name="module" value="calendarmodule" />
 <input type="hidden" name="action" value="delete_process" />
@@ -39,6 +38,6 @@ The event you have opted to delete is a recurring event.  You can decide to dele
 <table cellspacing="0" cellpadding="2" width="100%">
 {include file="_recur_dates.tpl"}
 <tr>
-	<td colspan="2"><input type="submit" value="Delete Selected" /></td>
+	<td colspan="2"><input type="submit" value="{$_TR.delete_selected}" /></td>
 </tr>
 </table>

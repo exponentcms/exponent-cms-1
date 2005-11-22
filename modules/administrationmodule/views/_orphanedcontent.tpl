@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,16 +29,14 @@
  *
  * $Id$
  *}
-<div class="moduletitle">Archived Modules</div>
+<div class="moduletitle">{$_TR.form_title}</div>
 {foreach from=$modules key=class item=data}
 <div style="padding-left: 5px; border-top: 1px dashed #DDD; margin-top: 1em;">
 {$data.name}
 {foreach from=$data.modules key=src item=output}
 <div style="margin-left: 10px;" class="container_editbox">
 	<div class="container_editheader" align="right">
-		<a class="mngmntlink container_mngmntlink" href="{link action=orphanedcontent_delete mod=$class delsrc=$src}">
-		Delete Content
-		</a>
+		<a class="mngmntlink container_mngmntlink" href="{link action=orphanedcontent_delete mod=$class delsrc=$src}">{$_TR.delete_content}</a>
 	</div>
 	<div class="container_box">
 		<div width="100%" style="width: 100%">
@@ -52,5 +51,5 @@
 {/foreach}
 {if $have_bad_orphans == 1}
 <br /><br />
-<b><i>Archived Content for Uninstalled Modules was found</i></b> 
+<b><i>{$_TR.uninstalled_orphans}</i></b> 
 {/if}

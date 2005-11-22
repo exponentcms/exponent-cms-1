@@ -112,6 +112,9 @@ function pathos_datetime_duration($time_a,$time_b) {
  */
 function pathos_datetime_startOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
 	return mktime(0,0,0,$info['mon'],1,$info['year']);
 }
 
@@ -166,9 +169,11 @@ function pathos_datetime_endOfMonthDay($timestamp) {
  */
 function pathos_datetime_startOfDayTimestamp($timestamp) {
 	$info = getdate($timestamp);
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
 	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 }
-
 /* exdoc
  * Looks at a timestamp and returns another timestamp representing
  * 12:00:01 am of the Sunday of the same week.
@@ -178,47 +183,14 @@ function pathos_datetime_startOfDayTimestamp($timestamp) {
  */
 function pathos_datetime_startOfWeekTimestamp($timestamp) {
 	$info = getdate($timestamp);
-	$timestamp = strtotime('-'.$info['wday'].' day',$timestamp);
-	$info = getdate($timestamp);
-	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
-}
-
-function pathos_datetime_monthlyDaysTimestamp($timestamp) {
-	$month_start = pathos_datetime_startOfMonthTimestamp($timestamp);
-	$month_end = pathos_datetime_endOfMonthTimestamp($timestamp);
-	
-	$start_info = getdate($month_start);
-	$end_info = getdate($month_end);
-	
-	$days = array(array());
-	for ($i = -1 * $start_info['wday']; $i < 0; $i++) {
-		$days[0][$i] = -1;
-	}
-	$week = 0;
-	$wday = $start_info['wday'];
-	$mday = 1;
-	while ($month_start <= $month_end) {
-		$days[$week][$mday++] = $month_start;
-		
-		// Advance up a day.
-		$month_start = strtotime('+1 day',$month_start);
-		// Bump the weekday counter
-		$wday++;
-		if ($wday == 7) {
-			// Went off the end of the weekdays.
-			// Add a week
-			$week++;
-			// Make a holding array for it
-			$days[$week] = array();
-			// Reset $wday to 0 (Sunday);
-			$wday = 0;
-		}
-	}
-	for ($i = 1; $wday && $i <= 7 - $wday; $i++) {
-		$days[$week][-1*$i] = -1;
-	}
-	
-	return $days;
+	// FIXME: The following line will sometimes calculate negative dates,
+	// FIXME: which will not work on Windows platforms.
+	$firstOfWeek = $info['mday'] - $info['wday'];
+	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
+	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
+	// of the previous day.
+	$ts = pathos_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));;
+	return pathos_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));
 }
 
 // Recurring Dates
@@ -236,13 +208,11 @@ function pathos_datetime_monthlyDaysTimestamp($timestamp) {
  */
 function pathos_datetime_recurringDailyDates($start,$end,$freq) {
 	$dates = array();
-	$freq = '+'.$freq.' day';
-	
-	while ($start <= $end) {
-		$dates[] = $start;
-		$start = strtotime($freq,$start);
-	}
-	
+	$curdate = $start;
+	do {
+		$dates[] = $curdate;
+		$curdate = pathos_datetime_startOfDayTimestamp($curdate + ((86400) * $freq)+3601);
+	} while ($curdate <= $end);
 	return $dates;
 }
 
@@ -374,15 +344,19 @@ function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) 
 		// This is used to jump from month to month
 		$month_start = mktime(0,0,0,$info['mon'],1,$info['year']);
 		
-		$week = ceil($info['mday'] / 7);
-		$weekday = $info['wday'];
+		// Manually update the month and monthday.
+		$dateinfo['mon'] += $freq;
+		$dateinfo['mday'] = 1;
 		
-		while ($start <= $end) {
-			$dates[] = $start;
-			
-			$month_start = strtotime($freq,$month_start);
-			$start = strtotime('+'.$week.' week',$month_start);
-			$info = getdate($start);
+		// Grab the date information for $curdate.  This gives us the current month
+		// information, for the next jump.
+		$dateinfo = getdate(mktime(8,0,0,$dateinfo['mon'],$dateinfo['mday'],$dateinfo['year']));
+		
+		if ($by_day) {
+			// For by day recurrence (first tuesday of every month), we need to do a
+			// little more fancy footwork to determine the next timestamp, since there
+			// is no easy mathematical way to advance a whole month and land on
+			// the same week offset and weekday.
 			
 			if ($info['wday'] > $weekday) {
 				// New timestamp is after target weekday. Push it backwards (-x day)

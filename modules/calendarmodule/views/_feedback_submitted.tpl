@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,6 +29,6 @@
  *
  * $Id$
  *}
-{if $success == 0}There was an error with the mail server.  Please contact your administrator.
-{else}Your feedback was successfully sent.
+{if $success == 0}{$_TR.error}
+{else}{$_TR.success}
 {/if}

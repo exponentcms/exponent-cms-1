@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -29,10 +30,10 @@
  * $Id$
  *}
 {if $override_style == 1}
-<div class="form_title">System Information</div>
-<div class="form_header">This information may be useful for support reasons and reporting bugs.
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}
 <br /><br />
-<a href="{link action=sysinfo_download}">Export this information</a> and send it to an Exponent Developer or Support Technician for assistance in troubleshooting your installation.
+<a href="{link action=sysinfo_download}">{$_TR.export}</a>
 </div>
 <style type="text/css">
 {literal}
@@ -76,7 +77,7 @@ div.center {
 
 <table border="0" cellpadding="3" width="600">
 <tr class="h"><td>
-<!--<a href="http://www.exponentcms.org/">[Insert Logo Here]</a>--><h1 class="p">Exponent CMS</h1>
+<h1 class="p">Exponent CMS</h1>
 </td></tr>
 </table><br />
 <table border="0" cellpadding="3" width="600">

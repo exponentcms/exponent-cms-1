@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class sharedcoremodule {
-	function name() { return "Multi-Site Manager"; }
-	function description() { return "Allows new 'Shared Codebase' Exponent sites to be created from the web."; }
-	function author() { return "James Hunt"; }
+	function name() { return pathos_lang_loadKey('modules/sharedcoremodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/sharedcoremodule/class.php','module_description'); }
+	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
 	function hasContent() { return false; }
@@ -43,12 +44,12 @@ class sharedcoremodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','sharedcoremodule');
+		$i18n = pathos_lang_loadFile('modules/sharedcoremodule/class.php');
+		
 		return array(
-			'administrate'=>TR_SHAREDCOREMODULE_PERM_ADMIN,
-			//'configure'=>TR_SHAREDCOREMODULE_PERM_CONFIG,
-			'manage_site'=>TR_SHAREDCOREMODULE_PERM_MANAGESITE,
-			'manage_core'=>TR_SHAREDCOREMODULE_PERM_MANAGECORE,
+			'administrate'=>$i18n['perm_administrate'],
+			'manage_site'=>$i18n['perm_manage_site'],
+			'manage_core'=>$i18n['perm_manage_core'],
 		);
 	}
 	
@@ -61,20 +62,20 @@ class sharedcoremodule {
 		// Do nothing, no content
 	}
 	
-	function show($view,$loc = null,$title="") {
-		$template = new template("sharedcoremodule",$view);
+	function show($view,$loc = null,$title='') {
+		$template = new template('sharedcoremodule',$view);
 		
 		global $db;
 		$cores = array();
-		foreach ($db->selectObjects("sharedcore_core") as $c) {
-			if (file_exists($c->path."pathos_version.php")) {
-				$c->version = include($c->path."pathos_version.php");
-				$c->linked = $db->selectObjects("sharedcore_site","core_id=".$c->id);
+		foreach ($db->selectObjects('sharedcore_core') as $c) {
+			if (file_exists($c->path.'pathos_version.php')) {
+				$c->version = include($c->path.'pathos_version.php');
+				$c->linked = $db->selectObjects('sharedcore_site','core_id='.$c->id);
 				$cores[] = $c;
 			}	
 		}
-		$template->assign("cores",$cores);
-		$template->assign("moduletitle",$title);
+		$template->assign('cores',$cores);
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','manage'),$loc);
 		

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -68,10 +69,10 @@ if (pathos_permissions_check('database',pathos_core_makeLocation('administration
 	
 	$droppable_count = count($droppable_tables);
 	
-	#$template = new template('administrationmodule','_tableTrimSummary',$loc);
-	$template = new template('administrationmodule','_trimdatabaseWhich',$loc);
-	$template->assign('droppable_tables',$droppable_tables);
-	$template->assign('droppable_count',$droppable_count);
+	$template = new template('administrationmodule','_tableTrimSummary',$loc);
+	$template->assign('status',$dropped_tables);
+	$template->assign('dropped',$dropped_count);
+	$template->assign('real_dropped',$real_dropped_count);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

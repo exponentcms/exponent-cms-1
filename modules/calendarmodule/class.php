@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class calendarmodule {
-	function name() { return "Calendar"; }
-	function author() { return "OIC Group Exponent Team / Greg Otte"; }
-	function description() { return "Allows posting of content to a calendar."; }
+	function name() { return pathos_lang_loadKey('modules/calendarmodule/class.php','module_name'); }
+	function author() { return 'James Hunt'; }
+	function description() { return pathos_lang_loadKey('modules/calendarmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -43,23 +44,24 @@ class calendarmodule {
 	function supportsWorkflow() { return true; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','calendarmodule');
+		$i18n = pathos_lang_loadFile('modules/calendarmodule/class.php');
+		
 		if ($internal == '') {
 			return array(
-				'administrate'=>TR_CALENDARMODULE_PERM_ADMIN,
-				'configure'=>TR_CALENDARMODULE_PERM_CONFIG,
-				'post'=>TR_CALENDARMODULE_PERM_POST,
-				'edit'=>TR_CALENDARMODULE_PERM_EDIT,
-				'delete'=>TR_CALENDARMODULE_PERM_DELETE,
-				'approve'=>TR_CALENDARMODULE_PERM_APPROVE,
-				'manage_approval'=>TR_CALENDARMODULE_PERM_MANAGEAP,
-				'manage_categories'=>'Manage Categories'
+				'administrate'=>$i18n['perm_administrate'],
+				'configure'=>$i18n['perm_configure'],
+				'post'=>$i18n['perm_post'],
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete'],
+				'approve'=>$i18n['perm_approve'],
+				'manage_approval'=>$i18n['perm_manage_approval'],
+				'manage_categories'=>$i18n['perm_manage_categories']
 			);
 		} else {
 			return array(
-				'administrate'=>TR_CALENDARMODULE_PERM_ADMIN,
-				'edit'=>TR_CALENDARMODULE_PERM_EDIT,
-				'delete'=>TR_CALENDARMODULE_PERM_DELETE
+				'administrate'=>$i18n['perm_administrate'],
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete']
 			);
 		}
 	}
@@ -72,6 +74,8 @@ class calendarmodule {
 	function show($view,$loc = null, $title = '') {
 		global $user;
 		global $db;
+		
+		$i18n = pathos_lang_loadFile('modules/calendarmodule/class.php');
 		
 		$template = new template('calendarmodule',$view,$loc);
 		$template->assign('moduletitle',$title);
@@ -96,8 +100,8 @@ class calendarmodule {
 			$viewconfig = array("type"=>"default");
 		}
 		
-		if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
-		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		
 		if (!function_exists("pathos_sorting_byEventStartAscending")) {
 			function pathos_sorting_byEventStartAscending($a,$b) {
@@ -126,8 +130,7 @@ class calendarmodule {
 			for ($i = 1; $i <= $endofmonth; $i++) {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				if ($i == $info['mday']) $currentweek = $week;
-				#$monthly[$week][$i] = array("ts"=>$start,"number"=>$db->countObjects("calendar","location_data='".serialize($loc)."' AND approved!=0 AND (eventstart >= $start AND eventend <= " . ($start+86399) . ")"));
-				// NO WORKFLOW CONSIDERATIONS
+				
 				$monthly[$week][$i] = array("ts"=>$start,"number"=>$db->countObjects("eventdate","location_data='".serialize($loc)."' AND date = $start"));
 				if ($weekday >= 6) {
 					$week++;
@@ -277,28 +280,22 @@ class calendarmodule {
 			$sort_asc = true; // For the getEventsForDates call
 			switch ($viewconfig['range']) {
 				case "all":
-					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0");
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "'");
 					break;
 				case "upcoming":
-					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".time());
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date > $day ORDER BY date ASC ".$limit);
 					break;
 				case "past":
-					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart < ".time());
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date < $day ORDER BY date DESC ".$limit);
 					$sort_asc = false;
 					break;
 				case "today":
-					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".pathos_datetime_startOfDayTimestamp(time()) . " AND eventend <= " . (pathos_datetime_startOfDayTimestamp(time()) + 86400));
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date = $day");
 					break;
 				case "next":
-					#$items = array($db->selectObject("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".time()));
 					$dates = array($db->selectObject("eventdate","location_data='" . serialize($loc) . "' AND date >= $day"));
 					break;
 				case "month":
-					#$items = $db->selectObjects("calendar","location_data='" . serialize($loc) . "' AND approved!=0 AND eventstart >= ".pathos_datetime_startOfMonthTimestamp(time()) . " AND eventend <= " . pathos_datetime_endOfMonthTimestamp(time()));
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date >= ".pathos_datetime_startOfMonthTimestamp(time()) . " AND date <= " . pathos_datetime_endOfMonthTimestamp(time()));
 					break;
 			}
@@ -326,7 +323,7 @@ class calendarmodule {
 		
 		$cats = $db->selectObjectsIndexedArray("category","location_data='".serialize($loc)."'");
 		$cats[0] = null;
-		$cats[0]->name = "<i>No category</i>";
+		$cats[0]->name = '<i>'.$i18n['no_category'].'</i>';
 		$cats[0]->color = "#000000";
 		$template->assign("categories",$cats);
 		
@@ -353,29 +350,31 @@ class calendarmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		if (!defined("SYS_SEARCH")) require_once(BASE."subsystems/search.php");
+		$i18n = pathos_lang_loadFile('modules/calendarmodule/class.php');
+		
+		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
 		$search = null;
-		$search->category = 'Events';
+		$search->category = $i18n['search_category'];
 		$search->view_link = ''; // FIXME : need a view action
 		$search->ref_module = 'calendarmodule';
 		$search->ref_type = 'calendar';
 		
 		if ($item) {
-			$db->delete("search","ref_module='calendarmodule' AND ref_type='calendar' AND original_id=" . $item->id);
+			$db->delete('search',"ref_module='calendarmodule' AND ref_type='calendar' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->body = " " . pathos_search_removeHTML($item->body) . " ";
-			$search->title = " " . $item->title . " ";
+			$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+			$search->title = ' ' . $item->title . ' ';
 			$search->location_data = $item->location_data;
-			$db->insertObject($search,"search");
+			$db->insertObject($search,'search');
 		} else {
-			$db->delete("search","ref_module='calendarmodule' AND ref_type='calendar'");
-			foreach ($db->selectObjects("calendar") as $item) {
+			$db->delete('search',"ref_module='calendarmodule' AND ref_type='calendar'");
+			foreach ($db->selectObjects('calendar') as $item) {
 				$search->original_id = $item->id;
-				$search->body = " " . pathos_search_removeHTML($item->body) . " ";
-				$search->title = " " . $item->title . " ";
+				$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+				$search->title = ' ' . $item->title . ' ';
 				$search->location_data = $item->location_data;
-				$db->insertObject($search,"search");
+				$db->insertObject($search,'search');
 			}
 		}
 		
@@ -385,7 +384,7 @@ class calendarmodule {
 	// The following functions are internal helper functions
 	
 	function _getEventsForDates($edates,$sort_asc = true) {
-		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		if ($sort_asc && !function_exists('pathos_sorting_byEventStartAscending')) {
 			function pathos_sorting_byEventStartAscending($a,$b) {
 				return ($a->eventstart < $b->eventstart ? 1 : -1);

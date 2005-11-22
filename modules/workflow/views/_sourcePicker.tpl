@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -48,7 +49,7 @@
 						<br />
 						{if $container->info.supportsWorkflow}
 						{if $container->info.workflowUsesDefault == 1}Default: {/if}
-						{if $container->info.workflowPolicy != ""}{$container->info.workflowPolicy}{else}<i>No Workflow Policy</i>{/if}
+						{if $container->info.workflowPolicy != ""}{$container->info.workflowPolicy}{else}<i>{$_TR.no_policy}</i>{/if}
 						{else}
 						
 						{/if}
@@ -56,7 +57,7 @@
 					<td align="right" valign="top">
 						{if $container->info.supportsWorkflow == 1}
 						<a class="mngmntlink container_mngmnltink" href="{$dest}&s={$container->info.source}&m={$container->info.class}">
-						Change Policy
+						{$_TR.change_policy}
 						</a>
 						{/if}
 					</td>

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,59 +29,39 @@
  *
  * $Id$
  *}
-<div class="moduletitle navigation_modultitle">Add New Page to Site Navigation</div>
+<div class="moduletitle navigation_modultitle">{$_TR.form_title}</div>
 <div class="form_header">
-{if $parent->id == 0}
-You are adding a new top-level page.
-{else}
-You are adding a new sub page to "{$parent->name}".
-{/if}
-Please select the type of page you would like to add.
+{if $parent->id == 0}{$_TR.new_top_level}{else}
+{$_TR.new_sub_level|sprintf:$parent->name}{/if}
+{$_TR.form_header}
 </div>
 
 <div style="background-color: #CCC; padding: 5px;">
-<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage parent=$parent->id}">
-Content Page
-</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage parent=$parent->id}">{$_TR.content_page}</a>
 </div>
-<div style="padding: .5em; padding-bottom: 1.5em;">
-Content Pages are regular pages on the site that allow you to add modules to them.  With content pages, you are able to override the global Site Title, Site Description and Site Keywords settings.
-</div>
+<div style="padding: .5em; padding-bottom: 1.5em;">{$_TR.content_page_desc}</div>
 
 <div style="background-color: #CCC; padding: 5px;">
-<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_externalalias parent=$parent->id}">
-External Website Link
-</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_externalalias parent=$parent->id}">{$_TR.ext_link}</a>
 </div>
-<div style="padding: .5em; padding-bottom: 1.5em;">
-If you need or want a link in your site hiearchy to link to some off-site webpage, create an External Link.
-</div>
+<div style="padding: .5em; padding-bottom: 1.5em;">{$_TR.ext_link_desc}</div>
 
 <div style="background-color: #CCC; padding: 5px;">
-<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_internalalias parent=$parent->id}">
-Internal Page Alias
-</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=edit_internalalias parent=$parent->id}">{$_TR.int_link}</a>
 </div>
-<div style="padding: .5em; padding-bottom: 1.5em;">
-If you need or want a link to another page in your site hierarchy, use an internal page alias.
+<div style="padding: .5em; padding-bottom: 1.5em;">{$_TR.int_link_desc}
 </div>
 
 {if $havePagesets != 0}
-<div style="background-color: #CCC; padding: 5px;"><a class="mngmntlink navigation_mngmntlink" href="{link action=add_pagesetpage parent=$parent->id}">
-Pageset
-</a>
+<div style="background-color: #CCC; padding: 5px;">
+<a class="mngmntlink navigation_mngmntlink" href="{link action=add_pagesetpage parent=$parent->id}">{$_TR.pageset}</a>
 </div>
-<div style="padding: .5em; padding-bottom: 1.5em;">
-Pagesets are powerful tools that allow you to create sections with default content and subsections by adding a single pageset.
-</div>
+<div style="padding: .5em; padding-bottom: 1.5em;">{$_TR.pageset_desc}</div>
 {/if}
 
-{if $haveStandalone != 0 && $isAdministrator == 1}
-<div style="background-color: #CCC; padding: 5px;"><a class="mngmntlink navigation_mngmntlink" href="{link action=move_standalone parent=$parent->id}">
-Move Standalone Page
-</a>
+{if $haveStandalone != 0}
+<div style="background-color: #CCC; padding: 5px;">
+<a class="mngmntlink navigation_mngmntlink" href="{link action=move_standalone parent=$parent->id}">{$_TR.standalone}</a>
 </div>
-<div style="padding: .5em; padding-bottom: 1.5em;">
-Use this if you want to move a standalone page into the navigation hierarchy.
-</div>
+<div style="padding: .5em; padding-bottom: 1.5em;">{$_TR.standalone_desc}</div>
 {/if}

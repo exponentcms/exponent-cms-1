@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class mimetype {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','filemanager');
+		$i18n = pathos_lang_loadFile('datatypes/mimetype.php');
 		
 		$form = new form();
 		if (!isset($object->mimetype)) {
@@ -44,11 +44,11 @@ class mimetype {
 		} else {
 			$form->meta('oldmime',$object->mimetype);
 		}
-		$form->register('mimetype',TR_FILEMANAGER_MIMETYPE, new textcontrol($object->mimetype));
-		$form->register('name',TR_FILEMANAGER_FILETYPENAME,new textcontrol($object->name));
+		$form->register('mimetype',$i81n['mimetype'], new textcontrol($object->mimetype));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		
 		$icodir = MIMEICON_RELATIVE;
-		$htmlimg = ($object->icon == '' ? '' : "<img src='themes/".DISPLAY_THEME."/mimetypes/".$object->icon."'/>");
+		$htmlimg = ($object->icon == '' ? '' : '<img src="'.MIMEICON_RELATIVE.$object->icon.'"/>');
 		// Replace this with something a little better.
 		$html = <<<EOD
 <span id="iconSPAN">$htmlimg</span><input type="hidden" id="iconHIDDEN" name="icon" value=""/>
@@ -68,11 +68,11 @@ function setIcon(src) {
 </script>
 <a class="mngmntlink" href="" onClick="window.open('iconspopup.php?icodir=$icodir','icons','title=Icons,width=400,height=400'); return false">
 EOD;
-		$html .= TR_FILEMANAGER_CHANGEICON;
+		$html .= $i18n['changeicon'];
 		$html .= '</a>';
 
-		$form->register('icon',TR_FILEMANAGER_ICON, new customcontrol($html));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('icon',$i18n['icon'], new customcontrol($html));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 	

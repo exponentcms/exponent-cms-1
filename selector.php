@@ -33,9 +33,6 @@
 
 if (!defined('PATHOS')) exit('');
 
-pathos_lang_loadDictionary('standard','base');
-
-ob_start();
 // Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
@@ -93,9 +90,8 @@ if (is_readable(BASE.$page)) {
 	// Include the rendering page.
 	include_once(BASE.$page);
 } else {
-	echo sprintf(TR_BASE_PAGENOTREADABLE,BASE.$page);
+	$i18n = pathos_lang_loadFile('selector.php');
+	echo sprintf($i18n['not_readable'],BASE.$page);
 }
-
-ob_end_flush();
 
 ?>

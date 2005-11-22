@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,9 +29,9 @@
  *
  * $Id$
  *}
-<h3>Revision {$revision->wf_major}.{$revision->wf_minor}</h3>
+<h3>{$_TR.revision} {$revision->wf_major}.{$revision->wf_minor}</h3>
 <div style="border-top: 1px dashed grey; border-bottom: 1px dashed grey; background-color: #DDD; padding: .5em">
 {$view}
 </div>
 <br />
-<a class="mngmntlink workflow_mngmntlink" href="{$back}">Back</a>
+<a class="mngmntlink workflow_mngmntlink" href="{$back}">{$_TR.back}</a>

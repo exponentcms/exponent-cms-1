@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,11 +32,11 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $contact = null;
 if (isset($_GET['id'])) {
-	$contact = $db->selectObject("addressbook_contact","id=".$_GET['id']);
+	$contact = $db->selectObject('addressbook_contact','id='.intval($_GET['id']));
 }
 
 if ($contact) {
@@ -43,8 +44,8 @@ if ($contact) {
 	
 	$loc = unserialize($contact->location_data);
 
-	$template = new template("addressbookmodule","_view",$loc);
-	$template->assign("contact",$contact);
+	$template = new template('addressbookmodule','_view',$loc);
+	$template->assign('contact',$contact);
 	$template->register_permissions(
 		array('edit','delete'),
 		pathos_core_makeLocation($loc->mod,$loc->src,$contact->id)

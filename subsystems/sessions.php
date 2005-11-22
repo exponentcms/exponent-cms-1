@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -221,5 +222,43 @@ function pathos_sessions_get($var) {
 		return $_SESSION[SYS_SESSION_KEY]['vars'][$var];
 	} else return null;
 }
+
+// Database-stored session handling
+//
+//  Read function must return string value always to make 
+// save handler work as expected. Return empty string if 
+// there is no data to read. Return values from other handlers 
+// are converted to boolean expression. TRUE for success, 
+// FALSE for failure.
+
+// Opens the session
+function pathos_sessions_db_open($save_path,$sess_name) {
+	global $SYS_SESSIONS_SESSIONNAME;
+	$SYS_SESSIONS_SESSIONNAME = $sess_name;
+	// Put locking in database
+	
+}
+
+function pathos_sessions_db_close() {
+	
+}
+
+function pathos_sessions_db_read($id) {
+
+}
+
+function pathos_sessions_db_write($id, $sess_data) {
+
+}
+
+function pathos_sessions_db_destroy($id) {
+
+}
+
+function pathos_sessions_db_gc($maxlifetime) {
+
+}
+
+
 
 ?>

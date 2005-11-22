@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,7 +31,6 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 /* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
@@ -64,7 +64,7 @@ function pathos_theme_includeCSS() {
  */
 function pathos_theme_sourceSelectorInfo() {
 	if (defined("SOURCE_SELECTOR") || defined("CONTENT_SELECTOR")) {
-		pathos_lang_loadDictionary('subsystems','theme');
+		$i18n = pathos_lang_loadFile('subsystems/theme.php');
 		?>
 		<script type="text/javascript">
 		window.resizeTo(800,600);
@@ -72,17 +72,17 @@ function pathos_theme_sourceSelectorInfo() {
 		<table cellspacing="0" cellpadding="5" width="100%" border="0">
 			<tr>
 				<td width="70%">
-					<b><?php echo TR_THEMESUBSYSTEM_CSELTITLE; ?></b>
+					<b><?php echo $i18n['selector']; ?></b>
 				</td>
 				<td width="30%" align="right">
-					[ <a class="mngmntlink" href="orphan_source_selector.php"><?php echo TR_THEMESUBSYSTEM_ARCHIVEDCONTENT; ?></a> ]
+					[ <a class="mngmntlink" href="orphan_source_selector.php"><?php echo $i18n['archived_content']; ?></a> ]
 				</td>
 			</tr>
 		</table>
 		<table cellspacing="0" cellpadding="5" width="100%" border="0">
 			<tr>
 				<td colspan="2" style="background-color: #999; color: #fff; border-bottom: 1px solid #000; padding-bottom: .5em;">
-					<i><?php echo TR_THEMESUBSYSTEM_CSELDESC; ?></i>
+					<i><?php echo $i18n['selector_desc']; ?></i>
 				</td>
 			</tr>
 		</table>
@@ -96,15 +96,12 @@ function pathos_theme_sourceSelectorInfo() {
  */
 function pathos_theme_headerInfo($section) {
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
-	// Added as per mouton_io's suggestion:
-	// http://sourceforge.net/tracker/index.php?func=detail&aid=1162656&group_id=118524&atid=681366
-	header('Content-Type: text/html; charset='.$langinfo['charset']);
 	$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
 	$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
 	$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
 	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
 	$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
-	$str .= "\t\t".'<style> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
+	$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
 	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'pathos.js.php"></script>'."\r\n";
 	return $str;
 }
@@ -112,19 +109,6 @@ function pathos_theme_headerInfo($section) {
 
 function pathos_theme_metaInfo($section) {
 	return "<!-- pathos_theme_metaInfo() is DEPRECATED.  Use pathos_theme_headerInfo instead-->\r\n\t\t".pathos_theme_headerInfo($section);
-}
-
-function pathos_theme_showPersonalModule($module,$view,$title,$prefix = null) {
-	global $user;
-	if ($prefix == null) $prefix = '';
-	$src = '@uid_'.$prefix .'_';
-	if ($user) {
-		$src .= $user->id;
-	} else {
-		$src .= '0';
-	}
-	
-	pathos_theme_showModule($module,$view,$title,$src,false);
 }
 
 /* exdoc
@@ -155,6 +139,7 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
 		//$section = $db->selectObject("section","id=".$last_section);
 		$src .= $section->id;
 	}
+	
 	
 	pathos_theme_showModule($module,$view,$title,$src,$pickable,$section);
 }
@@ -234,8 +219,8 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 		if (is_callable(array($module,"show"))) {
 			call_user_func(array($module,"show"),$view,$loc,$title);
 		} else {
-			pathos_lang_loadDictionary('modules','containermodule');
-			echo sprintf(TR_CONTAINERMODULE_MODNOTFOUND,$module);
+			$i18n = pathos_lang_loadFile('subsystems/theme.php');
+			echo sprintf($i18n['mod_not_found'],$module);
 		}
 	}
 }
@@ -307,8 +292,8 @@ function pathos_theme_main() {
 		if (isset($_REQUEST['module'])) {
 			include_once(BASE."modules/containermodule/actions/orphans_content.php");
 		} else {
-			pathos_lang_loadDictionary('subsystems','theme');
-			echo TR_THEMESUBSYSTEM_SELECTMODULE;
+			$i18n = pathos_lang_loadFile('subsystems/theme.php');
+			echo $i18n['select_module'];
 		}
 	}
 }
@@ -342,9 +327,9 @@ function pathos_theme_runAction() {
 		if (is_readable(BASE.'modules/'.$actfile)) {
 			include_once(BASE.'modules/'.$actfile);
 		} else {
-			pathos_lang_loadDictionary('subsystems','theme');
+			$i18n = pathos_lang_loadFile('subsystems/theme.php');
 			echo SITE_404_HTML . '<br /><br /><hr size="1" />';
-			echo sprintf(TR_THEMESUBSYSTEM_NOSUCHACTION,strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
+			echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
 			echo '<br />';
 		}
 	}
@@ -358,13 +343,13 @@ function pathos_theme_goDefaultSection() {
 	$last_section = pathos_sessions_get("last_section");
 	if (defined("SITE_DEFAULT_SECTION") && SITE_DEFAULT_SECTION != $last_section) {
 		header("Location: ".URL_FULL."index.php?section=".SITE_DEFAULT_SECTION);
-		exit('Redirecting...');
+		exit();
 	} else {
 		global $db;
 		$section = $db->selectObject("section","public = 1 AND active = 1"); // grab first section, go there
 		if ($section) {
 			header("Location: ".URL_FULL."index.php?section=".$section->id);
-			exit('Redirecting...');
+			exit();
 		} else {
 			echo SITE_404_HTML;
 		}

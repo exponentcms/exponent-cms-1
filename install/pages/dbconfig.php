@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,116 +31,137 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 if (!defined('PATHOS')) exit('');
 
+if (pathos_sessions_isset('installer_config')) {
+	$config = pathos_sessions_get('installer_config');
+} else {
+	$config = array(
+		'db_engine'=>'mysql',
+		'db_host'=>'localhost',
+		'db_port'=>'3306',
+		'db_name'=>'',
+		'db_user'=>'',
+		'db_pass'=>'',
+		'db_table_prefix'=>'exponent',
+	);
+}
+
+$i18n = pathos_lang_loadFile('install/pages/dbconfig.php');
+
 ?>
-<div class="installer_title">
-<img src="images/blocks.png" width="32" height="32" />
-Database Configuration
-</div>
-<br /><br />
-In order to best manage your content, Exponent stores it in a relational database.  Configuring your database connection properly is the most important step in setting up your new website.
-<br /><br />
-Due to security reasons, you or your web server administrator will have to create an empty database.  For information on how to create the database, click <a href="" onClick="pop('db_create');">here</a>.  Optionally, you may choose to use a pre-existing database.  For information on using an existing database and what it entails, click <a href="" onClick="return pop('db_existing');">here</a>.
-<br /><br />
+<h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
 
 <form method="post" action="index.php">
 <input type="hidden" name="page" value="dbcheck" />
 
-<div class="form_section_header">Server Information</div>
+<div class="form_section_header"><?php echo $i18n['server_info']; ?></div>
 <div class="form_section">
 	<div class="control">
-		&#0149; <span class="control_caption">Backend: </span>
-		<select name="c[db_engine]" value="mysql">
+		&#0149; <span class="control_caption"><?php echo $i18n['backend']; ?>: </span>
+		<select name="c[db_engine]">
 		<?php
-		$dh = opendir(BASE."subsystems/database");
+		$dh = opendir(BASE.'subsystems/database');
 		while (($file = readdir($dh)) !== false) {
-			if (is_file(BASE."subsystems/database/$file") && is_readable(BASE."subsystems/database/$file") && substr($file,-9,9) == ".info.php") {
-				$info = include(BASE."subsystems/database/$file");
-				echo '<option value="'.substr($file,0,-9).'">'.$info['name'].'</option>';
+			if (is_file(BASE.'subsystems/database/'.$file) && is_readable(BASE.'subsystems/database/'.$file) && substr($file,-9,9) == '.info.php') {
+				$info = include(BASE.'subsystems/database/'.$file);
+				echo '<option value="'.substr($file,0,-9).'"';
+				// Now check to see if it was previously selected:
+				if ($config['db_engine'] == substr($file,0,-9)) {
+					echo ' selected="selected"';
+				}
+				echo '>'.$info['name'].'</option>';
 			}
 		}
 		?>
 		</select>
 		<div class="control_help">
-			Select which database server software package your web server is running.  If the software is not listed, it is not supported by Exponent.
+			<?php echo $i18n['backend_desc']; ?>
 			<br /><br />
-			If in doubt, contact your system administrator or hosting provider.
+			<?php echo $i18n['in_doubt']; ?>
 		</div>
 	</div>
 	
 	<div class="control">
-		&#0149; <span class="control_caption">Address: </span>
-		<input class="text" type="text" name="c[db_host]" value="localhost" />
+		&#0149; <span class="control_caption"><?php echo $i18n['address']; ?>: </span>
+		<input class="text" type="text" name="c[db_host]" value="<?php echo $config['db_host']; ?>" />
 		<div class="control_help">
-			If your database server software runs on a different physical machine than the web server, enter the address of the database server machine.  Either an IP address (like 1.2.3.4) or an internet domain name (such as example.com) will work.
+			<?php echo $i18n['address_desc']; ?>
 			<br /><br />
-			If your database server software runs on the same machine as the web server, use the default setting, 'localhost'.
-			<br /><br />
-			If in doubt, contact your system administrator or hosting provider.
+			<?php echo $i18n['in_doubt']; ?>
 		</div>
 	</div>
 	
 	<div class="control">
-		&#0149; <span class="control_caption">Port: </span>
-		<input class="text" type="text" name="c[db_port]" value="3306" size="5" />
+		&#0149; <span class="control_caption"><?php echo $i18n['port'];?>: </span>
+		<input class="text" type="text" name="c[db_port]" value="<?php echo $config['db_port']; ?>" size="5" />
 		<div class="control_help">
-			If you are using a database server that supports TCP or other network connection protocols, and that database software runs on a different physical machine than the web server, enter the connection port.
+			<?php echo $i18n['port_desc']; ?>
 			<br /><br />
-			If you entered 'localhost' in the Address field, you should leave this as the default setting.
-			<br /><br />
-			If in doubt, contact your system administrator or hosting provider.
+			<?php echo $i18n['in_doubt']; ?>
 		</div>
 	</div>
 </div>
 
-<div class="form_section_header">Database Information</div>
+<div class="form_section_header"><?php echo $i18n['database_info']; ?></div>
 <div class="form_section">
 	<div class="control">
-		&#0149; <span class="control_caption">Database Name: </span>
-		<input class="text" type="text" name="c[db_name]" value="" />
+		&#0149; <span class="control_caption"><?php echo $i18n['dbname']; ?>: </span>
+		<input class="text" type="text" name="c[db_name]" value="<?php echo $config['db_name']; ?>" />
 		<div class="control_help">
-			This is the real name of the database, according to the database server.  Consult your system administrator or hosting provider if you are unsure and did not set the database up yourself.
+			<?php echo $i18n['dbname']; ?>
 		</div>
 	</div>
 	
 	<div class="control">
-		&#0149; <span class="control_caption">Username: </span>
-		<input class="text" type="text" name="c[db_user]" value="" />
+		&#0149; <span class="control_caption"><?php echo $i18n['username']; ?>: </span>
+		<input class="text" type="text" name="c[db_user]" value="<?php echo $config['db_user']; ?>" />
 		<div class="control_help">
-			All database server software supported by Exponent require some sort of authentication.  Enter the name of the user account to use for logging into the database server.
+			<?php echo $i18n['username_desc']; ?>
 			<br /><br />
-			For information on what database user privileges are required, click <a href="" onClick="return pop('db_priv');">here</a>.
+			<?php echo $i18n['username_desc2']; ?>  (<a href="" onClick="return pop('db_priv');"><?php echo $i18n['more_info']; ?></a>)
 		</div>
 	</div>
 	<div class="control">
-		&#0149; <span class="control_caption">Password: </span>
-		<input class="text" type="text" name="c[db_pass]" value="" />
+		&#0149; <span class="control_caption"><?php echo $i18n['password']; ?>: </span>
+		<input class="text" type="text" name="c[db_pass]" value="<?php echo $config['db_pass']; ?>" />
 		<div class="control_help">
-			Enter the password for the username you entered above.  The password will <b>not</b> be obscured, because it cannot be obscured in the configuration file.  The Exponent developers urge you to use a completely new password, unlike any of your others, for security reasons.
+			<?php echo $i18n['password_desc']; ?>
 		</div>
 	</div>
 	
 	<div class="control">
-		&#0149; <span class="control_caption">Table Prefix: </span>
-		<input class="text" type="text" name="c[db_table_prefix]" value="exponent" />
+		&#0149; <span class="control_caption"><?php echo $i18n['prefix']; ?>: </span>
+		<input class="text" type="text" name="c[db_table_prefix]" value="<?php echo $config['db_table_prefix']; ?>" />
 		<div class="control_help">
-			A table prefix helps Exponent differentiate tables for this site from other tables that may already exist (or eventually be created by other scripts).  If you are using an existing database, you may want to change this. 
+			<?php echo $i18n['prefix_desc']; ?>
 			<br /><br />
-			<b>Note:</b> A table prefix can only contains numbers and letters.  Spaces and symbols (including '_') are not allowed.  An underscore will be added for you, by Exponent.
+			<?php echo $i18n['prefix_note']; ?>
 		</div>
 	</div>
 </div>
 
-<div class="form_section_header">Verify Configuration</div>
+<div class="form_section_header"><?php echo $i18n['default_content']; ?></div>
 <div class="form_section">
 	<div class="control">
+		&#0149; <span class="control_caption"><?php echo $i18n['install']; ?></span>
+		<input type="checkbox" name="install_default" checked="checked" />
 		<div class="control_help">
-		After you are satisfied that the information you have entered is correct, click the 'Submit' button, below.  The Exponent Install Wizard will then perform some preliminary tests to ensure that the configuration is valid.
+		<?php echo $i18n['install_desc']; ?>
 		<br /><br />
 		</div>
-		<input type="submit" value="Submit" class="text" />
 	</div>
 </div>
+
+<div class="form_section_header"><?php echo $i18n['verify']; ?></div>
+<div class="form_section">
+	<div class="control">
+		<div class="control_help">
+		<?php echo $i18n['verify_desc']; ?>
+		<br /><br />
+		</div>
+		<input type="submit" value="<?php echo $i18n['test_settings']; ?>" class="text" />
+	</div>
+</div>
+</form>

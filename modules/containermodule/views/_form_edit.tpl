@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,10 +29,11 @@
  *
  * $Id$
  *}
- <script type="text/javascript" />
+ 
+<script type="text/javascript">
 {literal}
 if (!document.body.appendChild) {
-	alert("Your browser does not support the necessary javascript for this operation");
+	alert("{$_TR.unsupported_browser}");
 	history.go(-1);
 }
 {/literal}
@@ -39,7 +41,7 @@ if (!document.body.appendChild) {
 {$js_init}
 
 {if $nomodules == 1}
-	<b>The administrator has disabled all modules.  You will not be able to add new ones.</b>
+	<b>{$_TR.deactivated_all}</b>
 {else}
 <form name="form" method="post" action="{$smarty.const.SCRIPT_RELATIVE}{$smarty.const.SCRIPT_FILENAME}?" enctype="">
 	{if $is_edit}<input type="hidden" name="id" value="{$container->id}" />
@@ -60,11 +62,11 @@ if (!document.body.appendChild) {
 			{if $can_activate_modules == 1 && $is_edit == 0}
 			<tr>
 				<td></td>
-				<td><i>If you are looking for a module that is not listed here, it may have been deactivated.  Click <a class="mngmntlink container_mngmntlink" href="{link module=administrationmodule action=managemodules}">here</a> to access the Module Manager</i></td>
+				<td><i>{$_TR.been_deactivated}  <a class="mngmntlink container_mngmntlink" href="{link module=administrationmodule action=managemodules}">{$_TR.access_manager}</a></i></td>
 			</tr>
 			{/if}
 			<tr>
-				<td valign="top">Module</td>
+				<td valign="top">{$_TR.module}</td>
 				<td style='padding-left: 5px;' valign="top">
 					<select id="i_mod" name="i_mod" size="1" onChange="writeViews()" {if $is_edit == 1}disabled {/if}>
 						{html_options options=$modules selected=$container->internal->mod}
@@ -72,34 +74,34 @@ if (!document.body.appendChild) {
 				</td>
 			</tr>
 			<tr>
-				<td valign="top">View</td>
+				<td valign="top">{$_TR.view}</td>
 				<td style='padding-left: 5px;' valign="top">
 					<select id="view" name="view" size="1" onChange="showPreviewCall()"></select>
 				</td>
 			</tr>
 			<tr>
-				<td valign="top">Title</td>
+				<td valign="top">{$_TR.title}</td>
 				<td style='padding-left: 5px;' valign="top">
 					<input type="text" name="title" id="title" value="{$container->title}" onChange="showPreviewCall()" />
 				</td>
 			</tr>
 			{if $is_edit == 0}
 			<tr>
-				<td valign="top">Source</td>
+				<td valign="top">{$_TR.source}</td>
 				<td style='padding-left: 5px;' valign="top">
 					<table cellpadding='0' cellspacing='0' border='0'>
 						<tr>
 							<td>
 								<input type='radio' name='i_src' value='new_source' id='r_new_source' onClick='activate("New");' />
 							</td>
-							<td>Create New Content&nbsp;</td>
+							<td>{$_TR.new_content}&nbsp;</td>
 						</tr>
 						<tr>
 							<td>
 								<input type='radio' name='i_src' value='existing_source' id='r_existing_source' onClick='activate("Existing");' />
 							</td>
 							<td>
-								<a id="existing_source_link" class='mngmntlink container_mngmntlink' href='' onClick="pickSource(); return false;">Use Existing Content</a>
+								<a id="existing_source_link" class='mngmntlink container_mngmntlink' href='' onClick="pickSource(); return false;">{$_TR.existing_content}</a>
 								&nbsp;
 							</td>
 						</tr>
@@ -117,20 +119,17 @@ if (!document.body.appendChild) {
 				</td>
 			</tr>
 			{/if}
-			<tr><td valign="top">Restrict Viewing?&nbsp;</td><td>
-				<input type="checkbox" name="is_private"{if $container->is_private == 1} checked{/if} />
-			</td></tr>
-			<tr><td valign="top">Description:&nbsp;</td><td>
-				Enter a short description of how this module will be used.
+			<tr><td valign="top">{$_TR.description}&nbsp;</td><td>
+				{$_TR.description_description}
 				<textarea rows="5" cols="30" id="ta_description" {if $container->is_existing}disabled{/if} name="description">{$locref->description}</textarea>
 			</td></tr>
 			<tr><td></td><td>
-				<input type="submit" value="Save" onClick="return validateNew()" />
-				<input type="button" value="Cancel" onClick="document.location.href = '{$back}'" />
+				<input type="submit" value="{$_TR.save}" onClick="return validateNew()" />
+				<input type="button" value="{$_TR.cancel}" onClick="document.location.href = '{$back}'" />
 			</td></tr>
 		</table>	
 		</td><td width="50%">
-			<b>Preview of Content:</b><br />
+			<b>{$_TR.preview}</b><br />
 			<iframe id="iframePreview" src="{$smarty.const.PATH_RELATIVE}modules/containermodule/nosourceselected.php" width="100%" height="250" style="border: 1px dashed #DDD;"></iframe>
 		</td></tr>
 	</table>
@@ -142,14 +141,6 @@ var sourceInit = false;
 writeViews();
 activate("New");
 sourcePicked("{$container->internal->src}","{$locref->description|escape:"javascript"}");
-</script>
-<script type="text/javascript">
-{literal}
-if (!document.body.appendChild) {
-	alert("Your browser is not supported");
-	history.go(-1);
-}
-{/literal}
 </script>
 
 {/if}

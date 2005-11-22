@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,12 +29,12 @@
  *
  * $Id$
  *}
- <div class="form_title">Manage Workflow Policies</div>
-<div class="form_header">Before you can begin to implement approval workflow on your site, you will need to define one or more workflow policies.</div>
+ <div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
 	<tr>
-		<td width="20%" class="header administration_header">Policy Name</td>
-		<td class="header administration_header">Description</td>
+		<td width="20%" class="header administration_header">{$_TR.policy_name}</td>
+		<td class="header administration_header">{$_TR.description}</td>
 		<td width="40" class="header administration_header"></td>
 	</tr>
 	{foreach from=$policies item=policy}
@@ -41,20 +42,19 @@
 		<td valign="top">
 			{$policy->name}
 			<br />
-			
 		</td>
 		<td valign="top">{$policy->description}</td>
 		<td valign="top">
 			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy id=$policy->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/></a>
 			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_confirmdeletepolicy id=$policy->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/></a>
-			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_viewactions id=$policy->id}">Manage Actions</a>
+			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_viewactions id=$policy->id}">{$_TR.manage_actions}</a>
 			<br />
 		</td>
 	</tr>
 	{foreachelse}
-		<tr><td colspan="3" align="center" style="font-style: italic">No policies have been defined.</td></tr>
+		<tr><td colspan="3" align="center" style="font-style: italic">{$_TR.no_policies}</td></tr>
 	{/foreach}
 	<tr><td colspan="3">
-		<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy}">New Policy</a>
+		<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy}">{$_TR.new_policy}</a>
 	</td></tr>
 </table>

@@ -38,6 +38,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
 	$type = null;
 	if (isset($_GET['type'])) {
+		// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
 		$type = $db->selectObject('mimetype',"mimetype='".$_GET['type']."'");
 	}
 	if ($type) {

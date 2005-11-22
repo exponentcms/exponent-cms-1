@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,16 +32,16 @@
 # $Id$
 ##################################################
 
-define("SCRIPT_EXP_RELATIVE","modules/containermodule/");
-define("SCRIPT_FILENAME","picked_source.php");
+define('SCRIPT_EXP_RELATIVE','modules/containermodule/');
+define('SCRIPT_FILENAME','picked_source.php');
 
-include_once("../../pathos.php");
+include_once('../../pathos.php');
 
 $src = $_GET['ss'];
 $mod = $_GET['sm'];
 
 $locref = $db->selectObject("locationref","module='".$mod."' AND source='".$src."'");
-if (!isset($locref->description)) $locref->description = "... no description ...";
+if (!isset($locref->description)) $locref->description = '';
 
 ?>
 <html>

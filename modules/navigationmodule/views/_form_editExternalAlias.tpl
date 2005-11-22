@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,8 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit == 1}Edit Existing External Alias{else}New External Alias{/if}</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
 <div class="form_header">
-Below, enter the web address you want this section to link to.
+{$_TR.form_header}
 </div>
 {$form_html}

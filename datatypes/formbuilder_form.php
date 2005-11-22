@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class formbuilder_form {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','formbuilder');
+		$i18n = pathos_lang_loadFile('datatypes/formbuilder_form.php');
 		
 		global $db;
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
@@ -48,23 +48,23 @@ class formbuilder_form {
 			$object->description = '';
 			$object->is_email = 0;
 			$object->is_saved = 1;
-			$object->response = 'Your form has been submitted.';
-			$object->resetbtn = 'Reset';
-			$object->submitbtn = 'Submit';
-			$object->subject = 'Submitted form from site.';
+			$object->response = $i18n['default_response'];
+			$object->resetbtn = $i18n['default_resetbtn'];
+			$object->submitbtn = $i18n['default_submitbtn'];
+			$object->subject = $i18n['default_subject'];
 		} else {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('name',TR_FORMBUILDER_NAME,new textcontrol($object->name));
-		$form->register('description',TR_FORMBUILDER_DESCRIPTION,new texteditorcontrol($object->description));
-		$form->register('response',TR_FORMBUILDER_RESPONSE, new htmleditorcontrol($object->response));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('description',$i18n['description'],new texteditorcontrol($object->description));
+		$form->register('response',$i18n['response'], new htmleditorcontrol($object->response));
 		
-		$form->register(null,'', new htmlcontrol('<br><br><b>'.TR_FORMBUILDER_BUTTONHEADER.'</b><br><hr><br>'));
-		$form->register('submitbtn',TR_FORMBUILDER_SUBMITTEXT, new textcontrol($object->submitbtn));
-		$form->register('resetbtn',TR_FORMBUILDER_RESETTEXT, new textcontrol($object->resetbtn));
-		$form->register(null,'', new htmlcontrol('<br><br><b>'.TR_FORMBUILDER_EMAILHEADER.'</b><br><hr><br>'));
-		$form->register('is_email',TR_FORMBUILDER_EMAILFORM,new checkboxcontrol($object->is_email,false));
+		$form->register(null,'', new htmlcontrol('<br><br><b>'.$i18n['button_header'].'</b><br><hr><br>'));
+		$form->register('submitbtn',$i18n['submitbtn'], new textcontrol($object->submitbtn));
+		$form->register('resetbtn',$i18n['resetbtn'], new textcontrol($object->resetbtn));
+		$form->register(null,'', new htmlcontrol('<br><br><b>'.$i18n['email_header'].'</b><br><hr><br>'));
+		$form->register('is_email',$i18n['is_email'],new checkboxcontrol($object->is_email,false));
 		
 		$userlist = array();
 		$users = pathos_users_getAllUsers();
@@ -77,7 +77,7 @@ class formbuilder_form {
 			$defaults[$locuser->id] = $locuser->username;
 		} 
 		
-		$form->register('users',TR_FORMBUILDER_USERS,new listbuildercontrol($defaults,$userlist));
+		$form->register('users',$i18n['users'],new listbuildercontrol($defaults,$userlist));
 		$groups = pathos_users_getAllGroups();
 		$grouplist = array();
 		$defaults = array();
@@ -90,7 +90,7 @@ class formbuilder_form {
 				$defaults[$group->id] = $group->name;
 			}
 			
-			$form->register('groups',TR_FORMBUILDER_GROUPS,new listbuildercontrol($defaults,$grouplist));
+			$form->register('groups',$i18n['groups'],new listbuildercontrol($defaults,$grouplist));
 		}
 		
 		$defaults = array();
@@ -98,17 +98,17 @@ class formbuilder_form {
 			$defaults[$address->email] = $address->email;
 		}
 		
-		$form->register('addresses',TR_FORMBUILDER_OTHERADDRESSES,new listbuildercontrol($defaults,null));
-		$form->register('subject',TR_FORMBUILDER_EMAILSUBJECT,new textcontrol($object->subject));
-		$form->register(null,'', new htmlcontrol('<br><br><b>'.TR_FORMBUILDER_DBHEADER.'</b><br><hr size="1"><br>'));
-		$form->register('is_saved',TR_FORMBUILDER_SAVETODB,new checkboxcontrol($object->is_saved,false));
-		$form->register(null,'', new htmlcontrol('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.TR_FORMBUILDER_DATALOSSWARNING.'<br>'));
+		$form->register('addresses',$i18n['addresses'],new listbuildercontrol($defaults,null));
+		$form->register('subject',$i18n['subject'],new textcontrol($object->subject));
+		$form->register(null,'', new htmlcontrol('<br /><br /><b>'.$i18n['database_header'].'</b><br /><hr size="1" /><br />'));
+		$form->register('is_saved',$i18n['is_saved'],new checkboxcontrol($object->is_saved,false));
+		$form->register(null,'', new htmlcontrol('<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$i18n['warning_data_loss'].'<br />'));
 		if ($object->is_saved == 1) {
 			$form->controls['is_saved']->disabled = true;
 			$form->meta('is_saved','1');
 		}
-		$form->register(null,'', new htmlcontrol('<br><br><br>'));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register(null,'', new htmlcontrol('<br /><br /><br />'));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,20 +32,29 @@
 # $Id$
 ##################################################
 
-	if (!defined("PATHOS")) exit("");
-	
-	$rpt = null;
-	if (isset($_POST['id'])) $rpt = $db->selectObject("formbuilder_report","id=".$_POST['id']);
-	if ($rpt) {
-		if (pathos_permissions_check("editreport",unserialize($f->location_data))) {
-			$rpt = formbuilder_report::update($_POST,$rpt);
-			
-			if (isset($rpt->id)) $db->updateObject($rpt,"formbuilder_report");
-			else $db->insertObject($rpt,"formbuilder_report");
-			
+if (!defined('PATHOS')) exit('');
+
+$rpt = null;
+if (isset($_POST['id'])) {
+	$rpt = $db->selectObject('formbuilder_report','id='.$_POST['id']);
+}
+
+if ($rpt) {
+	if (pathos_permissions_check('editreport',unserialize($f->location_data))) {
+		$rpt = formbuilder_report::update($_POST,$rpt);
 		
-			pathos_flow_redirect();
-		} else echo SITE_403_HTML;
-	} else echo SITE_404_HTML;
+		if (isset($rpt->id)) {
+			$db->updateObject($rpt,'formbuilder_report');
+		} else {
+			$db->insertObject($rpt,'formbuilder_report');
+		}
+		
+		pathos_flow_redirect();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

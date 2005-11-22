@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -46,8 +47,8 @@ if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") !
 	//initialize the for stuff
 	pathos_forms_initialize();
 	
-	//Get the I18N constants
-	pathos_lang_loadDictionary('importers', 'usercsv');
+	$i18n = pathos_lang_loadFile('modules/importer/importers/usercsv/start.php');
+	
 	//Setup the mete data (hidden values)
 	$form = new form();
 	$form->meta("module","importer");
@@ -57,16 +58,16 @@ if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") !
 
 	//Setup the arrays with the name/value pairs for the dropdown menus
 	$delimiterArray = Array(
-		','=>TR_IMPORTER_USERCSV_DEMILITER_ARRAY_COMMA_KEY,
-		';'=>TR_IMPORTER_USERCSV_DEMILITER_ARRAY_SEMICOLON_KEY,
-		':'=>TR_IMPORTER_USERCSV_DEMILITER_ARRAY_COLON_KEY,
-		' '=>TR_IMPORTER_USERCSV_DEMILITER_ARRAY_SPACE_KEY);
+		','=>$i18n['comma'],
+		';'=>$i18n['semicolon'],
+		':'=>$i18n['colon'],
+		' '=>$i18n['space']);
 
 	//Register the dropdown menus
-	$form->register("delimiter", TR_IMPORTER_USERCSV_DEMILITER, New dropdowncontrol(",", $delimiterArray));
-	$form->register("upload", TR_IMPORTER_USERCSV_UPLOAD, New uploadcontrol());
-	$form->register("rowstart", TR_IMPORTER_USERCSV_ROWSTART, New textcontrol("1",1,0,6));
-	$form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,"", TR_IMPORTER_USERCSV_CANCEL));
+	$form->register("delimiter", $i18n['delimiter'], New dropdowncontrol(",", $delimiterArray));
+	$form->register("upload", $i18n['upload'], New uploadcontrol());
+	$form->register("rowstart", $i18n['rowstart'], New textcontrol("1",1,0,6));
+	$form->register("submit", "", New buttongroupcontrol($i18n['submit'],"", $i18n['cancel']));
 	$template->assign("form_html",$form->tohtml());
 	$template->output();
 }

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,6 @@
  *
  * $Id$
  *}
-You requested that your password be reset.
-
-please follow this link to confirm that you do want it reset:
+{$_TR.message}
 
 {link module=loginmodule action=resetpass_confirm token=$token->token uid=$token->uid}

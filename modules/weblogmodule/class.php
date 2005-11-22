@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -32,9 +33,9 @@
 ##################################################
 
 class weblogmodule {
-	function name() { return 'Weblog / Online Journal'; }
+	function name() { return pathos_lang_loadKey('modules/weblogmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return 'Manages an online journal.'; }
+	function description() { return pathos_lang_loadKey('modules/weblogmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -43,35 +44,37 @@ class weblogmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		pathos_lang_loadDictionary('modules','weblogmodule');
+		$i18n = pathos_lang_loadFile('modules/weblogmodule/class.php');
+		
 		if ($internal == '') {
 			return array(
-				'administrate'=>TR_WEBLOGMODULE_PERM_ADMIN,
-				'configure'=>TR_WEBLOGMODULE_PERM_CONFIG,
-				'post'=>TR_WEBLOGMODULE_PERM_POST,
-				'edit'=>TR_WEBLOGMODULE_PERM_EDIT,
-				'delete'=>TR_WEBLOGMODULE_PERM_DELETE,
-				'comment'=>TR_WEBLOGMODULE_PERM_COMMENT,
-				'edit_comments'=>TR_WEBLOGMODULE_PERM_EDITCOMMENT,
-				'delete_comments'=>TR_WEBLOGMODULE_PERM_DELCOMMENT,
-				'view_private'=>TR_WEBLOGMODULE_PERM_VIEWPRIVATE
+				'administrate'=>$i18n['perm_administrate'],
+				'configure'=>$i18n['perm_configure'],
+				'post'=>$i18n['perm_post'],
+				'edit'=>$i18n['perm_edit'],
+				'delete'=>$i18n['perm_delete'],
+				'comment'=>$i18n['perm_comment'],
+				'edit_comments'=>$i18n['perm_edit_comments'],
+				'delete_comments'=>$i18n['perm_delete_comments'],
+				'view_private'=>$i18n['perm_view_private']
 			);
 		} else {
 			return array(
-				'administrate'=>TR_WEBLOGMODULE_PERM_ADMIN,
-				'edit'=>TR_WEBLOGMODULE_PERM_EDITONE,
-				'delete'=>TR_WEBLOGMODULE_PERM_DELETEONE,
-				'comment'=>TR_WEBLOGMODULE_PERM_COMMENT,
-				'edit_comments'=>TR_WEBLOGMODULE_PERM_EDITCOMMENT,
-				'delete_comments'=>TR_WEBLOGMODULE_PERM_DELETECOMMENT,
-				'view_private'=>TR_WEBLOGMODULE_PERM_VIEWPRIVEONE
+				'administrate'=>$i18n['perm_administrate'],
+				'edit'=>$i18n['perm_edit_one'],
+				'delete'=>$i18n['perm_delete_one'],
+				'comment'=>$i18n['perm_comment'],
+				'edit_comments'=>$i18n['perm_edit_comments'],
+				'delete_comments'=>$i18n['perm_delete_comments'],
+				'view_private'=>$i18n['perm_view_private_one']
 			);
 		}
 	}
 	
 	function getLocationHierarchy($loc) {
-		if ($loc->int == '') return array($loc);
-		else {
+		if ($loc->int == '') {
+			return array($loc);
+		} else {
 			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
@@ -201,10 +204,8 @@ class weblogmodule {
 		
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
 		
-		pathos_lang_loadDictionary('modules','weblogmodule');
-		
 		$search = null;
-		$search->category = TR_WEBLOGMODULE_SEARCHTYPE;
+		$search->category = pathos_lang_loadKey('modules/weblogmodule/class.php','search_category');
 		$search->view_link = ""; // FIXME : need a view action
 		$search->ref_module = 'weblogmodule';
 		$search->ref_type = 'weblog_post';

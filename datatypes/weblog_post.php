@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,8 +34,7 @@
 
 class weblog_post {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','weblogmodule');
+		$i18n = pathos_lang_loadFile('datatypes/weblog_post.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -52,14 +52,10 @@ class weblog_post {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('title',TR_WEBLOGMODULE_TITLE, new textcontrol($object->title));
-		$form->register('internal_name','Internal Name', new textcontrol($object->internal_name));
-		$form->register('body',TR_WEBLOGMODULE_BODY, new htmleditorcontrol($object->body));
-		$form->register('is_private',TR_WEBLOGMODULE_ISPRIVATE, new checkboxcontrol($object->is_private,true));
-		if ($object->is_draft == 1 || !isset($object->id)) {
-			$form->register('is_draft','Save as Draft?', new checkboxcontrol($object->is_draft,true));
-		}
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('title',$i18n['title'], new textcontrol($object->title));
+		$form->register('body',$i18n['body'], new htmleditorcontrol($object->body));
+		$form->register('is_private',$i18n['is_private'], new checkboxcontrol($object->is_private));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}

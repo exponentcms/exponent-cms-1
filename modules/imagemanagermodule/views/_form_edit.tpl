@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,15 +29,15 @@
  *
  * $Id$
  *}
-<div class="form_title">{if $is_edit == 1}Edit Image Information{else}Upload Image to Manager{/if}</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
 <div class="form_header">
 {if $is_edit == 1}
-You can only change the information about this uploaded image.  If you want to change the actual image, you will need to delete this image, and then upload a new one.
+{$_TR.form_header_edit}
 {else}
-To upload an image to the manager, click the browse button below, search your hard drive for the image file, and click OK.
+{$_TR.form_header_new}
 {/if}
 <br /><br />
-The "Scale %" field specifies a previewing aspect ratio.  This is only used when looking at the image manager - it does not resize the umage being upload to a given size.
+{$_TR.form_header}
 </div>
-{if $dir_not_writable == 1}<br /><i>Uploading images to this Image Manager is disabled, because of bad permissions.</i><br /><br />{/if}
+{if $dir_not_writable == 1}<br /><i>{$_TR.uploads_disabled}</i><br /><br />{/if}
 {$form_html}

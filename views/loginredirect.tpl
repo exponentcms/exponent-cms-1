@@ -34,7 +34,7 @@
 	<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}style.css" />
  </head>
  <body>
- <div align="center" style="font-weight: bold; font-size: 14pt;">{$smarty.const.SITE_TITLE}::Login Page</div>
+ <div align="center" style="font-weight: bold; font-size: 14pt;">{$smarty.const.SITE_TITLE}::{$_TR.login_page}</div>
 	<br />
 	<table align="center">
 		<tr>

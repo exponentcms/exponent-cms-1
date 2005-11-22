@@ -32,9 +32,9 @@
 ##################################################
 
 class formmodule {
-	function name() { return "Form Module"; }
-	function description() { return "Allows the creation of forms that can be emailed and/or stored in the database."; }
-	function author() { return "Greg Otte"; }
+	function name() { return pathos_lang_loadKey('modules/formmodule/class.php','module_name'); }
+	function description() { return pathos_lang_loadKey('modules/formmodule/class.php','module_description'); }
+	function author() { return 'Greg Otte'; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
@@ -43,25 +43,26 @@ class formmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = "") {
+		$i18n = pathos_lang_loadFile('modules/formmodule/class.php');
 		if ($internal == "") {
 			return array(
-				"administrate"=>"Administrate",
-				"editform"=>"Edit Form",
-				"editformsettings"=>"Edit Form Settings",
-				"editreport"=>"Edit Form Report",
-				"viewdata"=>"View Posts",
-				"editdata"=>"Edit Post",
-				"deletedata"=>"Delete Post"
+				"administrate"=>$i18n['perm_administrate'],
+				"editform"=>$i18n['perm_editform'],
+				"editformsettings"=>$i18n['perm_editformsettings'],
+				"editreport"=>$i18n['perm_edit_formreport'],
+				"viewdata"=>$i18n['perm_viewdata'],
+				"editdata"=>$i18n['perm_editdata'],
+				"deletedata"=>$i18n['perm_deletedata']
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"editform"=>"Edit Form",
-				"editformsettings"=>"Edit Form Settings",
-				"editreport"=>"Edit Form Report",
-				"viewdata"=>"View Posts",
-				"editdata"=>"Edit Post",
-				"deletedata"=>"Delete Post"
+				"administrate"=>$i18n['perm_administrate'],
+				"editform"=>$i18n['perm_editform'],
+				"editformsettings"=>$i18n['perm_editformsettings'],
+				"editreport"=>$i18n['perm_edit_formreport'],
+				"viewdata"=>$i18n['perm_viewdata'],
+				"editdata"=>$i18n['perm_editdata'],
+				"deletedata"=>$i18n['perm_deletedata']
 			);
 		}
 	}
@@ -71,10 +72,11 @@ class formmodule {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		pathos_forms_initialize();
 		
+		$i18n = pathos_lang_loadFile('modules/formmodule/class.php');
+		
 		if (defined("PREVIEW_READONLY") && !defined("SELECTOR")) {
-			echo "";
-		} 
-		else {
+			// Pass
+		}  else {
 			$f = null;
 			$f = $db->selectObject("formbuilder_form","location_data='".serialize($loc)."'");
 			if (!$f) {
@@ -85,13 +87,13 @@ class formmodule {
 				$f->table_name = "";
 				$f->is_email = 0;
 				$f->is_saved = 0;
-				$f->submitbtn = "Submit";
-				$f->resetbtn = "Reset";
-				$f->response = "Your form has been submitted.";
-				$f->subject = "Submitted form from site.";
+				$f->submitbtn = $i18n['default_submit'];
+				$f->resetbtn = $i18n['default_reset'];
+				$f->response = $i18n['default_response'];
+				$f->subject = $i18n['default_subject'];
 				$frmid = $db->insertObject($f,"formbuilder_form");
 				//Create Default Report;
-				$rpt->name = "Default Report";
+				$rpt->name = $i18n['default_report'];
 				$rpt->description = "";
 				$rpt->location_data = $f->location_data;
 				$rpt->text = "";
@@ -118,7 +120,7 @@ class formmodule {
 				$ctl->_readonly = $c->is_readonly;
 				$form->register($c->name,$c->caption,$ctl);
 			}
-			$form->register(uniqid(""),"", new htmlcontrol("<br><br>"));
+			$form->register(uniqid(""),"", new htmlcontrol("<br /><br />"));
 			$form->register("submit","",new buttongroupcontrol($f->submitbtn,$f->resetbtn,""));
 			
 			$form->meta("action","submit_form");
@@ -130,11 +132,11 @@ class formmodule {
 			$form->location(pathos_core_makeLocation("formbuilder",$floc->src,$floc->int));
 			if (count($controls) == 0) {
 				$form->controls['submit']->disabled = true;
-				$formmsg .= 'This form is blank. Select "Edit Form" to add input fields.<br>';
+				$formmsg .= $i18n['blank_form'].'<br>';
 			}
 			if ($f->is_saved == 0 && $f->is_email == 0) {
 				$form->controls['submit']->disabled = true;
-				$formmsg .= 'There are no actions assigned to this form. Select "Edit Form Settings" then select "Email Form" and/or "Save to Database".'; 
+				$formmsg .= $i18n['no_actions']; 
 			}
 			$template = new template("formmodule",$view,$loc);
 			$template->assign("formmsg",$formmsg);

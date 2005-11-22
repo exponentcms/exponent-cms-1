@@ -70,7 +70,7 @@ class form extends baseform {
 	var $validationScript = "";
 	
 	function secure() {
-		$this->action = SSL_URL . SCRIPT_RELATIVE . SCRIPT_FILENAME;
+		$this->action = (ENABLE_SSL ? SSL_URL : '') . SCRIPT_RELATIVE . SCRIPT_FILENAME;
 		$this->meta("expid",session_id());
 	}
 	

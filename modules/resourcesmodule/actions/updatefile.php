@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -33,7 +34,7 @@
 
 if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject('resourceitem','id='.(int)$_GET['id']);
+$item = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 if ($item) {
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
@@ -44,18 +45,17 @@ if ($item) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		
-		pathos_lang_loadDictionary('standard','core');
-		pathos_lang_loadDictionary('modules','resourcesmodule');
+		$i18n = pathos_lang_loadFile('modules/resourcesmodule/actions/updatefile.php');
 		
 		$form = new form();
 		$form->meta('action','saveupdatedfile');
 		$form->location($loc);
 		$form->meta('id',$item->id);
-		$form->register('file',TR_RESOURCESMODULE_UPDATEFILE,new uploadcontrol());
+		$form->register('file',$i18n['file'],new uploadcontrol());
 		if ($item->flock_owner != 0 && ($user->is_acting_admin == 1 || $user->id == $item->flock_owner)) {
-			$form->register('checkin',TR_RESOURCESMODULE_UNLOCKFILE,new checkboxcontrol(false,true));
+			$form->register('checkin',$i18n['unlock'],new checkboxcontrol(false,true));
 		}
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		$template = new template('resourcesmodule','_form_checkIn',$loc);
 		$template->assign('form_html',$form->toHTML());

@@ -64,7 +64,6 @@ if (pathos_permissions_check("add_module",$loc) ||
 		$db->updateObject($locref,"locationref","module='".$iloc->mod."' AND source='".$iloc->src."'");
 	}
 	
-	pathos_template_clear();
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

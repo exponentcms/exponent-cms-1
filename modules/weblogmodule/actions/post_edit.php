@@ -36,7 +36,7 @@ if (!defined('PATHOS')) exit('');
 $post = null;
 $iloc = null;
 if (isset($_GET['id'])) {
-	$post = $db->selectObject('weblog_post','id='.$_GET['id']);
+	$post = $db->selectObject('weblog_post','id='.intval($_GET['id']));
 	$loc = unserialize($post->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
 }
@@ -51,7 +51,7 @@ if (($post == null && pathos_permissions_check('post',$loc)) ||
 	
 	$template = new template('weblogmodule','_form_postEdit',$loc);
 	$template->assign('form_html',$form->toHTML());
-	$template->assign('is_edit',isset($_GET['id']));
+	$template->assign('is_edit', (isset($_GET['id']) ? 1 : 0) );
 	$template->output();
 } else {
 	echo SITE_403_HTML;

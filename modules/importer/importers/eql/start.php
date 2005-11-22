@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,25 +32,24 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 pathos_forms_initialize();
 
-//Get the I18N constants
-pathos_lang_loadDictionary('importers', 'eql');
+$i18n = pathos_lang_loadFile('modules/importer/importers/eql/start.php');
 
 $form = new form();
-$form->meta("module","importer");
-$form->meta("action","page");
-$form->meta("importer","eql");
-$form->meta("page","process");
+$form->meta('module','importer');
+$form->meta('action','page');
+$form->meta('importer','eql');
+$form->meta('page','process');
 
-$form->register("file",TR_IMPORTERMODULE_EQL_EQLFILE,new uploadcontrol());
-$form->register("submit","",new buttongroupcontrol(TR_IMPORTERMODULE_EQL_RESTOREBUTTON,"",""));
+$form->register('file',$i18n['file'],new uploadcontrol());
+$form->register('submit','',new buttongroupcontrol($i18n['restore'],'',''));
 
-$template = new template("importer","_eql_restoreForm",$loc);
-$template->assign("form_html",$form->toHTML());
+$template = new template('importer','_eql_restoreForm',$loc);
+$template->assign('form_html',$form->toHTML());
 $template->output();
 
 ?>

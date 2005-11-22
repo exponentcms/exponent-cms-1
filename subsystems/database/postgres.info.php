@@ -50,6 +50,7 @@ return array(
 	"name"=>"PostGreSQL Database Backend",
 	"author"=>"James Hunt",
 	"description"=>"PostGreSQL Database Backend.",
+	'is_valid'=>(function_exists('pg_connect') ? 1 : 0),
 	"version"=>pathos_core_version(true)
 );
 

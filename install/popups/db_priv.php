@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,41 +32,38 @@
 # $Id$
 ##################################################
 
+$i18n = pathos_lang_loadFile('install/popups/db_priv.php');
+
 ?>
-<div class="installer_title">
-<img src="images/blocks.png" width="16" height="16" />
-Database User Privileges
+<b><?php echo $i18n['title']; ?></b>
+<div class="bodytext">
+<?php echo $i18n['header']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['create']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['create_desc']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['alter']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['alter_desc']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['drop']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['drop_desc']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['select']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['select_desc']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['insert']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['insert_desc']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['update']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['update_desc']; ?>
+<br /><br />
+
+<tt><?php echo $i18n['delete']; ?></tt><br />
+&nbsp;&nbsp;-&nbsp;<?php echo $i18n['delete_desc']; ?>
 </div>
-<br /><br />
-When Exponent connects to the database, it needs to be able to run the following types of queries:
-<br /><br />
-
-<tt>CREATE TABLE</tt><br />
-&nbsp;&nbsp;-&nbsp;These queries create new table structures inside the database.  Exponent needs this when you install it for the first time.  CREATE TABLE queries are also run after new modules are uploaded to the site.
-<br /><br />
-
-<tt>ALTER TABLE</tt><br />
-&nbsp;&nbsp;-&nbsp;If you upgrade any module in Exponent, these queries will be run to change table structures in the database.
-<br /><br />
-
-<tt>DROP TABLE</tt><br />
-&nbsp;&nbsp;-&nbsp;These queries are executed on the database whenever an administrator trims it to remove tables that are no longer used.
-<br /><br />
-
-<tt>SELECT</tt><br />
-&nbsp;&nbsp;-&nbsp;Queries of this type are very important to the basic operation of Exponent.  All data stored in the database is read back through the use of SELECT queries.
-<br /><br />
-
-<tt>INSERT</tt><br />
-&nbsp;&nbsp;-&nbsp;Whenever new content is added to the site, new permissions are assigned, users and/or groups are created and configuration data is saved, Exponent runs INSERT queries.
-<br /><br />
-
-<tt>UPDATE</tt><br />
-&nbsp;&nbsp;-&nbsp;When content or configurations are updated, Exponent modifies the data in its tables by issuing UPDATE queries.
-<br /><br />
-
-<tt>DELETE</tt><br />
-&nbsp;&nbsp;-&nbsp;These queries remove content and configuration from the tables in the site database.  They are also executed whenever users and groups are removed, and permissions are revoked.
-<br /><br />
-
-<br />

@@ -31,6 +31,8 @@
 # $Id$
 ##################################################
 
+if (class_exists('corporatetheme')) return;
+
 class corporatetheme {
 	function name() { return "Corporate Theme"; }
 	function author() { return "James Hunt"; }

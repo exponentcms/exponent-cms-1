@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,7 +35,7 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user) {
-	pathos_lang_loadDictionary('modules','loginmodule');
+	$i18n = pathos_lang_loadFile('modules/loginmodule/actions/savepass.php');
 	
 	if ($user->password == md5($_POST['oldpass'])) {
 		if ($_POST['pass1'] == $_POST['pass2']) {
@@ -45,7 +46,7 @@ if ($user) {
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
-				$post['_formError'] = TR_LOGINMODULE_STRENGTHFAILED.$strength_error;
+				$post['_formError'] = sprintf($i18n['not_strong_enough'],$strength_error);
 				pathos_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
@@ -56,12 +57,12 @@ if ($user) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
-			$post['_formError'] = TR_LOGINMODULE_UNMATCHEDPASSWORDS;
+			$post['_formError'] = $i18n['unmatched_passwords'];
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else { // Old password incorrect
-		$post = array('_formError'=>TR_LOGINMODULE_OLDPASSWRONG);
+		$post = array('_formError'=>$i18n['bad_password']);
 		pathos_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}

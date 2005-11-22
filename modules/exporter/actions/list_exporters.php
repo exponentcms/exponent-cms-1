@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,21 +32,23 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
 	$exporters = array();
-	$idh = opendir(BASE."modules/exporter/exporters");
+	$idh = opendir(BASE.'modules/exporter/exporters');
 	while (($imp = readdir($idh)) !== false) {
-		if (substr($imp,0,1) != "." && is_readable(BASE."modules/exporter/exporters/$imp/start.php") && is_readable(BASE."modules/exporter/exporters/$imp/info.php")) {
-			$exporters[$imp] = include(BASE."modules/exporter/exporters/$imp/info.php");
+		if (substr($imp,0,1) != '.' && is_readable(BASE.'modules/exporter/exporters/'.$imp.'/start.php') && is_readable(BASE.'modules/exporter/exporters/'.$imp.'/info.php')) {
+			$exporters[$imp] = include(BASE.'modules/exporter/exporters/'.$imp.'/info.php');
 		}
 	}
 	
-	$template = new template("exporter","_exporters");
-	$template->assign("exporters",$exporters);
+	$template = new template('exporter','_exporters');
+	$template->assign('exporters',$exporters);
 	$template->output();
 	
-} else echo SITE_403_HTML;
+} else {
+	echo SITE_403_HTML;
+}
 
 ?>

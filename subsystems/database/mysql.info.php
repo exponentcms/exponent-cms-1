@@ -47,10 +47,11 @@ if (!defined('PATHOS')) exit('');
  */
 
 return array(
-	"name"=>"MySQL Database Backend",
-	"author"=>"James Hunt",
-	"description"=>"MySQL Database Backend.",
-	"version"=>pathos_core_version(true)
+	'name'=>'MySQL Database Backend',
+	'author'=>'James Hunt',
+	'description'=>'MySQL Database Backend.',
+	'is_valid'=>(function_exists('mysql_connect') ? 1 : 0),
+	'version'=>pathos_core_version(true)
 );
 
 ?>

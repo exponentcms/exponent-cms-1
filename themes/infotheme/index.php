@@ -40,7 +40,7 @@ if (!defined('PATHOS')) exit('');
 		<?php echo pathos_theme_headerInfo($section); ?>
 		<link href="<?php echo THEME_RELATIVE; ?>cc.css" rel="stylesheet" type="text/css">
 	</head>
-<body background="<?php echo THEME_RELATIVE; ?>images/cc_back.jpg" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onLoad="pathosJSinitialize()">
+<body background="<?php echo THEME_RELATIVE; ?>images/cc_back.jpg" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onload="pathosJSinitialize()">
 	<?php pathos_theme_sourceSelectorInfo(); ?>
 	<table width="100%" height="632" border="0" cellpadding="0" cellspacing="0">
 		<tr>

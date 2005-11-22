@@ -33,7 +33,7 @@
 {if $current->numParents <= $i && ($current->id == $section->id || $current->parents[$i] == $section->id)}
 {math equation="x+1" x=$i assign=i}
 {if $section->active == 1}
-<a class="mngmntlink navigation_mngmntlink" href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;
+<a class="mngmntlink navigation_mngmntlink navlink" href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;
 {else}
 <span class="navlink">{$section->name}</span>&nbsp;
 {/if}

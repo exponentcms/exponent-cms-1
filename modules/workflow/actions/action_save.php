@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,7 +32,7 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 	$action = null;
@@ -39,7 +40,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		$action = $db->selectObject("workflowaction","id=".$_POST['id']);
 		$action->method = $_POST['method'];
 		$action->parameters = $_POST['parameters'];
-		$db->updateObject($action,"workflowaction");
+		$db->updateObject($action,'workflowaction');
 	} else {
 		$action->method = $_POST['method'];
 		$action->parameters = $_POST['parameters'];

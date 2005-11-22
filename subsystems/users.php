@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -258,49 +259,9 @@ function pathos_users_logout() {
  * @node Subsystems:Users
  */
 function pathos_users_form($user = null) {
-
-	pathos_lang_loadDictionary('subsystems','users');
-	pathos_lang_loadDictionary('standard','core');
-
-	// FIXME: Forms Subsystem may not be initialized at this point.
-	// FIXME:
-	$form = new form();
-	if (isset($user->id)) {
-		// Store the user object's id, if it exists.
-		// This is now an edit form.
-		$form->meta('id',$user->id);
-	} else {
-		// If the user object has no id, then this is a new user form.
-		// Populate the empty user object with default attributes,
-		// so that the calls to $form->register can confidently dereference
-		// thes attributes.
-		$user->firstname = '';
-		$user->lastname = '';
-		$user->email = '';
-		$user->recv_html = 1;
-##		$user->home_section = 0;
-		// Username and Password can only be specified for a new user.  To change the password,
-		// a different form is used (part of the loginmodule)
-		$form->register('username',TR_USERSSUBSYSTEM_DESIREDUSERNAME,new textcontrol());
-		$form->register('pass1',TR_USERSSUBSYSTEM_PASSWORD, new passwordcontrol());
-		$form->register('pass2',TR_USERSSUBSYSTEM_CONFIRM,new passwordcontrol());
-		$form->register(null,'',new htmlcontrol('<br />'));
-		$form->register('groupcode','Signup Code',new textcontrol());
-		$form->register(null,'',new htmlcontrol('<br />'));
-	}
+	$form = user::form($user);
 	
-	// Register the basic user profile controls.
-	$form->register('firstname',TR_USERSSUBSYSTEM_FIRSTNAME,new textcontrol($user->firstname));
-	$form->register('lastname',TR_USERSSUBSYSTEM_LASTNAME,new textcontrol($user->lastname));
-	$form->register(null,'',new htmlcontrol('<br />'));
-	$form->register('email',TR_USERSSUBSYSTEM_EMAIL,new textcontrol($user->email));
-	$form->register('recv_html',TR_USERSSUBSYSTEM_RECVHTML, new checkboxcontrol($user->recv_html,true));
-	$form->register(null,'',new htmlcontrol('<br />'));
-##	// Register the nav hierarhcy dropdown for home section.
-##	$hier = navigationmodule::hierarchyDropDownControlArray();
-##	$hier[0] = '&lt;None&gt;';
-##	$form->register('home_section','Home Page',new dropdowncontrol($user->home_section,$hier));
-	$form->register(null,'',new htmlcontrol('<br />'));
+	$form->unregister('submit');
 	
 	// Pull in form data for all active profile extensions.
 	// First, we have to clear delete extensions, so that we don't try to include
@@ -315,7 +276,7 @@ function pathos_users_form($user = null) {
 	// Retrieve a list of the active profile extensions, and sort them by rank so that
 	// the form controls get added to the form in order.
 	$exts = $db->selectObjects('profileextension');
-	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($exts,'pathos_sorting_byRankAscending');
 	foreach ($exts as $ext) {
 		// Modify the form object by passing it through each profile extension, 
@@ -324,7 +285,8 @@ function pathos_users_form($user = null) {
 	}
 	
 	// Add the submit button and return the complete form object to the caller.
-	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+	$i18n = pathos_lang_loadFile('subsystems/users.php');
+	$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 	return $form;
 }
 
@@ -338,33 +300,8 @@ function pathos_users_form($user = null) {
  * @node Subsystems:Users
  */
 function pathos_users_groupForm($group = null) {
-	pathos_lang_loadDictionary('subsystems','users');
-	pathos_lang_loadDictionary('standard','core');
-
-	// FIXME: The forms subsystem may not be initialized at this point
-	// FIXME:
-	$form = new form();
-	if ($group) {
-		// Store the group object's id, if it exists.
-		// This is now an edit group form.
-		$form->meta('id',$group->id);
-	} else {
-		// If the group object has no id, this is a new form.  Update
-		// the attributes of the group object so that the form->register
-		// calls can blindly dereference them.
-		$group->name = '';
-		$group->code = '';
-		$group->description = '';
-		$group->inclusive = 0;
-	}
-	// Populate the form with controls.
-	$form->register('name',TR_USERSSUBSYSTEM_GROUPNAME,new textcontrol($group->name));
-	$form->register('code','Signup Code',new textcontrol($group->code));
-	$form->register('description',TR_USERSSUBSYSTEM_GROUPDESC,new texteditorcontrol($group->description));
-	$form->register('inclusive',TR_USERSSUBSYSTEM_GROUP_ISDEFAULT,new checkboxcontrol($group->inclusive));
-	$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
-	// Return the form object to the caller
-	return $form;
+	// DEPRECATE
+	return group::form($group);
 }
 
 /* exdoc
@@ -376,11 +313,7 @@ function pathos_users_groupForm($group = null) {
  * @node Subsystems:Users
  */
 function pathos_users_update($formvalues, $u = null) {
-	$u->firstname = $formvalues['firstname'];
-	$u->lastname = $formvalues['lastname'];
-	$u->email = $formvalues['email'];
-	$u->recv_html = (isset($formvalues['recv_html']) ? 1 : 0);
-###	$u->home_section = $formvalues['home_section'];
+	$u = user::update($formvalues,$u);
 	global $user;
 	// Set the is_acting_admin flag.  There a re a few ways that this should be done.
 	// If the admin is editing or creating a user, solely check if isset() 
@@ -437,11 +370,8 @@ function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
  * @node Subsystems:Users
  */
 function pathos_users_groupUpdate($formvalues, $group = null) {
-	$group->name = $formvalues['name'];
-	$group->code = $formvalues['code'];
-	$group->description = $formvalues['description'];
-	$group->inclusive = (isset($formvalues['inclusive']) ? 1 : 0);
-	return $group;
+	// DEPRECATE
+	return group::update($formvalues,$group);
 }
 
 /* exdoc

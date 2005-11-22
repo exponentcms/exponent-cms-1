@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,27 +32,30 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $contact = null;
 $iloc = null;
 if (isset($_GET['id'])) {
-	$contact = $db->selectObject("addressbook_contact","id=".$_GET['id']);
-	$loc = unserialize($contact->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$contact->id);
+	$contact = $db->selectObject('addressbook_contact','id='.intval($_GET['id']));
+	if ($contact) {
+		$loc = unserialize($contact->location_data);
+		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$contact->id);
+	}
 }
 
-if (($contact == null && pathos_permissions_check("post",$loc)) ||
-	($contact != null && pathos_permissions_check("edit",$loc)) ||
-	($iloc != null && pathos_permissions_check("edit",$iloc))
+// FIXME: Replace with better use of getLocationHierarchy
+if (($contact == null && pathos_permissions_check('post',$loc)) ||
+	($contact != null && pathos_permissions_check('edit',$loc)) ||
+	($iloc != null && pathos_permissions_check('edit',$iloc))
 ) {
 	$form = addressbook_contact::form($contact);
 	$form->location($loc);
-	$form->meta("action","save");
+	$form->meta('action','save');
 	
-	$template = new template("addressbookmodule","_form_edit",$loc);
-	$template->assign("form_html",$form->toHTML());
-	$template->assign("is_edit",($contact == null ? 0 : 1));
+	$template = new template('addressbookmodule','_form_edit',$loc);
+	$template->assign('form_html',$form->toHTML());
+	$template->assign('is_edit',($contact == null ? 0 : 1));
 	
 	$template->output();
 } else {

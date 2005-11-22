@@ -33,6 +33,9 @@
 
 if (!defined("PATHOS")) exit("");
 
+// Sanitize required querystring parameter
+$_GET['id'] = intval($_GET['id']);
+
 $news = $db->selectObject("newsitem","id=" . $_GET['id']);
 $iloc = null;
 if ($news != null) {

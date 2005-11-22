@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,10 +29,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Workflow Actions</div>
-<div class="form_header">
-This approval policy reacts to each type of action using the listed actions (in order)
-</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <table cellpadding="0" cellspacing="4" width="100%" border="0">
 {foreach from=$names item=name key=type}
 {capture assign=linkend}&policy_id={$policy_id}&type={$type}{/capture}
@@ -75,13 +74,13 @@ This approval policy reacts to each type of action using the listed actions (in 
 {foreachelse}
 <tr>
 	<td colspan="4" align="center">
-		<i>No actions have been defined.</i><br />
+		<i>{$_TR.no_actions}</i><br />
 	</td>
 </tr>
 {/foreach}
 <tr>
 	<td colspan="4" align="center">
-		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_edit policy_id=$policy_id type=$type}">Add Action</a>
+		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_edit policy_id=$policy_id type=$type}">{$_TR.add_action}</a>
 	</td>
 </tr>
 {/foreach}

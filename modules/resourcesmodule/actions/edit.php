@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -36,9 +37,11 @@ if (!defined('PATHOS')) exit('');
 $resource = null;
 $iloc = null;
 if (isset($_GET['id'])) {
-	$resource = $db->selectObject('resourceitem','id='.(int)$_GET['id']);
-	$loc = unserialize($resource->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+	$resource = $db->selectObject('resourceitem','id='.intval($_GET['id']));
+	if ($resource) {
+		$loc = unserialize($resource->location_data);
+		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+	}
 }
 
 if (($resource == null && pathos_permissions_check('post',$loc)) ||
@@ -62,7 +65,9 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 	}
 	
 	if (!isset($resource->file_id)) {
-		$form->registerBefore('submit','file',TR_RESOURCESMODULE_NEWFILE,new uploadcontrol());
+		$i18n = pathos_lang_loadFile('modules/resourcesmodule/actions/edit.php');
+		
+		$form->registerBefore('submit','file',$i18n['file'],new uploadcontrol());
 		
 		$dir = 'files/resourcesmodule/'.$loc->src;
 		if (!is_really_writable(BASE.$dir)) {
@@ -74,7 +79,7 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 	}
 	
 	$template->assign('form_html',$form->toHTML());
-	$template->assign('is_edit',isset($_GET['id']));
+	$template->assign('is_edit', (isset($_GET['id']) ? 1 : 0) );
 	$template->output();
 } else {
 	echo SITE_403_HTML;

@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,10 +29,8 @@
  *
  * $Id$
  *}
-<div class="form_title">Mapping CSV Columns</div>
+<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-Select the methods you would like to use to generate usernames and passwords.&nbsp;&nbsp;
-If you supply a default password, it will be used for all the users imported.  If you mapped username of password as a 
-field in the mapping screen, you won't need to do anything here.
+{$_TR.form_header}
 </div>
 {$form_html}

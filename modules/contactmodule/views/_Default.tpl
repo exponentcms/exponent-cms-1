@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,8 +29,8 @@
  *
  * $Id$
  *}
-MESSAGE:
+{$_TR.form_caption}:
 
-Email:    {$post.email}
-Subject:  {$post.subject}
-Message:  {$post.message}
+{$_TR.email}:    {$post.email}
+{$_TR.subject}:  {$post.subject}
+{$_TR.message}:  {$post.message}

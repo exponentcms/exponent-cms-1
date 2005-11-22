@@ -31,10 +31,13 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $cat = null;
-if (isset($_GET['id'])) $cat = $db->selectObject("category","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$cat = $db->selectObject('category','id='.intval($_GET['id']));
+}
+
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 	$loc->mod = $_GET['orig_module'];

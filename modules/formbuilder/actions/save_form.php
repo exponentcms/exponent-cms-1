@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,57 +32,56 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
-if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+$i18n = pathos_lang_loadFile('modules/formbuilder/actions/save_form.php');
+
+if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 pathos_forms_initialize();
 
 $f = null;
 if (isset($_POST['id'])) {
-	$f = $db->selectObject("formbuilder_form","id=".$_POST['id']);
+	$f = $db->selectObject('formbuilder_form','id='.$_POST['id']);
 }
 
-if (pathos_permissions_check("editform",unserialize($f->location_data))) {
-
+if (pathos_permissions_check('editform',unserialize($f->location_data))) {
 	$f = formbuilder_form::update($_POST,$f);
-	
 	$f->table_name = formbuilder_form::updateTable($f);
 	
-	//$f->location_data = serialize($loc);
-	
-	if (isset($f->id)) $db->updateObject($f,"formbuilder_form");
-	else {
+	if (isset($f->id)) {
+		$db->updateObject($f,'formbuilder_form');
+	} else {
 		$f->location_data = serialize(pathos_core_makeLocation($_POST['m'],$_POST['s'],$_POST['i']));
-		$f->id = $db->insertObject($f,"formbuilder_form");
+		$f->id = $db->insertObject($f,'formbuilder_form');
 		//Create Default Report;
-		$rpt->name = "Default Report";
-		$rpt->description = "This is the auto generated default report. Leave the report definition blank to use the default 'all fields' report.";
+		$rpt->name = $i18n['default_report'];
+		$rpt->description = $i18n['auto_generated'];
 		$rpt->location_data = $f->location_data;
-		$rpt->text = "";
-		$rpt->column_names = "";
+		$rpt->text = '';
+		$rpt->column_names = '';
 		$rpt->form_id = $f->id;
-		$db->insertObject($rpt,"formbuilder_report");
+		$db->insertObject($rpt,'formbuilder_report');
 	}
 	
 	//Delete All addresses as we will be rebuilding it.
-	$db->delete("formbuilder_address","form_id=".$f->id);
+	$db->delete('formbuilder_address','form_id='.$f->id);
 	$data->group_id = 0;
 	$data->user_id = 0;
-	$data->email="";
+	$data->email='';
 	$data->form_id = $f->id;
 	foreach (listbuildercontrol::parseData($_POST,'groups') as $group_id) {
 		$data->group_id = $group_id;
-		$db->insertObject($data,"formbuilder_address");
+		$db->insertObject($data,'formbuilder_address');
 	}
 	$data->group_id = 0;
 	foreach (listbuildercontrol::parseData($_POST,'users') as $user_id) {
 		$data->user_id = $user_id;
-		$db->insertObject($data,"formbuilder_address");
+		$db->insertObject($data,'formbuilder_address');
 	}
 	$data->user_id = 0;
 	foreach (listbuildercontrol::parseData($_POST,'addresses') as $email) {
 		$data->email = $email;
-		$db->insertObject($data,"formbuilder_address");
+		$db->insertObject($data,'formbuilder_address');
 	}
 
 	pathos_flow_redirect();

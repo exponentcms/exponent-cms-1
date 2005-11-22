@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -42,8 +43,8 @@ if (SITE_ALLOW_REGISTRATION == 1) {
 	$form->meta('module','loginmodule');
 	$form->meta('action','saveuser');
 	if (SITE_USE_CAPTCHA && PATHOS_HAS_GD) {
-		pathos_lang_loadDictionary('modules','loginmodule');
-		$form->registerBefore('submit',null,'',new htmlcontrol(sprintf(TR_LOGINMODULE_CAPTCHADESC,'<img src="'.PATH_RELATIVE.'captcha.php" />'),false));
+		$i18n = pathos_lang_loadFile('modules/loginmodule/actions/createuser.php');
+		$form->registerBefore('submit',null,'',new htmlcontrol(sprintf($i18n['captcha_description'],'<img src="'.PATH_RELATIVE.'captcha.php" />'),false));
 		$form->registerBefore('submit','captcha_string','',new textcontrol('',6));
 	}
 	

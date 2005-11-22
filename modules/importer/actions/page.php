@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -34,10 +35,10 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_admin == 1) {
-	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : "start");
-	$importer = (isset($_REQUEST['importer']) ? $_REQUEST['importer'] : "");
-	$file = BASE."modules/importer/importers/$importer/$page.php";
-	if ($importer != "" && is_readable($file) && is_file($file)) {
+	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 'start');
+	$importer = (isset($_REQUEST['importer']) ? $_REQUEST['importer'] : '');
+	$file = BASE.'modules/importer/importers/'.$importer.'/'.$page.'.php';
+	if ($importer != '' && is_readable($file) && is_file($file)) {
 		include($file);
 	} else {
 		echo SITE_404_HTML;

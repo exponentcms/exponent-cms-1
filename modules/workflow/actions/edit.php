@@ -33,6 +33,10 @@
 
 if (!defined('PATHOS')) exit('');
 
+// Sanitize required $_GET parameters
+$_GET['id'] = intval($_GET['id']);
+
+// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
 $info = $db->selectObject($_GET['datatype']."_wf_info","real_id=".$_GET['id']);
 $object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
 $state = unserialize($object->wf_state_data);
@@ -40,8 +44,8 @@ $state = unserialize($object->wf_state_data);
 $rloc = unserialize($object->location_data);
 if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 
-	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
-	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 	
 	$form = pathos_workflow_form($_GET['datatype'],$_GET['id']);
@@ -53,6 +57,8 @@ if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0
 	$template = new template('workflow','_form_edit');
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
+	
+	pathos_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

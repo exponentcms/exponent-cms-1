@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,21 +32,25 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $item = null;
-if (isset($_GET['id'])) $item = $db->selectObject("rotator_item","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$item = $db->selectObject('rotator_item','id='.intval($_GET['id']));
+}
+
 if ($item) {
 	$loc = unserialize($item->location_data);
 }
-if (pathos_permissions_check("manage",$loc)) {	
+
+if (pathos_permissions_check('manage',$loc)) {	
 	$form = rotator_item::form($item);
 	$form->location($loc);
-	$form->meta("action","save_item");
+	$form->meta('action','save_item');
 	
-	$template = new template("rotatormodule","_form_edit");
-	$template->assign("is_edit",isset($item->id));
-	$template->assign("form_html",$form->toHTML());
+	$template = new template('rotatormodule','_form_edit');
+	$template->assign('is_edit',isset($item->id));
+	$template->assign('form_html',$form->toHTML());
 	$template->output();
 } else {
 	echo SITE_403_HTML;

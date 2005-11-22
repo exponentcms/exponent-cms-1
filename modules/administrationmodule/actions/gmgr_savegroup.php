@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -30,7 +31,6 @@
 #
 # $Id$
 ##################################################
-//GREP:HARDCODEDTEXT
 
 // Part of the User Management category
 
@@ -46,9 +46,9 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		pathos_flow_redirect();
 	} else {
 		if (pathos_users_getGroupByName($_POST['name']) != null) {
-			pathos_lang_loadDictionary('modules','administrationmodule');
+			$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/gmgr_savegroup.php');
 			$post = $_POST;
-			$post['_formError'] = TR_ADMINISTRATIONMODULE_GROUPNAMETAKEN;
+			$post['_formError'] = $i18n['name_taken'];
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {

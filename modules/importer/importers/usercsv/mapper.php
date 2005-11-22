@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -35,8 +36,7 @@
 if (!defined("PATHOS")) exit("");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 
-//Get the I18N stuff
-pathos_lang_loadDictionary('importers', 'usercsv');
+$i18n = pathos_lang_loadFile('modules/importer/importers/usercsv/mapper.php');
 
 //Get the post data for future massaging
 $post = $_POST;
@@ -44,7 +44,7 @@ $post = $_POST;
 //Check to make sure the user filled out the required input.
 if (!is_numeric($_POST["rowstart"])){
 	unset($post['rowstart']);
-	$post['_formError'] = "The starting row must be a number.";
+	$post['_formError'] = $i18n['need_number'];
 	pathos_sessions_set("last_POST",$post);
 	header("Location: " . $_SERVER['HTTP_REFERER']);
 	exit('Redirecting...');
@@ -60,16 +60,16 @@ if ($_FILES["upload"]["error"] == UPLOAD_ERR_OK) {
 		switch($_FILES["upload"]["error"]) {
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
-				$post['_formError'] = "The file you attempted to upload is too large.  Contact your system administrator if this is a problem.";
+				$post['_formError'] = $i18n['err_file_toolarge'];
 				break;
 			case UPLOAD_ERR_PARTIAL:
-				$post['_formError'] = "The file was only partially uploaded.";
+				$post['_formError'] = $i18n['err_file_partial'];
 				break;
 			case UPLOAD_ERR_NO_FILE:
-				$post['_formError'] = "No file was uploaded.";
+				$post['_formError'] = $i18n['err_file_none'];
 				break;
 			default:
-				$post['_formError'] = "A strange internal error has occured.  Please contact the Exponent Developers.";
+				$post['_formError'] = $i18n['err_file_unknown'];
 				break;
 		}
 		pathos_sessions_set("last_POST",$post);
@@ -93,16 +93,17 @@ for ($x=0; $x<$_POST["rowstart"]; $x++){
 }
 
 $colNames = array(
-	"none"=>TR_IMPORTER_USERCSV_COLNAME_NONE,
-	"username"=>TR_IMPORTER_USERCSV_COLNAME_USERNAME,
-	"password"=>TR_IMPORTER_USERCSV_COLNAME_PASSWORD,
-	"firstname"=>TR_IMPORTER_USERCSV_COLNAME_FIRSTNAME,
-	"lastname"=>TR_IMPORTER_USERCSV_COLNAME_LASTNAME,
-	"email"=>TR_IMPORTER_USERCSV_COLNAME_EMAIL);
+	"none"=>$i18n['col_none'],
+	"username"=>$i18n['col_username'],
+	"password"=>$i18n['col_password'],
+	"firstname"=>$i18n['col_firstname'],
+	"lastname"=>$i18n['col_lastname'],
+	"email"=>$i18n['col_email']
+);
 
 //Check to see if the line got split, otherwise throw an error
 if ($lineInfo == null) {
-	$post['_formError'] = sprintf(TR_IMPORTER_USERCSV_DELIMITER_ERROR, $_POST["delimiter"]); 
+	$post['_formError'] = sprintf($i18n['delimiter_error'], $_POST["delimiter"]); 
 	pathos_sessions_set("last_POST",$post);
 	header("Location: " . $_SERVER['HTTP_REFERER']);
 	exit("");
@@ -121,7 +122,7 @@ if ($lineInfo == null) {
 	for ($i=0; $i< count($lineInfo); $i++) {
 		$form->register("column[$i]", $lineInfo[$i], new dropdowncontrol("none", $colNames));
 	}
-	$form->register("submit", "", New buttongroupcontrol(TR_IMPORTER_USERCSV_SUBMIT,"", TR_IMPORTER_USERCSV_CANCEL));
+	$form->register("submit", "", new buttongroupcontrol($i18n['submit'],"", $i18n['cancel']));
 	$template = New Template("importer", "_usercsv_form_mapping");
 	$template->assign("form_html", $form->tohtml());
 	$template->output();

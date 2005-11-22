@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -42,12 +43,12 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	if ($user->is_admin == 1) { // Only do the database stuff if we are a super admin
 		$errors = '';
 		
-		pathos_lang_loadDictionary('config','database');
+		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/config_save.php');
 		
 		// Test the prefix
 		if (preg_match("/[^A-Za-z0-9]/",$_POST['c']['DB_TABLE_PREFIX'])) {
 			$continue = false;
-			$errors .= TR_CONFIG_DATABASE_ERROR_BADPREFIX;
+			$errors .= $i18n['bad_prefix'];
 		}
 		
 		// Test the database connection
@@ -56,7 +57,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 		
 		if (!$newdb->isValid()) {
 			$continue = false;
-			$errors .= TR_CONFIG_DATABASE_ERROR_CANTCONNECT;
+			$errors .= $i18n['cant_connect'];
 		}
 		
 		if ($continue) {
@@ -64,7 +65,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 			foreach ($status as $type=>$flag) {
 				if (!$flag) {
 					$continue = false;
-					$errors .= sprintf(TR_CONFIG_DATABASE_ERROR_PERMDENIED,$type);
+					$errors .= sprintf($i18n['perm_denied'],$type);
 				}
 			}
 		}
@@ -76,7 +77,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 		pathos_config_saveConfiguration($_POST);
 		$ob = "";
 		if ($user->is_admin == 1) {
-			pathos_lang_loadDictionary('standard','dbrecover');
+			$i18n = pathos_lang_loadFile('db_recover.php');
 		
 			$db = $newdb;
 			ob_start();
@@ -101,7 +102,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 			
 			if ($db->tableIsEmpty('section')) {
 				$section = null;
-				$section->name = TR_DBRECOVER_DEFAULTSECTION;
+				$section->name = $i18n['home'];
 				$section->public = 1;
 				$section->active = 1;
 				$section->rank = 0;

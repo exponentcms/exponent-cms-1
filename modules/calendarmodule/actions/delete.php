@@ -33,7 +33,7 @@
  
 if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject('calendar','id='.$_GET['id']);
+$item = $db->selectObject('calendar','id='.intval($_GET['id']));
 if ($item) {
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
@@ -44,7 +44,6 @@ if ($item) {
 		$db->delete('calendar','id='.$item->id);
 		$db->delete('eventdate','event_id='.$item->id);
 		
-		pathos_template_clear();
 		pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;

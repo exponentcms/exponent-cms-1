@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,7 +32,7 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',(int)$_GET['parent']))) {
 	$db->switchValues('section','rank',$_GET['a'],$_GET['b'],'parent=' . (int)$_GET['parent']);

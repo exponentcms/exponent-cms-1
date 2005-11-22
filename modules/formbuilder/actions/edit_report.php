@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,29 +32,33 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 $f = null;
 $rept = null;
-if (isset($_GET['id'])) $f = $db->selectObject("formbuilder_form","id=".$_GET['id']);
+if (isset($_GET['id'])) {
+	$f = $db->selectObject('formbuilder_form','id='.intval($_GET['id']));
+}
+
 if ($f) {
-	if (pathos_permissions_check("editreport",unserialize($f->location_data))) {
+	if (pathos_permissions_check('editreport',unserialize($f->location_data))) {
 		$floc = unserialize($f->location_data);
-		$rept = $db->selectObject("formbuilder_report","form_id=".$f->id);
-	
-	
+		$rept = $db->selectObject('formbuilder_report','form_id='.$f->id);
 	
 		$form = formbuilder_report::form($rept);
 		$form->location($loc);
-		$form->meta("action","save_report");
-		$form->meta("id",$rept->id);
-		$form->meta("m",$floc->mod);
-		$form->meta("s",$floc->src);
-		$form->meta("i",$floc->int);
+		$form->meta('action','save_report');
+		$form->meta('id',$rept->id);
+		$form->meta('m',$floc->mod);
+		$form->meta('s',$floc->src);
+		$form->meta('i',$floc->int);
 		echo $form->toHTML();
-	} else echo SITE_403_HTML;
-} else echo SITE_404_HTML;
-
-
+		
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

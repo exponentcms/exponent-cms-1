@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,27 +32,27 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
-	$policy = $db->selectObject("approvalpolicy","id=".$_GET['id']);
+	$policy = $db->selectObject('approvalpolicy','id='.intval($_GET['id']));
 	if ($policy) {
-		$db->delete("approvalpolicy","id=".$policy->id);
-		$db->delete("approvalpolicyassociation","policy_id=".$policy->id);
-		$db->delete("workflowaction","policy_id=".$policy->id);
+		$db->delete('approvalpolicy','id='.$policy->id);
+		$db->delete('approvalpolicyassociation','policy_id='.$policy->id);
+		$db->delete('workflowaction','policy_id='.$policy->id);
 		
 		// Start deleting revisions
-		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
+		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		foreach(pathos_workflow_getInfoTables() as $table) {
 			// For each type underneath control of workflow, find
-			$typename = str_replace("_wf_info","",$table); // FIXME something better than str_replace
-			foreach ($db->selectObjects($table,"policy_id=".$policy->id) as $info) {
+			$typename = str_replace('_wf_info','',$table); // FIXME something better than str_replace
+			foreach ($db->selectObjects($table,'policy_id='.$policy->id) as $info) {
 				// Delete all active revisions for each info object
 				// NOTE : this will not delete old ones.
-				$db->delete($typename."_wf_revision","wf_original=".$info->real_id);
+				$db->delete($typename.'_wf_revision','wf_original='.$info->real_id);
 			}
 			// Delete all info objects
-			$db->delete($table,"policy_id=".$policy->id);
+			$db->delete($table,'policy_id='.$policy->id);
 		}
 		
 		pathos_flow_redirect();

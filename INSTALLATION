@@ -9,7 +9,6 @@ If you are upgrading from 0.95* to 0.96, it is HIGHLY RECOMMENDED that you do a 
 
 The Exponent package is available in the following formats:
 
-    * .tar.bz2 - A bzipped tarball containing the application files, for UNIX/Linux environments
     * .tar.gz - A gzipped tarball containing the application files, for UNIX/Linux environments
     * .zip - A zip archive containing the application files, for Windows environments. 
 
@@ -24,11 +23,7 @@ At this point, you have two options. You can unpack the archive locally and uplo
 If you are running on a UNIX box, you can unpack the .tar.gz archive like this:
 
     tar -xzvpf exponent-%%VERSION%%.tar.gz
-
-and you can unpack the .tar.bz2 archive like this:
-
-    tar -xjvpf exponent-%%VERSION%%.tar.bz2
-
+	
 The -p option will preserve file permissions, and is very important.  Exponent requires certain files and directories to be writable by the web server, and the standard tar-based distributions have this permission information preset.
 
 If your are using Windows and the .zip archive, the Exponent Development team recommends the WinZip utility, downloadable from http://www.winzip.com/. The .zip archives have not yet been tested with Windows XP's built in zip support.

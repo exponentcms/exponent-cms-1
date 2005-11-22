@@ -1,6 +1,7 @@
 {*
  *
  * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * All Changes as of 6/1/05 Copyright 2005 James Hunt
  *
  * This file is part of Exponent
  *
@@ -28,6 +29,8 @@
  *
  * $Id$
  *}
+DEPRECATED
+{*
 <div style="margin-bottom: 5px; border-bottom: 1px solid darkblue">
 Pick a section to see the images that have been uploaded for use.
 </div>
@@ -39,3 +42,4 @@ Pick a section to see the images that have been uploaded for use.
 </td></tr>
 {/foreach}
 </table>
+*}

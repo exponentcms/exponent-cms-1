@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# All Changes as of 6/1/05 Copyright 2005 James Hunt
 #
 # This file is part of Exponent
 #
@@ -31,29 +32,31 @@
 # $Id$
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined('PATHOS')) exit('');
 
 if ($user) {
 	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 
-	$messages = $db->selectObjects("privatemessage","recipient=".$user->id);
+	$messages = $db->selectObjects('privatemessage','recipient='.$user->id);
 	function msgCmp($a,$b) {
 		return ($a->date_sent > $b->date_sent ? -1 : 1);
 	}
-	usort($messages,"msgCmp");
+	usort($messages,'msgCmp');
 	
-	$read = $db->countObjects("privatemessage","recipient=".$user->id." AND unread=0");
-	$unread = $db->countObjects("privatemessage","recipient=".$user->id." AND unread=1");
+	$read = $db->countObjects('privatemessage','recipient='.$user->id.' AND unread=0');
+	$unread = $db->countObjects('privatemessage','recipient='.$user->id.' AND unread=1');
 	
-	$template = new template("inboxmodule","_viewmessages",$loc);
+	$template = new template('inboxmodule','_viewmessages',$loc);
 	
-	$template->assign("user",$user);
-	$template->assign("messages",$messages);
-	$template->assign("readMessages",$read);
-	$template->assign("unreadMessages",$unread);
-	$template->assign("totalMessages",$unread+$read);
+	$template->assign('user',$user);
+	$template->assign('messages',$messages);
+	$template->assign('readMessages',$read);
+	$template->assign('unreadMessages',$unread);
+	$template->assign('totalMessages',$unread+$read);
 	
 	$template->output();
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>
