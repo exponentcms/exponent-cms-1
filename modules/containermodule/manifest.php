@@ -24,8 +24,6 @@ return array(
 	'modules/containermodule/views/Three Column.tpl'=>'',
 	'modules/containermodule/views/Two Column.tpl'=>'',
 	'modules/containermodule/views/_container.tpl'=>'',
-	'modules/containermodule/views/_popup_info.tpl'=>'',
-	'modules/containermodule/infopopup.php'=>'',
 	'modules/containermodule/manifest.php'=>'',
 	'modules/containermodule/nosourceselected.php'=>'',
 	'modules/containermodule/picked_source.php'=>'',
