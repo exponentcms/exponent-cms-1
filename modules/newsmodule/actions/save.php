@@ -52,13 +52,8 @@ if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) ||
 	
 	$news->location_data = serialize($loc);
 	
-	$channels = array();
-	if (isset($_POST['channels'])) {
-		$channels = array_flip($_POST['channels']);
-	}
-	
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-	pathos_workflow_post($news,"newsitem",$loc,$channels);
+	pathos_workflow_post($news,"newsitem",$loc);
 } else {
 	echo SITE_403_HTML;
 }

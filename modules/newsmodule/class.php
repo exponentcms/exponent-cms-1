@@ -28,11 +28,6 @@ class newsmodule {
 	
 	function supportsWorkflow() { return true; }
 	
-	function supportsChannels() { return true; }
-	function channelType() {
-		return 'post';
-	}
-	
 	function permissions($internal = '') {
 		$i18n = pathos_lang_loadFile('modules/newsmodule/class.php');
 		if ($internal == '') {
@@ -116,7 +111,7 @@ class newsmodule {
 		$template = new template('newsmodule',$view,$loc);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array('administrate','configure','add_item','delete_item','edit_item','manage_approval','view_unpublished','manage_channel'),
+			array('administrate','configure','add_item','delete_item','edit_item','manage_approval','view_unpublished'),
 			$loc
 		);
 		

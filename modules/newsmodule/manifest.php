@@ -21,13 +21,6 @@ return array(
 	'modules/newsmodule/manifest.php'=>1,
 	'modules/newsmodule/views/Summary.tpl'=>'',
 	'modules/newsmodule/deps.php'=>'',
-	'modules/newsmodule/actions/content_selector.php'=>'',
-	'modules/newsmodule/actions/manage_channel.php'=>'',
-	'modules/newsmodule/actions/accept_channelitem.php'=>'',
-	'modules/newsmodule/views/_channelManager.tpl'=>'',
-	'modules/newsmodule/views/_contentSelector.tpl'=>'',
-	'content/news'=>'',
-	'content/news.php'=>'',
 );
 
 ?>

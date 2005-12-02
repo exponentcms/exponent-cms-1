@@ -60,44 +60,6 @@ class newsitem {
 		
 		return $object;
 	}
-	
-	function onWorkflowPost($object,$is_new,$channels) {
-		global $db;
-		// $userdata is a list of channel ids that we need to post to.
-		
-		$channel_item = null;
-		$channel_item->tablename = 'newsitem';
-		$channel_item->titlefield = 'title';
-		$channel_item->viewlink = 'http://oicgroup.net';
-		$channel_item->item_id = $object->id; // ID of extra-modular item
-		
-		foreach ($channels as $channel_id) {
-			$channel_item->channel_id = $channel_id;
-		
-			$channel = $db->selectObject('channel','id='.$channel_id);
-			$loc = unserialize($channel->location_data);
-			
-			if (pathos_permissions_check('manage_channel',$loc)) {
-				echo 'Can manage channel.  Trying to post as real item<br />';
-				// The poster has manage_channel in the channel destination.
-				// Need to shoot this through sans-approval.
-				unset($object->id);
-				$object->location_data = serialize($loc);
-				$channel_item->published_id = $db->insertObject($object,'newsitem');
-				$channel_item->status = 0;
-				$db->insertObject($channel_item,'channelitem');
-			} else {
-				$channel_item->status = 1; // Flag this as a new post.
-				$channel_item->published_id = 0; // Set to zero, since we haven't published it yet.
-				$db->insertObject($channel_item,'channelitem');
-			}
-		}
-		if (!$is_new) {
-			$updateObject = null;
-			$updateObject->status = 2; // Edit
-			$db->updateObject($updateObject,'channelitem',"tablename='newsitem' AND item_id=".$object->id);
-		}
-	}
 }
 
 ?>
