@@ -222,16 +222,6 @@ function pathos_permissions_checkOnModule($permission,$module) {
 }
 
 /* exdoc
- * <i>Recursive checking took care of this.</i>
- * @state Deprecated
- */
-function pathos_permissions_checkOnSource($module,$source) {
-	global $pathos_permissions_r, $user;
-	if ($user && $user->is_acting_admin == 1) return true;
-	return (isset($pathos_permissions_r[$module]) && isset($pathos_permissions_r[$module][$source]) && (count($pathos_permissions_r[$module][$source]) > 0));
-}
-
-/* exdoc
  * Checks to see if the given user has been given permission.  Handles
  * explicit checks (actually assigned to the user) or implicit checks
  * (assigned to a group the user belongs to).  Returns true if the permission is granted, false if it is not.

@@ -158,7 +158,6 @@ class containermodule {
 				'administrate'=>(pathos_permissions_check('administrate',$location) ? 1 : 0),
 				'configure'=>(pathos_permissions_check('configure',$location) ? 1 : 0)
 			);
-			//$containers[$i]->hasPerms = pathos_permissions_checkOnSource($location->mod,$location->src);
 		}
 		
 		$template->assign('containers',$containers);
