@@ -31,6 +31,26 @@ for ARG in $@; do
 	;;
 	--verbose)
 		OPT_VERBOSE=1
+	;;
+	--help)
+		echo "Usage: $0 <options>"
+		echo ""
+		echo " Options:"
+		echo " ---------------"
+		echo " --help"
+		echo "     Print this help message"
+		echo ""
+		echo " --ignore-success"
+		echo "     Do not print successful tests - show only"
+		echo "     failed modules."
+		echo ""
+		echo " --skip-suspect"
+		echo "     Skip all suspsect testing."
+		echo ""
+		echo " --verbose"
+		echo "     Verbose output"
+		echo ""
+		exit
 	esac
 done
 
