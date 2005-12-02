@@ -22,8 +22,7 @@ if (!defined('PATHOS')) exit('');
 $i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass_confirm.php');
 
 $db->delete('passreset_token','expires < ' . time());
-// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
-$tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid'])." AND token='".trim($_GET['token']) ."'");
+$tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid'])." AND token='".preg_replace('/[^A-Za-z0-9]/','',$_GET['token']) ."'");
 if ($tok == null) {
 	echo $i18n['expired'];
 } else {

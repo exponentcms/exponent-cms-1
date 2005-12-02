@@ -22,8 +22,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	// GREP:SECURITY -- SQL is created from a _GET parameter that is non-numeric.  Needs to be sanitized.
-	$ticket = $db->selectObject('sessionticket',"ticket='".$_GET['ticket']."'");
+	$ticket = $db->selectObject('sessionticket',"ticket='".preg_replace('/[^A-Za-z0-9]/','',$_GET['ticket'])."'");
 	if ($ticket) {
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		$u = pathos_users_getUserById($ticket->uid);

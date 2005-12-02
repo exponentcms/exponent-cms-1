@@ -31,8 +31,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$form = new form();
 	$policies = array();
 	
-	// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.	
-	$assoc = $db->selectObject('approvalpolicyassociation',"module='".$_GET['m']."' AND is_global=1");
+	$assoc = $db->selectObject('approvalpolicyassociation',"module='".preg_replace('/[^A-Za-z0-9_]/','',$_GET['m'])."' AND is_global=1");
 	if (!$assoc) $assoc->policy_id = 0;
 	
 	foreach ($db->selectObjects('approvalpolicy') as $pol) {

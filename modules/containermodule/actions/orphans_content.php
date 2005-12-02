@@ -36,8 +36,7 @@ if (!defined("PATHOS")) exit("");
 	}
 	
 	$orphans = array();
-	// GREP:SECURITY -- SQL created from _GET parameter that is non-numeric.  Needs sanitized.
-	foreach ($db->selectObjects("locationref","module='".$_GET['module']."' AND refcount=0") as $orphan) {
+	foreach ($db->selectObjects("locationref","module='".preg_replace('/[^A-Za-z0-9_]/','',$_GET['module'])."' AND refcount=0") as $orphan) {
 		$obj = null;
 		$loc = pathos_core_makeLocation($orphan->module,$orphan->source,$orphan->internal);
 		

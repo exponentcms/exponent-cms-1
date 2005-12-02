@@ -27,8 +27,7 @@ if (!defined("PATHOS")) exit("");
 	
 	$form = new form();
 	$templates = $db->selectObjectsIndexedArray("htmltemplate");
-	// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
-	foreach ($db->selectObjects("htmltemplateassociation","module='".$_GET['mod']."'") as $existing) {
+	foreach ($db->selectObjects("htmltemplateassociation","module='".preg_replace('/[^A-Za-z0-9_]/','',$_GET['mod'])."'") as $existing) {
 		unset($templates[$existing->template_id]);
 	}
 	foreach (array_keys($templates) as $tid) {

@@ -33,8 +33,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 			$db->insertObject($modstate,'modstate');
 		}
 	} else {
-		// GREP:SECURITY -- SQL created off of _GET parameter that is non-numeric.  Needs to be sanitized.
-		$modstate = $db->selectObject('modstate',"module='".$_GET['mod']."'");
+		$modstate = $db->selectObject('modstate',"module='".preg_replace('/[^A-Za-z0-9_ ]/','',$_GET['mod'])."'");
 		if ($modstate == null) {
 			$modstate->active = $_GET['activate'];
 			$modstate->module = $_GET['mod'];

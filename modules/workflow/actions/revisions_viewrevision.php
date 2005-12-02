@@ -21,8 +21,7 @@ if (!defined("PATHOS")) exit("");
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
-
-// GREP:SECURITY -- SQL is created from _GET parameter that is non-numeric.  Needs to be sanitized.
+$_GET['datatype'] = preg_replace('/[^A-Za-z0-9_]/','',$_GET['datatype']);
 
 $object = $db->selectObject($_GET['datatype']."_wf_revision","id=".$_GET['id']);
 $rloc = unserialize($object->location_data);
