@@ -68,7 +68,7 @@ if ($passed) {
 
 	if ($db->connection == null) {
 		echoFailure($db->error());
-		// BETTER ERROR CHECKING
+		// FIXME:BETTER ERROR CHECKING
 		$passed = false;
 	}
 }
