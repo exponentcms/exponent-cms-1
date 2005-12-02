@@ -80,11 +80,11 @@ class popupdatetimecontrol extends formcontrol {
 			$this->default = time();
 		}
 		$imgsrc = PATH_RELATIVE."external/jscalendar/img.gif";
-		if (is_readable(THEME_BASE."icons/calendar_trigger.gif")) {
+		if (is_readable(THEME_ABSOLUTE."icons/calendar_trigger.gif")) {
 			$imgsrc = THEME_RELATIVE."icons/calendar_trigger.gif";
 		}
 		
-		if (is_readable(THEME_BASE."popupdatetimecontrol.css")) {
+		if (is_readable(THEME_ABSOLUTE."popupdatetimecontrol.css")) {
 			$html .= '<style type="text/css"> @import url('.THEME_RELATIVE.'popupdatetimecontrol.css);</style>';
 		} else {
 			$html .= '<style type="text/css"> @import url('.PATH_RELATIVE.'external/jscalendar/default.css);</style>';

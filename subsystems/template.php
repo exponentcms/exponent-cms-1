@@ -396,8 +396,8 @@ function pathos_template_listModuleViews($module,$lang = LANG) {
 			if (substr($file,-4,4) == ".tpl" && substr($file,0,1) != "_") $views[] = substr($file,0,-4);
 		}
 	}
-	if (is_readable(THEME_BASE."modules/$module/views/$langdir")) {
-		$dh = opendir(THEME_BASE."modules/$module/views/$langdir");
+	if (is_readable(THEME_ABSOLUTE."modules/$module/views/$langdir")) {
+		$dh = opendir(THEME_ABSOLUTE."modules/$module/views/$langdir");
 		while (($file = readdir($dh)) !== false) {
 			if (substr($file,-4,4) == ".tpl" && substr($file,0,1) != "_") {
 				$view = substr($file,0,-4);

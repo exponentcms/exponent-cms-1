@@ -60,14 +60,6 @@ if (!defined('DISPLAY_THEME')) {
 	 */
 	define('DISPLAY_THEME',DISPLAY_THEME_REAL);
 }
-if (!defined('THEME_BASE')) {
-	/* exdoc
-	 * The absolute path to the current active theme's files.  This is similar to the BASE constant.
-	 * This is deprecated beginning with 0.96 -- please use THEME_ABSOLUTE instead.
-	 * @state deprecated
-	 */
-	define('THEME_BASE',BASE.'themes/'.DISPLAY_THEME.'/');
-}
 if (!defined('THEME_ABSOLUTE')) {
 	/* exdoc
 	 * The absolute path to the current active theme's files.  This is similar to the BASE constant

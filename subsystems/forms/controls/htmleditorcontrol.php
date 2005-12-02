@@ -135,7 +135,7 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 					echo 'HTMLArea.loadPlugin("'.$plug.'");'."\n";
 				}
 			}
-			if (is_readable(THEME_BASE."icons/htmleditorcontrol")) {
+			if (is_readable(THEME_ABSOLUTE."icons/htmleditorcontrol")) {
 				echo "htmleditorconfig.imgURL = '".ICON_RELATIVE."htmleditorcontrol/';\n";
 			} else {
 				echo "htmleditorconfig.imgURL = '".PATH_RELATIVE."external/htmlarea/toolbaricons/';\n";
