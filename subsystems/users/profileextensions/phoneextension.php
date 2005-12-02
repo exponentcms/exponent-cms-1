@@ -17,38 +17,40 @@
 #
 ##################################################
 
+// GREP:HARDCODEDTEXT - 3am-6am is not i18n!
+
 class phoneextension {
-	function name() { return "Phone Extension"; }
-	function author() { return "Jeremy Shinall"; }
-	function description() { return "Stores phone numbers for the user."; }
+	function name() { return pathos_lang_loadKey('subsystems/users/profileextensions/phoneextension.php','extension_name'); }
+	function author() { return 'Jeremy Shinall'; }
+	function description() { return pathos_lang_loadKey('subsystems/users/profileextensions/phoneextension.php','extension_description'); }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
 	
-		pathos_lang_loadDictionary('extras','phoneextension');
+		$i18n = pathos_lang_loadFile('subsystems/users/profileextensions/phoneextension.php');
 	
 		if (!isset($user->user_phone) || $user->user_phone == null) {
 			$user->user_phone = phoneextension::_blankPhone();
 		}
 		
-		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.TR_X_PHONEEXTENSION_HEADER.'</b>'));
-		$form->register("home_phone",TR_X_PHONEEXTENSION_HOME_PHONE, new textcontrol($user->user_phone->home_phone,16,false,15));
-		$form->register("bus_phone",TR_X_PHONEEXTENSION_BUS_PHONE, new textcontrol($user->user_phone->bus_phone,16,false,15));
-		$form->register("other_phone",TR_X_PHONEEXTENSION_OTHER_PHONE, new textcontrol($user->user_phone->other_phone,16,false,15));
+		$form->register(null,"",new htmlcontrol('<hr size="1" /><b>'.$i18n['header'].'</b>'));
+		$form->register("home_phone",$i18n['home_phone'], new textcontrol($user->user_phone->home_phone,16,false,15));
+		$form->register("bus_phone",$i18n['bus_phone'], new textcontrol($user->user_phone->bus_phone,16,false,15));
+		$form->register("other_phone",$i18n['other_phone'], new textcontrol($user->user_phone->other_phone,16,false,15));
 		
 		// Define pref_contact dropdown sources
-		$pref_array = array("", "Home Phone", "Business Phone", "Other Phone", "Email");
+		$pref_array = array('', $i18n['home_phone'], $i18n['bus_phone'], $i18n['other_phone'], $i18n['email']);
 		if (!isset($user->user_phone->pref_contact)) {
-			$form->register("pref_contact",TR_X_PHONEEXTENSION_PREF_CONTACT, new dropdowncontrol("", $pref_array));
+			$form->register("pref_contact",$i18n['pref_contact'], new dropdowncontrol("", $pref_array));
 		} else {
-			$form->register("pref_contact",TR_X_PHONEEXTENSION_PREF_CONTACT, new dropdowncontrol($user->user_phone->pref_contact, $pref_array));
+			$form->register("pref_contact",$i18n['pref_contact'], new dropdowncontrol($user->user_phone->pref_contact, $pref_array));
 		}
 		
 		//Define contact_time dropdown sources
 		$time_array = array("", "12am - 3am", "3am - 6am", "6am - 9am", "9am - 12pm", "12pm - 3pm", "3pm - 6pm", "6pm - 9pm", "9pm - 12am");
 		if (!isset($user->user_phone->contact_time)) {
-			$form->register("contact_time",TR_X_PHONEEXTENSION_CONTACT_TIME, new dropdowncontrol("", $time_array));
+			$form->register("contact_time",$i18n['contact_time'], new dropdowncontrol("", $time_array));
 		} else {
-			$form->register("contact_time",TR_X_PHONEEXTENSION_CONTACT_TIME, new dropdowncontrol($user->user_phone->contact_time, $time_array));
+			$form->register("contact_time",$i18n['contact_time'], new dropdowncontrol($user->user_phone->contact_time, $time_array));
 		}
 		return $form;
 	}

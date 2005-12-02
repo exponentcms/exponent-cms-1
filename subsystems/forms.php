@@ -43,7 +43,7 @@ define("SYS_FORMS",1);
  * @node Subsystems:Forms
  */
 function pathos_forms_initialize() {
-	$i18n = pathos_lang_loadDictionary('subsystems/forms.php');
+	$i18n = pathos_lang_loadFile('subsystems/forms.php');
 	
 	$forms_dir = BASE."subsystems/forms";
 	$controls_dir = BASE."subsystems/forms/controls";

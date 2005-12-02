@@ -19,7 +19,7 @@
 
 class addressbookmodule_config {
 	function form($object) {
-		pathos_lang_loadDictionary('standard','core');
+		$i18n = pathos_lang_loadFile('datatypes/addresssbookmodule_config.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
@@ -32,14 +32,14 @@ class addressbookmodule_config {
 		}
 		
 		$sort = array(
-			'lastname_asc'=>'by Last Name, Alphabetical',
-			'lastname_desc'=>'by Last Name, Reverse Alphabetical',
-			'firstname_asc'=>'by First Name, Alphabetical',
-			'firstname_desc'=>'by First Name, Reverse Alphabetical'
+			'lastname_asc'=>$i18n['sort_last_asc'],
+			'lastname_desc'=>$i18n['sort_last_desc'],
+			'firstname_asc'=>$i18n['sort_first_asc'],
+			'firstname_desc'=>$i18n['sort_first_desc']
 		);
 		
-		$form->register('sort_type','Sort Entries',new dropdowncontrol($object->sort_type,$sort));
-		$form->register('submit','',new buttongroupcontrol(TR_CORE_SAVE,'',TR_CORE_CANCEL));
+		$form->register('sort_type',$i18n['sort_entries'],new dropdowncontrol($object->sort_type,$sort));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
 	}
