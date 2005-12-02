@@ -115,7 +115,6 @@ return array(
 	'plugins/function.rating_stars.php'=>'',
 	'plugins/block.paginate.php'=>'',
 	'plugins/block.permissions.php'=>'',
-	'plugins/function.check_array.php'=>'',
 	'plugins/function.getfileicon.php'=>'',
 	'plugins/function.getfilename.php'=>'',
 	'plugins/function.object_to_js.php'=>'',
