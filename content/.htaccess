@@ -1,8 +1,0 @@
-<Files *>
-ForceType application/x-httpd-php
-</Files>
-
-<Files .htaccess>
-Order deny,allow
-Deny from all
-</Files>
