@@ -93,10 +93,6 @@ function pathos_theme_headerInfo($section) {
 }
 
 
-function pathos_theme_metaInfo($section) {
-	return "<!-- pathos_theme_metaInfo() is DEPRECATED.  Use pathos_theme_headerInfo instead-->\r\n\t\t".pathos_theme_headerInfo($section);
-}
-
 /* exdoc
  * Calls the necessary methods to show a specific module, in a section-sensitive way.
  *
