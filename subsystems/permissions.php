@@ -16,7 +16,6 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
-//GREP:HARDCODEDTEXT
 
 /* exdoc
  * The definition of this constant lets other parts of the system know 
@@ -107,12 +106,28 @@ function pathos_permissions_load($user) {
 	
 	// Check perm stats for UI levels
 	$ui_levels = array();
+	$i18n = pathos_lang_loadFile('subsystems/permissions.php');
+	
 	if ($user->is_acting_admin == 1) {
-		$ui_levels = array('Preview','Normal','Permission Management','Structure Management');
+		$ui_levels = array(
+			$i18n['preview'],
+			$i18n['normal'],
+			$i18n['perms'],
+			$i18n['structure']
+		);
 	} else {
-		if (count($pathos_permissions_r)) $ui_levels = array('Preview','Normal');
-		if ($has_admin) $ui_levels[] = 'Permission Management';
-		if (isset($pathos_permissions_r['containermodule']) && count($pathos_permissions_r['containermodule'])) $ui_levels[] = 'Structure Management';
+		if (count($pathos_permissions_r)) {
+			$ui_levels = array(
+				$i18n['preview'],
+				$i18n['normal']
+			);
+		}
+		if ($has_admin) {
+			$ui_levels[] = $i18n['perms'];
+		}
+		if (isset($pathos_permissions_r['containermodule']) && count($pathos_permissions_r['containermodule'])) {
+			$ui_levels[] = $i18n['structure'];
+		}
 	}
 	pathos_sessions_set('uilevels',$ui_levels);
 }
