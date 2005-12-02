@@ -2,7 +2,8 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# Copyright (c) 2004-2005 OIC Group, Inc.
+# Written and Designed by James Hunt
 #
 # This file is part of Exponent
 #
@@ -12,23 +13,8 @@
 # Software Foundation; either version 2 of the
 # License, or (at your option) any later version.
 #
-# Exponent is distributed in the hope that it
-# will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR
-# PURPOSE.  See the GNU General Public License
-# for more details.
+# GPL: http://www.gnu.org/licenses/gpl.txt
 #
-# You should have received a copy of the GNU
-# General Public License along with Exponent; if
-# not, write to:
-#
-# Free Software Foundation, Inc.,
-# 59 Temple Place,
-# Suite 330,
-# Boston, MA 02111-1307  USA
-#
-# $Id$
 ##################################################
 
 if (!defined('PATHOS_VERSION_MAJOR')) {
@@ -37,7 +23,7 @@ if (!defined('PATHOS_VERSION_MAJOR')) {
 	 * the system will behave slightly differently, to accomodate for developers
 	 * and their environment.
 	 */
-	define('DEVELOPMENT',0); // CHANGE FOR DIST
+	define('DEVELOPMENT',1); // CHANGE FOR DIST
 	/* exdoc
 	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
 	 */

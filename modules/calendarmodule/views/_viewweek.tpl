@@ -1,7 +1,6 @@
 {*
- *
- * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
- * All Changes as of 6/1/05 Copyright 2005 James Hunt
+ * Copyright (c) 2004-2005 OIC Group, Inc.
+ * Written and Designed by James Hunt
  *
  * This file is part of Exponent
  *
@@ -11,23 +10,8 @@
  * Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
- * Exponent is distributed in the hope that it
- * will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE.  See the GNU General Public License
- * for more details.
+ * GPL: http://www.gnu.org/licenses/gpl.txt
  *
- * You should have received a copy of the GNU
- * General Public License along with Exponent; if
- * not, write to:
- *
- * Free Software Foundation, Inc.,
- * 59 Temple Place,
- * Suite 330,
- * Boston, MA 02111-1307  USA
- *
- * $Id$
  *}
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.prev_week}" alt="{$_TR.prev_week}" /></a>
 <span style="font-weight: bold; font-size: 16px">Events for the week of {$startweek|format_date:"%B %e, %Y"}</span>

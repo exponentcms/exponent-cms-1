@@ -1,5 +1,5 @@
 <?php
-#blah
+
 return array(
 	'modules/htmltemplatemodule/actions/edit.php'=>'',
 	'modules/htmltemplatemodule/actions/save.php'=>'',
