@@ -118,7 +118,6 @@ return array(
 	'plugins/function.getfileicon.php'=>'',
 	'plugins/function.getfilename.php'=>'',
 	'plugins/function.object_to_js.php'=>'',
-	'plugins/function.pathos_getobject.php'=>'',
 	'plugins/function.reviews.php'=>'',
 	'plugins/function.viewfile.php'=>'',
 	'plugins/modifier.number_format.php'=>'',
