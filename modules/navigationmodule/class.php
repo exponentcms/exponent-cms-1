@@ -131,31 +131,141 @@ class navigationmodule {
 			}
 		}
 		
-		return $new_hier;
+		return $ar;
 	}
 	
+	/**
+	 * Retrieve the enitre hierarchy as a single-dimmensional array of Objects.
+	 */
 	function getHierarchy() {
 		global $db, $cached_sections;
 		
+		// Here we check to see if we have a non-null cached_sections
+		// variable (global).  At the end of the first call to getHierarchy(),
+		// this variable is populated with the return value, so that we
+		// can bypass going to the database on subsequent calls.
+		//
+		// (This assumes that the section hierarchy does not change
+		// within the context of a single page rendering.)
 		if ($cached_sections != null) {
 			return $cached_sections;
 		}
 		
+		// The most efficient way (speaking in terms of database efficiency)
+		// to build the hierarchy is to retrieve all live sections in one query,
+		// and then sort through them in memory.  The $blocks variable stores
+		// the retrieved section objects according to their parent, which we use
+		// later to quickly build the hierarchy array.
 		$blocks = array();
-		foreach ($db->selectObjects('section','parent != -1') as $section) {
+		
+		// Live sections (i.e. not standalone pages) must have a valid greater-than-zero
+		// value for their parent attribute.  We also ORDER BY the rank, so that the $blocks
+		// array is in the correct order for generating accurate hierarchy levels.
+		foreach ($db->selectObjects('section','parent >= 0 ORDER BY rank ASC') as $section) {
 			if (!isset($blocks[$section->parent])) {
 				$blocks[$section->parent] = array();
 			}
 			$blocks[$section->parent][] = $section;
 		}
 		
+		// This is the actual hierarchy that will be returned.
 		$hier = array();
-		navigationmodule::_appendChildren($hier,$blocks,0);
 		
+		// BEGIN HACK
+		#navigationmodule::_appendChildren($hier,$blocks,0);
+		
+		$parent = 0;
+		$parents = array(0);
+		
+		while (count($blocks)) {
+			if (!isset($blocks[$parent][0])) {
+				exit('Exiting prematurely');
+			}
+			// Grab the first section on the level we are currently dealing with.
+			if (!is_array($blocks[$parent])) exit('$blocks['.$parent.'] is no longer an array...');
+			$section = array_shift($blocks[$parent]);
+			
+			
+			// Ensure that the section is either public, or the user has permissions to view it.
+			if ($section->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$section->id))) {
+				// Set up some general metadata about the section and its
+				// place in the hierarchy.   Caching it here makes it easier
+				// to create navigation module views.
+				$section->numChildren = count(@$blocks[$section->id]);
+				$section->numParents = count($parents) - 1;
+				$section->depth = $section->numParents; // GREP: Is this really necessary?
+				$section->parents = array_slice($parents,1); // Should this include 0?
+				$section->first = ($section->rank == 0 ? 1 : 0);
+				// Default, to be changed later on in the execution
+				$section->last = 0;
+			
+				// Generate the link attribute base on alias type.
+				if ($section->alias_type == 1) {
+					// External link.  Set the link to the configured website URL.
+					// This is guaranteed to be a full URL because of the
+					// section::updateExternalAlias() method in datatypes/section.php
+					$section->link = $section->external_link;
+				} else if ($section->alias_type == 2) {
+					// Internal link.
+					
+					// Need to check and see if the internal_id is pointing at an external link.
+					//
+					// A DB call is not inefficient here, since we are looking up by PKey, and this
+					// situation should not happen very often.
+					$dest = $db->selectObject('section','id='.$section->internal_id);
+					if ($dest->alias_type == 1) {
+						// This internal alias is pointing at an external alias.
+						// Use the external_link of the destination section for the link
+						$section->link = $dest->external_link;
+					} else {
+						// Pointing at a regular section.  This is guaranteed to be
+						// a regular section because aliases cannot be turned into sections,
+						// (and vice-versa) and because the section::updateInternalLink
+						// does 'alias to alias' dereferencing before the section is saved
+						// (see datatypes/section.php)
+						$section->link = pathos_core_makeLink(array('section'=>$section->internal_id));
+					}
+				} else {
+					// Normal link.  Just create the URL from the section's id.
+					$section->link = pathos_core_makeLink(array('section'=>$section->id));
+				}
+				
+				// Now we need to do some housecleaning, and re-align our parent pointer.
+				// Does the current section have children that need to be processed?
+				if (isset($blocks[$section->id])) {
+					// There are children underneath this section.
+					$parents[] = $section->id;
+					$parent = $section->id;
+				} else if (!count($blocks[$section->parent])) {
+					// There are no more sections on this level.  Back up the $parents array
+					$section->last = 1;
+					unset($blocks[$section->parent]);
+					array_pop($parents);
+					$parent = $parents[count($parents)-1];
+				}
+				
+				// Now that we have determined first or last, we can append to the hierarchy
+				$hier[] = $section;
+				
+			} // End permission / public check
+			
+			// If we are out of children, unset the parent
+			// This contributes to our loop exit condition by whittling down the
+			// $blocks array.
+			if (!count($blocks[$parent])) {
+				unset($blocks[$parent]);
+			}
+		}
+		
+		// END HACK
+		
+		// Cache the hierarchy for subsequent calls to this function.
 		$cached_sections = $hier;
+		
 		return $hier;
 	}
 	
+	/*
 	function _appendChildren(&$master,&$blocks,$parent,$depth = 0, $parents = array()) {
 		global $db;
 		$nodes = array();
@@ -202,10 +312,11 @@ class navigationmodule {
 				}
 				$child->numChildren = $db->countObjects('section','parent='.$child->id);
 				$nodes[] = $child;
-				$nodes = array_merge($nodes,navigationmodule::levelTemplate($child->id,$depth+1,$parents));
+				//$nodes = array_merge($nodes,navigationmodule::levelTemplate($child->id,$depth+1,$parents));
 			}
 		}
 	}
+	*/
 	
 	function getTemplateHierarchyFlat($parent,$depth = 1) {
 		global $db;
