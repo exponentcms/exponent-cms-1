@@ -118,7 +118,7 @@ class newsmodule {
 		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
-			
+			$nloc = pathos_core_makeLocation($loc->mod,$loc->src,$news[$i]->id);
 			$news[$i]->permissions = array(
 				'edit_item'=>((pathos_permissions_check('edit_item',$loc) || pathos_permissions_check('edit_item',$nloc)) ? 1 : 0),
 				'delete_item'=>((pathos_permissions_check('delete_item',$loc) || pathos_permissions_check('delete_item',$nloc)) ? 1 : 0),
