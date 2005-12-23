@@ -33,7 +33,7 @@
 </div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header"></td>
+		<td class="header">&nbsp;</td>
 		<td class="header"></td>
 		<td class="header"></td>
 		<td class="header"></td>
@@ -50,7 +50,7 @@
 {/if}
 </td><td>
 {if $section->alias_type == 0}
-<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">{$_TR.new_subpage}</a>
+<a class="mngmntlink navigation_mngmntlink" href="{link action=add_section parent=$section->id}">{$_TR.new_sub_page}</a>
 {/if}
 </td><td>
 {if $section->canManage == 1}
