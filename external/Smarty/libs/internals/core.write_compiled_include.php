@@ -10,14 +10,13 @@
  *
  * @param string $compile_path
  * @param string $template_compiled
- * @param integer $template_timestamp
  * @return boolean
  */
 
 function smarty_core_write_compiled_include($params, &$smarty)
 {
-    $_tag_start = 'if \(\$this->caching\) \{ echo \'\{nocache\:('.$params['cache_serial'].')#(\d+)\}\';\}';
-    $_tag_end   = 'if \(\$this->caching\) \{ echo \'\{/nocache\:(\\2)#(\\3)\}\';\}';
+    $_tag_start = 'if \(\$this->caching && \!\$this->_cache_including\) \{ echo \'\{nocache\:('.$params['cache_serial'].')#(\d+)\}\'; \};';
+    $_tag_end   = 'if \(\$this->caching && \!\$this->_cache_including\) \{ echo \'\{/nocache\:(\\2)#(\\3)\}\'; \};';
 
     preg_match_all('!('.$_tag_start.'(.*)'.$_tag_end.')!Us',
                    $params['compiled_content'], $_match_source, PREG_SET_ORDER);
@@ -26,7 +25,8 @@ function smarty_core_write_compiled_include($params, &$smarty)
     if (count($_match_source)==0) return;
 
     // convert the matched php-code to functions
-    $_include_compiled = "<?php /* funky header here */\n\n";
+    $_include_compiled =  "<?php /* Smarty version ".$smarty->_version.", created on ".strftime("%Y-%m-%d %H:%M:%S")."\n";
+    $_include_compiled .= "         compiled from " . strtr(urlencode($params['resource_name']), array('%2F'=>'/', '%3A'=>':')) . " */\n\n";
 
     $_compile_path = $params['include_file_path'];
 
@@ -43,7 +43,19 @@ function smarty_core_write_compiled_include($params, &$smarty)
         if ($this_varname == '_smarty') {
             /* rename $this to $_smarty in the sourcecode */
             $tokens = token_get_all('<?php ' . $_match[4]);
-            array_shift($tokens); /* remove the opening <.?.php */
+
+            /* remove trailing <?php */
+            $open_tag = '';
+            while ($tokens) {
+                $token = array_shift($tokens);
+                if (is_array($token)) {
+                    $open_tag .= $token[1];
+                } else {
+                    $open_tag .= $token;
+                }
+                if ($open_tag == '<?php ') break;
+            }
+
             for ($i=0, $count = count($tokens); $i < $count; $i++) {
                 if (is_array($tokens[$i])) {
                     if ($tokens[$i][0] == T_VARIABLE && $tokens[$i][1] == '$this') {
@@ -70,7 +82,7 @@ $source
     $_params = array('filename' => $_compile_path,
                      'contents' => $_include_compiled, 'create_dirs' => true);
 
-    require_once(SMARTY_DIR . 'core' . DIRECTORY_SEPARATOR . 'core.write_file.php');
+    require_once(SMARTY_CORE_DIR . 'core.write_file.php');
     smarty_core_write_file($_params, $smarty);
     return true;
 }
