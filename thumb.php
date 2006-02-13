@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
 	include_once(BASE.'subsystems/database.php');
 	$db = pathos_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
 	
-	$file_obj = $db->selectObject('file','id='.$_GET['id']);
+	$file_obj = $db->selectObject('file','id='. intval($_GET['id']));
 	$_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
 }
 
