@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 $contact = null;
 $iloc = null;
 if (isset($_POST['id'])) {
-	$contact = $db->selectObject('addressbook_contact','id='.$_POST['id']);
+	$contact = $db->selectObject('addressbook_contact','id='.intval($_POST['id']));
 	if ($contact) {
 		$loc = unserialize($contact->location_data);
 		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$contact->id);
