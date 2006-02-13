@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $item = null;
 if (isset($_POST['id'])) {
-	$item = $db->selectObject('imagemanageritem','id='.$_POST['id']);
+	$item = $db->selectObject('imagemanageritem','id='.intval($_POST['id']));
 	if ($item) {
 		$loc = unserialize($item->location_data);
 	}
