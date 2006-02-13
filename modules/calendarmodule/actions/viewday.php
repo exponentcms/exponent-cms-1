@@ -22,12 +22,12 @@ if (!defined("PATHOS")) exit("");
 pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $time = (isset($_GET['time']) ? $_GET['time'] : time());
-$info = getdate($time);
+$info = getdate(intval($time));
 $start = mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 
 $template = new template("calendarmodule","_viewday",$loc,false,$loc);
 
-$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
+$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = '" . $start . "'");
 $events = array();
 foreach ($dates as $d) {
 	$o = $db->selectObject("calendar","id=".$d->event_id);

@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $banner = null;
 if (isset($_POST['id'])) {
-	$banner = $db->selectObject('banner_ad','id='.$_POST['id']);
+	$banner = $db->selectObject('banner_ad','id='.intval($_POST['id']));
 	$loc = unserialize($banner->location_data);
 }
 

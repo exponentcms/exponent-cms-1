@@ -29,7 +29,7 @@ $ret = false;
 
 //make sure we this is from a valid event and that the email addresses are listed, then mail
 if (isset($_POST['id'])) {
-	$event = $db->selectObject('calendar','id='.$_POST['id']);
+	$event = $db->selectObject('calendar','id='.intval($_POST['id']));
 	$email_addrs = array();
 	if ($event->feedback_email != '') {
 		$email_addrs = split(',', $event->feedback_email);
