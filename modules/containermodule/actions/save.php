@@ -22,7 +22,7 @@ if (!defined("PATHOS")) exit("");
 $container = null;
 $iloc = null;
 $cloc = null;
-if (isset($_POST['id'])) $container = $db->selectObject("container","id=" . $_POST['id']);
+if (isset($_POST['id'])) $container = $db->selectObject("container","id=" . intval($_POST['id']));
 if ($container != null) {
 	$iloc = unserialize($container->internal);
 	$loc = unserialize($container->external);
