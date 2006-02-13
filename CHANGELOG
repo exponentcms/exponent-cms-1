@@ -1,4 +1,8 @@
-0.96.x
+0.96.5
+- Security update: Typecasted all variables where appropriate
+
+
+0.96.3-4
 
 - Removed Caching entirely (it wasn't being used, but now all the references to it are gone)
 - Added charsets to htmlentities calls (for better i18n support)
