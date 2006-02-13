@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $contact = null;
 if (isset($_POST['id'])) {
-	$contact = $db->selectObject('contact_contact','id='.$_POST['id']);
+	$contact = $db->selectObject('contact_contact','id='.intval($_POST['id']));
 	if ($contact) $loc = unserialize($contact->location_data);
 }
 
