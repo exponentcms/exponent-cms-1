@@ -19,7 +19,7 @@
  
 if (!defined('PATHOS')) exit('');
 
-$item = $db->selectObject('calendar','id='.$_POST['id']);
+$item = $db->selectObject('calendar','id='.intval($_POST['id']));
 if ($item && $item->is_recurring == 1) {
 	$eventdates = $db->selectObjectsIndexedArray('eventdate','event_id='.$item->id);
 	foreach (array_keys($_POST['dates']) as $d) {

@@ -22,7 +22,7 @@ if (!defined("PATHOS")) exit("");
 $item = null;
 $iloc = null;
 if (isset($_POST['id'])) {
-	$item = $db->selectObject("calendar","id=".$_POST['id']);
+	$item = $db->selectObject("calendar","id=".intval($_POST['id']));
 	$loc = unserialize($item->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
 }

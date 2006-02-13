@@ -24,6 +24,7 @@ pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 $template = new template("calendarmodule","_viewweek",$loc,false);
 
 $time = (isset($_GET['time']) ? $_GET['time'] : time());
+$time = intval($time);
 
 if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 $startweek = pathos_datetime_startOfWeekTimestamp($time);
