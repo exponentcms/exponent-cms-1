@@ -16,7 +16,7 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
-
+ 
 class addressbook_contact {
 	function form($object) {
 		$i18n = pathos_lang_loadFile('datatypes/addressbook_contact.php');
