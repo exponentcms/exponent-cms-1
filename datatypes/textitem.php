@@ -19,7 +19,7 @@
 
 class textitem {
 	function form($textitem = null) {
-		$i18n = pathos_lang_loadSet('datatypes/textitem.php');
+		//$i18n = pathos_lang_loadSet('datatypes/textitem.php');
 		
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
