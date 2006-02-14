@@ -1,6 +1,8 @@
 0.96.5
 - Security update: Typecasted all variables where appropriate
-
+- Image module: Fixed a security issue that parsed php within the image code
+- Image module: Directory disclosure fix
+- Captcha: Typecasted variables for the width & height.
 
 0.96.3-4
 
