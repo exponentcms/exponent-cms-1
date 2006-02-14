@@ -45,6 +45,9 @@ define("SEARCH_TYPE_PHRASE",3);
  */
 function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 	$where = "";
+
+
+
 	foreach ($fields as $field) {
 		switch ($type) {
 			case SEARCH_TYPE_ALL:
@@ -59,6 +62,7 @@ function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 		}
 		$where .= "OR ";
 	}
+
 	return substr($where,0,-4);
 }
 	

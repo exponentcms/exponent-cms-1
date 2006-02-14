@@ -19,8 +19,9 @@
 
 if (!defined('PATHOS')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/filemanager/actions/viewcode.php');
+//$i18n = pathos_lang_loadFile('modules/filemanager/actions/viewcode.php');
 
+/*
 $file = $_GET['file'];
 $path = realpath(BASE.$file);
 if (strpos($path,BASE) !== 0) {
@@ -40,5 +41,5 @@ if (strpos($path,BASE) !== 0) {
 	}
 
 }
-
+*/
 ?>

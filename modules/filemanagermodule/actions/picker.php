@@ -21,7 +21,7 @@ include_once('../../../pathos.php');
 
 $collection = null;
 if (isset($_GET['id'])) {
-	$collection = $db->selectObject('file_collection','id='.$_GET['id']);
+	$collection = $db->selectObject('file_collection','id='.intval($_GET['id']));
 }
 if (!$collection) {
 	$collection->id = 0;
@@ -33,6 +33,7 @@ $loc = pathos_core_makeLocation('filemanagermodule');
 pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $template = new template('filemanagermodule','_picker');
+
 $template->assign('collection',$collection);
 
 $collections = $db->selectObjects('file_collection');
