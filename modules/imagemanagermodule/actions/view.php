@@ -30,7 +30,7 @@ if ($item) {
 	$template = new template("imagemanagermodule","_view",$loc);
 	
 	$file = $db->selectObject("file","id=".$item->file_id);
-
+    
     if ($file->is_image == 1 && 
         $file->image_width > 0 && 
         $file->image_height > 0) {
