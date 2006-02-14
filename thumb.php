@@ -30,11 +30,12 @@ if (isset($_GET['id'])) {
 	$db = pathos_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
 	
 	$file_obj = $db->selectObject('file','id='. intval($_GET['id']));
-	$_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
+
+    $_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
 }
 
-$file = BASE.$_GET['file'];
 
+$file = BASE.$_GET['file'];
 $thumb = null;
 
 if (isset($_GET['constraint'])) {
@@ -47,7 +48,14 @@ if (isset($_GET['constraint'])) {
 	$thumb = pathos_image_scaleByPercent($file,$_GET['scale'] / 100);
 }
 
-if (is_resource($thumb)) pathos_image_output($thumb,pathos_image_sizeinfo($file));
-else pathos_image_showFallbackPreviewImage(BASE,$thumb);
+$mythumb = getimagesize($file);
 
+if ($mythumb[0] > 0 && $mythumb[1] > 0)
+{
+    if (is_resource($thumb)) {
+        pathos_image_output($thumb,pathos_image_sizeinfo($file));
+    } else {
+        pathos_image_showFallbackPreviewImage(BASE,$thumb);
+    }
+}
 ?>
