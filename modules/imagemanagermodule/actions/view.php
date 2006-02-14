@@ -30,11 +30,17 @@ if ($item) {
 	$template = new template("imagemanagermodule","_view",$loc);
 	
 	$file = $db->selectObject("file","id=".$item->file_id);
-	
-	$template->assign("item",$item);
-	$template->assign("file",$file);
-	
-	$template->output();
+
+    if ($file->is_image == 1 && 
+        $file->image_width > 0 && 
+        $file->image_height > 0) {
+            
+        	$template->assign("item",$item);
+	        $template->assign("file",$file);
+	        $template->output();
+    } else {
+       echo SITE_404_HTML; 
+    }
 } else {
 	echo SITE_404_HTML;
 }
