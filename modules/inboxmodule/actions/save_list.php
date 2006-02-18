@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $list = null;
 if (isset($_POST['id'])) {
-	$list = $db->selectObject('inbox_contactlist','id='.$_POST['id']);
+	$list = $db->selectObject('inbox_contactlist','id='.intval($_POST['id']));
 }
 
 if ($user && ($list == null || $list->owner == $user->id)) {

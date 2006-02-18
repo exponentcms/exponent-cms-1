@@ -18,6 +18,7 @@
 ##################################################
 
 // Part of the Administration Control Panel : Workflow category
+$_GET['id'] = intval($_GET['id']);
 
 if (!defined('PATHOS')) exit('');
 

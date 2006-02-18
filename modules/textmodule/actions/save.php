@@ -20,7 +20,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (isset($_POST['id'])) {
-	$textitem = $db->selectObject('textitem','id='.$_POST['id']);
+	$textitem = $db->selectObject('textitem','id='.intval($_POST['id']));
 	if ($textitem) {
 		$loc = unserialize($textitem->location_data);
 	}

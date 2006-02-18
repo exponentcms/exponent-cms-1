@@ -26,7 +26,7 @@ pathos_forms_initialize();
 
 $f = null;
 if (isset($_POST['id'])) {
-	$f = $db->selectObject('formbuilder_form','id='.$_POST['id']);
+	$f = $db->selectObject('formbuilder_form','id='.intval($_POST['id']));
 }
 
 if (pathos_permissions_check('editform',unserialize($f->location_data))) {

@@ -21,9 +21,9 @@
 
 if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (isset($_GET['id']) && pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-	pathos_users_clearPassword($_GET['id']);
+	pathos_users_clearPassword(intval($_GET['id']));
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

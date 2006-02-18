@@ -31,7 +31,7 @@ if (!pathos_permissions_check('view_private',$loc)) $where = ' AND is_private = 
 
 $this_post = null;
 if (isset($_GET['id'])) {
-	$this_post = $db->selectObject('weblog_post','id='.$_GET['id'].$where);
+	$this_post = $db->selectObject('weblog_post','id='.intval($_GET['id']).$where);
 } else if (isset($_GET['internal_name'])) {
 	$this_post = $db->selectObject('weblog_post',"internal_name='".$_GET['internal_name']."'".$where);
 }

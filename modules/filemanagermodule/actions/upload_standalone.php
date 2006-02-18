@@ -21,7 +21,7 @@ include_once('../../../pathos.php');
 
 $collection = null;
 if (isset($_POST['collection_id'])) {
-	$collection = $db->selectObject('file_collection','id='.$_POST['collection_id']);
+	$collection = $db->selectObject('file_collection','id='.intval($_POST['collection_id']));
 } else {
 	$collection->id = 0;
 	$collection->name = 'Uncategorized Files';

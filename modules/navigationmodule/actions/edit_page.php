@@ -28,8 +28,8 @@ if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
 $id = -1;
 if (isset($_GET['sitetemplate_id'])) {
-	pathos_sessions_set('sitetemplate_id',$_GET['sitetemplate_id']);
-	$id = $_GET['sitetemplate_id'];
+	pathos_sessions_set('sitetemplate_id',intval($_GET['sitetemplate_id']));
+	$id = intval($_GET['sitetemplate_id']);
 } else if (pathos_sessions_isset('sitetemplate_id')) {
 	$id = pathos_sessions_get('sitetemplate_id');
 }

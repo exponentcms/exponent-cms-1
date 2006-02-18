@@ -21,6 +21,8 @@
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
 
+$_GET['parent'] = intval($_GET['parent']);
+
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
 if ($user && $user->is_acting_admin == 1) {

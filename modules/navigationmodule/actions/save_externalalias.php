@@ -26,7 +26,7 @@ $section = null;
 $old_parent = null;
 if (isset($_POST['id'])) {
 	// Saving an existing content page.  Read it from the database.
-	$section = $db->selectObject('section','id='.$_POST['id']);
+	$section = $db->selectObject('section','id='.intval($_POST['id']));
 	if ($section) {
 		$old_parent = $section->parent;
 		$check_id = $section->id;

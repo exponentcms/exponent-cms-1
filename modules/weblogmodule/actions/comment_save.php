@@ -22,9 +22,9 @@ if (!defined('PATHOS')) exit('');
 $post = null;
 $comment = null;
 if (isset($_POST['parent_id'])) {
-	$post = $db->selectObject('weblog_post','id='.$_POST['parent_id']);
+	$post = $db->selectObject('weblog_post','id='.intval($_POST['parent_id']));
 } else if (isset($_POST['id'])) {
-	$comment = $db->selectObject('weblog_comment','id='.$_POST['id']);
+	$comment = $db->selectObject('weblog_comment','id='.intval($_POST['id']));
 	$post = $db->selectObject('weblog_post','id='.$comment->parent_id);
 }
 if ($post && $post->is_draft == 0) {
@@ -38,7 +38,7 @@ if ($post && $post->is_draft == 0) {
 	) {
 		$comment = null;
 		if (isset($_POST['id'])) {
-			$comment = $db->selectObject('weblog_comment','id='.$_POST['id']);
+			$comment = $db->selectObject('weblog_comment','id='.intval($_POST['id']));
 		}
 		
 		$comment = weblog_comment::update($_POST,$comment);
@@ -50,7 +50,7 @@ if ($post && $post->is_draft == 0) {
 		} else {
 			$comment->posted = time();
 			$comment->poster = $user->id;
-			$comment->parent_id = $_POST['parent_id'];
+			$comment->parent_id = intval($_POST['parent_id']);
 			$db->insertObject($comment,'weblog_comment');
 		}
 		

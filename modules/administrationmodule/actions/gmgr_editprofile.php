@@ -26,7 +26,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	pathos_forms_initialize();
 
-	$g = pathos_users_getGroupById($_GET['id']);
+	$g = pathos_users_getGroupById(intval($_GET['id']));
 	$form = pathos_users_groupForm($g);
 	$form->meta('module','administrationmodule');
 	$form->meta('action','gmgr_savegroup');

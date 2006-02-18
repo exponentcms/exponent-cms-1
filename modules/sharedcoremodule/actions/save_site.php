@@ -23,7 +23,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	$i18n = pathos_lang_loadFile('modules/sharecoremodule/actions/save_site.php');
 
 	$site = null;
-	if (isset($_POST['id'])) $site = $db->selectObject("sharedcore_site","id=".$_POST['id']);
+	if (isset($_POST['id'])) $site = $db->selectObject("sharedcore_site","id=".intval($_POST['id']));
 	$site = sharedcore_site::update($_POST,$site);
 	
 	if ($site == null) {

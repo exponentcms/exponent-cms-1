@@ -23,7 +23,7 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 	$oldpolicy = null;
-	if (isset($_POST['id'])) $oldpolicy = $db->selectObject('approvalpolicy','id='.$_POST['id']);
+	if (isset($_POST['id'])) $oldpolicy = $db->selectObject('approvalpolicy','id='.intval($_POST['id']));
 	
 	$policy = approvalpolicy::update($_POST,$oldpolicy);
 	
@@ -61,7 +61,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			$template->output();
 		} else {
 			// no outstanding references.
-			$db->updateObject($policy,'approvalpolicy','id='.$_POST['id']);
+			$db->updateObject($policy,'approvalpolicy','id='.intval($_POST['id']));
 			pathos_flow_redirect();
 		}
 	} else {

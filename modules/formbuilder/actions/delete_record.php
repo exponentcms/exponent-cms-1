@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 $f = $db->selectObject('formbuilder_form','id='.intval($_GET['form_id']));
 if ($f) {
 	if (pathos_permissions_check('deletedata',unserialize($f->location_data))) {
-		$db->delete('formbuilder_'.$f->table_name,'id='.$_GET['id']);
+		$db->delete('formbuilder_'.$f->table_name,'id='.intval($_GET['id']));
 		pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;

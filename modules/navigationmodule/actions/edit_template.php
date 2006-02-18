@@ -25,7 +25,7 @@ if ($user && $user->is_acting_admin == 1) {
 		$page = $db->selectObject('section_template','id='.intval($_GET['id']));
 	}
 	if ($page == null) {
-		$page->parent = (isset($_GET['parent']) ? $_GET['parent'] : 0);
+		$page->parent = (isset($_GET['parent']) ? intval($_GET['parent']) : 0);
 	}
 	
 	$form = section_template::form($page);

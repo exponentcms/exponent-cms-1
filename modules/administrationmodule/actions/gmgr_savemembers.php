@@ -27,7 +27,7 @@ $_GET['id'] = intval($_GET['id']);
 $memb = $db->selectObject('groupmembership','member_id='.$user->id.' AND group_id='.$_GET['id'].' AND is_admin=1');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule')) || $memb) {
-	$group = $db->selectObject('group','id='.$_POST['id']);
+	$group = $db->selectObject('group','id='.intval($_POST['id']));
 	if ($group) {
 		$db->delete('groupmembership','group_id='.$group->id);
 		$memb = null;

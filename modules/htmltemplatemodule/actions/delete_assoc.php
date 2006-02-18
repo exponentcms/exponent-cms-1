@@ -20,7 +20,7 @@
 if (!defined("PATHOS")) exit("");
 
 // PERM CHECK
-	$db->delete("htmltemplateassociation","template_id=".$_GET['tid']." AND global = 0 AND module='".$_GET['mod']."'");
+	$db->delete("htmltemplateassociation","template_id=".intval($_GET['tid'])." AND global = 0 AND module='".$_GET['mod']."'");
 	pathos_flow_redirect();
 // END PERM CHECK
 

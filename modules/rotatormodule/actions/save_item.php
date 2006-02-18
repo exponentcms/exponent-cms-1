@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $item = null;
 if (isset($_POST['id'])) {
-	$item = $db->selectObject('rotator_item','id='.$_POST['id']);
+	$item = $db->selectObject('rotator_item','id='.intval($_POST['id']));
 }
 
 if ($item) {

@@ -23,13 +23,13 @@ $i18n = pathos_lang_loadFile('modules/formbuilder/actions/save_control.php');
 
 if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 pathos_forms_initialize();
-$f = $db->selectObject('formbuilder_form','id='.$_POST['form_id']);
+$f = $db->selectObject('formbuilder_form','id='.intval($_POST['form_id']));
 if ($f) {
 	if (pathos_permissions_check('editform',unserialize($f->location_data))) {	
 		$ctl = null;
 		$control = null;
 		if (isset($_POST['id'])) {
-			$control = $db->selectObject('formbuilder_control','id='.$_POST['id']);
+			$control = $db->selectObject('formbuilder_control','id='.intval($_POST['id']));
 			if ($control) {
 				$ctl = unserialize($control->data);
 				$ctl->identifier = $control->name;
@@ -40,7 +40,7 @@ if ($f) {
 		$ctl = call_user_func(array($_POST['control_type'],'update'),$_POST,$ctl);
 		if ($ctl != null) {
 			$name = preg_replace('/[^A-Za-z0-9]/','_',$ctl->identifier);
-			if (!isset($_POST['id']) && $db->countObjects('formbuilder_control',"name='".$name."' and form_id=".$_POST['form_id']) > 0) {
+			if (!isset($_POST['id']) && $db->countObjects('formbuilder_control',"name='".$name."' and form_id=".intval($_POST['form_id'])) > 0) {
 				$post = $_POST;
 				$post['_formError'] = $i18n['bad_id'];
 				pathos_sessions_set('last_POST',$post);
@@ -54,7 +54,7 @@ if ($f) {
 					$control->name =  $name;
 				}
 				$control->caption = $ctl->caption;
-				$control->form_id = $_POST['form_id'];
+				$control->form_id = intval($_POST['form_id']);
 				$control->is_static = (isset($ctl->is_static)?$ctl->is_static:0);
 				$control->data = serialize($ctl);
 				

@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_acting_admin == 1) {
 	$sect = null;
-	$sect->parent = $_GET['parent'];
+	$sect->parent = intval($_GET['parent']);
 	$form = section::moveStandaloneForm($sect);
 	$form->meta('action','reparent_standalone');
 	$form->meta('module','navigationmodule');

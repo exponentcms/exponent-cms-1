@@ -24,7 +24,7 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 
 	$core = null;
 	if (isset($_POST['id'])) {
-		$core = $db->selectObject('sharedcore_core','id='.$_POST['id']);
+		$core = $db->selectObject('sharedcore_core','id='.intval($_POST['id']));
 	}
 	
 	$core = sharedcore_core::update($_POST,$core);

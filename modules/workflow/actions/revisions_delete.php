@@ -25,11 +25,11 @@ if (pathos_permissions_check("manage_approval",$rloc)) {
 		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 		
 		foreach (array_keys($_POST['d']) as $id) {
-			$rev = $db->selectObject($_POST['datatype']."_wf_revision","id=$id");
+			$rev = $db->selectObject($_POST['datatype']."_wf_revision","id=" . intval($id));
 			if ($rev->wf_minor == 0) {
 				$db->delete($_POST['datatype']."_wf_revision","wf_original=".$rev->wf_original." AND wf_major=".($rev->wf_major-1) . " AND wf_minor != 0");
 			}
-			$db->delete($_POST['datatype']."_wf_revision","id=".$rev->id);
+			$db->delete($_POST['datatype']."_wf_revision","id=". intval($rev->id));
 		}
 		pathos_flow_redirect();
 	}

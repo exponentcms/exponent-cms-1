@@ -24,7 +24,7 @@ $news = null;
 $iloc = null;
 
 if (isset($_POST['id'])) {
-	$news = $db->selectObject("newsitem","id=" . $_POST['id']);
+	$news = $db->selectObject("newsitem","id=" . intval($_POST['id']));
 	if ($news != null) {
 		$loc = unserialize($news->location_data);
 		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$news->id);

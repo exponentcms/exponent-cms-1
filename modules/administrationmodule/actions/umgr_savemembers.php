@@ -22,7 +22,7 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	$u = $db->selectObject('user','id='.$_POST['id']);
+	$u = $db->selectObject('user','id='.intval($_POST['id']));
 	if ($u) {
 		$db->delete('groupmembership','member_id='.$u->id);
 		$memb = null;

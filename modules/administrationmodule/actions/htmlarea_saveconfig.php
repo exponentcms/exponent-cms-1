@@ -23,7 +23,7 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
 	$config = null;
-	if (isset($_POST['id'])) $config = $db->selectObject('htmlareatoolbar','id='.$_POST['id']);
+	if (isset($_POST['id'])) $config = $db->selectObject('htmlareatoolbar','id='.intval($_POST['id']));
 	$config->name = $_POST['config_name'];
 	$config->data = array();
 	foreach (explode(':',$_POST['config']) as $line) {

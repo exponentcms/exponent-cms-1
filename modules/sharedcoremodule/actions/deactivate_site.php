@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
 	$site = null;
 	if (isset($_POST['site_id'])) {
-		$site = $db->selectObject('sharedcore_site','id='.$_POST['site_id']);
+		$site = $db->selectObject('sharedcore_site','id='.intval($_POST['site_id']));
 	}
 	
 	if ($site) {

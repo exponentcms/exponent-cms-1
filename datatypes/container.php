@@ -42,7 +42,7 @@ class container {
 			
 			// REFERENCES - Section and Location
 			//$sect = $db->selectObject('section','id='.$_POST['current_section']);
-			pathos_core_incrementLocationReference($newInternal,$_POST['current_section']);
+			pathos_core_incrementLocationReference($newInternal,intval($_POST['current_section']));
 			
 			// Rank is only updateable from the order action
 			$object->rank = $values['rank'];

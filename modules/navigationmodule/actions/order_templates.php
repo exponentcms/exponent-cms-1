@@ -20,7 +20,7 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_acting_admin == 1) {
-	$db->switchValues('section_template','rank',$_GET['a'],$_GET['b'],'parent='.$_GET['parent']);
+	$db->switchValues('section_template','rank',intval($_GET['a']),intval($_GET['b']),'parent='.intval($_GET['parent']));
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

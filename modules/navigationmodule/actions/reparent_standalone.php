@@ -20,10 +20,10 @@
 if (!defined('PATHOS')) exit('');
 
 if ($user && $user->is_acting_admin == 1) {
-	$standalone = $db->selectObject('section','parent=-1 AND id='.$_POST['page']);
+	$standalone = $db->selectObject('section','parent=-1 AND id='.intval($_POST['page']));
 	if ($standalone) {
-		$standalone->parent = $_POST['parent'];
-		$standalone->rank = $_POST['rank'];
+		$standalone->parent = intval($_POST['parent']);
+		$standalone->rank = intval($_POST['rank']);
 		$db->increment('section','rank',1,'parent='.$standalone->parent.' AND rank >= '.$standalone->rank);
 		$db->updateObject($standalone,'section');
 		pathos_flow_redirect();

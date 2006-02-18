@@ -41,11 +41,11 @@ $thumb = null;
 if (isset($_GET['constraint'])) {
 	$thumb = pathos_image_scaleToConstraint($file,$_GET['width'],$_GET['height']);
 } else if (isset($_GET['width'])) {
-	$thumb = pathos_image_scaleToWidth($file,$_GET['width']);
+	$thumb = pathos_image_scaleToWidth($file,intval($_GET['width']));
 } else if (isset($_GET['height'])) {
-	$thumb = pathos_image_scaleToHeight($file,$_GET['height']);
+	$thumb = pathos_image_scaleToHeight($file,intval($_GET['height']));
 } else if (isset($_GET['scale'])) {
-	$thumb = pathos_image_scaleByPercent($file,$_GET['scale'] / 100);
+	$thumb = pathos_image_scaleByPercent($file,intval($_GET['scale']) / 100);
 }
 
 $mythumb = getimagesize($file);

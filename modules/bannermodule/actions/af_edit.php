@@ -18,7 +18,8 @@
 ##################################################
 
 if (!defined('PATHOS')) exit('');
-
+$_GET['id'] = intval($_GET['id']);
+	
 $af = null;
 if (isset($_GET['id'])) {
 	$af = $db->selectObject('banner_affiliate','id='.intval($_GET['id']));

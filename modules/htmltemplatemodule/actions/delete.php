@@ -19,8 +19,8 @@
 
 if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check('delete',$loc)) {
-	$db->delete('htmltemplate','id='.$_GET['id']);
+if (isset($_GET['id']) && pathos_permissions_check('delete',$loc)) {
+	$db->delete('htmltemplate','id='.intval($_GET['id']));
 	pathos_flow_redirect(SYS_FLOW_SECTIONAL);
 } else {
 	echo SITE_403_HTML;

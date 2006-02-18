@@ -35,7 +35,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			if ($_POST['policy'] != 0) {
 				$assoc->module = $_POST['m'];
 				$assoc->source = $_POST['s'];
-				$assoc->policy_id = $_POST['policy'];
+				$assoc->policy_id = intval($_POST['policy']);
 				$assoc->is_global = 0;
 				$db->insertObject($assoc,'approvalpolicyassociation');
 			}

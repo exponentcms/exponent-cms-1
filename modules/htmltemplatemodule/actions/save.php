@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 $t = null;
 $loc = pathos_core_makeLocation('htmltemplatemodule');
 if (isset($_POST['id'])) {
-	$t = $db->selectObject('htmltemplate','id='.$_POST['id']);
+	$t = $db->selectObject('htmltemplate','id='.intval($_POST['id']));
 }
 
 if ((!$t && pathos_permissions_check('create',$loc)) ||

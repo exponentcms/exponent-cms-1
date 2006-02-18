@@ -20,7 +20,7 @@
 if (!defined("PATHOS")) exit("");
 
 if (pathos_permissions_check('edit',$loc)) {
-	$db->switchValues('resourceitem','rank',$_GET['a'],$_GET['b'],"location_data='" . serialize($loc) . "'");
+	$db->switchValues('resourceitem','rank',intval($_GET['a']),intval($_GET['b']),"location_data='" . serialize($loc) . "'");
 	pathos_flow_redirect();
 }
 

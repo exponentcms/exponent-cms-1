@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $collection = null;
 if (isset($_POST['collection_id'])) {
-	$collection = $db->selectObject('file_collection','id='.$_POST['collection_id']);
+	$collection = $db->selectObject('file_collection','id='.intval($_POST['collection_id']));
 }
 $loc = pathos_core_makeLocation('filemanagermodule');
 

@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('create',$loc)) {
 	$t = null;
-	if (isset($_POST['id'])) $t = $db->selectObject('htmltemplate','id='.$_POST['id']);
+	if (isset($_POST['id'])) $t = $db->selectObject('htmltemplate','id='.intval($_POST['id']));
 	
 	$t = htmltemplate::update($_POST,$t);
 

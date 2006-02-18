@@ -21,8 +21,8 @@
 
 if (!defined('PATHOS')) exit('');
 
-if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
-	$db->delete('htmlareatoolbar','id='.$_GET['id']);
+if (isset($_GET['id']) && pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+	$db->delete('htmlareatoolbar','id='.intval($_GET['id']));
 	pathos_flow_redirect();
 } else {
 	echo SITE_403_HTML;

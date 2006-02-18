@@ -29,11 +29,11 @@ class weblog_comment {
 			global $db;
 			// Sanitize the parent_id parameter, to protect against injection attacks.
 			$_GET['parent_id'] = intval($_GET['parent_id']);
-			$post = $db->selectObject('weblog_post','id='.$_GET['parent_id']);
+			$post = $db->selectObject('weblog_post','id='. intval($_GET['parent_id']));
 			
 			$object->title = sprintf($i18n['re'],$post->title);
 			$object->body = '';
-			$form->meta('parent_id',$_GET['parent_id']);
+			$form->meta('parent_id',intval($_GET['parent_id']));
 		} else {
 			$form->meta('id',$object->id);
 		}

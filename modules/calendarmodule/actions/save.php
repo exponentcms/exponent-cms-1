@@ -76,7 +76,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 					}
 				}
 			}			
-			$eventdate = $db->selectObject('eventdate','id='.$_POST['date_id']);
+			$eventdate = $db->selectObject('eventdate','id='.intval($_POST['date_id']));
 			$eventdate->date = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		} else {

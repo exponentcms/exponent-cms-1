@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
 	$action = null;
 	if (isset($_POST['id'])) {
-		$action = $db->selectObject("workflowaction","id=".$_POST['id']);
+		$action = $db->selectObject("workflowaction","id=".intval($_POST['id']));
 		$action->method = $_POST['method'];
 		$action->parameters = $_POST['parameters'];
 		$db->updateObject($action,'workflowaction');
@@ -32,10 +32,10 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		
 		$action->policy_id = $_POST['policy_id'];
 		$action->type = $_POST['type'];
-		if ($db->countObjects('workflowaction','policy_id='.$_POST['policy_id'].' AND type='.$_POST['type']) == 0) {
+		if ($db->countObjects('workflowaction','policy_id='.intval($_POST['policy_id']).' AND type='.$_POST['type']) == 0) {
 			$action->rank = 0;
 		} else {
-			$action->rank = $db->max('workflowaction','rank','policy_id,type','policy_id='.$_POST['policy_id'].' AND type='.$_POST['type'])+1;
+			$action->rank = $db->max('workflowaction','rank','policy_id,type','policy_id='.intval($_POST['policy_id']).' AND type='.$_POST['type'])+1;
 		}
 		$db->insertObject($action,'workflowaction');
 	}

@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 $resource = null;
 $iloc = null;
 if (isset($_POST['id'])) {
-	$resource = $db->selectObject('resourceitem','id='.$_POST['id']);
+	$resource = $db->selectObject('resourceitem','id='.intval($_POST['id']));
 	if ($resource) {
 		$loc = unserialize($resource->location_data);
 		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
@@ -37,7 +37,7 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 	$resource->location_data = serialize($loc);
 	
 	if (!isset($resource->id)) {
-		$resource->rank = $_POST['rank'];
+		$resource->rank = intval($_POST['rank']);
 		$db->increment('resourceitem','rank',1,"location_data='".serialize($loc)."' AND rank >= ".$resource->rank);
 	}
 	

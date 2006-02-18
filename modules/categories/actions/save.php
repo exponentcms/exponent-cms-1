@@ -20,7 +20,7 @@
 if (!defined("PATHOS")) exit("");
 
 $cat = null;
-if (isset($_POST['id'])) $cat = $db->selectObject("category","id=".$_POST['id']);
+if (isset($_POST['id'])) $cat = $db->selectObject("category","id=".intval($_POST['id']));
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 } else {

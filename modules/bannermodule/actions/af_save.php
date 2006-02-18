@@ -22,7 +22,7 @@ if (!defined('PATHOS')) exit('');
 if (pathos_permissions_check('manage_af',$loc)) {
 	$af = null;
 	if (isset($_POST['id'])) {
-		$af = $db->selectObject('banner_affiliate','id='.$_POST['id']);
+		$af = $db->selectObject('banner_affiliate','id='.intval($_POST['id']));
 	}
 	
 	$af = banner_affiliate::update($_POST,$af);

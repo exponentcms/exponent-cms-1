@@ -19,7 +19,7 @@
 
 if (!defined('PATHOS')) exit('');
 
-$resource = $db->selectObject('resourceitem','id='.$_POST['id']);
+$resource = $db->selectObject('resourceitem','id='.intval($_POST['id']));
 if ($resource) {
 	$loc = unserialize($resource->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);

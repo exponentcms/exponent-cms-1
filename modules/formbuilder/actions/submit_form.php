@@ -22,8 +22,8 @@ if (!defined("SYS_USER")) require_once(BASE."subsystems/users.php");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 pathos_forms_initialize();
 global $user;
-$f = $db->selectObject("formbuilder_form","id=".$_POST['id']);
-$rpt = $db->selectObject("formbuilder_report","form_id=".$_POST['id']);
+$f = $db->selectObject("formbuilder_form","id=".intval($_POST['id']));
+$rpt = $db->selectObject("formbuilder_report","form_id=".intval($_POST['id']));
 $controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly=0");
 if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 usort($controls,"pathos_sorting_byRankAscending");
@@ -47,11 +47,11 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions
 	if ($f->is_saved == 1) {	
 		if (isset($_POST['data_id'])) {
 			//if this is an edit we remove the record and insert a new one.
-			$olddata = $db->selectObject('formbuilder_'.$f->table_name,'id='.$_POST['data_id']);
+			$olddata = $db->selectObject('formbuilder_'.$f->table_name,'id='.intval($_POST['data_id']));
 			$db_data->ip = $olddata->ip;
 			$db_data->user_id = $olddata->user_id;
 			$db_data->timestamp = $olddata->timestamp;
-			$db->delete('formbuilder_'.$f->table_name,'id='.$_POST['data_id']);
+			$db->delete('formbuilder_'.$f->table_name,'id='.intval($_POST['data_id']));
 		} 
 		else {
 			$db_data->ip = $_SERVER['REMOTE_ADDR'];

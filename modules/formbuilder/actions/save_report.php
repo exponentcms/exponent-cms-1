@@ -21,7 +21,7 @@ if (!defined('PATHOS')) exit('');
 
 $rpt = null;
 if (isset($_POST['id'])) {
-	$rpt = $db->selectObject('formbuilder_report','id='.$_POST['id']);
+	$rpt = $db->selectObject('formbuilder_report','id='.intval($_POST['id']));
 }
 
 if ($rpt) {

@@ -18,7 +18,8 @@
 ##################################################
 
 if (!defined('PATHOS')) exit('');
-
+$_GET['id'] = intval($_GET['id']);
+	
 $collection = null;
 if (isset($_GET['id'])) {
 	$collection = $db->selectObject('file_collection','id='.$_GET['id']);

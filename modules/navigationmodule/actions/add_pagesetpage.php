@@ -33,7 +33,7 @@ if ($user && $user->is_acting_admin == 1) {
 	} else if (isset($_GET['parent'])) {
 		// The isset check is merely a precaution.  This action should
 		// ALWAYS be invoked with a parent or id value in the GET.
-		$section->parent = $_GET['parent'];
+		$section->parent = intval($_GET['parent']);
 	}
 }
 
