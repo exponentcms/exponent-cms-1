@@ -43,4 +43,23 @@ function pathos_security_checkPasswordStrength($username,$password) {
 	return ""; // by default, accept any passwords
 }
 
+function pathos_security_checkUsername($username) {
+	
+	$i18n = pathos_lang_loadFile('subsystems/security.php');
+// Return blank string on success, error message on failure.
+// The error message should let the user know why their username is wrong.
+	if (strlen($username) < 4) {
+		return $i18n['username_length'];
+	}
+	echo "<xmp>";
+	print_r(preg_match("/^[a-zA-Z0-9]/",$username));
+	echo "</xmp>";
+	//exit;
+	
+	if (!preg_match("/[a-zA-Z0-9]/",$username)){
+		return $i18n['username_illegal'];
+	}
+	return ""; // by default, accept any passwords
+}
+
 ?>

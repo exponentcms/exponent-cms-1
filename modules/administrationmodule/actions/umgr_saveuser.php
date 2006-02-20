@@ -48,8 +48,17 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 			pathos_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
+			$username_error = pathos_security_checkUsername($_POST['username']);
 			$strength_error = pathos_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
-			if ($strength_error != '') {
+			
+			if ($username_error != ''){
+				$post = $_POST;
+				unset($post['pass1']);
+				unset($post['pass2']);
+				$post['_formError'] = sprintf($i18n['username_failed'],$username_error);
+				pathos_sessions_set('last_POST',$post);
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+			}else if ($strength_error != '') {
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
