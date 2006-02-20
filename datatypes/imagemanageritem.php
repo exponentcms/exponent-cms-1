@@ -47,7 +47,7 @@ class imagemanageritem {
 	function update($values,$object) {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
-		$object->scale = $values['scale'];
+		$object->scale = intval($values['scale']);
 		return $object;
 	}
 }
