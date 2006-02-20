@@ -90,8 +90,8 @@ function onPreview() {
 };
 
 function onBrowse() {
- window.open("<?php echo PATH_RELATIVE;?>modules/filemanagermodule/actions/picker.php?id=0");
- return;
+ //window.open("<?php echo PATH_RELATIVE;?>modules/filemanagermodule/actions/picker.php?id=0");
+ //return;  //future integration with FCKEditor
   window.open("../../../source_selector.php?showmodules=imagemanagermodule&dest=&vmod=imagemanagermodule&vview=_sourcePicker&hideOthers=1","palette","toolbar=no,title=no,width=640,height=480,scrollbars=yes");
 }
 </script>
