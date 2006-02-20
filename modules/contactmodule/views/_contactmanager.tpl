@@ -46,4 +46,4 @@
 	</tr>
 {/foreach}
 </table>
-<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact}">{$_TR.new_contacts}</a>
+<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact}">{$_TR.new_contact}</a>

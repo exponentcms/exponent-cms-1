@@ -53,7 +53,7 @@ class newsitem {
 		pathos_forms_initialize();
 		
 		$object->title = $values['title'];
-		$object->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$values['internal_name']));
+		$object->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$values['int']));
 		$object->body = $values['body'];
 		$object->publish = popupdatetimecontrol::parseData('publish',$values);
 		$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);

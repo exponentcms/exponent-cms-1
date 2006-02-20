@@ -15,7 +15,8 @@
  *}
 <script type="text/javascript">
 {literal}
-if (confirm("{$_TR.confirm}")) {
+var message = "{/literal}{$_TR.confirm}";{literal} 
+if (confirm(message)) {
 	document.location = {/literal}"{link m=$iloc->mod s=$iloc->src i=$iloc->int action=delete_content}";{literal}
 } else {
 	document.location = {/literal}"{$redirect}";{literal}

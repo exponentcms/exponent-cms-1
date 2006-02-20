@@ -6,8 +6,7 @@ return array(
 	'activate'=>'Activate',
 	'active_not_writable'=>'Unable to write active configuration',
 	'profile_not_writable'=>'Unable to write profile configuration',
-	'hidden'=>'hidden',
-	
+	'hidden'=>'hidden',	
 	'save'=>'Save',
 	'cancel'=>'Cancel',
 );

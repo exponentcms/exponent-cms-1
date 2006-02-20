@@ -32,7 +32,7 @@ class rotatormodule {
 		$i18n = pathos_lang_loadFile('modules/rotatormodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
-			'manage'=>$i18n['perm_manager'],
+			'manage'=>$i18n['perm_manage'],
 		);
 	}
 	

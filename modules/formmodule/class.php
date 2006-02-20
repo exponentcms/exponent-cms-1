@@ -35,7 +35,7 @@ class formmodule {
 				"administrate"=>$i18n['perm_administrate'],
 				"editform"=>$i18n['perm_editform'],
 				"editformsettings"=>$i18n['perm_editformsettings'],
-				"editreport"=>$i18n['perm_edit_formreport'],
+				"editreport"=>$i18n['perm_editformreport'],
 				"viewdata"=>$i18n['perm_viewdata'],
 				"editdata"=>$i18n['perm_editdata'],
 				"deletedata"=>$i18n['perm_deletedata']

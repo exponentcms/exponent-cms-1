@@ -19,7 +19,7 @@
 
 class file {
 	function update($name,$dest,$object,$destname = null) {
-		$i18n = pathos_lang_loadFile('datatypes/files.php');
+		$i18n = pathos_lang_loadFile('datatypes/file.php');
 		
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		

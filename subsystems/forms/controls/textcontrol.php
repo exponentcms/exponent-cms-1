@@ -99,7 +99,7 @@ class textcontrol extends formcontrol {
 		} 
 		$i18n = pathos_lang_loadFile('subsystems/forms/controls/textcontrol.php');
 		
-		$form->register("identifier",$i18n['id'],new textcontrol($object->identifier));
+		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
 		$form->register("default",$i18n['default'], new textcontrol($object->default));
 		$form->register("size",$i18n['size'], new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));

@@ -4,7 +4,7 @@ return array(
 	'module_name'=>'Resource Manager',
 	'module_description'=>'Manages uploaded files.',
 	
-	'perm_admin'=>'Administrate',
+	'perm_administrate'=>'Administrate',
 	'perm_post'=>'Upload Resources',
 	'perm_edit'=>'Edit Resources',
 	'perm_editone'=>'Edit Resource',

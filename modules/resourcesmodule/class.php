@@ -29,6 +29,7 @@ class resourcesmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
+		$i18n = pathos_lang_loadFile('modules/resourcesmodule/class.php');
 		if ($internal == '') {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],

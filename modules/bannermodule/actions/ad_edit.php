@@ -43,7 +43,7 @@ if (pathos_permissions_check('manage',$loc)) {
 	
 	$template = new template('bannermodule','_form_ad_edit');
 	$template->assign('form_html',$form->toHTML());
-	$template->assign('is_edit',(isset(intval($_GET['id'])) ? 1 : 0));
+	$template->assign('is_edit',(isset($_GET['id']) ? 1 : 0));
 	$template->output();
 } else {
 	echo SITE_403_HTML;

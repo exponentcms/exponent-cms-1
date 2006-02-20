@@ -7,6 +7,9 @@ return array(
 	'save'=>'Save',
 	'cancel'=>'Cancel',
 	
+	'default'=>'Default',
+	'caption_right'=>'Caption on Right',
+	
 	'id_req'=>'Identifier is required.',
 );
 

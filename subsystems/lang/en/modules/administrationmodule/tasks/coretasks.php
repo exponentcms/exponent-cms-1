@@ -29,7 +29,7 @@ return array(
 		
 	'configuration'=>'Configuration',
 
-	'configure_site'=>'Site Configuration',
+	'configure_site'=>'Configure Site',
 	'file_types'=>'File Types',
 	'workflow_policies'=>'Workflow Policies',
 	'system_info'=>'System Info',

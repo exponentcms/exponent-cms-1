@@ -46,7 +46,7 @@ class swfitem {
 		$form->register('height',$i18n['height'],new textcontrol($object->height,5,false,5,'integer'));
 		$form->register('width',$i18n['width'],new textcontrol($object->width,5,false,5,'integer'));
 		$align = array($i18n['center'],$i18n['left'],$i18n['right']);
-		$form->register('alignment', $i18n[''], new dropdowncontrol($object->alignment,$align));
+		$form->register('alignment', $i18n['alignment'], new dropdowncontrol($object->alignment,$align));
 		$form->register('loop',$i18n['loop'],new checkboxcontrol($object->loop,true));
 		
 		$form->register('swf_name',$i18n['swf_name'], new uploadcontrol());

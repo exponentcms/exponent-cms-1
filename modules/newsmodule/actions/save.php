@@ -42,13 +42,16 @@ if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) ||
 ) {
 	
 	$news = newsitem::update($_POST,$news);
-	if (!isset($news->id) && $db->countObjects('newsitem',"internal_name='".$news->internal_name."'")) {
+	
+	//not sure why this is here - added by James?
+	/*if (!isset($news->id) && $db->countObjects('newsitem',"internal_name='".$news->internal_name."'")) {
 		unset($_POST['internal_name']);
 		$_POST['_formError'] = 'That Internal Name is already taken';
 		pathos_sessions_set('last_POST',$_POST);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit('');
 	}
+	*/
 	
 	$news->location_data = serialize($loc);
 	

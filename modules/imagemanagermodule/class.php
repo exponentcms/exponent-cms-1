@@ -28,7 +28,7 @@ class imagemanagermodule {
 	
 	function supportsWorkflow() { return false; }
 	
-	function permissions($internal) {
+	function permissions($internal = "") {
 		$i18n = pathos_lang_loadFile('modules/imagemanagermodule/class.php');
 		
 		if ($internal == '') {
