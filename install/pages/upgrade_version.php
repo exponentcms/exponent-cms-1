@@ -28,6 +28,7 @@ $versions = array(
 	'1.0'=>'Salient',
 );
 
+$i18n = pathos_lang_loadFile('install/pages/upgrade_version.php');
 
 ?>
 

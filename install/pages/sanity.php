@@ -115,14 +115,14 @@ if ($errcount > 0) {
 }
 
 if ($errcount == 0) {
-	if ($_REQUEST['type'] == 'new') {
-	?>
-	<br /><a href="index.php?page=dbconfig"><?php echo $i18n['continue_new']; ?></a>.
-	<?php
+	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'new'){
+		?>
+		<br /><a href="index.php?page=dbconfig"><?php echo $i18n['continue_new']; ?></a>.
+		<?php
 	} else {
-	?>
-	<br /><a href="index.php?page=upgrade_version"><?php echo $i18n['continue_upgrade']; ?></a>.
-	<?php
+		?>
+		<br /><a href="index.php?page=upgrade_version"><?php echo $i18n['continue_upgrade']; ?></a>.
+		<?php
 	}
 }
 
