@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2006 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -14,7 +14,7 @@
 # License, or (at your option) any later version.
 #
 # GPL: http://www.gnu.org/licenses/gpl.txt
-#
+# 
 ##################################################
 
 if (!defined('PATHOS_VERSION_MAJOR')) {
