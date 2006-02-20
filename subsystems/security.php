@@ -51,14 +51,14 @@ function pathos_security_checkUsername($username) {
 	if (strlen($username) < 4) {
 		return $i18n['username_length'];
 	}
-	echo "<xmp>";
-	print_r(preg_match("/^[a-zA-Z0-9]/",$username));
-	echo "</xmp>";
+	//echo "<xmp>";
+	//print_r(preg_match("/^[a-zA-Z0-9]/",$username));
+	//echo "</xmp>";
 	//exit;
 	
-	if (!preg_match("/[a-zA-Z0-9]/",$username)){
-		return $i18n['username_illegal'];
-	}
+	//if (!preg_match("/[a-zA-Z0-9]/",$username)){
+	//	return $i18n['username_illegal'];
+	//}
 	return ""; // by default, accept any passwords
 }
 
