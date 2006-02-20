@@ -59,7 +59,8 @@ if (pathos_permissions_check('administrate',$loc)) {
 		}
 		$users[] = $g;
 	}
-	$template->assign('have_users',$have_users); // users = groups
+	
+	$template->assign('have_users',count($users) > 0); // users = groups
 	$template->assign('users',$users); // users = groups
 	$template->assign('perms',$perms);
 	
