@@ -3,6 +3,7 @@
 - Image module: Fixed a security issue that parsed php within the image code
 - Image module: Directory disclosure fix
 - Captcha: Typecasted variables for the width & height.
+- Resource module: Checks for the excistance of files before a link to a file is shown.
 
 0.96.3-4
 
