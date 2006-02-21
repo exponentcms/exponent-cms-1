@@ -51,9 +51,9 @@ class mysql_database {
 		// The fourth parameter (new connection) was not added until 4.2.0
 		if (version_compare(phpversion(),'4.2.0','>=') > 0) {
 			// Current version of PHP is greater than or equal to 4.2.0 (so we can use a 4th param)
-			$this->connection = @mysql_connect($hostname,$username,$password,$new);
+			$this->connection = mysql_connect($hostname,$username,$password,$new);
 		} else {
-			$this->connection = @mysql_connect($hostname,$username,$password);
+			$this->connection = mysql_connect($hostname,$username,$password);
 		}
 		if ($this->connection) {
 			$this->havedb = (mysql_select_db($database,$this->connection) ? true : false);
@@ -460,8 +460,9 @@ class mysql_database {
 	 */
 	function selectObject($table,$where) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
-		if ($res == null) return null;
-		return mysql_fetch_object($res);
+	    //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1";
+        if ($res == null) return null;
+		    return mysql_fetch_object($res);
 	}
 	
 	/* exdoc
