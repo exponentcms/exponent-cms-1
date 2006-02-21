@@ -28,7 +28,10 @@ if ($item != null) {
 		
 		$db->delete("file","id=".$file->id);
 		$db->delete("imagemanageritem","id=".$item->id);
-		pathos_flow_redirect();
+       
+        unlink("$file->directory/$file->filename");
+       
+        pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}
