@@ -26,6 +26,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
+		$_POST['id'] = intval($_POST['id']);
 		$u = pathos_users_getUserById(intval($_POST['id']));
 		$u = pathos_users_update($_POST,$u);
 		pathos_users_saveUser($u);
@@ -33,7 +34,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		pathos_flow_redirect();
 	} else {
 		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/umgr_saveuser.php');
-		
+		$_POST['username'] = trim($_POST['username']);
 		if (pathos_users_getUserByName($_POST['username']) != null) {
 			$post = $_POST;
 			unset($post['username']);
