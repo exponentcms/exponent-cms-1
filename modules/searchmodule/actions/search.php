@@ -72,7 +72,7 @@ foreach ($db->selectObjects("search",pathos_search_whereClause(array("title","bo
 		
 		if ($weight) {
 			// find view link
-			if ($r->view_link == "") {
+            if ($r->view_link == "") {
 				// No viewlink - go to the page
 				$result->view_link = pathos_core_makeLink(
 					array("section"=>$sectionref->section));

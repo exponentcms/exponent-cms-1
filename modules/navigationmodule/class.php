@@ -318,7 +318,8 @@ class navigationmodule {
 					return true;
 				} else {
 					$section = $hier[$section->parent];
-				}
+	                return $section;
+                }
 			}
 		}
 	}
