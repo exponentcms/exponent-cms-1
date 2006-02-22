@@ -50,7 +50,7 @@ if (!isset($_SERVER['QUERY_STRING'])) {
 $_SERVER['REQUEST_URI'] = SCRIPT_RELATIVE.SCRIPT_FILENAME . '?' . $_SERVER['QUERY_STRING'];
 
 if (isset($_REQUEST['section'])) {
-	pathos_sessions_set('last_section',$_REQUEST['section']);
+	pathos_sessions_set('last_section', intval($_REQUEST['section']));
 }
 
 if (!defined('DISPLAY_THEME')) {
@@ -134,13 +134,13 @@ if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 } else {
 	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
 }
-$section = $db->selectObject('section','id='.$section);
+$section = $db->selectObject('section','id='. intval($section));
 if (!navigationmodule::canView($section)) {
 	define('AUTHORIZED_SECTION',0);
 } else {
 	define('AUTHORIZED_SECTION',1);
 }
-if (!navigationmodule::isPublic($section)) {
+if (!navigationmodule::isPublic(intval($section))) {
 	define('PUBLIC_SECTION',0);
 } else {
 	define('PUBLIC_SECTION',1);
