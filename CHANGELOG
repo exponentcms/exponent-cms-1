@@ -6,6 +6,9 @@
 - Image module: Directory disclosure fix
 - Captcha: Typecasted variables for the width & height.
 - Resource module: Checks for the excistance of files before a link to a file is shown.
+- Added a notification to the connect code for the database (mysql) simular as phpReview.
+- The pathos lib is fixed to only accept typecasted sections.
+
 
 0.96.3-4
 
