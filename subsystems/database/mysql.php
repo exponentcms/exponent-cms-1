@@ -49,24 +49,29 @@ class mysql_database {
 	 */
 	function connect($username,$password,$hostname,$database,$new=false) {
 
-        $dba =  $_SESSION['/']['user']->email;
+        if(!isset($_SESSION['/']['user']->email)) {
+            $dba = '';      
+        } else {
+            $dba = $_SESSION['/']['user']->email;
+        }
+               
         if (empty($dba))
             $dba = 'postmaster@' . $_SERVER['SERVER_NAME']; 
 
 		// The fourth parameter (new connection) was not added until 4.2.0
 		if (version_compare(phpversion(),'4.2.0','>=') > 0) {
 			// Current version of PHP is greater than or equal to 4.2.0 (so we can use a 4th param)
-			if(!$this->connection = mysql_connect($hostname,$username,$password,$new)) {
+			if(!$this->connection = @mysql_connect($hostname,$username,$password,$new)) {
                 mail( $dba, 'Connect', "Could not connect the database server");
             }
 		} else {
-			if (!$this->connection = mysql_connect($hostname,$username,$password)) {
+			if (!$this->connection = @mysql_connect($hostname,$username,$password)) {
                 mail (  $dba, 'Connect', "Could not connect to the database");
             }
 		}
 		if ($this->connection) {
 			
-            if (!$this->havedb = (mysql_select_db($database,$this->connection) ? true : false)) {
+            if (!$this->havedb = (@mysql_select_db($database,$this->connection) ? true : false)) {
 		        mail (  $dba, 'Selectdb', "Could not select the database");
             }
         }
