@@ -46,6 +46,11 @@ if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
 	exit('Redirecting to the Exponent Install Wizard');
 }
 
+// Setting $page  to an empty value, we do not want to get out
+// side params to be used when handling subsystems fail.
+
+$page = '';
+
 // Handle sub themes
 $page = ($section && $section->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
 	BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
