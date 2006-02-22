@@ -1,4 +1,5 @@
 0.96.5
+- WAMP platform fix in template.php subsystem.
 - Added username checking to parse out leading and trailing spaces and disallow names less than 4 chars.
 - Security update: Typecasted all variables where appropriate
 - Image module: Fixed a security issue that parsed php within the image code

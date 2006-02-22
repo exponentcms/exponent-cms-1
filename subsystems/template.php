@@ -44,6 +44,10 @@ class basetemplate {
 	// Full server-side directory path of the .tpl file being used.
 	var $viewdir = "";
 	
+	//fix for the wamp/lamp issue
+	var $langdir = "";
+	//	
+	
 	/*
 	 * Assign a variable to the template.
 	 *
@@ -59,7 +63,9 @@ class basetemplate {
 	 */
 	function output() {
 		// Load language constants
-		$this->tpl->assign('_TR',pathos_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
+		//$this->tpl->assign('_TR',pathos_lang_loadFile($this->viewdir.'/'.$this->view.'.php')); //fix lamp issue
+		$this->tpl->assign('_TR',pathos_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
+		
 		$this->tpl->display($this->view.'.tpl');
 	}
 	
@@ -103,6 +109,10 @@ class template extends basetemplate {
 		
 		$this->view = substr(basename($this->viewfile),0,-4);
 		$this->tpl->template_dir = $this->viewdir;
+		
+		//fix for the wamp/lamp issue
+		$this->langdir = "modules/".$module."/views/";
+		//
 		
 		// Make way for i18n
 		// $this->tpl->compile_dir = $this->viewdir."_c";
