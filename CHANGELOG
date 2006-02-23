@@ -1,14 +1,14 @@
 0.96.5
 - WAMP platform fix in template.php subsystem.
-- Added username checking to parse out leading and trailing spaces and disallow names less than 4 chars.
-- Security update: Typecasted all variables where appropriate
+- Added username checking to parse out leading and trailing spaces and disallow names less than 4 chars [FD?]
+- Security update: Typecasted all variables where appropriate [HW & FD]
 - Image module: Fixed a security issue that parsed php within the image code
 - Image module: Directory disclosure fix
 - Captcha: Typecasted variables for the width & height.
-- Resource module: Checks for the excistance of files before a link to a file is shown.
-- Added a notification to the connect code for the database (mysql) simular as phpReview.
-- The pathos lib is fixed to only accept typecasted sections.
-
+- Resource module: Checks for the excistance of files before a link to a file is shown [HW]
+- Added a notification to the connect code for the database (mysql) simular as phpReview [HW]
+- The pathos lib is fixed to only accept typecasted sections [HW].
+- A php injection problem is fixed in the bannermodule [HW]
 
 0.96.3-4
 
