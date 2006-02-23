@@ -18,7 +18,7 @@ faz2 - For suggesting some file and directory permission options
 Michael Anthon - For patching the paginator to work with Opera 7.x.x
 jacobmesu - For the Interbase database handler
 Jeremy Shinall (OIC Group, Inc.)
-
+Hans Wolters - Security fixes
 =====================
 Testing / Bug Hunting
 =====================
