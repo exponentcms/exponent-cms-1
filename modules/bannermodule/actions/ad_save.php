@@ -33,6 +33,7 @@ if (pathos_permissions_check('manage',$loc)) {
 	if (!isset($banner->file_id)) {
 		$directory = 'files/bannermodule/'.$loc->src;
 		$file = file::update('file',$directory,null);
+
 		if (is_object($file)) {
 			$banner->file_id = $db->insertObject($file,'file');
 			$db->insertObject($banner,'banner_ad');

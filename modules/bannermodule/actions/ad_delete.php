@@ -25,9 +25,28 @@ if (isset($_GET['id'])) {
 }
 
 if ($banner) {
+
 	$loc = unserialize($banner->location_data);
-	if (pathos_permissions_check('manage',$loc)) {
-		$db->delete('banner_ad','id='.$banner->id);
+
+    if (pathos_permissions_check('manage',$loc)) {
+		//$db->delete('banner_ad','id='.$banner->id);
+
+        // deleting the bannner itself [H.W.]
+        $filedir = "files/bannermodule/".$loc->src;
+        if (file_exists(BASE."/$filedir")) {
+        
+            // Get the file we need to delete
+            $delfileobj = $db->selectObject('file', "directory='$filedir'");
+            
+            if ($delfileobj)
+            {
+                $delfile = BASE."$filedir/".$delfileobj->filename;
+                unlink($delfile);
+            }
+        }
+    
+        
+        $db->delete('banner_ad','id='.$banner->id);
 		pathos_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
