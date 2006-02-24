@@ -152,7 +152,7 @@ function pathos_config_configurationForm($configname,$database=false) {
 							$form->register("c[$directive]",'<b>'.$info['title'].'</b>',$info['control'],$info['description']);
 						}
 					}
-					$form->register(null,'',new buttongroupcontrol($this_i18n['save'],'',$this_i18n['cancel']));
+					//$form->register(null,'',new buttongroupcontrol($this_i18n['save'],'',$this_i18n['cancel']));
 				}
 			}
 		}
