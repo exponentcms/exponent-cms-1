@@ -20,11 +20,6 @@
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/side_top_blank.gif); background-repeat: repeat-x;"></td>
 		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_topright.gif" /></td>
 	</tr>
-	<tr>
-		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/titleside_left.gif); background-repeat: repeat-y;"></td>
-		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/title_bg.gif)"><div style="font-weight: bold; font-size: 12pt;">Navigation</div></td>
-		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/titleside_right.gif); background-repeat: repeat-y;"></td>
-	</tr>
 	</tr>
 	<tr>
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/side_left.gif); background-repeat: repeat-y"></td>

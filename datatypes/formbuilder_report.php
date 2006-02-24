@@ -59,8 +59,11 @@ class formbuilder_report {
 			}
 			$fields['ip'] = $i18n['field_ip'];
 			if (in_array('ip',$cols)) $column_names['ip'] = $i18n['field_id'];
-			$fields['user_id'] = $field['field_user_id'];
-			if (in_array('user_id',$cols)) $column_names['user_id'] = $i18n['field_user_id'];
+	        
+            if (isset($field['field_user_id']))
+                $fields['user_id'] = $field['field_user_id'];
+
+            if (in_array('user_id',$cols)) $column_names['user_id'] = $i18n['field_user_id'];
 			$fields['timestamp'] = $i18n['field_timestamp'];
 			if (in_array('timestamp',$cols)) $column_names['timestamp'] = $i18n['field_timestamp'];
 		}
