@@ -17,9 +17,13 @@
 #
 ##################################################
 
+// Fix undefined variable
+$check_id = -1;
+
 // Bail in case someone has visited us directly, or the Pathos framework is
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
+
 
 $_GET['parent'] = intval($_GET['parent']);
 
@@ -35,15 +39,16 @@ if ($user && $user->is_acting_admin == 1) {
 		// The isset check is merely a precaution.  This action should
 		// ALWAYS be invoked with a parent or id value in the GET.
 		$section->parent = $_GET['parent'];
+        $check_id = $section->parent;
 	}
 } else if (isset($_GET['parent'])) {
 	// The isset check is merely a precaution.  This action should
 	// ALWAYS be invoked with a parent or id value in the GET.
 	$section->parent = $_GET['parent'];
-	$check_id = $section->parent;
 }	
 
-if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
+if ($check_id != -1 && 
+    pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
 	$form = section::internalAliasForm($section);
 	$form->meta('module','navigationmodule');
 	$form->meta('action','save_internalalias');
