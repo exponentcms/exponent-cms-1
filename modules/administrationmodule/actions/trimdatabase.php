@@ -21,8 +21,13 @@
 
 if (!defined('PATHOS')) exit('');
 
+$dropped_count = 0;
+$dropped_tables = 0;
+$real_dropped_count = 0;
+
 if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
-	$droppable_tables = array();
+    
+    $droppable_tables = array();
 	
 	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	
@@ -56,7 +61,8 @@ if (pathos_permissions_check('database',pathos_core_makeLocation('administration
 	
 	$template = new template('administrationmodule','_tableTrimSummary',$loc);
 	$template->assign('status',$dropped_tables);
-	$template->assign('dropped',$dropped_count);
+
+    $template->assign('dropped',$dropped_count);
 	$template->assign('real_dropped',$real_dropped_count);
 	$template->output();
 } else {
