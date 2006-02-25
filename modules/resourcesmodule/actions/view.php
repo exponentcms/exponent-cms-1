@@ -45,17 +45,12 @@ if ($resource != null) {
 		$mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
 
         $filenametest = $file->directory . "/" . $file->filename;
-		$template = new template('resourcesmodule','_view',$loc);
 	
         if (file_exists($filenametest)) {
-            $template->assign('resource',$resource);
-            $template->assign('user',$user);
-            $template->assign('file',$file);
-		    $template->assign('mimetype',$mimetype);
 
-		    $template->register_permissions(
-			    array('administrate','edit','delete','manage_approval'),$loc);
-    		$template->output();
+            header("Content-Disposition: attachment; filename=" . $file->filename);
+            readfile($filenametest);
+
          } else {
             echo SITE_404_HTML;
          }
