@@ -21,6 +21,8 @@
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
 
+$check_id = 0;
+
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
 if ($user && $user->is_acting_admin == 1) {
