@@ -19,8 +19,8 @@
 
 class addressbookmodule_config {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/addresssbookmodule_config.php');
-	
+		$i18n = pathos_lang_loadFile('datatypes/addressbook_config.php');
+
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		

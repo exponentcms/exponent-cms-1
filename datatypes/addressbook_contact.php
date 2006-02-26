@@ -23,7 +23,7 @@ class addressbook_contact {
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
-		
+	
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->firstname = '';

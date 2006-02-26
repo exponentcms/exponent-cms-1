@@ -112,6 +112,7 @@ class section {
 		foreach ($db->selectObjects('section','parent = -1') as $s) {
 			$standalones[$s->id] = $s->name;
 		}
+
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		$form->register('page',$i18n['standalone_page'],new dropdowncontrol(0,$standalones));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
