@@ -19,7 +19,7 @@
 
 class calendarmodule_config {
 	function form($object) {
-		$i81n = pathos_lang_loadFile('datatypes/calendarmodule_config.php');
+		$i18n = pathos_lang_loadFile('datatypes/calendarmodule_config.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
