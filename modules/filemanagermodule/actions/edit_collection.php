@@ -18,7 +18,9 @@
 ##################################################
 
 if (!defined('PATHOS')) exit('');
-$_GET['id'] = intval($_GET['id']);
+
+if (isset($_GET['id']))
+    $_GET['id'] = intval($_GET['id']);
 	
 $collection = null;
 if (isset($_GET['id'])) {
