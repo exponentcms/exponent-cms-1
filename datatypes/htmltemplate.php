@@ -20,7 +20,7 @@
 class htmltemplate {
 	function form($object) {
 		$i18n = pathos_lang_loadFile('datatypes/htmltemplate.php');
-		
+	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		pathos_forms_initialize();
 		

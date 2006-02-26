@@ -479,7 +479,7 @@ class mysql_database {
 	function selectObject($table,$where) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
 	   
-       //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1";
+        //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1<br>";
         if ($res == null) return null;
 		    return mysql_fetch_object($res);
 	}
