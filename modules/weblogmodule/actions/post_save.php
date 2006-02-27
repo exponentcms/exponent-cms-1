@@ -21,10 +21,16 @@ if (!defined('PATHOS')) exit('');
 
 $post = null;
 $iloc = null;
+$newpoast = 0;
+
 if (isset($_POST['id'])) {
 	$post = $db->selectObject('weblog_post','id='.intval($_POST['id']));
 	$loc = unserialize($post->location_data);
 	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+}
+else
+{
+    $newpost = 1;
 }
 
 if (($post != null && pathos_permissions_check('edit',$loc)) || 
@@ -48,14 +54,16 @@ if (($post != null && pathos_permissions_check('edit',$loc)) ||
 		}
 		$db->updateObject($post,'weblog_post');
 	} else {
-		if ($db->countObjects('weblog_post',"internal_name='".$post->internal_name."'")) {
-			$_POST['_formError'] = 'That Internal Name is already in use.  Please choose another.';
-			unset($_POST['internal_name']);
-			pathos_sessions_set('last_POST',$_POST);
-			header('Location: '.$_SERVER['HTTP_REFERER']);
-			exit('');
+
+        if ($newpost < 1) {
+            if ($db->countObjects('weblog_post',"internal_name='".$post->internal_name."'")) {
+	    		$_POST['_formError'] = 'That Internal Name is already in use.  Please choose another.';
+		    	unset($_POST['internal_name']);
+			    pathos_sessions_set('last_POST',$_POST);
+    			header('Location: '.$_SERVER['HTTP_REFERER']);
+	    		exit('');
+		    }
 		}
-		
 		$post->poster = $user->id;
 		$post->posted = time();
 		$post->id = $db->insertObject($post,'weblog_post');

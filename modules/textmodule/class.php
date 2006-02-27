@@ -76,7 +76,7 @@ class textmodule {
 		$template->assign('moduletitle',$title);
 		
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
-		
+	    unset($textitem);	
 		$template->output($view);
 	}
 	
