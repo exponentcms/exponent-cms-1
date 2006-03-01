@@ -29,8 +29,9 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		$_POST['id'] = intval($_POST['id']);
 		$u = pathos_users_getUserById(intval($_POST['id']));
 		$u = pathos_users_update($_POST,$u);
+		//save extensions
+		pathos_users_saveProfileExtensions($_POST,$u,false);
 		pathos_users_saveUser($u);
-		
 		pathos_flow_redirect();
 	} else {
 		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/umgr_saveuser.php');
