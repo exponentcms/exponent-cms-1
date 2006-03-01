@@ -20,7 +20,8 @@
 if (!defined('PATHOS')) exit('');
 
 if (pathos_permissions_check('administrate',$loc)) {
-	$groups = explode(';',$_POST['permdata']);
+
+    $groups = explode(';',$_POST['permdata']);
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	foreach ($groups as $group_str) {
 		$perms = explode(':',$group_str);

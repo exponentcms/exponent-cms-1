@@ -369,8 +369,10 @@ function pathos_permissions_grantGroup($group,$permission,$location) {
 			$obj->source = $location->src;
 			$obj->internal = $location->int;
 			$obj->permission = $permission;
-			
+
 			global $db;
+
+            $db->delete("grouppermission", " module = '" . $obj->module . "'");
 			$db->insertObject($obj,"grouppermission");
 		}
 	}
