@@ -10,7 +10,7 @@ return array(
 	'content_page_desc'=>'Content Pages are regular pages on the site that allow you to add modules to them.  With content pages, you are able to override the global Site Title, Site Description and Site Keywords settings.',
 	
 	'ext_link'=>'External Website Link',
-	'edt_link_desc'=>'If you need or want a link in your site hiearchy to link to some off-site webpage, create an External Link.',
+	'ext_link_desc'=>'If you need or want a link in your site hiearchy to link to some off-site webpage, create an External Link.',
 	
 	'int_link'=>'Internal Page Alias',
 	'int_link_desc'=>'If you need or want a link to another page in your site hierarchy, use an internal page alias.',
