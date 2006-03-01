@@ -60,7 +60,7 @@ class phoneextension {
 		$db->delete("user_phone","uid=".$user->id);
 		
 		$phone = null;
-		$phone->uid = $user->id;
+		$phone->uid = intval( $user->id );
 		$phone->home_phone = $values['home_phone'];
 		$phone->bus_phone = $values['bus_phone'];
 		$phone->other_phone = $values['other_phone'];

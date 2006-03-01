@@ -39,7 +39,7 @@ class inboxextension {
 		$db->delete('inbox_userconfig','id='.$user->id);
 		
 		$inboxcfg = null;
-		$inboxcfg->id = $user->id;
+		$inboxcfg->id = intval($user->id);
 		$inboxcfg->forward = (isset($values['inbox_forward']) ? 1 : 0);
 		
 		$db->insertObject($inboxcfg,'inbox_userconfig');

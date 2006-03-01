@@ -45,7 +45,7 @@ class addressextension {
 		$db->delete("user_address","uid=".$user->id);
 		
 		$address = null;
-		$address->uid = $user->id;
+		$address->uid = intval( $user->id );
 		$address->address1 = $values['address1'];
 		$address->address2 = $values['address2'];
 		$address->city = $values['city'];
