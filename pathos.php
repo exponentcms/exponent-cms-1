@@ -140,7 +140,7 @@ if (!navigationmodule::canView($section)) {
 } else {
 	define('AUTHORIZED_SECTION',1);
 }
-if (!navigationmodule::isPublic(intval($section))) {
+if (!navigationmodule::isPublic($section)) {
 	define('PUBLIC_SECTION',0);
 } else {
 	define('PUBLIC_SECTION',1);

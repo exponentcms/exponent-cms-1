@@ -304,7 +304,21 @@ class navigationmodule {
 			}
 		}
 	}
-	
+
+
+    function isPublic($s) {
+       global $db;
+
+        print_r($s);
+
+        while ($s->public && $s->parent >0) {
+            $s = $db->selectObject('section','id='.$s->parent);
+        }
+        $lineage = (($s->public)? 1 : 0);
+        return $lineage;
+    }
+
+    /*
 	function isPublic($section) {
 		$hier = navigationmodule::levelTemplate(0,0);
 		
@@ -323,6 +337,7 @@ class navigationmodule {
 			}
 		}
 	}
+    */
 }
 
 ?>
