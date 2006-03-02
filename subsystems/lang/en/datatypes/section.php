@@ -23,7 +23,8 @@ return array(
 	
 	'pageset'=>'Pageset',
 	
-	'standalone_page',
+	'standalone_page'=>'Standalone Page',
+	
 	
 	
 	'position_top'=>'At the Top',
