@@ -16,7 +16,7 @@ return array(
 	'int_link_desc'=>'If you need or want a link to another page in your site hierarchy, use an internal page alias.',
 	
 	'pageset'=>'Pageset',
-	'pageset_link'=>'Pagesets are powerful tools that allow you to create sections with default content and subsections by adding a single pageset.',
+	'pageset_desc'=>'Pagesets are powerful tools that allow you to create sections with default content and subsections by adding a single pageset.',
 	
 	'standalone'=>'Move Standalone Page',
 	'standalone_desc'=>'Use this if you want to move a standalone page into the navigation hierarchy.',

@@ -6,7 +6,7 @@ return array(
 	'properties'=>'Properties',
 	'content'=>'Page Content',
 	'delete'=>'Delete',
-	'back'=>'Page Content',
+	'back'=>'Back To Manager',
 );
 
 ?>
