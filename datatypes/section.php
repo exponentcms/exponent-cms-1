@@ -273,7 +273,7 @@ class section {
 			// Grab each pageset and store its name and id.  The id will be used when updating.
 			$pagesets[$pageset->id] = $pageset->name;
 		}
-		$form->register('pageset',$i18n['pagesetg'],new dropdowncontrol(0,$pagesets));
+		$form->register('pageset',$i18n['pageset'],new dropdowncontrol(0,$pagesets));
 		
 		// Add the'Public?' checkbox.  The 'Active?' checkbox is omitted, because it makes no sense.
 		$form->register('public',$i18n['public'],new checkboxcontrol($object->public));
