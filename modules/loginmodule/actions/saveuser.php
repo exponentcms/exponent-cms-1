@@ -25,7 +25,14 @@ if (!$user && SITE_ALLOW_REGISTRATION == 1) {
 	$capcha_real = pathos_sessions_get('capcha_string');
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
-	if (pathos_users_getUserByName($_POST['username']) != null) {
+	if ( strlen( trim ( $_POST['username'] ) ) < 3)	{
+		$post = $_POST;
+		unset($post['username']);
+		$post['_formError'] = $i18n['username_too_short'];
+		pathos_sessions_set('last_POST',$post);
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	}
+	else if (pathos_users_getUserByName($_POST['username']) != null) {
 		$post = $_POST;
 		unset($post['username']);
 		$post['_formError'] = $i18n['username_taken'];
