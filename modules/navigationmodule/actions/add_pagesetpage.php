@@ -21,6 +21,8 @@
 // otherwise not initialized.
 if (!defined('PATHOS')) exit('');
 
+$check_id = -1;
+
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
 if ($user && $user->is_acting_admin == 1) {
@@ -30,10 +32,12 @@ if ($user && $user->is_acting_admin == 1) {
 		// because pagesets cannot be editted, only added (they act like section
 		// factories and create other sections).
 		$section = $db->selectObject('section','id='.intval($_GET['id']));
+		$check_id = $section->id;
 	} else if (isset($_GET['parent'])) {
 		// The isset check is merely a precaution.  This action should
 		// ALWAYS be invoked with a parent or id value in the GET.
 		$section->parent = intval($_GET['parent']);
+		$check_id = $section->parent;
 	}
 }
 
