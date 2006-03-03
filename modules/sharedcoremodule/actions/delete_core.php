@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
+if (exponent_permissions_check('manage_core',exponent_core_makeLocation('sharedcoremodule'))) {
 	$core = null;
 	if (isset($_GET['id'])) {
 		$core = $db->selectObject('sharedcore_core','id='.intval($_GET['id']));
@@ -31,11 +31,11 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 		if (!defined('SYS_SHAREDCORE')) include_once(BASE.'subsystems/sharedcore.php');
 		foreach ($db->selectObjects('sharedcore_site','core_id='.$core->id) as $site) {
 			$db->delete('sharedcore_extension','site_id='.$site->id);
-			pathos_sharedcore_clear($site->path,true);
+			exponent_sharedcore_clear($site->path,true);
 		}
 		
 		$db->delete('sharedcore_site','core_id='.$core->id);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_404_HTML;
 	}

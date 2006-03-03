@@ -17,7 +17,7 @@
 #
 ##################################################
 
-$i18n = pathos_lang_loadFile('install/popups/db_priv.php');
+$i18n = exponent_lang_loadFile('install/popups/db_priv.php');
 
 ?>
 <b><?php echo $i18n['title']; ?></b>

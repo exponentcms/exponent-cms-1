@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user && $user->is_admin == 1) {
 	$page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 'start');

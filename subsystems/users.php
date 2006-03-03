@@ -38,7 +38,7 @@ $SYS_USERS_CACHE = array();
  * processing.  It will only include the profile extensions once per script request.
  * @node Subsystems:Users
  */
-function pathos_users_includeProfileExtensions() {
+function exponent_users_includeProfileExtensions() {
 	// Check for an explicit constant definition, to keep from re-initializing stuff.
 	if (!defined('SYS_USERS_EXT')) {
 		// Define SYS_USERS_EXT (doesn't matter to what) so that this part of the
@@ -46,7 +46,7 @@ function pathos_users_includeProfileExtensions() {
 		define('SYS_USERS_EXT',1);
 		// Store the base directory, for readability later on.
 		$ext_dir = BASE.'subsystems/users/profileextensions';
-		foreach (pathos_users_listExtensions() as $file) {
+		foreach (exponent_users_listExtensions() as $file) {
 			// Include each User Extension Profile class file, if it is readable by the web server.
 			if (is_readable("$ext_dir/$file.php")) {
 				include_once("$ext_dir/$file.php");
@@ -71,7 +71,7 @@ function pathos_users_includeProfileExtensions() {
  *    to list.
  * @node Subsystems:Users
  */
-function pathos_users_listExtensions() {
+function exponent_users_listExtensions() {
 	// A holding array to keep the extension class names we find.  This will be returned
 	// to the caller when we are completely done.
 	$ext = array();
@@ -102,10 +102,10 @@ function pathos_users_listExtensions() {
  * Extensions that have not been explicitly activated by the administrator.
  *
  * Returns an array of unused extensions, identical in structure /
- *    format to the return value of pathos_users_listExtensions().
+ *    format to the return value of exponent_users_listExtensions().
  * @node Subsystems:Users
  */
-function pathos_users_listUnusedExtensions() {
+function exponent_users_listUnusedExtensions() {
 	// Pull database object in from global scope.
 	global $db;
 	// Retrieve Profile Extension Activation states from database.  If an extension
@@ -119,7 +119,7 @@ function pathos_users_listUnusedExtensions() {
 	}
 	// Return the difference between the full list and the activated list, and we should
 	// get the inactive extensions only.
-	return array_diff_assoc(pathos_users_listExtensions(),$used);
+	return array_diff_assoc(exponent_users_listExtensions(),$used);
 }
 
 /* exdoc
@@ -130,7 +130,7 @@ function pathos_users_listUnusedExtensions() {
  * contents of the profileextension table.
  * @node Subsystems:Users
  */
-function pathos_users_clearDeletedExtensions() {
+function exponent_users_clearDeletedExtensions() {
 	// Pull in database object from the global scope.
 	global $db;
 	foreach ($db->selectObjects('profileextension') as $e) {
@@ -158,12 +158,12 @@ function pathos_users_clearDeletedExtensions() {
  * @param Object $user The user object to get a full profile for.
  * @node Subsystems:Users
  */
-function pathos_users_getFullProfile($user) {
+function exponent_users_getFullProfile($user) {
 	// Sanity Checks.  First we need to ensure that the profile extension classes
 	// have been included and are ready for use.  Then we delete all uninstalled
 	// profile extensions from the active profileextensions table.
-	pathos_users_includeProfileExtensions();
-	pathos_users_clearDeletedExtensions();
+	exponent_users_includeProfileExtensions();
+	exponent_users_clearDeletedExtensions();
 	// Pull the database object in from the global scope.
 	global $db;
 	// Get a list of all acrtive Profile Extenions.
@@ -171,7 +171,7 @@ function pathos_users_getFullProfile($user) {
 	// Initialize the Sorting Subsystem, if this hasn't previously been done.
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	// Sort the active extension objects by their rank,
-	usort($exts,'pathos_sorting_byRankAscending');
+	usort($exts,'exponent_sorting_byRankAscending');
 	foreach ($exts as $ext) {
 		// Update this part of the User's profile.
 		$user = call_user_func(array($ext->extension,'getProfile'),$user);
@@ -187,13 +187,13 @@ function pathos_users_getFullProfile($user) {
  * custom code to handle a login.
  *
  * This function is expected to generate the appropriate user object, run authentication
- * checks, and then call pathos_sessions_login($user) to initialize login session data.
+ * checks, and then call exponent_sessions_login($user) to initialize login session data.
  *
  * @param string $username The username that the visitor is logging in with.
  * @param string $password The password that the visitor has supplied as credentials
  * @node Subsystems:Users
  */
-function pathos_users_login($username, $password) {
+function exponent_users_login($username, $password) {
 	// This specific implementation of the Users Subsystem stores user information in the
 	// same database as all other website content.  Therefore, we must pull in the database
 	// object from the global scope.
@@ -211,12 +211,12 @@ function pathos_users_login($username, $password) {
 	// apply to administrators.
 	if ($user != null && ($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
 		// Retrieve the full profile, complete with all Extension data.
-		$user = pathos_users_getFullProfile($user);
+		$user = exponent_users_getFullProfile($user);
 		
 		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
 		if (!MAINTENANCE_MODE || $user->is_admin == 1 || $user->is_acting_admin == 1) {
 			// Call on the Sessions subsystem to log the user into the site.
-			pathos_sessions_login($user);
+			exponent_sessions_login($user);
 		}
 	}
 }
@@ -226,12 +226,12 @@ function pathos_users_login($username, $password) {
  * 'unconventional') implementaitons of the Users Subsystem can run some
  * custom code to handle a login.
  *
- * This function is expected to call pathos_sessions_logout(), so that the session
+ * This function is expected to call exponent_sessions_logout(), so that the session
  * can be cleaned up for the next user.
  * @node Subsystems:Users
  */
-function pathos_users_logout() {
-	pathos_sessions_logout();
+function exponent_users_logout() {
+	exponent_sessions_logout();
 }
 
 /* exdoc
@@ -243,7 +243,7 @@ function pathos_users_logout() {
  *    for a new user form.
  * @node Subsystems:Users
  */
-function pathos_users_form($user = null) {
+function exponent_users_form($user = null) {
 	$form = user::form($user);
 	
 	$form->unregister('submit');
@@ -251,18 +251,18 @@ function pathos_users_form($user = null) {
 	// Pull in form data for all active profile extensions.
 	// First, we have to clear delete extensions, so that we don't try to include
 	// or use previously active extensions that have been disabled.
-	pathos_users_clearDeletedExtensions();
+	exponent_users_clearDeletedExtensions();
 	// Include all class files for active profile extensions.
-	pathos_users_includeProfileExtensions();
+	exponent_users_includeProfileExtensions();
 	// Store the users full profile in a temporary object.
-	$tmpu = pathos_users_getFullProfile($user);
+	$tmpu = exponent_users_getFullProfile($user);
 	// Pull the database object in from the global scope.
 	global $db;
 	// Retrieve a list of the active profile extensions, and sort them by rank so that
 	// the form controls get added to the form in order.
 	$exts = $db->selectObjects('profileextension');
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	usort($exts,'pathos_sorting_byRankAscending');
+	usort($exts,'exponent_sorting_byRankAscending');
 	foreach ($exts as $ext) {
 		// Modify the form object by passing it through each profile extension, 
 		// each of which may or may not register new controls.
@@ -270,7 +270,7 @@ function pathos_users_form($user = null) {
 	}
 	
 	// Add the submit button and return the complete form object to the caller.
-	$i18n = pathos_lang_loadFile('subsystems/users.php');
+	$i18n = exponent_lang_loadFile('subsystems/users.php');
 	$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 	return $form;
 }
@@ -284,20 +284,20 @@ function pathos_users_form($user = null) {
  *    null for a new group form.
  * @node Subsystems:Users
  */
-function pathos_users_groupForm($group = null) {
+function exponent_users_groupForm($group = null) {
 	// DEPRECATE
 	return group::form($group);
 }
 
 /* exdoc
  * This method returns an updated user object, using the form
- * data from pathos_users_userForm(). Returns the updated user object.
+ * data from exponent_users_userForm(). Returns the updated user object.
  *
  * @param Array $formvalues The POSTed data, for pulling new values from.
  * @param Object $user The user object to update.  This can be null.
  * @node Subsystems:Users
  */
-function pathos_users_update($formvalues, $u = null) {
+function exponent_users_update($formvalues, $u = null) {
 	$u = user::update($formvalues,$u);
 	global $user;
 	// Set the is_acting_admin flag.  There a re a few ways that this should be done.
@@ -325,19 +325,19 @@ function pathos_users_update($formvalues, $u = null) {
  *    and false if the account already existed prior to the edit.
  * @node Subsystems:Users
  */
-function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
+function exponent_users_saveProfileExtensions($formvalues,$user,$is_new) {
 	// Pull in form data for all active profile extensions.
 	// First, we have to clear delete extensions, so that we don't try to include
 	// or use previously active extensions that have been disabled.
-	pathos_users_clearDeletedExtensions();
+	exponent_users_clearDeletedExtensions();
 	// Include all class files for active profile extensions.
-	pathos_users_includeProfileExtensions();
+	exponent_users_includeProfileExtensions();
 	// Pull in the database object from the global scope.
 	global $db;
 	// Read in all of the active profile extensions and sort them (which may actually be
 	// unnecessary.)
 	$exts = $db->selectObjects('profileextension');
-	usort($exts,'pathos_sorting_byRankAscending');
+	usort($exts,'exponent_sorting_byRankAscending');
 	foreach ($exts as $ext) {
 		// Call the saveProfile method of each profile extension class, which will return the modified user object.
 		$user = call_user_func(array($ext->extension,'saveProfile'),$formvalues,$user,$is_new);
@@ -348,13 +348,13 @@ function pathos_users_saveProfileExtensions($formvalues,$user,$is_new) {
 
 /* exdoc
  * This method returns an updated group object, using the form
- * data from pathos_users_groupForm().  Returns the updated group object.
+ * data from exponent_users_groupForm().  Returns the updated group object.
  *
  * @param Array $formvalues The POSTed data, for pulling new values from.
  * @param Object $group The group object to update.  This can be null.
  * @node Subsystems:Users
  */
-function pathos_users_groupUpdate($formvalues, $group = null) {
+function exponent_users_groupUpdate($formvalues, $group = null) {
 	// DEPRECATE
 	return group::update($formvalues,$group);
 }
@@ -368,10 +368,10 @@ function pathos_users_groupUpdate($formvalues, $group = null) {
  * @param Array $formvalues The POSTed data received from the New User form.
  * @node Subsystems:Users
  */
-function pathos_users_create($formvalues) {
+function exponent_users_create($formvalues) {
 	// Update the user object (at this point we are not dealing with profile
 	// extensions, just the basic object).
-	$u = pathos_users_update($formvalues,null);
+	$u = exponent_users_update($formvalues,null);
 	
 	// The username is not included in the update method, so we define it here.
 	$u->username = $formvalues['username'];
@@ -408,26 +408,26 @@ function pathos_users_create($formvalues) {
 	return $u;
 }
 
- // FIXME: Does pathos_users_userManagerFormTemplate still need to exist?
+ // FIXME: Does exponent_users_userManagerFormTemplate still need to exist?
  // FIXME:
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_users_userManagerFormTemplate($template) {
+function exponent_users_userManagerFormTemplate($template) {
 	global $db;
 	global $user;
 	$users = $db->selectObjects('user');
 	
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-	if (!function_exists('pathos_sorting_byLastFirstAscending')) {
-		function pathos_sorting_byLastFirstAscending($a,$b) {
+	if (!function_exists('exponent_sorting_byLastFirstAscending')) {
+		function exponent_sorting_byLastFirstAscending($a,$b) {
 			return strnatcmp($a->lastname . ', '. $a->firstname,$b->lastname . ', '. $b->firstname);
 		}
 	}
-	usort($users,'pathos_sorting_byLastFirstAscending');
+	usort($users,'exponent_sorting_byLastFirstAscending');
 	for ($i = 0; $i < count($users); $i++) {
-		$users[$i] = pathos_users_getUserById($users[$i]->id);
+		$users[$i] = exponent_users_getUserById($users[$i]->id);
 		if ($users[$i]->is_acting_admin && $user->is_admin == 0) {
 			// Dealing with an acting admin, and the current user is not a super user
 			// Fake the is_admin parameter to disable editting.
@@ -442,18 +442,18 @@ function pathos_users_userManagerFormTemplate($template) {
 	return $template;
 }
 
- // FIXME: Does pathos_users_groupManagerFormTemplate still need to exist?
+ // FIXME: Does exponent_users_groupManagerFormTemplate still need to exist?
  // FIXME:
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_users_groupManagerFormTemplate($template) {
+function exponent_users_groupManagerFormTemplate($template) {
 	global $db;
 	$groups = $db->selectObjects('group');
 	
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-	usort($groups,'pathos_sorting_byNameAscending');
+	usort($groups,'exponent_sorting_byNameAscending');
 	
 	$template->assign('groups',$groups);
 	
@@ -467,7 +467,7 @@ function pathos_users_groupManagerFormTemplate($template) {
  * @param integer $uid The ID of the user to clear the password for.
  * @node Subsystems:Users
  */
-function pathos_users_clearPassword($uid) {
+function exponent_users_clearPassword($uid) {
 	global $db;
 	$user = null;
 	// Calculate the md5 of a blank 
@@ -482,7 +482,7 @@ function pathos_users_clearPassword($uid) {
  * @param integer $uid The id of the account to delete.
  * @node Subsystems:Users
  */
-function pathos_users_delete($uid) {
+function exponent_users_delete($uid) {
 	global $db;
 	global $user;
 	$u = $db->selectObject('user','id='.$uid);
@@ -500,7 +500,7 @@ function pathos_users_delete($uid) {
  * @param integer $gid The id of the group account to delete.
  * @node Subsystems:Users
  */
-function pathos_users_groupDelete($gid) {
+function exponent_users_groupDelete($gid) {
 	global $db;
 	$db->delete('group','id='.$gid);
 	$db->delete('groupmembership','group_id='.$gid);
@@ -520,7 +520,7 @@ function pathos_users_groupDelete($gid) {
  * @param integer $uid The id of the user account to retrieve.
  * @node Subsystems:Users
  */
-function pathos_users_getUserById($uid) {
+function exponent_users_getUserById($uid) {
 	// Pull in the exclusive global variable $SYS_USERS_CACHE
 	global $SYS_USERS_CACHE;
 	if (!isset($SYS_USERS_CACHE[$uid])) {
@@ -549,7 +549,7 @@ function pathos_users_getUserById($uid) {
  * @param bool $allow_normal Whether or not to include normal accounts in the returned list.
  * @node Subsystems:Users
  */
-function pathos_users_getAllUsers($allow_admin=1,$allow_normal=1) {
+function exponent_users_getAllUsers($allow_admin=1,$allow_normal=1) {
 	global $db;
 	if ($allow_admin && $allow_normal) return $db->selectObjects('user');
 	else if ($allow_admin) return $db->selectObjects('user','is_admin=1 OR is_acting_admin = 1');
@@ -563,14 +563,14 @@ function pathos_users_getAllUsers($allow_admin=1,$allow_normal=1) {
  * $db->selectObject() call, but it may not be the same for other implementations.
  * Returns a group object, and null if no group was found.
  *
- * This function does NOT perform group caching like the pathos_users_getUserById
+ * This function does NOT perform group caching like the exponent_users_getUserById
  * function does.  Multiple calls to retrieve the same group result in multiple calls
  * to the database.
  *
  * @param integer $gid The id of the group account to retrieve.
  * @node Subsystems:Users
  */
-function pathos_users_getGroupById($gid) {
+function exponent_users_getGroupById($gid) {
 	global $db;
 	return $db->selectObject('group','id='.$gid);
 }
@@ -581,14 +581,14 @@ function pathos_users_getGroupById($gid) {
  * to a $db->selectObject() call, but it may not be the same for other implementations.
  * Returns a basic user object, and null if no user was found.
  *
- * This function does NOT perform user caching like the pathos_users_getUserById
+ * This function does NOT perform user caching like the exponent_users_getUserById
  * function does.  Multiple calls to retrieve the same user result in multiple calls
  * to the database.
  *
  * @param string $name The username of the user account to retrieve.
  * @node Subsystems:Users
  */
-function pathos_users_getUserByName($name) {
+function exponent_users_getUserByName($name) {
 	global $db;
 	$tmpu = $db->selectObject('user',"username='$name'");
 	if ($tmpu && $tmpu->is_admin == 1) {
@@ -605,14 +605,14 @@ function pathos_users_getUserByName($name) {
  * to a $db->selectObject() call, but it may not be the same for other implementations.
  * Returns a group object, and null if no group was found.
  *
- * This function does NOT perform group caching like the pathos_users_getUserById
+ * This function does NOT perform group caching like the exponent_users_getUserById
  * function does.  Multiple calls to retrieve the same group result in multiple calls
  * to the database.
  *
  * @param integer $name The name of the group account to retrieve.
  * @node Subsystems:Users
  */
-function pathos_users_getGroupByName($name) {
+function exponent_users_getGroupByName($name) {
 	global $db;
 	return $db->selectObject('group',"name='$name'");
 }
@@ -627,7 +627,7 @@ function pathos_users_getGroupByName($name) {
  * @param bool $allow_inclusive Whether or not to include inclusive groups in the returned list.
  * @node Subsystems:Users
  */
-function pathos_users_getAllGroups($allow_exclusive=1,$allow_inclusive=1) {
+function exponent_users_getAllGroups($allow_exclusive=1,$allow_inclusive=1) {
 	global $db;
 	if ($allow_exclusive && $allow_inclusive) {
 		// For both, just do a straight selectObjects call, with no WHERE criteria.
@@ -658,7 +658,7 @@ function pathos_users_getAllGroups($allow_exclusive=1,$allow_inclusive=1) {
  * @param bool $allow_inclusive Whether or not to include inclusive groups in the returned list.
  * @node Subsystems:Users
  */
-function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=1) {
+function exponent_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=1) {
 	global $db;
 	if ($u == null || !isset($u->id)) {
 		// Don't have enough information to consult the membership tables.
@@ -669,9 +669,9 @@ function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=
 	$groups = array();
 	if ($u->is_admin == 1) {
 		// For administrators, we synthesize group memberships - they effectively
-		// belong to all groups.  So, we call pathos_users_getAllGroups, and pass the
+		// belong to all groups.  So, we call exponent_users_getAllGroups, and pass the
 		// filtration criteria arguments (2 and 3) to it.
-		return pathos_users_getAllGroups($allow_exclusive,$allow_inclusive);
+		return exponent_users_getAllGroups($allow_exclusive,$allow_inclusive);
 	}
 	foreach ($db->selectObjects('groupmembership','member_id='.$u->id) as $m) {
 		// Loop over the membership records for this user, and select the full
@@ -700,7 +700,7 @@ function pathos_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusive=
  * @param Object $g The group object to obtain a member list for.
  * @node Subsystems:Users
  */
-function pathos_users_getUsersInGroup($g) {
+function exponent_users_getUsersInGroup($g) {
 	global $db;
 	if ($g == null || !isset($g->id)) {
 		// Don't have enough information to consult the membership tables.
@@ -728,7 +728,7 @@ function pathos_users_getUsersInGroup($g) {
  *    is set, an update is performed.  Otherwise, a new record is created.
  * @node Subsystems:Users
  */
-function pathos_users_saveUser($u) {
+function exponent_users_saveUser($u) {
 	if ($u == null) {
 		// If the passed user is null, then we need to bail.
 		return null;
@@ -777,7 +777,7 @@ function pathos_users_saveUser($u) {
  * @param Object $group The group account to update / create.
  * @node Subsystems:Users
  */
-function pathos_users_saveGroup($group) {
+function exponent_users_saveGroup($group) {
 	if ($group == null) {
 		// No group to save.  Need to bail.
 		return null;
@@ -804,7 +804,7 @@ function pathos_users_saveGroup($group) {
  *     logged in, then it exits immediately.
  * @node Subsystems:Users
  */
-function pathos_users_changepass($pass, $user = null) {
+function exponent_users_changepass($pass, $user = null) {
 	if ($user == null) {
 		// If a valid user object was not passed, try to fall back to the current user.
 		global $user;

@@ -17,17 +17,17 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	
 	$groups = $db->selectObjects('inbox_contactlist','owner='.$user->id);
 	
 	$banned = $db->selectObjects('inbox_contactbanned','owner='.$user->id);
 	for ($i = 0; $i < count($banned); $i++) {
-		$banned[$i]->user = pathos_users_getUserById($banned[$i]->user_id);
+		$banned[$i]->user = exponent_users_getUserById($banned[$i]->user_id);
 	}
 	
 	$template = new template('inboxmodule','_viewcontacts',$loc);

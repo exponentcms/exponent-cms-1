@@ -20,14 +20,14 @@
 // Part of the Administration Control Panel : Workflow category
 $_GET['id'] = intval($_GET['id']);
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
-	$actions = pathos_workflow_getActions($_GET['id']);
+	$actions = exponent_workflow_getActions($_GET['id']);
 	
 	// Workflow constants action names.
 	$names = array(

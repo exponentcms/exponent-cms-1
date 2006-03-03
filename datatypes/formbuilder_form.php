@@ -19,13 +19,13 @@
 
 class formbuilder_form {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/formbuilder_form.php');
+		$i18n = exponent_lang_loadFile('datatypes/formbuilder_form.php');
 		
 		global $db;
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		//global $user;
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -52,18 +52,18 @@ class formbuilder_form {
 		$form->register('is_email',$i18n['is_email'],new checkboxcontrol($object->is_email,false));
 		
 		$userlist = array();
-		$users = pathos_users_getAllUsers();
+		$users = exponent_users_getAllUsers();
 		foreach ($users as $locuser) {
 			$userlist[$locuser->id] = $locuser->username;
 		}
 		$defaults = array();
 		foreach ($db->selectObjects('formbuilder_address','form_id='.$object->id.' and user_id != 0') as $address) {
-			$locuser =  pathos_users_getUserById($address->user_id);
+			$locuser =  exponent_users_getUserById($address->user_id);
 			$defaults[$locuser->id] = $locuser->username;
 		} 
 		
 		$form->register('users',$i18n['users'],new listbuildercontrol($defaults,$userlist));
-		$groups = pathos_users_getAllGroups();
+		$groups = exponent_users_getAllGroups();
 		$grouplist = array();
 		$defaults = array();
 		foreach ($groups as $group) {
@@ -71,7 +71,7 @@ class formbuilder_form {
 		}
 		if ($grouplist != null) {
 			foreach ($db->selectObjects('formbuilder_address','form_id='.$object->id.' and group_id != 0') as $address) {
-				$group =  pathos_users_getGroupById($address->group_id);
+				$group =  exponent_users_getGroupById($address->group_id);
 				$defaults[$group->id] = $group->name;
 			}
 			
@@ -114,7 +114,7 @@ class formbuilder_form {
 		global $db;
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		if ($object->is_saved == 1) {
 			$datadef =  array(
 				'id'=>array(

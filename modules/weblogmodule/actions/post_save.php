@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $post = null;
 $iloc = null;
@@ -26,16 +26,16 @@ $newpoast = 0;
 if (isset($_POST['id'])) {
 	$post = $db->selectObject('weblog_post','id='.intval($_POST['id']));
 	$loc = unserialize($post->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 }
 else
 {
     $newpost = 1;
 }
 
-if (($post != null && pathos_permissions_check('edit',$loc)) || 
-	($post == null && pathos_permissions_check('post',$loc)) ||
-	($post != null && pathos_permissions_check('edit',$iloc))
+if (($post != null && exponent_permissions_check('edit',$loc)) || 
+	($post == null && exponent_permissions_check('post',$loc)) ||
+	($post != null && exponent_permissions_check('edit',$iloc))
 ) {
 	// Need to be able to update the posted date if switching from draft to non-draft.
 	$was_draft = 0;
@@ -59,7 +59,7 @@ if (($post != null && pathos_permissions_check('edit',$loc)) ||
             if ($db->countObjects('weblog_post',"internal_name='".$post->internal_name."'")) {
 	    		$_POST['_formError'] = 'That Internal Name is already in use.  Please choose another.';
 		    	unset($_POST['internal_name']);
-			    pathos_sessions_set('last_POST',$_POST);
+			    exponent_sessions_set('last_POST',$_POST);
     			header('Location: '.$_SERVER['HTTP_REFERER']);
 	    		exit('');
 		    }
@@ -68,19 +68,19 @@ if (($post != null && pathos_permissions_check('edit',$loc)) ||
 		$post->posted = time();
 		$post->id = $db->insertObject($post,'weblog_post');
 		
-		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 		
 		// New, so asign full perms.
-		pathos_permissions_grant($user,'edit',$iloc);
-		pathos_permissions_grant($user,'delete',$iloc);
-		pathos_permissions_grant($user,'comment',$iloc);
-		pathos_permissions_grant($user,'edit_comments',$iloc);
-		pathos_permissions_grant($user,'delete_comments',$iloc);
-		pathos_permissions_grant($user,'view_private',$iloc);
-		pathos_permissions_triggerSingleRefresh($user);
+		exponent_permissions_grant($user,'edit',$iloc);
+		exponent_permissions_grant($user,'delete',$iloc);
+		exponent_permissions_grant($user,'comment',$iloc);
+		exponent_permissions_grant($user,'edit_comments',$iloc);
+		exponent_permissions_grant($user,'delete_comments',$iloc);
+		exponent_permissions_grant($user,'view_private',$iloc);
+		exponent_permissions_triggerSingleRefresh($user);
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

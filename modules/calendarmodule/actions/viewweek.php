@@ -17,9 +17,9 @@
 #
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $template = new template("calendarmodule","_viewweek",$loc,false);
 
@@ -27,7 +27,7 @@ $time = (isset($_GET['time']) ? $_GET['time'] : time());
 $time = intval($time);
 
 if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
-$startweek = pathos_datetime_startOfWeekTimestamp($time);
+$startweek = exponent_datetime_startOfWeekTimestamp($time);
 $days = array();
 $counts = array();
 $startinfo = getdate($startweek);
@@ -37,11 +37,11 @@ for ($i = 0; $i < 7; $i++) {
 	$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
 	for ($j = 0; $j < count($dates); $j++) {
 		$o = $db->selectObject("calendar","id=".$dates[$j]->event_id);
-		$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$o->id);
+		$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$o->id);
 		$o->permissions = array(
-			"administrate"=>(pathos_permissions_check("administrate",$thisloc) || pathos_permissions_check("administrate",$loc)),
-			"edit"=>(pathos_permissions_check("edit",$thisloc) || pathos_permissions_check("edit",$loc)),
-			"delete"=>(pathos_permissions_check("delete",$thisloc) || pathos_permissions_check("delete",$loc))
+			"administrate"=>(exponent_permissions_check("administrate",$thisloc) || exponent_permissions_check("administrate",$loc)),
+			"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
+			"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 		);
 		$o->eventdate = $dates[$j];
 		$o->eventstart += $o->eventdate->date;

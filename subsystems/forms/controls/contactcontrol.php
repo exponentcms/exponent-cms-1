@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Contact Control
@@ -61,7 +61,7 @@ class contactcontrol extends formcontrol {
 		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 		$users = array();
 		
-		foreach (pathos_users_getAllUsers() as $u) {
+		foreach (exponent_users_getAllUsers() as $u) {
 			$users[$u->id] = $u->firstname." ".$u->lastname.' ('.$u->username.')';
 		}
 		

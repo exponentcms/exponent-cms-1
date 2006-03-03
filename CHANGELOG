@@ -1,6 +1,10 @@
 0.96.5
+- Fixed existing content picker 'No Content' error message [FD]
+- Merged various SMTP subsystem enhancements [FD]
+- Enhanced Jacob Mesu's username checking in the login module to use the existing security check in the security subsystem [FD]
+- Added optional orderby parameter to mysql.php selectObject and selectObjects function [FD]
 - WAMP platform fix in template.php subsystem.
-- Added username checking to parse out leading and trailing spaces and disallow names less than 4 chars [FD?]
+- Added username checking to parse out leading and trailing spaces and disallow names less than 4 chars [FD]
 - Security update: Typecasted all variables where appropriate [HW & FD]
 - Image module: Fixed a security issue that parsed php within the image code
 - Image module: Directory disclosure fix

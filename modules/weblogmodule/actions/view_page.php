@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $template = new template('weblogmodule','_view_page',$loc);
 
@@ -34,28 +34,28 @@ if (isset($_GET['single'])) {
 }
 
 $where = "location_data='".serialize($loc)."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).")";
-if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';;
+if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';;
 
 $total = $db->countObjects('weblog_post',$where);
 $posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,($_GET['page']*$config->items_per_page)));
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($posts); $i++) {
-	$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
+	$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
 	
 	$posts[$i]->permissions = array(
-		'administrate'=>pathos_permissions_check('administrate',$ploc),
-		'edit'=>pathos_permissions_check('edit',$ploc),
-		'delete'=>pathos_permissions_check('delete',$ploc),
-		'comment'=>pathos_permissions_check('comment',$ploc),
-		'edit_comments'=>pathos_permissions_check('edit_comments',$ploc),
-		'delete_comments'=>pathos_permissions_check('delete_comments',$ploc),
-		'view_private'=>pathos_permissions_check('view_private',$ploc),
+		'administrate'=>exponent_permissions_check('administrate',$ploc),
+		'edit'=>exponent_permissions_check('edit',$ploc),
+		'delete'=>exponent_permissions_check('delete',$ploc),
+		'comment'=>exponent_permissions_check('comment',$ploc),
+		'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
+		'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
+		'view_private'=>exponent_permissions_check('view_private',$ploc),
 	);
 	$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);
-	usort($comments,'pathos_sorting_byPostedDescending');
+	usort($comments,'exponent_sorting_byPostedDescending');
 	$posts[$i]->comments = $comments;
 }
-usort($posts,'pathos_sorting_byPostedDescending');
+usort($posts,'exponent_sorting_byPostedDescending');
 $template->assign('posts',$posts);
 $template->assign('total_posts',$total);
 $template->assign('shownext',(($_GET['page']+1)*$config->items_per_page) < $total);

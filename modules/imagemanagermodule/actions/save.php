@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = null;
 if (isset($_POST['id'])) {
@@ -27,8 +27,8 @@ if (isset($_POST['id'])) {
 	}
 }
 
-if (	($item == null && pathos_permissions_check('post',$loc)) ||
-	($item != null && pathos_permissions_check('edit',$loc))
+if (	($item == null && exponent_permissions_check('post',$loc)) ||
+	($item != null && exponent_permissions_check('edit',$loc))
 ) {
 
     // check for real images.
@@ -48,7 +48,7 @@ if (	($item == null && pathos_permissions_check('post',$loc)) ||
     		$directory = 'files/imagemanagermodule/'.$loc->src;
 	    	$fname = null;
 		
-		    if (pathos_files_uploadDestinationFileExists($directory,'file')) {
+		    if (exponent_files_uploadDestinationFileExists($directory,'file')) {
     			// Auto-uniqify Logic here
 	    		$fileinfo = pathinfo($_FILES['file']['name']);
 		    	$fileinfo['extension'] = '.'.$fileinfo['extension'];
@@ -63,12 +63,12 @@ if (	($item == null && pathos_permissions_check('post',$loc)) ||
     			// Make thumbnail?
     			$db->insertObject($item,'imagemanageritem');
 			
-    			pathos_flow_redirect();
+    			exponent_flow_redirect();
     		} else {
 	    		// If file::update() returns a non-object, it should be a string.  That string is the error message.
 		    	$post = $_POST;
 			    $post['_formError'] = $file;
-    			pathos_sessions_set('last_POST',$post);
+    			exponent_sessions_set('last_POST',$post);
     			header('Location: ' . $_SERVER['HTTP_REFERER']);
     		}
 
@@ -76,7 +76,7 @@ if (	($item == null && pathos_permissions_check('post',$loc)) ||
 
 	} else {
 		$db->updateObject($item,'imagemanageritem');
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 } else {
 	echo SITE_403_HTML;

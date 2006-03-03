@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage',$loc)) {
-	pathos_flow_set(SYS_FLOW_ACTION,SYS_FLOW_PROTECTED);
+if (exponent_permissions_check('manage',$loc)) {
+	exponent_flow_set(SYS_FLOW_ACTION,SYS_FLOW_PROTECTED);
 
 	$objects = $db->selectObjects('rotator_item',"location_data='".serialize($loc)."'");
 	

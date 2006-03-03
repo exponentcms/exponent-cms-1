@@ -18,7 +18,7 @@
 //
 // $Id$
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
   require_once BASE.'external/PEAR.php';
 

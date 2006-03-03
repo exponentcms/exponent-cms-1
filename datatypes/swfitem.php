@@ -19,12 +19,12 @@
 
 class swfitem {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/swfitem.php');
+		$i18n = exponent_lang_loadFile('datatypes/swfitem.php');
 	
 		global $user;
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {

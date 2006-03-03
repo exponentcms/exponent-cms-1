@@ -19,16 +19,16 @@
 
 // Part of the Database category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('database',exponent_core_makeLocation('administrationmodule'))) {
 	foreach (array_keys($_POST['tables']) as $table) {
 		$db->dropTable($table);
 	}
 	
 	$template = new template('administrationmodule','_tableTrimSummary',$loc);
 	$template->assign('dropped_tables',array_keys($_POST['tables']));
-	$template->assign('redirect',pathos_flow_get());
+	$template->assign('redirect',exponent_flow_get());
 	$template->output();
 } else {
 	echo SITE_403_HTML;

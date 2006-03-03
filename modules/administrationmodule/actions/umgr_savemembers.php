@@ -19,9 +19,9 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	$u = $db->selectObject('user','id='.intval($_POST['id']));
 	if ($u) {
 		$db->delete('groupmembership','member_id='.$u->id);
@@ -35,8 +35,8 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 				$db->insertObject($memb,'groupmembership');
 			}
 		}
-		pathos_permissions_triggerRefresh($u);
-		pathos_flow_redirect();
+		exponent_permissions_triggerRefresh($u);
+		exponent_flow_redirect();
 	} else echo SITE_404_HTML;
 } else {
 	echo SITE_403_HTML;

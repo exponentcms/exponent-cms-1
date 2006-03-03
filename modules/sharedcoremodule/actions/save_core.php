@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
-	$i18n = pathos_lang_loadFile('modules/sharedcoremodule/actions/save_core.php');
+if (exponent_permissions_check('manage_core',exponent_core_makeLocation('sharedcoremodule'))) {
+	$i18n = exponent_lang_loadFile('modules/sharedcoremodule/actions/save_core.php');
 
 	$core = null;
 	if (isset($_POST['id'])) {
@@ -33,7 +33,7 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 	if ($existing && !isset($core->id)) {
 		$post = $_POST;
 		$post['_formError'] = sprintf($i18n['core_exists'],$core->path);
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit('Redirecting...');
 	}
@@ -42,15 +42,15 @@ if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcorem
 		$core->path .= '/';
 	}
 	
-	if (file_exists($core->path.'pathos_version.php')) {
+	if (file_exists($core->path.'exponent_version.php')) {
 		if (isset($core->id)) $db->updateObject($core,'sharedcore_core');
 		else $db->insertObject($core,'sharedcore_core');
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		$post = $_POST;
 		$post['_formError'] = sprintf($i18n['bad_core'],$core->path);
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 } else {

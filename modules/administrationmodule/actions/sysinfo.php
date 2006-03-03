@@ -19,9 +19,9 @@
 
 // Part of the Configuration category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
 	$template = new template('administrationmodule','_sysinfo',$loc);
 	
 	ob_start();
@@ -42,7 +42,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	
 	$mods = array();
 	
-	foreach (pathos_modules_list() as $m) {
+	foreach (exponent_modules_list() as $m) {
 		if (class_exists($m)) {
 			$mobj = new $m();
 			$mods[$m] = array(
@@ -54,7 +54,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	}
 	
 	$template->assign('modules',$mods);
-	$template->assign('subsystems',pathos_info_subsystems());
+	$template->assign('subsystems',exponent_info_subsystems());
 	
 	$template->assign('override_style',1);
 	

@@ -19,11 +19,11 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	
-	$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/install_extension.php');
+	$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/install_extension.php');
 		
 	if ($_FILES['mod_archive']['error'] != UPLOAD_ERR_OK) {
 		
@@ -69,8 +69,8 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 		
 			// Look for stale sessid directories:
 			$sessid = session_id();
-			if (file_exists(BASE."extensionuploads/$sessid") && is_dir(BASE."extensionuploads/$sessid")) pathos_files_removeDirectory("extensionuploads/$sessid");
-			$return = pathos_files_makeDirectory("extensionuploads/$sessid");
+			if (file_exists(BASE."extensionuploads/$sessid") && is_dir(BASE."extensionuploads/$sessid")) exponent_files_removeDirectory("extensionuploads/$sessid");
+			$return = exponent_files_makeDirectory("extensionuploads/$sessid");
 			if ($return != SYS_FILES_SUCCESS) {
 				switch ($return) {
 					case SYS_FILES_FOUNDFILE:

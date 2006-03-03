@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Form Class
@@ -176,9 +176,9 @@ class form extends baseform {
 	
 		// Persistent Form Data extension
 		$formError = "";
-		if (pathos_sessions_isset("last_POST")) {
+		if (exponent_sessions_isset("last_POST")) {
 			// We have cached POST data.  Use it to update defaults.
-			$last_POST = pathos_sessions_get("last_POST");
+			$last_POST = exponent_sessions_get("last_POST");
 			
 			foreach (array_keys($this->controls) as $name) {
 				// may need to look to control a la parseData
@@ -188,7 +188,7 @@ class form extends baseform {
 			
 			$formError = @$last_POST['_formError'];
 			
-			pathos_sessions_unset("last_POST");
+			exponent_sessions_unset("last_POST");
 		}
 		
 		$html = "<!-- Form Object '" . $this->name . "' -->\r\n";

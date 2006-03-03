@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
 	if (!defined('SYS_FORMS')) require_once('subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$i18n = pathos_lang_loadFile('modules/loginmodule/actions/changepass.php');
+	$i18n = exponent_lang_loadFile('modules/loginmodule/actions/changepass.php');
 	
 	$form = new form();
 	$form->location($loc);

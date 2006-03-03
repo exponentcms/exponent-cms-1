@@ -22,8 +22,8 @@ define('SCRIPT_FILENAME','login_redirect.php');
 
 ob_start();
 
-// Initialize the Pathos Framework
-require_once('pathos.php');
+// Initialize the Exponent Framework
+require_once('exponent.php');
 
 // Initialize the Sessions Subsystem
 if (!defined('SYS_SESSIONS')) require_once(BASE.'subsystems/sessions.php');
@@ -33,26 +33,26 @@ if (isset($_GET['redirecturl'])) {
 	if (substr($redirect,0,4) != 'http') {
 		$redirect = URL_FULL.$redirect;
 	}
-	pathos_sessions_set('redirecturl',$redirect);
+	exponent_sessions_set('redirecturl',$redirect);
 }
 
 // Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 $SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
 
-if (pathos_sessions_loggedIn()) {
-	$url = pathos_sessions_get('redirecturl');
+if (exponent_sessions_loggedIn()) {
+	$url = exponent_sessions_get('redirecturl');
 	if ($url . '' == '') {
 		$SYS_FLOW_REDIRECTIONPATH = 'default';
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 	header('Location: ' . $url);
 	exit('Redirecting...');
 } else if (isset($_REQUEST['module']) && isset($_REQUEST['action'])) {
-	pathos_theme_runAction();
+	exponent_theme_runAction();
 	loginmodule::show(DEFAULT_VIEW,null);
 } else {
-	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
+	exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 	loginmodule::show(DEFAULT_VIEW,null);
 }
 

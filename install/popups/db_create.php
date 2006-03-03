@@ -17,7 +17,7 @@
 #
 ##################################################
 
-$i18n = pathos_lang_loadFile('install/popups/db_create.php');
+$i18n = exponent_lang_loadFile('install/popups/db_create.php');
 
 ?>
 <script type="text/javascript">

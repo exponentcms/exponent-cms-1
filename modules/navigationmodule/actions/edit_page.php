@@ -22,16 +22,16 @@ define('SCRIPT_FILENAME','edit_page.php');
 
 ob_start();
 
-include_once('../../../pathos.php');
+include_once('../../../exponent.php');
 
 if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
 $id = -1;
 if (isset($_GET['sitetemplate_id'])) {
-	pathos_sessions_set('sitetemplate_id',intval($_GET['sitetemplate_id']));
+	exponent_sessions_set('sitetemplate_id',intval($_GET['sitetemplate_id']));
 	$id = intval($_GET['sitetemplate_id']);
-} else if (pathos_sessions_isset('sitetemplate_id')) {
-	$id = pathos_sessions_get('sitetemplate_id');
+} else if (exponent_sessions_isset('sitetemplate_id')) {
+	$id = exponent_sessions_get('sitetemplate_id');
 }
 
 $template = $db->selectObject('section_template','id='.$id);
@@ -40,9 +40,9 @@ $page = ($template && $template->subtheme != '' && is_readable(BASE.'themes/'.DI
 	'themes/'.DISPLAY_THEME.'/index.php'
 );
 
-$i18n = pathos_lang_loadFile('modules/navigationmodule/actions/edit_page.php');
+$i18n = exponent_lang_loadFile('modules/navigationmodule/actions/edit_page.php');
 
-pathos_sessions_set('themeopt_override',array(
+exponent_sessions_set('themeopt_override',array(
 	'src_prefix'=>'@st'.$id,
 	'ignore_mods'=>array(
 		'navigationmodule',
@@ -63,7 +63,7 @@ if ($user && $user->is_acting_admin == 1) {
 		echo sprintf($i18n['err_not_readable'],BASE.$page);
 	}
 
-	pathos_sessions_unset('themeopt_override');
+	exponent_sessions_unset('themeopt_override');
 } else {
 	echo SITE_403_HTML;
 }

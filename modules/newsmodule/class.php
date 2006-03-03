@@ -18,9 +18,9 @@
 ##################################################
 
 class newsmodule {
-	function name() { return pathos_lang_loadKey('modules/newsmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/newsmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class newsmodule {
 	function supportsWorkflow() { return true; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/newsmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/newsmodule/class.php');
 		if ($internal == '') {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
@@ -54,7 +54,7 @@ class newsmodule {
 		if ($loc->int == '') {
 			return array($loc);
 		} else {
-			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
 	
@@ -97,7 +97,7 @@ class newsmodule {
 		}
 		// Check permissions for AP link
 		$canviewapproval = false;
-		if ($user) $canviewapproval = pathos_permissions_check('approve',$loc) || pathos_permissions_check('manage_approval',$loc);
+		if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
 		if (!$canviewapproval) { // still not able to view
 			foreach($db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ') AND approved != 0') as $post) {
 				if ($user && $user->id == $post->poster) {
@@ -118,11 +118,11 @@ class newsmodule {
 		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
-			$nloc = pathos_core_makeLocation($loc->mod,$loc->src,$news[$i]->id);
+			$nloc = exponent_core_makeLocation($loc->mod,$loc->src,$news[$i]->id);
 			$news[$i]->permissions = array(
-				'edit_item'=>((pathos_permissions_check('edit_item',$loc) || pathos_permissions_check('edit_item',$nloc)) ? 1 : 0),
-				'delete_item'=>((pathos_permissions_check('delete_item',$loc) || pathos_permissions_check('delete_item',$nloc)) ? 1 : 0),
-				'administrate'=>((pathos_permissions_check('administrate',$loc) || pathos_permissions_check('administrate',$nloc)) ? 1 : 0)
+				'edit_item'=>((exponent_permissions_check('edit_item',$loc) || exponent_permissions_check('edit_item',$nloc)) ? 1 : 0),
+				'delete_item'=>((exponent_permissions_check('delete_item',$loc) || exponent_permissions_check('delete_item',$nloc)) ? 1 : 0),
+				'administrate'=>((exponent_permissions_check('administrate',$loc) || exponent_permissions_check('administrate',$nloc)) ? 1 : 0)
 			);
 		}
 		
@@ -140,7 +140,7 @@ class newsmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		$i18n = pathos_lang_loadFile('modules/newsmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/newsmodule/class.php');
 		
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
@@ -154,7 +154,7 @@ class newsmodule {
 			$search->original_id = $item->id;
 			$search->title = ' ' . $item->title . ' ';
 			$search->view_link = 'index.php?module=newsmodule&action=view&id='.$item->id;
-			$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+			$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 			$search->location_data = $item->location_data;
 			$db->insertObject($search,'search');
 		} else {
@@ -163,7 +163,7 @@ class newsmodule {
 				$search->original_id = $item->id;
 				$search->title = ' ' . $item->title . ' ';
 				$search->view_link = 'index.php?module=newsmodule&action=view&id='.$item->id;
-				$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+				$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 				$search->location_data = $item->location_data;
 				$db->insertObject($search,'search');
 			}

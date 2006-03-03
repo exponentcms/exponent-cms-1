@@ -19,17 +19,17 @@
 
 // Part of the Administration Control Panel : Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
-	$files = pathos_info_files($_GET['type'],$_GET['name']);
+	$files = exponent_info_files($_GET['type'],$_GET['name']);
 	if (is_array($files)) ksort($files);
 	
 	$template = new template('info','_checksums',$loc);
 
 	if (is_array($files)) {
-		$actual = pathos_info_fileChecksums($files);
+		$actual = exponent_info_fileChecksums($files);
 		foreach (array_keys($files) as $f) if (is_int($files[$f])) $files[$f] = "";
 		$relative = array();
 		foreach (array_keys($files) as $file) {

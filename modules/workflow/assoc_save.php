@@ -20,11 +20,11 @@
 define('SCRIPT_EXP_RELATIVE','modules/workflow/');
 define('SCRIPT_FILENAME','assoc_save.php');
 
-include_once('../../pathos.php');
+include_once('../../exponent.php');
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	if (isset($_POST['s'])) {
 		$assoc = $db->selectObject('approvalpolicyassociation',"module='".$_POST['m']."' AND source='".$_POST['s']."' AND is_global=0");
 		if ($assoc) {

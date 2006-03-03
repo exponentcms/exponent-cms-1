@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $template = new template('importer','_files_uploadForm');
 
 if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-pathos_forms_initialize();
+exponent_forms_initialize();
 
-$i18n = pathos_lang_loadFile('modules/importer/importers/files/start.php');
+$i18n = exponent_lang_loadFile('modules/importer/importers/files/start.php');
 
 $form = new form();
 $form->meta('module','importer');

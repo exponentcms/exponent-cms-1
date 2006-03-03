@@ -42,8 +42,8 @@ define("SYS_FORMS",1);
  *
  * @node Subsystems:Forms
  */
-function pathos_forms_initialize() {
-	$i18n = pathos_lang_loadFile('subsystems/forms.php');
+function exponent_forms_initialize() {
+	$i18n = exponent_lang_loadFile('subsystems/forms.php');
 	
 	$forms_dir = BASE."subsystems/forms";
 	$controls_dir = BASE."subsystems/forms/controls";
@@ -80,23 +80,23 @@ function pathos_forms_initialize() {
 }
 
 /* exdoc
- * This function complements pathos_forms_cleanup, by properly
+ * This function complements exponent_forms_cleanup, by properly
  * cleaning up AutoLoader modifications made by the initialization.
  *
  * While this only benefits servers running PHP5, it does not adversely
- * affect PHP4 servers.  For best practices, always call pathos_forms_cleanup
- * if you have called pathos_forms_initialize.
+ * affect PHP4 servers.  For best practices, always call exponent_forms_cleanup
+ * if you have called exponent_forms_initialize.
  *
  * @node Subsystems:Forms
  */
-function pathos_forms_cleanup() {
+function exponent_forms_cleanup() {
 }
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_forms_listControlTypes() {
+function exponent_forms_listControlTypes() {
 	$cdh = opendir(BASE."subsystems/forms/controls");
 	$list = array();
 	while (($ctl = readdir($cdh)) !== false) {

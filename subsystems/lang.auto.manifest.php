@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $files = include(BASE.'subsystems/lang.manifest.php');
 

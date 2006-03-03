@@ -19,19 +19,19 @@
 
 // Part of the Extensions category.
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 	
 	$sessid = session_id();
 	$files = array();
-	foreach (pathos_files_listFlat(BASE.'extensionuploads/'.$sessid,true,null,array(),BASE.'extensionuploads/'.$sessid) as $key=>$f) {
+	foreach (exponent_files_listFlat(BASE.'extensionuploads/'.$sessid,true,null,array(),BASE.'extensionuploads/'.$sessid) as $key=>$f) {
 		if ($key != '/archive.tar' && $key != '/archive.tar.gz' && $key != '/archive.tar.bz2' && $key != '/archive.zip') {
 			$files[] = array(
 				'absolute'=>$key,
 				'relative'=>$f,
-				'canCreate'=>pathos_files_canCreate(BASE.substr($key,1)),
+				'canCreate'=>exponent_files_canCreate(BASE.substr($key,1)),
 				'ext'=>substr($f,-3,3)
 			);
 		}

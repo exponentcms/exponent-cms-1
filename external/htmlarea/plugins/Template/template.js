@@ -1,6 +1,6 @@
 // Simple Template (className) plugin for the editor
 // Sponsored by http://www.oicgroup.net/
-// Implementation by James Hunt for Pathos, http://pathoscms.org
+// Implementation by James Hunt for Exponent, http://exponentcms.org
 //
 // (c) James Hunt and the OIC Group, 2003-2004
 // Distributed under the same terms as HTMLArea itself.
@@ -44,7 +44,7 @@ Template._pluginInfo = {
 	name          : "Template",
 	version       : "1.0",
 	developer     : "James Hunt",
-	developer_url : "http://www.pathoscms.org/",
+	developer_url : "http://www.exponentcms.org/",
 	c_owner       : "James Hunt",
 	sponsor       : "OIC Group, Inc.",
 	sponsor_url   : "http://www.oicgroup.net/",

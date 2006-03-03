@@ -1091,8 +1091,8 @@ class Smarty
      * @param integer $error_type
      */
     function trigger_error($error_msg, $error_type = E_USER_WARNING)
-    {
-        trigger_error("Smarty error: $error_msg", $error_type);
+   	{
+       trigger_error("Smarty error: $error_msg", $error_type);
     }
 
 
@@ -1587,8 +1587,8 @@ class Smarty
         }
 
         if (!$_return) {
-            if (!$params['quiet']) {
-                $this->trigger_error('unable to read resource: "' . $params['resource_name'] . '"');
+            if (!$params['quiet']) {               
+            	$this->trigger_error('unable to read resource: "' . $params['resource_name'] . '"');
             }
         } else if ($_return && $this->security) {
             require_once(SMARTY_CORE_DIR . 'core.is_secure.php');

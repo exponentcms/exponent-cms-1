@@ -17,16 +17,16 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
-	$user = pathos_users_update($_POST,$user);
-	$user = pathos_users_saveUser($user);
-	$user = pathos_users_saveProfileExtensions($_POST,$user,false);
+	$user = exponent_users_update($_POST,$user);
+	$user = exponent_users_saveUser($user);
+	$user = exponent_users_saveProfileExtensions($_POST,$user,false);
 	$_SESSION[SYS_SESSION_KEY]['user'] = $user;
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

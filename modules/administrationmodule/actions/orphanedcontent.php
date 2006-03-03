@@ -19,10 +19,10 @@
 
 // Part of the Database category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('database',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$nullrefs = $db->selectObjects('locationref','refcount=0');
 	$mods = array();
@@ -43,7 +43,7 @@ if (pathos_permissions_check('database',pathos_core_makeLocation('administration
 		}
 		if (class_exists($modclass)) {
 			ob_start();
-			call_user_func(array($modclass,'show'),DEFAULT_VIEW,pathos_core_makeLocation($modclass,$nullref->source));
+			call_user_func(array($modclass,'show'),DEFAULT_VIEW,exponent_core_makeLocation($modclass,$nullref->source));
 			$mods[$nullref->module]['modules'][$nullref->source] = ob_get_contents();
 			ob_end_clean();
 		}

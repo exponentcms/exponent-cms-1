@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $u = null;
 if (isset($_REQUEST['uid'])) {
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-	$u = pathos_users_getUserById($_REQUEST['uid']);
+	$u = exponent_users_getUserById($_REQUEST['uid']);
 }
 
 if ($user && $u) {
@@ -30,7 +30,7 @@ if ($user && $u) {
 	$ban->owner = $user->id;
 	$ban->user_id = $u->id;
 	$db->insertObject($ban,'inbox_contactbanned');
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_404_HTML;
 }

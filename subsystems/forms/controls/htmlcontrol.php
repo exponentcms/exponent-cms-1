@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * HTML Control
@@ -67,14 +67,14 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 	
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->html)) {
 			$object->html = "";
 		} 
 		
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/htmlcontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/htmlcontrol.php');
 		
 		$form->register("html",'',new htmleditorcontrol($object->html));
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));

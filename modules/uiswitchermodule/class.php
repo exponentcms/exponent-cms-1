@@ -18,8 +18,8 @@
 ##################################################
 
 class uiswitchermodule {
-	function name() { return pathos_lang_loadKey('modules/uiswitchermodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/uiswitchermodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/uiswitchermodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/uiswitchermodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
@@ -33,11 +33,11 @@ class uiswitchermodule {
 	}
 	
 	function show($view,$loc = null, $title = '') {
-		$ui_levels = pathos_sessions_get('uilevels');
+		$ui_levels = exponent_sessions_get('uilevels');
 		if (count($ui_levels)) {
 			$template = new template('uiswitchermodule',$view,$loc);
 			$template->assign('levels',$ui_levels);
-			$default = (pathos_sessions_isset('uilevel') ? pathos_sessions_get('uilevel') : max(array_keys($ui_levels)));
+			$default = (exponent_sessions_isset('uilevel') ? exponent_sessions_get('uilevel') : max(array_keys($ui_levels)));
 			$template->assign('default_level',$default);
 			$template->output();
 		}

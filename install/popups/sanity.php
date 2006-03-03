@@ -17,7 +17,7 @@
 #
 ##################################################
 
-$i18n = pathos_lang_loadFile('install/popups/sanity.php');
+$i18n = exponent_lang_loadFile('install/popups/sanity.php');
 
 ?>
 <b><?php echo $i18n['title']; ?></b>

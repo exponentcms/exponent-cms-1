@@ -18,8 +18,8 @@
 ##################################################
 
 class addressbookmodule {
-	function name() { return pathos_lang_loadKey('modules/addressbookmodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/addressbookmodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/addressbookmodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/addressbookmodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class addressbookmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/addressbookmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/addressbookmodule/class.php');
 		
 		if ($internal == '') {
 			return array(
@@ -53,7 +53,7 @@ class addressbookmodule {
 			return array($loc);
 		}
 		else {
-			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
 	
@@ -67,39 +67,63 @@ class addressbookmodule {
 		$contacts = addressbookmodule::getContacts($loc);
 		// Sorting
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-		if (!function_exists('pathos_sorting_byFirstNameAscending')) {
-			function pathos_sorting_byFirstNameAscending($a,$b) {
+		if (!function_exists('exponent_sorting_byFirstNameAscending')) {
+			function exponent_sorting_byFirstNameAscending($a,$b) {
 				return strnatcmp($a->firstname ,$b->firstname);
 			}
 		}
-		if (!function_exists('pathos_sorting_byFirstNameDescending')) {
-			function pathos_sorting_byFirstNameDescending($a,$b) {
+		if (!function_exists('exponent_sorting_byFirstNameDescending')) {
+			function exponent_sorting_byFirstNameDescending($a,$b) {
 				return -1*strnatcmp($a->firstname ,$b->firstname);
 			}
 		}
-		if (!function_exists('pathos_sorting_byLastNameAscending')) {
-			function pathos_sorting_byLastNameAscending($a,$b) {
+		if (!function_exists('exponent_sorting_byLastNameAscending')) {
+			function exponent_sorting_byLastNameAscending($a,$b) {
 				return strnatcmp($a->lastname ,$b->lastname);
 			}
 		}
-		if (!function_exists('pathos_sorting_byLastNameDescending')) {
-			function pathos_sorting_byLastNameDescending($a,$b) {
+		if (!function_exists('exponent_sorting_byLastNameDescending')) {
+			function exponent_sorting_byLastNameDescending($a,$b) {
 				return -1*strnatcmp($a->lastname ,$b->lastname);
 			}
 		}
+		//Pathos Compatibility::this is deprecated
+		if (@defined(PATHOS)){
+			if(!function_exists('pathos_sorting_byFirstNameAscending')){
+				function pathos_sorting_byFirstNameAscending($a,$b){
+					return exponent_sorting_byFirstNameAscending($a,$b);
+				}
+			}
+			if(!function_exists('pathos_sorting_byFirstNameDescending')){
+				function pathos_sorting_byFirstNameDescending($a,$b){
+					return exponent_sorting_byFirstNameDescending($a,$b);
+				}
+			}
+			if(!function_exists('pathos_sorting_byLastNameAscending')){
+				function pathos_sorting_byLastNameAscending($a,$b){
+					return exponent_sorting_byFirstNameAscending($a,$b);
+				}
+			}
+			if(!function_exists('pathos_sorting_byLastNameDescending')){
+				function pathos_sorting_byLastNameDescending($a,$b){
+					return exponent_sorting_byLastNameDescending($a,$b);
+				}
+			}
+		}
+		//End Pathos Compatibility
 		
 		switch ($config->sort_type) {
 			case 'lastname_asc':
-				usort($contacts,'pathos_sorting_byLastNameAscending');
+				usort($contacts,'exponent_sorting_byLastNameAscending');
 				break;
 			case 'lastname_desc':
-				usort($contacts,'pathos_sorting_byLastNameDescending');
+				usort($contacts,'exponent_sorting_byLastNameDescending');
 				break;
 			case 'firstname_asc':
-				usort($contacts,'pathos_sorting_byFirstNameAscending');
+				usort($contacts,'exponent_sorting_byFirstNameAscending');
 				break;
 			case 'firstname_desc':
-				usort($contacts,'pathos_sorting_byFirstNameDescending');
+				usort($contacts,'exponent_sorting_byFirstNameDescending');
 				break;
 		}
 		
@@ -136,11 +160,11 @@ class addressbookmodule {
 		foreach ($db->selectObjects("addressbook_contact","location_data='".serialize($location)."'") as $c) {
 			$contacts[$c->id] = $c;
 			
-			$iloc = pathos_core_makeLocation($location->mod,$location->src,$c->id);
+			$iloc = exponent_core_makeLocation($location->mod,$location->src,$c->id);
 			$contacts[$c->id]->permissions = array(
-				'administrate'=>pathos_permissions_check('administrate',$iloc),
-				'edit'=>pathos_permissions_check('edit',$iloc),
-				'delete'=>pathos_permissions_check('delete',$iloc)
+				'administrate'=>exponent_permissions_check('administrate',$iloc),
+				'edit'=>exponent_permissions_check('edit',$iloc),
+				'delete'=>exponent_permissions_check('delete',$iloc)
 			);
 		}
 		return $contacts;

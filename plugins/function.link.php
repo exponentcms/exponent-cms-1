@@ -23,7 +23,7 @@ function smarty_function_link($params,&$smarty) {
 	if (!isset($params['src'])) $params['src'] = $loc->src;
 	if (!isset($params['int'])) $params['int'] = $loc->int;
 	
-	echo pathos_core_makeLink($params);
+	echo exponent_core_makeLink($params);
 }
 
 ?>

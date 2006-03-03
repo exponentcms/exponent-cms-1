@@ -29,7 +29,7 @@ define("SYS_GEO",1);
  *
  * @node Subsystems:Geo
  */
-function pathos_geo_listCountriesOnly() {
+function exponent_geo_listCountriesOnly() {
 	global $db;
 	$countries = array();
 	foreach ($db->selectObjects("geo_country") as $c) {
@@ -43,7 +43,7 @@ function pathos_geo_listCountriesOnly() {
  * List Countries and Regions in the Geo Database.  Returns a two-tiered array of countries and regions.
  * @node Subsystems:Geo
  */
-function pathos_geo_listCountriesAndRegions() {
+function exponent_geo_listCountriesAndRegions() {
 	global $db;
 	$countries = array();
 	foreach ($db->selectObjects("geo_country") as $c) {
@@ -57,7 +57,7 @@ function pathos_geo_listCountriesAndRegions() {
 		uasort($countries[$c->id]->regions,"strnatcasecmp");
 	}
 	if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-	uasort($countries,"pathos_sorting_byNameAscending");
+	uasort($countries,"exponent_sorting_byNameAscending");
 	return $countries;
 }
 
@@ -67,7 +67,7 @@ function pathos_geo_listCountriesAndRegions() {
  * @param integer $country_id The id of the country to get regions for
  * @node Subsystems:Geo
  */
-function pathos_geo_listRegions($country_id) {
+function exponent_geo_listRegions($country_id) {
 	global $db;
 	$regions = array();
 	foreach ($db->selectObjects("geo_region","country_id=".$country_id) as $r) {
@@ -81,7 +81,7 @@ function pathos_geo_listRegions($country_id) {
  * List all Regions in the Geo Database.  Returns an array of regions
  * @node Subsystems:Geo
  */
-function pathos_geo_listAllRegions() {
+function exponent_geo_listAllRegions() {
 	global $db;
 	$regions = array();
 	foreach ($db->selectObjects("geo_region") as $r) {

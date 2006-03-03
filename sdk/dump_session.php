@@ -1,6 +1,6 @@
 <?php
 
-include_once('../pathos.php');
+include_once('../exponent.php');
 
 ?><a href="reset_session.php">Reset Session</a>
 <xmp>

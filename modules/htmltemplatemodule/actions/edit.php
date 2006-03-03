@@ -17,17 +17,17 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $t = null;
-$loc = pathos_core_makeLocation('htmltemplatemodule');
+$loc = exponent_core_makeLocation('htmltemplatemodule');
 if (isset($_GET['id'])) {
 	$t = $db->selectObject('htmltemplate','id='.intval($_GET['id']));
 }
 
-if ((!$t && pathos_permissions_check('create',$loc)) || ($t  && pathos_permissions_check('edit',$loc))) {
+if ((!$t && exponent_permissions_check('create',$loc)) || ($t  && exponent_permissions_check('edit',$loc))) {
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
 	$form = htmltemplate::form($t);
 	$form->meta('module','htmltemplatemodule');

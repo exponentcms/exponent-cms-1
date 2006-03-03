@@ -59,7 +59,40 @@ define("CORE_EXT_SYSTEM",4);
  * @param		$int	The internal component of the location.
  * @node Subsystems:Core
  */
+//Pathos Compatibility::these functions are deprecated
 function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
+	return exponent_core_makeLocation($mod,$src,$int);
+}
+function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
+	return exponent_core_resolveDependencies($ext_name,$ext_type,$path);	
+}
+function pathos_core_makeLink($params) {
+	return exponent_core_makeLink($params);
+}
+function pathos_core_makeSecureLink($params) {
+	return exponent_core_makeSecureLink($params);
+}
+function pathos_core_copyObject($o) {
+	return exponent_core_copyObject($o);
+}
+function pathos_core_decrementLocationReference($loc,$section) {
+	return exponent_core_decrementLocationReference($loc,$section);
+}
+function pathos_core_incrementLocationReference($loc,$section) {
+	return exponent_core_incrementLocationReference($loc,$section);
+}
+function pathos_core_version($full = false, $build = false) {
+	return  exponent_core_version($full, $build);
+}
+function pathos_core_URLisValid($url) {
+	return exponent_core_URLisValid($url);
+}
+function pathos_core_maxUploadSizeMessage() {
+	return exponent_core_maxUploadSizeMessage();
+}
+//End Pathos Compatibility
+
+function exponent_core_makeLocation($mod=null,$src=null,$int=null) {
 	$loc = null;
 	$loc->mod = ($mod ? $mod : "");
 	$loc->src = ($src ? $src : "");
@@ -79,7 +112,7 @@ function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
  *	<ul>
  * @node Subsystems:Core
  */
-function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
+function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
 	if ($path == null) {
 		$path = BASE;
 	}
@@ -103,7 +136,7 @@ function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
 	if (is_readable($depfile)) {
 		$deps = include($depfile);
 		foreach ($deps as $info) {
-			$deps = array_merge($deps,pathos_core_resolveDependencies($info['name'],$info['type']));
+			$deps = array_merge($deps,exponent_core_resolveDependencies($info['name'],$info['type']));
 		}
 	}
 	
@@ -118,7 +151,7 @@ function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @param Array $params An associative array of the desired querystring parameters.
  * @node Subsystems:Core
  */
-function pathos_core_makeLink($params) {
+function exponent_core_makeLink($params) {
 	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 #	if (SEF_URLS == 0) {
 		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
@@ -149,13 +182,13 @@ function pathos_core_makeLink($params) {
  *
  * This function does take into account the SEF URLs settings and the SSL urls in the site config,
  * and uses the SSL url is the site is configured to use SSL.  Otherwise, it works exactly like
- * pathos_core_makeLink.
+ * exponent_core_makeLink.
  *
  * @param Array $params An associative array of the desired querystring parameters.
  * @node Subsystems:Core
  */
-function pathos_core_makeSecureLink($params) {
-	if (!ENABLE_SSL) return pathos_core_makeLink($params);
+function exponent_core_makeSecureLink($params) {
+	if (!ENABLE_SSL) return exponent_core_makeLink($params);
 	$link = SSL_URL . SCRIPT_FILENAME . "?";
 	foreach ($params as $key=>$value) {
 		$value = chop($value);
@@ -172,7 +205,7 @@ function pathos_core_makeSecureLink($params) {
  * @param Object $o The object to copy.  An exact duplicate of this will be returned.
  * @node Subsystems:Core
  */
-function pathos_core_copyObject($o) {
+function exponent_core_copyObject($o) {
 	$new = null;
 	foreach (get_object_vars($o) as $var=>$val) $new->$var = $val;
 	return $new;
@@ -186,7 +219,7 @@ function pathos_core_copyObject($o) {
  * @param integer $section The id of the section that the location exists in.
  * @node Subsystems:Core
  */
-function pathos_core_decrementLocationReference($loc,$section) {
+function exponent_core_decrementLocationReference($loc,$section) {
 	global $db;
 	$oldLocRef = $db->selectObject("locationref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."'");
 	$oldSecRef = $db->selectObject("sectionref", "module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."' AND section=$section");
@@ -206,7 +239,7 @@ function pathos_core_decrementLocationReference($loc,$section) {
  * @param integer $section The id of the section that the location exists in.
  * @node Subsystems:Core
  */
-function pathos_core_incrementLocationReference($loc,$section) {
+function exponent_core_incrementLocationReference($loc,$section) {
 	global $db;
 	$newLocRef = $db->selectObject("locationref","module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."'");
 	$is_new = false; // For the is_original sectionref attribute
@@ -227,9 +260,9 @@ function pathos_core_incrementLocationReference($loc,$section) {
 		$perms = call_user_func(array($loc->mod,"permissions"));
 		global $user;
 		foreach (array_keys($perms) as $perm) {
-			pathos_permissions_grant($user,$perm,$loc);
+			exponent_permissions_grant($user,$perm,$loc);
 		}
-		pathos_permissions_triggerSingleRefresh($user);
+		exponent_permissions_triggerSingleRefresh($user);
 	}
 	
 	$newSecRef = $db->selectObject("sectionref", "module='".$loc->mod."' AND source='".$loc->src."' AND internal='".$loc->int."' AND section=$section");
@@ -257,15 +290,15 @@ function pathos_core_incrementLocationReference($loc,$section) {
  * @param bool $build Whether or not to return the build date in the string.
  * @node Subsystems:Core
  */
-function pathos_core_version($full = false, $build = false) {
-	if (!defined("PATHOS_VERSION_MAJOR")) include_once(BASE."pathos_version.php");
-	$vers = PATHOS_VERSION_MAJOR.".".PATHOS_VERSION_MINOR;
+function exponent_core_version($full = false, $build = false) {
+	if (!defined("EXPONENT_VERSION_MAJOR")) include_once(BASE."exponent_version.php");
+	$vers = EXPONENT_VERSION_MAJOR.".".EXPONENT_VERSION_MINOR;
 	if ($full) {
-		$vers .= ".".PATHOS_VERSION_REVISION;
-		if (PATHOS_VERSION_TYPE != "") $vers .= "-".PATHOS_VERSION_TYPE.PATHOS_VERSION_ITERATION;
+		$vers .= ".".EXPONENT_VERSION_REVISION;
+		if (EXPONENT_VERSION_TYPE != "") $vers .= "-".EXPONENT_VERSION_TYPE.EXPONENT_VERSION_ITERATION;
 	}
 	if ($build) {
-		$vers .= " (Build Date: ".strftime("%D",PATHOS_VERSION_BUILDDATE).")";
+		$vers .= " (Build Date: ".strftime("%D",EXPONENT_VERSION_BUILDDATE).")";
 	}
 	return $vers;
 }
@@ -279,7 +312,7 @@ function pathos_core_version($full = false, $build = false) {
  * @param string $url The URL to test for validity
  * @node Subsystems:Core
  */
-function pathos_core_URLisValid($url) {
+function exponent_core_URLisValid($url) {
 	return (
 		substr($url,0,7) == "http://" ||
 		substr($url,0,8) == "https://" ||
@@ -294,7 +327,7 @@ function pathos_core_URLisValid($url) {
  * 2K and 2048 are treated identically.
  * @node Subsystems:Core
  */
-function pathos_core_maxUploadSizeMessage() {
+function exponent_core_maxUploadSizeMessage() {
 	$size = ini_get("upload_max_filesize");
 	$size_msg = "";
 	$type = substr($size,-1,1);
@@ -320,7 +353,7 @@ function pathos_core_maxUploadSizeMessage() {
 				$size_msg = $size . " bytes";
 			}
 	}
-	$i18n = pathos_lang_loadFile('subsystems/core.php');
+	$i18n = exponent_lang_loadFile('subsystems/core.php');
 	return sprintf($i18n['max_upload'],$size_msg);
 }
 

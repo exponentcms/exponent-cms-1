@@ -17,7 +17,7 @@
 #    - remove : Remove a file from the manifest
 #
 
-include_once("../pathos.php");
+include_once("../exponent.php");
 
 echo "\n\n";
 echo "-------------------------------\n";

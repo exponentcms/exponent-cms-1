@@ -35,7 +35,7 @@ define("SYS_JAVASCRIPT",1);
  * @param string $name What to call the class in javascript
  * @node Subsystems:Javascript
  */
-function pathos_javascript_class($object, $name) {
+function exponent_javascript_class($object, $name) {
 	$otherclasses = array();
 	$js = "function $name(";
 	$js1 = "";
@@ -49,7 +49,7 @@ function pathos_javascript_class($object, $name) {
 	$js = substr($js,0,-1) . ") {\n" . $js1 . "}\n";
 	foreach ($otherclasses as $other) {
 		echo "/// Other Object : ".$other[1] . "," . $other[0] ."\n";
-		$js .= "\n".pathos_javascript_class($other[1],$other[0]);
+		$js .= "\n".exponent_javascript_class($other[1],$other[0]);
 	}
 	return $js;
 }
@@ -58,7 +58,7 @@ function pathos_javascript_class($object, $name) {
  * Takes a stdClass object from PHP, and generates the
  * corresponding Javascript calls to make a new Javascript
  * object.  In order for the resulting Javascript to function
- * properly, a call to pathos_javascript_class must have been
+ * properly, a call to exponent_javascript_class must have been
  * made previously, and the same $name attribute used. Returns
  * the javascript code to create a new object.
  *
@@ -69,12 +69,12 @@ function pathos_javascript_class($object, $name) {
  * @param string $name The name of the javascript class
  * @node Subsystems:Javascript
  */
-function pathos_javascript_object($object, $name) {
+function exponent_javascript_object($object, $name) {
 	$js = "new $name(";
 	foreach (get_object_vars($object) as $var=>$val) {
 		if (is_string($val)) $js .= "'".str_replace("'","&apos;",$val)."',";
-		else if (is_array($val)) $js .= pathos_javascript_array($val) . ",";
-		else if (is_object($val)) $js .= pathos_javascript_object($val,$name."_".$var) . ",";
+		else if (is_array($val)) $js .= exponent_javascript_array($val) . ",";
+		else if (is_object($val)) $js .= exponent_javascript_object($val,$name."_".$var) . ",";
 		else $js .= "$val,";
 	}
 	return substr($js,0,-1) . ")";
@@ -88,12 +88,12 @@ function pathos_javascript_object($object, $name) {
  * @param $array The PHP array to translate
  * @node Subsystems:Javascript
  */
-function pathos_javascript_array($array) {
+function exponent_javascript_array($array) {
 	$js = "new Array( ";
 	foreach ($array as $val) {
 		if (is_string($val)) $js .= "'".str_replace("'","&apos;",$val)."',";
-		else if (is_array($val)) $js .= pathos_javascript_array($val) . ",";
-		else if (is_object($val)) $js .= pathos_javascript_object($val,$var) . ",";
+		else if (is_array($val)) $js .= exponent_javascript_array($val) . ",";
+		else if (is_object($val)) $js .= exponent_javascript_object($val,$var) . ",";
 		else $js .= "$val,";
 	}
 	return substr($js,0,-1) . ")";

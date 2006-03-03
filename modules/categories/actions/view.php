@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $loc->mod = $_GET['m'];
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 $categories = $db->selectObjects('category',"location_data='".serialize($loc)."'");
 $template = new template($loc->mod,'_cat_viewCategories',$loc);
 $template->assign('categories',$categories);

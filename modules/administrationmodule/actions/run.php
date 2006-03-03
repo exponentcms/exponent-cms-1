@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $file = 'modules/' . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php';
 if (is_readable($file)) {

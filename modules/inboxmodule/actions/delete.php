@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	$msg = $db->selectObject('privatemessage','id='.intval($_GET['id']));
 	if ($msg) {
 		if ($msg->recipient == $user->id) { // OR check for mng perms.
 			$db->delete('privatemessage','id='.$msg->id);
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		}
 	} else {
 		echo SITE_404_HTML;

@@ -18,9 +18,9 @@
 ##################################################
 
 class administrationmodule {
-	function name() { return pathos_lang_loadKey('modules/administrationmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/administrationmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/administrationmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/administrationmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -29,7 +29,7 @@ class administrationmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = "") {
-		$i18n = pathos_lang_loadFile('modules/administrationmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/administrationmodule/class.php');
 		
 		$permissions = array('administrate'=>$i18n['perm_admin']);
 		
@@ -83,7 +83,7 @@ class administrationmodule {
 		
 		$perms = administrationmodule::permissions();
 		$template->assign('check_permissions',array_flip($perms));
-		$template->register_permissions(array_keys($perms),pathos_core_makeLocation('administrationmodule'));
+		$template->register_permissions(array_keys($perms),exponent_core_makeLocation('administrationmodule'));
 		
 		$template->output($view);
 	}

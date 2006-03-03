@@ -18,6 +18,6 @@
 ##################################################
 
 function smarty_function_viewfile($params,&$smarty) {
-	$view = pathos_template_getModuleViewFile($params['module'],$params['view']);
+	$view = exponent_template_getModuleViewFile($params['module'],$params['view']);
 	$smarty->assign($params['var'],$view);
 }

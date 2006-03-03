@@ -19,16 +19,16 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-	pathos_users_includeProfileExtensions();
+	exponent_users_includeProfileExtensions();
 	$existing = $db->selectObject('profileextension',"extension='".preg_replace('/[^A-Za-z0-9_ ]/','',$_GET['ext'])."'");
 	if ($existing == null) {
 		call_user_func(array($_GET['ext'],'clear'));
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

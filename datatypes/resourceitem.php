@@ -19,10 +19,10 @@
 
 class resourceitem {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/resourceitem.php');
+		$i18n = exponent_lang_loadFile('datatypes/resourceitem.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if ($object == null) {

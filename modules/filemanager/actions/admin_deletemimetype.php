@@ -19,9 +19,9 @@
 
 // Part of the Administration Control Panel : Files Subsystem category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('files_subsystem',exponent_core_makeLocation('administrationmodule'))) {
 	$type = null;
 	if (isset($_GET['type'])) {
 		$type = $db->selectObject('mimetype',"mimetype='".preg_replace('/[^A-Za-z0-9\/]/','',$_GET['type'])."'");
@@ -30,7 +30,7 @@ if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('adminis
 		$db->delete('mimetype',"mimetype='" . $type->mimetype . "'");
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 }
 
 ?>

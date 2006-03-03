@@ -19,12 +19,12 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (isset($_GET['id']) && pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (isset($_GET['id']) && exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	
-	$u = pathos_users_getUserById(intval($_GET['id']));
+	$u = exponent_users_getUserById(intval($_GET['id']));
 	
 	$template = new template('administrationmodule','_umgr_edit_which',$loc);
 	$template->assign('user',$u);

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * HTML Editor Control
@@ -77,10 +77,10 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 			var htmleditorcontrols = new Array(); // an array of textareanames.
 			var editors = new Array();
 			
-			// Register an initialization function with the Pathos JS Support System.
+			// Register an initialization function with the Exponent JS Support System.
 			// This will be called onLoad (assuming the theme is playing nice)
 			var once = false;
-			pathosJSregister(function () {
+			exponentJSregister(function () {
 				for (i = 0; i < htmleditorcontrols.length; i++) {
 					editors[i] = new HTMLArea(htmleditorcontrols[i]);
 					editors[i].config = htmleditorconfig;

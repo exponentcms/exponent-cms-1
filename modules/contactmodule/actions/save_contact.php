@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $contact = null;
 if (isset($_POST['id'])) {
@@ -25,7 +25,7 @@ if (isset($_POST['id'])) {
 	if ($contact) $loc = unserialize($contact->location_data);
 }
 
-if (pathos_permissions_check('configure',$loc)) {
+if (exponent_permissions_check('configure',$loc)) {
 	$contact = contact_contact::update($_POST,$contact);
 	$contact->location_data = serialize($loc);
 	
@@ -34,7 +34,7 @@ if (pathos_permissions_check('configure',$loc)) {
 	} else {
 		$db->insertObject($contact,'contact_contact');
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

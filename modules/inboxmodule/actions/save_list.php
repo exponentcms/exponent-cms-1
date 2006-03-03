@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $list = null;
 if (isset($_POST['id'])) {
@@ -44,7 +44,7 @@ if ($user && ($list == null || $list->owner == $user->id)) {
 			$db->insertObject($member,'inbox_contactlist_member');
 		}
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

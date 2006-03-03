@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 ob_start();
 
 if (isset($_GET['redirecturl'])) {
@@ -25,18 +25,18 @@ if (isset($_GET['redirecturl'])) {
 	if (substr($redirect,0,4) != 'http') {
 		$redirect = URL_FULL.$redirect;
 	}
-	pathos_sessions_set('redirecturl',$redirect);
+	exponent_sessions_set('redirecturl',$redirect);
 }
 
 //$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-if (pathos_sessions_loggedIn()) {
-	header('Location: ' . pathos_sessions_get('redirecturl'));
+if (exponent_sessions_loggedIn()) {
+	header('Location: ' . exponent_sessions_get('redirecturl'));
 	exit('Redirecting...');
 } 
 
-$i18n = pathos_lang_loadFile('modules/loginmodule/actions/loginredirect.php');
+$i18n = exponent_lang_loadFile('modules/loginmodule/actions/loginredirect.php');
 loginmodule::show('Default',null,$i18n['login']);
 
 

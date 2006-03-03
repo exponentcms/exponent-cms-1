@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Country Region
@@ -62,7 +62,7 @@ class countryregioncontrol extends formcontrol {
 		$html = "";
 		
 		if (!defined("SYS_GEO")) require_once(BASE."subsystems/geo.php");
-		$countries = pathos_geo_listCountriesOnly();
+		$countries = exponent_geo_listCountriesOnly();
 		$c_dd = new dropdowncontrol($this->country_default,$countries);
 		$c_dd->jsHooks["onChange"] = "geo_rebuildRegions(this,'".$name."_region_id'," . (($this->allow_entire_country)?'true':'false') . ");";
 		
@@ -103,16 +103,16 @@ class countryregioncontrol extends formcontrol {
 			$region->parent_id = 0;
 			$region->id = 0;
 			$region->name = "";
-			$html .= pathos_javascript_class($region,"geoRegion");
+			$html .= exponent_javascript_class($region,"geoRegion");
 			$html .= "var geo_regions = new Array();\n";
 			foreach ($countries as $cid=>$cname) {
 				$region = null;
 				$region->parent_id = $cid;
-				foreach (pathos_geo_listRegions($cid) as $rid=>$rname) {
+				foreach (exponent_geo_listRegions($cid) as $rid=>$rname) {
 					$region->id = $rid;
 					$region->name = $rname;
 					$html .= "geo_regions.push(";
-					$html .= pathos_javascript_object($region,"geoRegion");
+					$html .= exponent_javascript_object($region,"geoRegion");
 					$html .= ");\n";
 				}
 			}
@@ -120,7 +120,7 @@ class countryregioncontrol extends formcontrol {
 		
 		}
 		
-		$regions = pathos_geo_listRegions($this->country_default);
+		$regions = exponent_geo_listRegions($this->country_default);
 		if ($this->allow_entire_country) {
 			array_unshift($regions,"[ Entire Country ]");
 		}

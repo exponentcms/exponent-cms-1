@@ -19,10 +19,10 @@
 
 class section_template {
 	function form($object = null) {
-		$i18n = pathos_lang_loadFile('datatypes/section_template.php');
+		$i18n = exponent_lang_loadFile('datatypes/section_template.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -49,7 +49,7 @@ class section_template {
 			
 			if (count($sections)) {
 				if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-				usort($sections,'pathos_sorting_byRankAscending');
+				usort($sections,'exponent_sorting_byRankAscending');
 				
 				$dd = array($i18n['position_top']);
 				foreach ($sections as $s) $dd[] = sprintf($i18n['position_after'],$s->name);
@@ -59,7 +59,7 @@ class section_template {
 		} else $form->meta('rank',0);
 		
 		if (is_readable(THEME_ABSOLUTE.'subthemes')) { // grab sub themes
-			$form->register('subtheme',$i18n['subtheme'],new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
+			$form->register('subtheme',$i18n['subtheme'],new dropdowncontrol($object->subtheme,exponent_theme_getSubThemes()));
 		}
 		
 		$form->register('active',$i18n['active'],new checkboxcontrol($object->active));

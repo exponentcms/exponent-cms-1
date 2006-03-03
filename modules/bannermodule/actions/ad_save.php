@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $banner = null;
 if (isset($_POST['id'])) {
@@ -25,7 +25,7 @@ if (isset($_POST['id'])) {
 	$loc = unserialize($banner->location_data);
 }
 
-if (pathos_permissions_check('manage',$loc)) {
+if (exponent_permissions_check('manage',$loc)) {
 
     $filenew = $_FILES['file']['tmp_name'];
     $fileup = getimagesize ( $filenew );
@@ -47,13 +47,13 @@ if (pathos_permissions_check('manage',$loc)) {
 			    // If file::update() returns a non-object, it should be a string.  That string is the error message.
 			    $post = $_POST;
 			    $post['_formError'] = $file;
-			    pathos_sessions_set('last_POST',$post);
+			    exponent_sessions_set('last_POST',$post);
 			    header('Location: ' . $_SERVER['HTTP_REFERER']);
 		    }
 	    } else {
 		    $db->updateObject($banner,'banner_ad');
 	    }
-    	pathos_flow_redirect();
+    	exponent_flow_redirect();
     } else {
        echo SITE_404_HTML;
     }

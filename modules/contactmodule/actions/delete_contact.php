@@ -17,15 +17,15 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $contact = $db->selectObject('contact_contact','id='.intval($_GET['id']));
 if ($contact) {
 	$loc = unserialize($contact->location_data);
 	
-	if (pathos_permissions_check('configure',$loc)) {
+	if (exponent_permissions_check('configure',$loc)) {
 		$db->delete('contact_contact','id='.$contact->id);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		SITE_403_HTML;
 	}

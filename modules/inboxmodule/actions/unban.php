@@ -17,13 +17,13 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $ban = $db->selectObject('inbox_contactbanned','id='.intval($_GET['id']));
 
 if ($user && $ban && $ban->owner = $user->id) {
 	$db->delete('inbox_contactbanned','id='.$ban->id);
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_404_HTML;
 }

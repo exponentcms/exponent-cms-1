@@ -17,15 +17,15 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	
-	$i18n = pathos_lang_loadFile('modules/inboxmodule/actions/send.php');
+	$i18n = exponent_lang_loadFile('modules/inboxmodule/actions/send.php');
 	
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
 	// Process recipients first, so that we can save the built list in the last_POST var in case we need to return
 	$recipients = listbuildercontrol::parseData($_POST,'recipients');
@@ -50,7 +50,7 @@ if ($user) {
 			$toks = explode('_',$ginfo);
 			$gid = $toks[1];
 			if ($toks[0] == 'group') {
-				foreach (pathos_users_getUsersInGroup(pathos_users_getGroupById($gid)) as $u) {
+				foreach (exponent_users_getUsersInGroup(exponent_users_getGroupById($gid)) as $u) {
 					if (!in_array($u->id,$banned)) {
 						$recipients[] = $u->id;
 					}
@@ -78,7 +78,7 @@ if ($user) {
 		$post['_formError'] = $i18n['err_no_subject'];
 		$post['recipients'] = $recipients;
 		$post['group_recipients'] = $gr;
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit();
 	}
@@ -88,7 +88,7 @@ if ($user) {
 		$post['_formError'] = $i18n['err_no_recipients'];
 		$post['recipients'] = $recipients;
 		$post['group_recipients'] = $gr;
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit();
 	}
@@ -122,7 +122,7 @@ if ($user) {
 	$emails = array();
 	foreach ($recipients as $id) {
 		if ($id != '') {
-			$u = pathos_users_getUserByID($id);
+			$u = exponent_users_getUserByID($id);
 			if (!$u) {
 				$failed->body = sprintf($i18n['failed_404'],$message->body);
 				$db->insertObject($failed,'privatemessage');
@@ -157,11 +157,11 @@ if ($user) {
 			'Reply-to'=>$reply_to,
 			'From'=>$reply_to,
 		);
-		if (pathos_smtp_mail($emails,'',$message->subject,'<html><body>'.$message->body.'</body></html>',$headers) == false) {
+		if (exponent_smtp_mail($emails,'',$message->subject,'<html><body>'.$message->body.'</body></html>',$headers) == false) {
 			echo $i18n['err_smtp'];
 		}
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

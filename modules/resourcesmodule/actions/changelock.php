@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 if ($item ) {
@@ -28,7 +28,7 @@ if ($item ) {
 			$item->flock_owner = 0;
 		}
 		$db->updateObject($item,'resourceitem');
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 } else {
     header("HTTP/1.1 404 Not Found");

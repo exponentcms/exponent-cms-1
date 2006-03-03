@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $container = null;
 $iloc = null;
@@ -33,9 +33,9 @@ if (isset($_GET['id'])) {
 	$container->rank = $_GET['rank'];
 }
 
-if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('add_module',$loc) ||
-	($iloc != null && pathos_permissions_check('administrate',$iloc)) ||
-	($cloc != null && pathos_permissions_check('delete_module',$cloc))
+if (exponent_permissions_check('edit_module',$loc) || exponent_permissions_check('add_module',$loc) ||
+	($iloc != null && exponent_permissions_check('administrate',$iloc)) ||
+	($cloc != null && exponent_permissions_check('delete_module',$cloc))
 ) {
 	#
 	# Initialize Container, in case its null
@@ -44,7 +44,7 @@ if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('ad
 	if (!isset($container->id)) {
 		$locref->description = '';
 		$container->view = '';
-		$container->internal = pathos_core_makeLocation();
+		$container->internal = exponent_core_makeLocation();
 		$container->title = '';
 		$container->rank = $_GET['rank'];
 		$container->is_private = 0;
@@ -59,13 +59,13 @@ if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('ad
 	$template->assign('locref',$locref);
 	$template->assign('is_edit', (isset($container->id) ? 1 : 0) );
 	$template->assign('can_activate_modules',$user->is_acting_admin);
-	$template->assign('current_section',pathos_sessions_get('last_section'));
+	$template->assign('current_section',exponent_sessions_get('last_section'));
 	
 	if (!defined('SYS_JAVASCRIPT')) include_once(BASE.'subsystems/javascript.php');
 	$haveclass = false;
 	$mods = array();
 	
-	$modules_list = (isset($container->id) ? pathos_modules_list() : pathos_modules_listActive());
+	$modules_list = (isset($container->id) ? exponent_modules_list() : exponent_modules_listActive());
 	
 	if (!count($modules_list)) { // No active modules
 		$template->assign('nomodules',1);
@@ -74,7 +74,7 @@ if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('ad
 	}
 	
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	usort($modules_list,'pathos_sorting_moduleClassByNameAscending');
+	usort($modules_list,'exponent_sorting_moduleClassByNameAscending');
 	
 	$js_init = '<script type="text/javascript">';
 		
@@ -96,16 +96,16 @@ if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('ad
 		$mod->supportsViews  = ($module->hasViews()   ? 1 : 0);
 		
 		// Get a list of views
-		$mod->views = pathos_template_listModuleViews($moduleclass);
+		$mod->views = exponent_template_listModuleViews($moduleclass);
 		natsort($mod->views);
 		
 		if (!$haveclass) {
-			$js_init .=  pathos_javascript_class($mod,'Module');
+			$js_init .=  exponent_javascript_class($mod,'Module');
 			$js_init .=  "var modules = new Array();\r\n";
 			$js_init .=  "var modnames = new Array();\r\n\r\n";
 			$haveclass = true;
 		}
-		$js_init .=  "modules.push(" . pathos_javascript_object($mod,"Module") . ");\r\n";
+		$js_init .=  "modules.push(" . exponent_javascript_object($mod,"Module") . ");\r\n";
 		$js_init .=  "modnames.push('" . $moduleclass . "');\r\n";
 		$mods[$moduleclass] = $module->name();
 	}
@@ -114,7 +114,7 @@ if (pathos_permissions_check('edit_module',$loc) || pathos_permissions_check('ad
 	$template->assign('js_init',$js_init);
 	$template->assign('modules',$mods);
 	$template->assign('loc',$loc);
-	$template->assign('back',pathos_flow_get());
+	$template->assign('back',exponent_flow_get());
 	$template->output();
 } else {
 	echo SITE_403_HTML;

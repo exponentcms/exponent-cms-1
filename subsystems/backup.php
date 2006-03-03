@@ -45,10 +45,10 @@ define('EQL_HEADER','EQL-Exponent Query Language');
  * @param Database $db The database object to dump to EQL.
  * @node Subsystems:Backup
  */
-function pathos_backup_dumpDatabase($db,$tables = null,$force_version = null) {
+function exponent_backup_dumpDatabase($db,$tables = null,$force_version = null) {
 	$dump = EQL_HEADER."\r\n";
 	if ($force_version == null) {
-		$dump .= 'VERSION:'.PATHOS."\r\n\r\n";
+		$dump .= 'VERSION:'.EXPONENT."\r\n\r\n";
 	} else {
 		$dump .= 'VERSION:'.$force_version."\r\n\r\n";
 	}
@@ -90,10 +90,10 @@ function pathos_backup_dumpDatabase($db,$tables = null,$force_version = null) {
  *	during the parse/restore.
  * @node Subsystems:Backup
  */
-function pathos_backup_restoreDatabase($db,$file,&$errors,$force_version = null) {
+function exponent_backup_restoreDatabase($db,$file,&$errors,$force_version = null) {
 	$errors = array();
 	
-	$i18n = pathos_lang_loadFile('subsystems/backup.php');
+	$i18n = exponent_lang_loadFile('subsystems/backup.php');
 	
 	if (is_readable($file)) {
 		$lines = @file($file);
@@ -110,14 +110,14 @@ function pathos_backup_restoreDatabase($db,$file,&$errors,$force_version = null)
 		} else {
 			$eql_version = $force_version;
 		}
-		$current_version = PATHOS+0;
+		$current_version = EXPONENT+0;
 		
 		$clear_function = '';
 		$fprefix = '';
 		// Check version and include necessary converters
 		if ($eql_version != $current_version) {
 			include_once(BASE.'subsystems/backup/'.$eql_version.'.php');
-			$fprefix = 'pathos_backup_'.implode('',explode('.',$eql_version)).'_';
+			$fprefix = 'exponent_backup_'.implode('',explode('.',$eql_version)).'_';
 			if (function_exists($fprefix.'clearedTable')) {
 				$clear_function = $fprefix.'clearedTable';
 			}

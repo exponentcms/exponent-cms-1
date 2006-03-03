@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
-$section = (pathos_sessions_isset('last_section') ? pathos_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 $section = $db->selectObject('section','id='.$section);
 
 // Handle sub themes
@@ -37,7 +37,7 @@ if (is_readable(BASE.$page)) {
 	$SYS_FLOW_REDIRECTIONPATH='source_selector';
 
 	$source_select = array();
-	if (pathos_sessions_isset('source_select')) $source_select = pathos_sessions_get('source_select');
+	if (exponent_sessions_isset('source_select')) $source_select = exponent_sessions_get('source_select');
 	$count_orig = count($source_select);
 	
 	if (isset($_REQUEST['vview'])) {
@@ -72,11 +72,11 @@ if (is_readable(BASE.$page)) {
 		$source_select['hideOthers'] = 0;
 	}
 	
-	pathos_sessions_set('source_select',$source_select);
+	exponent_sessions_set('source_select',$source_select);
 	// Include the rendering page.
 	include_once(BASE.$page);
 } else {
-	$i18n = pathos_lang_loadFile('selector.php');
+	$i18n = exponent_lang_loadFile('selector.php');
 	echo sprintf($i18n['not_readable'],BASE.$page);
 }
 

@@ -18,9 +18,9 @@
 ##################################################
 
 class navigationmodule {
-	function name() { return pathos_lang_loadKey('modules/navigationmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/navigationmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/navigationmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/navigationmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -29,7 +29,7 @@ class navigationmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/navigationmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/navigationmodule/class.php');
 		
 		return array(
 			'view'=>$i18n['perm_view'],
@@ -38,7 +38,7 @@ class navigationmodule {
 	}
 	
 	function show($view,$loc = null,$title = '') {
-		$id = pathos_sessions_get('last_section');
+		$id = exponent_sessions_get('last_section');
 		$current = null;
 		$sections = navigationmodule::levelTemplate(0,0);
 		foreach ($sections as $section) {
@@ -85,9 +85,9 @@ class navigationmodule {
 		global $db;
 		$nodes = $db->selectObjects('section','parent='.$parent);
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		usort($nodes,'pathos_sorting_byRankAscending');
+		usort($nodes,'exponent_sorting_byRankAscending');
 		foreach ($nodes as $node) {
-			if (($node->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$node->id))) && !in_array($node->id,$ignore_ids)) {
+			if (($node->public == 1 || exponent_permissions_check('view',exponent_core_makeLocation('navigationmodule','',$node->id))) && !in_array($node->id,$ignore_ids)) {
 				$html .= '<option value="' . $node->id . '" ';
 				if ($default == $node->id) $html .= 'selected';
 				$html .= '>';
@@ -114,9 +114,9 @@ class navigationmodule {
 		global $db;
 		$nodes = $db->selectObjects('section','parent='.$parent);
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		usort($nodes,'pathos_sorting_byRankAscending');
+		usort($nodes,'exponent_sorting_byRankAscending');
 		foreach ($nodes as $node) {
-			if (($node->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$node->id))) && !in_array($node->id,$ignore_ids)) {
+			if (($node->public == 1 || exponent_permissions_check('view',exponent_core_makeLocation('navigationmodule','',$node->id))) && !in_array($node->id,$ignore_ids)) {
 				if ($node->active == 1) {
 					$text = str_pad('',($depth+($full?1:0))*3,'.',STR_PAD_LEFT) . $node->name;
 				} else {
@@ -138,11 +138,11 @@ class navigationmodule {
 		$nodes = array();
 		$kids = $db->selectObjects('section','parent='.$parent);
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		usort($kids,'pathos_sorting_byRankAscending');
+		usort($kids,'exponent_sorting_byRankAscending');
 		for ($i = 0; $i < count($kids); $i++) {
 			$child = $kids[$i];
 			//foreach ($kids as $child) {
-			if ($child->public == 1 || pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$child->id))) {
+			if ($child->public == 1 || exponent_permissions_check('view',exponent_core_makeLocation('navigationmodule','',$child->id))) {
 				$child->numParents = count($parents);
 				$child->depth = $depth;
 				$child->first = ($i == 0 ? 1 : 0);
@@ -172,11 +172,11 @@ class navigationmodule {
 						// (and vice-versa) and because the section::updateInternalLink
 						// does 'alias to alias' dereferencing before the section is saved
 						// (see datatypes/section.php)
-						$child->link = pathos_core_makeLink(array('section'=>$child->internal_id));
+						$child->link = exponent_core_makeLink(array('section'=>$child->internal_id));
 					}
 				} else {
 					// Normal link.  Just create the URL from the section's id.
-					$child->link = pathos_core_makeLink(array('section'=>$child->id));
+					$child->link = exponent_core_makeLink(array('section'=>$child->id));
 				}
 				$child->numChildren = $db->countObjects('section','parent='.$child->id);
 				$nodes[] = $child;
@@ -193,7 +193,7 @@ class navigationmodule {
 		$arr = array();
 		$kids = $db->selectObjects('section_template','parent='.$parent);
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		usort($kids,'pathos_sorting_byRankAscending');
+		usort($kids,'exponent_sorting_byRankAscending');
 		
 		for ($i = 0; $i < count($kids); $i++) {
 			$page = $kids[$i];
@@ -222,8 +222,8 @@ class navigationmodule {
 			$src = substr($ref->source,strlen($prefix)) . $section->id;
 			
 			if (call_user_func(array($ref->module,'hasContent'))) {
-				$oloc = pathos_core_makeLocation($ref->module,$ref->source);
-				$nloc = pathos_core_makeLocation($ref->module,$src);
+				$oloc = exponent_core_makeLocation($ref->module,$ref->source);
+				$nloc = exponent_core_makeLocation($ref->module,$src);
 				
 				call_user_func(array($ref->module,'copyContent'),$oloc,$nloc);
 			}
@@ -263,14 +263,14 @@ class navigationmodule {
 		}
 		$secrefs = $db->selectObjects('sectionref','section='.$parent);
 		foreach ($secrefs as $secref) {
-			$loc = pathos_core_makeLocation($secref->module,$secref->source,$secref->internal);
-			pathos_core_decrementLocationReference($loc,$parent);
+			$loc = exponent_core_makeLocation($secref->module,$secref->source,$secref->internal);
+			exponent_core_decrementLocationReference($loc,$parent);
 			
 			foreach ($db->selectObjects('locationref',"module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
 				if (class_exists($locref->module)) {
 					$modclass = $locref->module;
 					$mod = new $modclass();
-					$mod->deleteIn(pathos_core_makeLocation($locref->module,$locref->source,$locref->internal));
+					$mod->deleteIn(exponent_core_makeLocation($locref->module,$locref->source,$locref->internal));
 				}
 			}
 			$db->delete('locationref',"module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0");
@@ -293,7 +293,7 @@ class navigationmodule {
 		global $db;
 		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
-			return pathos_permissions_check('view',pathos_core_makeLocation('navigationmodule','',$section->id));
+			return exponent_permissions_check('view',exponent_core_makeLocation('navigationmodule','',$section->id));
 		} else { // Is public.  check parents.
 			if ($section->parent <= 0) {
 				// Out of parents, and since we are still checking, we haven't hit a private section.
@@ -317,10 +317,17 @@ class navigationmodule {
     }
 
     /*
+	//Commented out per Hans and Tom
 	function isPublic($section) {
 		$hier = navigationmodule::levelTemplate(0,0);
 		
 		while (true) {
+			//echo "Section:<br>";
+			//echo "<xmp>";
+			//print_r($section);
+			//echo "</xmp>";
+			//dump_debug();
+			
 			if ($section->public == 0) {
 				// Not a public section.  Check permissions.
 				return false;
@@ -335,7 +342,7 @@ class navigationmodule {
 			}
 		}
 	}
-    */
+	*/
 }
 
 ?>

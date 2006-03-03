@@ -17,16 +17,16 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 if (!defined("SYS_USER")) require_once(BASE."subsystems/users.php");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-pathos_forms_initialize();
+exponent_forms_initialize();
 global $user;
 $f = $db->selectObject("formbuilder_form","id=".intval($_POST['id']));
 $rpt = $db->selectObject("formbuilder_report","form_id=".intval($_POST['id']));
 $controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly=0");
 if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-usort($controls,"pathos_sorting_byRankAscending");
+usort($controls,"exponent_sorting_byRankAscending");
 
 $db_data = null;
 $fields = array();
@@ -43,7 +43,7 @@ foreach ($controls as $c) {
 		$captions[$c->name] = $c->caption;
 	}
 }
-if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions_check("editdata",unserialize($f->location_data)))) {
+if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissions_check("editdata",unserialize($f->location_data)))) {
 	if ($f->is_saved == 1) {	
 		if (isset($_POST['data_id'])) {
 			//if this is an edit we remove the record and insert a new one.
@@ -55,7 +55,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions
 		} 
 		else {
 			$db_data->ip = $_SERVER['REMOTE_ADDR'];
-			if (pathos_sessions_loggedIn()) {
+			if (exponent_sessions_loggedIn()) {
 				$db_data->user_id = $user->id;
 			} else {
 				$db_data->user_id = 0;
@@ -72,11 +72,11 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions
 		$emaillist = array();
 		foreach ($db->selectObjects("formbuilder_address","form_id=".$f->id) as $address) {
 			if ($address->group_id != 0) {
-				foreach (pathos_users_getUsersInGroup(pathos_user_getGroupById($address->group_id)) as $locUser){
+				foreach (exponent_users_getUsersInGroup(exponent_user_getGroupById($address->group_id)) as $locUser){
 					if ($locUser->email != '') $emaillist[] = $locUser->email;
 				}
 			} else if ($address->user_id != 0) {
-				$locUser = pathos_users_getUserById($address->user_id);
+				$locUser = exponent_users_getUserById($address->user_id);
 				if ($locUser->email != '') $emaillist[] = $locUser->email;
 			} else if ($address->email != '') {
 				$emaillist[] = $address->email;
@@ -106,8 +106,8 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions
 					"MIME-Version"=>"1.0",
 					"Content-type"=>"text/html; charset=iso-8859-1"
 				);
-				if (pathos_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
-					$i18n = pathos_lang_loadFile('modules/formbuilder/actions/submitform.php');
+				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
+					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submitform.php');
 					echo $i18n['err_smtp'];
 				}
 			}
@@ -117,13 +117,13 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && pathos_permissions
 			$template = new template("formbuilder","_view_response");
 			global $SYS_FLOW_REDIRECTIONPATH;
 			$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-			$template->assign("backlink",pathos_flow_get());
-			$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
+			$template->assign("backlink",exponent_flow_get());
+			$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
 			$template->assign("response_html",$f->response);
 			$template->output();
 		}
 		else {
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		}
 	} else {
 		echo SITE_403_HTML;

@@ -19,16 +19,16 @@
 
 class inbox_contactbanned {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('database/inbox_contactbanned.php');
+		$i18n = exponent_lang_loadFile('database/inbox_contactbanned.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		
 		$users = array();
-		foreach (pathos_users_getAllUsers() as $u) {
+		foreach (exponent_users_getAllUsers() as $u) {
 			if ($u->is_acting_admin == 0 && $u->id != $user->id) {
 				$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 			}

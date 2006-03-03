@@ -17,11 +17,11 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	$db->switchValues('workflowaction','rank',intval($_GET['a']),intval($_GET['b']),"policy_id='".intval($_GET['policy_id'])."' AND type=".$_GET['type']);
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

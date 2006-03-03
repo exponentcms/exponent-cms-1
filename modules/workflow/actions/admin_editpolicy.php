@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	$policy = null;
 	if (isset($_GET['id'])) {
 		$policy = $db->selectObject('approvalpolicy','id='.intval($_GET['id']));

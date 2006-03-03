@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $resource = null;
 $iloc = null;
@@ -25,13 +25,13 @@ if (isset($_POST['id'])) {
 	$resource = $db->selectObject('resourceitem','id='.intval($_POST['id']));
 	if ($resource) {
 		$loc = unserialize($resource->location_data);
-		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	}
 }
 
-if (($resource == null && pathos_permissions_check('post',$loc)) ||
-	($resource != null && pathos_permissions_check('edit',$loc)) ||
-	($iloc != null && pathos_permissions_check('edit',$iloc))
+if (($resource == null && exponent_permissions_check('post',$loc)) ||
+	($resource != null && exponent_permissions_check('edit',$loc)) ||
+	($iloc != null && exponent_permissions_check('edit',$iloc))
 ) {
 	$resource = resourceitem::update($_POST,$resource);
 	$resource->location_data = serialize($loc);
@@ -49,29 +49,29 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 			$resource->file_id = $db->insertObject($file,'file');
 			$id = $db->insertObject($resource,'resourceitem');
 			// Assign new perms on loc
-			$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$id);
-			pathos_permissions_grant($user,'edit',$iloc);
-			pathos_permissions_grant($user,'delete',$iloc);
-			pathos_permissions_grant($user,'administrate',$iloc);
-			pathos_permissions_triggerSingleRefresh($user);
+			$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$id);
+			exponent_permissions_grant($user,'edit',$iloc);
+			exponent_permissions_grant($user,'delete',$iloc);
+			exponent_permissions_grant($user,'administrate',$iloc);
+			exponent_permissions_triggerSingleRefresh($user);
 			
 			if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 			$resource->id = $id;
 			$resource->poster = $user->id;
 			$resource->posted = time();
-			pathos_workflow_post($resource,'resourceitem',$loc);
+			exponent_workflow_post($resource,'resourceitem',$loc);
 		} else {
 			// If file::update() returns a non-object, it should be a string.  That string is the error message.
 			$post = $_POST;
 			$post['_formError'] = $file;
-			pathos_sessions_set('last_POST',$post);
+			exponent_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else {
 		$resource->editor = $user->id;
 		$resource->edited = time();
 		$db->updateObject($resource,'resourceitem');
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 } else {
 	echo SITE_403_HTML;

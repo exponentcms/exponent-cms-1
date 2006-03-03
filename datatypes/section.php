@@ -27,7 +27,7 @@ class section {
 	 * meta field (hidden input) or a rank dropdown.
 	 */
 	function _commonForm(&$object) {
-		$i18n = pathos_lang_loadFile('datatypes/section.php');
+		$i18n = exponent_lang_loadFile('datatypes/section.php');
 		
 		// Create a new blank form.
 		$form = new form();
@@ -70,7 +70,7 @@ class section {
 				// Initialize the sorting subsystem so that we can order the sections
 				// by rank, ascending, and get the proper ordering.
 				if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-				usort($sections,'pathos_sorting_byRankAscending');
+				usort($sections,'exponent_sorting_byRankAscending');
 				
 				// Generate the Position dropdown array.
 				$positions = array($i18n['position_top']);
@@ -98,11 +98,11 @@ class section {
 	}
 	
 	function moveStandaloneForm($object = null) {
-		$i18n = pathos_lang_loadFile('datatypes/section.php');
+		$i18n = exponent_lang_loadFile('datatypes/section.php');
 		
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = section::_commonForm($object);
 		$form->unregister('name');
@@ -131,11 +131,11 @@ class section {
 	 *    edit an existing one.
 	 */
 	function form($object = null) {
-		$i18n = pathos_lang_loadFile('datatypes/section.php');
+		$i18n = exponent_lang_loadFile('datatypes/section.php');
 		
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		// Grab the basic form that all page types share
 		// This has the name and positional dropdowns registered.
@@ -143,7 +143,7 @@ class section {
 		$form = section::_commonForm($object);
 		
 		// Register the sub themes dropdown.
-		$form->register('subtheme',$i18n['subtheme'],new dropdowncontrol($object->subtheme,pathos_theme_getSubThemes()));
+		$form->register('subtheme',$i18n['subtheme'],new dropdowncontrol($object->subtheme,exponent_theme_getSubThemes()));
 		
 		// Register the 'Active?' and 'Public?' checkboxes.
 		$form->register('active',$i18n['active'],new checkboxcontrol($object->active));
@@ -174,11 +174,11 @@ class section {
 	 *    edit an existing one.
 	 */
 	function externalAliasForm($object = null) {
-		$i18n = pathos_lang_loadFile('datatypes/section.php');
+		$i18n = exponent_lang_loadFile('datatypes/section.php');
 		
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		// Grab the basic form that all page types share
 		// This has the name and positional dropdowns registered.
@@ -212,11 +212,11 @@ class section {
 	 *    edit an existing one.
 	 */
 	function internalAliasForm($object = null) {
-		$i18n = pathos_lang_loadFile('datatypes/section.php');
+		$i18n = exponent_lang_loadFile('datatypes/section.php');
 		
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		// Initialization
 		if (!isset($object->id)) {
@@ -253,11 +253,11 @@ class section {
 	 *    edit an existing one.
 	 */
 	function pagesetForm($object = null) {
-		$i18n = pathos_lang_loadFile('datatypes/section.php');
+		$i18n = exponent_lang_loadFile('datatypes/section.php');
 		
 		// Initialize the forms subsystem for use.
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		// Grab the basic form that all page types share
 		// This has the name and positional dropdowns registered.
@@ -347,7 +347,7 @@ class section {
 		
 		$object->alias_type = 1;
 		$object->external_link = $values['external_link'];
-		if (!pathos_core_URLisValid($object->external_link)) {
+		if (!exponent_core_URLisValid($object->external_link)) {
 			$object->external_link = 'http://' . $object->external_link;
 		}
 		return $object;

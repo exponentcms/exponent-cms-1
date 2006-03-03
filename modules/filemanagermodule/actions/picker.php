@@ -17,7 +17,7 @@
 #
 ##################################################
 
-include_once('../../../pathos.php');
+include_once('../../../exponent.php');
 
 $collection = null;
 if (isset($_GET['id'])) {
@@ -28,9 +28,9 @@ if (!$collection) {
 	$collection->name = 'Uncategorized Files';
 	$collection->description = 'Theses files have not been categorized yet,';
 }
-$loc = pathos_core_makeLocation('filemanagermodule');
+$loc = exponent_core_makeLocation('filemanagermodule');
 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $template = new template('filemanagermodule','_picker');
 
@@ -41,7 +41,7 @@ $template->assign('collections',$collections);
 
 $files = $db->selectObjects('file','collection_id='.$collection->id);
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-usort($files,'pathos_sorting_byPostedDescending');
+usort($files,'exponent_sorting_byPostedDescending');
 $template->assign('files',$files);
 $template->assign('numfiles',count($files));
 

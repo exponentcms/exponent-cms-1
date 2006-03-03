@@ -57,7 +57,7 @@ define('SYS_FLOW_ACTION',	 2);
 
 
 
-$SYS_FLOW_REDIRECTIONPATH = 'pathos_default';
+$SYS_FLOW_REDIRECTIONPATH = 'exponent_default';
 
 /* exdoc
  * Saves the current URL in a persistent session, to be used later.
@@ -68,14 +68,14 @@ $SYS_FLOW_REDIRECTIONPATH = 'pathos_default';
  *  SYS_FLOW_SECTIONAL or SYS_FLOW_ACTION
  * @node Subsystems:Flow
  */
-function pathos_flow_set($access_level,$url_type) {
+function exponent_flow_set($access_level,$url_type) {
 	global $SYS_FLOW_REDIRECTIONPATH;
 	if ($access_level == SYS_FLOW_PUBLIC) {
-		pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . SYS_FLOW_PROTECTED . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
-		pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . SYS_FLOW_PROTECTED,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+		exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . SYS_FLOW_PROTECTED . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+		exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . SYS_FLOW_PROTECTED,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
 	}
-	pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
-	pathos_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+	exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+	exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
 }
 
 /* exdoc
@@ -87,16 +87,16 @@ function pathos_flow_set($access_level,$url_type) {
  *   SYS_FLOW_SECTIONAL or SYS_FLOW_ACTION
  * @node Subsystems:Flow
  */
-function pathos_flow_get($url_type = SYS_FLOW_NONE) {
+function exponent_flow_get($url_type = SYS_FLOW_NONE) {
 	global $SYS_FLOW_REDIRECTIONPATH;
-	$access_level = (pathos_sessions_loggedIn() ? SYS_FLOW_PROTECTED : SYS_FLOW_PUBLIC);
-	if (!pathos_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) return URL_FULL;
+	$access_level = (exponent_sessions_loggedIn() ? SYS_FLOW_PROTECTED : SYS_FLOW_PUBLIC);
+	if (!exponent_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) return URL_FULL;
 	switch ($url_type) {
 		case SYS_FLOW_NONE:
-			return pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level);
+			return exponent_sessions_get($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level);
 		case SYS_FLOW_SECTIONAL:
 		case SYS_FLOW_ACTION:
-			return pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type);
+			return exponent_sessions_get($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type);
 	}
 }
 
@@ -109,19 +109,19 @@ function pathos_flow_get($url_type = SYS_FLOW_NONE) {
  *   SYS_FLOW_SECTIONAL or SYS_FLOW_ACTION
  * @node Subsystems:Flow
  */
-function pathos_flow_redirect($url_type = SYS_FLOW_NONE) {
+function exponent_flow_redirect($url_type = SYS_FLOW_NONE) {
 	global $SYS_FLOW_REDIRECTIONPATH;
-	$access_level = (pathos_sessions_loggedIn() ? SYS_FLOW_PROTECTED : SYS_FLOW_PUBLIC);
+	$access_level = (exponent_sessions_loggedIn() ? SYS_FLOW_PROTECTED : SYS_FLOW_PUBLIC);
 	// Fallback to the default redirection path in strange edge cases.
-	if (!pathos_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) $SYS_FLOW_REDIRECTIONPATH='pathos_default';
+	if (!exponent_sessions_isset($SYS_FLOW_REDIRECTIONPATH.'_flow_last_'.$access_level)) $SYS_FLOW_REDIRECTIONPATH='exponent_default';
 	$url = '';
 	switch ($url_type) {
 		case SYS_FLOW_NONE:
-			$url = pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_last_' . $access_level);
+			$url = exponent_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_last_' . $access_level);
 			break;
 		case SYS_FLOW_SECTIONAL:
 		case SYS_FLOW_ACTION:
-			$url = pathos_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_' . $access_level . '_' . $url_type);
+			$url = exponent_sessions_get($SYS_FLOW_REDIRECTIONPATH . '_flow_' . $access_level . '_' . $url_type);
 			break;
 	}
 	if ($url == '') {

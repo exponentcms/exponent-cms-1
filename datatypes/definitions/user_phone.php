@@ -16,7 +16,7 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 return array(
 	'uid'=>array(

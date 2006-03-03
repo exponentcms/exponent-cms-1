@@ -18,7 +18,7 @@
 ##################################################
 
 //GREP:VIEWIFY
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // First, check our module config
 $config = $db->selectObject('searchmodule_config',"location_data='".serialize($loc)."'");
@@ -30,11 +30,11 @@ if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 $search_string = trim(strtolower(strip_tags($_GET['search_string'])));
 
 if ($search_string == "") {
-	echo pathos_lang_loadKey('modules/searchmodule/actions/search.php','need_term');
+	echo exponent_lang_loadKey('modules/searchmodule/actions/search.php','need_term');
 	return;
 }
 
-$term_status = pathos_search_cleanSearchQuery(
+$term_status = exponent_search_cleanSearchQuery(
 	array_map("addslashes",array_map("trim",split(" ",$search_string)))
 );
 
@@ -42,7 +42,7 @@ $terms = $term_status['valid'];
 
 $results = array();
 
-foreach ($db->selectObjects("search",pathos_search_whereClause(array("title","body"),$terms,SEARCH_TYPE_ANY)) as $r) {
+foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,SEARCH_TYPE_ANY)) as $r) {
 	$result = null;
 	
 	$rloc = unserialize($r->location_data);
@@ -54,7 +54,7 @@ foreach ($db->selectObjects("search",pathos_search_whereClause(array("title","bo
 		// No point in checking the perm stuff if they cant even see the section
 		$canview = false; // They need to have specific perms on the module.
 		foreach (explode(',',$r->view_perm) as $p) {
-			if (pathos_permissions_check($p,$rloc)) {
+			if (exponent_permissions_check($p,$rloc)) {
 				$canview = true;
 				break;
 			}
@@ -74,7 +74,7 @@ foreach ($db->selectObjects("search",pathos_search_whereClause(array("title","bo
 			// find view link
             if ($r->view_link == "") {
 				// No viewlink - go to the page
-				$result->view_link = pathos_core_makeLink(
+				$result->view_link = exponent_core_makeLink(
 					array("section"=>$sectionref->section));
 			} else {
 				$result->view_link = URL_FULL.$r->view_link;

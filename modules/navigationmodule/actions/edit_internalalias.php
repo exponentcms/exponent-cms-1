@@ -20,9 +20,9 @@
 // Fix undefined variable
 $check_id = -1;
 
-// Bail in case someone has visited us directly, or the Pathos framework is
+// Bail in case someone has visited us directly, or the Exponent framework is
 // otherwise not initialized.
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 
 $_GET['parent'] = intval($_GET['parent']);
@@ -48,7 +48,7 @@ if ($user && $user->is_acting_admin == 1) {
 }	
 
 if ($check_id != -1 && 
-    pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
+    exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
 	$form = section::internalAliasForm($section);
 	$form->meta('module','navigationmodule');
 	$form->meta('action','save_internalalias');

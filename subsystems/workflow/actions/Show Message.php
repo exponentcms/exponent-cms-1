@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 echo $action->parameters;
 echo "<br /><br />";

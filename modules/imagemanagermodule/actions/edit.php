@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = null;
 if (isset($_GET['id'])) {
@@ -27,8 +27,8 @@ if (isset($_GET['id'])) {
 	}
 }
 
-if (	($item == null && pathos_permissions_check('post',$loc)) ||
-	($item != null && pathos_permissions_check('edit',$loc))
+if (	($item == null && exponent_permissions_check('post',$loc)) ||
+	($item != null && exponent_permissions_check('edit',$loc))
 ) {
 	$form = imagemanageritem::form($item);
 	$form->location($loc);

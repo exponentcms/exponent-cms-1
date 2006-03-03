@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * PosGreSQL Database Engine Info File
@@ -37,7 +37,7 @@ return array(
 	"author"=>"James Hunt",
 	"description"=>"PostGreSQL Database Backend.",
 	'is_valid'=>(function_exists('pg_connect') ? 1 : 0),
-	"version"=>pathos_core_version(true)
+	"version"=>exponent_core_version(true)
 );
 
 ?>

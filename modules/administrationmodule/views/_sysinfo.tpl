@@ -65,8 +65,8 @@ div.center {
 </td></tr>
 </table><br />
 <table border="0" cellpadding="3" width="600">
-<tr><td class="e">Software Version</td><td class="v">{$smarty.const.PATHOS_VERSION_MAJOR}.{$smarty.const.PATHOS_VERSION_MINOR}.{$smarty.const.PATHOS_VERSION_REVISION}{if $smarty.const.PATHOS_VERSION_TYPE != ''}-{$smarty.const.PATHOS_VERSION_TYPE}{$smarty.const.PATHOS_VERSION_ITERATION}{/if}</td></tr>
-<tr><td class="e">Build Date </td><td class="v">{if $smarty.const.PATHOS_VERSION_BUILDDATE == "%%BUILDDATE%%"}<i>Development Version</i>{else}{$smarty.const.PATHOS_VERSION_BUILDDATE|format_date:"%a %d %Y %H:%M:%S"}{/if}</td></tr>
+<tr><td class="e">Software Version</td><td class="v">{$smarty.const.EXPONENT_VERSION_MAJOR}.{$smarty.const.EXPONENT_VERSION_MINOR}.{$smarty.const.EXPONENT_VERSION_REVISION}{if $smarty.const.EXPONENT_VERSION_TYPE != ''}-{$smarty.const.EXPONENT_VERSION_TYPE}{$smarty.const.EXPONENT_VERSION_ITERATION}{/if}</td></tr>
+<tr><td class="e">Build Date </td><td class="v">{if $smarty.const.EXPONENT_VERSION_BUILDDATE == "%%BUILDDATE%%"}<i>Development Version</i>{else}{$smarty.const.EXPONENT_VERSION_BUILDDATE|format_date:"%a %d %Y %H:%M:%S"}{/if}</td></tr>
 <tr><td class="e">PATH_RELATIVE</td><td class="v">{$smarty.const.PATH_RELATIVE}</td></tr>
 <tr><td class="e">BASE</td><td class="v">{$smarty.const.BASE}</td></tr>
 </table><br />

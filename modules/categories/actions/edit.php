@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $cat = null;
 if (isset($_GET['id'])) {
@@ -29,7 +29,7 @@ if ($cat) {
 } else {
 	$loc->mod = $_GET['orig_module']; // Update module in location
 }
-if (pathos_permissions_check('manage_categories',$loc)) {
+if (exponent_permissions_check('manage_categories',$loc)) {
 	$form = category::form($cat);
 	$form->location($loc);
 	$form->meta('module','categories');

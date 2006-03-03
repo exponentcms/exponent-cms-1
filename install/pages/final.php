@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-pathos_sessions_unset('installer_config');
-$i18n = pathos_lang_loadFile('install/pages/final.php');
+exponent_sessions_unset('installer_config');
+$i18n = exponent_lang_loadFile('install/pages/final.php');
 
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>

@@ -19,26 +19,26 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 
-	$u = pathos_users_getUserById(intval($_GET['id']));
+	$u = exponent_users_getUserById(intval($_GET['id']));
 	if ($u == null) {
 		$u->is_admin = 0;
 		$u->is_acting_admin = 0;
 	}
-	$u = pathos_users_getFullProfile($u);
-	$form = pathos_users_form($u);
+	$u = exponent_users_getFullProfile($u);
+	$form = exponent_users_form($u);
 	$form->meta('module','administrationmodule');
 	$form->meta('action','umgr_saveuser');
 	
 	if ($user->is_admin == 1 && $u->is_admin == 0) {
 		// Super user editting a 'lesser' user.
-		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/umgr_editprofile.php');
+		$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/umgr_editprofile.php');
 		$form->registerBefore('submit','is_acting_admin',$i18n['is_admin'],new checkboxcontrol($u->is_acting_admin,true));
 	}
 	

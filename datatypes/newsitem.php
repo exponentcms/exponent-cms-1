@@ -19,12 +19,12 @@
 
 class newsitem {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/newsitem.php');
+		$i18n = exponent_lang_loadFile('datatypes/newsitem.php');
 	
 		global $user;
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -50,7 +50,7 @@ class newsitem {
 	
 	function update($values,$object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$object->title = $values['title'];
 		$object->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$values['int']));

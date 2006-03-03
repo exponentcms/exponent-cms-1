@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('conf/extensions/site.structure.php');
+$i18n = exponent_lang_loadFile('conf/extensions/site.structure.php');
 
 $stuff = array(
 	$i18n['title'],
@@ -32,7 +32,7 @@ $stuff = array(
 		'USE_LANG'=>array(
 			'title'=>$i18n['use_lang'],
 			'description'=>$i18n['use_lang_desc'],
-			'control'=>new dropdowncontrol(0,pathos_lang_list())
+			'control'=>new dropdowncontrol(0,exponent_lang_list())
 		),
 		'SITE_ALLOW_REGISTRATION'=>array(
 			'title'=>$i18n['allow_registration'],
@@ -82,12 +82,12 @@ $stuff = array(
 		'FILE_DEFAULT_MODE_STR'=>array(
 			'title'=>$i18n['fileperms'],
 			'description'=>$i18n['fileperms_desc'],
-			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('file_permissions'))
+			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('file_permissions'))
 		),
 		'DIR_DEFAULT_MODE_STR'=>array(
 			'title'=>$i18n['dirperms'],
 			'description'=>$i18n['dirperms_desc'],
-			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('dir_permissions'))
+			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('dir_permissions'))
 		),
 		'ENABLE_SSL'=>array(
 			'title'=>$i18n['ssl'],
@@ -113,7 +113,7 @@ $stuff = array(
 );
 
 $info = gd_info();
-if (!PATHOS_HAS_GD) {
+if (!EXPONENT_HAS_GD) {
 	$stuff[1]['SITE_USE_CAPTCHA']['description'] = $i18n['use_captcha_desc'].'<br /><br />'.$i18n['no_gd_support'];
 	$stuff[1]['SITE_USE_CAPTCHA']['control']->disabled = true;
 }

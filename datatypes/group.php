@@ -20,9 +20,9 @@
 class group {
 	function form($object) {
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
-		$i18n = pathos_lang_loadFile('datatypes/group.php');
+		$i18n = exponent_lang_loadFile('datatypes/group.php');
 		
 		$form = new form();
 		if (!isset($object->id)) {

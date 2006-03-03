@@ -22,8 +22,8 @@ define('SCRIPT_FILENAME','source_selector.php');
 
 define('SOURCE_SELECTOR',1);
 
-// Initialize the Pathos Framework
-include_once('pathos.php');
+// Initialize the Exponent Framework
+include_once('exponent.php');
 
 // Call the real selector script.  It will use the value of SOURCE_SELECTOR to determine what it needs to do.
 include_once('selector.php');

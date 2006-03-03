@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/administrationmodule/tasks/coretasks.php');
+$i18n = exponent_lang_loadFile('modules/administrationmodule/tasks/coretasks.php');
 
 $stuff = array(
 	$i18n['user_management']=>array(

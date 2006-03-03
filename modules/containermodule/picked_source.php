@@ -20,7 +20,7 @@
 define('SCRIPT_EXP_RELATIVE','modules/containermodule/');
 define('SCRIPT_FILENAME','picked_source.php');
 
-include_once('../../pathos.php');
+include_once('../../exponent.php');
 
 $src = $_GET['ss'];
 $mod = $_GET['sm'];

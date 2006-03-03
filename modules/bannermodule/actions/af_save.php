@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage_af',$loc)) {
+if (exponent_permissions_check('manage_af',$loc)) {
 	$af = null;
 	if (isset($_POST['id'])) {
 		$af = $db->selectObject('banner_affiliate','id='.intval($_POST['id']));
@@ -32,7 +32,7 @@ if (pathos_permissions_check('manage_af',$loc)) {
 	} else {
 		$db->insertObject($af,'banner_affiliate');
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

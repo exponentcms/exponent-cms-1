@@ -18,9 +18,9 @@
 ##################################################
 
 class resourcesmodule {
-	function name() { return pathos_lang_loadKey('modules/resourcesmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/resourcesmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasViews() { return true; }
@@ -29,7 +29,7 @@ class resourcesmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/resourcesmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/resourcesmodule/class.php');
 		if ($internal == '') {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
@@ -52,7 +52,7 @@ class resourcesmodule {
 		if ($loc->int == '') {
 			return array($loc);
 		} else {
-			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
 	
@@ -63,7 +63,7 @@ class resourcesmodule {
 		
 		$directory = 'files/resourcesmodule/' . $loc->src;
 		if (!file_exists(BASE.$directory)) {
-			$err = pathos_files_makeDirectory($directory);
+			$err = exponent_files_makeDirectory($directory);
 			if ($err != SYS_FILES_SUCCESS) {
 				$template->assign('noupload',1);
 				$template->assign('uploadError',$err);
@@ -73,17 +73,17 @@ class resourcesmodule {
 		global $db;
 		
 		$resources = $db->selectObjects('resourceitem',"location_data='".serialize($loc)."'");
-		$iloc = pathos_core_makeLocation($loc->mod,$loc->src);
+		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($resources); $i++) {
 			$iloc->int = $resources[$i]->id;
 			$resources[$i]->permissions = array(
-				'administrate'=>pathos_permissions_check('administrate',$iloc),
-				'edit'=>pathos_permissions_check('edit',$iloc),
-				'delete'=>pathos_permissions_check('delete',$iloc),
+				'administrate'=>exponent_permissions_check('administrate',$iloc),
+				'edit'=>exponent_permissions_check('edit',$iloc),
+				'delete'=>exponent_permissions_check('delete',$iloc),
 			);
 		}
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-		usort($resources,'pathos_sorting_byRankAscending');
+		usort($resources,'exponent_sorting_byRankAscending');
 		
 		$rfiles = array();
 		foreach ($db->selectObjects('file',"directory='$directory'") as $file) {
@@ -120,7 +120,7 @@ class resourcesmodule {
 	function copyContent($oloc,$nloc) {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/resourcesmodule/'.$nloc->src;
-		if (!file_exists(BASE.$directory) && pathos_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
+		if (!file_exists(BASE.$directory) && exponent_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 			return;
 		}
 		
@@ -141,7 +141,7 @@ class resourcesmodule {
 	}
 	
 	function spiderContent($item = null) {
-		$i18n = pathos_lang_loadFile('modules/resourcesmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/resourcesmodule/class.php');
 		
 		global $db;
 		
@@ -155,7 +155,7 @@ class resourcesmodule {
 		if ($item) {
 			$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->body = ' ' . pathos_search_removeHTML($item->description) . ' ';
+			$search->body = ' ' . exponent_search_removeHTML($item->description) . ' ';
 			$search->title = ' ' . $item->name . ' ';
 			$search->location_data = $item->location_data;
 			$search->view_link = 'index.php?module=resourcesmodule&action=view&id='.$item->id;
@@ -164,7 +164,7 @@ class resourcesmodule {
 			$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem'");
 			foreach ($db->selectObjects('resourceitem') as $item) {
 				$search->original_id = $item->id;
-				$search->body = ' ' . pathos_search_removeHTML($item->description) . ' ';
+				$search->body = ' ' . exponent_search_removeHTML($item->description) . ' ';
 				$search->title = ' ' . $item->name . ' ';
 				$search->location_data = $item->location_data;
 				$search->view_link = 'index.php?module=resourcesmodule&action=view&id='.$item->id;

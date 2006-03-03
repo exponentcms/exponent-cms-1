@@ -17,11 +17,11 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 
-	$i18n = pathos_lang_loadFile('modules/workflow/actions/action_edit.php');
+	$i18n = exponent_lang_loadFile('modules/workflow/actions/action_edit.php');
 	
 	$action = null;
 	if (isset($_GET['id'])) {
@@ -29,7 +29,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	}
 	
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
 	$form = new form();
 	$form->meta('module','workflow');
@@ -44,7 +44,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	
 	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	
-	$actions = pathos_workflow_getAvailableActions();
+	$actions = exponent_workflow_getAvailableActions();
 	uasort($actions,'strnatcmp');
 	$form->register('method',$i18n['action'],new dropdowncontrol($action->method,$actions));
 	$form->register('parameters',$i18n['parameters'], new texteditorcontrol($action->parameters));

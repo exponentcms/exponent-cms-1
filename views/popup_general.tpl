@@ -20,9 +20,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}style.css" />
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}popup.css" />
-		<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}pathos.js.php"></script>
+		<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}exponent.js.php"></script>
 	</head>
-	<body onLoad="pathosJSinitialize()">
+	<body onLoad="exponentJSinitialize()">
 	{$output}
 	</body>
 </html>

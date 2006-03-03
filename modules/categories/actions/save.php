@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $cat = null;
 if (isset($_POST['id'])) $cat = $db->selectObject("category","id=".intval($_POST['id']));
@@ -32,7 +32,7 @@ if ($cat) {
 		$cat->rank ++;
 	}
 }
-if (pathos_permissions_check('manage_categories',$loc)) {
+if (exponent_permissions_check('manage_categories',$loc)) {
 	$cat = category::update($_POST,$cat);
 	$cat->location_data = serialize($loc);
 	if (isset($cat->id)) {
@@ -40,7 +40,7 @@ if (pathos_permissions_check('manage_categories',$loc)) {
 	} else {
 		$db->insertObject($cat,"category");
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

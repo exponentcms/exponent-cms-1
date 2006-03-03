@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $item = null;
 if (isset($_GET['id'])) {

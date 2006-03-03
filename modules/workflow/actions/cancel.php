@@ -17,8 +17,8 @@
 #
 ##################################################
 //GREP:REIMPLEMENT
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-pathos_flow_redirect();
+exponent_flow_redirect();
 
 ?>

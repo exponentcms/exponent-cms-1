@@ -20,8 +20,8 @@
 define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','orphan_source_selector.php');
 
-// Initialize the Pathos Framework
-include_once('pathos.php');
+// Initialize the Exponent Framework
+include_once('exponent.php');
 
 define('PREVIEW_READONLY',1); // for mods
 define('SOURCE_SELECTOR',2);
@@ -29,7 +29,7 @@ define('SELECTOR',1);
 $SYS_FLOW_REDIRECTIONPATH='source_selector';
 
 $source_select = array();
-if (pathos_sessions_isset('source_select')) $source_select = pathos_sessions_get('source_select');
+if (exponent_sessions_isset('source_select')) $source_select = exponent_sessions_get('source_select');
 $count_orig = count($source_select);
 
 if (isset($_REQUEST['vview'])) {
@@ -64,7 +64,7 @@ if (isset($_REQUEST['hideOthers'])) {
 	$source_select['hideOthers'] = 0;
 }
 
-pathos_sessions_set('source_select',$source_select);
+exponent_sessions_set('source_select',$source_select);
 
 $template = new standalonetemplate('orphaned_content');
 

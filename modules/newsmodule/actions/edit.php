@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $news = null;
 $iloc = null;
@@ -31,9 +31,9 @@ if ($news != null) {
 	$iloc->int = $news->id;
 }
 
-if (($news != null && pathos_permissions_check("edit_item",$loc)) || 
-	($news == null && pathos_permissions_check("add_item",$loc)) ||
-	($iloc != null   && pathos_permissions_check("edit_item",$iloc)) 
+if (($news != null && exponent_permissions_check("edit_item",$loc)) || 
+	($news == null && exponent_permissions_check("add_item",$loc)) ||
+	($iloc != null   && exponent_permissions_check("edit_item",$iloc)) 
 ) {
 	$form = newsitem::form($news);
 	$form->location($loc);

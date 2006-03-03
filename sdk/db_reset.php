@@ -20,10 +20,10 @@
 define('SCRIPT_EXP_RELATIVE','sdk/');
 define('SCRIPT_FILENAME','db_reset.php');
 
-// Initialize the Pathos Framework
-include_once(dirname(realpath(__FILE__)).'/../pathos.php');
+// Initialize the Exponent Framework
+include_once(dirname(realpath(__FILE__)).'/../exponent.php');
 
-pathos_lang_loadDictionary('standard','dbrecover');
+exponent_lang_loadDictionary('standard','dbrecover');
 
 #exit(TR_DBRECOVER_RECOVERYDISABLED);
 
@@ -36,10 +36,10 @@ $oldu = $user;
 $user->is_admin = 1;
 $user->is_acting_admin = 1;
 
-// The $loc variable would normally be created by the Pathos framework
+// The $loc variable would normally be created by the Exponent framework
 // when running the action we are about to include.  Here, we synthetically
 // create the location, so that the action doesn't freak out.
-$loc = pathos_core_makeLocation('administrationmodule');
+$loc = exponent_core_makeLocation('administrationmodule');
 
 foreach ($db->getTables(false) as $table) {
 	$table = substr($table,strlen($db->prefix));

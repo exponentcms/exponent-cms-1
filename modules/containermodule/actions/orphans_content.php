@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // PERM CHECK
 	$source_select = array();
@@ -26,8 +26,8 @@ if (!defined("PATHOS")) exit("");
 	$clickable_mods = null; // Show all
 	$dest = null;
 	
-	if (pathos_sessions_isset("source_select") && (defined("SOURCE_SELECTOR") || defined("CONTENT_SELECTOR"))) {
-		$source_select = pathos_sessions_get("source_select");
+	if (exponent_sessions_isset("source_select") && (defined("SOURCE_SELECTOR") || defined("CONTENT_SELECTOR"))) {
+		$source_select = exponent_sessions_get("source_select");
 		$view = $source_select["view"];
 		$module = $source_select["module"];
 		$clickable_mods = $source_select["showmodules"];
@@ -38,7 +38,7 @@ if (!defined("PATHOS")) exit("");
 	$orphans = array();
 	foreach ($db->selectObjects("locationref","module='".preg_replace('/[^A-Za-z0-9_]/','',$_GET['module'])."' AND refcount=0") as $orphan) {
 		$obj = null;
-		$loc = pathos_core_makeLocation($orphan->module,$orphan->source,$orphan->internal);
+		$loc = exponent_core_makeLocation($orphan->module,$orphan->source,$orphan->internal);
 		
 		if (class_exists($orphan->module)) {
 			$modclass = $orphan->module;
@@ -59,7 +59,7 @@ if (!defined("PATHOS")) exit("");
 				"clickable"=>(($clickable_mods == null || in_array($modclass,$clickable_mods))?1:0)
 			);
 		} else {
-			$i18n = pathos_lang_loadFile('modules/containermodule/class.php');
+			$i18n = exponent_lang_loadFile('modules/containermodule/class.php');
 			$obj->output = sprintf($i18n['mod_not_found'],$orphan->module);
 			$containers[$i]->info = array(
 					"module"=>"Unknown:".$location->mod,

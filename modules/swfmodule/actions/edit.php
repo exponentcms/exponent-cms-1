@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $data = null;
 $data = $db->selectObject('swfitem',"location_data='" .serialize($loc)."'");
 
-if (pathos_permissions_check('configure',$loc)) {
+if (exponent_permissions_check('configure',$loc)) {
 
 	$form = swfitem::form($data);
 	$form->location($loc);

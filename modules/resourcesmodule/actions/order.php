@@ -17,11 +17,11 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-if (pathos_permissions_check('edit',$loc)) {
+if (exponent_permissions_check('edit',$loc)) {
 	$db->switchValues('resourceitem','rank',intval($_GET['a']),intval($_GET['b']),"location_data='" . serialize($loc) . "'");
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 }
 
 ?>

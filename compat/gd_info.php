@@ -93,6 +93,6 @@ if (!function_exists('gd_info')) {
 }
 
 $info = gd_info();
-define('PATHOS_HAS_GD',($info['GD Version'] == 'Not Supported' ? 0 : 1));
+define('EXPONENT_HAS_GD',($info['GD Version'] == 'Not Supported' ? 0 : 1));
 
 ?>

@@ -18,12 +18,12 @@
 ##################################################
 
 //Sanity Check
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 //Create a new form object
-pathos_forms_initialize();
+exponent_forms_initialize();
 
-$i18n = pathos_lang_loadFile('modules/importer/importers/usercsv/process.php');
+$i18n = exponent_lang_loadFile('modules/importer/importers/usercsv/process.php');
 
 $form = new form();
 $form->meta("module","importer");

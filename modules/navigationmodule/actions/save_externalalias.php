@@ -17,9 +17,9 @@
 #
 ##################################################
 
-// Bail in case someone has visited us directly, or the Pathos framework is
+// Bail in case someone has visited us directly, or the Exponent framework is
 // otherwise not initialized.
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $check_id = -1;
 $section = null;
@@ -38,7 +38,7 @@ if (isset($_POST['id'])) {
 // Update the section from the _POST data.
 $section = section::updateExternalAlias($_POST,$section);
 
-if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
+if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
 	if (isset($section->id)) {
 		if ($section->parent != $old_parent) {
 			// Old_parent id was different than the new parent id.  Need to decrement the ranks
@@ -58,7 +58,7 @@ if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocatio
 	}
 	
 	// Go back to where we came from.  Probably the navigation manager.
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

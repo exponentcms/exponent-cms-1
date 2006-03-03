@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $resource = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 if ($resource != null) {
 	$loc = unserialize($resource->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	
-	if (pathos_permissions_check('delete',$loc) || pathos_permissions_check('delete',$iloc)) {
+	if (exponent_permissions_check('delete',$loc) || exponent_permissions_check('delete',$iloc)) {
 		foreach ($db->selectObject('resourceitem_wf_revision','wf_original='.$resource->id) as $wf_res) {
 			$file = $db->selectObject('file','id='.$wf_res->file_id);
 			file::delete($file);
@@ -35,7 +35,7 @@ if ($resource != null) {
 		//Delete search entries
 		$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=".$resource->id);
 		
-		pathos_flow_redirect(SYS_FLOW_SECTIONAL);
+		exponent_flow_redirect(SYS_FLOW_SECTIONAL);
 	} else {
 		echo SITE_403_HTML;
 	}

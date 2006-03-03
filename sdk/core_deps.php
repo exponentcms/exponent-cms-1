@@ -1,5 +1,5 @@
 <?php
-define('PATHOS','1');
+define('EXPONENT','1');
 ob_start();
 $deps = include("../deps.php");
 ob_end_clean();

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $post = null;
 $comment = null;
@@ -29,12 +29,12 @@ if (isset($_POST['parent_id'])) {
 }
 if ($post && $post->is_draft == 0) {
 	$loc = unserialize($post->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 
-	if ((!$comment && pathos_permissions_check('comment',$loc)) ||
-		(!$comment && pathos_permissions_check('comment',$iloc)) ||
-		($comment && pathos_permissions_check('edit_comments',$loc)) ||
-		($comment && pathos_permissions_check('edit_comments',$iloc))
+	if ((!$comment && exponent_permissions_check('comment',$loc)) ||
+		(!$comment && exponent_permissions_check('comment',$iloc)) ||
+		($comment && exponent_permissions_check('edit_comments',$loc)) ||
+		($comment && exponent_permissions_check('edit_comments',$iloc))
 	) {
 		$comment = null;
 		if (isset($_POST['id'])) {
@@ -54,7 +54,7 @@ if ($post && $post->is_draft == 0) {
 			$db->insertObject($comment,'weblog_comment');
 		}
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

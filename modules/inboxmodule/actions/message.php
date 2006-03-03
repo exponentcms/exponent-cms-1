@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	$msg = $db->selectObject('privatemessage','id='.intval($_GET['id']));

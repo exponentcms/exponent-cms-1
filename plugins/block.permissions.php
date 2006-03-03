@@ -20,7 +20,7 @@
 function smarty_block_permissions($params,$content,&$smarty, &$repeat) {
 	if ($content) {
 		$uilevel = 99; // MAX
-		if (pathos_sessions_isset("uilevel")) $uilevel = pathos_sessions_get("uilevel");
+		if (exponent_sessions_isset("uilevel")) $uilevel = exponent_sessions_get("uilevel");
 		if (defined("PREVIEW_READONLY")) $uilevel = -1;
 		
 		$blocklevel = (isset($params['level']) ? $params['level'] : 0);

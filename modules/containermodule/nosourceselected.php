@@ -20,7 +20,7 @@
 define('SCRIPT_EXP_RELATIVE','modules/containermodule/');
 define('SCRIPT_FILENAME','nosourceselected.php');
 
-include_once('../../pathos.php');
+include_once('../../exponent.php');
 
 $template = new template('containermodule','_nocontent');
 $template->output();

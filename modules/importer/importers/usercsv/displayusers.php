@@ -18,7 +18,7 @@
 ##################################################
 
 //Sanity Check
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 
 
@@ -121,13 +121,13 @@ if ($linenum >= $post["rowstart"]){
 		$userinfo->password = md5($userinfo->clearpassword);
 
 		$suffix = "";
-		while (pathos_users_getUserByName($userinfo->username.$suffix) != null) {//username already exists
+		while (exponent_users_getUserByName($userinfo->username.$suffix) != null) {//username already exists
 			if (isset($_POST["update"]) == 1 ) {
 				if (in_array($userinfo->username, $usersdone)) {
 					$suffix = rand(100,999);
 					$userinfo->changed = 1;	
 				}else{
-					$tmp = pathos_users_getUserByName($userinfo->username.$suffix);
+					$tmp = exponent_users_getUserByName($userinfo->username.$suffix);
 					$userinfo->id = $tmp->id;
 					break;
 				}
@@ -138,7 +138,7 @@ if ($linenum >= $post["rowstart"]){
 		}
 
 		$userinfo->username = $userinfo->username.$suffix;	
-		$userarray[] = pathos_users_saveUser($userinfo);
+		$userarray[] = exponent_users_saveUser($userinfo);
 		$usersdone[] = $userinfo->username;
 	}else{
 		$userinfo->linenum = $linenum;

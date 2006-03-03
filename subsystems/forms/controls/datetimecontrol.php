@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Contact Control
@@ -79,7 +79,7 @@ class datetimecontrol extends formcontrol {
 		$html = "<input type='hidden' id='__".$name."' name='__".$name."' value='".($this->showdate?"1":"0").($this->showtime?"1":"0")."' />";
 		if ($this->showdate) {
 			if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
-			$html .= pathos_datetime_monthsDropdown($name . "_month",$default_date['mon']);
+			$html .= exponent_datetime_monthsDropdown($name . "_month",$default_date['mon']);
 			$html .= '<input type="text" id="' . $name . '_day" name="' . $name . '_day" size="3" maxlength="2" value="' . $default_date['mday'] . '" />';
 			$html .= '<input type="text" id="' . $name . '_year" name="' . $name . '_year" size="5" maxlength="4" value="' . $default_date['year'] . '" />';
 		}
@@ -133,7 +133,7 @@ class datetimecontrol extends formcontrol {
 	
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->identifier)) {
@@ -143,7 +143,7 @@ class datetimecontrol extends formcontrol {
 			$object->showtime = true;
 		} 
 		
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/datetimecontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/datetimecontrol.php');
 		
 		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
@@ -160,11 +160,11 @@ class datetimecontrol extends formcontrol {
 			$object->default = 0; //This will force the control to always show the current time as default
 		}
 		if ($values['identifier'] == "") {
-			$i18n = pathos_lang_loadFile('subsystems/forms/controls/datetimecontrol.php');
+			$i18n = exponent_lang_loadFile('subsystems/forms/controls/datetimecontrol.php');
 			
 			$post = $_POST;
 			$post['_formError'] = $i18n['id_req'];
-			pathos_sessions_set("last_POST",$post);
+			exponent_sessions_set("last_POST",$post);
 			return null;
 		}
 		$object->identifier = $values['identifier'];

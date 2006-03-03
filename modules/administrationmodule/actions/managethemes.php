@@ -19,10 +19,10 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	$themes = array();
 	if (is_readable(BASE.'themes')) {
 		$dh = opendir(BASE.'themes');

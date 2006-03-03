@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 $news = $db->selectObject("newsitem","id=" . intval($_GET['id']));
 if ($news != null) {
 	$loc = unserialize($news->location_data);
@@ -27,9 +27,9 @@ if ($news != null) {
 	$iloc->int = $news->id;
 	
 	$news->permissions = array(
-		"edit_item"=>((pathos_permissions_check("edit_item",$loc) || pathos_permissions_check("edit_item",$iloc)) ? 1 : 0),
-		"delete_item"=>((pathos_permissions_check("delete_item",$loc) || pathos_permissions_check("delete_item",$iloc)) ? 1 : 0),
-		"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$iloc)) ? 1 : 0)
+		"edit_item"=>((exponent_permissions_check("edit_item",$loc) || exponent_permissions_check("edit_item",$iloc)) ? 1 : 0),
+		"delete_item"=>((exponent_permissions_check("delete_item",$loc) || exponent_permissions_check("delete_item",$iloc)) ? 1 : 0),
+		"administrate"=>((exponent_permissions_check("administrate",$loc) || exponent_permissions_check("administrate",$iloc)) ? 1 : 0)
 	);
 	
 	

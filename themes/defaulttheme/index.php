@@ -17,18 +17,18 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<?php echo pathos_theme_headerInfo($section); ?>
+		<?php echo exponent_theme_headerInfo($section); ?>
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 	
-	<body onload="pathosJSinitialize();">
-	<?php pathos_theme_sourceSelectorInfo(); ?>
+	<body onload="exponentJSinitialize();">
+	<?php exponent_theme_sourceSelectorInfo(); ?>
 		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%; table-layout: fixed;<?php if (defined("SOURCE_SELECTOR")) echo 'border:3px dashed black;'; ?>">
 			<tr><!--
 				This is row is intended to work around the table-layout: fixed CSS situation:
@@ -50,7 +50,7 @@ if (!defined('PATHOS')) exit('');
 			</tr>
 			<tr>
 				<td colspan="2" height="20" bgcolor="339bcc" align="right" id="topNavContainer">
-					<?php pathos_theme_showModule("navigationmodule","Top Nav"); ?>
+					<?php exponent_theme_showModule("navigationmodule","Top Nav"); ?>
 				</td>
 			</tr>
 			<tr>
@@ -59,27 +59,27 @@ if (!defined('PATHOS')) exit('');
 			<tr>
 				<td id="leftSidebarContainer" width="175" align="left" valign="top" bgcolor="99cc33" style="padding-left: 10px; padding-top: 20px; padding-right: 10px; width: 175px;">
 					<?php
-						pathos_theme_showModule("loginmodule","Default");
+						exponent_theme_showModule("loginmodule","Default");
 						echo "<br /><hr size='1' /><br />";
-						pathos_theme_showModule("navigationmodule","Full Hierarchy");
-						#pathos_theme_showModule("navigationmodule","Marked Hierarchy");
-						#pathos_theme_showModule("navigationmodule","Collapsing Hierarchy");
-						#pathos_theme_showModule("navigationmodule","Expanding Hierarchy");
+						exponent_theme_showModule("navigationmodule","Full Hierarchy");
+						#exponent_theme_showModule("navigationmodule","Marked Hierarchy");
+						#exponent_theme_showModule("navigationmodule","Collapsing Hierarchy");
+						#exponent_theme_showModule("navigationmodule","Expanding Hierarchy");
 					?>
 				</td>
 				<td align="left" valign="top" style="padding-left: 20px; padding-right: 20px; padding-top: 20px;">
 					<?php
-					if (!pathos_theme_inAction()) {
-						pathos_theme_showModule("navigationmodule","Breadcrumb");
+					if (!exponent_theme_inAction()) {
+						exponent_theme_showModule("navigationmodule","Breadcrumb");
 						echo "<br />";
 						echo "<br />";
 					}
 					
-					pathos_theme_main();
+					exponent_theme_main();
 					?>
 					<br /><br />
 					<?php
-					pathos_theme_showModule("textmodule","Default","Footer","@footer");
+					exponent_theme_showModule("textmodule","Default","Footer","@footer");
 					?>
 				</td>
 			</tr>

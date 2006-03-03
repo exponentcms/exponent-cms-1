@@ -19,16 +19,16 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	$form = new form();
 	
-	$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/upload_extension.php');
+	$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/upload_extension.php');
 	
-	$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
+	$form->register(null,'',new htmlcontrol(exponent_core_maxUploadSizeMessage()));
 	$form->register('mod_archive',$i18n['mod_archive'],new uploadcontrol());
 	$form->register('submit','',new buttongroupcontrol($i18n['install']));
 	$form->meta('module','administrationmodule');

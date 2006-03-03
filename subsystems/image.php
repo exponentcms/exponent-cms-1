@@ -42,7 +42,7 @@ define('IMAGE_ERR_PERMISSIONDENIED','_denied');
  * @param string $base The base directory of Exponent.  Refer to the BASE constant.
  * @node Subsystems:Image
  */
-function pathos_image_showFallbackPreviewImage($base,$error = IMAGE_ERR_NOGD) {
+function exponent_image_showFallbackPreviewImage($base,$error = IMAGE_ERR_NOGD) {
 	$fh = fopen($base.'subsystems/image/default_preview'.$error.'.gif','rb');
 	$img = fread($fh,65536);
 	fclose($fh);
@@ -58,7 +58,7 @@ function pathos_image_showFallbackPreviewImage($base,$error = IMAGE_ERR_NOGD) {
  * @param string $filename The path to the file to query.
  * @node Subsystems:Image
  */
-function pathos_image_sizeinfo($filename) {
+function exponent_image_sizeinfo($filename) {
 	if (!file_exists($filename)) {
 		return IMAGE_ERR_FILENOTFOUND;
 	}
@@ -89,16 +89,16 @@ function pathos_image_sizeinfo($filename) {
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
  *
- * At this point, the user should have called pathos_image_sizeInfo on the filename
+ * At this point, the user should have called exponent_image_sizeInfo on the filename
  * and verified that the file does indeed exist, and is readable.  A safeguard check
  * is in place, however.
  *
  * @param string $filename The path/filename of the image.
- * @param Array $sizeinfo Size information (as returned by pathos_image_sizeInfo
+ * @param Array $sizeinfo Size information (as returned by exponent_image_sizeInfo
  * @node Subsystems:Image
  */
-function pathos_image_createFromFile($filename,$sizeinfo) {
-	if (!PATHOS_HAS_GD) {
+function exponent_image_createFromFile($filename,$sizeinfo) {
+	if (!EXPONENT_HAS_GD) {
 		return null;
 	}
 
@@ -132,8 +132,8 @@ function pathos_image_createFromFile($filename,$sizeinfo) {
  * @param integer $h Height of the image resource to create (in pixels)
  * @node Subsystems:Image
  */
-function pathos_image_create($w,$h) {
-	if (!PATHOS_HAS_GD) {
+function exponent_image_create($w,$h) {
+	if (!EXPONENT_HAS_GD) {
 		return null;
 	}
 	$info = gd_info();
@@ -151,8 +151,8 @@ function pathos_image_create($w,$h) {
 	}
 }
 
-function pathos_image_copyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) {
-	if (!PATHOS_HAS_GD) {
+function exponent_image_copyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) {
+	if (!EXPONENT_HAS_GD) {
 		return null;
 	}
 	$info = gd_info();
@@ -173,13 +173,13 @@ function pathos_image_copyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $ds
  * @param decimal $scale The scaling factor, as a decimal (i.e. 0.5 for 50%)
  * @node Subsystems:Image
  */
-function pathos_image_scaleByPercent($filename,$scale) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+function exponent_image_scaleByPercent($filename,$scale) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
 	
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
@@ -191,9 +191,9 @@ function pathos_image_scaleByPercent($filename,$scale) {
 	$w = $scale * $sizeinfo[0];
 	$h = $scale * $sizeinfo[1];
 	
-	$thumb = pathos_image_create($w,$h);
+	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
-	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -208,12 +208,12 @@ function pathos_image_scaleByPercent($filename,$scale) {
  * @param integer $width The desired width of the scaled image, in pixels.
  * @node Subsystems:Image
  */
-function pathos_image_scaleToWidth($filename,$width) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+function exponent_image_scaleToWidth($filename,$width) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $sizeinfo;
 	}
@@ -225,9 +225,9 @@ function pathos_image_scaleToWidth($filename,$width) {
 	$w = $width;
 	$h = ($width / $sizeinfo[0]) * $sizeinfo[1];
 	
-	$thumb = pathos_image_create($w,$h);
+	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
-	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -241,13 +241,13 @@ function pathos_image_scaleToWidth($filename,$width) {
  * @param string $filename The path/filename of the image to scale.
  * @param integer $height The desired height of the scaled image, in pixels.
  * @node Subsystems:Image
- */function pathos_image_scaleToHeight($filename,$height) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+ */function exponent_image_scaleToHeight($filename,$height) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
 	
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
@@ -259,9 +259,9 @@ function pathos_image_scaleToWidth($filename,$width) {
 	$w = ($height / $sizeinfo[1]) * $sizeinfo[0];
 	$h = $height;
 	
-	$thumb = pathos_image_create($w,$h);
+	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
-	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -277,13 +277,13 @@ function pathos_image_scaleToWidth($filename,$width) {
  * @param integer $height The maximum height of the scaled image, in pixels.
  * @node Subsystems:Image
  */
-function pathos_image_scaleToConstraint($filename,$width,$height) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+function exponent_image_scaleToConstraint($filename,$width,$height) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
 	
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
@@ -300,9 +300,9 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
 		$h = $height;
 	}
 	
-	$thumb = pathos_image_create($w,$h);
+	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
-	pathos_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
+	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
@@ -318,13 +318,13 @@ function pathos_image_scaleToConstraint($filename,$width,$height) {
  * @param integer $height The desired height of the scaled image, in pixels.
  * @node Subsystems:Image
  */
-function pathos_image_scaleManually($filename,$width,$height) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+function exponent_image_scaleManually($filename,$width,$height) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
 	
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
@@ -333,20 +333,20 @@ function pathos_image_scaleManually($filename,$width,$height) {
 		return $original;
 	}
 	
-	$thumb = pathos_image_create($width,$height);
+	$thumb = exponent_image_create($width,$height);
 	if (!$thumb) return null;
-	pathos_image_copyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
+	exponent_image_copyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
 	
 	return $thumb;
 }
 
-function pathos_image_rotate($filename,$degrees) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+function exponent_image_rotate($filename,$degrees) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
 	
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
@@ -356,13 +356,13 @@ function pathos_image_rotate($filename,$degrees) {
 	return imagerotate($original,$degrees,$color);
 }
 
-function pathos_image_flip($filename,$is_horizontal) {
-	$sizeinfo = pathos_image_sizeinfo($filename);
+function exponent_image_flip($filename,$is_horizontal) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
 	
-	$original = pathos_image_createFromFile($filename,$sizeinfo);
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
@@ -372,7 +372,7 @@ function pathos_image_flip($filename,$is_horizontal) {
 	
 	$w = $sizeinfo[0];
 	$h = $sizeinfo[1];
-	$new = pathos_image_create($w,$h);	
+	$new = exponent_image_create($w,$h);	
 	
 	if ($is_horizontal) {
 		// Copy column by column
@@ -401,7 +401,7 @@ function pathos_image_flip($filename,$is_horizontal) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_image_output($img,$sizeinfo,$filename = null) {
+function exponent_image_output($img,$sizeinfo,$filename = null) {
 	header('Content-type: ' . $sizeinfo['mime']);
 	if ($sizeinfo['mime'] == 'image/jpeg') {
 		($filename != null) ? imagejpeg($img,$filename) : imagejpeg($img);
@@ -416,8 +416,8 @@ function pathos_image_output($img,$sizeinfo,$filename = null) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_image_captcha($w,$h,$string) {
-	$img = pathos_image_create($w,$h);
+function exponent_image_captcha($w,$h,$string) {
+	$img = exponent_image_create($w,$h);
 	if ($img) {
 		// We were able to create an image.
 		$bg = 		imagecolorallocate($img,250,255,225);

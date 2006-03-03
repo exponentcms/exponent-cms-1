@@ -21,16 +21,16 @@
 
 // Part of the Administration Control Panel : Workflow category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$loc = pathos_core_makeLocation('workflow');
+$loc = exponent_core_makeLocation('workflow');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$policies = $db->selectObjects('approvalpolicy');
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-	usort($policies,'pathos_sorting_byNameAscending');
+	usort($policies,'exponent_sorting_byNameAscending');
 	
 	$template = new template('workflow','_policymanager',$loc);
 	$template->assign('policies',$policies);
@@ -46,7 +46,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	$modules = array();
 	$names = array();
 	$defaults = array();
-	foreach (pathos_modules_list() as $mod) {
+	foreach (exponent_modules_list() as $mod) {
 		$m = new $mod();
 		if (!$m->supportsWorkflow()) continue;
 		$names[$mod] = $m->name();

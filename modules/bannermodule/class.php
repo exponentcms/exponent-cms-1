@@ -18,9 +18,9 @@
 ##################################################
 
 class bannermodule {
-	function name() { return pathos_lang_loadKey('modules/bannermodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/bannermodule/class.php','module_name'); }
 	function author() { return "James Hunt"; }
-	function description() { return pathos_lang_loadKey('modules/bannermodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/bannermodule/class.php','module_description'); }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
@@ -29,7 +29,7 @@ class bannermodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {	
-		$i18n = pathos_lang_loadFile('modules/bannermodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/bannermodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
 			'configure'=>$i18n['perm_configure'],
@@ -55,7 +55,7 @@ class bannermodule {
 	function copyContent($oloc,$nloc) {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/bannermodule/'.$nloc->src;
-		if (!file_exists(BASE.$directory) && pathos_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
+		if (!file_exists(BASE.$directory) && exponent_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 			return;
 		}
 		
@@ -94,7 +94,7 @@ class bannermodule {
 				$af[$i]->contact_info = str_replace("\n","<br />",$af[$i]->contact_info);
 			}
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-			usort($af,'pathos_sorting_byNameAscending');
+			usort($af,'exponent_sorting_byNameAscending');
 			
 			$template->assign('affiliates',$af);
 		} else {
@@ -102,7 +102,7 @@ class bannermodule {
 		
 			$directory = 'files/bannermodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
-				$err = pathos_files_makeDirectory($directory);
+				$err = exponent_files_makeDirectory($directory);
 				if ($err != SYS_FILES_SUCCESS) {
 					$template->assign('noupload',1);
 					$template->assign('uploadError',$err);

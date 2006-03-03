@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 define("DATABASE_TABLE_EXISTED",		1);
 define("DATABASE_TABLE_INSTALLED",		2);
@@ -205,7 +205,7 @@ define('DB_TABLE_WORKFLOW',	300);
 define('DB_TABLE_COMMENT',	301);
 
 if (!defined('DB_ENGINE')) {
-	$backends = array_keys(pathos_database_backends(1));
+	$backends = array_keys(exponent_database_backends(1));
 	if (count($backends)) {
 		define('DB_ENGINE',$backends[0]);
 	} else {
@@ -225,7 +225,16 @@ if (!defined('DB_ENGINE')) {
  *	The internal engine name is the key, and the external
  *	descriptive name is the value.
  */
+//Pathos Compatibility::these functions are deprecated
 function pathos_database_backends($valid_only = 1) {
+	return exponent_database_backends($valid_only);
+}
+function pathos_database_connect($username,$password,$hostname,$database,$dbclass = '',$new=false) {
+	return exponent_database_connect($username,$password,$hostname,$database,$dbclass,$new);
+}
+
+//End Pathos Compatibility
+function exponent_database_backends($valid_only = 1) {
 	$options = array();
 	$dh = opendir(BASE.'subsystems/database');
 	while (($file = readdir($dh)) !== false) {
@@ -239,7 +248,7 @@ function pathos_database_backends($valid_only = 1) {
 	return $options;
 }
 
-function pathos_database_connect($username,$password,$hostname,$database,$dbclass = '',$new=false) {
+function exponent_database_connect($username,$password,$hostname,$database,$dbclass = '',$new=false) {
 	if ($dbclass == '' || $dbclass == null) $dbclass = DB_ENGINE;
 	(include_once(BASE.'subsystems/database/'.$dbclass.'.php')) or exit('The specified database backend  ('.$dbclass.') is not supported by Exponent');
 	$dbclass .= '_database';

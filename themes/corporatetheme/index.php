@@ -17,18 +17,18 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<?php echo pathos_theme_headerInfo($section); ?>
+		<?php echo exponent_theme_headerInfo($section); ?>
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 	
-	<body onload="pathosJSinitialize();" topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
-	<?php pathos_theme_sourceSelectorInfo(); ?>
+	<body onload="exponentJSinitialize();" topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
+	<?php exponent_theme_sourceSelectorInfo(); ?>
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
 		<tr>
 			<td rowspan="10" width="50%" height="100%" background="<?php echo THEME_RELATIVE;?>images/bg1222.jpg" style="background-position:right top; background-repeat:repeat-y"></td>
@@ -46,7 +46,7 @@ if (!defined('PATHOS')) exit('');
 				<tr>
 					<td height="28" valign="top" style="padding-left: 20px; padding-top: 3px; background-image: url(<?php echo THEME_RELATIVE;?>images/title_bg.gif); border-top: 5px solid lightblue; ">
 						
-						<?php pathos_theme_showModule("navigationmodule","Top Nav"); ?>
+						<?php exponent_theme_showModule("navigationmodule","Top Nav"); ?>
 					</td>
 				</tr>
 			</table>
@@ -58,10 +58,10 @@ if (!defined('PATHOS')) exit('');
 			<td valign="top" width="55" height="100%" background="<?php echo THEME_RELATIVE;?>images/l01.gif"><img src="<?php echo THEME_RELATIVE;?>images/left.gif"></td>
 			<td valign="top" height="100%" width="215" style="padding: 5px">
 			<?php
-			pathos_theme_showModule("loginmodule","Default");
-			pathos_theme_showModule("previewmodule","Default");
-			pathos_theme_showModule("navigationmodule","Children Only");
-			pathos_theme_showSectionalModule("containermodule","Narrow","","@sidebar");
+			exponent_theme_showModule("loginmodule","Default");
+			exponent_theme_showModule("previewmodule","Default");
+			exponent_theme_showModule("navigationmodule","Children Only");
+			exponent_theme_showSectionalModule("containermodule","Narrow","","@sidebar");
 			?>
 			</td>
 			<td valign="top" height="100%" width="471" style="border: 0px solid blue; padding-right: 15px">
@@ -71,10 +71,10 @@ if (!defined('PATHOS')) exit('');
 				<tr>
 					<td><br /></td>
 				</tr>
-				<?php pathos_theme_showModule("navigationmodule","Breadcrumb"); ?>
+				<?php exponent_theme_showModule("navigationmodule","Breadcrumb"); ?>
 				<tr>
 					<td height="100%" valign="top" style="padding-top: 20px">
-						<?php pathos_theme_main(); ?>
+						<?php exponent_theme_main(); ?>
 					</td>
 				</tr>
 				
@@ -84,7 +84,7 @@ if (!defined('PATHOS')) exit('');
 		</tr>
 		<tr>
 			<td colspan="4" style="padding-left: 10px; padding-right: 10px">
-				<?php pathos_theme_showModule("textmodule","Wide","","copyright"); ?>
+				<?php exponent_theme_showModule("textmodule","Wide","","copyright"); ?>
 			</td>
 		</tr>
 		</table>

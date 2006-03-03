@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('create',$loc)) {
+if (exponent_permissions_check('create',$loc)) {
 	$t = null;
 	if (isset($_POST['id'])) $t = $db->selectObject('htmltemplate','id='.intval($_POST['id']));
 	
@@ -36,12 +36,12 @@ if (pathos_permissions_check('create',$loc)) {
 		} else {
 			$db->insertObject($t,'htmltemplate');
 		}
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		// If file::update() returns a non-object, it should be a string.  That string is the error message.
 		$post = $_POST;
 		$post['_formError'] = $file;
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 } else {

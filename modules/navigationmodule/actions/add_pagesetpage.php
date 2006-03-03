@@ -17,9 +17,9 @@
 #
 ##################################################
 
-// Bail in case someone has visited us directly, or the Pathos framework is
+// Bail in case someone has visited us directly, or the Exponent framework is
 // otherwise not initialized.
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $check_id = -1;
 
@@ -41,7 +41,7 @@ if ($user && $user->is_acting_admin == 1) {
 	}
 }
 
-if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
+if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
 	if (!isset($section->id)) {
 		// Adding pagesets only works for adding, not editting.
 		$form = section::pagesetForm($section);

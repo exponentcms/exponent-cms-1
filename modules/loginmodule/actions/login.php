@@ -17,17 +17,17 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/loginmodule/actions/login.php');
+$i18n = exponent_lang_loadFile('modules/loginmodule/actions/login.php');
 
 if (!defined('SYS_USERS')) require_once('subsystems/users.php');
-pathos_users_login($_POST['username'],$_POST['password']);
+exponent_users_login($_POST['username'],$_POST['password']);
 
 if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {
 	echo $i18n['login_error'];
 } else {
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 }
 
 ?>

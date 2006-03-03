@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // Sanitize required querystring parameter
 $_GET['id'] = intval($_GET['id']);
@@ -29,12 +29,12 @@ if ($news != null) {
 	$iloc = $loc;
 	$iloc->int = $news->id;
 	
-	if (pathos_permissions_check("delete_item",$loc) || ($iloc != null && pathos_permissions_check("delete_item",$iloc))) {
+	if (exponent_permissions_check("delete_item",$loc) || ($iloc != null && exponent_permissions_check("delete_item",$iloc))) {
 		$db->delete("newsitem","id=" . $_GET['id']);
 		$db->delete("newsitem_wf_info","real_id=".$_GET['id']);
 		$db->delete("newsitem_wf_revision","wf_original=".$_GET['id']);
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

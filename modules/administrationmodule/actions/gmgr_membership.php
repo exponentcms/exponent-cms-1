@@ -19,7 +19,7 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
@@ -28,13 +28,13 @@ $memb = $db->selectObject('groupmembership','member_id='.$user->id.' AND group_i
 
 $perm_level = 0;
 if ($memb) $perm_level = 1;
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) $perm_level = 2;
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) $perm_level = 2;
 
 if ($perm_level) {
 	$group = $db->selectObject('group','id='.$_GET['id']);
 	if ($group != null) {
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-		$users = pathos_users_getAllUsers(0);
+		$users = exponent_users_getAllUsers(0);
 		
 		$members = array();
 		$admins = array();

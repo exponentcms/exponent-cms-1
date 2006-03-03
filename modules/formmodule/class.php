@@ -18,8 +18,8 @@
 ##################################################
 
 class formmodule {
-	function name() { return pathos_lang_loadKey('modules/formmodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/formmodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/formmodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/formmodule/class.php','module_description'); }
 	function author() { return 'Greg Otte'; }
 	
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class formmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = "") {
-		$i18n = pathos_lang_loadFile('modules/formmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/formmodule/class.php');
 		if ($internal == "") {
 			return array(
 				"administrate"=>$i18n['perm_administrate'],
@@ -56,9 +56,9 @@ class formmodule {
 	function show($view,$loc = null) {
 		global $db;
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
-		$i18n = pathos_lang_loadFile('modules/formmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/formmodule/class.php');
 		
 		if (defined("PREVIEW_READONLY") && !defined("SELECTOR")) {
 			// Pass
@@ -89,15 +89,15 @@ class formmodule {
 				$f->id = $frmid;
 			}
 			global $SYS_FLOW_REDIRECTIONPATH;
-			pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+			exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 			$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-			pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
-			$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
+			exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+			$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
 			
 			$floc = unserialize($f->location_data);
 			$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id);
 			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-			usort($controls,"pathos_sorting_byRankAscending");
+			usort($controls,"exponent_sorting_byRankAscending");
 			
 			$form = new form();
 			foreach ($controls as $c) {
@@ -115,7 +115,7 @@ class formmodule {
 			$form->meta("i",$floc->int);
 			$form->meta("id",$f->id);
 			$formmsg = '';
-			$form->location(pathos_core_makeLocation("formbuilder",$floc->src,$floc->int));
+			$form->location(exponent_core_makeLocation("formbuilder",$floc->src,$floc->int));
 			if (count($controls) == 0) {
 				$form->controls['submit']->disabled = true;
 				$formmsg .= $i18n['blank_form'].'<br>';

@@ -18,9 +18,9 @@
 ##################################################
 
 class calendarmodule {
-	function name() { return pathos_lang_loadKey('modules/calendarmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/calendarmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/calendarmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/calendarmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class calendarmodule {
 	function supportsWorkflow() { return true; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/calendarmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/calendarmodule/class.php');
 		
 		if ($internal == '') {
 			return array(
@@ -53,14 +53,14 @@ class calendarmodule {
 	
 	function getLocationHierarchy($loc) {
 		if ($loc->int == '') return array($loc);
-		else return array($loc,pathos_core_makelocation($loc->mod,$loc->src));
+		else return array($loc,exponent_core_makelocation($loc->mod,$loc->src));
 	}
 	
 	function show($view,$loc = null, $title = '') {
 		global $user;
 		global $db;
 		
-		$i18n = pathos_lang_loadFile('modules/calendarmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/calendarmodule/class.php');
 		
 		$template = new template('calendarmodule',$view,$loc);
 		$template->assign('moduletitle',$title);
@@ -69,7 +69,7 @@ class calendarmodule {
 		$inapproval = false;
 		
 		global $user;
-		if ($user) $canviewapproval = (pathos_permissions_check("approve",$loc) || pathos_permissions_check("manage_approval",$loc));
+		if ($user) $canviewapproval = (exponent_permissions_check("approve",$loc) || exponent_permissions_check("manage_approval",$loc));
 		if ($db->countObjects("calendar","location_data='".serialize($loc)."' AND approved!=1")) {
 			foreach ($db->selectObjects("calendar","location_data='".serialize($loc)."' AND approved!=1") as $c) {
 				if ($c->poster == $user->id) $canviewapproval = true;
@@ -88,11 +88,21 @@ class calendarmodule {
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		
-		if (!function_exists("pathos_sorting_byEventStartAscending")) {
-			function pathos_sorting_byEventStartAscending($a,$b) {
+		if (!function_exists("exponent_sorting_byEventStartAscending")) {
+			function exponent_sorting_byEventStartAscending($a,$b) {
 				return ($a->eventstart < $b->eventstart ? -1 : 1);
 			}
 		}
+		
+		//Pathos Compatibility::this is deprecated
+		if (@defined(PATHOS)){
+			if (!function_exists('pathos_sorting_byEventStartAscending')) {
+				function pathos_sorting_byDateAscending($a,$b) {
+					return exponent_sorting_byEventStartAscending($a,$b) ;
+				}
+			}
+		}
+		//End Pathos Compatibility
 		
 		if ($viewconfig['type'] == "minical") {
 			$monthly = array();
@@ -111,7 +121,7 @@ class calendarmodule {
 			}
 			$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
 			// Grab day counts
-			$endofmonth = pathos_datetime_endOfMonthDay(time());
+			$endofmonth = exponent_datetime_endOfMonthDay(time());
 			for ($i = 1; $i <= $endofmonth; $i++) {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				if ($i == $info['mday']) $currentweek = $week;
@@ -134,11 +144,11 @@ class calendarmodule {
 			$startperiod = 0;
 			$totaldays = 0;
 			if ($viewconfig['range'] == "week") {
-				$startperiod = pathos_datetime_startOfWeekTimestamp($time);
+				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
 			} else {
-				$startperiod = pathos_datetime_startOfMonthTimestamp($time);
-				$totaldays = pathos_datetime_endOfMonthDay($time);
+				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
+				$totaldays = exponent_datetime_endOfMonthDay($time);
 			}
 			
 			$template->assign("prev_timestamp",$startperiod - 3600);
@@ -151,14 +161,14 @@ class calendarmodule {
 				$edates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
 				for ($j = 0; $j < count($days[$start]); $j++) {
-					$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$days[$start][$j]->id);
+					$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$days[$start][$j]->id);
 					$days[$start][$j]->permissions = array(
-						"administrate"=>(pathos_permissions_check("administrate",$thisloc) || pathos_permissions_check("administrate",$loc)),
-						"edit"=>(pathos_permissions_check("edit",$thisloc) || pathos_permissions_check("edit",$loc)),
-						"delete"=>(pathos_permissions_check("delete",$thisloc) || pathos_permissions_check("delete",$loc))
+						"administrate"=>(exponent_permissions_check("administrate",$thisloc) || exponent_permissions_check("administrate",$loc)),
+						"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
+						"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 					);
 				}
-				usort($days[$start],"pathos_sorting_byEventStartAscending");
+				usort($days[$start],"exponent_sorting_byEventStartAscending");
 			}
 			$template->assign("days",$days);
 		} else if ($viewconfig['type'] == "monthly") {
@@ -185,7 +195,7 @@ class calendarmodule {
 			}
 			$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
 			// Grab day counts
-			$endofmonth = pathos_datetime_endOfMonthDay($time);
+			$endofmonth = exponent_datetime_endOfMonthDay($time);
 			
 			for ($i = 1; $i <= $endofmonth; $i++) {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
@@ -218,21 +228,21 @@ class calendarmodule {
 			// Check perms and return if cant view
 			if ($viewconfig['type'] == "administration" && !$user) return;
 			
-			$continue = (	pathos_permissions_check("administrate",$loc) ||
-					pathos_permissions_check("post",$loc) ||
-					pathos_permissions_check("edit",$loc) ||
-					pathos_permissions_check("delete",$loc) ||
-					pathos_permissions_check("approve",$loc) ||
-					pathos_permissions_check("manage_approval",$loc)
+			$continue = (	exponent_permissions_check("administrate",$loc) ||
+					exponent_permissions_check("post",$loc) ||
+					exponent_permissions_check("edit",$loc) ||
+					exponent_permissions_check("delete",$loc) ||
+					exponent_permissions_check("approve",$loc) ||
+					exponent_permissions_check("manage_approval",$loc)
 				) ? 1 : 0;
 			$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "'");
 			$items = calendarmodule::_getEventsForDates($dates);
 			if (!$continue) {
 				foreach ($items as $i) {
-					$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$i->id);
-					if (	pathos_permissions_check("edit",$iloc) ||
-						pathos_permissions_check("delete",$iloc) ||
-						pathos_permissions_check("administrate",$iloc)
+					$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$i->id);
+					if (	exponent_permissions_check("edit",$iloc) ||
+						exponent_permissions_check("delete",$iloc) ||
+						exponent_permissions_check("administrate",$iloc)
 					) {
 						$continue = true;
 					}
@@ -241,15 +251,15 @@ class calendarmodule {
 			if (!$continue) return;
 			
 			for ($i = 0; $i < count($items); $i++) {
-				$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
+				$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
 				if ($user && $items[$i]->poster == $user->id) $canviewapproval = 1;
 				$items[$i]->permissions = array(
-					"administrate"=>(pathos_permissions_check("administrate",$thisloc) || pathos_permissions_check("administrate",$loc)),
-					"edit"=>(pathos_permissions_check("edit",$thisloc) || pathos_permissions_check("edit",$loc)),
-					"delete"=>(pathos_permissions_check("delete",$thisloc) || pathos_permissions_check("delete",$loc))
+					"administrate"=>(exponent_permissions_check("administrate",$thisloc) || exponent_permissions_check("administrate",$loc)),
+					"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
+					"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 				);
 			}
-			usort($items,"pathos_sorting_byEventStartAscending");
+			usort($items,"exponent_sorting_byEventStartAscending");
 			
 			$template->assign("items",$items);
 		} else if ($viewconfig['type'] == "default") {
@@ -261,7 +271,7 @@ class calendarmodule {
 			}
 			$items = null;
 			$dates = null;
-			$day = pathos_datetime_startOfDayTimestamp(time());
+			$day = exponent_datetime_startOfDayTimestamp(time());
 			$sort_asc = true; // For the getEventsForDates call
 			switch ($viewconfig['range']) {
 				case "all":
@@ -281,18 +291,18 @@ class calendarmodule {
 					$dates = array($db->selectObject("eventdate","location_data='" . serialize($loc) . "' AND date >= $day"));
 					break;
 				case "month":
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date >= ".pathos_datetime_startOfMonthTimestamp(time()) . " AND date <= " . pathos_datetime_endOfMonthTimestamp(time()));
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date >= ".exponent_datetime_startOfMonthTimestamp(time()) . " AND date <= " . exponent_datetime_endOfMonthTimestamp(time()));
 					break;
 			}
 			$items = calendarmodule::_getEventsForDates($dates,$sort_asc);
 			
 			for ($i = 0; $i < count($items); $i++) {
-				$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
+				$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
 				if ($user && $items[$i]->poster == $user->id) $canviewapproval = 1;
 				$items[$i]->permissions = array(
-					'administrate'=>(pathos_permissions_check('administrate',$thisloc) || pathos_permissions_check('administrate',$loc)),
-					'edit'=>(pathos_permissions_check('edit',$thisloc) || pathos_permissions_check('edit',$loc)),
-					'delete'=>(pathos_permissions_check('delete',$thisloc) || pathos_permissions_check('delete',$loc))
+					'administrate'=>(exponent_permissions_check('administrate',$thisloc) || exponent_permissions_check('administrate',$loc)),
+					'edit'=>(exponent_permissions_check('edit',$thisloc) || exponent_permissions_check('edit',$loc)),
+					'delete'=>(exponent_permissions_check('delete',$thisloc) || exponent_permissions_check('delete',$loc))
 				);
 			}
 			
@@ -335,7 +345,7 @@ class calendarmodule {
 	function spiderContent($item = null) {
 		global $db;
 		
-		$i18n = pathos_lang_loadFile('modules/calendarmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/calendarmodule/class.php');
 		
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		
@@ -348,7 +358,7 @@ class calendarmodule {
 		if ($item) {
 			$db->delete('search',"ref_module='calendarmodule' AND ref_type='calendar' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+			$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 			$search->title = ' ' . $item->title . ' ';
 			$search->location_data = $item->location_data;
 			$db->insertObject($search,'search');
@@ -356,7 +366,7 @@ class calendarmodule {
 			$db->delete('search',"ref_module='calendarmodule' AND ref_type='calendar'");
 			foreach ($db->selectObjects('calendar') as $item) {
 				$search->original_id = $item->id;
-				$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+				$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 				$search->title = ' ' . $item->title . ' ';
 				$search->location_data = $item->location_data;
 				$db->insertObject($search,'search');
@@ -370,16 +380,30 @@ class calendarmodule {
 	
 	function _getEventsForDates($edates,$sort_asc = true) {
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		if ($sort_asc && !function_exists('pathos_sorting_byEventStartAscending')) {
-			function pathos_sorting_byEventStartAscending($a,$b) {
+		if ($sort_asc && !function_exists('exponent_sorting_byEventStartAscending')) {
+			function exponent_sorting_byEventStartAscending($a,$b) {
 				return ($a->eventstart < $b->eventstart ? 1 : -1);
 			}
 		}
-		if (!$sort_asc && !function_exists('pathos_sorting_byEventStartDescending')) {
-			function pathos_sorting_byEventStartDescending($a,$b) {
+		if (!$sort_asc && !function_exists('exponent_sorting_byEventStartDescending')) {
+			function exponent_sorting_byEventStartDescending($a,$b) {
 				return ($a->eventstart < $b->eventstart ? 1 : -1);
 			}
 		}
+		//Pathos Compatibility::this is deprecated
+		if (@defined(PATHOS)){
+			if (!function_exists('pathos_sorting_byEventStartAscending')) {
+				function pathos_sorting_byEventStartAscending($a,$b) {
+					return exponent_sorting_byEventStartAscending($a,$b) ;
+				}
+			}
+			if (!function_exists('pathos_sorting_byEventStartDescending')) {
+				function pathos_sorting_byEventStartDescending($a,$b) {
+					return exponent_sorting_byEventStartDescending($a,$b) ;
+				}
+			}
+		}
+		//End Pathos Compatibility
 		
 		global $db;
 		$events = array();
@@ -391,9 +415,9 @@ class calendarmodule {
 			$events[] = $o;
 		}
 		if ($sort_asc == true) {
-			usort($events,'pathos_sorting_byEventStartAscending');
+			usort($events,'exponent_sorting_byEventStartAscending');
 		} else {
-			usort($events,'pathos_sorting_byEventStartDescending');
+			usort($events,'exponent_sorting_byEventStartDescending');
 		}
 		return $events;
 	}

@@ -139,7 +139,7 @@ class mysql_database {
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-			$wf = pathos_workflow_installWorkflowTables($tablename,$datadef);
+			$wf = exponent_workflow_installWorkflowTables($tablename,$datadef);
 			foreach ($wf as $key=>$status) {
 				$return[$key] = $status;
 			}
@@ -364,7 +364,7 @@ class mysql_database {
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-			$wf = pathos_workflow_alterWorkflowTables($tablename,$newdatadef,$aggressive);
+			$wf = exponent_workflow_alterWorkflowTables($tablename,$newdatadef,$aggressive);
 			foreach ($wf as $key=>$status) {
 				$return[$key] = $status;
 			}
@@ -414,9 +414,11 @@ class mysql_database {
 	 *   is specified as null, then no criteria is applied, and all objects are
 	 *   returned
 	 */
-	function selectObjects($table,$where = null) {
+	function selectObjects($table,$where = null,$orderby = null) {
 		if ($where == null) $where = "1";
-		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where",$this->connection);
+		if ($orderby == null) $orderby = '';
+	    else $orderby = "ORDER BY " . $orderby;
+		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
@@ -437,9 +439,11 @@ class mysql_database {
 	 *   is specified as null, then no criteria is applied, and all objects are
 	 *   returned
 	 */
-	function selectObjectsIndexedArray($table,$where = null) {
+	function selectObjectsIndexedArray($table,$where = null,$orderby = null) {
 		if ($where == null) $where = "1";
-		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where",$this->connection);
+		if ($orderby == null) $orderby = '';
+	    else $orderby = "ORDER BY " . $orderby;
+		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) {

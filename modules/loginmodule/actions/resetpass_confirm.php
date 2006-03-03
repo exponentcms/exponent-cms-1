@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass_confirm.php');
+$i18n = exponent_lang_loadFile('modules/loginmodule/actions/resetpass_confirm.php');
 
 $db->delete('passreset_token','expires < ' . time());
 $tok = $db->selectObject('passreset_token','uid='.trim($_GET['uid'])." AND token='".preg_replace('/[^A-Za-z0-9]/','',$_GET['token']) ."'");
@@ -41,14 +41,14 @@ if ($tok == null) {
 	$msg = $e_template->render();
 	
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-	$u = pathos_users_getUserById($tok->uid);
+	$u = exponent_users_getUserById($tok->uid);
 	
-	if (!pathos_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
+	if (!exponent_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
 		echo $i18n['smtp_error'];
 	} else {
 		// Save new password
 		$u->password = md5($newpass);
-		pathos_users_saveUser($u);
+		exponent_users_saveUser($u);
 		
 		$db->delete('passreset_token','uid='.$tok->uid);
 		

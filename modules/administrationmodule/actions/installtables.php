@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 define("TMP_TABLE_EXISTED",		1);
 define("TMP_TABLE_INSTALLED",	2);

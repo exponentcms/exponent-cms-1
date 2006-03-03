@@ -20,8 +20,8 @@
 define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','content_selector.php');
 
-// Initialize the Pathos Framework
-include_once('pathos.php');
+// Initialize the Exponent Framework
+include_once('exponent.php');
 /* exdoc
  * Define Content Selector constant as 1, since we are not selecting orphaned content.
  * @node General

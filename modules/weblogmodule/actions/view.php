@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 if ($config == null) {
@@ -27,7 +27,7 @@ if ($config == null) {
 }
 
 $where = '';
-if (!pathos_permissions_check('view_private',$loc)) $where = ' AND is_private = 0';
+if (!exponent_permissions_check('view_private',$loc)) $where = ' AND is_private = 0';
 
 $this_post = null;
 if (isset($_GET['id'])) {
@@ -37,7 +37,7 @@ if (isset($_GET['id'])) {
 }
 
 $where = "location_data='".$this_post->location_data."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).")";
-if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
+if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 
 if ($this_post) {
 	if ($this_post->is_draft == 0 || ($user && $this_post->poster == $user->id)) {
@@ -54,20 +54,20 @@ if ($this_post) {
 		
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	
-		$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$this_post->id);
+		$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$this_post->id);
 		
 		$this_post->permissions = array(
-			'administrate'=>pathos_permissions_check('administrate',$ploc),
-			'edit'=>pathos_permissions_check('edit',$ploc),
-			'delete'=>pathos_permissions_check('delete',$ploc),
-			'comment'=>pathos_permissions_check('comment',$ploc),
-			'edit_comments'=>pathos_permissions_check('edit_comments',$ploc),
-			'delete_comments'=>pathos_permissions_check('delete_comments',$ploc),
-			'view_private'=>pathos_permissions_check('view_private',$ploc),
+			'administrate'=>exponent_permissions_check('administrate',$ploc),
+			'edit'=>exponent_permissions_check('edit',$ploc),
+			'delete'=>exponent_permissions_check('delete',$ploc),
+			'comment'=>exponent_permissions_check('comment',$ploc),
+			'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
+			'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
+			'view_private'=>exponent_permissions_check('view_private',$ploc),
 		);
 		
 		$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id);
-		usort($this_post->comments,'pathos_sorting_byPostedDescending');
+		usort($this_post->comments,'exponent_sorting_byPostedDescending');
 	
 		$template = new template('weblogmodule','_view',$loc);
 	

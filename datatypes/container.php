@@ -38,11 +38,11 @@ class container {
 			} else {
 				$object->is_existing = 0;
 			}
-			$newInternal = pathos_core_makeLocation($values['i_mod'],$src);
+			$newInternal = exponent_core_makeLocation($values['i_mod'],$src);
 			
 			// REFERENCES - Section and Location
 			//$sect = $db->selectObject('section','id='.$_POST['current_section']);
-			pathos_core_incrementLocationReference($newInternal,intval($_POST['current_section']));
+			exponent_core_incrementLocationReference($newInternal,intval($_POST['current_section']));
 			
 			// Rank is only updateable from the order action
 			$object->rank = $values['rank'];
@@ -64,7 +64,7 @@ class container {
 		$internal = unserialize($object->internal);
 		
 		global $db;
-		$section = pathos_sessions_get("last_section");
+		$section = exponent_sessions_get("last_section");
 		$locref = $db->selectObject("locationref","module='".$internal->mod."' AND source='".$internal->src."' AND internal='".$internal->int."'");
 		$secref = $db->selectObject("sectionref", "module='".$internal->mod."' AND source='".$internal->src."' AND internal='".$internal->int."' AND section=$section");
 		

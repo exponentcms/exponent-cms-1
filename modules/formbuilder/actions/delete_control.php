@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $ctl = null;
 if (isset($_GET['id'])) {
@@ -27,14 +27,14 @@ if (isset($_GET['id'])) {
 
 if ($ctl) {
 	$f = $db->selectObject('formbuilder_form','id='.$ctl->form_id);
-	if (pathos_permissions_check('editform',unserialize($f->location_data))) {
+	if (exponent_permissions_check('editform',unserialize($f->location_data))) {
 		$db->delete('formbuilder_control','id='.$ctl->id);
 		$db->decrement('formbuilder_control','rank',1,'form_id='.$ctl->form_id.' AND rank > ' . $ctl->rank);
 		
 		$f = $db->selectObject('formbuilder_form','id='.$ctl->form_id);
 		formbuilder_form::updateTable($f);
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

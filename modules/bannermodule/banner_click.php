@@ -20,12 +20,12 @@
 define('SCRIPT_EXP_RELATIVE','modules/bannermodule/');
 define('SCRIPT_FILENAME','banner_click.php');
 
-include_once('../../pathos.php');
+include_once('../../exponent.php');
 
 // Process click
 $banner = $db->selectObject('banner_ad','id='.intval($_GET['id']));
 if (!defined('SYS_DATETIME')) include_once(BASE.'subsystems/datetime.php');
-$start = pathos_datetime_startOfDayTimestamp(time());
+$start = exponent_datetime_startOfDayTimestamp(time());
 $clicks = $db->selectObject('banner_click','ad_id='.$banner->id.' AND date='.$start);
 if ($clicks != null) {
 	$clicks->clicks++;

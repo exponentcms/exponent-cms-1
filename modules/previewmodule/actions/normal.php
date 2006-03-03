@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$levels = pathos_sessions_get('uilevels');
-pathos_sessions_set('uilevel',max(array_keys($levels)));
-pathos_flow_redirect();
+$levels = exponent_sessions_get('uilevels');
+exponent_sessions_set('uilevel',max(array_keys($levels)));
+exponent_flow_redirect();
 
 ?>

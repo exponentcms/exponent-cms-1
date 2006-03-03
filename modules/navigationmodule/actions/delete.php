@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user->is_acting_admin == 1) {
 	$section = $db->selectObject('section','id='.intval($_GET['id']));
@@ -25,7 +25,7 @@ if ($user->is_acting_admin == 1) {
 		navigationmodule::deleteLevel($section->id);
 		$db->delete('section','id=' . $section->id);
 		$db->decrement('section','rank',1,'rank > ' . $section->rank . ' AND parent='.$section->parent);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

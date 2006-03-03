@@ -17,19 +17,19 @@
 #
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $item = null;
 $iloc = null;
 if (isset($_POST['id'])) {
 	$item = $db->selectObject("calendar","id=".intval($_POST['id']));
 	$loc = unserialize($item->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$item->id);
 }
 
-if (($item == null && pathos_permissions_check("post",$loc)) ||
-	($item != null && pathos_permissions_check("edit",$loc)) ||
-	($iloc != null && pathos_permissions_check("edit",$iloc))
+if (($item == null && exponent_permissions_check("post",$loc)) ||
+	($item != null && exponent_permissions_check("edit",$loc)) ||
+	($iloc != null && exponent_permissions_check("edit",$iloc))
 ) {
 	$item = calendar::update($_POST,$item);
 	$item->location_data = serialize($loc);
@@ -77,7 +77,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 				}
 			}			
 			$eventdate = $db->selectObject('eventdate','id='.intval($_POST['date_id']));
-			$eventdate->date = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		} else {
 			$item->approved = 1;
@@ -85,14 +85,14 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 			// There should be only one eventdate
 			$eventdate = $db->selectObject('eventdate','event_id = '.$item->id);
 			
-			$eventdate->date = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		}
 		calendarmodule::spiderContent($item);
 	} else {
-		pathos_forms_initialize();
-		$start_recur = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
-		$stop_recur  = pathos_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
+		exponent_forms_initialize();
+		$start_recur = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+		$stop_recur  = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
 		
 		if ($_POST['recur'] != "recur_none") {
 			// Do recurrence
@@ -102,16 +102,16 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 			
 			switch ($_POST['recur']) {
 				case "recur_daily":
-					$dates = pathos_datetime_recurringDailyDates($start_recur,$stop_recur,$freq);
+					$dates = exponent_datetime_recurringDailyDates($start_recur,$stop_recur,$freq);
 					break;
 				case "recur_weekly":
-					$dates = pathos_datetime_recurringWeeklyDates($start_recur,$stop_recur,$freq,(isset($_POST['day']) ? array_keys($_POST['day']) : array($dateinfo['wday'])));
+					$dates = exponent_datetime_recurringWeeklyDates($start_recur,$stop_recur,$freq,(isset($_POST['day']) ? array_keys($_POST['day']) : array($dateinfo['wday'])));
 					break;
 				case "recur_monthly":
-					$dates = pathos_datetime_recurringMonthlyDates($start_recur,$stop_recur,$freq,$_POST['month_type']);
+					$dates = exponent_datetime_recurringMonthlyDates($start_recur,$stop_recur,$freq,$_POST['month_type']);
 					break;
 				case "recur_yearly":
-					$dates = pathos_datetime_recurringYearlyDates($start_recur,$stop_recur,$freq);
+					$dates = exponent_datetime_recurringYearlyDates($start_recur,$stop_recur,$freq);
 					break;
 				default:
 					$dates = array();
@@ -137,7 +137,7 @@ if (($item == null && pathos_permissions_check("post",$loc)) ||
 		}
 		calendarmodule::spiderContent($item);
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

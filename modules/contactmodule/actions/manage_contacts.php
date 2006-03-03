@@ -17,17 +17,17 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configure',$loc)) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('configure',$loc)) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$contacts = array();
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	
 	foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc)."'") as $c) {
 		if ($c->user_id != 0) {
-			$u = pathos_users_getUserById($c->user_id);
+			$u = exponent_users_getUserById($c->user_id);
 			$c->email = $u->email;
 			$c->name = $u->firstname . ' ' . $u->lastname;
 			if (trim($c->name) == '') $c->name = $u->username;

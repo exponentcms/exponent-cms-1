@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/contactmodule/actions/contact.php');
+$i18n = exponent_lang_loadFile('modules/contactmodule/actions/contact.php');
 
 $template = new template('contactmodule',$_POST['msg'],$loc);
 $template->assign('post',$_POST);
@@ -48,7 +48,7 @@ if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 $emails = array();
 foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc)."'") as $c) {
 	if ($c->user_id != 0) {
-		$u = pathos_users_getUserById($c->user_id);
+		$u = exponent_users_getUserById($c->user_id);
 		$emails[] = $u->email;
 	} else if ($c->email != '') {
 		$emails[] = $c->email;
@@ -56,7 +56,7 @@ foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc).
 }
 
 if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
-if (pathos_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
+if (exponent_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
 	$template = new template('contactmodule','_final_message');
 	$template->assign('message',$config->final_message);
 	$template->output();

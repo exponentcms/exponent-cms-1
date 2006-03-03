@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$rloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
-if (pathos_permissions_check("manage_approval",$rloc)) {
+$rloc = exponent_core_makeLocation($_GET['m'],$_GET['s']);
+if (exponent_permissions_check("manage_approval",$rloc)) {
 	if (isset($_POST['d'])) {
 		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 		
@@ -31,7 +31,7 @@ if (pathos_permissions_check("manage_approval",$rloc)) {
 			}
 			$db->delete($_POST['datatype']."_wf_revision","id=". intval($rev->id));
 		}
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 } else {
 	echo SITE_403_HTML;

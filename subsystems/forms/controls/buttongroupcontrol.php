@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Button Group Control
@@ -89,7 +89,7 @@ class buttongroupcontrol extends formcontrol {
 		if ($this->reset != "") $html .= '<input type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
 		if ($this->cancel != "") {
 			$html .= '<input type="button" value="' . $this->cancel . '"';
-			$html .= ' onClick="document.location.href=\''.pathos_flow_get().'\'"';
+			$html .= ' onClick="document.location.href=\''.exponent_flow_get().'\'"';
 			$html .= ' />';
 		}
 		return $html;

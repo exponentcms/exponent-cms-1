@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage_core',pathos_core_makeLocation('sharedcoremodule'))) {
+if (exponent_permissions_check('manage_core',exponent_core_makeLocation('sharedcoremodule'))) {
 	$core = null;
 	if (isset($_GET['id'])) {
 		$core = $db->selectObject('sharedcore_core','id='.intval($_GET['id']));

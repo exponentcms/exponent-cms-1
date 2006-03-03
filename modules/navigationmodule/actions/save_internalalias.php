@@ -17,9 +17,9 @@
 #
 ##################################################
 
-// Bail in case someone has visited us directly, or the Pathos framework is
+// Bail in case someone has visited us directly, or the Exponent framework is
 // otherwise not initialized.
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $check_id = -1;
 $section = null;
@@ -35,9 +35,9 @@ if (isset($_POST['id'])) {
 	$check_id = $_POST['parent'];
 }
 
-if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$check_id))) {
+if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
 
-	$i18n = pathos_lang_loadFile('modules/navigationmodule/actions/save_internalalias.php');
+	$i18n = exponent_lang_loadFile('modules/navigationmodule/actions/save_internalalias.php');
 
 	
 	// Update the section from the _POST data.
@@ -46,7 +46,7 @@ if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocatio
 		// User tried to link to an inactive section.  This makes little or no sense in
 		// this context, so throw them back to the edit form, with an error message.
 		$_POST['_formError'] = $i18n['internal_link_err'];
-		pathos_sessions_set('last_POST',$_POST);
+		exponent_sessions_set('last_POST',$_POST);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit('');
 	}
@@ -70,7 +70,7 @@ if ($check_id != -1 && pathos_permissions_check('manage',pathos_core_makeLocatio
 	}
 	
 	// Go back to where we came from.  Probably the navigation manager.
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

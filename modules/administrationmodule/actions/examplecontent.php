@@ -19,18 +19,18 @@
 
 // Part of Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$modclass = $_GET['name'];
 	
 	$template = new template('administrationmodule','_examplecontent',$loc);
 	
 	$views = array();
-	$loc = pathos_core_makeLocation($modclass,'@example');
-	foreach (pathos_template_listModuleViews($modclass) as $view) {
+	$loc = exponent_core_makeLocation($modclass,'@example');
+	foreach (exponent_template_listModuleViews($modclass) as $view) {
 		echo $view;
 		$v = null;
 		$v->view = $view;

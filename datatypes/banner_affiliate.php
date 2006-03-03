@@ -20,7 +20,7 @@
 class banner_affiliate {
 	function form($object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -30,7 +30,7 @@ class banner_affiliate {
 			$form->meta('id',$object->id);
 		}
 		
-		$i18n = pathos_lang_loadFile('datatypes/banner_affiliate.php');
+		$i18n = exponent_lang_loadFile('datatypes/banner_affiliate.php');
 		
 		$form->register('name',$i18n['name'], new textcontrol($object->name));
 		$form->register('contact_info',$i18n['contact_info'], new texteditorcontrol($object->contact_info,12,50));

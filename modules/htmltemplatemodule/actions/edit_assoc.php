@@ -17,13 +17,13 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // PERM CHECK
 	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$i18n = pathos_lang_loadFile('modules/htmltemplatemodule/actions/edit_assoc.php');
+	$i18n = exponent_lang_loadFile('modules/htmltemplatemodule/actions/edit_assoc.php');
 	
 	$form = new form();
 	$templates = $db->selectObjectsIndexedArray("htmltemplate");

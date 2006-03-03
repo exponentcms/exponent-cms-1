@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /* exdoc
  * The definition of this constant lets other parts of the system know 
@@ -63,8 +63,8 @@ class basetemplate {
 	 */
 	function output() {
 		// Load language constants
-		//$this->tpl->assign('_TR',pathos_lang_loadFile($this->viewdir.'/'.$this->view.'.php')); //fix lamp issue
-		$this->tpl->assign('_TR',pathos_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
+		//$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php')); //fix lamp issue
+		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
 		
 		$this->tpl->display($this->view.'.tpl');
 	}
@@ -75,7 +75,7 @@ class basetemplate {
 		if (!is_array($locs)) $locs = array($locs);
 		foreach ($perms as $perm) {
 			foreach ($locs as $loc) {
-				$permissions_register[$perm] = (pathos_permissions_check($perm,$loc) ? 1 : 0);
+				$permissions_register[$perm] = (exponent_permissions_check($perm,$loc) ? 1 : 0);
 			}
 		}
 		$this->tpl->assign('permissions',$permissions_register);
@@ -86,7 +86,7 @@ class basetemplate {
 	 */
 	function render() { // Caching support?
 		// Load language constants
-		$this->tpl->assign('_TR',pathos_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
+		$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
 		return $this->tpl->fetch($this->view.'.tpl');
 	}
 }
@@ -95,23 +95,24 @@ class basetemplate {
  * interface to templates.
  */
 class template extends basetemplate {	
-	var $module = '';
-	
+	var $module = '';	
 	function template($module,$view = null,$loc=null,$caching=false) {
 		// Set up the Smarty template variable we wrap around.
 		$this->tpl = new Smarty();
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
 		$this->tpl->plugins_dir[] = BASE.'plugins';
 		
-		$this->viewfile = pathos_template_getModuleViewFile($module,$view);
-		$this->viewparams = pathos_template_getViewParams($this->viewfile);
-		$this->viewdir = str_replace(BASE,'',realpath(dirname($this->viewfile)));
-		
+		$this->viewfile = exponent_template_getModuleViewFile($module,$view);
+		$this->viewparams = exponent_template_getViewParams($this->viewfile);
+		//$this->viewdir = str_replace(BASE,'',realpath(dirname($this->viewfile)));
+		$this->viewdir = realpath(dirname($this->viewfile));
+				
 		$this->view = substr(basename($this->viewfile),0,-4);
 		$this->tpl->template_dir = $this->viewdir;
 		
 		//fix for the wamp/lamp issue
 		$this->langdir = "modules/".$module."/views/";
+		//$this->langdir = $this->viewdir;
 		//
 		
 		// Make way for i18n
@@ -122,15 +123,18 @@ class template extends basetemplate {
 		$expected_view = ($this->viewfile == TEMPLATE_FALLBACK_VIEW ? $view : $this->view);
 		
 		$this->tpl->assign("__view",$expected_view);
-		if ($loc == null) $loc = pathos_core_makeLocation($module);
+		if ($loc == null) $loc = exponent_core_makeLocation($module);
 		$this->tpl->assign("__loc",$loc);
-		$this->tpl->assign("__redirect",pathos_flow_get());
+		$this->tpl->assign("__redirect",exponent_flow_get());
 		
 		// View Config
 		global $db;
 		$container = $db->selectObject("container","internal='".serialize($loc)."'");
 		$this->viewconfig = ($container && $container->view_data != "" ? unserialize($container->view_data) : array());
 		$this->tpl->assign("__viewconfig",$this->viewconfig);
+		//echo "<xmp>";
+		//print_r($this);
+		//echo "</xmp>";
 	}
 	
 	
@@ -175,7 +179,7 @@ class formtemplate extends basetemplate {
 		
 		$this->tpl->assign("__view",$this->view);
 		
-		$this->tpl->assign("__redirect",pathos_flow_get());
+		$this->tpl->assign("__redirect",exponent_flow_get());
 	}
 	
 	
@@ -198,7 +202,7 @@ class filetemplate extends basetemplate {
 		$this->tpl->compile_id = md5($this->viewfile);
 		
 		$this->tpl->assign("__view",$view);
-		$this->tpl->assign("__redirect",pathos_flow_get());
+		$this->tpl->assign("__redirect",exponent_flow_get());
 	}
 }
 
@@ -218,7 +222,7 @@ class standalonetemplate extends basetemplate {
 		$this->tpl->php_handling = SMARTY_PHP_REMOVE;
 		$this->tpl->plugins_dir[] = BASE."plugins";
 		
-		$file = pathos_template_getViewFile($view);
+		$file = exponent_template_getViewFile($view);
 		
 		$this->view = substr(basename($file),0,-4);
 		$this->viewdir = str_replace(BASE,'',realpath(dirname($file)));
@@ -230,7 +234,7 @@ class standalonetemplate extends basetemplate {
 		$this->tpl->compile_id = md5($this->viewfile);
 		
 		$this->tpl->assign("__view",$view);
-		$this->tpl->assign("__redirect",pathos_flow_get());
+		$this->tpl->assign("__redirect",exponent_flow_get());
 	}
 }
 
@@ -245,7 +249,7 @@ class standalonetemplate extends basetemplate {
  *
  * @return string The filename of the view template, or "" if none found.
  */
-function pathos_template_getViewFile($view) {
+function exponent_template_getViewFile($view) {
 	$langdir = (LANG == 'en' ? '' : LANG.'/');
 	if (is_readable(THEME_ABSOLUTE."views/$langdir$view.tpl")) {
 		return THEME_ABSOLUTE."views/$langdir$view.tpl";
@@ -263,7 +267,7 @@ function pathos_template_getViewFile($view) {
 
 
 // I thing these still need to be i18n-ized
-function pathos_template_getViewConfigForm($module,$view,$form,$values) {
+function exponent_template_getViewConfigForm($module,$view,$form,$values) {
 	$form_file = "";
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
 	else if (is_readable(BASE . "modules/$module/views/$view.form")) $form_file = BASE . "modules/$module/views/$view.form";
@@ -274,7 +278,7 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 	}
 	
 	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
 	if ($form == null) $form = new form();
 	if ($form_file == "") return $form;
@@ -303,7 +307,7 @@ function pathos_template_getViewConfigForm($module,$view,$form,$values) {
 	return $form;
 }
 
-function pathos_template_getViewConfigOptions($module,$view) {
+function exponent_template_getViewConfigOptions($module,$view) {
 // Can we simplify this?
 	$form_file = "";
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form")) $form_file = BASE."themes/".DISPLAY_THEME."/modules/$module/views/$view.form";
@@ -327,7 +331,7 @@ function pathos_template_getViewConfigOptions($module,$view) {
 	return $options;
 }
 
-function pathos_template_getFormTemplates($type) {
+function exponent_template_getFormTemplates($type) {
 	$forms = array();
 	
 	//Get the forms from the base form diretory
@@ -363,7 +367,7 @@ function pathos_template_getFormTemplates($type) {
  *
  * @node Subsystems:Template
  */
-function pathos_template_getModuleViewFile($module,$view,$recurse = true) {
+function exponent_template_getModuleViewFile($module,$view,$recurse = true) {
 	$langdir = (LANG == 'en' ? '' : LANG . '/');
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/views/$langdir$view.tpl")) {
 		// Try the language directory in theme
@@ -379,7 +383,7 @@ function pathos_template_getModuleViewFile($module,$view,$recurse = true) {
 		return BASE . "modules/$module/views/$view.tpl";
 	} else if ($recurse && $view != DEFAULT_VIEW) {
 		// If we get here, try it with a different view.
-		return pathos_template_getModuleViewFile($module,DEFAULT_VIEW);
+		return exponent_template_getModuleViewFile($module,DEFAULT_VIEW);
 	} else {
 		// Something is really screwed up.
 		// Fall back to something that won't error.
@@ -397,7 +401,7 @@ function pathos_template_getModuleViewFile($module,$view,$recurse = true) {
  * @param string $module The classname of the module to get views for.
  * @node Subsystems:Template
  */
-function pathos_template_listModuleViews($module,$lang = LANG) {
+function exponent_template_listModuleViews($module,$lang = LANG) {
 	$views = array();
 	$langdir = ($lang == 'en' ? '' : $lang.'/');
 	if (is_readable(BASE."modules/$module/views/$langdir")) {
@@ -416,12 +420,12 @@ function pathos_template_listModuleViews($module,$lang = LANG) {
 		}
 	}
 	if (!count($views) && $lang != 'en') {
-		return pathos_template_listModuleViews($module,'en');
+		return exponent_template_listModuleViews($module,'en');
 	}
 	return $views;
 }
 
-function pathos_template_getViewParams($viewfile) {
+function exponent_template_getViewParams($viewfile) {
 	$base = substr($viewfile,0,-4);
 	$vparam = null;
 	if (is_readable($base.'.config')) {

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /* exdoc
  * The definition of this constant lets other parts of the system know 
@@ -47,7 +47,7 @@ if (!defined('SYS_SESSION_COOKIE')) {
  * rest of the system and this subsystem.
  * @node Subsystems:Sessions
  */
-function pathos_sessions_initialize() {	
+function exponent_sessions_initialize() {	
 	$sessid  = '';
 	if (isset($_GET['expid'])) $sessid = $_GET['expid'];
 	else if (isset($_POST['expid'])) $sessid =  $_POST['expid'];
@@ -69,14 +69,14 @@ function pathos_sessions_initialize() {
  * to force refreshes and force logouts.  It also updates activity time.
  * @node Subsystems:Sessions
  */
-function pathos_sessions_validate() {
+function exponent_sessions_validate() {
 	global $db;
-	if (pathos_sessions_loggedIn()) {
+	if (exponent_sessions_loggedIn()) {
 		$ticket = $db->selectObject('sessionticket',"ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
 		$timeoutval = SESSION_TIMEOUT;
 		if ($timeoutval < 300) $timeoutval = 300;
 		if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
-			pathos_sessions_logout();
+			exponent_sessions_logout();
 			define('SITE_403_HTML',SESSION_TIMEOUT_HTML);
 			return;
 		}
@@ -84,7 +84,7 @@ function pathos_sessions_validate() {
 		global $user;
 		$user = $_SESSION[SYS_SESSION_KEY]['user'];
 		if ($ticket->refresh == 1) {
-			pathos_permissions_load($user);
+			exponent_permissions_load($user);
 			$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
 		}
 		$ticket->refresh = 0;
@@ -103,7 +103,7 @@ function pathos_sessions_validate() {
  * @param User $user The user object of the newly logged-in user.
  * @node Subsystems:Sessions
  */
-function pathos_sessions_login($user) {
+function exponent_sessions_login($user) {
 	$ticket = null;
 	$ticket->uid = $user->id;
 	$ticket->ticket = uniqid("",true);
@@ -118,7 +118,7 @@ function pathos_sessions_login($user) {
 	$_SESSION[SYS_SESSION_KEY]['ticket'] = $ticket->ticket;
 	$_SESSION[SYS_SESSION_KEY]['user'] = $user;
 	
-	pathos_permissions_load($user);
+	exponent_permissions_load($user);
 }
 
 /* exdoc
@@ -127,7 +127,7 @@ function pathos_sessions_login($user) {
  * to a blank state.
  * @node Subsystems:Sessions
  */
-function pathos_sessions_logout() {
+function exponent_sessions_logout() {
 	global $db;
 	if (isset($_SESSION['ticket'])) $db->delete('sessionticket',"ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
 	
@@ -135,7 +135,7 @@ function pathos_sessions_logout() {
 	unset($_SESSION[SYS_SESSION_KEY]['user']);
 	unset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
 	
-	pathos_permissions_clear();
+	exponent_permissions_clear();
 }
 
 /* exdpc
@@ -144,11 +144,11 @@ function pathos_sessions_logout() {
  * in, and false if it is not
  * @node Subsystems:Sessions
  */
-function pathos_sessions_loggedIn() {
+function exponent_sessions_loggedIn() {
 	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));
 }
 
-function pathos_sessions_getTicketString() {
+function exponent_sessions_getTicketString() {
 	if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {
 		return $_SESSION[SYS_SESSION_KEY]['ticket'];
 	} else return "";
@@ -161,7 +161,7 @@ function pathos_sessions_getTicketString() {
  * cannot be changed using this call (for security / sanity reason)
  * @node Subsystems:Sessions
  */
-function pathos_sessions_isset($var) {
+function exponent_sessions_isset($var) {
 	return isset($_SESSION[SYS_SESSION_KEY]['vars'][$var]);
 }
 
@@ -175,7 +175,7 @@ function pathos_sessions_isset($var) {
  * @param mixed $val The value to store
  * @node Subsystems:Sessions
  */
-function pathos_sessions_set($var, $val) {
+function exponent_sessions_set($var, $val) {
 	$_SESSION[SYS_SESSION_KEY]['vars'][$var] = $val;
 }
 
@@ -188,7 +188,7 @@ function pathos_sessions_set($var, $val) {
  * @param string $var The name of the variable to unset.
  * @node Subsystems:Sessions
  */
-function pathos_sessions_unset($var) {
+function exponent_sessions_unset($var) {
 	unset($_SESSION[SYS_SESSION_KEY]['vars'][$var]);
 }
 
@@ -202,7 +202,7 @@ function pathos_sessions_unset($var) {
  * @param string $var The name of the variable to retrieve.
  * @node Subsystems:Sessions
  */
-function pathos_sessions_get($var) {
+function exponent_sessions_get($var) {
 	if (isset($_SESSION[SYS_SESSION_KEY]['vars'][$var])) {
 		return $_SESSION[SYS_SESSION_KEY]['vars'][$var];
 	} else return null;
@@ -217,30 +217,30 @@ function pathos_sessions_get($var) {
 // FALSE for failure.
 
 // Opens the session
-function pathos_sessions_db_open($save_path,$sess_name) {
+function exponent_sessions_db_open($save_path,$sess_name) {
 	global $SYS_SESSIONS_SESSIONNAME;
 	$SYS_SESSIONS_SESSIONNAME = $sess_name;
 	// Put locking in database
 	
 }
 
-function pathos_sessions_db_close() {
+function exponent_sessions_db_close() {
 	
 }
 
-function pathos_sessions_db_read($id) {
+function exponent_sessions_db_read($id) {
 
 }
 
-function pathos_sessions_db_write($id, $sess_data) {
+function exponent_sessions_db_write($id, $sess_data) {
 
 }
 
-function pathos_sessions_db_destroy($id) {
+function exponent_sessions_db_destroy($id) {
 
 }
 
-function pathos_sessions_db_gc($maxlifetime) {
+function exponent_sessions_db_gc($maxlifetime) {
 
 }
 

@@ -16,40 +16,40 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 # 
 ##################################################
+/* 
+NOTICE::
+This file is being deprecated and is here for backward
+compatibility only.  If you need to make changes in this file,
+do so in the new version.  Please update your custom themes and modules 
+to reflect the new prefix assignment: both filenames and functions
+prefixed with 'pathos' are now prefixed with exponent.  All
+constants prefixed with PATHOS are now prefixed with EXPONENT
+*/
+require_once("exponent_version.php");
 
-if (!defined('PATHOS_VERSION_MAJOR')) {
-	/* exdoc
-	 * If this constant is set to a true value (1 is the prefered value), then
-	 * the system will behave slightly differently, to accomodate for developers
-	 * and their environment.
-	 */
-	define('DEVELOPMENT',1); // CHANGE FOR DIST
-	/* exdoc
-	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
-	 */
-	define('PATHOS_VERSION_MAJOR',0);
-	/* exdoc
-	 * This is the minor version number of Exponent; the 96 in 0.96.2-beta3
-	 */
-	define('PATHOS_VERSION_MINOR',96);
-	/* exdoc
-	 * This is the revision version number of Exponent; the 2 in 0.96.2-beta3
-	 */
-	define('PATHOS_VERSION_REVISION',5);
-	/* exdoc
-	 * This is the date that this version of Exponent was exported from CVS and built.
-	 */
-	define('PATHOS_VERSION_BUILDDATE','%%BUILDDATE%%');
-	/* exdoc
-	 * This specifies the type of release, either 'alpha','beta','rc' or '' (for stable).
-	 */
-	define('PATHOS_VERSION_TYPE','');
-	/* exdoc
-	 * This number is bumped each time a distribution of a single version is
-	 * released.  For instance, the 3rd beta has an version type iteration of 3.
-	 */
-	define('PATHOS_VERSION_ITERATION',0); // only applies to betas/alphas / rcs
-}
+
+define('PATHOS_VERSION_MAJOR',EXPONENT_VERSION_MAJOR);
+/* exdoc
+ * This is the minor version number of Exponent; the 96 in 0.96.2-beta3
+ */
+define('PATHOS_VERSION_MINOR',EXPONENT_VERSION_MINOR);
+/* exdoc
+ * This is the revision version number of Exponent; the 2 in 0.96.2-beta3
+ */
+define('PATHOS_VERSION_REVISION',EXPONENT_VERSION_REVISION);
+/* exdoc
+ * This is the date that this version of Exponent was exported from CVS and built.
+ */
+define('PATHOS_VERSION_BUILDDATE',EXPONENT_VERSION_BUILDDATE);
+/* exdoc
+ * This specifies the type of release, either 'alpha','beta','rc' or '' (for stable).
+ */
+define('PATHOS_VERSION_TYPE',EXPONENT_VERSION_TYPE);
+/* exdoc
+ * This number is bumped each time a distribution of a single version is
+ * released.  For instance, the 3rd beta has an version type iteration of 3.
+ */
+define('PATHOS_VERSION_ITERATION',EXPONENT_VERSION_ITERATION); // only applies to betas/alphas / rcs
 
 return '0.96';
 

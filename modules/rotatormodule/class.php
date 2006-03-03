@@ -18,8 +18,8 @@
 ##################################################
 
 class rotatormodule {
-	function name() { return pathos_lang_loadKey('modules/rotatormodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/rotatormodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class rotatormodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/rotatormodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/rotatormodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
 			'manage'=>$i18n['perm_manage'],

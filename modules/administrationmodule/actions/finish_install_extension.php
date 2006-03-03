@@ -19,9 +19,9 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 
 	$template = new template('administrationmodule','_upload_finalSummary',$loc);
 
@@ -31,21 +31,21 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 	} else {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$success = array();
-		foreach (array_keys(pathos_files_listFlat(BASE."extensionuploads/$sessid",true,null,array(),BASE."extensionuploads/$sessid")) as $file) {
+		foreach (array_keys(exponent_files_listFlat(BASE."extensionuploads/$sessid",true,null,array(),BASE."extensionuploads/$sessid")) as $file) {
 			if ($file != '/archive.tar' && $file != '/archive.tar.gz' && $file != 'archive.tar.bz2' && $file != '/archive.zip') {
-				pathos_files_makeDirectory(dirname($file));
+				exponent_files_makeDirectory(dirname($file));
 				$success[$file] = copy(BASE."extensionuploads/$sessid".$file,BASE.substr($file,1));
 				if (basename($file) == 'views_c') chmod(BASE.substr($file,1),0777);
 			}
 		}
 		
-		$del_return = pathos_files_removeDirectory(BASE."extensionuploads/$sessid");
+		$del_return = exponent_files_removeDirectory(BASE."extensionuploads/$sessid");
 		echo $del_return;
 		
 		$template->assign('nofiles',0);
 		$template->assign('success',$success);
 		
-		$template->assign('redirect',pathos_flow_get());
+		$template->assign('redirect',exponent_flow_get());
 		
 		ob_start();
 		include(BASE.'modules/administrationmodule/actions/installtables.php');

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $cat = null;
 if (isset($_GET['id'])) {
@@ -27,10 +27,10 @@ if (isset($_GET['id'])) {
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 	$loc->mod = $_GET['orig_module'];
-	if (pathos_permissions_check('manage_categories',$loc)) {
+	if (exponent_permissions_check('manage_categories',$loc)) {
 		$db->delete("category","id=".$cat->id);
 		$db->decrement('category', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$cat->rank);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

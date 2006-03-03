@@ -17,14 +17,14 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
 	if (!defined('SYS_FORMS')) require_once('subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$form = pathos_users_form($user);
+	$form = exponent_users_form($user);
 	$form->meta('module','loginmodule');
 	$form->meta('action','saveprofile');
 	

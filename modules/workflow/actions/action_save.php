@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	$action = null;
 	if (isset($_POST['id'])) {
 		$action = $db->selectObject("workflowaction","id=".intval($_POST['id']));
@@ -41,7 +41,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	}
 	
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

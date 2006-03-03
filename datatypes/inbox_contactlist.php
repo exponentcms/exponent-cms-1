@@ -19,10 +19,10 @@
 
 class inbox_contactlist {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/inbox_contactlist.php');
+		$i18n = exponent_lang_loadFile('datatypes/inbox_contactlist.php');
 		
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -39,13 +39,13 @@ class inbox_contactlist {
 		$users = array();
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		global $user;
-		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
-			foreach (pathos_users_getAllUsers() as $u) {
+		if (exponent_permissions_check('contact_all',exponent_core_makeLocation('inboxmodule'))) {
+			foreach (exponent_users_getAllUsers() as $u) {
 				$users[$u->id] = $u;
 			}
 		} else {
-			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
-				foreach (pathos_users_getUsersInGroup($g) as $u) {
+			foreach (exponent_users_getGroupsForUser($user,1,0) as $g) {
+				foreach (exponent_users_getUsersInGroup($g) as $u) {
 					$users[$u->id] = $u;
 				}
 			}
@@ -92,7 +92,7 @@ class inbox_contactlist {
 	
 	function update($values,$object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		$object->name = $values['name'];
 		$object->description = $values['description'];
 		$object->_members = listbuildercontrol::parseData($values,'members');

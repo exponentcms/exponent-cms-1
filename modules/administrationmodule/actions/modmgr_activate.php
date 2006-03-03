@@ -19,16 +19,16 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $_GET['activate'] = intval($_GET['activate']);
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	if (isset($_GET['all'])) {
 		$db->delete('modstate');
 		$modstate->active = $_GET['activate'];
 		if (!defined('SYS_MODULES')) require_once(BASE.'subsystems/modules.php');
-		foreach (pathos_modules_list() as $mod) {
+		foreach (exponent_modules_list() as $mod) {
 			$modstate->module = $mod;
 			$db->insertObject($modstate,'modstate');
 		}
@@ -43,7 +43,7 @@ if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrati
 			$db->updateObject($modstate,'modstate',"module='".$_GET['mod']."'");
 		}
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

@@ -25,7 +25,7 @@ define('SYS_LANG_VIEW',		2);
 define('SYS_LANG_ACTION',	3);
 */
 
-function pathos_lang_list() {
+function exponent_lang_list() {
 	$dir = BASE.'subsystems/lang';
 	$langs = array();
 	if (is_readable($dir)) {
@@ -40,7 +40,7 @@ function pathos_lang_list() {
 	return $langs;
 }
 
-function pathos_lang_initialize() {
+function exponent_lang_initialize() {
 	if (!defined('LANG')) {
 		if (is_readable(BASE.'subsystems/lang/'.USE_LANG.'.php')) {
 			define('LANG',USE_LANG); // Lang file exists.
@@ -64,9 +64,12 @@ function pathos_lang_initialize() {
  *
  * @return Array The language set found, or an empty array if no set file was found.
  */
-function pathos_lang_loadFile($filename) {
+function exponent_lang_loadFile($filename) {
 	// Try to load the language set for the preferred language.
+	//echo "here...BASE=" . BASE . ", LANG=". LANG . ", filename=". $filename . "<br/>";
 	$file = realpath(BASE.'subsystems/lang/'.LANG.'/'.$filename);
+	//echo "File:" . $file;
+	
 	if (is_readable($file)) {
 #		// HACK
 #		$r = include($file);
@@ -103,9 +106,9 @@ function pathos_lang_loadFile($filename) {
  *
  * @return Array The language set found, or an empty array if no set file was found.
  */
-function pathos_lang_loadKey($filename,$key) {
+function exponent_lang_loadKey($filename,$key) {
 	// First we load the full set.
-	$keys = pathos_lang_loadFile($filename);
+	$keys = exponent_lang_loadFile($filename);
 	// Then we return just the key we were told to.
 #	// HACK
 #	return '[i18n]'.$keys[$key].'[/i18n]';

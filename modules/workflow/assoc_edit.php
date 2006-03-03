@@ -20,16 +20,16 @@
 define('SCRIPT_EXP_RELATIVE','modules/workflow/');
 define('SCRIPT_FILENAME','assoc_edit.php');
 
-include_once('../../pathos.php');
+include_once('../../exponent.php');
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 
-	$i18n = pathos_lang_loadFile('modules/workflow/assoc_edit.php');
+	$i18n = exponent_lang_loadFile('modules/workflow/assoc_edit.php');
 	
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
 	$form = new form();
 	$policies = array();
@@ -42,7 +42,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	if (!$assoc) $assoc->policy_id = 0;
 	
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	if (pathos_workflow_moduleUsesDefaultPolicy($_GET['m'],$_GET['s'])) $assoc->policy_id = 0;
+	if (exponent_workflow_moduleUsesDefaultPolicy($_GET['m'],$_GET['s'])) $assoc->policy_id = 0;
 	
 	foreach ($db->selectObjects('approvalpolicy') as $pol) {
 		$policies[$pol->id] = $pol->name;
@@ -50,7 +50,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	uasort($policies,'strnatcasecmp');
 	
 	$realpol = array();
-	$defaultpol = pathos_workflow_getDefaultPolicy($_GET['m']);
+	$defaultpol = exponent_workflow_getDefaultPolicy($_GET['m']);
 	if ($defaultpol) {
 		$realpol = array(-1=>$i18n['no_policy'],0=>sprintf($i18n['default_policy'],$defaultpol->name));
 	} else {

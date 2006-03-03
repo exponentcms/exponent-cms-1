@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (!defined('SMTP_USE_PHP_MAIL')) define('SMTP_USE_PHP_MAIL',0);
 if (!defined('SMTP_SERVER')) define('SMTP_SERVER','localhost');

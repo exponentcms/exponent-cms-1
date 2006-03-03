@@ -40,7 +40,7 @@
 class banner_ad {
 	function form($object) {
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->id)) {
@@ -55,7 +55,7 @@ class banner_ad {
 			$form->register(uniqid(''),'',new htmlcontrol('<img src="'.$file->directory.'/'.$file->filename.'"/>'));
 		}
 		
-		$i18n = pathos_lang_loadFile('datatypes/banner_ad.php');
+		$i18n = exponent_lang_loadFile('datatypes/banner_ad.php');
 		
 		$affiliates = bannermodule::listAffiliates();
 		

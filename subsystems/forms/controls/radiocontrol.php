@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Radio Control
@@ -74,7 +74,7 @@ class radiocontrol extends formcontrol {
 	
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->identifier)) {
@@ -84,7 +84,7 @@ class radiocontrol extends formcontrol {
 			$object->default = false;
 			$object->flip = false;
 		} 
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/radiocontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/radiocontrol.php');
 		
 		$form->register("groupname",$i18n['groupname'],new textcontrol($object->groupname));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
@@ -99,10 +99,10 @@ class radiocontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new radiocontrol();
 		if ($values['groupname'] == "") {
-			$i18n = pathos_lang_loadFile('subsystems/forms/controls/radiocontrol.php');
+			$i18n = exponent_lang_loadFile('subsystems/forms/controls/radiocontrol.php');
 			$post = $_POST;
 			$post['_formError'] = $i18n['groupname_req'];
-			pathos_sessions_set("last_POST",$post);
+			exponent_sessions_set("last_POST",$post);
 			return null;
 		}
 		$object->identifier = uniqid("");

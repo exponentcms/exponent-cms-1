@@ -28,7 +28,7 @@ define('SYS_MODULES',1);
  * This includes all modules available to the system, for use later.
  * @node Subsystems:Modules
  */
-function pathos_modules_initialize() {
+function exponent_modules_initialize() {
 	if (is_readable(BASE.'modules')) {
 		$dh = opendir(BASE.'modules');
 		while (($file = readdir($dh)) !== false) {
@@ -46,7 +46,7 @@ function pathos_modules_initialize() {
  * Returns the list of module class names.
  * @node Subsystems:Modules
  */
-function pathos_modules_list() {
+function exponent_modules_list() {
 	$mods = array();
 	if (is_readable(BASE."modules")) {
 		$dh = opendir(BASE."modules");
@@ -64,7 +64,7 @@ function pathos_modules_list() {
  * Returns the list of active module class names.
  * @node Subsystems:Modules
  */
-function pathos_modules_listActive() {
+function exponent_modules_listActive() {
 	global $db;
 	$modulestates = $db->selectObjects("modstate","active='1'");
 	$modules = array();
@@ -83,7 +83,7 @@ function pathos_modules_listActive() {
  * @param string $formname The name of the form
  * @node Subsystems:Modules
  */
-function pathos_modules_getJSValidationFile($module,$formname) {
+function exponent_modules_getJSValidationFile($module,$formname) {
 	if (is_readable(BASE."themes/".DISPLAY_THEME."/modules/$module/js/$formname.validate.js")) return PATH_RELATIVE . "themes/".DISPLAY_THEME."/modules/$module/js/$formname.validate.js";
 	else if (is_readable(BASE."modules/$module/js/$formname.validate.js")) return PATH_RELATIVE."modules/$module/js/$formname.validate.js";
 	return "";
@@ -93,8 +93,8 @@ function pathos_modules_getJSValidationFile($module,$formname) {
  * Populate Template for module manager -- THIS NEEDS CHANGED
  * @node Subsystems:Modules
  */
-function pathos_modules_moduleManagerFormTemplate($template) {
-	$modules = pathos_modules_list();
+function exponent_modules_moduleManagerFormTemplate($template) {
+	$modules = exponent_modules_list();
 	natsort($modules);
 	
 	global $db;
@@ -111,7 +111,7 @@ function pathos_modules_moduleManagerFormTemplate($template) {
 		$moduleInfo[$module]->active = ($modstate != null ? $modstate->active : 0);
 	}
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	uasort($moduleInfo,"pathos_sorting_byNameAscending");
+	uasort($moduleInfo,"exponent_sorting_byNameAscending");
 	
 	$template->assign("modules",$moduleInfo);
 	return $template;
@@ -126,7 +126,7 @@ function pathos_modules_moduleManagerFormTemplate($template) {
  * @param string $basedir The absolute path to the module directory
  * @node Subsystems:Modules
  */
-function pathos_modules_verifyModule($basedir) {
+function exponent_modules_verifyModule($basedir) {
 	// class.php
 	if (	!file_exists("$basedir/class.php") ||
 		!is_file("$basedir/class.php") ||
@@ -156,7 +156,7 @@ function pathos_modules_verifyModule($basedir) {
  * method (no this is not a bug) Returns  true of the module exists, false if it was not found.
  * @node Subsystems:Modules
  */
-function pathos_modules_moduleExists($name) {
+function exponent_modules_moduleExists($name) {
 	return (file_exists(BASE."modules/$name") && is_dir(BASE."modules/$name") && is_readable(BASE."modules/$name/class.php"));
 }
 

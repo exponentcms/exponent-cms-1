@@ -18,9 +18,9 @@
 ##################################################
 
 class loginmodule {
-	function name() { return pathos_lang_loadKey('modules/loginmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; } 
-	function description() { return pathos_lang_loadKey('modules/loginmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
@@ -43,7 +43,7 @@ class loginmodule {
 	function show($view,$loc=null,$title='') {
 		$template = new template('loginmodule',$view,$loc);
 		$template->assign('title',$title);
-		if (pathos_sessions_loggedIn()) {
+		if (exponent_sessions_loggedIn()) {
 			global $user, $db;
 			$template->assign('loggedin',1);
 			$template->assign('user',$user);

@@ -18,12 +18,12 @@
 ##################################################
 
 // Part of the Configuration category
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
-	pathos_config_deleteProfile($_GET['configname']);
-	pathos_flow_redirect();
+	exponent_config_deleteProfile($_GET['configname']);
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

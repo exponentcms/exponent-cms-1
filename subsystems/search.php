@@ -43,7 +43,7 @@ define("SEARCH_TYPE_PHRASE",3);
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
+function exponent_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 	$where = "";
 
 
@@ -70,7 +70,7 @@ function pathos_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_search_saveSearchKey($search) {
+function exponent_search_saveSearchKey($search) {
 	$search->title = " " . $search->title . " ";
 	$search->body = " " . $search->body . " ";
 	
@@ -86,7 +86,7 @@ function pathos_search_saveSearchKey($search) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_search_removeHTML($str) {
+function exponent_search_removeHTML($str) {
 	$str = str_replace(array("\r\n","\n")," ",$str);
 	return strip_tags(str_replace(array("<br/>","<br>","<br />","</div>"),"\n",$str));
 }
@@ -95,7 +95,7 @@ function pathos_search_removeHTML($str) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_search_cleanSearchQuery($query) {
+function exponent_search_cleanSearchQuery($query) {
 	$exclude = array_map("trim",file(BASE."subsystems/search/exclude.en.list"));
 	$newquery = array('valid'=>array(),'excluded'=>array());
 	foreach ($query as $q_tok) {

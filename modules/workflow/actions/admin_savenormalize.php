@@ -19,9 +19,9 @@
 
 // Part of the Administration Control Panel : Workflow category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	$policy = unserialize(stripslashes($_POST['policy']));
 	
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
@@ -33,10 +33,10 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			
 			switch ($action) {
 				case 'restart':
-					$revision = pathos_workflow_restartRevisionPath($revision,$type,$policy,$info);
+					$revision = exponent_workflow_restartRevisionPath($revision,$type,$policy,$info);
 					break;
 				case 'eval':
-					$revision = pathos_workflow_evaluateRevisionPath($revision,$type,$policy,$info);
+					$revision = exponent_workflow_evaluateRevisionPath($revision,$type,$policy,$info);
 					break;
 			}
 		}
@@ -46,7 +46,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	// Having gotten $revision from the handler functions, it should be up to date.
 	$db->updateObject($policy,'approvalpolicy','id='.$policy->id);
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

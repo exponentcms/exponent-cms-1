@@ -17,13 +17,13 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $item = $db->selectObject("imagemanageritem","id=".intval($_GET['id']));
 if ($item != null) {
 	$loc = unserialize($item->location_data);
 	
-	if (pathos_permissions_check("delete",$loc)) {
+	if (exponent_permissions_check("delete",$loc)) {
 		$file = $db->selectObject("file","id=".$item->file_id);
 		
 		$db->delete("file","id=".$file->id);
@@ -31,7 +31,7 @@ if ($item != null) {
        
         unlink("$file->directory/$file->filename");
        
-        pathos_flow_redirect();
+        exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

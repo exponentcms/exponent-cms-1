@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $resource = null;
 $iloc = null;
@@ -25,13 +25,13 @@ if (isset($_GET['id'])) {
 	$resource = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 	if ($resource) {
 		$loc = unserialize($resource->location_data);
-		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	}
 }
 
-if (($resource == null && pathos_permissions_check('post',$loc)) ||
-	($resource != null && pathos_permissions_check('edit',$loc)) ||
-	($iloc != null && pathos_permissions_check('edit',$iloc))
+if (($resource == null && exponent_permissions_check('post',$loc)) ||
+	($resource != null && exponent_permissions_check('edit',$loc)) ||
+	($iloc != null && exponent_permissions_check('edit',$iloc))
 ) {
 	$form = resourceitem::form($resource);
 	$form->location($loc);
@@ -50,7 +50,7 @@ if (($resource == null && pathos_permissions_check('post',$loc)) ||
 	}
 	
 	if (!isset($resource->file_id)) {
-		$i18n = pathos_lang_loadFile('modules/resourcesmodule/actions/edit.php');
+		$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/edit.php');
 		
 		$form->registerBefore('submit','file',$i18n['file'],new uploadcontrol());
 		

@@ -27,9 +27,9 @@ define('SYS_SECURITY',1);
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_security_checkPasswordStrength($username,$password) {
+function exponent_security_checkPasswordStrength($username,$password) {
 
-	$i18n = pathos_lang_loadFile('subsystems/security.php');
+	$i18n = exponent_lang_loadFile('subsystems/security.php');
 // Return blank string on success, error message on failure.
 // The error message should let the user know why their password is wrong.
 	if (strcasecmp($username,$password) == 0) {
@@ -43,9 +43,9 @@ function pathos_security_checkPasswordStrength($username,$password) {
 	return ""; // by default, accept any passwords
 }
 
-function pathos_security_checkUsername($username) {
+function exponent_security_checkUsername($username) {
 	
-	$i18n = pathos_lang_loadFile('subsystems/security.php');
+	$i18n = exponent_lang_loadFile('subsystems/security.php');
 // Return blank string on success, error message on failure.
 // The error message should let the user know why their username is wrong.
 	if (strlen($username) < 4) {

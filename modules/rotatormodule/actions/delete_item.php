@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = null;
 if (isset($_GET['id'])) {
@@ -26,9 +26,9 @@ if (isset($_GET['id'])) {
 
 if ($item) {
 	$loc = unserialize($item->location_data);
-	if (pathos_permissions_check('manage',$loc)) {
+	if (exponent_permissions_check('manage',$loc)) {
 		$db->delete('rotator_item','id='.$item->id);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

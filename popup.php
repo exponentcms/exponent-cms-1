@@ -22,13 +22,13 @@ define('SCRIPT_FILENAME','popup.php');
 
 ob_start();
 
-// Initialize the Pathos Framework
-require_once('pathos.php');
+// Initialize the Exponent Framework
+require_once('exponent.php');
 
 // Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
-$loc = pathos_core_makeLocation(
+$loc = exponent_core_makeLocation(
 	(isset($_GET['module'])?$_GET['module']:''),
 	(isset($_GET['src'])?$_GET['src']:''),
 	(isset($_GET['int'])?$_GET['int']:'')
@@ -36,10 +36,10 @@ $loc = pathos_core_makeLocation(
 
 $SYS_FLOW_REDIRECTIONPATH='popup';
 
-if (pathos_theme_inAction()) {
-	pathos_theme_runAction();
+if (exponent_theme_inAction()) {
+	exponent_theme_runAction();
 } else if (isset($_GET['module']) && isset($_GET['view'])) {
-	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
+	exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 
 	$mod = new $_GET['module']();
 	$mod->show($_GET['view'],$loc,(isset($_GET['title'])?$_GET['title']:''));

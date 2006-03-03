@@ -19,16 +19,16 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (isset($_GET['id']) && pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (isset($_GET['id']) && exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-	$u = pathos_users_getUserById(intval($_GET['id']));
+	$u = exponent_users_getUserById(intval($_GET['id']));
 	if ($u && $u->is_admin == 0 && ($u->is_acting_admin == 0 || $user->is_admin == 1)) {
 		$u->is_locked = $_GET['value'];
-		pathos_users_saveUser($u);
+		exponent_users_saveUser($u);
 	}
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

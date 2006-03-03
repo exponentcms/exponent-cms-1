@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $tables = $db->getTables();
 if (!function_exists('tmp_removePrefix')) {

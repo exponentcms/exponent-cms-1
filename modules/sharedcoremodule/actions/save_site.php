@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
-	$i18n = pathos_lang_loadFile('modules/sharecoremodule/actions/save_site.php');
+if (exponent_permissions_check('manage_site',exponent_core_makeLocation('sharedcoremodule'))) {
+	$i18n = exponent_lang_loadFile('modules/sharecoremodule/actions/save_site.php');
 
 	$site = null;
 	if (isset($_POST['id'])) $site = $db->selectObject("sharedcore_site","id=".intval($_POST['id']));
@@ -35,12 +35,12 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 	
 	if (is_really_writable($site->path)) {
 		if (!isset($site->id)) { // New -- link stuff
-			if (!file_exists($site->path."pathos_version.php")) {
+			if (!file_exists($site->path."exponent_version.php")) {
 				if (!defined("SYS_SHAREDCORE")) require_once(BASE."subsystems/sharedcore.php");
 				
 				$core = $db->selectobject("sharedcore_core","id=".$site->core_id);
 				
-				$stat = pathos_sharedcore_setup($core,$site); // If we can setup the basic environment
+				$stat = exponent_sharedcore_setup($core,$site); // If we can setup the basic environment
 				if ($stat == 0) {
 					$site->id = $db->insertObject($site,"sharedcore_site");
 					// Update extensions table for this site.
@@ -55,7 +55,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 						CORE_EXT_THEME=>array(),
 					);
 					
-					foreach (pathos_core_resolveDependencies(null,CORE_EXT_SYSTEM,$core->path) as $d) {
+					foreach (exponent_core_resolveDependencies(null,CORE_EXT_SYSTEM,$core->path) as $d) {
 						if (!in_array($d['name'],$used[$d['type']])) {
 							$extension->name = $d['name'];
 							$extension->type = $d['type'];
@@ -64,7 +64,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 						}
 					}
 					
-					pathos_sharedcore_link($core,$site,$used);
+					exponent_sharedcore_link($core,$site,$used);
 					
 					// Save database config.
 					$values = array(
@@ -84,10 +84,10 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 					
 					if (!defined("SYS_CONFIG")) require_once(BASE."subsystems/config.php");
 					
-					pathos_config_saveConfiguration($values,$site->path);
+					exponent_config_saveConfiguration($values,$site->path);
 					
 					// Install database for base system
-					$newdb = pathos_database_connect($_POST['db_user'],$_POST['db_pass'],$_POST['db_host'].':'.$_POST['db_port'],$_POST['db_name'],$_POST['db_engine'],true);
+					$newdb = exponent_database_connect($_POST['db_user'],$_POST['db_pass'],$_POST['db_host'].':'.$_POST['db_port'],$_POST['db_name'],$_POST['db_engine'],true);
 					$newdb->prefix = $_POST['db_table_prefix'] . '_';
 					
 					// Following code snipped from modules/administrationmodule/actions/installtables.php
@@ -122,7 +122,7 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 						// End snip
 						
 						// Use the db recover library
-						$i18n_db = pathos_lang_loadFile('db_recover.php');
+						$i18n_db = exponent_lang_loadFile('db_recover.php');
 						
 						// Following code snipped from db_recover.php
 						if ($newdb->tableIsEmpty('user')) {
@@ -176,9 +176,9 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 				}
 			} else {
 				$post = $_POST;
-				$v = @include($this->site.'pathos_version.php');
+				$v = @include($this->site.'exponent_version.php');
 				$post['_formError'] = sprintf($i18n['dest_exists'],$v,$site->path);
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}
 		} else { // Old -- update object
@@ -190,13 +190,13 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 				exit;
 			} else {
 				// For inactive sites, we can't go through the edit modules page, because it would relink and defeat the purpose of the deactivation
-				pathos_flow_redirect();
+				exponent_flow_redirect();
 			}
 		}
 	} else {
 		$post = $_POST;
 		$post['_formError'] = sprintf($i18n['dest_not_writable'],$site->path);
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 } else {

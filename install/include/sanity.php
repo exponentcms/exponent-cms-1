@@ -29,7 +29,7 @@ define('SANITY_CREATEFILE',			4); // Read write, without the need for the file t
 define('SANITY_WARNING',			1);
 define('SANITY_ERROR',				2);
 
-$global_i18n = pathos_lang_loadFile('install/include/sanity.php');
+$global_i18n = exponent_lang_loadFile('install/include/sanity.php');
 
 function sanity_checkFile($file,$as_file,$flags) {
 	$__oldumask = umask(0);
@@ -211,7 +211,7 @@ function _sanity_checkDB() {
 	$have_good = false;
 	
 	global $global_i18n;
-	if (count(pathos_database_backends(1)) > 0) {
+	if (count(exponent_database_backends(1)) > 0) {
 		return array(SANITY_FINE,$global_i18n['supported']);
 	} else {
 		return array(SANITY_ERROR,$global_i18n['no_db_support']);

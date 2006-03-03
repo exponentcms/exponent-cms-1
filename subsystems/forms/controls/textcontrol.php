@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Text Control
@@ -86,7 +86,7 @@ class textcontrol extends formcontrol {
 	
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->identifier)) {
@@ -97,7 +97,7 @@ class textcontrol extends formcontrol {
 			$object->maxlength = 0;
 			$object->required = false;
 		} 
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/textcontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/textcontrol.php');
 		
 		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
@@ -112,10 +112,10 @@ class textcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new textcontrol();
 		if ($values['identifier'] == "") {
-			$i18n = pathos_lang_loadFile('subsystems/forms/controls/textcontrol.php');
+			$i18n = exponent_lang_loadFile('subsystems/forms/controls/textcontrol.php');
 			$post = $_POST;
 			$post['_formError'] = $i18n['id_req'];
-			pathos_sessions_set("last_POST",$post);
+			exponent_sessions_set("last_POST",$post);
 			return null;
 		}
 		$object->identifier = $values['identifier'];

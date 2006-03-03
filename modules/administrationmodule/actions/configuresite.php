@@ -19,20 +19,20 @@
 
 // Part of the Configuration category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
-	$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/configuresite.php');
+	$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/configuresite.php');
 
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
 	
 	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$profiles = pathos_config_profiles();
+	$profiles = exponent_config_profiles();
 	if (count($profiles) == 0) $profiles = array(''=>'[No Profiles]');
 	if (!array_key_exists($configname,$profiles) || $configname == '') {
 		if (defined('CURRENTCONFIGNAME')) $configname = CURRENTCONFIGNAME;
@@ -54,7 +54,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$form->register('configname',$i18n['profile'],$dd);
 	$template->assign('form_html',$form->toHTML());
 	
-	$template = pathos_config_outputConfigurationTemplate($template,$configname);
+	$template = exponent_config_outputConfigurationTemplate($template,$configname);
 	$template->assign('configname',$configname);
 	
 	$canactivate = ($configname != '' && is_readable(BASE."conf/profiles/$configname.php"));

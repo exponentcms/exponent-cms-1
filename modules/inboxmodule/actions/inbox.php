@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
-	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 
 	$messages = $db->selectObjects('privatemessage','recipient='.$user->id);
 	function msgCmp($a,$b) {

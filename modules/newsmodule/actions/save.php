@@ -18,7 +18,7 @@
 ##################################################
 
 //GREP:HARDCODEDTEXT2
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $news = null;
 $iloc = null;
@@ -27,7 +27,7 @@ if (isset($_POST['id'])) {
 	$news = $db->selectObject("newsitem","id=" . intval($_POST['id']));
 	if ($news != null) {
 		$loc = unserialize($news->location_data);
-		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$news->id);
+		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$news->id);
 	}
 	$news->editor = $user->id;
 	$news->edited = time();
@@ -36,9 +36,9 @@ if (isset($_POST['id'])) {
 	$news->poster = ($user?$user->id:0);
 }
 
-if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) || 
-	(!isset($news->id) && pathos_permissions_check("add_item",$loc)) ||
-	($iloc != null   && pathos_permissions_check("edit_item",$iloc)) 
+if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) || 
+	(!isset($news->id) && exponent_permissions_check("add_item",$loc)) ||
+	($iloc != null   && exponent_permissions_check("edit_item",$iloc)) 
 ) {
 	
 	$news = newsitem::update($_POST,$news);
@@ -47,7 +47,7 @@ if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) ||
 	/*if (!isset($news->id) && $db->countObjects('newsitem',"internal_name='".$news->internal_name."'")) {
 		unset($_POST['internal_name']);
 		$_POST['_formError'] = 'That Internal Name is already taken';
-		pathos_sessions_set('last_POST',$_POST);
+		exponent_sessions_set('last_POST',$_POST);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit('');
 	}
@@ -56,7 +56,7 @@ if ((isset($news->id) && pathos_permissions_check("edit_item",$loc)) ||
 	$news->location_data = serialize($loc);
 	
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-	pathos_workflow_post($news,"newsitem",$loc);
+	exponent_workflow_post($news,"newsitem",$loc);
 } else {
 	echo SITE_403_HTML;
 }

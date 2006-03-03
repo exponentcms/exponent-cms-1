@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $_GET['a'] = intval($_GET['a']);
 $_GET['b'] = intval($_GET['b']);
@@ -27,7 +27,7 @@ $a = $db->selectObject('formbuilder_control','form_id='.$_GET['p'].' AND rank='.
 $b = $db->selectObject('formbuilder_control','form_id='.$_GET['p'].' AND rank='.$_GET['b']);
 if ($a && $b) {
 	$f = $db->selectObject('formbuilder_form','id='.$a->form_id);
-	if (pathos_permissions_check('editform',unserialize($f->location_data))) {
+	if (exponent_permissions_check('editform',unserialize($f->location_data))) {
 		$tmp = $a->rank;
 		$a->rank = $b->rank;
 		$b->rank = $tmp;
@@ -35,7 +35,7 @@ if ($a && $b) {
 		$db->updateObject($a,'formbuilder_control');
 		$db->updateObject($b,'formbuilder_control');
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

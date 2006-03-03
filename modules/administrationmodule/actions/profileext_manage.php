@@ -19,22 +19,22 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-	pathos_users_includeProfileExtensions();
+	exponent_users_includeProfileExtensions();
 	
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
 	$template = new template('administrationmodule','_profileextManager',$loc);
 	
-	pathos_users_clearDeletedExtensions(); // This will clear db of deleted exts.
+	exponent_users_clearDeletedExtensions(); // This will clear db of deleted exts.
 	
 	$exts = $db->selectObjects('profileextension');
 	
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-	usort($exts,'pathos_sorting_byRankAscending');
+	usort($exts,'exponent_sorting_byRankAscending');
 	
 	for ($i = 0; $i < count($exts); $i++) {
 		$exts[$i]->name = call_user_func(array($exts[$i]->extension,'name'));
@@ -42,7 +42,7 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 		$exts[$i]->description = call_user_func(array($exts[$i]->extension,'description'));
 	}
 	
-	$unused = pathos_users_listUnusedExtensions();
+	$unused = exponent_users_listUnusedExtensions();
 	foreach ($unused as $i) {
 		$unused[$i] = null;
 		$unused[$i]->name = call_user_func(array($i,'name'));

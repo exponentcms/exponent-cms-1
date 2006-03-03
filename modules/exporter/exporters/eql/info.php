@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/exporter/exporters/eql/info.php');
+$i18n = exponent_lang_loadFile('modules/exporter/exporters/eql/info.php');
 
 return array(
 	'name'=>$i18n['exporter_name'],

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $container = null;
 $iloc = null;
@@ -30,9 +30,9 @@ if ($container != null) {
 	$cloc->int = $container->id;
 }
 
-if (pathos_permissions_check("add_module",$loc) || 
-	($iloc != null && pathos_permissions_check("administrate",$iloc)) ||
-	($cloc != null && pathos_permissions_check("edit_module",$cloc))
+if (exponent_permissions_check("add_module",$loc) || 
+	($iloc != null && exponent_permissions_check("administrate",$iloc)) ||
+	($cloc != null && exponent_permissions_check("edit_module",$cloc))
 	) {
 	
 	$container = container::update($_POST,$container,$loc);
@@ -50,7 +50,7 @@ if (pathos_permissions_check("add_module",$loc) ||
 		$db->updateObject($locref,"locationref","module='".$iloc->mod."' AND source='".$iloc->src."'");
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

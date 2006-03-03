@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (isset($_GET['id']))
     $_GET['id'] = intval($_GET['id']);
@@ -26,7 +26,7 @@ $collection = null;
 if (isset($_GET['id'])) {
 	$collection = $db->selectObject('file_collection','id='.$_GET['id']);
 }
-$loc = pathos_core_makeLocation('filemanagermodule');
+$loc = exponent_core_makeLocation('filemanagermodule');
 
 // PERM CHECK
 	$form = file_collection::form($collection);

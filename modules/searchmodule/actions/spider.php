@@ -18,16 +18,16 @@
 ##################################################
 
 //GREP:VIEWIFY
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('searching',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('searching',exponent_core_makeLocation('administrationmodule'))) {
 	$template = new template('searchmodule','_spiderSite');
 	
 	if (!defined('SYS_MODULES')) include_once(BASE.'subsystems/modules.php');
 	$db->delete('search');
 	$mods = array();
 	$modnames = array();
-	foreach (pathos_modules_list() as $mod) {
+	foreach (exponent_modules_list() as $mod) {
 		$name = call_user_func(array($mod,'name'));
 		if (class_exists($mod) && is_callable(array($mod,'spiderContent'))) {
 			if (call_user_func(array($mod,'spiderContent'))) {

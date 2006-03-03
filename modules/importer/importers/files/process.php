@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/importers/importer/process.php');
+$i18n = exponent_lang_loadFile('modules/importers/importer/process.php');
 
 if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
 	switch($_FILES['file']['error']) {
@@ -62,7 +62,7 @@ if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
 				if ($file{0} != '.' && is_dir($dest_dir.'/files/'.$file)) {
 					$mods[$file] = array(
 						'',
-						array_keys(pathos_files_listFlat($dest_dir.'/files/'.$file,1,null,array(),$dest_dir.'/files/'.$file.'/'))
+						array_keys(exponent_files_listFlat($dest_dir.'/files/'.$file,1,null,array(),$dest_dir.'/files/'.$file.'/'))
 					);
 					if (class_exists($file)) {
 						$mods[$file][0] = call_user_func(array($file,'name')); // $file is the class name of the module

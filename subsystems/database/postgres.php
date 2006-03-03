@@ -115,7 +115,7 @@ class postgres_database {
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-			pathos_workflow_installWorkflowTables($tablename,$datadef);
+			exponent_workflow_installWorkflowTables($tablename,$datadef);
 		}
 	}
 	
@@ -178,7 +178,7 @@ class postgres_database {
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
-			pathos_workflow_alterWorkflowTables($tablename,$newdatadef);
+			exponent_workflow_alterWorkflowTables($tablename,$newdatadef);
 		}
 		
 		if ($modified) {

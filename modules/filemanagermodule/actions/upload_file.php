@@ -17,19 +17,19 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 $_GET['id'] = intval($_GET['id']);
 	
 $collection = null;
 if (isset($_GET['id'])) {
 	$collection = $db->selectObject('file_collection','id='.$_GET['id']);
 }
-$loc = pathos_core_makeLocation('filemanagermodule');
+$loc = exponent_core_makeLocation('filemanagermodule');
 
 if ($collection) {
 	// PERM CHECK
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		$form->meta('module','filemanagermodule');

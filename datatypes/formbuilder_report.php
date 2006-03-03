@@ -19,11 +19,11 @@
 
 class formbuilder_report {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/formbuilder_report.php');
+		$i18n = exponent_lang_loadFile('datatypes/formbuilder_report.php');
 	
 		global $db;
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -76,7 +76,7 @@ class formbuilder_report {
 	
 	function update($values, $object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		$object->name = $values['name'];
 		$object->description = $values['description'];
 		$object->text = htmleditorcontrol::parseData('text',$values);

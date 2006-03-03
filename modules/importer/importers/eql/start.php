@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-pathos_forms_initialize();
+exponent_forms_initialize();
 
-$i18n = pathos_lang_loadFile('modules/importer/importers/eql/start.php');
+$i18n = exponent_lang_loadFile('modules/importer/importers/eql/start.php');
 
 $form = new form();
 $form->meta('module','importer');

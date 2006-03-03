@@ -17,16 +17,16 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage_af',$loc)) {
+if (exponent_permissions_check('manage_af',$loc)) {
 	// Sanitize required _GET parameters to prevent injection attacks
 	$_GET['id'] = intval($_GET['id']);
 	
 	$af = $db->selectObject('banner_affiliate','id='.$_GET['id']);
 	if ($af) {
 		$db->delete('banner_affiliate','id='.$_GET['id']);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_404_HTML;
 	}

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = null;
 if (isset($_POST['id'])) {
@@ -28,7 +28,7 @@ if ($item) {
 	$loc = unserialize($item->location_data);
 }
 
-if (pathos_permissions_check('manage',$loc)) {
+if (exponent_permissions_check('manage',$loc)) {
 	$item = rotator_item::update($_POST,$item);
 	$item->location_data = serialize($loc);
 	
@@ -38,7 +38,7 @@ if (pathos_permissions_check('manage',$loc)) {
 		$db->insertObject($item,'rotator_item');
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

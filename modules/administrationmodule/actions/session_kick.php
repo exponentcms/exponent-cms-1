@@ -19,20 +19,20 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	$ticket = $db->selectObject('sessionticket',"ticket='".preg_replace('/[^A-Za-z0-9]/','',$_GET['ticket'])."'");
 	if ($ticket) {
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-		$u = pathos_users_getUserById($ticket->uid);
+		$u = exponent_users_getUserById($ticket->uid);
 		if ($u->is_acting_admin == 0 || ($user->is_admin == 1 && $u->is_admin == 0)) {
 			// We can only kick the user if they are A) not an acting admin, or B) The current user is a super user and the kicked user is not.
 			$db->delete('sessionticket',"ticket='".$ticket->ticket."'");
 		}
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

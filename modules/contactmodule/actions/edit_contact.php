@@ -17,7 +17,7 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $contact = null;
 if (isset($_GET['id'])) {
@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
 	}
 }
 
-if (pathos_permissions_check('configure',$loc)) {
+if (exponent_permissions_check('configure',$loc)) {
 	$form = contact_contact::form($contact);
 	$form->location($loc);
 	$form->meta('action','save_contact');

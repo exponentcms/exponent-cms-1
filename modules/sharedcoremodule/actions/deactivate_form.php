@@ -17,19 +17,19 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
+if (exponent_permissions_check('manage_site',exponent_core_makeLocation('sharedcoremodule'))) {
 	$site = null;
 	if (isset($_GET['id'])) {
 		$site = $db->selectObject('sharedcore_site','id='.intval($_GET['id']));
 	}
 	
 	if ($site) {
-		$i18n = pathos_lang_loadFile('modules/sharedcoremodule/actions/deactivate_form.php');
+		$i18n = exponent_lang_loadFile('modules/sharedcoremodule/actions/deactivate_form.php');
 		
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		$form->meta('module','sharedcoremodule');

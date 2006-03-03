@@ -20,13 +20,13 @@
 // GREP:HARDCODEDTEXT - 3am-6am is not i18n!
 
 class phoneextension {
-	function name() { return pathos_lang_loadKey('subsystems/users/profileextensions/phoneextension.php','extension_name'); }
+	function name() { return exponent_lang_loadKey('subsystems/users/profileextensions/phoneextension.php','extension_name'); }
 	function author() { return 'Jeremy Shinall'; }
-	function description() { return pathos_lang_loadKey('subsystems/users/profileextensions/phoneextension.php','extension_description'); }
+	function description() { return exponent_lang_loadKey('subsystems/users/profileextensions/phoneextension.php','extension_description'); }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
 	
-		$i18n = pathos_lang_loadFile('subsystems/users/profileextensions/phoneextension.php');
+		$i18n = exponent_lang_loadFile('subsystems/users/profileextensions/phoneextension.php');
 	
 		if (!isset($user->user_phone) || $user->user_phone == null) {
 			$user->user_phone = phoneextension::_blankPhone();

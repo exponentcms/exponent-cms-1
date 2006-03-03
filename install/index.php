@@ -34,10 +34,10 @@ if (isset($_POST['c'])) {
 
 define('SCRIPT_EXP_RELATIVE','install/');
 define('SCRIPT_FILENAME','index.php');
-include_once('../pathos.php');
+include_once('../exponent.php');
 
 // Load i18n values
-$i18n = pathos_lang_loadFile('install/index.php');
+$i18n = exponent_lang_loadFile('install/index.php');
 		
 if (!isset($_REQUEST['page'])) {
 	$_REQUEST['page'] = 'welcome';

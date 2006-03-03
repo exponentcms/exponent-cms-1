@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // PERM CHECK
 	$t = null;
@@ -25,7 +25,7 @@ if (!defined("PATHOS")) exit("");
 		$t = $db->selectObject("htmltemplate","id=".intval($_GET['id']));
 	}
 	if ($t) {
-		pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+		exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
 		$template = new template("htmltemplatemodule","_view",$loc);
 		

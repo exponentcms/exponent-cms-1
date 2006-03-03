@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
 	
@@ -33,7 +33,7 @@ if ($user) {
 			$db->delete('inbox_contactlist_member','list_id='.$list->id);
 			$db->delete('inbox_contactlist','id='.$list->id);
 			
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		}
 	}
 } else {

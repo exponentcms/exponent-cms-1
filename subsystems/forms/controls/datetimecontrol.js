@@ -1,4 +1,4 @@
-function pathos_forms_disable_datetime(id,frm,disable) {
+function exponent_forms_disable_datetime(id,frm,disable) {
 	var elem = document.getElementById("__"+id);
 	var status = elem.value;
 	

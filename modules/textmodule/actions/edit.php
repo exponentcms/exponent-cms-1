@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $textitem = null;
 if (isset($_GET['id'])) {
@@ -28,7 +28,7 @@ if ($textitem != null) {
 	$loc = unserialize($textitem->location_data);
 }
 
-if (pathos_permissions_check('edit',$loc)) {
+if (exponent_permissions_check('edit',$loc)) {
 	$form = textitem::form($textitem);
 	$form->location($loc);
 	$form->meta('action','save');

@@ -69,7 +69,7 @@ define("SYS_FILES_NOTDELETABLE",	5);
  * @param string $dir The directory to create.  This path must be relative to BASE
  * @node Subsystems:Files
  */
-function pathos_files_makeDirectory($dir,$mode=null,$is_full=false) {
+function exponent_files_makeDirectory($dir,$mode=null,$is_full=false) {
 	$__oldumask = umask(0);
 	$parentdir = ($is_full ? "/" : BASE); // we will add to parentdir with each directory
 	foreach (explode("/",$dir) as $part) {
@@ -95,13 +95,13 @@ function pathos_files_makeDirectory($dir,$mode=null,$is_full=false) {
  * @param string $dir The path of the directory to remove
  * @node Subsystems:Files
  */
-function pathos_files_removeDirectory($dir) {
+function exponent_files_removeDirectory($dir) {
 	if (strpos($dir,BASE) != 0) $dir = BASE.$dir;
 	$dh = opendir($dir);
 	if ($dh) {
 		while (($file = readdir($dh)) !== false) {
 			if ($file != "." && $file != ".." && is_dir("$dir/$file")) {
-				if (pathos_files_removeDirectory("$dir/$file") == SYS_FILES_NOTDELETABLE) return SYS_FILES_NOTDELETABLE;
+				if (exponent_files_removeDirectory("$dir/$file") == SYS_FILES_NOTDELETABLE) return SYS_FILES_NOTDELETABLE;
 			} else if (is_file("$dir/$file") || is_link(is_file("$dir/$file"))) {
 				unlink("$dir/$file");
 				if (file_exists("$dir/$file")) {
@@ -121,7 +121,7 @@ function pathos_files_removeDirectory($dir) {
 	rmdir($dir);
 }
 
-function pathos_files_fixName($name) {
+function exponent_files_fixName($name) {
 	return preg_replace('/[^A-Za-z0-9\.]/','_',$name);
 }
 
@@ -136,8 +136,8 @@ function pathos_files_fixName($name) {
  *  to get the filename of the uploaded file.
  * @node Subsystems:Files
  */
-function pathos_files_uploadDestinationFileExists($dir,$name) {
-	return (file_exists(BASE.$dir."/".pathos_files_fixName($_FILES[$name]['name'])));
+function exponent_files_uploadDestinationFileExists($dir,$name) {
+	return (file_exists(BASE.$dir."/".exponent_files_fixName($_FILES[$name]['name'])));
 }
 
 /* exdoc
@@ -147,7 +147,7 @@ function pathos_files_uploadDestinationFileExists($dir,$name) {
  * @param string $dest The full path to the destination file (including the destination filename).
  * @node Subsystems:Files
  */
-function pathos_files_moveUploadedFile($tmp_name,$dest) {
+function exponent_files_moveUploadedFile($tmp_name,$dest) {
 	move_uploaded_file($tmp_name,$dest);
 	if (file_exists($dest)) {
 		$__oldumask = umask(0);
@@ -172,13 +172,13 @@ function pathos_files_moveUploadedFile($tmp_name,$dest) {
  * 	sub-directories named "dir", regardless of their parent.
  * @node Subsystems:Files
  */
-function pathos_files_list($dir, $recurse = false, $ext=null, $exclude_dirs = array()) {
+function exponent_files_list($dir, $recurse = false, $ext=null, $exclude_dirs = array()) {
 	$files = array();
 	if (is_readable($dir)) {
 		$dh = opendir($dir);
 		while (($file = readdir($dh)) !== false) {
 			if (is_dir("$dir/$file") && !in_array($file,$exclude_dirs) && $recurse && $file != "." && $file != ".." && $file != "CVS") {
-				$files[$file] = pathos_files_list("$dir/$file",$recurse,$ext,$exclude_dirs);
+				$files[$file] = exponent_files_list("$dir/$file",$recurse,$ext,$exclude_dirs);
 			}
 			if (is_file("$dir/$file") && ($ext == null || substr($file,-1*strlen($ext),strlen($ext)) == $ext)) {
 				$files[$file] = $file;
@@ -203,13 +203,13 @@ function pathos_files_list($dir, $recurse = false, $ext=null, $exclude_dirs = ar
  * 	sub-directories named "dir", regardless of their parent.
  * @node Subsystems:Files
  */
-function pathos_files_listFlat($dir, $recurse = false, $ext=null, $exclude_dirs = array(), $relative = "") {
+function exponent_files_listFlat($dir, $recurse = false, $ext=null, $exclude_dirs = array(), $relative = "") {
 	$files = array();
 	if (is_readable($dir)) {
 		$dh = opendir($dir);
 		while (($file = readdir($dh)) !== false) {
 			if (is_dir("$dir/$file") && !in_array($file,$exclude_dirs) && $recurse && $file != "." && $file != ".." && $file != "CVS") {
-				$files = array_merge($files,pathos_files_listFlat("$dir/$file",$recurse,$ext,$exclude_dirs,$relative));
+				$files = array_merge($files,exponent_files_listFlat("$dir/$file",$recurse,$ext,$exclude_dirs,$relative));
 			}
 			if (is_file("$dir/$file") && ($ext == null || substr($file,-1*strlen($ext),strlen($ext)) == $ext)) {
 				$files[str_replace($relative,"","$dir/$file")] = $file;
@@ -231,7 +231,7 @@ function pathos_files_listFlat($dir, $recurse = false, $ext=null, $exclude_dirs 
  * 	sub-directories named "dir", regardless of their parent.
  * @node Subsystems:Files
  */
-function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array()) {
+function exponent_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array()) {
 	$__oldumask = umask(0);
 	if (!file_exists($dest)) mkdir($dest,fileperms($src));
 	$dh = opendir($src);
@@ -239,7 +239,7 @@ function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array())
 		if (is_dir("$src/$file") && !in_array($file,$exclude_dirs) && substr($file,0,1) != "." && $file != "CVS") {
 			if (!file_exists("$dest/$file")) mkdir("$dest/$file",fileperms("$src/$file"));
 			if (is_dir("$dest/$file")) {
-				pathos_files_copyDirectoryStructure("$src/$file","$dest/$file");
+				exponent_files_copyDirectoryStructure("$src/$file","$dest/$file");
 			}
 		}
 	}
@@ -257,7 +257,7 @@ function pathos_files_copyDirectoryStructure($src,$dest,$exclude_dirs = array())
  * @param string $dest Path to the directory to check
  * @node Subsystems:Files
  */
-function pathos_files_canCreate($dest) {
+function exponent_files_canCreate($dest) {
 	if (substr($dest,0,1) == '/') $dest = str_replace(BASE,'',$dest);
 	$parts = explode('/',$dest);
 	$working = BASE;
@@ -285,7 +285,7 @@ function pathos_files_canCreate($dest) {
 	}
 }
 
-function pathos_files_bytesToHumanReadable($size) {
+function exponent_files_bytesToHumanReadable($size) {
 	if ($size >= 1024*1024*1024) { // Gigs
 		$size_msg = round(($size / (1024*1024*1024)),2) . " GB";
 	} else if ($size >= 1024*1024) { // Megs

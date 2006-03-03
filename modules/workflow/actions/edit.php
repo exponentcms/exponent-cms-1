@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Sanitize required $_GET parameters
 $_GET['id'] = intval($_GET['id']);
@@ -28,13 +28,13 @@ $object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GE
 $state = unserialize($object->wf_state_data);
 
 $rloc = unserialize($object->location_data);
-if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
+if (exponent_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$form = pathos_workflow_form($_GET['datatype'],$_GET['id']);
+	$form = exponent_workflow_form($_GET['datatype'],$_GET['id']);
 	$form->meta('id',$_GET['id']);
 	$form->meta('module','workflow');
 	$form->meta('action','edit_approve');
@@ -44,7 +44,7 @@ if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
-	pathos_forms_cleanup();
+	exponent_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

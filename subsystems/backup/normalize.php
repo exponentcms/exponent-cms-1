@@ -17,25 +17,25 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Normalizer Script
 // This script normalizes the database and sets some things back in order.
 
 // Normalize Section Rankings
-function pathos_backup_normalize_sections($db,$parent = 0) {
+function exponent_backup_normalize_sections($db,$parent = 0) {
 	$sections = $db->selectObjects('section','parent='.$parent);
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-	usort($sections,'pathos_sorting_byRankAscending');
+	usort($sections,'exponent_sorting_byRankAscending');
 	
 	for ($i = 0; $i < count($sections); $i++) {
 		$s = $sections[$i];
 		$s->rank = $i;
 		$db->updateObject($s,'section');
-		pathos_backup_normalize_sections($db,$s->id); // Normalize children
+		exponent_backup_normalize_sections($db,$s->id); // Normalize children
 	}
 }
 
-pathos_backup_normalize_sections($db);
+exponent_backup_normalize_sections($db);
 
 ?>

@@ -131,7 +131,7 @@ define('SYS_WORKFLOW_ACTION_APPROVED_ADMIN',		11);
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_dataDefinitions($tabledef) {
+function exponent_workflow_dataDefinitions($tabledef) {
 	return array(
 		'_wf_revision'=>array_merge($tabledef,array(
 			'wf_major'=>array(
@@ -182,20 +182,20 @@ function pathos_workflow_dataDefinitions($tabledef) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_installWorkflowTables($existingname,$tabledef) {
-	return pathos_workflow_alterWorkflowTables($existingname,$tabledef);
+function exponent_workflow_installWorkflowTables($existingname,$tabledef) {
+	return exponent_workflow_alterWorkflowTables($existingname,$tabledef);
 }
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
+function exponent_workflow_alterWorkflowTables($existingname,$newdatadef) {
 	global $db;
 
 	$return = array();
 
-	$defs = pathos_workflow_dataDefinitions($newdatadef);
+	$defs = exponent_workflow_dataDefinitions($newdatadef);
 	
 	if (!$db->tableExists($existingname.'_wf_revision')) {
 		$tmp = $db->createTable($existingname.'_wf_revision',$defs['_wf_revision'],array(DB_TABLE_COMMENT=>'Workflow Revisions table for '.$existingname));
@@ -220,7 +220,7 @@ function pathos_workflow_alterWorkflowTables($existingname,$newdatadef) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_isWorkflowTable($name) {
+function exponent_workflow_isWorkflowTable($name) {
 	return (substr($name,-8,8) == '_wf_info' || substr($name,-12,12) == '_wf_revision');
 }
 
@@ -228,7 +228,7 @@ function pathos_workflow_isWorkflowTable($name) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_originalTable($name) {
+function exponent_workflow_originalTable($name) {
 	if (substr($name,-8,8) == '_wf_info') return substr($name,0,-8);
 	else if (substr($name,-11,11) == '_wf_revision') return substr($name,0,-11);
 	return '';
@@ -239,7 +239,7 @@ function pathos_workflow_originalTable($name) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_clearRevisions($existingname,$major) {
+function exponent_workflow_clearRevisions($existingname,$major) {
 	global $db;
 	$db->delete($existingname.'_wf_revision','wf_major='.$major.' && wf_minor != 0');
 }
@@ -248,10 +248,10 @@ function pathos_workflow_clearRevisions($existingname,$major) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_getPolicy($module,$source) {
+function exponent_workflow_getPolicy($module,$source) {
 	global $db;
 	$assoc = $db->selectObject('approvalpolicyassociation',"module='$module' AND source='$source' AND is_global=0");
-	if (!$assoc) return pathos_workflow_getDefaultPolicy($module);
+	if (!$assoc) return exponent_workflow_getDefaultPolicy($module);
 	else {
 		$policy = $db->selectObject('approvalpolicy','id='.$assoc->policy_id);
 		return $policy;
@@ -262,7 +262,7 @@ function pathos_workflow_getPolicy($module,$source) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_getDefaultPolicy($module) {
+function exponent_workflow_getDefaultPolicy($module) {
 	global $db;
 	$assoc = $db->selectObject('approvalpolicyassociation',"module='$module' AND is_global=1");
 	
@@ -277,7 +277,7 @@ function pathos_workflow_getDefaultPolicy($module) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_moduleUsesDefaultPolicy($module,$source) {
+function exponent_workflow_moduleUsesDefaultPolicy($module,$source) {
 	global $db;
 	$assoc = $db->selectObject("approvalpolicyassociation","module='$module' AND source='$source' AND is_global=0");
 	return ($assoc == null);
@@ -289,7 +289,7 @@ function pathos_workflow_moduleUsesDefaultPolicy($module,$source) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_checkApprovalState($state,$policy) {
+function exponent_workflow_checkApprovalState($state,$policy) {
 	if ($policy == null) return true; // faked implicit approval.
 	$requirement = $policy->required_approvals;
 	foreach ($state[1] as $id=>$approval) {
@@ -303,10 +303,10 @@ function pathos_workflow_checkApprovalState($state,$policy) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_post($object,$table,$loc,$userdata = null) {
+function exponent_workflow_post($object,$table,$loc,$userdata = null) {
 	global $db,$user;
 	
-	$policy = pathos_workflow_getPolicy($loc->mod,$loc->src);
+	$policy = exponent_workflow_getPolicy($loc->mod,$loc->src);
 	
 	$is_post = false;
 	
@@ -339,11 +339,11 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 	$object->wf_user_id = $user->id;
 	
 	// Now check approval right off the bat.  Admin is always exempt from workflow
-	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
+	if (exponent_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
 		$object->wf_major++;
 		$object->wf_minor = 0;
 		
-		$real_object = pathos_workflow_convertToObject($object);
+		$real_object = exponent_workflow_convertToObject($object);
 		$real_object->approved = 1;
 		$object->wf_updated = time();
 		$db->updateObject($real_object,$table);
@@ -358,7 +358,7 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 		}
 		
 	} else {
-		$info = pathos_workflow_updateInfoFromRevision($object,null);
+		$info = exponent_workflow_updateInfoFromRevision($object,null);
 		$info->location_data = $object->location_data;
 		$info->policy_id = $policy->id;
 		$info->open_slots = $policy->max_approvers;
@@ -370,12 +370,12 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 	unset($object->id);
 	$db->insertObject($object,$table."_wf_revision");
 	
-	pathos_workflow_deleteOldRevisions($table,$object->wf_original);
+	exponent_workflow_deleteOldRevisions($table,$object->wf_original);
 	
 	// Now that we are almost done, we need to call the onWorkflow stuff.
 	if (is_callable(array($table,'onWorkflowPost'))) {
 		if (!isset($real_object)) {
-			$real_object = pathos_workflow_convertToObject($object);
+			$real_object = exponent_workflow_convertToObject($object);
 			$real_object->id = $object->wf_original;
 		}
 		call_user_func(array($table,'onWorkflowPost'),$real_object,$is_post,$userdata);
@@ -383,10 +383,10 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
 	
 	if ($policy != null) {
 		// run actions, either EDIT or POST or IMPLICIT_APPROVAL
-		pathos_workflow_runActions($policy,$object->wf_type,$object);
+		exponent_workflow_runActions($policy,$object->wf_type,$object);
 	} else {
 		// Catch-all redirect - in case its a new post, implicitly approved, with no policy
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 }
 
@@ -395,7 +395,7 @@ function pathos_workflow_post($object,$table,$loc,$userdata = null) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
+function exponent_workflow_processApproval($id,$datatype,$response,$comment="") {
 	global $db;
 	
 	$info = $db->selectObject($datatype."_wf_info","real_id=".$id);
@@ -438,32 +438,32 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
 			$state[1][$user->id] = 0;
 			if ($policy->delete_on_deny == 1) {
 				$latest->wf_type = SYS_WORKFLOW_ACTION_DELETED;
-				pathos_workflow_deleteRevisionPath($datatype,$latest->wf_original);
+				exponent_workflow_deleteRevisionPath($datatype,$latest->wf_original);
 			} else if ($user->is_acting_admin == 1) {
 				// Admin denials always end up in deletion.  It saves them the extra step.
 				$latest->wf_type = SYS_WORKFLOW_ACTION_DELETED;
-				pathos_workflow_deleteRevisionPath($datatype,$latest->wf_original);
+				exponent_workflow_deleteRevisionPath($datatype,$latest->wf_original);
 			} else {
 				$latest->wf_type = SYS_WORKFLOW_ACTION_APPROVED_DENIED;
 				#$latest->wf_comment = $comment;
 			}
 			break;
 	}
-	$state = pathos_workflow_revoke($state,$revoketype);
+	$state = exponent_workflow_revoke($state,$revoketype);
 	$latest->wf_state_data = serialize($state);
 	
-	$info = pathos_workflow_updateInfoFromRevision($latest,$info);
+	$info = exponent_workflow_updateInfoFromRevision($latest,$info);
 	global $user;
-	if (pathos_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
+	if (exponent_workflow_checkApprovalState($state,$policy) || $user->is_acting_admin == 1) {
 		// Final approval given.
-		pathos_workflow_handleApprovedRevision($latest,$datatype,$info);
+		exponent_workflow_handleApprovedRevision($latest,$datatype,$info);
 	} else {
 		if ($latest->wf_type != SYS_WORKFLOW_ACTION_DELETED) {
 			// only handle revisions if we have not deleted the revision Path
-			pathos_workflow_handleRevision($latest,$datatype,$info);
+			exponent_workflow_handleRevision($latest,$datatype,$info);
 		}
 		// run actions for $latest->wf_type
-		pathos_workflow_runActions($policy,$latest->wf_type,$latest);
+		exponent_workflow_runActions($policy,$latest->wf_type,$latest);
 	}
 }
 
@@ -471,10 +471,10 @@ function pathos_workflow_processApproval($id,$datatype,$response,$comment="") {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
+function exponent_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	global $db;
 	
-	$real = pathos_workflow_convertToObject($revision);
+	$real = exponent_workflow_convertToObject($revision);
 	$real->approved = 1;
 	
 	$revision->wf_minor = 0;
@@ -502,7 +502,7 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
 	} else {
 		$action = SYS_WORKFLOW_ACTION_APPROVED_FINAL;
 	}
-	pathos_workflow_runActions($policy,$action,$revision);
+	exponent_workflow_runActions($policy,$action,$revision);
 	
 	return $revision;
 }
@@ -511,7 +511,7 @@ function pathos_workflow_handleApprovedRevision($revision,$datatype,$info) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_handleRevision($revision,$datatype,$info) {
+function exponent_workflow_handleRevision($revision,$datatype,$info) {
 	global $db, $user;
 	
 	unset($revision->id);
@@ -533,7 +533,7 @@ function pathos_workflow_handleRevision($revision,$datatype,$info) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_revoke($state,$type) {
+function exponent_workflow_revoke($state,$type) {
 	global $user; // for use in OTHERS
 	switch ($type) {
 		case SYS_WORKFLOW_REVOKE_ALL: // revoke everyone
@@ -564,7 +564,7 @@ function pathos_workflow_revoke($state,$type) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_deleteRevisionPath($datatype,$id) {
+function exponent_workflow_deleteRevisionPath($datatype,$id) {
 	global $db;
 	$info = $db->selectObject($datatype.'_wf_info','real_id='.$id);
 	$revision = $db->selectObject($datatype.'_wf_revision','wf_original='.$id.' AND wf_major='.$info->current_major.' AND wf_minor='.$info->current_minor);
@@ -584,10 +584,10 @@ function pathos_workflow_deleteRevisionPath($datatype,$id) {
 	
 	// Run the actions for SYS_WORKFLOW_ACTION_DELETED
 	$policy = $db->selectObject('approvalpolicy','id='.$info->policy_id);
-	pathos_workflow_runActions($policy,SYS_WORKFLOW_ACTION_DELETED,$revision);
+	exponent_workflow_runActions($policy,SYS_WORKFLOW_ACTION_DELETED,$revision);
 }
 
-function pathos_workflow_deleteOldRevisions($datatype,$id) {
+function exponent_workflow_deleteOldRevisions($datatype,$id) {
 	if (WORKFLOW_REVISION_LIMIT > 0) {
 		// User has specified that we delete older revisions
 		global $db;
@@ -606,7 +606,7 @@ function pathos_workflow_deleteOldRevisions($datatype,$id) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
+function exponent_workflow_restoreRevision($datatype,$real_id,$major) {
 	global $db, $user;
 	
 	$info = $db->selectObject($datatype."_wf_info","real_id=".$real_id);
@@ -617,7 +617,7 @@ function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
 		$db->delete($datatype."_wf_info","real_id=".$real_id);
 		$db->delete($datatype."_wf_revision","wf_original=".$real_id." AND wf_major=".$info->current_major ." AND wf_minor != 0");
 	}
-	$real = pathos_workflow_convertToObject($revision);
+	$real = exponent_workflow_convertToObject($revision);
 	$real->approved = 1;
 	$db->updateObject($real,$datatype,"id=".$real->id); // Update original
 	
@@ -639,10 +639,10 @@ function pathos_workflow_restoreRevision($datatype,$real_id,$major) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_convertToObject($revision) {
+function exponent_workflow_convertToObject($revision) {
 	//$object = clone $revision;
 	
-	$object = pathos_core_copyObject($revision);
+	$object = exponent_core_copyObject($revision);
 	#$object = $revision;
 	unset($object->wf_major);
 	unset($object->wf_minor);
@@ -661,7 +661,7 @@ function pathos_workflow_convertToObject($revision) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_updateInfoFromRevision($revision,$info) {
+function exponent_workflow_updateInfoFromRevision($revision,$info) {
 	$info->real_id = $revision->wf_original;
 	$info->current_state_data = $revision->wf_state_data;	
 	$info->current_major = $revision->wf_major;
@@ -674,7 +674,7 @@ function pathos_workflow_updateInfoFromRevision($revision,$info) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_getInfoTables() {
+function exponent_workflow_getInfoTables() {
 	global $db;
 	$infotables = array();
 	foreach ($db->getTables() as $table) {
@@ -690,11 +690,11 @@ function pathos_workflow_getInfoTables() {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
+function exponent_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
 	global $db,$user;
 	
 	$state = unserialize($revision->wf_state_data);
-	$state = pathos_workflow_revoke($state,SYS_WORKFLOW_REVOKE_ALL);
+	$state = exponent_workflow_revoke($state,SYS_WORKFLOW_REVOKE_ALL);
 	
 	$revision->wf_state_data = serialize($state);
 	$info->current_state_data = serialize($state);
@@ -707,9 +707,9 @@ function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
 	$info->open_slots = $newpolicy->max_approvers + 1 - count($state[0]);
 	
 	$policy = $db->selectObject("approvalpolicy","policy_id=".$info->policy_id);
-	return pathos_workflow_handleRevision($revision,$type,$info);
+	return exponent_workflow_handleRevision($revision,$type,$info);
 	// run the restart action;
-	pathos_workflow_runActions($policy,SYS_WORKFLOW_ACTION_RESTART,$revision);
+	exponent_workflow_runActions($policy,SYS_WORKFLOW_ACTION_RESTART,$revision);
 }
 
 // For re-evaluating when a policy is changed through the policy manager
@@ -717,16 +717,16 @@ function pathos_workflow_restartRevisionPath($revision,$type,$newpolicy,$info) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_evaluateRevisionPath($revision,$type,$newpolicy,$info) {
+function exponent_workflow_evaluateRevisionPath($revision,$type,$newpolicy,$info) {
 	$state = unserialize($revision->wf_state_data);
-	$approved = pathos_workflow_checkApprovalState($state,$newpolicy);
+	$approved = exponent_workflow_checkApprovalState($state,$newpolicy);
 	
 	$info->open_slots = $newpolicy->max_approvers + 1 - count($state[0]);
 	
 	if ($approved) {
-		return pathos_workflow_handleApprovedRevision($revision,$type,$info);
+		return exponent_workflow_handleApprovedRevision($revision,$type,$info);
 	} else {
-		return pathos_workflow_handleRevision($revision,$type,$info);
+		return exponent_workflow_handleRevision($revision,$type,$info);
 	}
 	return $revision;
 }
@@ -735,7 +735,7 @@ function pathos_workflow_evaluateRevisionPath($revision,$type,$newpolicy,$info) 
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_form($datatype,$id) {
+function exponent_workflow_form($datatype,$id) {
 	global $db;
 	$info = $db->selectObject($datatype."_wf_info","real_id=".$id);
 	$latest = $db->selectObject($datatype."_wf_revision","wf_original=".$id." AND wf_major=".$info->current_major." AND wf_minor=".$info->current_minor);
@@ -754,11 +754,11 @@ function pathos_workflow_form($datatype,$id) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_runActions($policy,$action_type,$revision) {
+function exponent_workflow_runActions($policy,$action_type,$revision) {
 	global $db;
 	$actions = $db->selectObjects("workflowaction","policy_id=".$policy->id." AND type=$action_type");
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	usort($actions,"pathos_sorting_byRankAscending");
+	usort($actions,"exponent_sorting_byRankAscending");
 	foreach ($actions as $action) {
 		if (is_readable(BASE."subsystems/workflow/actions/".$action->method.".php")) {
 			include_once(BASE."subsystems/workflow/actions/".$action->method.".php");
@@ -770,7 +770,7 @@ function pathos_workflow_runActions($policy,$action_type,$revision) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_getActions($policy_id) {
+function exponent_workflow_getActions($policy_id) {
 	global $db;
 	
 	$actions = array();
@@ -792,7 +792,7 @@ function pathos_workflow_getActions($policy_id) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_workflow_getAvailableActions() {
+function exponent_workflow_getAvailableActions() {
 	$actions = array();
 	if (is_readable(BASE."subsystems/workflow/actions")) {
 		$dh = opendir(BASE."subsystems/workflow/actions");

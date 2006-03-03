@@ -34,7 +34,7 @@ define("SYS_INFO",1);
  * @param string $subsystem The name of the subsystem to retrieve information about.
  * @node Subsystems:Info
  */
-function pathos_info_subsystemInfo($subsys) {
+function exponent_info_subsystemInfo($subsys) {
 	if (!is_readable(BASE."subsystems/$subsystem.info.php")) return null;
 	return include(BASE."subsystems/$subsystem.info.php");
 }
@@ -45,7 +45,7 @@ function pathos_info_subsystemInfo($subsys) {
  * tags/values for each.
  * @node Subsystems:Info
  */
-function pathos_info_subsystems() {
+function exponent_info_subsystems() {
 	$info = array();
 	
 	$dir = BASE."subsystems";
@@ -74,7 +74,7 @@ function pathos_info_subsystems() {
  * @param string $name The name of the extension
  * @node Subsystems:Info
  */
-function pathos_info_files($type,$name) {
+function exponent_info_files($type,$name) {
 	$dir = '';
 	$file = 'manifest.php';
 	$autofile = 'manifest.auto.php';
@@ -113,7 +113,7 @@ function pathos_info_files($type,$name) {
  * @param array $files An array of file names to generate checksums for
  * @node Subsystems:Info
  */
-function pathos_info_fileChecksums($files) {
+function exponent_info_fileChecksums($files) {
 	$newfiles = array();
 	foreach (array_keys($files) as $file) {
         if (file_exists($file)) 
@@ -136,7 +136,7 @@ function pathos_info_fileChecksums($files) {
  * @author       Aidan Lister <aidan@php.net>
  * @node Subsystems:Info
  */
-function pathos_info_highlightPHP($data, $return = true)
+function exponent_info_highlightPHP($data, $return = true)
 {
     // Init
 	ob_start();

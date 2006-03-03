@@ -18,8 +18,8 @@
 ##################################################
 
 class sharedcoremodule {
-	function name() { return pathos_lang_loadKey('modules/sharedcoremodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/sharedcoremodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/sharedcoremodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/sharedcoremodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
@@ -29,7 +29,7 @@ class sharedcoremodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/sharedcoremodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/sharedcoremodule/class.php');
 		
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
@@ -53,8 +53,8 @@ class sharedcoremodule {
 		global $db;
 		$cores = array();
 		foreach ($db->selectObjects('sharedcore_core') as $c) {
-			if (file_exists($c->path.'pathos_version.php')) {
-				$c->version = include($c->path.'pathos_version.php');
+			if (file_exists($c->path.'exponent_version.php')) {
+				$c->version = include($c->path.'exponent_version.php');
 				$c->linked = $db->selectObjects('sharedcore_site','core_id='.$c->id);
 				$cores[] = $c;
 			}	

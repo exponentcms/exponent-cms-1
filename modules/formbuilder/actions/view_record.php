@@ -17,13 +17,13 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/formbuilder/actions/view_record.php');
+$i18n = exponent_lang_loadFile('modules/formbuilder/actions/view_record.php');
 
 if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-pathos_forms_initialize();
+exponent_forms_initialize();
 
 // Sanitize required _GET variables.
 $_GET['id'] = intval($_GET['id']);
@@ -35,9 +35,9 @@ $data = $db->selectObject('formbuilder_'.$f->table_name,'id='.$_GET['id']);
 $rpt = $db->selectObject('formbuilder_report','form_id='.$_GET['form_id']);
 
 if ($f && $controls && $data && $rpt) {
-	if (pathos_permissions_check('viewdata',unserialize($f->location_data))) {
+	if (exponent_permissions_check('viewdata',unserialize($f->location_data))) {
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		usort($controls,'pathos_sorting_byRankAscending');
+		usort($controls,'exponent_sorting_byRankAscending');
 		
 		
 		$fields = array();
@@ -54,7 +54,7 @@ if ($f && $controls && $data && $rpt) {
 		$captions['timestamp'] = $i18n['timestamp'];
 		$captions['user_id'] = $i18n['username'];
 		$fields['ip'] = $data->ip;
-		$locUser =  pathos_users_getUserById($data->user_id);
+		$locUser =  exponent_users_getUserById($data->user_id);
 		$fields['user_id'] =  isset($locUser->username)?$locUser->username:'';
 		$fields['timestamp'] = strftime(DISPLAY_DATETIME_FORMAT,$data->timestamp);
 	
@@ -66,7 +66,7 @@ if ($f && $controls && $data && $rpt) {
 		}
 		$template->assign('fields',$fields);
 		$template->assign('captions',$captions);
-		$template->assign('backlink',pathos_flow_get());
+		$template->assign('backlink',exponent_flow_get());
 		$template->assign('is_email',0);
 		$template->output();
 	} else {

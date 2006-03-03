@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Check Box Control
@@ -96,10 +96,10 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	function form($object) {
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
 	
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->identifier)) {
@@ -122,11 +122,11 @@ class checkboxcontrol extends formcontrol {
 	function update($values, $object) {
 		if ($object == null) $object = new checkboxcontrol();
 		if ($values['identifier'] == "") {
-			$i18n = pathos_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
+			$i18n = exponent_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
 		
 			$post = $_POST;
 			$post['_formError'] = $i18n['id_required'];
-			pathos_sessions_set("last_POST",$post);
+			exponent_sessions_set("last_POST",$post);
 			return null;
 		}
 		$object->identifier = $values['identifier'];

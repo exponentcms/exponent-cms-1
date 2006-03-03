@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $themes = array();
 if (is_readable(BASE.'themes')) {
@@ -39,7 +39,7 @@ if (is_readable(BASE.'themes')) {
 }
 uasort($themes,'strnatcmp');
 
-$i18n = pathos_lang_loadFile('conf/extensions/display.structure.php');
+$i18n = exponent_lang_loadFile('conf/extensions/display.structure.php');
 
 return array(
 	$i18n['title'],
@@ -57,17 +57,17 @@ return array(
 		'DISPLAY_DATETIME_FORMAT'=>array(
 			'title'=>$i18n['datetime_format'],
 			'description'=>$i18n['datetime_format_desc'],
-			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('datetime_format'))
+			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('datetime_format'))
 		),
 		'DISPLAY_DATE_FORMAT'=>array(
 			'title'=>$i18n['date_format'],
 			'description'=>$i18n['date_format_desc'],
-			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('date_format'))
+			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('date_format'))
 		),
 		'DISPLAY_TIME_FORMAT'=>array(
 			'title'=>$i18n['time_format'],
 			'description'=>$i18n['time_format_desc'],
-			'control'=>new dropdowncontrol(null,pathos_config_dropdownData('time_format'))
+			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('time_format'))
 		)
 	)
 );

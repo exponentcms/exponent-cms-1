@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_sessions_isset('installer_config')) {
-	$config = pathos_sessions_get('installer_config');
+if (exponent_sessions_isset('installer_config')) {
+	$config = exponent_sessions_get('installer_config');
 } else {
 	$config = array(
 		'db_engine'=>'mysql',
@@ -33,7 +33,7 @@ if (pathos_sessions_isset('installer_config')) {
 	);
 }
 
-$i18n = pathos_lang_loadFile('install/pages/dbconfig.php');
+$i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>

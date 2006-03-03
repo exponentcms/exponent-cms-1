@@ -17,18 +17,18 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (SITE_ALLOW_REGISTRATION == 1) {
 	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
 	if (!defined('SYS_FORMS')) require_once('subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$form = pathos_users_form(null);
+	$form = exponent_users_form(null);
 	$form->meta('module','loginmodule');
 	$form->meta('action','saveuser');
-	if (SITE_USE_CAPTCHA && PATHOS_HAS_GD) {
-		$i18n = pathos_lang_loadFile('modules/loginmodule/actions/createuser.php');
+	if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
+		$i18n = exponent_lang_loadFile('modules/loginmodule/actions/createuser.php');
 		$form->registerBefore('submit',null,'',new htmlcontrol(sprintf($i18n['captcha_description'],'<img src="'.PATH_RELATIVE.'captcha.php" />'),false));
 		$form->registerBefore('submit','captcha_string','',new textcontrol('',6));
 	}

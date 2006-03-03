@@ -19,10 +19,10 @@
 
 class imagemanageritem {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/imagemanageritem.php');
+		$i18n = exponent_lang_loadFile('datatypes/imagemanageritem.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -35,7 +35,7 @@ class imagemanageritem {
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		$form->register('description',$i18n['description'], new texteditorcontrol($object->description));
 		if (!isset($object->id)) {
-			$form->register(null,'',new htmlcontrol(pathos_core_maxUploadSizeMessage()));
+			$form->register(null,'',new htmlcontrol(exponent_core_maxUploadSizeMessage()));
 			$form->register('file',$i18n['file'],new uploadcontrol());
 		}
 		$form->register('scale',$i18n['scale'],new textcontrol($object->scale));

@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 return array(
 	's_search'=>array(

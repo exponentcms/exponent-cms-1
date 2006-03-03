@@ -19,9 +19,9 @@
 
 // Part of the HTMLArea category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
 	$config = null;
 	if (isset($_POST['id'])) $config = $db->selectObject('htmlareatoolbar','id='.intval($_POST['id']));
 	$config->name = $_POST['config_name'];
@@ -51,7 +51,7 @@ if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administration
 		$db->insertObject($config,'htmlareatoolbar');
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

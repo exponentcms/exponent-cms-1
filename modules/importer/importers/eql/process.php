@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
 $errors = null;
 
 $template = new template('importer','_eql_results',$loc);
 //GREP:UPLOADCHECK
-if (!pathos_backup_restoreDatabase($db,$_FILES['file']['tmp_name'],$errors)) {
+if (!exponent_backup_restoreDatabase($db,$_FILES['file']['tmp_name'],$errors)) {
 	$template->assign('success',0);
 	$template->assign('errors',$errors);
 } else {

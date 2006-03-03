@@ -29,7 +29,7 @@ define("SYS_DATETIME",1);
  * @state <b>UNDOCUMENTED</b>
  * @node To Be Deprecated
  */
-function pathos_datetime_monthsDropdown($controlName,$default_month) {
+function exponent_datetime_monthsDropdown($controlName,$default_month) {
 	$months = array(
 		1=>"January",
 		2=>"February",
@@ -66,7 +66,7 @@ function pathos_datetime_monthsDropdown($controlName,$default_month) {
  * @param timestamp $time_b The second timestamp
  * @node Subsystems:DateTime
  */
-function pathos_datetime_duration($time_a,$time_b) {
+function exponent_datetime_duration($time_a,$time_b) {
 	$d = abs($time_b-$time_a);
 	$duration = array();
 	if ($d >= 86400) {
@@ -96,7 +96,7 @@ function pathos_datetime_duration($time_a,$time_b) {
  * @param timestamp $timestamp The original timestamp to use when calculating.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_startOfMonthTimestamp($timestamp) {
+function exponent_datetime_startOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
@@ -113,7 +113,7 @@ function pathos_datetime_startOfMonthTimestamp($timestamp) {
  * @param timestamp $timestamp The original timestamp to use when calculating.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_endOfMonthTimestamp($timestamp) {
+function exponent_datetime_endOfMonthTimestamp($timestamp) {
 	$info = getdate($timestamp);
 	// No month has fewer than 28 days, even in leap year, so start out at 28.
 	// At most, we will loop through the while loop 3 times (29th, 30th, 31st)
@@ -135,7 +135,7 @@ function pathos_datetime_endOfMonthTimestamp($timestamp) {
  * @param timestamp $timestamp The timestamp to check.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_endOfMonthDay($timestamp) {
+function exponent_datetime_endOfMonthDay($timestamp) {
 	$info = getdate($timestamp);
 	// No month has fewer than 28 days, even in leap year, so start out at 28.
 	// At most, we will loop through the while loop 3 times (29th, 30th, 31st)
@@ -153,7 +153,7 @@ function pathos_datetime_endOfMonthDay($timestamp) {
  * @param timestamp $timestamp The timestamp to check.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_startOfDayTimestamp($timestamp) {
+function exponent_datetime_startOfDayTimestamp($timestamp) {
 	$info = getdate($timestamp);
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
@@ -167,7 +167,7 @@ function pathos_datetime_startOfDayTimestamp($timestamp) {
  * @param timestamp $timestamp The timestamp to check.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_startOfWeekTimestamp($timestamp) {
+function exponent_datetime_startOfWeekTimestamp($timestamp) {
 	$info = getdate($timestamp);
 	// FIXME: The following line will sometimes calculate negative dates,
 	// FIXME: which will not work on Windows platforms.
@@ -175,8 +175,8 @@ function pathos_datetime_startOfWeekTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
-	$ts = pathos_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));;
-	return pathos_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));
+	$ts = exponent_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));;
+	return exponent_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));
 }
 
 // Recurring Dates
@@ -192,12 +192,12 @@ function pathos_datetime_startOfWeekTimestamp($timestamp) {
  * 	means every day.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_recurringDailyDates($start,$end,$freq) {
+function exponent_datetime_recurringDailyDates($start,$end,$freq) {
 	$dates = array();
 	$curdate = $start;
 	do {
 		$dates[] = $curdate;
-		$curdate = pathos_datetime_startOfDayTimestamp($curdate + ((86400) * $freq)+3601);
+		$curdate = exponent_datetime_startOfDayTimestamp($curdate + ((86400) * $freq)+3601);
 	} while ($curdate <= $end);
 	return $dates;
 }
@@ -218,7 +218,7 @@ function pathos_datetime_recurringDailyDates($start,$end,$freq) {
  *  1,3 and 5.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
+function exponent_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 	// Holding array, for keeping the timestamps of applicable dates.
 	// This variable will be returned to the calling scope.
 	$dates = array();
@@ -298,7 +298,7 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 		}
 		// Round down to the start of the day (12:00 am) for $curdate, in case something
 		// got a little out of whack thanks to DST.
-		$curdate = pathos_datetime_startOfDayTimestamp($curdate);
+		$curdate = exponent_datetime_startOfDayTimestamp($curdate);
 	} while ($curdate <= $end); // If we go off the end of the recurrence range, ext.
 	
 	// We have no fully calculated the dates we need. Return them to the calling scope.
@@ -319,7 +319,7 @@ function pathos_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
  * (in case of true), or by the date (in case of false).
  * @node Subsystems:DateTime
  */
-function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) {
+function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) {
 	$dates = array();
 	
 	$freq = '+'.$freq.' month';
@@ -375,7 +375,7 @@ function pathos_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) 
  *   other year, etc.
  * @node Subsystems:DateTime
  */
-function pathos_datetime_recurringYearlyDates($start,$end,$freq) {
+function exponent_datetime_recurringYearlyDates($start,$end,$freq) {
 	$dates = array();
 	
 	$freq = '+'.$freq.' year';

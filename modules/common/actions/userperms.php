@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('administrate',$loc)) {
-	if (pathos_template_getModuleViewFile($loc->mod,'_userpermissions',false) == TEMPLATE_FALLBACK_VIEW) {
+if (exponent_permissions_check('administrate',$loc)) {
+	if (exponent_template_getModuleViewFile($loc->mod,'_userpermissions',false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template('common','_userpermissions',$loc);
 	} else {
 		$template = new template($loc->mod,'_userpermissions',$loc);
@@ -33,13 +33,13 @@ if (pathos_permissions_check('administrate',$loc)) {
 	$mod = new $modclass();
 	$perms = $mod->permissions($loc->int);
 	$have_users = 0;
-	foreach (pathos_users_getAllUsers(0) as $u) {
+	foreach (exponent_users_getAllUsers(0) as $u) {
 		$have_users = 1;
 		foreach ($perms as $perm=>$name) {
 			$var = 'perms_'.$perm;
-			if (pathos_permissions_checkUser($u,$perm,$loc,true)) {
+			if (exponent_permissions_checkUser($u,$perm,$loc,true)) {
 				$u->$var = 1;
-			} else if (pathos_permissions_checkUser($u,$perm,$loc)) {
+			} else if (exponent_permissions_checkUser($u,$perm,$loc)) {
 				$u->$var = 2;
 			} else {
 				$u->$var = 0;

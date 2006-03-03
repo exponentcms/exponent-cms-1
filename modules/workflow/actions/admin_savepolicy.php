@@ -19,9 +19,9 @@
 
 // Part of the Administration Control Panel : Workflow category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	$oldpolicy = null;
 	if (isset($_POST['id'])) $oldpolicy = $db->selectObject('approvalpolicy','id='.intval($_POST['id']));
 	
@@ -32,7 +32,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 	if ($oldpolicy) {
 		// Check for content in revision:
 		$infos = array();
-		foreach(pathos_workflow_getInfoTables() as $table) {
+		foreach(exponent_workflow_getInfoTables() as $table) {
 			$typename = str_replace('_wf_info','',$table);
 			$infos[$typename] = $db->selectObjects($table,'policy_id='.$oldpolicy->id);
 			for ($i = 0; $i < count($infos[$typename]); $i++) {
@@ -62,7 +62,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		} else {
 			// no outstanding references.
 			$db->updateObject($policy,'approvalpolicy','id='.intval($_POST['id']));
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		}
 	} else {
 		$pid = $db->insertObject($policy,'approvalpolicy');
@@ -90,7 +90,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			$db->insertObject($action,'workflowaction');
 		}
 		
-		$i18n = pathos_lang_loadFile('modules/workflow/actions/admin_savepolicy.php');
+		$i18n = exponent_lang_loadFile('modules/workflow/actions/admin_savepolicy.php');
 		
 		$action->method = 'Show Message';
 		$action->parameters = $i18n['default_thank_you'];
@@ -104,7 +104,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 		$action->type = SYS_WORKFLOW_ACTION_APPROVED_FINAL;
 		$db->insertObject($action,'workflowaction');
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	}
 } else {
 	echo SITE_403_HTML;

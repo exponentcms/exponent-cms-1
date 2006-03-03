@@ -17,7 +17,7 @@
 #
 ##################################################
 
-include_once('../../../pathos.php');
+include_once('../../../exponent.php');
 
 $collection = null;
 if (isset($_POST['collection_id'])) {
@@ -27,7 +27,7 @@ if (isset($_POST['collection_id'])) {
 	$collection->name = 'Uncategorized Files';
 	$collection->description = 'Theses files have not been categorized yet,';
 }
-$loc = pathos_core_makeLocation('filemanagermodule');
+$loc = exponent_core_makeLocation('filemanagermodule');
 
 // PERM CHECK
 	$file = file::update('file','files',null);

@@ -19,13 +19,13 @@
 
 // Part of the Database category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $dropped_count = 0;
 $dropped_tables = 0;
 $real_dropped_count = 0;
 
-if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('database',exponent_core_makeLocation('administrationmodule'))) {
     
     $droppable_tables = array();
 	
@@ -43,7 +43,7 @@ if (pathos_permissions_check('database',pathos_core_makeLocation('administration
 				}
 			}
 			
-			if (pathos_workflow_isWorkflowTable($table)) {
+			if (exponent_workflow_isWorkflowTable($table)) {
 				// Ignore workflow tables.
 				continue;
 			}

@@ -22,9 +22,9 @@
 
 // Part of the HTMLArea category
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
 
 	$imagedir = BASE."external/htmlarea/toolbaricons";
 	$imagebase = PATH_RELATIVE."external/htmlarea/toolbaricons";

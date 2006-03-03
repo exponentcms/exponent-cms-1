@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 @include_once(BASE."conf/config.php");
 if (is_readable(BASE."conf/extensions")) {

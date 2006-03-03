@@ -19,11 +19,11 @@
 
 // Part of the User Management System
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (isset($_GET['id']) && pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (isset($_GET['id']) && exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	$db->delete('profileextension','id='.intval($_GET['id']));
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

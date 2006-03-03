@@ -17,21 +17,21 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$iloc = pathos_core_makeLocation($_GET['m'],@$_GET['s'],@$_GET['i']);
+$iloc = exponent_core_makeLocation($_GET['m'],@$_GET['s'],@$_GET['i']);
 
 // Make sure that locref refcount is indeed 0.
 $locref = $db->selectObject("locationref","module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
-if ($locref && $locref->refcount == 0 && pathos_permissions_check("administrate",$iloc)) {
+if ($locref && $locref->refcount == 0 && exponent_permissions_check("administrate",$iloc)) {
 	// delete in location.
 	$modclass = $iloc->mod;
 	$mod = new $modclass();
 	$mod->deleteIn($iloc);
 	$db->delete("locationref","module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
-	pathos_permissions_revokeComplete($iloc);
+	exponent_permissions_revokeComplete($iloc);
 }
 
-pathos_flow_redirect();
+exponent_flow_redirect();
 
 ?>

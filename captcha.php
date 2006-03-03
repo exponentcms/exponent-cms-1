@@ -17,7 +17,7 @@
 #
 ##################################################
 
-include_once(dirname(realpath(__FILE__)).'/pathos.php');
+include_once(dirname(realpath(__FILE__)).'/exponent.php');
 include_once(dirname(realpath(__FILE__)).'/subsystems/image.php');
 
 $w = (isset($_GET['w']) ? $_GET['w'] : 200);
@@ -25,20 +25,20 @@ $h = (isset($_GET['h']) ? $_GET['h'] : 50);
 $name = (isset($_GET['name']) ? $_GET['name'] : 'capcha_string');
 
 
-if (pathos_sessions_isset($name)) {
-	$str = pathos_sessions_get($name);
+if (exponent_sessions_isset($name)) {
+	$str = exponent_sessions_get($name);
 } else {
 	$str = strtoupper(substr(md5(rand()),17,6));
-	pathos_sessions_set($name,$str);
+	exponent_sessions_set($name,$str);
 }
 
 if (intval($w) > 0 && intval($h > 0))
-    $img = pathos_image_captcha($w,$h,$str);
+    $img = exponent_image_captcha($w,$h,$str);
 
 if ($img) {
 	$sizeinfo = array('mime'=>'image/png');
 	ob_end_clean();
-	pathos_image_output($img,$sizeinfo);
+	exponent_image_output($img,$sizeinfo);
 }
 
 ?>

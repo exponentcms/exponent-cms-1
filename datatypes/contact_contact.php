@@ -19,10 +19,10 @@
 
 class contact_contact {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/contact_contact.php');
+		$i18n = exponent_lang_loadFile('datatypes/contact_contact.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$type = 0;
 		$default = 0;

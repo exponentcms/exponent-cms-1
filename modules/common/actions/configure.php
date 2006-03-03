@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configure',$loc)) {
-	if (pathos_template_getModuleViewFile($loc->mod,'_configure',false) == TEMPLATE_FALLBACK_VIEW) {
+if (exponent_permissions_check('configure',$loc)) {
+	if (exponent_template_getModuleViewFile($loc->mod,'_configure',false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template('common','_configure',$loc);
 	} else {
 		$template = new template($loc->mod,'_configure',$loc);
@@ -50,7 +50,7 @@ if (pathos_permissions_check('configure',$loc)) {
 	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
 	if ($container) {
 		$values = ($container->view_data != '' ? unserialize($container->view_data) : array());
-		$form = pathos_template_getViewConfigForm($loc->mod,$container->view,$form,$values);
+		$form = exponent_template_getViewConfigForm($loc->mod,$container->view,$form,$values);
 		
 		if (isset($form->controls['submit'])) { // Still have a submit button.
 			$submit = $form->controls['submit'];

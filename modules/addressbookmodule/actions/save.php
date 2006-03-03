@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $contact = null;
 $iloc = null;
@@ -25,14 +25,14 @@ if (isset($_POST['id'])) {
 	$contact = $db->selectObject('addressbook_contact','id='.intval($_POST['id']));
 	if ($contact) {
 		$loc = unserialize($contact->location_data);
-		$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$contact->id);
+		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$contact->id);
 	}
 }
 
 // FIXME: Replace with better usage of getLocationHierarchy
-if (($contact == null && pathos_permissions_check('post',$loc)) ||
-	($contact != null && pathos_permissions_check('edit',$loc)) ||
-	($iloc != null && pathos_permissions_check('edit',$iloc))
+if (($contact == null && exponent_permissions_check('post',$loc)) ||
+	($contact != null && exponent_permissions_check('edit',$loc)) ||
+	($iloc != null && exponent_permissions_check('edit',$iloc))
 ) {
 	$contact = addressbook_contact::update($_POST,$contact);
 	$contact->location_data = serialize($loc);
@@ -43,7 +43,7 @@ if (($contact == null && pathos_permissions_check('post',$loc)) ||
 		$db->insertObject($contact,'addressbook_contact');
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

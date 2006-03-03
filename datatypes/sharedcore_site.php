@@ -19,10 +19,10 @@
 
 class sharedcore_site {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/sharedcore_site.php');
+		$i18n = exponent_lang_loadFile('datatypes/sharedcore_site.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -60,10 +60,10 @@ class sharedcore_site {
 		
 		
 		if (!isset($object->id)) {
-			$local_i18n = pathos_lang_loadFile('conf/extensions/database.structure.php');
+			$local_i18n = exponent_lang_loadFile('conf/extensions/database.structure.php');
 			// Setup initial database config
 			$form->register(null,'',new htmlcontrol('<hr size="1" /><b>'.$local_i18n['title'].'</b>'));
-			$form->register('db_engine',$local_i18n['db_engine'],new dropdowncontrol(DB_ENGINE,pathos_database_backends()));
+			$form->register('db_engine',$local_i18n['db_engine'],new dropdowncontrol(DB_ENGINE,exponent_database_backends()));
 			$form->register('db_host',$local_i18n['db_host'],new textcontrol(DB_HOST));
 			$form->register('db_port',$local_i18n['db_port'],new textcontrol(DB_PORT));
 			$form->register('db_name',$local_i18n['db_name'],new textcontrol(DB_NAME));
@@ -79,10 +79,10 @@ class sharedcore_site {
 	}
 	
 	function linkForm($object) {
-		$i18n = pathos_lang_loadFile('datatypes/sharedcore_site.php');
+		$i18n = exponent_lang_loadFile('datatypes/sharedcore_site.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		
@@ -140,24 +140,24 @@ class sharedcore_site {
 	
 	function update($values,$object) {
 		if (isset($values['_db_config'])) {
-			$i18n = pathos_lang_loadFile('datatypes/sharedcore_site.php');
+			$i18n = exponent_lang_loadFile('datatypes/sharedcore_site.php');
 		
 			// Test configuration, and return NULL if it doesn't work.
 			
 			if (preg_match('/[^A-Za-z0-9]/',$values['db_table_prefix'])) {
 				$post = $values;
 				$post['_formError'] = $i18n['bad_prefix'].'<br />';
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				return null;
 			}
 			
-			$linkdb = pathos_database_connect($values['db_user'],$values['db_pass'],$values['db_host'].':'.$values['db_port'],$values['db_name'],$values['db_engine'],true);
+			$linkdb = exponent_database_connect($values['db_user'],$values['db_pass'],$values['db_host'].':'.$values['db_port'],$values['db_name'],$values['db_engine'],true);
 			$linkdb->prefix = $values['db_table_prefix'].'_';
 			
 			if (!$linkdb->isValid()) {
 				$post = $values;
 				$post['_formError'] = $i18n['cant_connect'].'<br />';
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				return null;
 			}
 			
@@ -173,7 +173,7 @@ class sharedcore_site {
 			if ($failed) {
 				$post = $values;
 				$post['_formError'] = $errors;
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				return null;
 			}
 		}

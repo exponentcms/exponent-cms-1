@@ -19,10 +19,10 @@
 
 class contactmodule_config {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/contactmodule_config.php');
+		$i18n = exponent_lang_loadFile('datatypes/contactmodule_config.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -47,7 +47,7 @@ class contactmodule_config {
 	
 	function update($values,$object) {
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$object->subject = $values['subject'];
 		$object->from_name = $values['from_name'];

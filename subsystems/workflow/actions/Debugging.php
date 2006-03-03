@@ -19,7 +19,7 @@
 
 //GREP:HARDCODEDTEXT
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 echo "<h3>Debugging Output:</h3>";
 

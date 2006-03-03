@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 
 	$policy = $db->selectObject('approvalpolicy','id='.intval($_GET['id']));
 	
@@ -27,7 +27,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 
 		if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 		$infos = array();
-		foreach(pathos_workflow_getInfoTables() as $table) {
+		foreach(exponent_workflow_getInfoTables() as $table) {
 			$typename = str_replace('_wf_info','',$table);
 			$infos[$typename] = $db->selectObjects($table,'policy_id='.$policy->id);
 			for ($i = 0; $i < count($infos[$typename]); $i++) {
@@ -54,7 +54,7 @@ if (pathos_permissions_check('workflow',pathos_core_makeLocation('administration
 			$db->delete('approvalpolicy','id='.$policy->id);
 			$db->delete('approvalpolicyassociation','policy_id='.$policy->id);
 			$db->delete('workflowaction','policy_id='.$policy->id);
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		}
 	} else {
 		echo SITE_404_HTML;

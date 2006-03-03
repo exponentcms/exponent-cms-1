@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('conf/extensions/smtp.structure.php');
+$i18n = exponent_lang_loadFile('conf/extensions/smtp.structure.php');
 
 return array(
 	$i18n['title'],

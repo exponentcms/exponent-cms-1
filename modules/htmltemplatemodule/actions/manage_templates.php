@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // PERM CHECK
 	htmltemplatemodule::show(DEFAULT_VIEW);

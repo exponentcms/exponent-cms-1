@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
@@ -25,7 +25,7 @@ $_GET['datatype'] = preg_replace('/[^A-Za-z0-9_]/','',$_GET['datatype']);
 
 $object = $db->selectObject($_GET['datatype']."_wf_revision","id=".$_GET['id']);
 $rloc = unserialize($object->location_data);
-if (pathos_permissions_check("manage_approval",$rloc)) {
+if (exponent_permissions_check("manage_approval",$rloc)) {
 	// We need the module, in order to render the view correctly.
 	$oloc = unserialize($object->location_data);
 	$module = $oloc->mod;
@@ -36,7 +36,7 @@ if (pathos_permissions_check("manage_approval",$rloc)) {
 	
 	$t = new template("workflow","_viewrevision",$loc);
 	$t->assign("view",$view);
-	$t->assign("back",pathos_flow_get());
+	$t->assign("back",exponent_flow_get());
 	$t->assign("revision",$object);
 	$t->output();
 } else {

@@ -17,19 +17,19 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $post = null;
 $iloc = null;
 if (isset($_GET['id'])) {
 	$post = $db->selectObject('weblog_post','id='.intval($_GET['id']));
 	$loc = unserialize($post->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 }
 
-if (($post == null && pathos_permissions_check('post',$loc)) ||
-	($post != null && pathos_permissions_check('edit',$loc)) ||
-	($post != null && pathos_permissions_check('edit',$iloc))
+if (($post == null && exponent_permissions_check('post',$loc)) ||
+	($post != null && exponent_permissions_check('edit',$loc)) ||
+	($post != null && exponent_permissions_check('edit',$iloc))
 ) {
 	$form = weblog_post::form($post);
 	$form->location($loc);

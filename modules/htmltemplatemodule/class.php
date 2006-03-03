@@ -18,8 +18,8 @@
 ##################################################
 
 class htmltemplatemodule {
-	function name() { return pathos_lang_loadKey('modules/htmltemplatemodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/htmltemplatemodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/htmltemplatemodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/htmltemplatemodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
@@ -29,7 +29,7 @@ class htmltemplatemodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/htmltemplatemodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/htmltemplatemodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
 			'create'=>$i18n['perm_create'],
@@ -40,10 +40,10 @@ class htmltemplatemodule {
 	
 	function show($view,$loc = null,$title = '') {
 		if (
-			pathos_permissions_check('administrate',$loc) ||
-			pathos_permissions_check('create',$loc) ||
-			pathos_permissions_check('edit',$loc) ||
-			pathos_permissions_check('delete',$loc)
+			exponent_permissions_check('administrate',$loc) ||
+			exponent_permissions_check('create',$loc) ||
+			exponent_permissions_check('edit',$loc) ||
+			exponent_permissions_check('delete',$loc)
 		) {
 			$template = new template('htmltemplatemodule',$view,$loc);
 			
@@ -53,7 +53,7 @@ class htmltemplatemodule {
 			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 			$directory = 'files/htmltemplatemodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
-				$err = pathos_files_makeDirectory($directory);
+				$err = exponent_files_makeDirectory($directory);
 				if ($err != SYS_FILES_SUCCESS) {
 					$template->assign('noupload',1);
 					$template->assign('uploadError',$err);
@@ -76,7 +76,7 @@ class htmltemplatemodule {
 			$template->assign('templates',$templates);
 			$template->register_permissions(
 				array('administrate','create','edit','delete'),
-				pathos_core_makeLocation('htmltemplatemodule'));
+				exponent_core_makeLocation('htmltemplatemodule'));
 			
 			$template->output();
 		}

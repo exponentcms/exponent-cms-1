@@ -18,9 +18,9 @@
 ##################################################
 
 class swfmodule {
-	function name() { return pathos_lang_loadKey('modules/swfmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/swfmodule/class.php','module_name'); }
 	function author() { return 'Greg Otte'; }
-	function description() { return pathos_lang_loadKey('modules/swfmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/swfmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class swfmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/swfmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/swfmodule/class.php');
 		
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
@@ -41,7 +41,7 @@ class swfmodule {
 		if ($loc->int == '') {
 			return array($loc);
 		} else {
-			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
 	
@@ -58,7 +58,7 @@ class swfmodule {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/swfmodule';
 		if (!file_exists(BASE.$directory)) {
-			$err = pathos_files_makeDirectory($directory);
+			$err = exponent_files_makeDirectory($directory);
 			if ($err != SYS_FILES_SUCCESS) {
 				$template->assign('noupload',1);
 				$template->assign('uploadError',$err);

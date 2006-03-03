@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('install/pages/admin_user.php');
+$i18n = exponent_lang_loadFile('install/pages/admin_user.php');
 
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>

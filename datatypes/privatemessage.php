@@ -19,10 +19,10 @@
 
 class privatemessage {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/privatemessage.php');
+		$i18n = exponent_lang_loadFile('datatypes/privatemessage.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		
@@ -31,13 +31,13 @@ class privatemessage {
 		global $db, $user;
 		
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
-			foreach (pathos_users_getAllUsers() as $u) {
+		if (exponent_permissions_check('contact_all',exponent_core_makeLocation('inboxmodule'))) {
+			foreach (exponent_users_getAllUsers() as $u) {
 				$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 			}
 		} else {
-			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
-				foreach (pathos_users_getUsersInGroup($g) as $u) {
+			foreach (exponent_users_getGroupsForUser($user,1,0) as $g) {
+				foreach (exponent_users_getUsersInGroup($g) as $u) {
 					$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 				}
 			}
@@ -60,12 +60,12 @@ class privatemessage {
 		foreach ($db->selectObjects('inbox_contactlist','owner='.$user->id) as $g) {
 			$groups['list_'.$g->id] = $g->name . ' ' . $i18n['personal_list'];
 		}
-		if (pathos_permissions_check('contact_all',pathos_core_makeLocation('inboxmodule'))) {
-			foreach (pathos_users_getAllGroups(1,0) as $g) {
+		if (exponent_permissions_check('contact_all',exponent_core_makeLocation('inboxmodule'))) {
+			foreach (exponent_users_getAllGroups(1,0) as $g) {
 				$groups['group_'.$g->id] = $g->name . ' ' . $i18n['system_group'];
 			}
 		} else {
-			foreach (pathos_users_getGroupsForUser($user,1,0) as $g) {
+			foreach (exponent_users_getGroupsForUser($user,1,0) as $g) {
 				$groups['group_'.$g->id] = $g->name . ' ' . $i18n['system_group'];
 			}
 		}
@@ -86,7 +86,7 @@ class privatemessage {
 			if (!count($users) && !count($groups)) $btn->disabled = true;
 		} else {
 			if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-			$u = pathos_users_getUserById($object->recipient);
+			$u = exponent_users_getUserById($object->recipient);
 			$form->register(null,'',new htmlcontrol(sprintf($i18n['replyto'],$u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')')));
 			$form->meta('replyto',$object->recipient);
 			$object->recipient = array();

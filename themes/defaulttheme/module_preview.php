@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -27,10 +27,10 @@ if (!defined('PATHOS')) exit('');
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<meta name="Generator" value="Exponent Content Management System" />
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
-		<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>pathos.js.php"></script>
+		<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>exponent.js.php"></script>
 	</head>
 	
-	<body onload="pathosJSinitialize()">
+	<body onload="exponentJSinitialize()">
 	<?php
 	define("PREVIEW_READONLY",1);
 	
@@ -40,7 +40,7 @@ if (!defined('PATHOS')) exit('');
 	$title = $_GET['title'];
 	
 	$source = (isset($_GET['source']) ? $_GET['source'] : "@example");
-	$loc = pathos_core_makeLocation($module,$source,"");
+	$loc = exponent_core_makeLocation($module,$source,"");
 	$mod->show($view,$loc,$title);
 	?>
 	<script type="text/javascript">

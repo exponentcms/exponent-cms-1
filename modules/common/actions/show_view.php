@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (class_exists($loc->mod)) {
 	call_user_func(array($loc->mod,'show'),$_GET['view'],$loc);

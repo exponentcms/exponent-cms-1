@@ -19,10 +19,10 @@
 
 // Part of the HTMLArea category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$template = new template('administrationmodule','_htmlareaconfigs',$loc);
 	$configs = $db->selectObjects('htmlareatoolbar');

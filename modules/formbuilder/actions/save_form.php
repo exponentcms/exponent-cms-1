@@ -17,26 +17,26 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/formbuilder/actions/save_form.php');
+$i18n = exponent_lang_loadFile('modules/formbuilder/actions/save_form.php');
 
 if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-pathos_forms_initialize();
+exponent_forms_initialize();
 
 $f = null;
 if (isset($_POST['id'])) {
 	$f = $db->selectObject('formbuilder_form','id='.intval($_POST['id']));
 }
 
-if (pathos_permissions_check('editform',unserialize($f->location_data))) {
+if (exponent_permissions_check('editform',unserialize($f->location_data))) {
 	$f = formbuilder_form::update($_POST,$f);
 	$f->table_name = formbuilder_form::updateTable($f);
 	
 	if (isset($f->id)) {
 		$db->updateObject($f,'formbuilder_form');
 	} else {
-		$f->location_data = serialize(pathos_core_makeLocation($_POST['m'],$_POST['s'],$_POST['i']));
+		$f->location_data = serialize(exponent_core_makeLocation($_POST['m'],$_POST['s'],$_POST['i']));
 		$f->id = $db->insertObject($f,'formbuilder_form');
 		//Create Default Report;
 		$rpt->name = $i18n['default_report'];
@@ -69,7 +69,7 @@ if (pathos_permissions_check('editform',unserialize($f->location_data))) {
 		$db->insertObject($data,'formbuilder_address');
 	}
 
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

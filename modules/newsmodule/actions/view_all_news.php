@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $config = $db->selectObject("newsmodule_config","location_data='".serialize($loc)."'");
 if ($config == null) {
@@ -26,7 +26,7 @@ if ($config == null) {
 }
 
 $canviewapproval = false;
-if ($user) $canviewapproval = pathos_permissions_check("approve",$loc) || pathos_permissions_check("manage_approval",$loc);
+if ($user) $canviewapproval = exponent_permissions_check("approve",$loc) || exponent_permissions_check("manage_approval",$loc);
 if (!$canviewapproval) { // still not able to view
 	foreach($db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0") as $post) {
 		if ($user && $user->id == $post->poster) {
@@ -45,7 +45,7 @@ $template->register_permissions(
 
 $news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY posted " . $config->sortorder);
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-usort($news,($config->sortorder == "DESC" ? "pathos_sorting_byPostedDescending" : "pathos_sorting_byPostedAscending"));
+usort($news,($config->sortorder == "DESC" ? "exponent_sorting_byPostedDescending" : "exponent_sorting_byPostedAscending"));
 for ($i = 0; $i < count($news); $i++) {
 	$nloc = null;
 	$nloc->mod = $loc->mod;
@@ -53,9 +53,9 @@ for ($i = 0; $i < count($news); $i++) {
 	$nloc->int = $news[$i]->id;
 	
 	$news[$i]->permissions = array(
-		"edit_item"=>((pathos_permissions_check("edit_item",$loc) || pathos_permissions_check("edit_item",$nloc)) ? 1 : 0),
-		"delete_item"=>((pathos_permissions_check("delete_item",$loc) || pathos_permissions_check("delete_item",$nloc)) ? 1 : 0),
-		"administrate"=>((pathos_permissions_check("administrate",$loc) || pathos_permissions_check("administrate",$nloc)) ? 1 : 0)
+		"edit_item"=>((exponent_permissions_check("edit_item",$loc) || exponent_permissions_check("edit_item",$nloc)) ? 1 : 0),
+		"delete_item"=>((exponent_permissions_check("delete_item",$loc) || exponent_permissions_check("delete_item",$nloc)) ? 1 : 0),
+		"administrate"=>((exponent_permissions_check("administrate",$loc) || exponent_permissions_check("administrate",$nloc)) ? 1 : 0)
 	);
 }
 // EVIL WORKFLOW

@@ -17,21 +17,21 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $errors = array();
 
-if (PATHOS != $_POST['from_version']) {
+if (EXPONENT != $_POST['from_version']) {
 	// User wants to upgrade from a previous major or minor version (i.e. 0.95 to 0.96, or 0.96 to 1.0)
 	if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
-	$eql = pathos_backup_dumpDatabase($db,null,$_POST['from_version']);
+	$eql = exponent_backup_dumpDatabase($db,null,$_POST['from_version']);
 	
 	$tempnam = tempnam(BASE.'tmp','eql');
 	$fh = fopen($tempnam,'w');
 	fwrite($fh,$eql);
 	fclose($fh);
 
-	pathos_backup_restoreDatabase($db,$tempnam,$errors,$_POST['from_version']);
+	exponent_backup_restoreDatabase($db,$tempnam,$errors,$_POST['from_version']);
 	
 	unlink($tempnam);
 } else {
@@ -56,7 +56,7 @@ if (PATHOS != $_POST['from_version']) {
 	}
 }
 
-$i18n = pathos_lang_loadFile('install/pages/upgrade.php');
+$i18n = exponent_lang_loadFile('install/pages/upgrade.php');
 
 if (count($errors)) {
 	echo $i18n['errors'].'<br /><br />';

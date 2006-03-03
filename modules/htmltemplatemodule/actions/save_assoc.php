@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // PERM CHECK
 	$assoc = null;
@@ -26,7 +26,7 @@ if (!defined("PATHOS")) exit("");
 	else $assoc->is_global = 1;
 	
 	$db->insertObject($assoc,"htmltemplateassociation");
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 // END PERM CHECK
 
 ?>

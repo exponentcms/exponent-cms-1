@@ -19,16 +19,16 @@
 
 // Part of the Configuration category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
 	
 	$continue = true;
 	if ($user->is_admin == 1) { // Only do the database stuff if we are a super admin
 		$errors = '';
 		
-		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/config_save.php');
+		$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/config_save.php');
 		
 		// Test the prefix
 		if (preg_match("/[^A-Za-z0-9]/",$_POST['c']['DB_TABLE_PREFIX'])) {
@@ -37,7 +37,7 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 		}
 		
 		// Test the database connection
-		$newdb = pathos_database_connect($_POST['c']['DB_USER'],$_POST['c']['DB_PASS'],$_POST['c']['DB_HOST'].":".$_POST['c']['DB_PORT'],$_POST['c']['DB_NAME'],$_POST['c']['DB_ENGINE']);
+		$newdb = exponent_database_connect($_POST['c']['DB_USER'],$_POST['c']['DB_PASS'],$_POST['c']['DB_HOST'].":".$_POST['c']['DB_PORT'],$_POST['c']['DB_NAME'],$_POST['c']['DB_ENGINE']);
 		$newdb->prefix = $_POST['c']['DB_TABLE_PREFIX'] . '_';
 		
 		if (!$newdb->isValid()) {
@@ -59,10 +59,10 @@ if (pathos_permissions_check('configuration',pathos_core_makeLocation('administr
 	$template = new template('administrationmodule','_config_results');
 	
 	if ($continue) {
-		pathos_config_saveConfiguration($_POST);
+		exponent_config_saveConfiguration($_POST);
 		$ob = "";
 		if ($user->is_admin == 1) {
-			$i18n = pathos_lang_loadFile('db_recover.php');
+			$i18n = exponent_lang_loadFile('db_recover.php');
 		
 			$db = $newdb;
 			ob_start();

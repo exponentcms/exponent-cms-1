@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('install/pages/dbcheck.php');
+$i18n = exponent_lang_loadFile('install/pages/dbcheck.php');
 
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
@@ -48,7 +48,7 @@ function isAllGood($str) {
 	return !preg_match("/[^A-Za-z0-9]/",$str);
 }
 
-pathos_sessions_set("installer_config",$_POST['c']);
+exponent_sessions_set("installer_config",$_POST['c']);
 $config = $_POST['c'];
 
 $passed = true;
@@ -59,7 +59,7 @@ if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {
 }
 
 if ($passed) {
-	$db = pathos_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name'],$config['db_engine'],1);
+	$db = exponent_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name'],$config['db_engine'],1);
 	$db->prefix = $config['db_table_prefix'].'_';
 	
 	$status = array();
@@ -252,7 +252,7 @@ if ($passed) {
 	);
 	
 	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
-	pathos_config_saveConfiguration($values);
+	exponent_config_saveConfiguration($values);
 	// ERROR CHECKING
 	echoSuccess();
 }
@@ -278,7 +278,7 @@ if ($passed) {
 
 		$eql = BASE.'install/sitetypes/db/_default.eql';
 		$errors = array();
-		pathos_backup_restoreDatabase($db,$eql,$errors,0);
+		exponent_backup_restoreDatabase($db,$eql,$errors,0);
 		if (count($errors)) {
 			echo $i18n['errors_encountered_eql'].'<br /><br />';
 			foreach ($errors as $e) echo $e . '<br />';

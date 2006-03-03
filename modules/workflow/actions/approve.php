@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
@@ -28,9 +28,9 @@ $object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GE
 $state = unserialize($object->wf_state_data);
 
 $rloc = unserialize($object->location_data);
-if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
+if (exponent_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	pathos_workflow_processApproval($_GET['id'],$_GET['datatype'],SYS_WORKFLOW_APPROVE_APPROVE);
+	exponent_workflow_processApproval($_GET['id'],$_GET['datatype'],SYS_WORKFLOW_APPROVE_APPROVE);
 } else {
 	echo SITE_403_HTML;
 }

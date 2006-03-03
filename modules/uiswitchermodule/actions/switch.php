@@ -17,11 +17,11 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user !== null) {
-	pathos_sessions_set('uilevel',$_POST['level']);
-	pathos_flow_redirect();
+	exponent_sessions_set('uilevel',$_POST['level']);
+	exponent_flow_redirect();
 }
 
 ?>

@@ -25,7 +25,7 @@ function smarty_function_securelink($params,&$smarty) {
 	
 	$params['expid'] = session_id();
 	
-	echo pathos_core_makeSecureLink($params);
+	echo exponent_core_makeSecureLink($params);
 }
 
 ?>

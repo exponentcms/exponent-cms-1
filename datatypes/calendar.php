@@ -21,10 +21,10 @@ class calendar {
 	function form($object) {
 		global $user;
 		
-		$i18n = pathos_lang_loadFile('datatypes/calendar.php');
+		$i18n = exponent_lang_loadFile('datatypes/calendar.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
@@ -52,7 +52,7 @@ class calendar {
 		$form->register('eventdate',$i18n['eventdate'],new popupdatetimecontrol($object->eventdate->date,'',false));
 		
 		$cb = new checkboxcontrol($object->is_allday,true);
-		$cb->jsHooks = array('onClick'=>'pathos_forms_disable_datetime(\'eventstart\',this.form,this.checked); pathos_forms_disable_datetime(\'eventend\',this.form,this.checked);');
+		$cb->jsHooks = array('onClick'=>'exponent_forms_disable_datetime(\'eventstart\',this.form,this.checked); exponent_forms_disable_datetime(\'eventend\',this.form,this.checked);');
 		$form->register('is_allday',$i18n['is_allday'],$cb);
 		$form->register('eventstart',$i18n['eventstart'],new datetimecontrol($object->eventstart,false));
 		$form->register('eventend',$i18n['eventend'],new datetimecontrol($object->eventend,false));
@@ -68,12 +68,21 @@ class calendar {
 			global $db;
 			$eventdates = $db->selectObjects('eventdate','event_id='.$object->id);
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-			if (!function_exists('pathos_sorting_byDateAscending')) {
-				function pathos_sorting_byDateAscending($a,$b) {
+			if (!function_exists('exponent_sorting_byDateAscending')) {
+				function exponent_sorting_byDateAscending($a,$b) {
 					return ($a->date > $b->date ? 1 : -1);
 				}
 			}
-			usort($eventdates,'pathos_sorting_byDateAscending');
+			//Pathos Compatibility::this is deprecated
+			if (@defined(PATHOS)){
+				if (!function_exists('pathos_sorting_byDateAscending')) {
+					function pathos_sorting_byDateAscending($a,$b) {
+						return exponent_sorting_byDateAscending($a,$b);
+					}
+				}
+			}
+			//End Pathos Compatibility
+			usort($eventdates,'exponent_sorting_byDateAscending');
 			if (isset($object->eventdate)) $template->assign('checked_date',$object->eventdate);
 			$template->assign('dates',$eventdates);
 			$form->register(null,'',new htmlcontrol('<hr size="1"/>'.$i18n['recurrence_warning']));
@@ -89,7 +98,7 @@ class calendar {
 	
 	function update($values,$object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$object->title = $values['title'];
 		

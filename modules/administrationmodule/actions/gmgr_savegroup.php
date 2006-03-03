@@ -19,27 +19,27 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
-		$g = pathos_users_getGroupById($_POST['id']);
-		$g = pathos_users_groupUpdate($_POST,$g);
-		pathos_users_saveGroup($g);
+		$g = exponent_users_getGroupById($_POST['id']);
+		$g = exponent_users_groupUpdate($_POST,$g);
+		exponent_users_saveGroup($g);
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
-		if (pathos_users_getGroupByName($_POST['name']) != null) {
-			$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/gmgr_savegroup.php');
+		if (exponent_users_getGroupByName($_POST['name']) != null) {
+			$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/gmgr_savegroup.php');
 			$post = $_POST;
 			$post['_formError'] = $i18n['name_taken'];
-			pathos_sessions_set('last_POST',$post);
+			exponent_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
-			$g = pathos_users_groupUpdate($_POST,null);
-			pathos_users_saveGroup($g);
-			pathos_flow_redirect();
+			$g = exponent_users_groupUpdate($_POST,null);
+			exponent_users_saveGroup($g);
+			exponent_flow_redirect();
 		}
 	}
 } else {

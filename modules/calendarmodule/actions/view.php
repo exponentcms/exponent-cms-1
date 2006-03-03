@@ -17,22 +17,22 @@
 #
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $item = $db->selectObject("calendar","id=" . intval($_GET['id']));
 if ($item) {
 	$loc = unserialize($item->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$item->id);
 	$item->permissions = array(
-		"edit"=>(pathos_permissions_check("edit",$iloc) || pathos_permissions_check("edit",$loc)),
-		"delete"=>(pathos_permissions_check("delete",$iloc) || pathos_permissions_check("delete",$loc)),
-		"administrate"=>(pathos_permissions_check("administrate",$iloc) || pathos_permissions_check("administrate",$loc)),
+		"edit"=>(exponent_permissions_check("edit",$iloc) || exponent_permissions_check("edit",$loc)),
+		"delete"=>(exponent_permissions_check("delete",$iloc) || exponent_permissions_check("delete",$loc)),
+		"administrate"=>(exponent_permissions_check("administrate",$iloc) || exponent_permissions_check("administrate",$loc)),
 	);
 	// Debugger test
 	$item->permissions = array(
-		"edit"=>pathos_permissions_check("edit",$iloc),
-		"delete"=>pathos_permissions_check("delete",$iloc),
-		"administrate"=>pathos_permissions_check("administrate",$iloc)
+		"edit"=>exponent_permissions_check("edit",$iloc),
+		"delete"=>exponent_permissions_check("delete",$iloc),
+		"administrate"=>exponent_permissions_check("administrate",$iloc)
 	);
 	$eventdate = $db->selectObject("eventdate","id=".intval($_GET['date_id']));
 	$item->eventstart += $eventdate->date;

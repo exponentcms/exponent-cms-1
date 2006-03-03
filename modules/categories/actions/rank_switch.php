@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 $loc->mod = $_GET['orig_module'];
-if (pathos_permissions_check('manage_categories',$loc)) {
+if (exponent_permissions_check('manage_categories',$loc)) {
 	$db->switchValues('category','rank',$_GET['a'],$_GET['b'],"location_data='".serialize($loc)."'");
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

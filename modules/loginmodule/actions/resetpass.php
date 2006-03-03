@@ -17,12 +17,12 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass.php');
+$i18n = exponent_lang_loadFile('modules/loginmodule/actions/resetpass.php');
 
 if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-pathos_forms_initialize();
+exponent_forms_initialize();
 
 $form = new form();
 $form->meta('module','loginmodule');
@@ -34,6 +34,6 @@ $template = new template('loginmodule','_form_resetpass',$loc);
 $template->assign('form_html',$form->toHTML());
 $template->output();
 
-pathos_forms_cleanup();
+exponent_forms_cleanup();
 
 ?>

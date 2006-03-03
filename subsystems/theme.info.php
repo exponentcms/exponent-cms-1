@@ -17,15 +17,15 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('subsystems/theme.info.php');
+$i18n = exponent_lang_loadFile('subsystems/theme.info.php');
 
 return array(
 	'name'=>$i18n['subsystem_name'],
 	'author'=>'James Hunt',
 	'description'=>$i18n['subsystem_description'],
-	'version'=>pathos_core_version(true)
+	'version'=>exponent_core_version(true)
 );
 
 ?>

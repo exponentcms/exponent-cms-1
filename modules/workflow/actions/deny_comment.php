@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
@@ -28,11 +28,11 @@ $object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GE
 $state = unserialize($object->wf_state_data);
 
 $rloc = unserialize($object->location_data);
-if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
+if (exponent_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$i18n = pathos_lang_loadFile('modules/workflow/actions/deny_comment.php');
+	$i18n = exponent_lang_loadFile('modules/workflow/actions/deny_comment.php');
 	
 	$form = new form();
 	$form->meta('module','workflow');
@@ -46,7 +46,7 @@ if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0
 	$template->assign('form_html',$form->toHTML());
 	$template->output();
 	
-	pathos_forms_cleanup();
+	exponent_forms_cleanup();
 } else {
 	echo SITE_403_HTML;
 }

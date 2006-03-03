@@ -18,9 +18,9 @@
 ##################################################
 
 class containermodule {
-	function name() { return pathos_lang_loadKey('modules/containermodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/containermodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/containermodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/containermodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class containermodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/containermodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/containermodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
 			'add_module'=>$i18n['perm_add_module'],
@@ -54,7 +54,7 @@ class containermodule {
 	}
 	
 	function show($view,$loc = null,$title = '') {
-		$i18n = pathos_lang_loadFile('modules/containermodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/containermodule/class.php');
 	
 		$source_select = array();
 		$clickable_mods = null; // Show all
@@ -63,8 +63,8 @@ class containermodule {
 		$singleview = '_container';
 		$singlemodule = 'containermodule';
 		
-		if (pathos_sessions_isset('source_select') && defined('SELECTOR')) {
-			$source_select = pathos_sessions_get('source_select');
+		if (exponent_sessions_isset('source_select') && defined('SELECTOR')) {
+			$source_select = exponent_sessions_get('source_select');
 			$singleview = $source_select['view'];
 			$singlemodule = $source_select['module'];
 			$clickable_mods = $source_select['showmodules'];
@@ -99,7 +99,7 @@ class containermodule {
 		
 		$containers = array();
 		foreach ($db->selectObjects('container',"external='" . serialize($loc) . "'") as $c) {
-			if ($c->is_private == 0 || pathos_permissions_check('view',pathos_core_makeLocation($loc->mod,$loc->src,$c->id))) {
+			if ($c->is_private == 0 || exponent_permissions_check('view',exponent_core_makeLocation($loc->mod,$loc->src,$c->id))) {
 				$containers[$c->rank] = $c;
 			}
 		}
@@ -119,7 +119,7 @@ class containermodule {
 				$containers[$i]->output = trim(ob_get_contents());
 				ob_end_clean();
 				
-				$policy = pathos_workflow_getPolicy($modclass,$location->src);
+				$policy = exponent_workflow_getPolicy($modclass,$location->src);
 				
 				$containers[$i]->info = array(
 					'module'=>$mod->name(),
@@ -130,7 +130,7 @@ class containermodule {
 					'class'=>$modclass,
 					'supportsWorkflow'=>($mod->supportsWorkflow()?1:0),
 					'workflowPolicy'=>($policy ? $policy->name : ''),
-					'workflowUsesDefault'=>(pathos_workflow_moduleUsesDefaultPolicy($location->mod,$location->src) ? 1 : 0),
+					'workflowUsesDefault'=>(exponent_workflow_moduleUsesDefaultPolicy($location->mod,$location->src) ? 1 : 0),
 					'clickable'=>($clickable_mods == null || in_array($modclass,$clickable_mods))
 				);
 			} else {
@@ -155,8 +155,8 @@ class containermodule {
 			$cloc->src = $loc->src;
 			$cloc->int = $containers[$i]->id;
 			$containers[$i]->permissions = array(
-				'administrate'=>(pathos_permissions_check('administrate',$location) ? 1 : 0),
-				'configure'=>(pathos_permissions_check('configure',$location) ? 1 : 0)
+				'administrate'=>(exponent_permissions_check('administrate',$location) ? 1 : 0),
+				'configure'=>(exponent_permissions_check('configure',$location) ? 1 : 0)
 			);
 		}
 		
@@ -178,7 +178,7 @@ class containermodule {
 			
 			if (!$c->is_existing == 1) { // Copy over content to a new source
 				$oldinternal = unserialize($c->internal);
-				$iloc = pathos_core_makeLocation($oldinternal->mod,'@random'.uniqid(''));
+				$iloc = exponent_core_makeLocation($oldinternal->mod,'@random'.uniqid(''));
 				$c->internal = serialize($iloc);
 				$db->insertObject($c,'container');
 				
@@ -186,11 +186,11 @@ class containermodule {
 				if (call_user_func(array($oldinternal->mod,'hasContent')) == true) {
 					call_user_func(array($oldinternal->mod,'copyContent'),$oldinternal,$iloc);
 					// Incrementors!
-					pathos_core_incrementLocationReference($iloc,0); // SECTION
+					exponent_core_incrementLocationReference($iloc,0); // SECTION
 				}
 			} else {
 				$db->insertObject($c,'container');
-				pathos_core_incrementLocationReference($iloc,0); // SECTION
+				exponent_core_incrementLocationReference($iloc,0); // SECTION
 			}
 		}
 	}
@@ -212,7 +212,7 @@ class containermodule {
 			ob_end_clean();
 			
 			
-			$source_select = pathos_sessions_get('source_select');
+			$source_select = exponent_sessions_get('source_select');
 			$c_view = $source_select['view'];
 			$c_module = $source_select['module'];
 			$clickable_mods = $source_select['showmodules'];

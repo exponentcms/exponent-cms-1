@@ -47,7 +47,7 @@ define('UILEVEL_STRUCTURE',3);
 
 // Stores the permission data for the current user.  This should not be modified
 // by anything outside of the permissions subsystem.
-$pathos_permissions_r = array();
+$exponent_permissions_r = array();
 
 /* exdoc
  * Loads permission data from the database for the specified user.
@@ -55,13 +55,13 @@ $pathos_permissions_r = array();
  * @param User $user THe user to load permissions for.
  * @node Subsystems:Permissions
  */
-function pathos_permissions_load($user) {
-	global $db, $pathos_permissions_r;
+function exponent_permissions_load($user) {
+	global $db, $exponent_permissions_r;
 	// The $has_admin boolean will be flipped to true if the user has any administrate permission anywhere.
 	// It will be used for figuring out the allowable UI levels.
 	$has_admin = 0;
 	// Clear the global permissions array;
-	$pathos_permissions_r = array();
+	$exponent_permissions_r = array();
 	
 	if ($user == null) {
 		// If the user is not logged in, they have no permissions.
@@ -71,30 +71,30 @@ function pathos_permissions_load($user) {
 		// Retrieve all of the explicit user permissions, by user id
 		foreach ($db->selectObjects('userpermission','uid=' . $user->id) as $obj) {
 			if ($obj->permission == 'administrate') $has_admin = 1;
-			$pathos_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
+			$exponent_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
 		}
 		// Retrieve all of the implicit user permissions (by virtue of group membership).
 		foreach ($db->selectObjects('groupmembership','member_id='.$user->id) as $memb) {
 			foreach ($db->selectObjects('grouppermission','gid=' . $memb->group_id) as $obj) {
 				if ($obj->permission == 'administrate') $has_admin = 1;
-				$pathos_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
+				$exponent_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
 			}
 		}
 		// Retrieve sectional admin status.
 		// First, figure out what sections the user has permission to manage, through the navigationmodule permissions
-		if (isset($pathos_permissions_r['navigationmodule']['']) && is_array($pathos_permissions_r['navigationmodule'][''])) {
-			foreach ($pathos_permissions_r['navigationmodule'][''] as $id=>$perm_data) {
+		if (isset($exponent_permissions_r['navigationmodule']['']) && is_array($exponent_permissions_r['navigationmodule'][''])) {
+			foreach ($exponent_permissions_r['navigationmodule'][''] as $id=>$perm_data) {
 				if ($perm_data['manage'] == 1) {
 					// The user is allowed to manage sections.
 					// Pull in all stuff for the section, using section ref.
 					$sectionrefs = $db->selectObjects('sectionref','is_original=1 AND section='.$id);
 					foreach ($sectionrefs as $sref) {
-						$sloc = pathos_core_makeLocation($sref->module,$sref->source);
+						$sloc = exponent_core_makeLocation($sref->module,$sref->source);
 						if (class_exists($sref->module)) { // In business, the module exists
 							$perms = call_user_func(array($sref->module,'permissions'));
 							if ($perms == null) $perms = array(); // For good measure, since some mods return no perms.
 							foreach ($perms as $perm=>$name) {
-								$pathos_permissions_r[$sloc->mod][$sloc->src][''][$perm] = 1;
+								$exponent_permissions_r[$sloc->mod][$sloc->src][''][$perm] = 1;
 							}
 						}
 					}
@@ -102,11 +102,11 @@ function pathos_permissions_load($user) {
 			}
 		}
 	}
-	pathos_sessions_set('permissions',$pathos_permissions_r);
+	exponent_sessions_set('permissions',$exponent_permissions_r);
 	
 	// Check perm stats for UI levels
 	$ui_levels = array();
-	$i18n = pathos_lang_loadFile('subsystems/permissions.php');
+	$i18n = exponent_lang_loadFile('subsystems/permissions.php');
 	
 	if ($user->is_acting_admin == 1) {
 		$ui_levels = array(
@@ -116,7 +116,7 @@ function pathos_permissions_load($user) {
 			$i18n['structure']
 		);
 	} else {
-		if (count($pathos_permissions_r)) {
+		if (count($exponent_permissions_r)) {
 			$ui_levels = array(
 				$i18n['preview'],
 				$i18n['normal']
@@ -125,11 +125,11 @@ function pathos_permissions_load($user) {
 		if ($has_admin) {
 			$ui_levels[] = $i18n['perms'];
 		}
-		if (isset($pathos_permissions_r['containermodule']) && count($pathos_permissions_r['containermodule'])) {
+		if (isset($exponent_permissions_r['containermodule']) && count($exponent_permissions_r['containermodule'])) {
 			$ui_levels[] = $i18n['structure'];
 		}
 	}
-	pathos_sessions_set('uilevels',$ui_levels);
+	exponent_sessions_set('uilevels',$ui_levels);
 }
 
 /* exdoc
@@ -137,8 +137,8 @@ function pathos_permissions_load($user) {
  * delete that data out of the database.
  * @node Subsystems:Permissions
  */
-function pathos_permissions_clear() {
-	pathos_sessions_unset("permissions");
+function exponent_permissions_clear() {
+	exponent_sessions_unset("permissions");
 }
 
 /* exdoc
@@ -147,16 +147,16 @@ function pathos_permissions_clear() {
  * access later.
  * @node Subsystems:Permissions
  */
-function pathos_permissions_initialize() {
-	global $pathos_permissions_r;
-	$pathos_permissions_r = pathos_sessions_get("permissions");
+function exponent_permissions_initialize() {
+	global $exponent_permissions_r;
+	$exponent_permissions_r = exponent_sessions_get("permissions");
 }
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_permissions_getSourceUID($src) {
+function exponent_permissions_getSourceUID($src) {
 	if (substr($src,0,5) == "@uid_") {
 		$t = split("_",$src);
 		return $t[count($t)-1]+0;
@@ -177,11 +177,11 @@ function pathos_permissions_getSourceUID($src) {
  *	of permissions.
  * @node Subsystems:Permissions
  */
-function pathos_permissions_check($permission,$location) {
-	global $pathos_permissions_r, $user;
+function exponent_permissions_check($permission,$location) {
+	global $exponent_permissions_r, $user;
 	if ($user) {
 		if ($user->is_acting_admin == 1) return true;
-		if (pathos_permissions_getSourceUID($location->src) == $user->id) return true;
+		if (exponent_permissions_getSourceUID($location->src) == $user->id) return true;
 	}
 	
 	if (!is_array($permission)) {
@@ -193,7 +193,7 @@ function pathos_permissions_check($permission,$location) {
 	if (is_callable(array($location->mod,"getLocationHierarchy"))) {
 		foreach (call_user_func(array($location->mod,"getLocationHierarchy"),$location) as $loc) {
 			foreach ($permission as $perm) {
-				if (isset($pathos_permissions_r[$loc->mod][$loc->src][$loc->int][$perm])) {
+				if (isset($exponent_permissions_r[$loc->mod][$loc->src][$loc->int][$perm])) {
 					$has_perm = true;
 					break;
 				}
@@ -201,7 +201,7 @@ function pathos_permissions_check($permission,$location) {
 		}
 	} else {
 		foreach ($permission as $perm) {
-			if (isset($pathos_permissions_r[$location->mod][$location->src][$location->int][$perm])) {
+			if (isset($exponent_permissions_r[$location->mod][$location->src][$location->int][$perm])) {
 				$has_perm = true;
 				break;
 			}
@@ -210,7 +210,7 @@ function pathos_permissions_check($permission,$location) {
 	if (!$has_perm && $location->mod != 'navigationmodule') {
 		global $db;
 		foreach ($db->selectObjects('sectionref',"is_original=1 AND module='".$location->mod."' AND source='".$location->src."'") as $secref) {
-			if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$secref->section))) {
+			if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$secref->section))) {
 				$has_perm = true;
 				break;
 			}
@@ -230,10 +230,10 @@ function pathos_permissions_check($permission,$location) {
  * @node Subsystems:Permissions
  * @state BUGGY
  */
-function pathos_permissions_checkOnModule($permission,$module) {
-	global $pathos_permissions_r, $user;
+function exponent_permissions_checkOnModule($permission,$module) {
+	global $exponent_permissions_r, $user;
 	if ($user && $user->is_acting_admin == 1) return true;
-	return (isset($pathos_permissions_r[$module]) && (count($pathos_permissions_r[$module]) > 0));
+	return (isset($exponent_permissions_r[$module]) && (count($exponent_permissions_r[$module]) > 0));
 }
 
 /* exdoc
@@ -248,7 +248,7 @@ function pathos_permissions_checkOnModule($permission,$module) {
  *
  * @node Subsystems:Permissions
  */
-function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly = false) {
+function exponent_permissions_checkUser($user,$permission,$location,$explicitOnly = false) {
 	global $db;
 	if ($user == null) return false;
 	if ($user->is_acting_admin == 1) return true;
@@ -283,7 +283,7 @@ function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly 
 	}
 	if (!$implicit && $location->mod != 'navigationmodule') {
 		foreach ($db->selectObjects('sectionref',"is_original=1 AND module='".$location->mod."' AND source='".$location->src."'") as $secref) {
-			if (pathos_permissions_checkUser($user,'manage',pathos_core_makeLocation('navigationmodule','',$secref->section))) {
+			if (exponent_permissions_checkUser($user,'manage',exponent_core_makeLocation('navigationmodule','',$secref->section))) {
 				$implicit = true;
 				break;
 			}
@@ -312,7 +312,7 @@ function pathos_permissions_checkUser($user,$permission,$location,$explicitOnly 
  *
  * @node Subsystems:Permissions
  */
-function pathos_permissions_checkGroup($group,$permission,$location,$explicitOnly = false) {
+function exponent_permissions_checkGroup($group,$permission,$location,$explicitOnly = false) {
 	global $db;
 	if ($group == null) return false;
 	$explicit = $db->selectObject("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
@@ -336,9 +336,9 @@ function pathos_permissions_checkGroup($group,$permission,$location,$explicitOnl
  * @param Object $location The location to grant the permission on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_grant($user,$permission,$location) {
+function exponent_permissions_grant($user,$permission,$location) {
 	if ($user !== null) {
-		if (!pathos_permissions_checkUser($user,$permission,$location)) {
+		if (!exponent_permissions_checkUser($user,$permission,$location)) {
 			$obj = null;
 			$obj->uid = $user->id;
 			$obj->module = $location->mod;
@@ -360,9 +360,9 @@ function pathos_permissions_grant($user,$permission,$location) {
  * @param Object $location The location to grant the permission on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_grantGroup($group,$permission,$location) {
+function exponent_permissions_grantGroup($group,$permission,$location) {
 	if ($group !== null) {
-		if (!pathos_permissions_checkGroup($group,$permission,$location)) {
+		if (!exponent_permissions_checkGroup($group,$permission,$location)) {
 			$obj = null;
 			$obj->gid = $group->id;
 			$obj->module = $location->mod;
@@ -387,7 +387,7 @@ function pathos_permissions_grantGroup($group,$permission,$location) {
  * @param Object $location The location to revoke the permission on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_revokeGroup($group,$permission,$location) {
+function exponent_permissions_revokeGroup($group,$permission,$location) {
 	global $db;
 	return $db->delete("grouppermission","gid=" . $group->id . " AND permission='$permission' AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
@@ -401,7 +401,7 @@ function pathos_permissions_revokeGroup($group,$permission,$location) {
  * @param Object $location The location to revoke the permission on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_revoke($user,$permission,$location) {
+function exponent_permissions_revoke($user,$permission,$location) {
 	global $db;
 	return $db->delete("userpermission","uid=" . $user->id . " AND permission='$permission' AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
@@ -413,7 +413,7 @@ function pathos_permissions_revoke($user,$permission,$location) {
  * @param Object $location The location to remove all permission on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_revokeAll($user,$location) {
+function exponent_permissions_revokeAll($user,$location) {
 	global $db;
 	return $db->delete("userpermission","uid=" . $user->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
@@ -422,7 +422,7 @@ function pathos_permissions_revokeAll($user,$location) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_permissions_revokeComplete($location) {
+function exponent_permissions_revokeComplete($location) {
 	global $db;
 	$db->delete("userpermission","module='".$location->mod."' AND source='".$location->src."'");
 	$db->delete("grouppermission","module='".$location->mod."' AND source='".$location->src."'");
@@ -436,7 +436,7 @@ function pathos_permissions_revokeComplete($location) {
  * @param Object $location The location to remove all permission on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_revokeAllGroup($group,$location) {
+function exponent_permissions_revokeAllGroup($group,$location) {
 	global $db;
 	return $db->delete('grouppermission','gid=' . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
@@ -447,7 +447,7 @@ function pathos_permissions_revokeAllGroup($group,$location) {
  * or revoked, and is required to see these changes.
  * @node Subsystems:Permissions
  */
-function pathos_permissions_triggerRefresh() {
+function exponent_permissions_triggerRefresh() {
 	global $db;
 	$obj = null;
 	$obj->refresh = 1;
@@ -460,7 +460,7 @@ function pathos_permissions_triggerRefresh() {
  * are assigned or revoked, and is required to see these changes.
  * @node Subsystems:Permissions
  */
-function pathos_permissions_triggerSingleRefresh($user) {
+function exponent_permissions_triggerSingleRefresh($user) {
 	global $db;
 	$obj = null;
 	$obj->refresh = 1;
@@ -476,7 +476,7 @@ function pathos_permissions_triggerSingleRefresh($user) {
  * @param Object $location The location to check on
  * @node Subsystems:Permissions
  */
-function pathos_permissions_getUserIDsWithPermission($permission,$location) {
+function exponent_permissions_getUserIDsWithPermission($permission,$location) {
 	global $db;
 	$perms = $db->selectObjects("userpermission","module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	$users = array();

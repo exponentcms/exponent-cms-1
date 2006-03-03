@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-pathos_sessions_set("uilevel",0);
-pathos_flow_redirect();
+exponent_sessions_set("uilevel",0);
+exponent_flow_redirect();
 
 ?>

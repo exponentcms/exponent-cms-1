@@ -24,7 +24,7 @@
 #   because Windows platforms do not support symlinks.
 #
 function __symlink($src_file,$dest_file) {
-	if (PATHOS_SERVER_OS == 'Windows' || PATHOS_SERVER_OS == 'Macintosh') {
+	if (EXPONENT_SERVER_OS == 'Windows' || EXPONENT_SERVER_OS == 'Macintosh') {
 		copy($src_file,$dest_file);
 	} else {
 		symlink($src_file,$dest_file);
@@ -70,7 +70,7 @@ define("SHAREDCORE_ERR_BADFILETYPE",		5);
 
 //way to check if Apache uses symlinks?
 
-function pathos_sharedcore_link($core,$site,$extensions = null) {
+function exponent_sharedcore_link($core,$site,$extensions = null) {
 	if ($extensions == null) {
 		$extensions = array(
 			CORE_EXT_MODULE=>array(),
@@ -79,7 +79,7 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 		);
 	}
 	
-	$deps = pathos_core_resolveDependencies('',CORE_EXT_SYSTEM,$core->path);
+	$deps = exponent_core_resolveDependencies('',CORE_EXT_SYSTEM,$core->path);
 	
 	$prefixes = array(
 		CORE_EXT_MODULE=>'m_',
@@ -90,7 +90,7 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 	foreach ($extensions as $type=>$extens) {
 		$prefix = $prefixes[$type];
 		foreach ($extens as $e) {
-			$deps = array_merge($deps,pathos_core_resolveDependencies($e,$type,$core->path));
+			$deps = array_merge($deps,exponent_core_resolveDependencies($e,$type,$core->path));
 			$deps[$prefix.$e] = array(
 				'name'=>$e,
 				'type'=>$type,
@@ -105,7 +105,7 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 	$linkdest = $site->path;
 	
 	foreach ($deps as $info) {
-		pathos_sharedcore_linkExtension($info['type'],$info['name'],$core->path,$site->path);
+		exponent_sharedcore_linkExtension($info['type'],$info['name'],$core->path,$site->path);
 	}
 	
 	foreach (include($linksrc."manifest.php") as $file=>$linkit) {
@@ -113,14 +113,14 @@ function pathos_sharedcore_link($core,$site,$extensions = null) {
 			symlink($linksrc.$file,$linkdest.$file);
 		}
 	}
-	// Cleanup -- essentially, pathos.php needs to be a real file, so that __realpath(__FILE__) calls work properly
-	unlink($linkdest.'pathos.php');
-	copy($linksrc.'pathos.php',$linkdest.'pathos.php');
+	// Cleanup -- essentially, exponent.php needs to be a real file, so that __realpath(__FILE__) calls work properly
+	unlink($linkdest.'exponent.php');
+	copy($linksrc.'exponent.php',$linkdest.'exponent.php');
 	
 	return SHAREDCORE_ERR_OK;
 }
 
-function pathos_sharedcore_setup($core,$site) {
+function exponent_sharedcore_setup($core,$site) {
 	$linksrc = $core->path;
 	$linkdest = $site->path;
 	if (!file_exists($linksrc)) {
@@ -146,7 +146,7 @@ function pathos_sharedcore_setup($core,$site) {
 	fwrite($fh,"<?php\n\ndefine(\"BASE\",\"$linkdest\");\ndefine(\"PATH_RELATIVE\",\"".$site->relpath."\");\n\n?>\n");
 	fclose($fh);
 	
-	pathos_files_copyDirectoryStructure($linksrc,$linkdest,$exclude);
+	exponent_files_copyDirectoryStructure($linksrc,$linkdest,$exclude);
 	
 	mkdir($linkdest."views_c",fileperms($linksrc."views_c"));
 	mkdir($linkdest."modules",fileperms($linksrc."modules"));
@@ -171,7 +171,7 @@ function pathos_sharedcore_setup($core,$site) {
  *   SHAREDCORE_LINK_FULLDEEP
  * @node Subsystems:SharedCore
  */
-function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
+function exponent_sharedcore_linkExtension($type,$name,$source,$destination) {
 	$typedir = '';
 	$manifest = '';
 	$auto_manidfest = '';
@@ -200,7 +200,7 @@ function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 	$linkdest = "$destination/$typedir/$name";
 	
 	if (is_dir($linksrc)) {
-		pathos_files_copyDirectoryStructure($linksrc,$linkdest);
+		exponent_files_copyDirectoryStructure($linksrc,$linkdest);
 	}
 		
 	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
@@ -217,12 +217,12 @@ function pathos_sharedcore_linkExtension($type,$name,$source,$destination) {
 		}
 	}
 	if ($files !== null) {
-		pathos_sharedcore_linkFiles($source.'/',$destination.'/',$files);
+		exponent_sharedcore_linkFiles($source.'/',$destination.'/',$files);
 	}
 	return SHAREDCORE_ERR_OK;
 }
 
-function pathos_sharedcore_linkFiles($source,$destination,$files) {
+function exponent_sharedcore_linkFiles($source,$destination,$files) {
 	foreach ($files as $file=>$linkit) {
 		if ($linkit !== 0 && is_readable($source.$file) && !file_exists($destination.$file)) {
 			symlink($source.$file,$destination.$file);
@@ -234,7 +234,7 @@ function pathos_sharedcore_linkFiles($source,$destination,$files) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_sharedcore_clear($linked_root,$full_delete = false) {
+function exponent_sharedcore_clear($linked_root,$full_delete = false) {
 	# Remove all links.  If $full_delete is false, leave the files/ and conf/
 	# directories intact (because we are going to relink).  Otherwise, delete
 	# absolutely everything.
@@ -251,13 +251,13 @@ function pathos_sharedcore_clear($linked_root,$full_delete = false) {
 				if (!$full_delete && ($file == "conf" || $file == "files" || $file == 'tmp')) {
 					// Do nothing
 				} else {
-					pathos_files_removeDirectory("$linked_root$file");
+					exponent_files_removeDirectory("$linked_root$file");
 				}
 			}
 		}
 	}
-	pathos_files_removeDirectory($linked_root.'conf/extensions');
-	pathos_files_removeDirectory($linked_root.'conf/data');
+	exponent_files_removeDirectory($linked_root.'conf/extensions');
+	exponent_files_removeDirectory($linked_root.'conf/data');
 }
 
 /* exdoc
@@ -270,25 +270,25 @@ function pathos_sharedcore_clear($linked_root,$full_delete = false) {
  * @node Subsystems:SharedCore
  */
  # This may be deprecated
-function pathos_sharedcore_unlinkExtension($typedir,$name,$dir) {
+function exponent_sharedcore_unlinkExtension($typedir,$name,$dir) {
 	if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
-	pathos_files_removeDirectory("$dir/$typedir/$name");
+	exponent_files_removeDirectory("$dir/$typedir/$name");
 }
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_sharedcore_listCores($dir) {
+function exponent_sharedcore_listCores($dir) {
 	$arr = array();
 	if (!is_readable($dir)) return $arr;
 	$dh = opendir($dir);
 	while (($file = readdir($dh)) !== false) {
 		if (is_dir("$dir/$file") && substr($file,0,1) != ".") {
-			if (file_exists("$dir/$file/pathos_version.php") && !is_link("$dir/$file/pathos_version.php")) {
+			if (file_exists("$dir/$file/exponent_version.php") && !is_link("$dir/$file/exponent_version.php")) {
 				$arr[] = "$dir/$file";
 			}
-			$arr = array_merge($arr,pathos_sharedcore_listCores("$dir/$file"));
+			$arr = array_merge($arr,exponent_sharedcore_listCores("$dir/$file"));
 		}
 	}
 	return $arr;
@@ -298,18 +298,18 @@ function pathos_sharedcore_listCores($dir) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_sharedcore_listLinkedSites($dir,$core = null) {
+function exponent_sharedcore_listLinkedSites($dir,$core = null) {
 	$arr = array();
 	if (!is_readable($dir)) return $arr;
 	$dh = opendir($dir);
 	while (($file = readdir($dh)) !== false) {
 		if (is_dir("$dir/$file") && substr($file,0,1) != ".") {
-			if (file_exists("$dir/$file/pathos_version.php") && is_link("$dir/$file/pathos_version.php")) {
-				if ($core == null || dirname(readlink("$dir/$file/pathos_version.php")) == $core) {
+			if (file_exists("$dir/$file/exponent_version.php") && is_link("$dir/$file/exponent_version.php")) {
+				if ($core == null || dirname(readlink("$dir/$file/exponent_version.php")) == $core) {
 					$arr[] = "$dir/$file";
 				}
 			}
-			$arr = array_merge($arr,pathos_sharedcore_listLinkedSites("$dir/$file"));
+			$arr = array_merge($arr,exponent_sharedcore_listLinkedSites("$dir/$file"));
 		}
 	}
 	return $arr;

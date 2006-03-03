@@ -17,38 +17,38 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user) {
-	$i18n = pathos_lang_loadFile('modules/loginmodule/actions/savepass.php');
+	$i18n = exponent_lang_loadFile('modules/loginmodule/actions/savepass.php');
 	
 	if ($user->password == md5($_POST['oldpass'])) {
 		if ($_POST['pass1'] == $_POST['pass2']) {
 			if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 			if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
-			$strength_error = pathos_security_checkPasswordStrength($user->username,$_POST['pass1']);
+			$strength_error = exponent_security_checkPasswordStrength($user->username,$_POST['pass1']);
 			if ($strength_error != '') {
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
 				$post['_formError'] = sprintf($i18n['not_strong_enough'],$strength_error);
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
-				pathos_users_changepass($_POST['pass1']);
-				pathos_flow_redirect();
+				exponent_users_changepass($_POST['pass1']);
+				exponent_flow_redirect();
 			}
 		} else { // Passwords don't match
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
 			$post['_formError'] = $i18n['unmatched_passwords'];
-			pathos_sessions_set('last_POST',$post);
+			exponent_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else { // Old password incorrect
 		$post = array('_formError'=>$i18n['bad_password']);
-		pathos_sessions_set('last_POST',$post);
+		exponent_sessions_set('last_POST',$post);
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 } else {

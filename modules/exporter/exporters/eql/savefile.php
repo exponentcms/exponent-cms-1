@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS check
-	$i18n = pathos_lang_loadFile('modules/exporters/exporter/eql/savefile.php');
+	$i18n = exponent_lang_loadFile('modules/exporters/exporter/eql/savefile.php');
 	echo $i18n['need_one'];
 } else { // All good
 	if (!defined('SYS_BACKUP')) require_once(BASE.'subsystems/backup.php');
@@ -43,12 +43,12 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 	
 	// 'application/octet-stream' is the registered IANA type but
 	//        MSIE and Opera seems to prefer 'application/octetstream'
-	$mime_type = (PATHOS_USER_BROWSER == 'IE' || PATHOS_USER_BROWSER == 'OPERA') ? 'application/octetstream' : 'application/octet-stream';
+	$mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octetstream' : 'application/octet-stream';
 	
 	header('Content-Type: ' . $mime_type);
 	header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	// IE need specific headers
-	if (PATHOS_USER_BROWSER == 'IE') {
+	if (EXPONENT_USER_BROWSER == 'IE') {
 		header('Content-Disposition: inline; filename="' . $filename . '"');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
@@ -57,7 +57,7 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 		header('Pragma: no-cache');
 	}
 	
-	echo pathos_backup_dumpDatabase($db,array_keys($_POST['tables']));
+	echo exponent_backup_dumpDatabase($db,array_keys($_POST['tables']));
 	
 	exit(''); // Exit, since we are exporting
 }

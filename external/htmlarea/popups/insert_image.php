@@ -2,7 +2,7 @@
 define("SCRIPT_EXP_RELATIVE","external/htmlarea/popups/");
 define("SCRIPT_FILENAME","content_linked.php");
 
-include_once("../../../pathos.php");
+include_once("../../../exponent.php");
 ?>
 <html>
 
@@ -15,7 +15,7 @@ include_once("../../../pathos.php");
 
 window.resizeTo(400, 100);
 <?php
-echo 'window.relativePathos = "' . PATH_RELATIVE . "\"\n";
+echo 'window.relativeExponent = "' . PATH_RELATIVE . "\"\n";
 ?>
 
 function efm_pickedFile(file_id,file_path) {
@@ -37,7 +37,7 @@ function Init() {
 	if (param.f_url.substr(0,7) == "http://") {
 	      window.ipreview.location.replace(param.f_url);
 	} else {
-	      window.ipreview.location.replace(window.relativePathos+param.f_url);
+	      window.ipreview.location.replace(window.relativeExponent+param.f_url);
 	}
   }
   document.getElementById("f_url").focus();
@@ -84,7 +84,7 @@ function onPreview() {
   if (url.substr(0,7) == "http://") {
 	      window.ipreview.location.replace(url);
 	} else {
-	      window.ipreview.location.replace(window.relativePathos+url);
+	      window.ipreview.location.replace(window.relativeExponent+url);
 	}
   return false;
 };

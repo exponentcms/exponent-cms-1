@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Popup Date/Time Picker Control
@@ -190,7 +190,7 @@ class popupdatetimecontrol extends formcontrol {
 	
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->identifier)) {
@@ -199,7 +199,7 @@ class popupdatetimecontrol extends formcontrol {
 			$object->showtime = true;
 		} 
 		
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
 		
 		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
@@ -215,10 +215,10 @@ class popupdatetimecontrol extends formcontrol {
 			$object->default = 0;
 		}
 		if ($values['identifier'] == "") {
-			$i18n = pathos_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
+			$i18n = exponent_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
 			$post = $_POST;
 			$post['_formError'] = $i18n['id_req'];
-			pathos_sessions_set("last_POST",$post);
+			exponent_sessions_set("last_POST",$post);
 			return null;
 		}
 		$object->identifier = $values['identifier'];

@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_checkOnModule('manage','navigationmodule')) {
-	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
+if (exponent_permissions_checkOnModule('manage','navigationmodule')) {
+	exponent_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 	
 	$template = new template('navigationmodule','_manager',$loc);
 	

@@ -19,11 +19,11 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_sessions_set('display_theme',$_GET['theme']);
-	pathos_flow_redirect();
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_sessions_set('display_theme',$_GET['theme']);
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

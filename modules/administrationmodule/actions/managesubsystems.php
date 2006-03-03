@@ -19,12 +19,12 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
 	
-	$info = pathos_info_subsystems();
+	$info = exponent_info_subsystems();
 	ksort($info);
 	
 	$template = new template('administrationmodule','_subsystemManager',$loc);

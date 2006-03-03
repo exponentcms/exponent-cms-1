@@ -17,7 +17,7 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = $db->selectObject('calendar','id='.intval($_POST['id']));
 if ($item && $item->is_recurring == 1) {
@@ -33,7 +33,7 @@ if ($item && $item->is_recurring == 1) {
 		$db->delete('calendar','id='.$item->id);
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_404_HTML;
 }

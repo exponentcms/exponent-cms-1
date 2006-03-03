@@ -19,7 +19,7 @@
 
 class file {
 	function update($name,$dest,$object,$destname = null) {
-		$i18n = pathos_lang_loadFile('datatypes/file.php');
+		$i18n = exponent_lang_loadFile('datatypes/file.php');
 		
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		
@@ -51,14 +51,14 @@ class file {
 		}
 		
 		// Fix the filename, so that we don't have funky characters screwing with out attempt to create the destination file.
-		$object->filename = pathos_files_fixName($object->filename);
+		$object->filename = exponent_files_fixName($object->filename);
 		
 		if (file_exists(BASE.$dest.'/'.$object->filename)) {
 			return $err.$i18n['file_exists'];
 		}
 		
 		// Move the temporary uploaded file into the destination directory, and change the name.
-		pathos_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$object->filename);
+		exponent_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$object->filename);
 		
 		if (!file_exists(BASE.$dest.'/'.$object->filename)) {
 			return $err.$i18n['cant_move'];

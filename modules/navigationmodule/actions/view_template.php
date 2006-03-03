@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if ($user && $user->is_acting_admin == 1) {
 	$page = null;
@@ -26,7 +26,7 @@ if ($user && $user->is_acting_admin == 1) {
 	}
 	
 	if ($page) {
-		pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+		exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
 		$template = new template('navigationmodule','_view_template',$loc);
 		$template->assign('template',$page);

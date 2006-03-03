@@ -18,8 +18,8 @@
 ##################################################
 
 class inboxmodule {
-	function name() { return pathos_lang_loadKey('modules/inboxmodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/inboxmodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/inboxmodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/inboxmodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasSources() { return false; }
@@ -29,7 +29,7 @@ class inboxmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/inboxmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/inboxmodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
 			'contact_all'=>$i18n['perm_contact_all']

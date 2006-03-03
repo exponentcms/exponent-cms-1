@@ -18,13 +18,13 @@
 ##################################################
 
 class addressextension {
-	function name() { return pathos_lang_loadKey('subsystems/users/profileextensions/addressextension.php','extension_name'); }
+	function name() { return exponent_lang_loadKey('subsystems/users/profileextensions/addressextension.php','extension_name'); }
 	function author() { return "James Hunt"; }
-	function description() { return pathos_lang_loadKey('subsystems/users/profileextensions/addressextension.php','extension_description'); }
+	function description() { return exponent_lang_loadKey('subsystems/users/profileextensions/addressextension.php','extension_description'); }
 
 	function modifyForm($form,$user) { // new if !isset($user->id)
 	
-		$i18n = pathos_lang_loadFile('subsystems/users/profileextensions/addressextension.php');
+		$i18n = exponent_lang_loadFile('subsystems/users/profileextensions/addressextension.php');
 	
 		if (!isset($user->user_address) || $user->user_address == null) {
 			$user->user_address = addressextension::_blankAddress();

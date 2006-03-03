@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (isset($_POST['m']) && isset($_POST['s'])) {
-	$floc = pathos_core_makeLocation($_POST['m'],$_POST['s'],$_POST['i']);
+	$floc = exponent_core_makeLocation($_POST['m'],$_POST['s'],$_POST['i']);
 	
-	if (pathos_permissions_check('configure',$floc)) {
+	if (exponent_permissions_check('configure',$floc)) {
 		$data = null;
 		$data = $db->selectObject('swfitem',"location_data='".serialize($floc)."'");
 		
@@ -62,7 +62,7 @@ if (isset($_POST['m']) && isset($_POST['s'])) {
 		else {
 			$db->insertObject($data,'swfitem');
 		}
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}
@@ -70,11 +70,11 @@ if (isset($_POST['m']) && isset($_POST['s'])) {
 	echo SITE_404_HTML;
 }
 
-if (pathos_permissions_check('configure',$loc)) {
+if (exponent_permissions_check('configure',$loc)) {
 	$textitem = textitem::update($_POST,$textitem);
 	$textitem->location_data = serialize($loc);
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	pathos_workflow_post($textitem,'textitem',$loc);
+	exponent_workflow_post($textitem,'textitem',$loc);
 } else {
 	echo SITE_403_HTML;
 }

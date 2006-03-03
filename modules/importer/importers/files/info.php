@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/importer/importers/files/info.php');
+$i18n = exponent_lang_loadFile('modules/importer/importers/files/info.php');
 
 return array(
 	'name'=>$i18n['importer_name'],

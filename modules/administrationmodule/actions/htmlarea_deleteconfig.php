@@ -19,11 +19,11 @@
 
 // Part of the HTMLArea category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (isset($_GET['id']) && pathos_permissions_check('htmlarea',pathos_core_makeLocation('administrationmodule'))) {
+if (isset($_GET['id']) && exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
 	$db->delete('htmlareatoolbar','id='.intval($_GET['id']));
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

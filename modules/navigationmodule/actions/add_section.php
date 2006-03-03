@@ -17,9 +17,9 @@
 #
 ##################################################
 
-// Bail in case someone has visited us directly, or the Pathos framework is
+// Bail in case someone has visited us directly, or the Exponent framework is
 // otherwise not initialized.
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // First, retrieve the parent section from the database.
 $parent = null;
@@ -41,7 +41,7 @@ if (isset($_GET['parent'])) {
 
 // Check to see that A) a parent ID was passed in GET, and B) the id was valid
 if ($parent) {
-	if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$parent->id))) {
+	if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$parent->id))) {
 		// For this action, all we need to do is output a basically
 		// non-variable template the asks the user what type of page
 		// they want to add to the site Navigation.

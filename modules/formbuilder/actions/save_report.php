@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $rpt = null;
 if (isset($_POST['id'])) {
@@ -25,7 +25,7 @@ if (isset($_POST['id'])) {
 }
 
 if ($rpt) {
-	if (pathos_permissions_check('editreport',unserialize($f->location_data))) {
+	if (exponent_permissions_check('editreport',unserialize($f->location_data))) {
 		$rpt = formbuilder_report::update($_POST,$rpt);
 		
 		if (isset($rpt->id)) {
@@ -34,7 +34,7 @@ if ($rpt) {
 			$db->insertObject($rpt,'formbuilder_report');
 		}
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

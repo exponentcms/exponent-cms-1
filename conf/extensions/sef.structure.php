@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $ctl = new checkboxcontrol(false,true);
 $ctl->disabled = 1;
 
-$i18n = pathos_lang_loadFile('conf/extensions/sef.structure.php');
+$i18n = exponent_lang_loadFile('conf/extensions/sef.structure.php');
 
 return array(
 	$i18n['title'],

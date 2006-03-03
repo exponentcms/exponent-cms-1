@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $dest_dir = $_POST['dest_dir'];
 $files = array();
@@ -30,13 +30,13 @@ foreach (array_keys($_POST['mods']) as $mod) {
 	if (class_exists($mod)) {
 		$files[$mod][0] = call_user_func(array($mod,'name'));
 	}
-	foreach (array_keys(pathos_files_listFlat($dest_dir.'/files/'.$mod,1,null,array(),$dest_dir.'/files/'.$mod.'/')) as $file) {
-		$files[$mod][1][$file] = pathos_files_canCreate(BASE.'files/'.$mod.'/'.$file);
+	foreach (array_keys(exponent_files_listFlat($dest_dir.'/files/'.$mod,1,null,array(),$dest_dir.'/files/'.$mod.'/')) as $file) {
+		$files[$mod][1][$file] = exponent_files_canCreate(BASE.'files/'.$mod.'/'.$file);
 	}
 }
 
-pathos_sessions_set('dest_dir',$dest_dir);
-pathos_sessions_set('files_data',$files);
+exponent_sessions_set('dest_dir',$dest_dir);
+exponent_sessions_set('files_data',$files);
 
 $template = new template('importer','_files_verifyFiles');
 $template->assign('files_data',$files);

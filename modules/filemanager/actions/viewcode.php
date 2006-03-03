@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-//$i18n = pathos_lang_loadFile('modules/filemanager/actions/viewcode.php');
+//$i18n = exponent_lang_loadFile('modules/filemanager/actions/viewcode.php');
 
 /*
 $file = $_GET['file'];
@@ -34,7 +34,7 @@ if (strpos($path,BASE) !== 0) {
 		$contents = file_get_contents($path);
 		if ($ext == 'php') {
 			if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
-			echo pathos_info_highlightPHP($contents);
+			echo exponent_info_highlightPHP($contents);
 		} else {
 			echo '<xmp>'.$contents.'</xmp>';
 		}

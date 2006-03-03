@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
@@ -28,7 +28,7 @@ $object = $db->selectObject($_GET['datatype']."_wf_revision","wf_original=".$_GE
 $state = unserialize($object->wf_state_data);
 
 $rloc = unserialize($object->location_data);
-if (pathos_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
+if (exponent_permissions_check("approve",$rloc) || ($user && $user->id == $state[0][0])) {
 
 	// We need the module, in order to render the view correctly.
 	$oloc = unserialize($object->location_data);

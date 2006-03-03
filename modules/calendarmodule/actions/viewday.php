@@ -17,9 +17,9 @@
 #
 ##################################################
  
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $time = (isset($_GET['time']) ? $_GET['time'] : time());
 $info = getdate(intval($time));
@@ -34,11 +34,11 @@ foreach ($dates as $d) {
 	$o->eventstart += $d->date;
 	$o->eventend += $d->date;
 	$o->eventdate = $d;
-	$thisloc = pathos_core_makeLocation($loc->mod,$loc->src,$o->id);
+	$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$o->id);
 	$o->permissions = array(
-		"administrate"=>(pathos_permissions_check("administrate",$thisloc) || pathos_permissions_check("administrate",$loc)),
-		"edit"=>(pathos_permissions_check("edit",$thisloc) || pathos_permissions_check("edit",$loc)),
-		"delete"=>(pathos_permissions_check("delete",$thisloc) || pathos_permissions_check("delete",$loc))
+		"administrate"=>(exponent_permissions_check("administrate",$thisloc) || exponent_permissions_check("administrate",$loc)),
+		"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
+		"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 	);
 	$events[] = $o;
 }

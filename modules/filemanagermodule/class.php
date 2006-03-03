@@ -43,7 +43,7 @@ class filemanagermodule {
 	}
 	
 	function show($view,$loc = null, $title = "") {
-		$loc = pathos_core_makeLocation('filemanagermodule');
+		$loc = exponent_core_makeLocation('filemanagermodule');
 		
 		global $db;
 		$collections = $db->selectObjects('file_collection');

@@ -20,7 +20,7 @@
 define('SCRIPT_EXP_RELATIVE','modules/navigationmodule/');
 define('SCRIPT_FILENAME','nav.php');
 
-include_once('../../pathos.php');
+include_once('../../exponent.php');
 
 include(BASE.'modules/navigationmodule/actions/linker.php');
 

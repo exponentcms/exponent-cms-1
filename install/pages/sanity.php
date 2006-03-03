@@ -17,11 +17,11 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 include_once('include/sanity.php');
 
-$i18n = pathos_lang_loadFile('install/pages/sanity.php');
+$i18n = exponent_lang_loadFile('install/pages/sanity.php');
 
 $status = sanity_checkFiles();
 // Run sanity checks

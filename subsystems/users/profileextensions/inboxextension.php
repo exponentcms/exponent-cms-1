@@ -18,12 +18,12 @@
 ##################################################
 
 class inboxextension {
-	function name() { return pathos_lang_loadKey('subsystems/users/profileextensions/inboxextension.php','extension_name'); }
+	function name() { return exponent_lang_loadKey('subsystems/users/profileextensions/inboxextension.php','extension_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('subsystems/users/profileextensions/inboxextension.php','extension_description'); }
+	function description() { return exponent_lang_loadKey('subsystems/users/profileextensions/inboxextension.php','extension_description'); }
 
 	function modifyForm($form,$u) { // new if !isset($user->id)
-		$i18n = pathos_lang_loadFile('subsystems/users/profileextensions/inboxextension.php');
+		$i18n = exponent_lang_loadFile('subsystems/users/profileextensions/inboxextension.php');
 		
 		if (!isset($u->_inbox_config) || $u->_inbox_config == null) {
 			$u->_inbox_config = inboxextension::_blank();

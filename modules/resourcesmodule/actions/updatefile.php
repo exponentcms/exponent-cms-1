@@ -17,20 +17,20 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 if ($item) {
 	$loc = unserialize($item->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$item->id);
 	
-	if ((pathos_permissions_check('edit',$loc) || pathos_permissions_check('edit',$iloc)) &&
+	if ((exponent_permissions_check('edit',$loc) || exponent_permissions_check('edit',$iloc)) &&
 		($item->flock_owner == 0 || $item->flock_owner == $user->id || $user->is_acting_admin == 1)
 	) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
-		$i18n = pathos_lang_loadFile('modules/resourcesmodule/actions/updatefile.php');
+		$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/updatefile.php');
 		
 		$form = new form();
 		$form->meta('action','saveupdatedfile');

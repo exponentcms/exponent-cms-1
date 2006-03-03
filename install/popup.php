@@ -17,9 +17,9 @@
 #
 ##################################################
 
-include_once('../pathos.php');
+include_once('../exponent.php');
 
-$i18n = pathos_lang_loadFile('install/popup.php');
+$i18n = exponent_lang_loadFile('install/popup.php');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -29,7 +29,7 @@ $i18n = pathos_lang_loadFile('install/popup.php');
 	<link rel="stylesheet" title="exponent" href="style.css" />
 	<link rel="stylesheet" title="exponent" href="page.css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="Generator" value="Exponent (formerly Pathos) Content Management System" />
+	<meta name="Generator" value="Exponent (formerly Exponent) Content Management System" />
 </head>
 <body>
 	<div class="popup_content_area">

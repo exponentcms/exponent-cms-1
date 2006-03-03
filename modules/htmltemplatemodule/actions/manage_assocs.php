@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // PERM CHECK
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	if (!defined("SYS_MODULES")) require_once(BASE."subsystems/modules.php");
-	//$mods = array_flip(pathos_modules_list());
-	foreach (pathos_modules_list() as $mod) {
+	//$mods = array_flip(exponent_modules_list());
+	foreach (exponent_modules_list() as $mod) {
 		if (call_user_func(array($mod,"hasContent")) == true) {
 			$mods[$mod] = null;
 			$mods[$mod]->name = call_user_func(array($mod,"name"));

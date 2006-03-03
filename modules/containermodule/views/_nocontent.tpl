@@ -22,7 +22,7 @@
 		<meta name="Generator" value="Exponent Content Management System" />
 	</head>
 	
-	<body style="margin: 0px; padding: 0px;">
+	<body style="margin: 0px; padding: 0px;"> 
 		<br />
 		<div style="font-size: 2em">{$_TR.no_content}</div>
 		<hr size="1"/>{$_TR.instruction}<br />

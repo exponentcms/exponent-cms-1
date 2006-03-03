@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('modules/loginmodule/actions/resetpass_send.php');
+$i18n = exponent_lang_loadFile('modules/loginmodule/actions/resetpass_send.php');
 
 if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
-$u = pathos_users_getUserByName($_POST['username']);
+$u = exponent_users_getUserByName($_POST['username']);
 
 if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != '') {
 	if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
@@ -37,7 +37,7 @@ if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != 
 	$msg = $e_template->render();
 	
 	// FIXME: smtp call prototype / usage has changed.
-	if (!pathos_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
+	if (!exponent_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
 		echo $i18n['smtp_error'];
 	} else {
 		$db->insertObject($tok,'passreset_token');

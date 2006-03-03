@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $resource = $db->selectObject('resourceitem','id='.intval($_POST['id']));
 if ($resource) {
 	$loc = unserialize($resource->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$resource->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	
-	if (pathos_permissions_check('edit',$loc) || pathos_permissions_check('edit',$iloc)) {
+	if (exponent_permissions_check('edit',$loc) || exponent_permissions_check('edit',$iloc)) {
 		$directory = 'files/resourcesmodule/'.$loc->src;
 		$file = file::update('file',$directory,null,time().'_'.$_FILES['file']['name']);
 		if (is_object($file)) {
@@ -39,12 +39,12 @@ if ($resource) {
 			}
 			
 			if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-			pathos_workflow_post($resource,'resourceitem',$loc);
+			exponent_workflow_post($resource,'resourceitem',$loc);
 		} else {
 			// If file::update() returns a non-object, it should be a string.  That string is the error message.
 			$post = $_POST;
 			$post['_formError'] = $file;
-			pathos_sessions_set('last_POST',$post);
+			exponent_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}	
 	} else {

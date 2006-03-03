@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $dh = opendir(BASE.'compat');
 while (($file = readdir($dh)) !== false) {

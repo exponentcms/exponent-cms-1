@@ -17,25 +17,25 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$dest_dir = pathos_sessions_get('dest_dir');
-$files = pathos_sessions_get('files_data');
+$dest_dir = exponent_sessions_get('dest_dir');
+$files = exponent_sessions_get('files_data');
 if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 if (!file_exists(BASE.'files')) {
 	mkdir(BASE.'files',0777);
 }
 foreach (array_keys($files) as $mod) {
-	pathos_files_copyDirectoryStructure($dest_dir.'/files/'.$mod,BASE.'files/'.$mod);
+	exponent_files_copyDirectoryStructure($dest_dir.'/files/'.$mod,BASE.'files/'.$mod);
 	foreach (array_keys($files[$mod][1]) as $file) {
 		copy($dest_dir.'/files/'.$mod.'/'.$file,BASE.'files/'.$mod.'/'.$file);
 	}
 }
 
-pathos_sessions_unset('dest_dir');
-pathos_sessions_unset('files_data');
+exponent_sessions_unset('dest_dir');
+exponent_sessions_unset('files_data');
 
-pathos_files_removeDirectory($dest_dir);
+exponent_files_removeDirectory($dest_dir);
 
 $template = new template('importer','_files_final');
 $template->output();

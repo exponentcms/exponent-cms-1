@@ -36,22 +36,34 @@ define("SYS_SMTP",1);
  * 	will be converted as needed.
  * @param array $headers An associative array of header fields for the email.
  * @param string $callback The name of a callback function for processing each message
+ * @udata object $callback The name of a callback function for processing each message
  * @node Subsystems:SMTP
  */
-function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callback="",$udata=null) {
+function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $precallback="", $preUdata=null, $postcallback="", $postUdata=null) {
 
 	debug('Current revision of file is $Id$');
 
 	// Ugly kluge
-	$from = SMTP_FROMADDRESS; // For shared hosters
+	//$from = SMTP_FROMADDRESS; // For shared hosters
 
 	if (!is_array($to_r)) $to_r = array($to_r);
 	if (!is_array($headers)) {
 		$headers = explode("\r\n",trim($headers));
 	}
+	
 	if (!isset($headers["From"])) $headers["From"] = $from;
 	if (!isset($headers["Date"])) $headers["Date"] = date('r',time());
 	if (!isset($headers["Reply-to"])) $headers["Reply-to"] = $from;
+	//if (!isset($headers["Return-Path"])) $headers["Return-Path"] = $from;
+	
+	/*echo "<xmp>";
+	print_r($headers);
+	print_r($to_r);	
+	echo "</xmp>";
+	*/
+	
+	echo "From:" . $from;
+	
 	
 	if (SMTP_USE_PHP_MAIL == 0) {
 		// If we are not using PHP's mail() function (as per site config), go with raw SMTP
@@ -69,18 +81,18 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 			return false;
 		}
 		
-		if (!pathos_smtp_checkResponse($socket,"220")) {
+		if (!exponent_smtp_checkResponse($socket,"220")) {
 			return false;
 		}
 	
 		// Try EHLO (Extendend HELO) first
-		pathos_smtp_sendServerMessage($socket,"EHLO ".HOSTNAME);
+		exponent_smtp_sendServerMessage($socket,"EHLO ".HOSTNAME);
 		
-		if (!pathos_smtp_checkResponse($socket,"250")) {
+		if (!exponent_smtp_checkResponse($socket,"250")) {
 			// If EHLO failed, try to fallback to HELO, according to RFC2821
-			pathos_smtp_sendServerMessage($socket,"HELO ".HOSTNAME);
-			if (!pathos_smtp_checkResponse($socket,"250")) {
-				pathos_smtp_sendExit($socket);
+			exponent_smtp_sendServerMessage($socket,"HELO ".HOSTNAME);
+			if (!exponent_smtp_checkResponse($socket,"250")) {
+				exponent_smtp_sendExit($socket);
 				return false;
 			}
 		} else {
@@ -88,50 +100,77 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 			//GREP:NOTIMPLEMENTED
 		}
 		
-		if (SMTP_AUTHTYPE != "NONE" && !pathos_smtp_authenticate($socket,SMTP_AUTHTYPE,SMTP_USERNAME,SMTP_PASSWORD)) {
-			pathos_smtp_sendExit($socket);
+		if (SMTP_AUTHTYPE != "NONE" && !exponent_smtp_authenticate($socket,SMTP_AUTHTYPE,SMTP_USERNAME,SMTP_PASSWORD)) {
+			exponent_smtp_sendExit($socket);
 			return false;
 		}
 		
-		if (!function_exists($callback)) $callback = "pathos_smtp_blankMailCallback";
+		if (!function_exists($precallback)) $precallback = "exponent_smtp_blankMailCallback";
 		
-		for ($i = 0; $i < count($to_r); $i++) {
-			$to = $to_r[$i];
-			$message = $m.'';
-			
-			$callback($i,$message,$subject,$headers,$udata);
-			
-			$headers["To"] = $to;
+		exponent_smtp_blankMailCallback();
 		
-			pathos_smtp_sendServerMessage($socket,"MAIL FROM: <$from>");
-			if (!pathos_smtp_checkResponse($socket,"250")) {
-				pathos_smtp_sendExit($socket);
-				return false;
+		debug(count($to_r));
+		$i = 0;
+		foreach ($to_r as $key=>$to) {
+			$i++;
+			//first check to see if we're still alive:
+			exponent_smtp_sendServerMessage($socket,"NOOP");
+			if (exponent_smtp_checkResponse($socket,"250")) {											
+				$message = $m.'';						
+				$headers["To"] = $to;
+				$debugMsg = '';
+				
+				//do presend callback
+				$precallback($i,$message,$subject,$headers,$preUdata);
+				
+				exponent_smtp_sendServerMessage($socket,"MAIL FROM: $from");
+				if (!exponent_smtp_checkResponse($socket,"250")) {
+					exponent_smtp_sendExit($socket);
+					$debugMsg = 'Died in MAIL FROM on message: ' . $i . ', sent to: ' . $to . '<br/>';
+					debug($debugMsg);					
+				}else{				
+					exponent_smtp_sendServerMessage($socket,"RCPT TO: <$to>");
+					if (!exponent_smtp_checkResponse($socket,"250")) {
+						//exponent_smtp_sendExit($socket); - don't die, as we want to continue on RCPT TO: errors
+						$debugMsg = 'Error in RCPT TO on message: ' . $i . ', sent to: ' . $to . '<br/>';
+						debug($debugMsg);						
+					}else{
+						exponent_smtp_sendServerMessage($socket,"DATA");
+						if (!exponent_smtp_checkResponse($socket,"354")) {
+							$debugMsg = 'Died in DATA on message: ' . $i . ', sent to: ' . $to . '<br/>';
+							debug($debugMsg);							
+						}else{
+							exponent_smtp_sendHeadersPart($socket,$headers);
+							exponent_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
+							// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
+							exponent_smtp_sendServerMessage($socket,"\r\n.\r\n");
+							if (!exponent_smtp_checkResponse($socket,"250")) {
+								exponent_smtp_sendExit($socket);
+								$debugMsg = 'Died after sending headers, message, and/or end lines on message: ' . $i . ', sent to: ' . $to . '<br/>';
+								debug($debugMsg);								
+							}			
+						}
+					}
+				}
+								
+				//if we got this far and debugMsg is not set, then the message was sent succesfully 
+				//and we can update the maillog object/table
+				if ($postcallback != ''){
+					if ($debugMsg == ''){
+						$postcallback($key, NL_NEWSLETTER_SENT);
+					}else{
+						$postcallback($key, NL_NEWSLETTER_ERROR, $debugMsg);
+					}				
+				}
+			}else{			
+				exponent_smtp_sendExit($socket);
+				$debugMsg = 'NOOP failed on message: ' . $i . ', sent to: ' . $to . '<br/>';
+				debug($debugMsg);
+				return false;						
 			}
-			
-			pathos_smtp_sendServerMessage($socket,"RCPT TO: <$to>");
-			if (!pathos_smtp_checkResponse($socket,"250")) {
-				pathos_smtp_sendExit($socket);
-				return false;
-			}
-			
-			pathos_smtp_sendServerMessage($socket,"DATA");
-			if (!pathos_smtp_checkResponse($socket,"354")) {
-				return false;
-			}
-			
-			pathos_smtp_sendHeadersPart($socket,$headers);
-			pathos_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
-			// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
-			pathos_smtp_sendServerMessage($socket,"\r\n.\r\n");
-			if (!pathos_smtp_checkResponse($socket,"250")) {
-				pathos_smtp_sendExit($socket);
-				return false;
-			}
-			
 		}
 		
-		pathos_smtp_sendExit($socket);
+		exponent_smtp_sendExit($socket);
 		
 		return true;
 	} else {
@@ -141,15 +180,12 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 		
 		if (!function_exists($callback)) { // No valid callback.
 			$to = join(', ',$to_r);
-			debug('Sending mail to ' .$to .'<br />');
 			$real_headers = '';
 			foreach ($headers as $key=>$value) {
 				$real_headers .= $key.': '.$value."\r\n";
 			}
 			
 			$message = str_replace("\r\n","\n",$message);
-			
-			debug('<xmp>'.$real_headers."\r\n\r\n".$message.'</xmp>');
 			
 			if (mail($to,$subject,$message,$real_headers) == false) {
 				$return = false;
@@ -158,7 +194,7 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
 			for ($i = 0; $i < count($to_r); $i++) {
 				$to = $to_r[$i];
 				
-				$callback($i,$message,$subject,$headers,$udata);
+				$callback($i,$message,$subject,$headers,$preUdata);
 				
 				$real_headers = '';
 				foreach ($headers as $key=>$value) {
@@ -184,7 +220,7 @@ function pathos_smtp_mail($to_r,$from,$subject,$message,$headers=array(),$callba
  *	expected from the server
  * @node Subsystems:SMTP
  */
-function pathos_smtp_checkResponse($socket,$expected_response) {
+function exponent_smtp_checkResponse($socket,$expected_response) {
 	debug("Checking response from server.");
 	debug("Expecting to get back $expected_response");
 	$response = fgets($socket,256);
@@ -206,7 +242,7 @@ function pathos_smtp_checkResponse($socket,$expected_response) {
  * @param string $message The message to send
  * @node Subsystems:SMTP
  */
-function pathos_smtp_sendServerMessage($socket,$message) {
+function exponent_smtp_sendServerMessage($socket,$message) {
 	// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
 	debug("Sending Server Message");
 	debug("VARDUMP of message sent:");
@@ -219,11 +255,11 @@ function pathos_smtp_sendServerMessage($socket,$message) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_smtp_sendExit($socket) {
+function exponent_smtp_sendExit($socket) {
 	debug("Sending RSET to server");
-	pathos_smtp_sendServerMessage($socket,"RSET");
+	exponent_smtp_sendServerMessage($socket,"RSET");
 	debug("Sending QUIT to server");
-	pathos_smtp_sendServerMessage($socket,"QUIT");
+	exponent_smtp_sendServerMessage($socket,"QUIT");
 }
 
 /* exdoc
@@ -234,7 +270,7 @@ function pathos_smtp_sendExit($socket) {
  * @param Array $headers An associative array of header keys to header values
  * @node Subsystems:SMTP
  */
-function pathos_smtp_sendHeadersPart($socket,$headers) {
+function exponent_smtp_sendHeadersPart($socket,$headers) {
 	$headerstr = "";
 	foreach ($headers as $key=>$value) {
 		$headerstr .= $key.": ". $value . "\r\n";
@@ -242,7 +278,7 @@ function pathos_smtp_sendHeadersPart($socket,$headers) {
 	debug("Sending email headers to server:");
 	debug("VARDUMP of headers sent:");
 	dump_debug($headerstr);
-	pathos_smtp_sendServerMessage($socket,$headerstr);
+	exponent_smtp_sendServerMessage($socket,$headerstr);
 }
 
 /* exdoc
@@ -253,7 +289,7 @@ function pathos_smtp_sendHeadersPart($socket,$headers) {
  * @param string $message The body of the email.
  * @node Subsystems:SMTP
  */
-function pathos_smtp_sendMessagePart($socket,$message) {
+function exponent_smtp_sendMessagePart($socket,$message) {
 	// Replace lonely \n characters with \r\n, but not replacing the \n component of a valid \r\n
 	$message = str_replace("\n","\r\n",str_replace("\r\n","\n",$message));
 	// Replace lines with a single period with double periods, to prevent premature end of message situations.
@@ -262,14 +298,14 @@ function pathos_smtp_sendMessagePart($socket,$message) {
 	debug("Sending email message to server:");
 	debug("VARDUMP of message body sent:");
 	dump_debug($message);
-	pathos_smtp_sendServerMessage($socket,$message);
+	exponent_smtp_sendServerMessage($socket,$message);
 }
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_smtp_parseEHLO($socket) {
+function exponent_smtp_parseEHLO($socket) {
 	
 }
 
@@ -277,24 +313,24 @@ function pathos_smtp_parseEHLO($socket) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_smtp_authenticate($socket,$type,$username,$password) {
-	pathos_smtp_sendServerMessage($socket,"AUTH $type");
-	if (pathos_smtp_checkResponse($socket,"334")) {
+function exponent_smtp_authenticate($socket,$type,$username,$password) {
+	exponent_smtp_sendServerMessage($socket,"AUTH $type");
+	if (exponent_smtp_checkResponse($socket,"334")) {
 		switch ($type) {
 			case "LOGIN":
 				// Code shamelessly ripped from PEAR
-				pathos_smtp_sendServerMessage($socket,base64_encode($username));
-				if (!pathos_smtp_checkResponse($socket,"334")) {
+				exponent_smtp_sendServerMessage($socket,base64_encode($username));
+				if (!exponent_smtp_checkResponse($socket,"334")) {
 					return false;
 				}
-				pathos_smtp_sendServerMessage($socket,base64_encode($password));
+				exponent_smtp_sendServerMessage($socket,base64_encode($password));
 				break;
 			case "PLAIN":
-				pathos_smtp_sendServerMessage($socket,base64_encode(chr(0).$username.chr(0).$password));
+				exponent_smtp_sendServerMessage($socket,base64_encode(chr(0).$username.chr(0).$password));
 				break;
 		}
 		
-		return pathos_smtp_checkResponse($socket,"235");
+		return exponent_smtp_checkResponse($socket,"235");
 	} else {
 		return false;
 	}
@@ -309,8 +345,9 @@ function pathos_smtp_authenticate($socket,$type,$username,$password) {
  * @param array $headers The headers array.  This is a modifiable referenced variable.
  * @node Subsystems:SMTP
  */
-function pathos_smtp_blankMailCallback($email_index,&$msg,&$subject,&$headers) {
-
+function exponent_smtp_blankMailCallback($email_index,&$msg,&$subject,&$headers) {
+	//do general stuff
+			
 }
 
 ?>

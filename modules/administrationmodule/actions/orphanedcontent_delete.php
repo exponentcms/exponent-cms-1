@@ -17,22 +17,22 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Part of the Database category
 
-if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('database',exponent_core_makeLocation('administrationmodule'))) {
 	$src = urldecode($_GET['delsrc']);
 	
 	$mod = new $_GET['mod']();
 	if ($mod->hasContent()) { // may not need the check, but it doesn't hurt
-		$mod->deleteIn(pathos_core_makeLocation($_GET['mod'],$_GET['delsrc']));
+		$mod->deleteIn(exponent_core_makeLocation($_GET['mod'],$_GET['delsrc']));
 	}
 	
 	$db->delete('locationref',"module='" . $_GET['mod'] . "' AND source='$src' AND refcount=0");
 	$db->delete('sectionref',"module='" . $_GET['mod'] . "' AND source='$src' AND refcount=0");
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

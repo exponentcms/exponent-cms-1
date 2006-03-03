@@ -17,19 +17,19 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$f1_loc = pathos_core_makeLocation($_GET['sm'],$_GET['ss']);
+$f1_loc = exponent_core_makeLocation($_GET['sm'],$_GET['ss']);
 $f1 = $db->selectObject("formbuilder_form","location_data='".serialize($f1_loc)."'");
 
-$f2_loc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
+$f2_loc = exponent_core_makeLocation($_GET['m'],$_GET['s']);
 $f2 = $db->selectObject("formbuilder_form","location_data='".serialize($f2_loc)."'");
 
 if ($f1 && $f2) {
-	if (pathos_permissions_check("editform",unserialize($f2->location_data))) {
+	if (exponent_permissions_check("editform",unserialize($f2->location_data))) {
 		$controls  = $db->selectObjects("formbuilder_control","form_id=".$f1->id);
 		if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-		usort($controls,"pathos_sorting_byRankAscending");
+		usort($controls,"exponent_sorting_byRankAscending");
 		
 		foreach ($controls as $control) {
 			$count = 0;

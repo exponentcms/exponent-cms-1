@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $banner = null;
 if (isset($_GET['id'])) {
@@ -27,8 +27,8 @@ if (isset($_GET['id'])) {
 	}
 }
 
-if (pathos_permissions_check('manage',$loc)) {
-	$i18n = pathos_lang_loadFile('modules/bannermodule/actions/ad_edit.php');
+if (exponent_permissions_check('manage',$loc)) {
+	$i18n = exponent_lang_loadFile('modules/bannermodule/actions/ad_edit.php');
 
 	$form = banner_ad::form($banner);
 	$form->location($loc);

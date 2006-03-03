@@ -17,14 +17,14 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	$action = $db->selectObject('workflowaction','id='.intval($_GET['id']));
 	$db->delete('workflowaction','id='.$action->id);
 	$db->decrement('workflowaction','rank',1,'rank >= ' . $action->rank . ' AND policy_id='.$action->policy_id . ' AND type='.$action->type);
 
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

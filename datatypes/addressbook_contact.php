@@ -19,10 +19,10 @@
  
 class addressbook_contact {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/addressbook_contact.php');
+		$i18n = exponent_lang_loadFile('datatypes/addressbook_contact.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 	
 		$form = new form();
 		if (!isset($object->id)) {
@@ -76,7 +76,7 @@ class addressbook_contact {
 		
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
-		pathos_forms_cleanup();
+		exponent_forms_cleanup();
 		return $form;
 	}
 
@@ -90,7 +90,7 @@ class addressbook_contact {
 		$object->zip = $values['zip'];
 		$object->email = $values['email'];
 		$object->webpage = $values['webpage'];
-		if (!pathos_core_URLisValid($object->webpage)) {
+		if (!exponent_core_URLisValid($object->webpage)) {
 			$object->webpage = 'http://'.$object->webpage;
 		}
 		$object->phone = $values['phone'];

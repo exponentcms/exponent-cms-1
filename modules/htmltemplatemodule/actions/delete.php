@@ -17,11 +17,11 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (isset($_GET['id']) && pathos_permissions_check('delete',$loc)) {
+if (isset($_GET['id']) && exponent_permissions_check('delete',$loc)) {
 	$db->delete('htmltemplate','id='.intval($_GET['id']));
-	pathos_flow_redirect(SYS_FLOW_SECTIONAL);
+	exponent_flow_redirect(SYS_FLOW_SECTIONAL);
 } else {
 	echo SITE_403_HTML;
 }

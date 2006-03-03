@@ -21,7 +21,7 @@ return array(
 	'name'=>'',
 	'author'=>'',
 	'description'=>'',
-	'version'=>PATHOS
+	'version'=>EXPONENT
 );
 
 ?>

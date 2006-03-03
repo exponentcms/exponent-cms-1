@@ -19,10 +19,10 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED, SYS_FLOW_ACTION);
 
 	$db->delete('sessionticket','last_active < ' . (time() - SESSION_TIMEOUT));
 	
@@ -31,8 +31,8 @@ if (pathos_permissions_check('user_management',pathos_core_makeLocation('adminis
 	
 	$sessions = $db->selectObjects('sessionticket');
 	for ($i = 0; $i < count($sessions); $i++) {
-		$sessions[$i]->user = pathos_users_getUserById($sessions[$i]->uid);
-		$sessions[$i]->duration = pathos_datetime_duration($sessions[$i]->last_active,$sessions[$i]->start_time);
+		$sessions[$i]->user = exponent_users_getUserById($sessions[$i]->uid);
+		$sessions[$i]->duration = exponent_datetime_duration($sessions[$i]->last_active,$sessions[$i]->start_time);
 	}
 	
 	$template = new template('administrationmodule','_sessionmanager',$loc);

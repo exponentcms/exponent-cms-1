@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-$i18n = pathos_lang_loadFile('conf/extensions/database.structure.php');
+$i18n = exponent_lang_loadFile('conf/extensions/database.structure.php');
 
 return array(
 	$i18n['title'],
@@ -27,7 +27,7 @@ return array(
 		'DB_ENGINE'=>array(
 			'title'=>$i18n['db_engine'],
 			'description'=>$i18n['db_engine_desc'],
-			'control'=>new dropdowncontrol('',pathos_database_backends())
+			'control'=>new dropdowncontrol('',exponent_database_backends())
 		),
 		'DB_NAME'=>array(
 			'title'=>$i18n['db_name'],

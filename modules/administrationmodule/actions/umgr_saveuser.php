@@ -19,58 +19,58 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 #if ($user && $user->is_acting_admin == 1) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
 	if (isset($_POST['id'])) { // Existing user profile edit
 		$_POST['id'] = intval($_POST['id']);
-		$u = pathos_users_getUserById(intval($_POST['id']));
-		$u = pathos_users_update($_POST,$u);
+		$u = exponent_users_getUserById(intval($_POST['id']));
+		$u = exponent_users_update($_POST,$u);
 		//save extensions
-		pathos_users_saveProfileExtensions($_POST,$u,false);
-		pathos_users_saveUser($u);
-		pathos_flow_redirect();
+		exponent_users_saveProfileExtensions($_POST,$u,false);
+		exponent_users_saveUser($u);
+		exponent_flow_redirect();
 	} else {
-		$i18n = pathos_lang_loadFile('modules/administrationmodule/actions/umgr_saveuser.php');
+		$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/umgr_saveuser.php');
 		$_POST['username'] = trim($_POST['username']);
-		if (pathos_users_getUserByName($_POST['username']) != null) {
+		if (exponent_users_getUserByName($_POST['username']) != null) {
 			$post = $_POST;
 			unset($post['username']);
 			$post['_formError'] = $i18n['name_taken'];
-			pathos_sessions_set('last_POST',$post);
+			exponent_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else if ($_POST['pass1'] != $_POST['pass2']) {
 			$post = $_POST;
 			unset($post['pass1']);
 			unset($post['pass2']);
 			$post['_formError'] = $i18n['unmatched_passwords'];
-			pathos_sessions_set('last_POST',$post);
+			exponent_sessions_set('last_POST',$post);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
-			$username_error = pathos_security_checkUsername($_POST['username']);
-			$strength_error = pathos_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
+			$username_error = exponent_security_checkUsername($_POST['username']);
+			$strength_error = exponent_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
 			
 			if ($username_error != ''){
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
 				$post['_formError'] = sprintf($i18n['username_failed'],$username_error);
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}else if ($strength_error != '') {
 				$post = $_POST;
 				unset($post['pass1']);
 				unset($post['pass2']);
 				$post['_formError'] = sprintf($i18n['strength_failed'],$strength_error);
-				pathos_sessions_set('last_POST',$post);
+				exponent_sessions_set('last_POST',$post);
 				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			} else {
-				$u = pathos_users_create($_POST,null);
-				$u = pathos_users_saveProfileExtensions($_POST,$u,true);
-				pathos_flow_redirect();
+				$u = exponent_users_create($_POST,null);
+				$u = exponent_users_saveProfileExtensions($_POST,$u,true);
+				exponent_flow_redirect();
 			}
 		}
 	}

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $f = null;
 if (isset($_GET['id'])) {
@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
 
 if ($f) {
 	$floc = unserialize($f->location_data);
-	if (pathos_permissions_check('editform',unserialize($f->location_data))) {
+	if (exponent_permissions_check('editform',unserialize($f->location_data))) {
 		$form = formbuilder_form::form($f);
 		$form->location($loc);
 		$form->meta('action','save_form');

@@ -17,21 +17,21 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$mloc = pathos_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
+$mloc = exponent_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
 
-if (pathos_permissions_check('manage_categories',$mloc)) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('manage_categories',$mloc)) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
 	$categories = $db->selectObjects("category","location_data='".serialize($mloc)."'");
-	if (pathos_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
+	if (exponent_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("categories","_cat_manageCategories",$loc);
 	} else {
 		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
 	}	
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	usort($categories, "pathos_sorting_byRankAscending");
+	usort($categories, "exponent_sorting_byRankAscending");
 	$template->assign("origmodule", $_GET['orig_module']);
 	$template->assign("categories",$categories);
 	$template->output();

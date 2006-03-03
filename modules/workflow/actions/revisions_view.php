@@ -17,16 +17,16 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 // Sanitize required _GET parameters
 $_GET['id'] = intval($_GET['id']);
 $_GET['datatype'] = preg_replace('/[^A-Za-z0-9_]/','',$_GET['datatype']);
 
-$rloc = pathos_core_makeLocation($_GET['m'],$_GET['s']);
-if (pathos_permissions_check("manage_approval",$rloc)) {
+$rloc = exponent_core_makeLocation($_GET['m'],$_GET['s']);
+if (exponent_permissions_check("manage_approval",$rloc)) {
 
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 
@@ -38,7 +38,7 @@ if (pathos_permissions_check("manage_approval",$rloc)) {
 	
 	$revisions = $db->selectObjects($_GET['datatype']."_wf_revision","wf_original=".$_GET['id']);
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	usort($revisions,"pathos_sorting_workflowRevisionDescending");
+	usort($revisions,"exponent_sorting_workflowRevisionDescending");
 	$template->assign("revisions",$revisions);
 	
 	$css = array(

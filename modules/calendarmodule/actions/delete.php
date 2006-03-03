@@ -17,20 +17,20 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = $db->selectObject('calendar','id='.intval($_GET['id']));
 if ($item) {
 	$loc = unserialize($item->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$item->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$item->id);
 	
-	if (pathos_permissions_check('delete',$loc) ||
-		pathos_permissions_check('delete',$iloc)
+	if (exponent_permissions_check('delete',$loc) ||
+		exponent_permissions_check('delete',$iloc)
 	) {
 		$db->delete('calendar','id='.$item->id);
 		$db->delete('eventdate','event_id='.$item->id);
 		
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

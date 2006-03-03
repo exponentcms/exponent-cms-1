@@ -29,6 +29,50 @@ define("SYS_THEME",1);
  * @node Undocumented
  */
 function pathos_theme_includeCSS() {
+	return exponent_theme_includeCSS();
+}
+function pathos_theme_sourceSelectorInfo() {
+	return exponent_theme_sourceSelectorInfo();
+}
+function pathos_theme_headerInfo($section) {
+	return exponent_theme_headerInfo($section);
+}
+function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
+	return exponent_theme_showSectionalModule($module,$view,$title,$prefix, $pickable);
+}
+function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
+	return exponent_theme_showTopSectionalModule($module,$view,$title,$prefix, $pickable);
+}
+function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
+	return exponent_theme_showModule($module,$view,$title,$source,$pickable,$section);
+}
+function pathos_theme_inAction() {
+	return exponent_theme_inAction();
+}
+function pathos_theme_canViewPage() {
+	return exponent_theme_canViewPage();
+}
+function pathos_theme_setFlow() {
+	return exponent_theme_setFlow();
+}
+function pathos_theme_main() {
+	return exponent_theme_main();
+}
+function pathos_theme_runAction() {
+	return exponent_theme_runAction();
+}
+function pathos_theme_goDefaultSection() {
+	return exponent_theme_goDefaultSection();
+}
+function pathos_theme_mainContainer() {
+	return exponent_theme_mainContainer();
+}
+function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
+	return exponent_theme_getSubthemes($include_default,$theme);
+}
+//End Pathos Compatibility
+
+function exponent_theme_includeCSS() {
 	$dh = opendir(BASE."modules");
 	while (($moddir = readdir($dh)) !== false) {
 		if (is_dir(BASE."modules/$moddir/css")) {
@@ -48,9 +92,9 @@ function pathos_theme_includeCSS() {
  * content.
  * @node Subsystems:Theme
  */
-function pathos_theme_sourceSelectorInfo() {
+function exponent_theme_sourceSelectorInfo() {
 	if (defined("SOURCE_SELECTOR") || defined("CONTENT_SELECTOR")) {
-		$i18n = pathos_lang_loadFile('subsystems/theme.php');
+		$i18n = exponent_lang_loadFile('subsystems/theme.php');
 		?>
 		<script type="text/javascript">
 		window.resizeTo(800,600);
@@ -80,7 +124,7 @@ function pathos_theme_sourceSelectorInfo() {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_theme_headerInfo($section) {
+function exponent_theme_headerInfo($section) {
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
 	$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
@@ -88,7 +132,7 @@ function pathos_theme_headerInfo($section) {
 	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
 	$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
 	$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
-	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'pathos.js.php"></script>'."\r\n";
+	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
 	return $str;
 }
 
@@ -103,27 +147,27 @@ function pathos_theme_headerInfo($section) {
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
-function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
+function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
 	
 	if ($prefix == null) $prefix = "@section";
 	
 	$src = $prefix;
 	
-	if (pathos_sessions_isset("themeopt_override")) {
-		$config = pathos_sessions_get("themeopt_override");
+	if (exponent_sessions_isset("themeopt_override")) {
+		$config = exponent_sessions_get("themeopt_override");
 		if (in_array($module,$config['ignore_mods'])) return;
 		$src = $config['src_prefix'].$prefix;
 		$section = null;
 	} else {
 		global $section;
-		//$last_section = pathos_sessions_get("last_section");
+		//$last_section = exponent_sessions_get("last_section");
 		//$section = $db->selectObject("section","id=".$last_section);
 		$src .= $section->id;
 	}
 	
 	
-	pathos_theme_showModule($module,$view,$title,$src,$pickable,$section);
+	exponent_theme_showModule($module,$view,$title,$src,$pickable,$section);
 }
 
 /* exdoc
@@ -138,17 +182,17 @@ function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $
  * @param bool $pickable Whether or not the module is pickable in the Source Picer. 
  * @node Subsystems:Theme
  */
-function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
+function exponent_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
 	
 	if ($prefix == null) $prefix = "@section";
-	$last_section = pathos_sessions_get("last_section");
+	$last_section = exponent_sessions_get("last_section");
 	
 	$section = $db->selectObject("section","id=".$last_section);
 	// Loop until we find the top level parent.
 	while ($section->parent != 0) $section = $db->selectObject("section","id=".$section->parent);
 	
-	pathos_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
+	exponent_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
 }
 
 /* exdoc
@@ -161,14 +205,14 @@ function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
-function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
+function exponent_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
 	if (!AUTHORIZED_SECTION && $module != 'navigationmodule' && $module != 'loginmodule') {
 		return;
 	}
 	global $db;
 	// Ensure that we have a section
 	if ($section == null) {
-		$section_id = pathos_sessions_get('last_section');
+		$section_id = exponent_sessions_get('last_section');
 		if ($section_id == null) {
 			$section_id = SITE_DEFAULT_SECTION;
 		}
@@ -176,11 +220,11 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 	}
 	if ($module == "loginmodule" && defined("PREVIEW_READONLY") && PREVIEW_READONLY == 1) return;
 	
-	if (pathos_sessions_isset("themeopt_override")) {
-		$config = pathos_sessions_get("themeopt_override");
+	if (exponent_sessions_isset("themeopt_override")) {
+		$config = exponent_sessions_get("themeopt_override");
 		if (in_array($module,$config['ignore_mods'])) return;
 	}
-	$loc = pathos_core_makeLocation($module,$source."");
+	$loc = exponent_core_makeLocation($module,$source."");
 		
 	if ($db->selectObject("locationref","module='$module' AND source='".$loc->src."'") == null) {
 		$locref = null;
@@ -201,18 +245,18 @@ function pathos_theme_showModule($module,$view = "Default",$title = "",$source =
 		if (is_callable(array($module,"show"))) {
 			call_user_func(array($module,"show"),$view,$loc,$title);
 		} else {
-			$i18n = pathos_lang_loadFile('subsystems/theme.php');
+			$i18n = exponent_lang_loadFile('subsystems/theme.php');
 			echo sprintf($i18n['mod_not_found'],$module);
 		}
 	}
 }
 
 /* exdoc
- * Checks to see if the page is currently in an action.  Useful only if the theme does not use the pathos_theme_main() function
+ * Checks to see if the page is currently in an action.  Useful only if the theme does not use the exponent_theme_main() function
  * Returns whether or not an action should be run.
  * @node Subsystems:Theme
  */
-function pathos_theme_inAction() {
+function exponent_theme_inAction() {
 	return (isset($_REQUEST['action']) && isset($_REQUEST['module']));
 }
 
@@ -221,33 +265,33 @@ function pathos_theme_inAction() {
  * Retursn whether or not the user is authorized.
  * @node Subsystems:Theme
  */
-function pathos_theme_canViewPage() {
+function exponent_theme_canViewPage() {
 	return AUTHORIZED_SECTION;
 	/*
 	global $db;
-	$last_section = pathos_sessions_get("last_section");
+	$last_section = exponent_sessions_get("last_section");
 	$section = $db->selectObject("section","id=".$last_section);
 	if ($section && navigationModule::canView($section)) {
-		$sloc = pathos_core_makeLocation("navigationmodule","",$section->id);
-		return pathos_permissions_check("view",$sloc);
+		$sloc = exponent_core_makeLocation("navigationmodule","",$section->id);
+		return exponent_permissions_check("view",$sloc);
 	} else return true;
 	*/
 }
 
 /*  exdoc
- * Looks at the attributes of the current section and properly calls pathos_flow_set
+ * Looks at the attributes of the current section and properly calls exponent_flow_set
  * @node Subsystems:Theme
  */
-function pathos_theme_setFlow() {
+function exponent_theme_setFlow() {
 	if ((!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1) && (!defined("CONTENT_SELECTOR") || CONTENT_SELECTOR == 1)) {
 		global $db;
-		$last_section = pathos_sessions_get("last_section");
+		$last_section = exponent_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
 		
 		if ($section && $section->public == 0) {
-			pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
+			exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
 		} else if ($section && $section->public == 1) {
-			pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
+			exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 		}
 	}
 }
@@ -256,25 +300,25 @@ function pathos_theme_setFlow() {
  * Takes care of all the specifics of either showing a sectional container or running an action.
  * @node Subsystems:Theme
  */
-function pathos_theme_main() {
+function exponent_theme_main() {
 	global $db, $user;
 	
 	if ((!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1) && (!defined("CONTENT_SELECTOR") || CONTENT_SELECTOR == 1)) {
-		$last_section = pathos_sessions_get("last_section");
+		$last_section = exponent_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
 		// View authorization will be taken care of by the runAction and mainContainer functions
-		if (pathos_theme_inAction()) {
-			pathos_theme_runAction();
+		if (exponent_theme_inAction()) {
+			exponent_theme_runAction();
 		} else if ($section == null) {
-			pathos_theme_goDefaultSection();
+			exponent_theme_goDefaultSection();
 		} else {
-			pathos_theme_mainContainer();
+			exponent_theme_mainContainer();
 		}
 	} else {
 		if (isset($_REQUEST['module'])) {
 			include_once(BASE."modules/containermodule/actions/orphans_content.php");
 		} else {
-			$i18n = pathos_lang_loadFile('subsystems/theme.php');
+			$i18n = exponent_lang_loadFile('subsystems/theme.php');
 			echo $i18n['select_module'];
 		}
 	}
@@ -284,15 +328,15 @@ function pathos_theme_main() {
  * Runs the approriate action, by looking at the $_REQUEST variable.
  * @node Subsystems:Theme
  */
-function pathos_theme_runAction() {
+function exponent_theme_runAction() {
 	
-	if (pathos_theme_inAction()) {
+	if (exponent_theme_inAction()) {
 		if (!AUTHORIZED_SECTION) {
 			echo SITE_403_HTML;
 		//	return;
 		}
-		if (pathos_sessions_isset("themeopt_override")) {
-			$config = pathos_sessions_get("themeopt_override");
+		if (exponent_sessions_isset("themeopt_override")) {
+			$config = exponent_sessions_get("themeopt_override");
 			echo "<a class='mngmntlink sitetemplate_mngmntlink' href='".$config['mainpage']."'>".$config['backlinktext']."</a><br /><br />";
 		}
 	
@@ -309,7 +353,7 @@ function pathos_theme_runAction() {
 		if (is_readable(BASE.'modules/'.$actfile)) {
 			include_once(BASE.'modules/'.$actfile);
 		} else {
-			$i18n = pathos_lang_loadFile('subsystems/theme.php');
+			$i18n = exponent_lang_loadFile('subsystems/theme.php');
 			echo SITE_404_HTML . '<br /><br /><hr size="1" />';
 			echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
 			echo '<br />';
@@ -321,8 +365,8 @@ function pathos_theme_runAction() {
  * Redirect User to Default Section
  * @node Subsystems:Theme
  */
-function pathos_theme_goDefaultSection() {
-	$last_section = pathos_sessions_get("last_section");
+function exponent_theme_goDefaultSection() {
+	$last_section = exponent_sessions_get("last_section");
 	if (defined("SITE_DEFAULT_SECTION") && SITE_DEFAULT_SECTION != $last_section) {
 		header("Location: ".URL_FULL."index.php?section=".SITE_DEFAULT_SECTION);
 		exit();
@@ -339,27 +383,27 @@ function pathos_theme_goDefaultSection() {
 }
 
 /* exdoc
- * Useful only if theme does not use pathos_theme_main
+ * Useful only if theme does not use exponent_theme_main
  *
  * @param bool $public Whether or not the page is public.
  * @node Subsystems:Theme
  */
-function pathos_theme_mainContainer() {
+function exponent_theme_mainContainer() {
 	if (!AUTHORIZED_SECTION) {
 		// Set this so that a login on an Auth Denied page takes them back to the previously Auth-Denied page
-		pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
+		exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
 		echo SITE_403_HTML;
 		return;
 	}
 	
-	if (PUBLIC_SECTION) pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
-	else pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
+	if (PUBLIC_SECTION) exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
+	else exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
 		
-#	if (pathos_sessions_isset("themeopt_override")) {
-#		$config = pathos_sessions_get("themeopt_override");
-		pathos_theme_showSectionalModule("containermodule","Default","","@section");
+#	if (exponent_sessions_isset("themeopt_override")) {
+#		$config = exponent_sessions_get("themeopt_override");
+		exponent_theme_showSectionalModule("containermodule","Default","","@section");
 #	} else {
-#		pathos_theme_showSectionalModule("containermodule","Default","","@section");
+#		exponent_theme_showSectionalModule("containermodule","Default","","@section");
 #	}
 }
 
@@ -367,7 +411,7 @@ function pathos_theme_mainContainer() {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
+function exponent_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
 	$base = BASE."themes/$theme/subthemes";
 	// The array of subthemes.  If the theme has no subthemes directory,
 	// or the directory is not readable by the web server, this empty array

@@ -17,13 +17,13 @@
 #
 ##################################################
 
-// Bail in case someone has visited us directly, or the Pathos framework is
+// Bail in case someone has visited us directly, or the Exponent framework is
 // otherwise not initialized.
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $section = section::updatePageset($_POST,null);
 
-if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule','',$section->parent))) {
+if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$section->parent))) {
 	// Still have to do some pageset processing, mostly handled by a handy
 	// member method of the navigationmodule class.
 	
@@ -39,7 +39,7 @@ if (pathos_permissions_check('manage',pathos_core_makeLocation('navigationmodule
 	navigationmodule::process_section($section,$_POST['pageset']);
 	
 	// Go back to where we came from.  Probably the navigation manager.
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

@@ -19,15 +19,15 @@
 
 // Part of the Extensions category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('extensions',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	
 	if (!defined('SYS_INFO')) require_once(BASE.'subsystems/info.php');
 
 	$template = new template('administrationmodule','_modulemanager',$loc);
-	$template = pathos_modules_moduleManagerFormTemplate($template);
+	$template = exponent_modules_moduleManagerFormTemplate($template);
 	
 	$template->output();
 } else {

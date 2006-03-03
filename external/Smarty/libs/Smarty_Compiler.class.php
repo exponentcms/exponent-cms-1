@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 /**
  * Project:     Smarty: the PHP compiling template engine

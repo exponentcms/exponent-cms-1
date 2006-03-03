@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $item = $db->selectObject('calendar','id='.intval($_GET['id']));
 if ($item) {
@@ -31,12 +31,12 @@ if ($item) {
 		
 		$eventdates = $db->selectObjects('eventdate','event_id='.$item->id);
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-		if (!function_exists('pathos_sorting_byDateAscending')) {
-			function pathos_sorting_byDateAscending($a,$b) {
+		if (!function_exists('exponent_sorting_byDateAscending')) {
+			function exponent_sorting_byDateAscending($a,$b) {
 				return ($a->date > $b->date ? 1 : -1);
 			}
 		}
-		usort($eventdates,'pathos_sorting_byDateAscending');
+		usort($eventdates,'exponent_sorting_byDateAscending');
 		
 		$template->assign('dates',$eventdates);
 		

@@ -20,15 +20,15 @@
 class database_importer {
 	function form() {
 		
-		pathos_lang_loadDictionary('modules','database');
+		exponent_lang_loadDictionary('modules','database');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 
 		$form = new form();
 		//Form is created to collect information from the user
 		//Values set previously (defaults or user-entered) are displayed
-		$form->register('dbengine',TR_DATABASE_DBTYPE,new dropdowncontrol('',pathos_database_backends()));
+		$form->register('dbengine',TR_DATABASE_DBTYPE,new dropdowncontrol('',exponent_database_backends()));
 		$form->register('host',TR_DATABASE_HOST,new textcontrol(DB_HOST));
 		$form->register('port',TR_DATABASE_PORT,new textcontrol(DB_PORT));
 		$form->register('dbname',TR_DATABASE_DBNAME,new textcontrol(''));

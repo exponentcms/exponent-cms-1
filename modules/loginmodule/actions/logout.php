@@ -17,12 +17,12 @@
 #
 ##################################################
  
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (!defined('SYS_USERS')) require_once('subsystems/users.php');
-pathos_users_logout();
-pathos_permissions_clear();
-pathos_sessions_unset('uilevel');
-pathos_flow_redirect();
+exponent_users_logout();
+exponent_permissions_clear();
+exponent_sessions_unset('uilevel');
+exponent_flow_redirect();
 
 ?>

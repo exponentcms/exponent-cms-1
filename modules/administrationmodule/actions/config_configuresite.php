@@ -19,15 +19,15 @@
 
 // Part of the Configuration category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configuration',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	if (!defined('SYS_CONFIG')) require_once(BASE.'subsystems/config.php');
 	
 	$configname = (isset($_GET['configname']) ? $_GET['configname'] : "");
-	$form = pathos_config_configurationForm($configname);
+	$form = exponent_config_configurationForm($configname);
 	$form->meta('module','administrationmodule');
 	$form->meta('action','config_save');
 	

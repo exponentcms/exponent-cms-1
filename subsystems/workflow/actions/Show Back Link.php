@@ -19,10 +19,10 @@
 
 // GREP:HARDCODEDTEXT
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 echo '<a class="mngmntlink workflow_mngmntlink" href="';
-echo pathos_flow_get();
+echo exponent_flow_get();
 echo '">Back</a> to approval manager.';
 
 ?>

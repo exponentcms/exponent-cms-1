@@ -22,25 +22,25 @@ define('SCRIPT_FILENAME','login.php');
 
 ob_start();
 
-// Initialize the Pathos Framework
-require_once('pathos.php');
+// Initialize the Exponent Framework
+require_once('exponent.php');
 
 // Initialize the Sessions Subsystem
 if (!defined('SYS_SESSIONS')) require_once(BASE.'subsystems/sessions.php');
 // Initialize the Theme Subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
-if (pathos_sessions_loggedIn()) {
-	$SYS_FLOW_REDIRECTIONPATH = 'pathos_default';
-	pathos_flow_redirect();
+if (exponent_sessions_loggedIn()) {
+	$SYS_FLOW_REDIRECTIONPATH = 'exponent_default';
+	exponent_flow_redirect();
 	exit('Redirecting...');
 } else if (isset($_REQUEST['module']) && isset($_REQUEST['action'])) {
 	$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
-	pathos_theme_runAction();
+	exponent_theme_runAction();
 	loginmodule::show(DEFAULT_VIEW,null);
 } else {
 	$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
-	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
+	exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 	loginmodule::show(DEFAULT_VIEW,null);
 }
 

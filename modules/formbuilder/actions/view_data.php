@@ -17,16 +17,16 @@
 #
 ##################################################
 	
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$i18n = pathos_lang_loadFile('modules/formbuilder/actions/view_data.php');
+$i18n = exponent_lang_loadFile('modules/formbuilder/actions/view_data.php');
 
 if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-pathos_forms_initialize();
+exponent_forms_initialize();
 
 $template = new template('formbuilder','_data_view');
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 if (isset($_GET['id'])) {
 	$_GET['id'] = intval($_GET['id']);
@@ -34,14 +34,14 @@ if (isset($_GET['id'])) {
 	$f = $db->selectObject("formbuilder_form","id=".$_GET['id']);
 	$rpt = $db->selectObject("formbuilder_report","form_id=".$_GET['id']);
 	$items = $db->selectObjects("formbuilder_".$f->table_name);
-	if (pathos_permissions_check("viewdata",unserialize($f->location_data))) {
+	if (exponent_permissions_check("viewdata",unserialize($f->location_data))) {
 		$columndef = "paginate.columns = new Array(";
 		$sortfuncts = "";
 		if ($rpt->column_names == '') {
 			//define some default columns...
 			$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly = 0 and is_static = 0");
 			if (!defined("SYS_SORTING")) include_once(BASE."subsystems/sorting.php");
-			usort($controls,"pathos_sorting_byRankAscending");	
+			usort($controls,"exponent_sorting_byRankAscending");	
 			
 			foreach (array_slice($controls,0,5) as $control) {
 				if ($rpt->column_names != '') $rpt->column_names .= '|!|';
@@ -56,7 +56,7 @@ if (isset($_GET['id'])) {
 			elseif ($column_name == "user_id") {
 				foreach ($items as $key=>$item) {
 					if ($item->$column_name != 0) {
-						 $locUser = pathos_users_getUserById($item->$column_name);
+						 $locUser = exponent_users_getUserById($item->$column_name);
 						 $item->$column_name = $locUser->username;
 					} 
 					else {
@@ -107,9 +107,9 @@ if (isset($_GET['id'])) {
 		$template->assign("f",$f);
 		global $SYS_FLOW_REDIRECTIONPATH;
 		$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-		$template->assign("backlink",pathos_flow_get());
+		$template->assign("backlink",exponent_flow_get());
 		$template->register_permissions(array("administrate","editform","editformsettings","editreport","viewdata","editdata","deletedata"),unserialize($f->location_data));
-		$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
+		$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
 		$columndef .= 'new cColumn("Links","",links,null)';
 		$columndef .= ');';
 		

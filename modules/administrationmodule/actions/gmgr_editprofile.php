@@ -19,15 +19,15 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 
-	$g = pathos_users_getGroupById(intval($_GET['id']));
-	$form = pathos_users_groupForm($g);
+	$g = exponent_users_getGroupById(intval($_GET['id']));
+	$form = exponent_users_groupForm($g);
 	$form->meta('module','administrationmodule');
 	$form->meta('action','gmgr_savegroup');
 	

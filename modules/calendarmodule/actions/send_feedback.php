@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
 
@@ -34,7 +34,7 @@ if (isset($_POST['id'])) {
 	if ($event->feedback_email != '') {
 		$email_addrs = split(',', $event->feedback_email);
 		$email_addrs = array_map('trim', $email_addrs);
-		$ret = pathos_smtp_mail($email_addrs, 'website@'.HOSTNAME,$_POST['subject'],$msg);
+		$ret = exponent_smtp_mail($email_addrs, 'website@'.HOSTNAME,$_POST['subject'],$msg);
 	}
 }
 

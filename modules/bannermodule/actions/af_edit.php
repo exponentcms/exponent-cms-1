@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (isset($_GET['id']))
     $_GET['id'] = intval($_GET['id']);
@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
 	$af = $db->selectObject('banner_affiliate','id='.intval($_GET['id']));
 }
 
-if (pathos_permissions_check('manage_af',$loc)) {
+if (exponent_permissions_check('manage_af',$loc)) {
 	$form = banner_affiliate::form($af);
 	$form->meta('module','bannermodule');
 	$form->meta('action','af_save');

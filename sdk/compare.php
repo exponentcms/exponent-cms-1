@@ -6,11 +6,11 @@ $def_b = unserialize(file_get_contents($argv[2]));
 $ver_a = basename($argv[1]);
 $ver_b = basename($argv[2]);
 
-$fname = "pathos_backup_" . join('',explode('.',$ver_a));
+$fname = "exponent_backup_" . join('',explode('.',$ver_a));
 
 echo "<?php\r\n// Converting EQL version $ver_a to $ver_b\r\n\r\n";
 
-echo "if (!defined('PATHOS')) exit('');\r\n\r\n";
+echo "if (!defined('EXPONENT')) exit('');\r\n\r\n";
 
 
 foreach ($def_a as $table=>$fields) {

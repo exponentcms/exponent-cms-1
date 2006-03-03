@@ -19,14 +19,14 @@
 
 // Part of the User Management categry
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$template = new template('administrationmodule','_groupmanager',$loc);
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-	$groups = pathos_users_getAllGroups();
+	$groups = exponent_users_getAllGroups();
 	$template->assign('groups',$groups);
 	$template->assign('perm_level',2); // So we get the edit/delete links
 	$template->output();

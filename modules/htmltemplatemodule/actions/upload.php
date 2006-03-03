@@ -17,18 +17,18 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('create',$loc)) {
+if (exponent_permissions_check('create',$loc)) {
 	$t = null;
 	if (isset($_GET['id'])) {
 		$t = $db->selectObject('htmltemplate','id='.intval($_GET['id']));
 	}
 	
 	if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$i18n = pathos_lang_loadFile('modules/htmltemplatemodule/actions/upload.php');
+	$i18n = exponent_lang_loadFile('modules/htmltemplatemodule/actions/upload.php');
 	
 	$form = htmltemplate::form($t);
 	$form->registerBefore('submit','file',$i18n['upload'],new uploadcontrol());

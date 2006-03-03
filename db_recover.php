@@ -20,10 +20,10 @@
 define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','db_recover.php');
 
-// Initialize the Pathos Framework
-include_once(dirname(realpath(__FILE__)).'/pathos.php');
+// Initialize the Exponent Framework
+include_once(dirname(realpath(__FILE__)).'/exponent.php');
 
-$i18n = pathos_lang_loadFile('db_recover.php');
+$i18n = exponent_lang_loadFile('db_recover.php');
 
 exit($i18n['disabled']);
 
@@ -36,10 +36,10 @@ $oldu = $user;
 $user->is_admin = 1;
 $user->is_acting_admin = 1;
 
-// The $loc variable would normally be created by the Pathos framework
+// The $loc variable would normally be created by the Exponent framework
 // when running the action we are about to include.  Here, we synthetically
 // create the location, so that the action doesn't freak out.
-$loc = pathos_core_makeLocation('administrationmodule');
+$loc = exponent_core_makeLocation('administrationmodule');
 
 // Simulate running the Install Tables action.
 include_once(dirname(__realpath(__FILE__)).'/modules/administrationmodule/actions/installtables.php');

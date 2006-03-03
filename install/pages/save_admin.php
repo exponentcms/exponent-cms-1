@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $user = $db->selectObject('user','is_admin=1');
 $user->username = $_POST['username'];
 if ($user->username == '') {
-	$i18n = pathos_lang_loadFile('install/pages/save_admin.php');
+	$i18n = exponent_lang_loadFile('install/pages/save_admin.php');
 	echo $i18n['bad_username'];
 } else {
 	$user->password = md5($_POST['password']);

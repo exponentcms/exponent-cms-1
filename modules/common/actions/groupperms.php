@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('administrate',$loc)) {
-	if (pathos_template_getModuleViewFile($loc->mod,'_grouppermissions',false) == TEMPLATE_FALLBACK_VIEW) {
+if (exponent_permissions_check('administrate',$loc)) {
+	if (exponent_template_getModuleViewFile($loc->mod,'_grouppermissions',false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template('common','_grouppermissions',$loc);
 	} else {
 		$template = new template($loc->mod,'_grouppermissions',$loc);
@@ -40,18 +40,18 @@ if (pathos_permissions_check('administrate',$loc)) {
 	$g->name = "Anonymous Users";
 	foreach ($perms as $perm=>$name) {
 		$var = "perms_$perm";
-		if (pathos_permissions_checkGroup($g,$perm,$loc,true)) $g->$var = 1;
-		else if (pathos_permissions_checkGroup($g,$perm,$loc)) $g->$var = 2;
+		if (exponent_permissions_checkGroup($g,$perm,$loc,true)) $g->$var = 1;
+		else if (exponent_permissions_checkGroup($g,$perm,$loc)) $g->$var = 2;
 		else $g->$var = 0;
 	}
 	$users[] = $g;
 	
-	foreach (pathos_users_getAllGroups() as $g) {
+	foreach (exponent_users_getAllGroups() as $g) {
 		foreach ($perms as $perm=>$name) {
 			$var = 'perms_'.$perm;
-			if (pathos_permissions_checkGroup($g,$perm,$loc,true)) {
+			if (exponent_permissions_checkGroup($g,$perm,$loc,true)) {
 				$g->$var = 1;
-			} else if (pathos_permissions_checkGroup($g,$perm,$loc)) {
+			} else if (exponent_permissions_checkGroup($g,$perm,$loc)) {
 				$g->$var = 2;
 			} else {
 				$g->$var = 0;

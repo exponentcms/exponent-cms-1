@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcoremodule'))) {
+if (exponent_permissions_check('manage_site',exponent_core_makeLocation('sharedcoremodule'))) {
 	$site = null;
 	$core = null;
 	if (isset($_POST['site_id'])) {
@@ -38,9 +38,9 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 			if (!defined("SYS_SHAREDCORE")) include_once(BASE."subsystems/sharedcore.php");
 			
 			// Need to clear the old path.
-			pathos_sharedcore_clear($site->path); // Do not do a full delete
+			exponent_sharedcore_clear($site->path); // Do not do a full delete
 			// Relink the core to the linked site
-			pathos_sharedcore_setup($core,$site);
+			exponent_sharedcore_setup($core,$site);
 			
 			$used = array(
 				CORE_EXT_MODULE=>array(),
@@ -74,9 +74,9 @@ if (pathos_permissions_check('manage_site',pathos_core_makeLocation('sharedcorem
 				}
 			}
 			
-			pathos_sharedcore_link($core,$site,$used);
+			exponent_sharedcore_link($core,$site,$used);
 			
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		} else {
 			echo SITE_403_HTML;
 		}

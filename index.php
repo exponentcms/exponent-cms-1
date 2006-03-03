@@ -24,8 +24,8 @@ ob_start();
 $microtime_str = explode(' ',microtime());
 $i_start = $microtime_str[0] + $microtime_str[1];
 
-// Initialize the Pathos Framework
-require_once('pathos.php');
+// Initialize the Exponent Framework
+require_once('exponent.php');
 
 // Check to see if we are in maintenance mode.
 if (MAINTENANCE_MODE == 1) {
@@ -57,7 +57,7 @@ $page = ($section && $section->subtheme != '' && is_readable(BASE.'themes/'.DISP
 	BASE.'themes/'.DISPLAY_THEME.'/index.php'
 );
 
-$base_i18n = pathos_lang_loadFile('index.php');
+$base_i18n = exponent_lang_loadFile('index.php');
 
 if (is_readable($page)) {
 	include_once($page);

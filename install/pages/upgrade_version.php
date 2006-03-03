@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $versions = array(
 	'0.95'=>'Nebula',
@@ -28,7 +28,7 @@ $versions = array(
 	'1.0'=>'Salient',
 );
 
-$i18n = pathos_lang_loadFile('install/pages/upgrade_version.php');
+$i18n = exponent_lang_loadFile('install/pages/upgrade_version.php');
 
 ?>
 
@@ -38,17 +38,17 @@ $i18n = pathos_lang_loadFile('install/pages/upgrade_version.php');
 <div class="form_section_header"><?php echo $i18n['select_ver']; ?></div>
 <div class="form_section">
 	<div class="control">
-		<select name="from_version" value="<?php echo PATHOS; ?>">
+		<select name="from_version" value="<?php echo EXPONENT; ?>">
 		<?php
 			foreach ($versions as $version=>$release) {
 				echo '<option value="'.$version.'">';
 				echo $version . ' ' . $release;
-				if ($version == PATHOS) {
+				if ($version == EXPONENT) {
 					echo ' - '.$i18n['prev_rel'];
 				}
 				echo '</option>';
 				
-				if ($version == PATHOS) {
+				if ($version == EXPONENT) {
 					break;
 				}
 			}

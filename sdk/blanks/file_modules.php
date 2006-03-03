@@ -4,7 +4,7 @@
 		// Don't forget to change CHANGEME
 		$directory = "files/CHANGEME/" . $loc->src;
 		if (!file_exists(BASE.$directory)) {
-			switch(pathos_files_makeDirectory($directory)) {
+			switch(exponent_files_makeDirectory($directory)) {
 				case SYS_FILES_FOUNDFILE:
 					echo "Found a file in the directory path.";
 					return;

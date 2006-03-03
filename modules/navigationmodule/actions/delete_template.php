@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $page = null;
 if (isset($_GET['id'])) {
@@ -41,7 +41,7 @@ if ($page) {
 		}
 		tmp_deleteLevel($page->id);
 
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

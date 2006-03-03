@@ -17,12 +17,12 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
-$i18n = pathos_lang_loadFile('modules/formbuilder/actions/view_form.php');
+$i18n = exponent_lang_loadFile('modules/formbuilder/actions/view_form.php');
 
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-pathos_forms_initialize();
+exponent_forms_initialize();
 
 $f = null;
 if (isset($_GET['id'])) {
@@ -30,12 +30,12 @@ if (isset($_GET['id'])) {
 }
 
 if ($f) {
-	if (pathos_permissions_check("editform",unserialize($f->location_data))) {
-		pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+	if (exponent_permissions_check("editform",unserialize($f->location_data))) {
+		exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 		$loc = unserialize($f->location_data);
 		$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id);
 		if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
-		usort($controls,"pathos_sorting_byRankAscending");
+		usort($controls,"exponent_sorting_byRankAscending");
 		
 		$form = new fakeform();
 		foreach ($controls as $c) {
@@ -51,10 +51,10 @@ if ($f) {
 		$template->assign("form",$f);
 		global $SYS_FLOW_REDIRECTIONPATH;
 		$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-		$template->assign("backlink",pathos_flow_get());
-		$SYS_FLOW_REDIRECTIONPATH = "pathos_default";
+		$template->assign("backlink",exponent_flow_get());
+		$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
 		
-		$types = pathos_forms_listControlTypes();
+		$types = exponent_forms_listControlTypes();
 		$types[".break"] = $i18n['spacer'];
 		$types[".line"] = $i18n['line'];
 		uasort($types,"strnatcmp");

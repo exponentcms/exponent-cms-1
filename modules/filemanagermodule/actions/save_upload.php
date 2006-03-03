@@ -17,13 +17,13 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $collection = null;
 if (isset($_POST['collection_id'])) {
 	$collection = $db->selectObject('file_collection','id='.intval($_POST['collection_id']));
 }
-$loc = pathos_core_makeLocation('filemanagermodule');
+$loc = exponent_core_makeLocation('filemanagermodule');
 
 if ($collection) {
 	// PERM CHECK
@@ -32,7 +32,7 @@ if ($collection) {
 			$file->name = $_POST['name'];
 			$file->collection_id = $collection->id;
 			$db->insertObject($file,'file');
-			pathos_flow_redirect();
+			exponent_flow_redirect();
 		} else {
 			echo $file;
 		}

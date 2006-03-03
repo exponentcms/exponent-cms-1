@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $contact = null;
 if (isset($_GET['id'])) {
@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
 }
 
 if ($contact) {
-	pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+	exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 	
 	$loc = unserialize($contact->location_data);
 
@@ -33,7 +33,7 @@ if ($contact) {
 	$template->assign('contact',$contact);
 	$template->register_permissions(
 		array('edit','delete'),
-		pathos_core_makeLocation($loc->mod,$loc->src,$contact->id)
+		exponent_core_makeLocation($loc->mod,$loc->src,$contact->id)
 	);
 	
 	$template->output();

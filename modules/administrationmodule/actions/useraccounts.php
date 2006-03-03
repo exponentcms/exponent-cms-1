@@ -19,16 +19,16 @@
 
 // Part of the User Management category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('user_management',pathos_core_makeLocation('administrationmodule'))) {
-	pathos_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
+	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	
 	$template = new template('administrationmodule','_usermanager',$loc);
 	
-	$template = pathos_users_userManagerFormTemplate($template);
+	$template = exponent_users_userManagerFormTemplate($template);
 	$template->output();
 } else {
 	echo SITE_403_HTML;

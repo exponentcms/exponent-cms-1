@@ -17,21 +17,21 @@
 #
 ##################################################
 
-if (!defined("PATHOS")) exit("");
+if (!defined("EXPONENT")) exit("");
 
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 if (!defined("SYS_FILES")) require_once(BASE."subsystems/files.php");
 
 $template = New template("importer", "_usercsv_form_start");
 
-if (pathos_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") != SYS_FILES_SUCCESS) {
+if (exponent_files_canCreate(BASE."modules/importer/importers/usercsv/tmp/test") != SYS_FILES_SUCCESS) {
 	$template->assign("error", "The modules/importer/importers/usercsv/tmp directory is not writable.  Please contact your administrator.");
 	$template->output();
 }else{
 	//initialize the for stuff
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$i18n = pathos_lang_loadFile('modules/importer/importers/usercsv/start.php');
+	$i18n = exponent_lang_loadFile('modules/importer/importers/usercsv/start.php');
 	
 	//Setup the mete data (hidden values)
 	$form = new form();

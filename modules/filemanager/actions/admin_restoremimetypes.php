@@ -19,9 +19,9 @@
 
 // Part of the Administration Control Panel : Files Subsystem category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('files_subsystem',exponent_core_makeLocation('administrationmodule'))) {
 	$db->delete('mimetype');
 	$mimes = include(BASE.'subsystems/files/mimetypes.php');
 	$obj = null;
@@ -31,7 +31,7 @@ if (pathos_permissions_check('files_subsystem',pathos_core_makeLocation('adminis
 		$db->insertObject($obj,'mimetype');
 	}
 	
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

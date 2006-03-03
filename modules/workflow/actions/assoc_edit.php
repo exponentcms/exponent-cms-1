@@ -19,14 +19,14 @@
 
 // Part of the Administration Panel:Workflow category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('workflow',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 	
 	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-	pathos_forms_initialize();
+	exponent_forms_initialize();
 	
-	$i18n = pathos_lang_loadFile('modules/workflow/actions/assoc_edit.php');
+	$i18n = exponent_lang_loadFile('modules/workflow/actions/assoc_edit.php');
 	
 	$form = new form();
 	$policies = array();

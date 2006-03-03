@@ -18,9 +18,9 @@
 ##################################################
 
 class weblogmodule {
-	function name() { return pathos_lang_loadKey('modules/weblogmodule/class.php','module_name'); }
+	function name() { return exponent_lang_loadKey('modules/weblogmodule/class.php','module_name'); }
 	function author() { return 'James Hunt'; }
-	function description() { return pathos_lang_loadKey('modules/weblogmodule/class.php','module_description'); }
+	function description() { return exponent_lang_loadKey('modules/weblogmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
@@ -29,7 +29,7 @@ class weblogmodule {
 	function supportsWorkflow() { return false; }
 	
 	function permissions($internal = '') {
-		$i18n = pathos_lang_loadFile('modules/weblogmodule/class.php');
+		$i18n = exponent_lang_loadFile('modules/weblogmodule/class.php');
 		
 		if ($internal == '') {
 			return array(
@@ -60,7 +60,7 @@ class weblogmodule {
 		if ($loc->int == '') {
 			return array($loc);
 		} else {
-			return array($loc,pathos_core_makeLocation($loc->mod,$loc->src));
+			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
 	
@@ -84,7 +84,7 @@ class weblogmodule {
 		}
 		
 		$where = '(is_draft = 0 OR poster = '.$user_id.") AND location_data='".serialize($loc)."'";
-		if (!pathos_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
+		if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 			
 		if ($viewconfig['type'] == 'monthlist') {
 			$months = array();
@@ -94,20 +94,20 @@ class weblogmodule {
 			
 			$months = array();
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
-			$start_month = pathos_datetime_startOfMonthTimestamp($min_date);
-			$end_month = pathos_datetime_endOfMonthTimestamp($min_date)+86399;
+			$start_month = exponent_datetime_startOfMonthTimestamp($min_date);
+			$end_month = exponent_datetime_endOfMonthTimestamp($min_date)+86399;
 			do {
 				$count = $db->countObjects('weblog_post',$where . ' AND posted >= '.$start_month . ' AND posted <= ' . $end_month);
 				if ($count) {
 					$months[$start_month] = $count;
 				}
 				$start_month = $end_month + 1;
-				$end_month = pathos_datetime_endOfMonthTimestamp($start_month)+86399;
+				$end_month = exponent_datetime_endOfMonthTimestamp($start_month)+86399;
 			} while ($start_month < $max_date);
 			$template->assign('months',array_reverse($months,true));
 		} else if ($viewconfig['type'] == 'calendar') {
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
-			$month_days = pathos_datetime_monthlyDaysTimestamp(time());
+			$month_days = exponent_datetime_monthlyDaysTimestamp(time());
 			for ($i = 0; $i < count($month_days); $i++) {
 				foreach ($month_days[$i] as $mday=>$timestamp) {
 					if ($mday > 0) {
@@ -127,22 +127,22 @@ class weblogmodule {
 			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			for ($i = 0; $i < count($posts); $i++) {
-				$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
+				$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
 				
 				$posts[$i]->permissions = array(
-					'administrate'=>pathos_permissions_check('administrate',$ploc),
-					'edit'=>pathos_permissions_check('edit',$ploc),
-					'delete'=>pathos_permissions_check('delete',$ploc),
-					'comment'=>pathos_permissions_check('comment',$ploc),
-					'edit_comments'=>pathos_permissions_check('edit_comments',$ploc),
-					'delete_comments'=>pathos_permissions_check('delete_comments',$ploc),
-					'view_private'=>pathos_permissions_check('view_private',$ploc),
+					'administrate'=>exponent_permissions_check('administrate',$ploc),
+					'edit'=>exponent_permissions_check('edit',$ploc),
+					'delete'=>exponent_permissions_check('delete',$ploc),
+					'comment'=>exponent_permissions_check('comment',$ploc),
+					'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
+					'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
+					'view_private'=>exponent_permissions_check('view_private',$ploc),
 				);
 				$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);
-				usort($comments,'pathos_sorting_byPostedDescending');
+				usort($comments,'exponent_sorting_byPostedDescending');
 				$posts[$i]->comments = $comments;
 			}
-			usort($posts,'pathos_sorting_byPostedDescending');
+			usort($posts,'exponent_sorting_byPostedDescending');
 			$template->assign('posts',$posts);
 			$template->assign('total_posts',$total);
 		}
@@ -190,7 +190,7 @@ class weblogmodule {
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
 		
 		$search = null;
-		$search->category = pathos_lang_loadKey('modules/weblogmodule/class.php','search_category');
+		$search->category = exponent_lang_loadKey('modules/weblogmodule/class.php','search_category');
 		$search->view_link = ""; // FIXME : need a view action
 		$search->ref_module = 'weblogmodule';
 		$search->ref_type = 'weblog_post';
@@ -204,23 +204,23 @@ class weblogmodule {
 		if ($item && $item->is_draft == 0) {
 			$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
-			$search->body = " " . pathos_search_removeHTML($item->body) . " ";
+			$search->body = " " . exponent_search_removeHTML($item->body) . " ";
 			$search->title = " " . $item->title . " ";
 			$search->location_data = $item->location_data;
 			
 			$view_link['id'] = $item->id;
-			$search->view_link = pathos_core_makeLink($view_link,true);
+			$search->view_link = exponent_core_makeLink($view_link,true);
 			$db->insertObject($search,'search');
 		} else {
 			$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post'");
 			foreach ($db->selectObjects('weblog_post','is_private=0 AND is_draft=0') as $item) {
 				$search->original_id = $item->id;
-				$search->body = ' ' . pathos_search_removeHTML($item->body) . ' ';
+				$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 				$search->title = ' ' . $item->title . ' ';
 				$search->location_data = $item->location_data;
 				
 				$view_link['id'] = $item->id;
-				$search->view_link = pathos_core_makeLink($view_link,true);
+				$search->view_link = exponent_core_makeLink($view_link,true);
 				
 				$db->insertObject($search,'search');
 			}

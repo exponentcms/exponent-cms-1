@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 $contact = null;
 if (isset($_GET['id'])) {
@@ -26,11 +26,11 @@ if (isset($_GET['id'])) {
 }
 if ($contact) {
 	$loc = unserialize($contact->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$contact->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$contact->id);
 	
-	if (pathos_permissions_check('delete',$loc) || pathos_permissions_check('delete',$iloc)) {
+	if (exponent_permissions_check('delete',$loc) || exponent_permissions_check('delete',$iloc)) {
 		$db->delete('addressbook_contact','id='.$contact->id);
-		pathos_flow_redirect(SYS_FLOW_SECTIONAL);
+		exponent_flow_redirect(SYS_FLOW_SECTIONAL);
 	} else {
 		echo SITE_403_HTML;
 	}

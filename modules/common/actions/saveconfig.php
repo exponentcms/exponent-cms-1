@@ -17,9 +17,9 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('configure',$loc)) {
+if (exponent_permissions_check('configure',$loc)) {
 	$config = $db->selectObject($_POST['module'].'_config',"location_data='".serialize($loc)."'");
 	$config = call_user_func(array($_POST['module'].'_config','update'),$_POST,$config);
 	$config->location_data = serialize($loc);
@@ -33,14 +33,14 @@ if (pathos_permissions_check('configure',$loc)) {
 	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
 	$vconfig = array();
 	if (isset($_POST['_viewconfig'])) {
-		$opts = pathos_template_getViewConfigOptions($loc->mod,$container->view);
+		$opts = exponent_template_getViewConfigOptions($loc->mod,$container->view);
 		foreach (array_keys($opts) as $o) {
 			$vconfig[$o] = (isset($_POST['_viewconfig'][$o]) ? $_POST['_viewconfig'][$o] : 0);
 		}
 	}
 	$container->view_data = serialize($vconfig);
 	$db->updateObject($container,'container');
-	pathos_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

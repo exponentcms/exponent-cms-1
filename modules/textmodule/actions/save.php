@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 if (isset($_POST['id'])) {
 	$textitem = $db->selectObject('textitem','id='.intval($_POST['id']));
@@ -26,11 +26,11 @@ if (isset($_POST['id'])) {
 	}
 }
 
-if (pathos_permissions_check('edit',$loc)) {
+if (exponent_permissions_check('edit',$loc)) {
 	$textitem = textitem::update($_POST,$textitem);
 	$textitem->location_data = serialize($loc);
 	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	pathos_workflow_post($textitem,'textitem',$loc);
+	exponent_workflow_post($textitem,'textitem',$loc);
 } else {
 	echo SITE_403_HTML;
 }

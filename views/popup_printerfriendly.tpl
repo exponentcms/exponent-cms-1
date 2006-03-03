@@ -19,7 +19,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<meta name="Generator" value="Exponent Content Management System" />
 		<link rel="stylesheet" title="default" href="{$smarty.const.THEME_RELATIVE}style.css" />
-		<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}pathos.js.php"></script>
+		<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}exponent.js.php"></script>
 		<style type="text/css">
 		{literal}
 			body {
@@ -36,7 +36,7 @@
 		</style>
 		{/literal}
 	</head>
-	<body onLoad="pathosJSinitialize()">
+	<body onLoad="exponentJSinitialize()">
 	<div class="printer_link">
 		<a href="#" onClick="print(); return false;">{$_TR.print}</a>
 		<br />

@@ -19,7 +19,7 @@
 
 class mimetype {
 	function form($object) {
-		$i18n = pathos_lang_loadFile('datatypes/mimetype.php');
+		$i18n = exponent_lang_loadFile('datatypes/mimetype.php');
 		
 		$form = new form();
 		if (!isset($object->mimetype)) {

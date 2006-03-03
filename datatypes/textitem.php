@@ -19,10 +19,10 @@
 
 class textitem {
 	function form($textitem = null) {
-        $i18n = pathos_lang_loadFile('datatypes/textitem.php');
+        $i18n = exponent_lang_loadFile('datatypes/textitem.php');
 		
 		if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
-		pathos_forms_initialize();
+		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!$textitem) {
@@ -34,7 +34,7 @@ class textitem {
 		$form->register('text',$i18n['caption_text'],new htmleditorcontrol($textitem->text));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
-		pathos_forms_cleanup();
+		exponent_forms_cleanup();
 		
 		return $form;
 	}

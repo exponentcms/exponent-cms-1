@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 // Sanitize querystring parameters.
 $_GET['id'] = intval($_GET['id']);
@@ -25,12 +25,12 @@ $_GET['id'] = intval($_GET['id']);
 $post = $db->selectObject('weblog_post','id='.$_GET['id']);
 if ($post) {
 	$loc = unserialize($post->location_data);
-	$iloc = pathos_core_makeLocation($loc->mod,$loc->src,$post->id);
+	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 	
-	if (pathos_permissions_check('delete',$loc) || pathos_permissions_check('delete',$iloc)) {
+	if (exponent_permissions_check('delete',$loc) || exponent_permissions_check('delete',$iloc)) {
 		$db->delete('weblog_post','id='.$_GET['id']);
 		$db->delete('weblog_comment','parent_id='.$_GET['id']);
-		pathos_flow_redirect();
+		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

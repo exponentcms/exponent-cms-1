@@ -20,10 +20,10 @@
 define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','mod_preview.php');
 
-// Initialize the Pathos Framework
-include_once('pathos.php');
+// Initialize the Exponent Framework
+include_once('exponent.php');
 
-$i18n = pathos_lang_loadFile('mod_preview.php');
+$i18n = exponent_lang_loadFile('mod_preview.php');
 
 $SYS_FLOW_REDIRECTIONPATH='previewreadonly';
 

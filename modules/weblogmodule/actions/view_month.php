@@ -17,18 +17,18 @@
 #
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-pathos_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 
 $time = (isset($_GET['month']) ? $_GET['month'] : time());
-$start_month = pathos_datetime_startOfMonthTimestamp($time);
-$end_month = pathos_datetime_endOfMonthTimestamp($time);
+$start_month = exponent_datetime_startOfMonthTimestamp($time);
+$end_month = exponent_datetime_endOfMonthTimestamp($time);
 
 $where = "location_data='".serialize($loc)."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).") AND posted >= $start_month AND posted <= $end_month";
-if (!pathos_permissions_check('view_private',$loc)) {
+if (!exponent_permissions_check('view_private',$loc)) {
 	$where .= ' AND is_private = 0';
 }
 
@@ -40,22 +40,22 @@ if ($config == null) {
 $posts = $db->selectObjects('weblog_post',$where);
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($posts); $i++) {
-	$ploc = pathos_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
+	$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
 	
 	$posts[$i]->permissions = array(
-		'administrate'=>pathos_permissions_check('administrate',$ploc),
-		'edit'=>pathos_permissions_check('edit',$ploc),
-		'delete'=>pathos_permissions_check('delete',$ploc),
-		'comment'=>pathos_permissions_check('comment',$ploc),
-		'edit_comments'=>pathos_permissions_check('edit_comments',$ploc),
-		'delete_comments'=>pathos_permissions_check('delete_comments',$ploc),
-		'view_private'=>pathos_permissions_check('view_private',$ploc),
+		'administrate'=>exponent_permissions_check('administrate',$ploc),
+		'edit'=>exponent_permissions_check('edit',$ploc),
+		'delete'=>exponent_permissions_check('delete',$ploc),
+		'comment'=>exponent_permissions_check('comment',$ploc),
+		'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
+		'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
+		'view_private'=>exponent_permissions_check('view_private',$ploc),
 	);
 	$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);
-	usort($comments,'pathos_sorting_byPostedDescending');
+	usort($comments,'exponent_sorting_byPostedDescending');
 	$posts[$i]->comments = $comments;
 }
-usort($posts,'pathos_sorting_byPostedDescending');
+usort($posts,'exponent_sorting_byPostedDescending');
 			
 $template = new template('weblogmodule','_view_month',$loc);
 $template->assign('posts',$posts);

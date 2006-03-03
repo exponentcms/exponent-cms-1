@@ -19,9 +19,9 @@
 
 // Part of the Database category
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
-if (pathos_permissions_check('database',pathos_core_makeLocation('administrationmodule'))) {
+if (exponent_permissions_check('database',exponent_core_makeLocation('administrationmodule'))) {
 	$before = $db->databaseInfo();
 	foreach (array_keys($before) as $table) {
 		$db->optimize($table);

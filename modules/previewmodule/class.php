@@ -18,8 +18,8 @@
 ##################################################
 
 class previewmodule {
-	function name() { return pathos_lang_loadKey('modules/previewmodule/class.php','module_name'); }
-	function description() { return pathos_lang_loadKey('modules/previewmodule/class.php','module_description'); }
+	function name() { return exponent_lang_loadKey('modules/previewmodule/class.php','module_name'); }
+	function description() { return exponent_lang_loadKey('modules/previewmodule/class.php','module_description'); }
 	function author() { return 'James Hunt'; }
 	
 	function hasContent() { return false; }
@@ -44,10 +44,10 @@ class previewmodule {
 		$template = new template('previewmodule',$view,$loc);
 		
 		$level = 99;
-		if (pathos_sessions_isset('uilevel')) {
-			$level = pathos_sessions_get('uilevel');
+		if (exponent_sessions_isset('uilevel')) {
+			$level = exponent_sessions_get('uilevel');
 		}
-		$template->assign('editMode',pathos_sessions_loggedIn() && $level != UILEVEL_PREVIEW);
+		$template->assign('editMode',exponent_sessions_loggedIn() && $level != UILEVEL_PREVIEW);
 		$template->assign('title',$title);
 		$template->assign('previewMode',($level == UILEVEL_PREVIEW));
 		
