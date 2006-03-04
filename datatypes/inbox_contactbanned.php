@@ -29,12 +29,17 @@ class inbox_contactbanned {
 		
 		$users = array();
 		foreach (exponent_users_getAllUsers() as $u) {
-			if ($u->is_acting_admin == 0 && $u->id != $user->id) {
+	
+            // Get the current user. 
+            $thisuser = $_SESSION['/']['user'];
+           
+            if ($u->is_acting_admin == 0 && $u->id != $thisuser->id) {
 				$users[$u->id] = $u->firstname . ' ' . $u->lastname . ' (' . $u->username . ')';
 			}
 		}
-		
-		foreach ($db->selectObjects('inbox_contactbanned','owner='.$user->id) as $b) {
+	
+        global $db;
+		foreach ($db->selectObjects('inbox_contactbanned','owner='.$thisuser->id) as $b) {
 			unset($users[$b->user_id]);
 		}
 		
