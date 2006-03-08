@@ -27,6 +27,8 @@ exponent_users_login($_POST['username'],$_POST['password']);
 if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {
 	echo $i18n['login_error'];
 } else {
+	if (isset($_SESSION['nav_cache']['kids']))
+			unset($_SESSION['nav_cache']['kids']);
 	exponent_flow_redirect();
 }
 

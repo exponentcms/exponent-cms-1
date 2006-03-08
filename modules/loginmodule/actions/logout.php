@@ -23,6 +23,8 @@ if (!defined('SYS_USERS')) require_once('subsystems/users.php');
 exponent_users_logout();
 exponent_permissions_clear();
 exponent_sessions_unset('uilevel');
+if (isset($_SESSION['nav_cache']['kids']))
+			unset($_SESSION['nav_cache']['kids']);
 exponent_flow_redirect();
 
 ?>
