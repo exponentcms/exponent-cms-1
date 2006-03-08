@@ -60,12 +60,19 @@ if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLoc
 	
 		// Existing section.  Update the database record.
 		// The 'id=x' WHERE clause is implicit with an updateObject
+		if (isset($_SESSION['nav_cache']['kids']))
+			unset($_SESSION['nav_cache']['kids']);
+			
 		$db->updateObject($section,'section');
 	} else {
 		// Since this is new, we need to increment ranks, in case the user
 		// added it in the middle of the level.
 		$db->increment('section','rank',1,'rank >= ' . $section->rank . ' AND parent=' . $section->parent);
 		// New section.  Insert a new database record.
+		
+		if (isset($_SESSION['nav_cache']['kids']))
+			unset($_SESSION['nav_cache']['kids']);
+			
 		$db->insertObject($section,'section');
 	}
 	

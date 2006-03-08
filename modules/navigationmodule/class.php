@@ -40,8 +40,9 @@ class navigationmodule {
 	function show($view,$loc = null,$title = '') {
 		$id = exponent_sessions_get('last_section');
 		$current = null;
+
 		$sections = navigationmodule::levelTemplate(0,0);
-		foreach ($sections as $section) {
+        foreach ($sections as $section) {
 			if ($section->id == $id) {
 				$current = $section;
 				break;
@@ -136,8 +137,16 @@ class navigationmodule {
 		if ($parent != 0) $parents[] = $parent;
 		global $db, $user;
 		$nodes = array();
-		$kids = $db->selectObjects('section','parent='.$parent);
-		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+		
+		if (!isset($_SESSION['nav_cache']['kids'][$parent])) {
+			$kids = $db->selectObjects('section','parent='.$parent);
+			$_SESSION['nav_cache']['kids'][$parent] = $kids;
+		} else {
+			$kids = $_SESSION['nav_cache']['kids'][$parent];
+		}
+		
+			
+        if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($kids,'exponent_sorting_byRankAscending');
 		for ($i = 0; $i < count($kids); $i++) {
 			$child = $kids[$i];
@@ -209,7 +218,8 @@ class navigationmodule {
 	
 	function process_section($section,$template) {
 		global $db;
-		if (!is_object($template)) {
+		
+        if (!is_object($template)) {
 			$template = $db->selectObject('section_template','id='.$template);
 			$section->subtheme = $template->subtheme;
 			$db->updateObject($section,'section');

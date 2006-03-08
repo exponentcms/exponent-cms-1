@@ -36,6 +36,10 @@ if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmo
 	$section->id = $db->insertObject($section,'section');
 	// Process the pageset, to add sections and subsections, as well as default content
 	// that the pageset writer added to each element of the set.
+	
+	if (isset($_SESSION['nav_cache']['kids']))
+			unset($_SESSION['nav_cache']['kids']);
+			
 	navigationmodule::process_section($section,$_POST['pageset']);
 	
 	// Go back to where we came from.  Probably the navigation manager.

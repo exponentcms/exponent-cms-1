@@ -39,6 +39,8 @@ if ($page) {
 		if ($page->parent != 0) {
 			$db->decrement('section_template','rank',1,'parent='.$page->parent.' AND rank >= '.$page->rank);
 		}
+		if (isset($_SESSION['nav_cache']['kids']))
+			unset($_SESSION['nav_cache']['kids']);
 		tmp_deleteLevel($page->id);
 
 		exponent_flow_redirect();
