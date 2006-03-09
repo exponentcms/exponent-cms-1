@@ -52,7 +52,10 @@ if (exponent_permissions_check('edit_module',$loc) || exponent_permissions_check
 		$container->internal = unserialize($container->internal);
 		$locref = $db->selectObject('locationref',"module='".$container->internal->mod."' AND source='".$container->internal->src."'");
 	}
-	
+
+    if (isset($_SESSION['containers_cache']))
+        unset($_SESSION['containers_cache']);
+
 	$template = new template('containermodule','_form_edit',$loc);
 	$template->assign('rerank', (isset($_GET['rerank']) ? 1 : 0) );
 	$template->assign('container',$container);

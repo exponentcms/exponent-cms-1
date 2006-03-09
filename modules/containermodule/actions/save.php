@@ -39,8 +39,10 @@ if (exponent_permissions_check("add_module",$loc) ||
 	
 	if (isset($container->id)) {
 		$db->updateObject($container,"container");
+        unset($_SESSION['cache']);
 	} else {
 		$db->insertObject($container,"container");
+        unset($_SESSION['cache']);
 	}
 	
 	if ($container->is_existing == 0) {
@@ -50,6 +52,9 @@ if (exponent_permissions_check("add_module",$loc) ||
 		$db->updateObject($locref,"locationref","module='".$iloc->mod."' AND source='".$iloc->src."'");
 	}
 	
+    if (isset($_SESSION['containers_cache']))
+        unset($_SESSION['containers_cache']);
+    
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

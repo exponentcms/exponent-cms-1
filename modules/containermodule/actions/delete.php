@@ -33,7 +33,10 @@ if ($container != null) {
 		
 		container::delete($container,(isset($_GET['rerank']) ? 1 : 0));
 		$db->delete('container','id='.$container->id);
-		
+
+        if (isset($_SESSION['containers_cache']))
+            unset($_SESSION['containers_cache']);
+
 		// Check to see if its the last reference
 		$locref = $db->selectObject('locationref',"module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");
 		if ($locref->refcount == 0 && exponent_permissions_check('administrate',$iloc) && call_user_func(array($iloc->mod,'hasContent')) == 1) {

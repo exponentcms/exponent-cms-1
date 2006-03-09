@@ -26,6 +26,9 @@ $locref = $db->selectObject("locationref","module='".$iloc->mod."' AND source='"
 if ($locref && $locref->refcount == 0 && exponent_permissions_check("administrate",$iloc)) {
 	// delete in location.
 	$modclass = $iloc->mod;
+    if (isset($_SESSION['containers_cache']))
+        unset($_SESSION['containers_cache']);
+
 	$mod = new $modclass();
 	$mod->deleteIn($iloc);
 	$db->delete("locationref","module='".$iloc->mod."' AND source='".$iloc->src."' AND internal='".$iloc->int."'");

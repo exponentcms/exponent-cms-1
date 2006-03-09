@@ -34,7 +34,10 @@ if (!defined("EXPONENT")) exit("");
 		$dest = $source_select['dest'];
 		
 	}
-	
+
+    if (isset($_SESSION['containers_cache']))
+        unset($_SESSION['containers_cache']);
+
 	$orphans = array();
 	foreach ($db->selectObjects("locationref","module='".preg_replace('/[^A-Za-z0-9_]/','',$_GET['module'])."' AND refcount=0") as $orphan) {
 		$obj = null;

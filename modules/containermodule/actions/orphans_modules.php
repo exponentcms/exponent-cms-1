@@ -20,6 +20,9 @@
 if (!defined('EXPONENT')) exit('');
 
 // PERM CHECK
+    if (isset($_SESSION['containers_cache']))
+        unset($_SESSION['containers_cache']);
+
 	$orphan_mods = array();
 	foreach ($db->selectObjects('locationref','refcount = 0') as $orphan) {
 		if (!isset($orphan_mods[$orphan->module]) && class_exists($orphan->module)) {

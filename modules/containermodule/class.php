@@ -46,6 +46,7 @@ class containermodule {
 			
 			global $db;
 			$containers = $db->selectObjects('container',"external='" . serialize($loc) . "'");
+			
 			foreach ($containers as $container) {
 				container::delete($container);
 				$db->delete('container','id='.$container->id);
@@ -78,7 +79,8 @@ class containermodule {
 		if (!isset($this) || !isset($this->_hasParent) || $this->_hasParent == 0) {
 			// Top level container.
 			$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".serialize($loc)."'");
-			if ($container == null) {
+	
+            if ($container == null) {
 				$container->external = serialize(null);
 				$container->internal = serialize($loc);
 				$container->view = $view;
@@ -98,11 +100,23 @@ class containermodule {
 		$template->assign('top',$container);
 		
 		$containers = array();
-		foreach ($db->selectObjects('container',"external='" . serialize($loc) . "'") as $c) {
-			if ($c->is_private == 0 || exponent_permissions_check('view',exponent_core_makeLocation($loc->mod,$loc->src,$c->id))) {
-				$containers[$c->rank] = $c;
-			}
-		}
+
+        $container_key = serialize( $loc );
+
+        if(!isset($_SESSION['containers_cache'][$container_key]))
+        {
+		    foreach ($db->selectObjects('container',"external='" . serialize($loc) . "'") as $c) {
+			    if ($c->is_private == 0 || exponent_permissions_check('view',exponent_core_makeLocation($loc->mod,$loc->src,$c->id))) {
+				    $containers[$c->rank] = $c;
+			    }
+		    }
+            $_SESSION['containers_cache'][$container_key] = serialize($containers);
+        }
+        else
+        {
+            $containers = unserialize($_SESSION['containers_cache'][$container_key]);
+        }
+ 
 		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		ksort($containers);
 		foreach (array_keys($containers) as $i) {

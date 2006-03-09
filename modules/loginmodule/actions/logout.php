@@ -24,7 +24,9 @@ exponent_users_logout();
 exponent_permissions_clear();
 exponent_sessions_unset('uilevel');
 if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+    unset($_SESSION['nav_cache']['kids']);
+if(!isset($_SESSION['containers_cache']))
+    unset($_SESSION['containers_cache']);
 exponent_flow_redirect();
 
 ?>
