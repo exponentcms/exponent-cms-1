@@ -39,10 +39,8 @@ if (exponent_permissions_check("add_module",$loc) ||
 	
 	if (isset($container->id)) {
 		$db->updateObject($container,"container");
-        unset($_SESSION['cache']);
 	} else {
 		$db->insertObject($container,"container");
-        unset($_SESSION['cache']);
 	}
 	
 	if ($container->is_existing == 0) {
