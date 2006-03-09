@@ -152,7 +152,7 @@ class calendarmodule {
 				$totaldays = 7;
 			} else {
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
-				$totaldays = exponent_datetime_endOfMonthDay($time);
+				$totaldays = = date('t', time());
 			}
 			
 			$template->assign("prev_timestamp",$startperiod - 3600);
