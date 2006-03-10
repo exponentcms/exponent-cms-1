@@ -31,16 +31,3 @@ constants prefixed with PATHOS are now prefixed with EXPONENT
 require_once("exponent.js.php");
 
 ?>
-// Compatibility layer
-
-function pathosJSinitialize() {
-	exponentJSinitialize();
-}
-
-function pathosJSregister(func) {
-	exponentJSregister();
-}
-
-function pathosGetCookie(name) {
-	return exponentGetCookie(name);
-}

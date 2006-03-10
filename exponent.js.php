@@ -26,6 +26,18 @@ var onLoadInits = new Array(); // array of functions
 
 var openWindows = new Array(); // array of window references.
 
+// Compatibility layer
+function pathosJSinitialize() {
+	exponentJSinitialize();
+}
+function pathosJSregister(func) {
+	exponentJSregister();
+}
+function pathosGetCookie(name) {
+	return exponentGetCookie(name);
+}
+//End compatibility layer
+
 function exponentJSinitialize() {
 	for (i = 0; i < onLoadInits.length; i++) {
 		onLoadInits[i]();
