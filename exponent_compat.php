@@ -51,7 +51,6 @@ subsystems/database.php:function exponent_database_connect($username,$password,$
 subsystems/datetime.php:function exponent_datetime_monthsDropdown($controlName,$default_month) {
 subsystems/datetime.php:function exponent_datetime_duration($time_a,$time_b) {
 subsystems/datetime.php:function exponent_datetime_startOfMonthTimestamp($timestamp) {
-subsystems/datetime.php:function exponent_datetime_endOfMonthTimestamp($timestamp) {
 subsystems/datetime.php:function exponent_datetime_endOfMonthDay($timestamp) {
 subsystems/datetime.php:function exponent_datetime_startOfDayTimestamp($timestamp) {
 subsystems/datetime.php:function exponent_datetime_startOfWeekTimestamp($timestamp) {

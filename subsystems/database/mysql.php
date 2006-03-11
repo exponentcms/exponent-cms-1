@@ -418,6 +418,9 @@ class mysql_database {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
+	    
+	    //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby<br>";
+	    
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();

@@ -127,24 +127,6 @@ function exponent_datetime_endOfMonthTimestamp($timestamp) {
 	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 }
 
-/* exdoc
- * Looks at a timestamp and returns the date of the last
- * day.  For instance, if the passed timestamp was in January,
- * this function would return 31.  Leap year is taken into account.
- *
- * @param timestamp $timestamp The timestamp to check.
- * @node Subsystems:DateTime
- */
-function exponent_datetime_endOfMonthDay($timestamp) {
-	$info = getdate($timestamp);
-	// No month has fewer than 28 days, even in leap year, so start out at 28.
-	// At most, we will loop through the while loop 3 times (29th, 30th, 31st)
-	$last = 28;
-	// Keep incrementing the mday value until it is not valid, and use last valid value.
-	// This should get us the last day in the month, and take into account leap years
-	while (checkdate($info['mon'],$last+1,$info['year'])) $last++;
-	return $last;
-}
 
 /* exdoc
  * Looks at a timestamp and returns another timestamp representing
