@@ -476,7 +476,7 @@ function exponent_users_clearPassword($uid) {
 }
 
 /* exdoc
- * This function removes the user object, and all of its group
+ * This function removes the user object, the profile extension data and all of its group
  * memberships and permissions.
  *
  * @param integer $uid The id of the account to delete.
@@ -490,6 +490,13 @@ function exponent_users_delete($uid) {
 		$db->delete('user','id='.$uid);
 		$db->delete('groupmembership','member_id='.$uid);
 		$db->delete('userpermission','uid='.$uid);
+		
+		// clean up profile extensions
+		exponent_users_includeProfileExtensions();
+		$extensions = $db->selectObjects('profileextension');
+		foreach ($extensions as $ext) {
+			call_user_func(array($ext->extension,'cleanup'),$u);
+		}
 	}
 }
 
