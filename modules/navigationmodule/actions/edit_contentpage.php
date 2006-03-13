@@ -40,11 +40,14 @@ if ($user && $user->is_acting_admin == 1) {
 } else if (isset($_GET['parent'])) {
 	// The isset check is merely a precaution.  This action should
 	// ALWAYS be invoked with a parent or id value in the GET.
-	$section->parent = $_GET['parent'];
+	$section->parent = intval($_GET['parent']);
 	$check_id = $section->parent;
 }
 
-if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
+if (($check_id != -1 && 
+	 exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) ||
+	$user->is_acting_admin == 1
+	) {
 	
 	$form = section::form($section);
 	$form->meta('module','navigationmodule');

@@ -41,7 +41,10 @@ if ($check_id == -1) {
 	$check_id = $section->parent;
 }
 
-if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
+if (($check_id != -1 && 
+	exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id)) ||
+	$user->is_acting_admin == 1
+	)) {
 	if (isset($section->id)) {
 		if ($section->parent != $old_parent) {
 			// Old_parent id was different than the new parent id.  Need to decrement the ranks
