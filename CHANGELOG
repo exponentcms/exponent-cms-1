@@ -13,6 +13,7 @@
 - Added a notification to the connect code for the database (mysql) simular as phpReview [HW]
 - The pathos lib is fixed to only accept typecasted sections [HW].
 - A php injection problem is fixed in the bannermodule [HW]
+- Session troubles fixed on servers that are using transparent sessions.
 
 0.96.3-4
 
