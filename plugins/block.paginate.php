@@ -328,15 +328,17 @@ function smarty_block_paginate($params,$content,&$smarty) {
 							var sText = "";
 							if (this.columns[data].overrideFunc == undefined) {
 								sText = (this.filteredData[dataObject][this.columns[data].attribute] == undefined)?"&nbsp;":this.filteredData[dataObject][this.columns[data].attribute];
+								
 							}
 							else {
 								sText = this.columns[data].overrideFunc(this.filteredData[dataObject]);
 							}
 							if (this.columns[data].sLink != "") {
-								cell.innerHTML = "<a href='" + this.columns[data].sLink + this.filteredData[dataObject]['id'] + "' class='mngmntlink " + this.modulePrefix + "_mngmntlink'>" + sText + "</a>";
+								cell.innerHTML = "<a href='#' onClick='" + this.columns[data].sLink + this.filteredData[dataObject]['id'] + "' class='mngmntlink " + this.modulePrefix + "_mngmntlink'>" + sText + "</a>";
 							} else {
 								cell.innerHTML = sText;
 							}
+							
 							row.appendChild(cell);
 						}
 						ptTable.appendChild(row);
