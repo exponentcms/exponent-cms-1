@@ -102,7 +102,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 		
 		if (!function_exists($precallback)) $precallback = "exponent_smtp_blankMailCallback";
 		
-		exponent_smtp_blankMailCallback();
+		//exponent_smtp_blankMailCallback();
 		
 		debug(count($to_r));
 		$i = 0;
@@ -343,6 +343,7 @@ function exponent_smtp_authenticate($socket,$type,$username,$password) {
  */
 function exponent_smtp_blankMailCallback($email_index,&$msg,&$subject,&$headers) {
 	//do general stuff
+	
 			
 }
 
