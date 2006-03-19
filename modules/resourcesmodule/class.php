@@ -72,7 +72,13 @@ class resourcesmodule {
 		
 		global $db;
 		
-		$resources = $db->selectObjects('resourceitem',"location_data='".serialize($loc)."'");
+		$location = serialize($loc);
+		if(!isset($_SESSION['resource_cache'][$location])) {
+			$resources = $db->selectObjects('resourceitem',"location_data='".serialize($loc)."'");
+			$_SESSION['resource_cache'][$location] = $resources;
+		} else {
+			$resources = $_SESSION['resource_cache'][$location];
+		}
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($resources); $i++) {
 			$iloc->int = $resources[$i]->id;

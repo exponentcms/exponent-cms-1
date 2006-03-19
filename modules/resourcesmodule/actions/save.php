@@ -60,11 +60,13 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 			$resource->poster = $user->id;
 			$resource->posted = time();
 			exponent_workflow_post($resource,'resourceitem',$loc);
+			unset($_SESSION['resource_cache']);
 		} else {
 			// If file::update() returns a non-object, it should be a string.  That string is the error message.
 			$post = $_POST;
 			$post['_formError'] = $file;
 			exponent_sessions_set('last_POST',$post);
+			unset($_SESSION['resource_cache']);
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	} else {

@@ -28,6 +28,7 @@ if ($item ) {
 			$item->flock_owner = 0;
 		}
 		$db->updateObject($item,'resourceitem');
+		unset($_SESSION['resource_cache']);
 		exponent_flow_redirect();
 	}
 } else {
