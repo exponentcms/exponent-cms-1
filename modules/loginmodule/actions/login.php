@@ -35,7 +35,9 @@ if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {
             
     if(isset($_SESSION['image_cache']))
     		unset($_SESSION['image_cache']);
-            
+
+	if(isset($_SESSION['resource_cache']))    
+    		unset($_SESSION['resource_cache']);             
 	exponent_flow_redirect();
 }
 
