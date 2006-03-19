@@ -31,6 +31,9 @@ if (	($item == null && exponent_permissions_check('post',$loc)) ||
 	($item != null && exponent_permissions_check('edit',$loc))
 ) {
 
+	// unset the image cache
+	unset($_SESSION['image_cache']);
+
     // check for real images.
     $filenew = $_FILES['file']['tmp_name'];
     $fileup = getimagesize ( $filenew );

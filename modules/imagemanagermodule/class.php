@@ -65,7 +65,18 @@ class imagemanagermodule {
 		}
 		
 		global $db;
-		$items = $db->selectObjects("imagemanageritem","location_data='".serialize($loc)."'");
+		
+		$location = serialize($loc);
+		
+		if (!isset($_SESSION['image_cache'][$location])) {
+			$items = $db->selectObjects("imagemanageritem","location_data='".serialize($loc)."'");
+			$_SESSION['image_cache'][$location] = $items;		
+		} else {
+			$items = $_SESSION['image_cache'][$location];	
+		}
+		
+		
+
 		$files = $db->selectObjectsIndexedArray("file","directory='$directory'");
 		$template->assign('items',$items);
 		$template->assign('files',$files);
