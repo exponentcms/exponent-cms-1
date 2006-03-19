@@ -202,7 +202,7 @@ class calendarmodule {
 			// Grab day counts (deprecated, handled by the date function)
 			// $endofmonth = exponent_datetime_endOfMonthDay($time);
 			
-			$endofmonth = date('t', time());
+			$endofmonth = date('t', $time);
 			
 			for ($i = 1; $i <= $endofmonth; $i++) {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
