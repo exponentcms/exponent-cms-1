@@ -29,7 +29,10 @@ class mimetype {
 		} else {
 			$form->meta('oldmime',$object->mimetype);
 		}
-		$form->register('mimetype',$i81n['mimetype'], new textcontrol($object->mimetype));
+		
+		
+		
+		$form->register('mimetype',$i18n['mimetype'], new textcontrol($object->mimetype));
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		
 		$icodir = MIMEICON_RELATIVE;
