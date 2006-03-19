@@ -44,7 +44,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 	debug('Current revision of file is $Id$');
 
 	// Ugly kluge
-	//$from = SMTP_FROMADDRESS; // For shared hosters
+	$from = SMTP_FROMADDRESS; // For shared hosters
 
 	if (!is_array($to_r)) $to_r = array($to_r);
 	if (!is_array($headers)) {
@@ -55,17 +55,12 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 	if (!isset($headers["Date"])) $headers["Date"] = date('r',time());
 	if (!isset($headers["Reply-to"])) $headers["Reply-to"] = $from;
 	//if (!isset($headers["Return-Path"])) $headers["Return-Path"] = $from;
-	
-	/*echo "<xmp>";
-	print_r($headers);
-	print_r($to_r);	
-	echo "</xmp>";
-	*/
-	
-	echo "From:" . $from;
+
 	
 	
 	if (SMTP_USE_PHP_MAIL == 0) {
+		
+				
 		// If we are not using PHP's mail() function (as per site config), go with raw SMTP
 		
 		$headers["Subject"] = $subject;
@@ -178,7 +173,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 		
 		$return = true;
 		
-		if (!function_exists($callback)) { // No valid callback.
+		if (!@function_exists($callback)) { // No valid callback.
 			$to = join(', ',$to_r);
 			$real_headers = '';
 			foreach ($headers as $key=>$value) {
@@ -186,6 +181,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 			}
 			
 			$message = str_replace("\r\n","\n",$message);
+			
 			
 			if (mail($to,$subject,$message,$real_headers) == false) {
 				$return = false;

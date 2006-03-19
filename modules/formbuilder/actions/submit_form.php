@@ -107,7 +107,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 					"Content-type"=>"text/html; charset=iso-8859-1"
 				);
 				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
-					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submitform.php');
+					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submit_form.php');
 					echo $i18n['err_smtp'];
 				}
 			}
