@@ -421,7 +421,7 @@ class mysql_database {
 	    
 	    //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby<br>";
 	    
-		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
+	    	$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
@@ -447,6 +447,9 @@ class mysql_database {
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
+
+        //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby";
+
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) {
@@ -486,8 +489,8 @@ class mysql_database {
 	function selectObject($table,$where) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
 	   
-        //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1<br>";
-        if ($res == null) return null;
+	   	//print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1<br>";
+        	if ($res == null) return null;
 		    return mysql_fetch_object($res);
 	}
 	
