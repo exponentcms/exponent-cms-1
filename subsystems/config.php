@@ -85,9 +85,14 @@ function exponent_config_parseFile($file) {
 		if ($line != "" && substr($line,0,2) != "<?" && substr($line,-2,2) != "?>") {
 			$line = str_replace(array("<?php","?>","<?",),"",$line);
 			$opts = split("[\"'],",$line);
+			
+			
 			if (count($opts) == 2) {
-				if (substr($opts[1],0,1) == '"' || substr($opts[1],0,1) == "'") $opts[1] = substr($opts[1],1,-3);
-				else $opts[1] = substr($opts[1],0,-2);
+				if (substr($opts[1],0,1) == '"' || substr($opts[1],0,1) == "'") 
+					$opts[1] = substr($opts[1],1,-3);
+				else 
+					$opts[1] = substr($opts[1],0,-2);
+					
 				if (substr($opts[0],-5,5) == "_HTML") {
 					$opts[1] = eval("return ".$opts[1].";");
 					$opts[1] = preg_replace('/<[bB][rR]\s?\/?>/',"\r\n",$opts[1]);
@@ -197,9 +202,18 @@ function exponent_config_saveConfiguration($values,$site_root=null) {
 			$value = htmlentities(stripslashes($value),ENT_QUOTES,LANG_CHARSET); // slashes added by POST
 			$value = str_replace(array("\r\n","\r","\n"),"<br />",$value);
 			$str .= "html_entity_decode('$value')";
+			
+		} elseif (is_int($value)) {
+			$str .= $value;
+			
+		} else {
+			
+			if ($directive != 'SESSION_TIMEOUT') 
+				$str .= "'".str_replace("'","\'",$value)."'";
+			else 
+				$str .= str_replace("'",'', $value);
+			
 		}
-		else if (is_int($value)) $str .= $value;
-		else $str .= "'".str_replace("'","\'",$value)."'";
 		$str .= ");\n";
 	}
 	foreach ($values['opts'] as $directive=>$val) {
@@ -239,12 +253,15 @@ function exponent_config_saveConfiguration($values,$site_root=null) {
 	}
 	
 	if (isset($values['activate']) || $configname == "") {
+		
 		if (
 			(file_exists($site_root."conf/config.php") && is_really_writable($site_root."conf/config.php")) ||
 			is_really_writable($site_root."conf")) {
 			
+			
 			$fh = fopen($site_root."conf/config.php","w");
 			fwrite($fh,$str);
+			
 			fwrite($fh,"\n<?php\ndefine(\"CURRENTCONFIGNAME\",\"$configname\");\n?>\n");
 			fclose($fh);
 		} else {
