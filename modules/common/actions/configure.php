@@ -32,19 +32,14 @@ if (exponent_permissions_check('configure',$loc)) {
 	$form = null;
 	
 	if ($db->tableExists($_GET['module'].'_config') && class_exists($_GET['module'].'_config')) {
-		$config = $db->selectObject($_GET['module'].'_config',"location_data='".serialize($loc)."'");
-	
+		$config = $db->selectObject($_GET['module'].'_config',"location_data='".serialize($loc)."'");	
 		$form = call_user_func(array($_GET['module'].'_config','form'),$config);
-		
-		$form->location($loc);
-		$form->meta('action','saveconfig');
-		$form->meta('_common','1');
-		
+			
 		if (isset($form->controls['submit'])) {
 			$submit = $form->controls['submit'];
 			$form->unregister('submit');
 		}
-		$hasConfig = 1; //We have some form of configuration
+		$hasConfig = 1; //We have a configuration stored in its own table
 	}
 
 	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
@@ -55,8 +50,16 @@ if (exponent_permissions_check('configure',$loc)) {
 		if (isset($form->controls['submit'])) { // Still have a submit button.
 			$submit = $form->controls['submit'];
 			$form->unregister('submit');
-			$hasConfig = 1;
 		}
+		$hasConfig = 1; //We have a per-view, per-container configuration stored in the container data
+	}
+	//PLEASE EVALUATE: since exponent_template_getViewConfigForm is called only here, is it necessary to make it add
+	//the submit button to the config form just to unregister and re-register it down here?
+
+	if ($hasConfig) {
+		$form->location($loc);
+		$form->meta('action','saveconfig');
+		$form->meta('_common','1');
 	}
 	
 	if ($submit !== null) {
