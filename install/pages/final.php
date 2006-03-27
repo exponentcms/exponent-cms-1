@@ -35,6 +35,7 @@ if (file_exists(BASE.'install/not_configured')) {
 ?>
 <br /><br />
 <?php echo $i18n['success']; ?>
+<?php unset($_SESSION['nav_cache']); ?>
 <br /><br />
 <a href="<?php echo URL_FULL; ?>index.php"><?php echo $i18n['visit']; ?></a>.
 <br /><br />
