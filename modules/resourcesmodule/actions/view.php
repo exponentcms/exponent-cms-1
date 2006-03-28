@@ -40,6 +40,9 @@ if ($resource != null) {
 		$resource->locked = 0;
 	}
 	
+	//unset ($_SESSION['downloadfilename']);
+	//unset($_SESSION['downloadfile']);
+	
 	$file = $db->selectObject('file','id='.$resource->file_id);
 	if ($file != null) {
 		$mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
@@ -47,9 +50,12 @@ if ($resource != null) {
         $filenametest = $file->directory . "/" . $file->filename;
 	
         if (file_exists($filenametest)) {
-
-            header("Content-Disposition: attachment; filename=" . $file->filename);
-            readfile($filenametest);
+        	       		
+            	header("Content-Disposition: attachment; filename=" . $file->filename);
+            	$host  	= $_SERVER['HTTP_HOST'];
+			$uri  	= rtrim(dirname($_SERVER['PHP_SELF']), '/\\');		
+			header("Location: http://$host$uri/$filenametest");
+            
 
          } else {
             echo SITE_404_HTML;
