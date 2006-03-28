@@ -45,13 +45,14 @@
                                                                                 <td align="left" valign="top">
 {foreach from=$days item=events key=ts}
 	<div class="sectiontitle">
-	<b>{$ts|format_date:"%A, %b %e"}</b>
+	<b>{$ts|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</b>
 	</div>
 	{assign var=none value=1}
 	{foreach from=$events item=event}
 		{assign var=none value=0}
 		<div class="paragraph">
-		{if $event->is_allday == 0}{$event->eventstart|format_date:"%l:%M %P"}{/if}
+		{if $event->is_allday == 0}{$event->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{/if}
+		
 		<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}">{$event->title}</a>
 		{if $permissions.edit == 1 || $event->permissions.edit == 1 || $permissions.delete == 1 || $event->permissions.delete == 1 || $permissions.administrate == 1 || $event->permissions.administrate == 1}
 		<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -88,7 +89,7 @@
 		<br />
 	{/foreach}
 	{if $none == 1}
-		<div class="paragraph"><i>{$_TR.no_events}</i></div>
+		<div class="paragraph"><i>{$_TR.no_event}</i></div>
 	{/if}
 	<br />
 {/foreach}

@@ -62,7 +62,7 @@
 			{/if}
 			<div style="padding-left: 10px">
 				<b>{if $event->is_allday == 1}All Day{else}
-				{$event->eventstart|format_date:"%l:%M %P"} - {$event->eventend|format_date:"%l:%M %P"}
+				{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} - {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 				{/if}</b><br />
 				{$event->summary}
 			</div>

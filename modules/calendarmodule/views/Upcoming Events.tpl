@@ -63,7 +63,13 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">{if $item->is_allday == 1}{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{else}{$item->eventstart|format_date:"%a %b %e, %l:%M %P"} - {$item->eventend|format_date:"%l:%M %P"}{/if}</td>
+		<td colspan="2">
+		{if $item->is_allday == 1}
+			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+		{else}
+			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} - {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
+		{/if}
+		</td>
 	</tr>
 	<tr>
 		<td colspan="2">

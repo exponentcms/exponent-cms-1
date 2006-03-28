@@ -154,16 +154,23 @@ class calendarmodule {
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
 				$totaldays  = date('t', time());
 			}
-			
+						
 			$template->assign("prev_timestamp",$startperiod - 3600);
 			$template->assign("next_timestamp",$startperiod+$totaldays*86400 + 3600);
 			
 			$days = array();
 			for ($i = 0; $i < $totaldays; $i++) {
-				$start = $startperiod + ($i*86400);
+			  	if( $i == 0 )
+			  	{
+				    $start = $startperiod + ($i*86400);
+				} else {
+					$start = $startperiod + ($i*86400)-3600;
+				}
+										
 				#$days[$start] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
 				$edates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
+				
 				for ($j = 0; $j < count($days[$start]); $j++) {
 					$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$days[$start][$j]->id);
 					$days[$start][$j]->permissions = array(
@@ -420,6 +427,8 @@ class calendarmodule {
 			$o->eventstart += $edate->date;
 			$o->eventend += $edate->date;
 			$events[] = $o;
+			
+			
 		}
 		if ($sort_asc == true) {
 			usort($events,'exponent_sorting_byEventStartAscending');

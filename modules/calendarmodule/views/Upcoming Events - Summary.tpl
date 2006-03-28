@@ -27,7 +27,7 @@
 {/permissions}
 {if $moduletitle != ""}<div class="moduletitle calendar_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$items item=item}
-	<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$item->id date_id=$item->eventdate->id}">{$item->eventstart|format_date:"%B %d.%y"}</a> - {$item->title}
+	<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$item->id date_id=$item->eventdate->id}">{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</a> - {$item->title}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1 || $item->permissions.administrate == 1}
 			<a class="mngmntlink calendar_mngmntlink" href="{link action=userperms int=$item->id _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Calendar Event" alt="Assign user permissions on this Calendar Event" /></a>
