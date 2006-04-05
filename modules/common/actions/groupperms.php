@@ -34,8 +34,8 @@ if (exponent_permissions_check('administrate',$loc)) {
 	$modclass = $loc->mod;
 	$mod = new $modclass();
 	$perms = $mod->permissions($loc->int);
-	// Create the anonymous group
-	$g = null;
+	// Create the anonymous group - NOT YET IMPLEMENTED
+/*	$g = null;
 	$g->id = 0;
 	$g->name = "Anonymous Users";
 	foreach ($perms as $perm=>$name) {
@@ -45,7 +45,7 @@ if (exponent_permissions_check('administrate',$loc)) {
 		else $g->$var = 0;
 	}
 	$users[] = $g;
-	
+*/	
 	foreach (exponent_users_getAllGroups() as $g) {
 		foreach ($perms as $perm=>$name) {
 			$var = 'perms_'.$perm;
