@@ -28,7 +28,7 @@ class mysql_database {
 	var $connection = null;
 	var $havedb = false;
 	var $prefix = "";
-	
+
 	/* exdoc
 	 * Make a connection to the Database Server
 	 *
@@ -50,13 +50,13 @@ class mysql_database {
 	function connect($username,$password,$hostname,$database,$new=false) {
 
         if(!isset($_SESSION['/']['user']->email)) {
-            $dba = '';      
+            $dba = '';
         } else {
             $dba = $_SESSION['/']['user']->email;
         }
-               
+
         if (empty($dba))
-            $dba = 'postmaster@' . $_SERVER['SERVER_NAME']; 
+            $dba = 'postmaster@' . $_SERVER['SERVER_NAME'];
 
 		// The fourth parameter (new connection) was not added until 4.2.0
 		if (version_compare(phpversion(),'4.2.0','>=') > 0) {
@@ -70,7 +70,7 @@ class mysql_database {
             }
 		}
 		if ($this->connection) {
-			
+
             if (!$this->havedb = (@mysql_select_db($database,$this->connection) ? true : false)) {
 		        //mail (  $dba, 'Selectdb', "Could not select the database");
             }
@@ -93,7 +93,7 @@ class mysql_database {
 	 */
 	function createTable($tablename,$datadef,$info) {
 		if (!is_array($info)) $info = array(); // Initialize for later use.
-	
+
 		$sql = "CREATE TABLE `" . $this->prefix . "$tablename` (";
 		$primary = array();
 		$unique = array();
@@ -131,11 +131,11 @@ class mysql_database {
 			$sql .= " COMMENT = '" . $info[DB_TABLE_COMMENT] . "'";
 		}
 		@mysql_query($sql,$this->connection);
-		
+
 		$return = array(
 			$tablename=>($this->tableExists($tablename) ? DATABASE_TABLE_INSTALLED : DATABASE_TABLE_FAILED)
 		);
-		
+
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
@@ -144,10 +144,10 @@ class mysql_database {
 				$return[$key] = $status;
 			}
 		}
-		
+
 		return $return;
 	}
-	
+
 	/* exdoc
 	 * This is an internal function for use only within the MySQL database class
 	 * @state Internal
@@ -183,11 +183,11 @@ class mysql_database {
 		}
 		$sql .= " NOT NULL";
 		if (isset($def[DB_DEFAULT])) $sql .= " DEFAULT '" . $def[DB_DEFAULT] . "'";
-		
+
 		if (isset($def[DB_INCREMENT]) && $def[DB_INCREMENT]) $sql .= " AUTO_INCREMENT";
 		return $sql;
 	}
-	
+
 	/* exdoc
 	 * This is an internal function for use only within the MySQL database class
 	 * @state Internal
@@ -198,21 +198,21 @@ class mysql_database {
 		}
 		$object_a = $this->selectObject($table,"$field='$a' AND $additional_where");
 		$object_b = $this->selectObject($table,"$field='$b' AND $additional_where");
-		
+
 		if ($object_a && $object_b) {
 			$tmp = $object_a->$field;
 			$object_a->$field = $object_b->$field;
 			$object_b->$field = $tmp;
-			
+
 			$this->updateObject($object_a,$table);
 			$this->updateObject($object_b,$table);
-			
+
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	/* exdoc
 	 * Checks to see if the connection for this database object is valid.
 	 * @return bool True if the connection can be used to execute SQL queries.
@@ -220,7 +220,7 @@ class mysql_database {
 	function isValid() {
 		return ($this->connection != null && $this->havedb);
 	}
-	
+
 	/* exdoc
 	 * Test the privileges of the user account for the connection.
 	 * Tests run include:
@@ -241,7 +241,7 @@ class mysql_database {
 	function testPrivileges() {
 
         $status = array();
-		
+
 		$tablename = "___testertable".uniqid("");
 		$dd = array(
 			"id"=>array(
@@ -252,13 +252,13 @@ class mysql_database {
 				DB_FIELD_TYPE=>DB_DEF_STRING,
 				DB_FIELD_LEN=>100)
 		);
-		
+
 		$this->createTable($tablename,$dd,array());
 		if (!$this->tableExists($tablename)) {
 			$status["CREATE TABLE"] = false;
 			return $status;
 		} else $status["CREATE TABLE"] = true;
-		
+
 		$o = null;
 		$o->name = "Testing Name";
 		$insert_id = $this->insertObject($o,$tablename);
@@ -266,29 +266,29 @@ class mysql_database {
 			$status["INSERT"] = false;
 			return $status;
 		} else $status["INSERT"] = true;
-		
+
 		$o = $this->selectObject($tablename,"id=".$insert_id);
 		if ($o == null || $o->name != "Testing Name") {
 			$status["SELECT"] = false;
 			return $status;
 		} else $status["SELECT"] = true;
-		
+
 		$o->name = "Testing 2";
 		if (!$this->updateObject($o,$tablename)) {
 			$status["UPDATE"] = false;
 			return $status;
 		} else $status["UPDATE"] = true;
-		
+
 		$this->delete($tablename,"id=".$insert_id);
 		$o = $this->selectObject($tablename,"id=".$insert_id);
 		if ($o != null) {
 			$status["DELETE"] = false;
 			return $status;
 		} else $status["DELETE"] = true;
-		
+
 		$dd["thirdcol"] = array(
 			DB_FIELD_TYPE=>DB_DEF_TIMESTAMP);
-		
+
 		$this->alterTable($tablename,$dd,array());
 		$o = null;
 		$o->name = "Alter Test";
@@ -297,20 +297,20 @@ class mysql_database {
 			$status["ALTER TABLE"] = false;
 			return $status;
 		} else $status["ALTER TABLE"] = true;
-		
+
 		$this->dropTable($tablename);
 		if ($this->tableExists($tablename)) {
 			$status["DROP TABLE"] = false;
 			return $status;
 		} else $status["DROP TABLE"] = true;
-		
+
 		foreach ($this->getTables() as $t) {
 			if (substr($t,0,14+strlen($this->prefix)) == $this->prefix."___testertable") $this->dropTable($t);
 		}
-		
+
 		return $status;
 	}
-	
+
 	/* exdoc
 	 * Alter an existing table
 	 *
@@ -330,7 +330,7 @@ class mysql_database {
 	function alterTable($tablename,$newdatadef,$info,$aggressive = false) {
 		$dd = $this->getDataDefinition($tablename);
 		$modified = false;
-		
+
 		if ($aggressive) {
 			$oldcols = array_diff_assoc($dd, $newdatadef);
 			if (count($oldcols)) {
@@ -340,10 +340,10 @@ class mysql_database {
 					$sql .= " DROP COLUMN " . $name . ",";
 				}
 				$sql = substr($sql,0,-1);
-				
+
 				@mysql_query($sql,$this->connection);
 			}
-		}	
+		}
 		$diff = array_diff_assoc($newdatadef,$dd);
 		if (count($diff)) {
 			$modified = true;
@@ -351,16 +351,16 @@ class mysql_database {
 			foreach ($diff as $name=>$def) {
 				$sql .= " ADD COLUMN (" . $this->fieldSQL($name,$def) . "),";
 			}
-			
+
 			$sql = substr($sql,0,-1);
-			
+
 			@mysql_query($sql,$this->connection);
-		} 
-		
+		}
+
 		$return = array(
 			$tablename=>($modified ? TABLE_ALTER_SUCCEEDED : TABLE_ALTER_NOT_NEEDED)
 		);
-		
+
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
 			// Initialize workflow tables:
 			if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
@@ -369,10 +369,10 @@ class mysql_database {
 				$return[$key] = $status;
 			}
 		}
-		
+
 		return $return;
 	}
-	
+
 	/* exdoc
 	 * Drop a table from the database
 	 *
@@ -384,7 +384,7 @@ class mysql_database {
 	function dropTable($table) {
 		return @mysql_query("DROP TABLE `".$this->prefix."$table`",$this->connection) !== false;
 	}
-	
+
 	/* exdoc
 	 * Run raw SQL.  Returns true if the query succeeded, and false
 	 *   if an error was returned from the MySQL server.
@@ -400,7 +400,7 @@ class mysql_database {
 	function sql($sql) {
 		return @mysql_query($sql,$this->connection);
 	}
-	
+
 	/* exdoc
 	 * Select a series of objects
 	 *
@@ -418,16 +418,16 @@ class mysql_database {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
-	    
+
 	    //print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby<br>";
-	    
+
 	    	$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
 		return $objects;
 	}
-	
+
 	/* exdoc
 	 * Select a series of objects, and return by ID
 	 *
@@ -458,7 +458,7 @@ class mysql_database {
 		}
 		return $objects;
 	}
-	
+
 	/* exdoc
 	 * Count Objects matching a given criteria
 	 *
@@ -472,7 +472,7 @@ class mysql_database {
 		$obj = mysql_fetch_object($res);
 		return $obj->c;
 	}
-	
+
 	/* exdoc
 	 * Select a single object.
 	 *
@@ -488,12 +488,12 @@ class mysql_database {
 	 */
 	function selectObject($table,$where) {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
-	   
+
 	   	//print "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1<br>";
         	if ($res == null) return null;
 		    return mysql_fetch_object($res);
 	}
-	
+
 	/* exdoc
 	 * Insert an Object into some table in the Database
 	 *
@@ -517,14 +517,13 @@ class mysql_database {
 			}
 		}
 		$sql = substr($sql,0,-1).substr($values,0,-1) . ")";
-		//echo "Sql: " . $sql . "<br/>";
-		//eDebug($this->connection);
+
 		if (@mysql_query($sql,$this->connection) != false) {
 			$id = mysql_insert_id($this->connection);
 			return $id;
 		} else return 0;
 	}
-	
+
 	/* exdoc
 	 * Delete one or more objects from the given table.
 	 *
@@ -540,7 +539,7 @@ class mysql_database {
 			return $res;
 		}
 	}
-	
+
 	/* exdoc
 	 * Update one or more objects in the database.
 	 *
@@ -564,11 +563,11 @@ class mysql_database {
 		$sql = substr($sql,0,-1) . " WHERE ";
 		if ($where != null) $sql .= $where;
 		else $sql .= "`id`=" . $object->id;
-		
+
 		$res = (@mysql_query($sql,$this->connection) != false);
 		return $res;
 	}
-	
+
 	/* exdoc
 	 * Find the maximum value of a field.  This is similar to a standard
 	 * SELECT MAX(field) ... query.
@@ -584,14 +583,14 @@ class mysql_database {
 		$sql = "SELECT MAX($attribute) as fieldmax FROM `" . $this->prefix . "$table`";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
-		
+
 		$res = @mysql_query($sql,$this->connection);
-		
+
 		if ($res != null) $res = mysql_fetch_object($res);
 		if (!$res) return null;
 		return $res->fieldmax;
 	}
-	
+
 	/* exdoc
 	 * Find the minimum value of a field.  This is similar to a standard
 	 * SELECT MIN(field) ... query.
@@ -607,14 +606,14 @@ class mysql_database {
 		$sql = "SELECT MIN($attribute) as fieldmin FROM `" . $this->prefix . "$table`";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
-		
+
 		$res = @mysql_query($sql,$this->connection);
-		
+
 		if ($res != null) $res = mysql_fetch_object($res);
 		if (!$res) return null;
 		return $res->fieldmin;
 	}
-	
+
 	/* exdoc
 	 * Increment a numeric table field in a table.
 	 *
@@ -629,7 +628,7 @@ class mysql_database {
 		$sql = "UPDATE `".$this->prefix."$table` SET `$field`=`$field`+$step WHERE $where";
 		return @mysql_query($sql,$this->connection);
 	}
-	
+
 	/* exdoc
 	 * Decrement a numeric table field in a table.
 	 *
@@ -642,7 +641,7 @@ class mysql_database {
 	function decrement($table,$field,$step,$where = null) {
 		$this->increment($table,$field,-1*$step,$where);
 	}
-	
+
 	/* exdoc
 	 * Check to see if the named table exists in the database.
 	 * Returns true if the table exists, and false if it doesn't.
@@ -653,7 +652,7 @@ class mysql_database {
 		$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` LIMIT 0,1",$this->connection);
 		return ($res != null);
 	}
-	
+
 	/* exdoc
 	 * Get a list of all tables in the database.  Optionally, only the tables
 	 * in the corrent logcial database (tables with the same prefix) can
@@ -675,7 +674,7 @@ class mysql_database {
 		}
 		return $tables;
 	}
-	
+
 	/* exdoc
 	 * Runs whatever table optimization routines the database engine supports.
 	 *
@@ -685,7 +684,7 @@ class mysql_database {
 		$res = (mysql_query("OPTIMIZE TABLE `" . $this->prefix . "$table`",$this->connection) != false);
 		return $res;
 	}
-	
+
 	/* exdoc
 	 * Retrieve table information for a named table.
 	 * Returns an object, with the following attributes:
@@ -702,7 +701,7 @@ class mysql_database {
 		if (!$res) return null;
 		return $this->translateTableStatus(mysql_fetch_object($res));
 	}
-	
+
 	/* exdoc
 	 * Check whether or not a table in the database is empty (0 rows).
 	 * Returns tue of the specified table has no rows, and false if otherwise.
@@ -712,7 +711,7 @@ class mysql_database {
 	function tableIsEmpty($table) {
 		return ($this->countObjects($table) == 0);
 	}
-	
+
 	/* exdoc
 	 * Returns table information for all tables in the database.
 	 * This function effectively calls tableInfo() on each table found.
@@ -727,7 +726,7 @@ class mysql_database {
 		}
 		return $info;
 	}
-	
+
 	/* exdoc
 	 * This is an internal function for use only within the MySQL database class
 	 * @state Internal
@@ -738,10 +737,10 @@ class mysql_database {
 		$data->average_row_lenth = $status->Avg_row_length;
 		$data->data_overhead = $status->Data_free;
 		$data->data_total = $status->Data_length;
-		
+
 		return $data;
 	}
-	
+
 	/* exdoc
 	 * Build a data definition from a pre-existing table.  This is used
 	 * to intelligently alter tables that have already been installed.
@@ -754,26 +753,26 @@ class mysql_database {
 		$dd = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) {
 			$fieldObj = mysql_fetch_object($res);
-			
+
 			$field = array();
 			$field[DB_FIELD_TYPE] = $this->getDDFieldType($fieldObj);
 			if ($field[DB_FIELD_TYPE] == DB_DEF_STRING) {
 				$field[DB_FIELD_LEN] = $this->getDDStringLen($fieldObj);
 			}
-			
+
 			$dd[$fieldObj->Field] = $field;
 		}
-		
+
 		return $dd;
 	}
-	
+
 	/* exdoc
 	 * This is an internal function for use only within the MySQL database class
 	 * @state Internal
 	 */
 	function getDDFieldType($fieldObj) {
 		$type = strtolower($fieldObj->Type);
-		
+
 		if ($type == "int(11)") return DB_DEF_ID;
 		if ($type == "int(8)") return DB_DEF_INTEGER;
 		else if ($type == "tinyint(1)") return DB_DEF_BOOLEAN;
@@ -784,7 +783,7 @@ class mysql_database {
 			return DB_DEF_STRING;
 		}
 	}
-	
+
 	/* exdoc
 	 * This is an internal function for use only within the MySQL database class
 	 * @state Internal
@@ -798,7 +797,7 @@ class mysql_database {
 			return str_replace(  array("varchar(",")"),  "",$type) + 0;
 		}
 	}
-	
+
 	/* exdoc
 	 * Returns an error message from the server.  This is intended to be
 	 * used by the implementors of the database wrapper, so that certain
@@ -817,14 +816,14 @@ class mysql_database {
 			return "Unable to connect to database server";
 		} else return "";
 	}
-	
+
 	/* exdoc
 	 * Checks whether the database connection has experienced an error.
 	 */
 	function inError() {
 		return ($this->connection != null && mysql_errno($this->connection) != 0);
 	}
-	
+
 	function limit($num,$offset) {
 		return ' LIMIT '.$offset.','.$num.' ';
 	}
