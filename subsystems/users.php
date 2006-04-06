@@ -18,7 +18,7 @@
 ##################################################
 
 /* exdoc
- * The definition of this constant lets other parts of the system know 
+ * The definition of this constant lets other parts of the system know
  * that the subsystem has been included for use.
  * @node Subsystems:Users
  */
@@ -84,7 +84,7 @@ function exponent_users_listExtensions() {
 		while (($file = readdir($dh)) !== false) {
 			if (is_file("$ext_dir/$file") && is_readable("$ext_dir/$file") && substr($file,-13,13) == 'extension.php') {
 				// Only include readable, regular files that end in 'extension.php'
-				
+
 				// Store the same data in the key and the value of the array.  This is safe
 				// since we are getting file names from a single directory.  The .php
 				// suffix needs to be stripped out.
@@ -206,13 +206,13 @@ function exponent_users_login($username, $password) {
 		// This can be removed as soon as 0.95 is deprecated.
 		$user->is_acting_admin = 1;
 	}
-	// Check to make sure that the username exists ($user is not null), the password is correct, 
+	// Check to make sure that the username exists ($user is not null), the password is correct,
 	// and that the account is either not locked, or an admin account (account locking doesn't
 	// apply to administrators.
 	if ($user != null && ($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
 		// Retrieve the full profile, complete with all Extension data.
 		$user = exponent_users_getFullProfile($user);
-		
+
 		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
 		if (!MAINTENANCE_MODE || $user->is_admin == 1 || $user->is_acting_admin == 1) {
 			// Call on the Sessions subsystem to log the user into the site.
@@ -245,9 +245,9 @@ function exponent_users_logout() {
  */
 function exponent_users_form($user = null) {
 	$form = user::form($user);
-	
+
 	$form->unregister('submit');
-	
+
 	// Pull in form data for all active profile extensions.
 	// First, we have to clear delete extensions, so that we don't try to include
 	// or use previously active extensions that have been disabled.
@@ -264,11 +264,11 @@ function exponent_users_form($user = null) {
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($exts,'exponent_sorting_byRankAscending');
 	foreach ($exts as $ext) {
-		// Modify the form object by passing it through each profile extension, 
+		// Modify the form object by passing it through each profile extension,
 		// each of which may or may not register new controls.
 		$form = call_user_func(array($ext->extension,'modifyForm'),$form,$tmpu);
 	}
-	
+
 	// Add the submit button and return the complete form object to the caller.
 	$i18n = exponent_lang_loadFile('subsystems/users.php');
 	$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
@@ -301,7 +301,7 @@ function exponent_users_update($formvalues, $u = null) {
 	$u = user::update($formvalues,$u);
 	global $user;
 	// Set the is_acting_admin flag.  There a re a few ways that this should be done.
-	// If the admin is editing or creating a user, solely check if isset() 
+	// If the admin is editing or creating a user, solely check if isset()
 	//If the user is editing themselves, don't set it.
 	// If the user is signing up, set it to 0.
 	if ($user->is_admin == 1) {
@@ -372,22 +372,22 @@ function exponent_users_create($formvalues) {
 	// Update the user object (at this point we are not dealing with profile
 	// extensions, just the basic object).
 	$u = exponent_users_update($formvalues,null);
-	
+
 	// The username is not included in the update method, so we define it here.
 	$u->username = $formvalues['username'];
-	
+
 	// Make an md5 checksum hash of the password for storage.  That way no
 	// one can know a password without being told.
 	$u->password = md5($formvalues['pass1']);
-	
+
 	// Set the acting admin flag if we need to.
 	global $user;
 	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : 0);
-	
+
 	// Insert the user object into the database, and save the ID.
 	global $db;
 	$u->id = $db->insertObject($u,'user');
-	
+
 	// Calculate Group Memeberships for newly created users.  Any groups that
 	// are marked as 'inclusive' automatically pick up new users.  This is the part
 	// of the code that goes out, finds those groups, and makes the new user a member
@@ -403,7 +403,7 @@ function exponent_users_create($formvalues) {
 		$memb->group_id = $g->id;
 		$db->insertObject($memb,'groupmembership');
 	}
-	
+
 	// Return the newly created user object (complete with ID) to the caller.
 	return $u;
 }
@@ -418,7 +418,7 @@ function exponent_users_userManagerFormTemplate($template) {
 	global $db;
 	global $user;
 	$users = $db->selectObjects('user');
-	
+
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	if (!function_exists('exponent_sorting_byLastFirstAscending')) {
 		function exponent_sorting_byLastFirstAscending($a,$b) {
@@ -433,12 +433,12 @@ function exponent_users_userManagerFormTemplate($template) {
 			// Fake the is_admin parameter to disable editting.
 			$users[$i]->is_admin = 1;
 		}
-		
+
 	}
-	
+
 	$template->assign('users',$users);
 	$template->assign('blankpass',md5(''));
-	
+
 	return $template;
 }
 
@@ -451,12 +451,12 @@ function exponent_users_userManagerFormTemplate($template) {
 function exponent_users_groupManagerFormTemplate($template) {
 	global $db;
 	$groups = $db->selectObjects('group');
-	
+
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 	usort($groups,'exponent_sorting_byNameAscending');
-	
+
 	$template->assign('groups',$groups);
-	
+
 	return $template;
 }
 
@@ -470,7 +470,7 @@ function exponent_users_groupManagerFormTemplate($template) {
 function exponent_users_clearPassword($uid) {
 	global $db;
 	$user = null;
-	// Calculate the md5 of a blank 
+	// Calculate the md5 of a blank
 	$user->password = md5('');
 	$db->updateObject($user,'user','id='.$uid.' AND is_admin=0');
 }
@@ -490,7 +490,7 @@ function exponent_users_delete($uid) {
 		$db->delete('user','id='.$uid);
 		$db->delete('groupmembership','member_id='.$uid);
 		$db->delete('userpermission','uid='.$uid);
-		
+
 		// clean up profile extensions
 		exponent_users_includeProfileExtensions();
 		$extensions = $db->selectObjects('profileextension');
@@ -566,7 +566,7 @@ function exponent_users_getAllUsers($allow_admin=1,$allow_normal=1) {
 
 /* exdoc
  * This function pulls a group object form the subsystem's storage mechanism,
- * according to its ID.  For the default implementation, this is equivalent to a 
+ * according to its ID.  For the default implementation, this is equivalent to a
  * $db->selectObject() call, but it may not be the same for other implementations.
  * Returns a group object, and null if no group was found.
  *
@@ -578,8 +578,22 @@ function exponent_users_getAllUsers($allow_admin=1,$allow_normal=1) {
  * @node Subsystems:Users
  */
 function exponent_users_getGroupById($gid) {
-	global $db;
-	return $db->selectObject('group','id='.$gid);
+//anonymous group -- NOT YET IMPLEMENTED
+/*    global $db;
+    $i18n = exponent_lang_loadFile('subsystems/users.php');
+    if ($gid == 0){
+       //anonymous group
+       $g->id = 0;
+       $g->name = $i18n['anonymous_group_name'];
+       $g->description = $i18n['anonymous_group_description'];
+       $g->inclusive = 1;
+       return $g;
+    } else {
+       return $db->selectObject('group','id='.$gid);
+    }
+*/
+   global $db;
+   return $db->selectObject('group','id='.$gid);
 }
 
 /* exdoc
@@ -742,12 +756,12 @@ function exponent_users_saveUser($u) {
 	}
 	// Pull the database object in from the global scope.
 	global $db;
-	
+
 	// Reset the is_acting_admin flag, because that's what we really check.
 	if ($u->is_admin == 1) {
 		$u->is_acting_admin = 1;
 	}
-	
+
 	// Create a temporary object to house the standard
 	// member attributes stored in the passed object.  This block
 	// of code allows us to pass in user objects with 'extra' attributes
@@ -762,7 +776,7 @@ function exponent_users_saveUser($u) {
 	$tmp->lastname = $u->lastname;
 	$tmp->email = $u->email;
 ###	$tmp->home_section = $u->home_section;
-	
+
 	if (isset($u->id)) {
 		// If the user already has an ID, an update should be performed.  For that,
 		// we need the original ID.
@@ -779,7 +793,7 @@ function exponent_users_saveUser($u) {
 /* exdoc
  * Saves a group account to the subsystem's storage mechanism.   Returns
  * the full group object, complete with an ID (a new ID if the group is
- *    inserted as a new group). 
+ *    inserted as a new group).
  *
  * @param Object $group The group account to update / create.
  * @node Subsystems:Users
