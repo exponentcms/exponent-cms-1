@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2006 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -33,7 +33,13 @@ define("DATABASE_TABLE_ALTERED",		4);
  * @subpackage	Database
  *
  * @author		James Hunt
- * @copyright		2004 James Hunt and the OIC Group, Inc.
+ * @copyright		2004-2006
+
+
+
+
+
+ OIC Group, Inc.
  * @version		0.95
  */
 
