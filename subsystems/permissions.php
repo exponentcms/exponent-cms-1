@@ -18,7 +18,7 @@
 ##################################################
 
 /* exdoc
- * The definition of this constant lets other parts of the system know 
+ * The definition of this constant lets other parts of the system know
  * that the subsystem has been included for use.
  * @node Subsystems:Permissions
  */
@@ -62,7 +62,7 @@ function exponent_permissions_load($user) {
 	$has_admin = 0;
 	// Clear the global permissions array;
 	$exponent_permissions_r = array();
-	
+
 	if ($user == null) {
 		// If the user is not logged in, they have no permissions.
 		return;
@@ -103,11 +103,11 @@ function exponent_permissions_load($user) {
 		}
 	}
 	exponent_sessions_set('permissions',$exponent_permissions_r);
-	
+
 	// Check perm stats for UI levels
 	$ui_levels = array();
 	$i18n = exponent_lang_loadFile('subsystems/permissions.php');
-	
+
 	if ($user->is_acting_admin == 1) {
 		$ui_levels = array(
 			$i18n['preview'],
@@ -183,13 +183,13 @@ function exponent_permissions_check($permission,$location) {
 		if ($user->is_acting_admin == 1) return true;
 		if (exponent_permissions_getSourceUID($location->src) == $user->id) return true;
 	}
-	
+
 	if (!is_array($permission)) {
 		$permission = array($permission);
 	}
-	
+
 	$has_perm = false;
-	
+
 	if (is_callable(array($location->mod,"getLocationHierarchy"))) {
 		foreach (call_user_func(array($location->mod,"getLocationHierarchy"),$location) as $loc) {
 			foreach ($permission as $perm) {
@@ -216,7 +216,7 @@ function exponent_permissions_check($permission,$location) {
 			}
 		}
 	}
-	
+
 	return $has_perm;
 }
 
@@ -254,7 +254,7 @@ function exponent_permissions_checkUser($user,$permission,$location,$explicitOnl
 	if ($user->is_acting_admin == 1) return true;
 	$explicit = $db->selectObject("userpermission","uid=" . $user->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	if ($explicitOnly == true) return $explicit;
-	
+
 	$implicit = false;
 	// Check locationHierarchy
 	if (is_callable(array($location->mod,"getLocationHierarchy"))) {
@@ -288,7 +288,7 @@ function exponent_permissions_checkUser($user,$permission,$location,$explicitOnl
 				break;
 			}
 		}
-		
+
 		// Now check the section management
 		/*
 		$section_perms = $db->selectObjects('userpermission','uid='.$user->id." AND module='navigationmodule' AND permission='manage'");
@@ -317,7 +317,7 @@ function exponent_permissions_checkGroup($group,$permission,$location,$explicitO
 	if ($group == null) return false;
 	$explicit = $db->selectObject("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	if ($explicitOnly == true) return $explicit;
-	
+
 	if (!$explicit){
 		// Calculate implicit permissions if we dont' already have explicit perms
 		$implicit = false;
@@ -348,7 +348,7 @@ function exponent_permissions_grant($user,$permission,$location) {
 			$obj->source = $location->src;
 			$obj->internal = $location->int;
 			$obj->permission = $permission;
-			
+
 			global $db;
 			$db->insertObject($obj,"userpermission");
 		}
@@ -375,7 +375,7 @@ function exponent_permissions_grantGroup($group,$permission,$location) {
 
 			global $db;
 
-            $db->delete("grouppermission", " gid='" . $obj->gid . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
+      $db->delete("grouppermission", " gid='" . $obj->gid . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
 			$db->insertObject($obj,"grouppermission");
 			echo "In groupGrant</br>";
 			eDebug($obj);
@@ -488,15 +488,15 @@ function exponent_permissions_getUserIDsWithPermission($permission,$location) {
 	foreach ($perms as $perm) {
 		$users[] = $perm->uid;
 	}
-	
+
 	$groupperms = $db->selectObjects("grouppermission","module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	foreach ($groupperms as $gperm) {
 		foreach ($db->selectObjects("groupmember","group_id=".$gperm->gid) as $member) {
 			if (!in_array($users,$member->member_id)) $users[] = $member->member_id;
 		}
-		
+
 	}
-	
+
 	return $users;
 }
 
