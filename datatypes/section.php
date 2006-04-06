@@ -47,7 +47,9 @@ class section {
 			if (!isset($object->parent)) {
 				// This is another precaution.  The parent attribute
 				// should ALWAYS be set by the caller.
-				$object->parent = 0;
+				//FJD - if that's the case, then we should die.
+				die(SITE_403_REAL_HTML);
+				//$object->parent = 0;
 			}
 		} else {
 			// If we are editing the section, we should store the section's id
