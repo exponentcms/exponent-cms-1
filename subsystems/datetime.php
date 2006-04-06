@@ -44,7 +44,7 @@ function exponent_datetime_monthsDropdown($controlName,$default_month) {
 		11=>"November",
 		12=>"December"
 	);
-	
+
 	$html = '<select name="' . $controlName . '" size="1">';
 	foreach ($months as $id=>$month) {
 		$html .= '<option value="' . $id . '"';
@@ -91,7 +91,7 @@ function exponent_datetime_duration($time_a,$time_b) {
  * Given a timestamp, this function will calculate another timestamp
  * that represents the beginning of the month that the passed timestamp
  * falls into.  For instance, passing a timestamp representing January 25th 1984
- * would return a timestamp representing January 1st 1984, at 12:00am. 
+ * would return a timestamp representing January 1st 1984, at 12:00am.
  *
  * @param timestamp $timestamp The original timestamp to use when calculating.
  * @node Subsystems:DateTime
@@ -108,7 +108,7 @@ function exponent_datetime_startOfMonthTimestamp($timestamp) {
  * Given a timestamp, this function will calculate another timestamp
  * that represents the end of the month that the passed timestamp
  * falls into.  For instance, passing a timestamp representing January 25th 1984
- * would return a timestamp representing January 31st 1984, at 11:59pm. 
+ * would return a timestamp representing January 31st 1984, at 11:59pm.
  *
  * @param timestamp $timestamp The original timestamp to use when calculating.
  * @node Subsystems:DateTime
@@ -158,14 +158,6 @@ function exponent_datetime_startOfDayTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
-	echo "Timestamp: $timestamp<br/>";
-	echo "String: " .  strftime("%A, %b %e %l:%M %P" , $timestamp);
-	eDebug($info);
-	echo "New Timestamp: " . (mktime(0,0,0,$info['mon'],$info['mday'],$info['year'])) . "<br/>";
-	echo "Strftime: " . strftime("%A, %b %e %l:%M %P" ,(mktime(0,0,0,$info['mon'],$info['mday'],$info['year']))) . "<br/>";
-	$newinfo = getdate((mktime(0,0,0,$info['mon'],$info['mday'],$info['year'])));
-	eDebug($newinfo);
-	echo "<br/><br/><br/>";
 	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 }
 /* exdoc
@@ -230,11 +222,11 @@ function exponent_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 	// Holding array, for keeping the timestamps of applicable dates.
 	// This variable will be returned to the calling scope.
 	$dates = array();
-	
+
 	// Need to figure out which weekday occurs directly after the specified
 	// start date.  This will be our launching point for the recurrence calculations.
 	$dateinfo = getdate($start);
-	
+
 	// Finding the Start Date
 	//
 	// Start at the first weekday in the list ($days[$counter] where $counter is 0)
@@ -260,7 +252,7 @@ function exponent_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 	// Found start date.  Set curdate to the start date, so it gets picked
 	// up in the do ... while loop.
 	$curdate = $start;
-	
+
 	// Find all of the dates that match the recurrence criteria, within the
 	// specified recurrence range.  Implemented as a do ... while loop because
 	// we always need at least the start date, and we have already determined
@@ -286,9 +278,9 @@ function exponent_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 			// Difference in number of days between the last day in the rotation
 			// and the first day (for recacluating the $curdate value)
 			#$daydiff = $days[count($days)-1]-$days[0];
-			
+
 			$daydiff = 7 + $days[0] - $days[count($days)-1];
-			
+
 			if ($daydiff == 0) {
 				// In case we are in a single day rotation, the difference will be 0.
 				// It needs to be 7, so that we skip ahead a full week.
@@ -308,7 +300,7 @@ function exponent_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
 		// got a little out of whack thanks to DST.
 		$curdate = exponent_datetime_startOfDayTimestamp($curdate);
 	} while ($curdate <= $end); // If we go off the end of the recurrence range, ext.
-	
+
 	// We have no fully calculated the dates we need. Return them to the calling scope.
 	return $dates;
 }
@@ -329,29 +321,29 @@ function exponent_datetime_recurringWeeklyDates($start,$end,$freq,$days) {
  */
 function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false) {
 	$dates = array();
-	
+
 	$freq = '+'.$freq.' month';
-	
+
 	if ($by_day) {
 		$info = getdate($start);
-		
+
 		// This is used to jump from month to month
 		$month_start = mktime(0,0,0,$info['mon'],1,$info['year']);
-		
+
 		// Manually update the month and monthday.
 		$dateinfo['mon'] += $freq;
 		$dateinfo['mday'] = 1;
-		
+
 		// Grab the date information for $curdate.  This gives us the current month
 		// information, for the next jump.
 		$dateinfo = getdate(mktime(8,0,0,$dateinfo['mon'],$dateinfo['mday'],$dateinfo['year']));
-		
+
 		if ($by_day) {
 			// For by day recurrence (first tuesday of every month), we need to do a
 			// little more fancy footwork to determine the next timestamp, since there
 			// is no easy mathematical way to advance a whole month and land on
 			// the same week offset and weekday.
-			
+
 			if ($info['wday'] > $weekday) {
 				// New timestamp is after target weekday. Push it backwards (-x day)
 				$start = strtotime('-'.($info['wday']-$weekday).' day',$start);
@@ -367,7 +359,7 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
 			$start = strtotime($freq,$start);
 		}
 	}
-	
+
 	return $dates;
 }
 
@@ -385,13 +377,13 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
  */
 function exponent_datetime_recurringYearlyDates($start,$end,$freq) {
 	$dates = array();
-	
+
 	$freq = '+'.$freq.' year';
 	while ($start <= $end) {
 		$dates[] = $start;
 		$start = strtotime($freq,$start);
 	}
-	
+
 	return $dates;
 }
 
