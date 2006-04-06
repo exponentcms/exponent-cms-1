@@ -16,7 +16,7 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
- 
+
 if (!defined("EXPONENT")) exit("");
 
 $item = null;
@@ -33,10 +33,10 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 ) {
 	$item = calendar::update($_POST,$item);
 	$item->location_data = serialize($loc);
-	
+
 	if (isset($_POST['category'])) $item->category_id = $_POST['category'];
 	else $item->category_id = 0;
-	
+
 	//Check to see if the feedback form is enabled and/or being used for this event.
 	if (isset($_POST['feedback_form'])) {
 		$item->feedback_form = $_POST['feedback_form'];
@@ -45,11 +45,11 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 		$item->feedback_form = "";
 		$item->feedback_email = "";
 	}
-	
+
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
 	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
-	
+
 	if (isset($item->id)) {
 		if ($item->is_recurring == 1) {
 			// For recurring events, check some stuff.
@@ -66,16 +66,16 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 				if (count($_POST['dates']) == 1) {
 					$item->is_recurring = 0; // Back to a single event.
 				}
-				
+
 				$item->id = $db->insertObject($item,"calendar");
-				
+
 				foreach (array_keys($_POST['dates']) as $date_id) {
 					if (isset($eventdates[$date_id])) {
 						$eventdates[$date_id]->event_id = $item->id;
 						$db->updateObject($eventdates[$date_id],"eventdate");
 					}
 				}
-			}			
+			}
 			$eventdate = $db->selectObject('eventdate','id='.intval($_POST['date_id']));
 			$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
@@ -84,7 +84,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 			$db->updateObject($item,"calendar");
 			// There should be only one eventdate
 			$eventdate = $db->selectObject('eventdate','event_id = '.$item->id);
-			
+
 			$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		}
@@ -93,13 +93,13 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 		exponent_forms_initialize();
 		$start_recur = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
 		$stop_recur  = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
-		
+
 		if ($_POST['recur'] != "recur_none") {
 			// Do recurrence
 			$freq = $_POST['recur_freq_'.$_POST['recur']];
-			
+
 			###echo $_POST['recur'] . "<br />";
-			
+
 			switch ($_POST['recur']) {
 				case "recur_daily":
 					$dates = exponent_datetime_recurringDailyDates($start_recur,$stop_recur,$freq);
@@ -119,14 +119,14 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 					return;
 					break;
 			}
-			
+
 			$item->is_recurring = 1; // Set the recurrence flag.
 		} else {
 			$dates = array($start_recur);
 		}
-		
+
 		$item->approved = 1; // Bypass workflow.
-		
+
 		$edate = null;
 		$item->id = $db->insertObject($item,"calendar");
 		$edate->event_id = $item->id;
@@ -137,7 +137,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 		}
 		calendarmodule::spiderContent($item);
 	}
-	//exponent_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }
