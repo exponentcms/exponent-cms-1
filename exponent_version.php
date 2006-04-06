@@ -14,7 +14,7 @@
 # License, or (at your option) any later version.
 #
 # GPL: http://www.gnu.org/licenses/gpl.txt
-# 
+#
 ##################################################
 
 if (!defined('EXPONENT_VERSION_MAJOR')) {
@@ -23,7 +23,7 @@ if (!defined('EXPONENT_VERSION_MAJOR')) {
 	 * the system will behave slightly differently, to accomodate for developers
 	 * and their environment.
 	 */
-	define('DEVELOPMENT',1); // CHANGE FOR DIST
+	define('DEVELOPMENT',0); // CHANGE FOR DIST
 	/* exdoc
 	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
 	 */
