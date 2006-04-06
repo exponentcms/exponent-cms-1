@@ -35,15 +35,30 @@ if ($item) {
 		"administrate"=>exponent_permissions_check("administrate",$iloc)
 	);
 
-	//FJD - need to check here for if locale is DST and if so, is date DST day, and if so, maybe check for time 		being after 2AM and then adjust accordingly up or down to correct output.
-	//April 2nd - add 1hr to 2AM
-	//October   - subtract 1hr. from 2AM
-
 	$eventdate = $db->selectObject("eventdate","id=".intval($_GET['date_id']));
-	$item->eventstart += $eventdate->date;
-	$item->eventend += $eventdate->date;
 	$item->eventdate = $eventdate;
-
+	
+	//FJD - Goofy-ass daylight savings time hack.  Should be improved at some point.
+	//need to do some comparisons on the timestamp and value returned from strftime and adjust accordingly up or down 
+	//to correct output.  This will still cause one display bug: if your times are within an hour of the change in one
+	//direction, it will display incorrectly.  
+	//US does the switch at 2AM, European union at 1AM.
+	
+	//get interger for hours from eventstart and end divided by 3600, then
+	//get interger for hour of time returned from strtime, which should take DST from locale into consideration, 
+	//(so our data should be portable).  If they are off, then create the adjustment +/- and correct
+	//eventstart and eventend
+	$timeHourStart =  intval($item->eventstart / 3600);
+	$strHourStart = intval(strftime("%H", $eventdate->date + $item->eventstart));	
+	$timeHourEnd =  intval($item->eventend / 3600);
+	$strHourEnd = intval(strftime("%H", $eventdate->date + $item->eventend));
+	
+	$adjustStart = (($timeHourStart - $strHourStart) * 3600); //could be + or - or 0 (most of the time);
+	$adjustEnd = (($timeHourEnd - $strHourEnd) * 3600); //could be + or - or 0 (most of the time);
+	
+	$item->eventstart += ($eventdate->date + $adjustStart); 
+	$item->eventend += ($eventdate->date + $adjustEnd); 
+		
 	$template = new template("calendarmodule","_view",$loc);
 
 	if ($item->feedback_form != "") {
