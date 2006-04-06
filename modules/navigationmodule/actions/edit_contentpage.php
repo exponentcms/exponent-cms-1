@@ -25,18 +25,6 @@ $check_id = -1;
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
 
-//$fred->test = 1;
-//$fred->me = "hi";
-
-//echo serialize($fred);
-
-//echo "<xmp>";
-//print_r($fred);
-//print_r($flim);
-//print_r($user);
-//echo "</xmp>";
-
-
 if ($user->is_acting_admin == 1 /*TODO: section admin*/) {
 	$section = null;
 	if (isset($_GET['id'])) {
@@ -47,7 +35,7 @@ if ($user->is_acting_admin == 1 /*TODO: section admin*/) {
 	} else if (isset($_GET['parent'])) {
 		// The isset check is merely a precaution.  This action should
 		// ALWAYS be invoked with a parent or id value in the GET.
-		//$section->parent = intval($_GET['parent']);
+		$section->parent = intval($_GET['parent']);
 		$check_id = $section->parent;
 		//$section->parent = $db->selectObject('section','parent='.intval($_GET['parent']));
 	}
