@@ -2,8 +2,18 @@ Exponent CMS, Credits
 
 The Exponent team wants to recognize the following people for their contribution(s) to and support of the Exponent project.  Exponent wouldn't be where it is today without the help and support of these people.
 
+====================
+Project Owner and Lead Developer
+====================
+Fred Dirkse and OIC Group, Inc.
+
+====================
+Special Thanks
+====================
+Gerrit Boerman - For ongoing project management support, direction, testing, and 'herding of the cats'
+
 =====================
-Core Development Team
+Original Core Development Team
 =====================
 James Hunt (OIC Group, Inc.)
 Greg Otte (OIC Group, Inc.)
@@ -12,13 +22,17 @@ Adam Kessler (OIC Group, Inc.)
 ==================
 Code Contributions
 ==================
+Phillip Ball - Many contributions on several levels
+Ignacio Ibeas - Calendar fixes and other contributions
 Daniel Grabert - For fixing the section linker code
 Xavier Basty - For fixing some CRLF problems with the SMTP Subsystem implementation
 faz2 - For suggesting some file and directory permission options
 Michael Anthon - For patching the paginator to work with Opera 7.x.x
-jacobmesu - For the Interbase database handler
+jacobmesu - For the Interbase database handler and various other contributions
 Jeremy Shinall (OIC Group, Inc.)
-Hans Wolters - Security fixes
+Hans Wolters - Security fixes, many enhancements, features, and bug fixes.
+Maxim Muller - Various features and methodology/design.
+
 =====================
 Testing / Bug Hunting
 =====================
@@ -41,7 +55,6 @@ chris_meeder
 contentino
 dgharrison
 g14
-gboerman
 krayc
 thinkinfinity
 generare
@@ -49,6 +62,4 @@ wilko_76
 optiondelete
 chrisjlocke
 
-
-
-(Last updated 2005.05.06, release 0.96.3)
+(Last updated 2006.04.05, release 0.96.5)

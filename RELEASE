@@ -3,6 +3,10 @@ Release Notes for Exponent Content Management System
 For a complete list of the changes made from release to release, see the
 CHANGELOG
 
+0.96.5 RC 1 - April 01 2006
+========================
+- This release includes a full system-level i18n (language internationalization) implementation, as well as various improvements, bug fixes, and speed enhancements.  We are also deprecating the PATHOS file and function prefix in favor of the EXPONENT prefix.  A compatibility layer will remain in place till the 0.97.0 release.
+
 0.96.3     - May 07 2005
 ========================
  - This release is essentially a large bugfix / patch release.  It also introduces a new installer with an upgrade option.
