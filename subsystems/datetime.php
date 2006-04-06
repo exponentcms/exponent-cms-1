@@ -158,6 +158,14 @@ function exponent_datetime_startOfDayTimestamp($timestamp) {
 	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
 	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
 	// of the previous day.
+	echo "Timestamp: $timestamp<br/>";
+	echo "String: " .  strftime("%A, %b %e %l:%M %P" , $timestamp);
+	eDebug($info);
+	echo "New Timestamp: " . (mktime(0,0,0,$info['mon'],$info['mday'],$info['year'])) . "<br/>";
+	echo "Strftime: " . strftime("%A, %b %e %l:%M %P" ,(mktime(0,0,0,$info['mon'],$info['mday'],$info['year']))) . "<br/>";
+	$newinfo = getdate((mktime(0,0,0,$info['mon'],$info['mday'],$info['year'])));
+	eDebug($newinfo);
+	echo "<br/><br/><br/>";
 	return mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 }
 /* exdoc

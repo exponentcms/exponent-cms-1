@@ -1,4 +1,6 @@
 0.96.5
+- Added an eDebug function to do preformated outputing of objects/arrays. [FD]
+- Added fix in block.paginate.php Smarty plugin to fix bug related to random insertion of PHPSESSID [PB]
 - Fixed existing content picker 'No Content' error message [FD]
 - Merged various SMTP subsystem enhancements [FD]
 - Enhanced Jacob Mesu's username checking in the login module to use the existing security check in the security subsystem [FD]
@@ -13,12 +15,15 @@
 - Added a notification to the connect code for the database (mysql) simular as phpReview [HW]
 - The pathos lib is fixed to only accept typecasted sections [HW].
 - A php injection problem is fixed in the bannermodule [HW]
+- Removed unused Caching code and added new navigation cacheing for better performance [JH & HW]
 - Session troubles fixed on servers that are using transparent sessions.
 
 0.96.3-4
 
 - Removed Caching entirely (it wasn't being used, but now all the references to it are gone)
+>>>>>>> 1.14
 - Added charsets to htmlentities calls (for better i18n support)
+- Added full system-level i18n support [JH, FD, HW]
 - Fixed weblog bug so that comments can be edited.
 - Moved title in Text Module views so that it appears above the edit icons (since it cannot be edited).
 - Added version forcing to the EQL handler functions (backup subsystem)
@@ -36,6 +41,7 @@
 - URL validation now being performed in Address Book for website, and http:// prepended if something seems off.  This fixes some relative path bugs when linking.
 - Added the ability to sort Address Book entries by name.
 - Added gz compression to the archive created when exporting uploaded files through the Uploaded Files Exporter (previsouly, they were just straight tars, and rather large)
+
 Technical changes (this does not cover some of the stuff in the Release Notes) for 0.96.3, from 0.96.2
 
 - Added ability to name archive of exported files, much like the EQL exporter lets you name the EQL file.

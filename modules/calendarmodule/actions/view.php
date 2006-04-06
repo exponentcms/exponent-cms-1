@@ -34,6 +34,8 @@ if ($item) {
 		"delete"=>exponent_permissions_check("delete",$iloc),
 		"administrate"=>exponent_permissions_check("administrate",$iloc)
 	);
+	//FJD - need to check here for if locale is DST and if so, is date DST day, and if so, maybe check for time being after 2AM and then adjust accordingly up or down to correct output.
+	
 	$eventdate = $db->selectObject("eventdate","id=".intval($_GET['date_id']));
 	$item->eventstart += $eventdate->date;
 	$item->eventend += $eventdate->date;
@@ -52,6 +54,7 @@ if ($item) {
 		$template->assign('form', $form);
 	} 
 	
+	eDebug($item);
 	$template->assign("item",$item);
 	$template->assign("directory","files/calendarmodule/".$loc->src);
 	$template->register_permissions(

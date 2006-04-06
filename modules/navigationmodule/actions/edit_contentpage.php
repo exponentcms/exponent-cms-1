@@ -24,7 +24,20 @@ if (!defined('EXPONENT')) exit('');
 $check_id = -1;
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
-if ($user && $user->is_acting_admin == 1) {
+
+//$fred->test = 1;
+//$fred->me = "hi";
+
+//echo serialize($fred);
+
+echo "<xmp>";
+//print_r($fred);
+//print_r($flim);
+print_r($user);
+echo "</xmp>";
+
+
+if ($user->is_acting_admin == 1) {
 	$section = null;
 	if (isset($_GET['id'])) {
 		// Check to see if an id was passed in get.  If so, retrieve that section from
@@ -34,7 +47,7 @@ if ($user && $user->is_acting_admin == 1) {
 	} else if (isset($_GET['parent'])) {
 		// The isset check is merely a precaution.  This action should
 		// ALWAYS be invoked with a parent or id value in the GET.
-		$section->parent = $_GET['parent'];
+		$section->parent = intval($_GET['parent']);
 		$check_id = $section->parent;
 	}
 } else if (isset($_GET['parent'])) {
@@ -44,11 +57,7 @@ if ($user && $user->is_acting_admin == 1) {
 	$check_id = $section->parent;
 }
 
-if (($check_id != -1 && 
-	 exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) ||
-	$user->is_acting_admin == 1
-	) {
-	
+if ($check_id != -1 && exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {	
 	$form = section::form($section);
 	$form->meta('module','navigationmodule');
 	$form->meta('action','save_contentpage');

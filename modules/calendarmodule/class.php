@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2006 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -159,14 +159,20 @@ class calendarmodule {
 			$template->assign("next_timestamp",$startperiod+$totaldays*86400 + 3600);
 			
 			$days = array();
-			for ($i = 0; $i < $totaldays; $i++) {
-			  	if( $i == 0 )
-			  	{
-				    $start = $startperiod + ($i*86400);
-				} else {
-					$start = $startperiod + ($i*86400)-3600;
-				}
+			//added per Ignacio
+			$endofmonth = date('t', $time);
+			for ($i = 1; $i <= $endofmonth; $i++) {
+				$info = getdate($time);
+				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 										
+			//for ($i = 0; $i < $totaldays; $i++) {
+			//  	if( $i == 0 )
+			//  	{
+			//	    $start = $startperiod + ($i*86400);
+			//	} else {
+			//		$start = $startperiod + ($i*86400)-3600;
+			//	}
+									
 				#$days[$start] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
 				$edates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
@@ -440,3 +446,4 @@ class calendarmodule {
 }
 
 ?>
+

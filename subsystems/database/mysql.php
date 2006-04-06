@@ -62,17 +62,17 @@ class mysql_database {
 		if (version_compare(phpversion(),'4.2.0','>=') > 0) {
 			// Current version of PHP is greater than or equal to 4.2.0 (so we can use a 4th param)
 			if(!$this->connection = @mysql_connect($hostname,$username,$password,$new)) {
-                mail( $dba, 'Connect', "Could not connect the database server");
+               // mail( $dba, 'Connect', "Could not connect the database server");
             }
 		} else {
 			if (!$this->connection = @mysql_connect($hostname,$username,$password)) {
-                mail (  $dba, 'Connect', "Could not connect to the database");
+                //mail (  $dba, 'Connect', "Could not connect to the database");
             }
 		}
 		if ($this->connection) {
 			
             if (!$this->havedb = (@mysql_select_db($database,$this->connection) ? true : false)) {
-		        mail (  $dba, 'Selectdb', "Could not select the database");
+		        //mail (  $dba, 'Selectdb', "Could not select the database");
             }
         }
 		$this->prefix = DB_TABLE_PREFIX.'_';
@@ -517,6 +517,8 @@ class mysql_database {
 			}
 		}
 		$sql = substr($sql,0,-1).substr($values,0,-1) . ")";
+		//echo "Sql: " . $sql . "<br/>";
+		//eDebug($this->connection);
 		if (@mysql_query($sql,$this->connection) != false) {
 			$id = mysql_insert_id($this->connection);
 			return $id;

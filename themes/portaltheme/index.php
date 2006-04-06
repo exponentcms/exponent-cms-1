@@ -27,7 +27,7 @@ if (!defined('EXPONENT')) exit('');
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 	
-	<body onload="pathosJSinitialize();">
+	<body onload="exponentJSinitialize();">
 		<?php pathos_theme_sourceSelectorInfo(); ?>
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tbody>

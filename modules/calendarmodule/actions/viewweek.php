@@ -47,6 +47,10 @@ for ($i = 0; $i < 7; $i++) {
 		$o->eventstart += $o->eventdate->date;
 		$o->eventend += $o->eventdate->date;
 		$days[$start][] = $o;
+		echo "Event date: " . $o->eventdate .  "<br/>";
+		echo "Event start: " . $o->eventstart .  "<br/>";
+		echo "Strftime of start: " . strftime("%A, %b %e %l:%M %P" ,$o->eventstart) . "<br/>";
+		
 	}
 	$counts[$start] = count($days[$start]);
 }

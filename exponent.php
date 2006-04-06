@@ -146,4 +146,9 @@ if (!navigationmodule::isPublic(intval($section))) {
 	define('PUBLIC_SECTION',1);
 }
 
+function eDebug($var){
+	echo "<xmp>";
+	print_r($var);
+	echo "</xmp>";
+}
 ?>

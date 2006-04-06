@@ -317,12 +317,15 @@ function exponent_permissions_checkGroup($group,$permission,$location,$explicitO
 	if ($group == null) return false;
 	$explicit = $db->selectObject("grouppermission","gid=" . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	if ($explicitOnly == true) return $explicit;
-	// Calculate implicit permissions
-	$implicit = false;
-	foreach ($db->selectObjects('grouppermission','gid='.$group->id." AND module='navigationmodule' AND permission='manage'") as $perm) {
-		if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
-			$implicit = true;
-			break;
+	
+	if (!$explicit){
+		// Calculate implicit permissions if we dont' already have explicit perms
+		$implicit = false;
+		foreach ($db->selectObjects('grouppermission','gid='.$group->id." AND module='navigationmodule' AND permission='manage'") as $perm) {
+			if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
+				$implicit = true;
+				break;
+			}
 		}
 	}
 	return ($implicit || $explicit);
@@ -372,8 +375,10 @@ function exponent_permissions_grantGroup($group,$permission,$location) {
 
 			global $db;
 
-            $db->delete("grouppermission", " module = '" . $obj->module . "'");
+            $db->delete("grouppermission", " gid='" . $obj->gid . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
 			$db->insertObject($obj,"grouppermission");
+			echo "In groupGrant</br>";
+			eDebug($obj);
 		}
 	}
 }
