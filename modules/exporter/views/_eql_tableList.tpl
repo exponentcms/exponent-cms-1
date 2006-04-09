@@ -90,7 +90,7 @@ function isOneSelected() {
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<td colspan="3">
-		<input type="submit" value="{$_TR.export_data}" onClick="return true; return isOneSelected();" />
+		<input type="submit" value="{$_TR.export_data}" onClick="return isOneSelected();" />
 	</td>
 </tr>
 </table>
