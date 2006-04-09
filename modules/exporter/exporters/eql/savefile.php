@@ -31,13 +31,8 @@ if (!isset($_POST['tables'])) { // No checkboxes clicked, and got past the JS ch
 		$_POST['filename']);
 	$filename = preg_replace('/[^A-Za-z0-9_.-]/','-',strftime($filename,time()).'.eql');
 	
-	$filename = str_replace(
-		array('__DOMAIN__','__DB__'),
-		array(str_replace('.','_',HOSTNAME),DB_NAME),
-		$_POST['filename']);
-	$filename = preg_replace('/[^A-Za-z0-9_.-]/','-',strftime($filename,time()).'.eql');
-	
 	ob_end_clean();
+	ob_start("ob_gzhandler");
 	
 	// This code was lifted from phpMyAdmin, but this is Open Source, right?
 	
