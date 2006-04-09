@@ -378,7 +378,6 @@ function exponent_permissions_grantGroup($group,$permission,$location) {
       $db->delete("grouppermission", " gid='" . $obj->gid . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
 			$db->insertObject($obj,"grouppermission");
 			echo "In groupGrant</br>";
-			eDebug($obj);
 		}
 	}
 }
