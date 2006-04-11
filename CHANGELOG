@@ -1,4 +1,5 @@
 0.96.5
+- Fixed two issues with Daylight Savings Time in the calendar module [FD]
 - Added an eDebug function to do preformated outputing of objects/arrays. [FD]
 - Added fix in block.paginate.php Smarty plugin to fix bug related to random insertion of PHPSESSID [PB]
 - Fixed existing content picker 'No Content' error message [FD]
