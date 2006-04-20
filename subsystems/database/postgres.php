@@ -68,19 +68,23 @@ class postgres_database {
 	}
 
 	function connect($username,$password,$hostname,$database,$new = false) {
-		$host_data = split(":",$hostname);
-		$hostname = $host_data[0];
-		$port = $hostname[1];
-		if ($hostname == "localhost") $dsn = "user=$username password=$password dbname=$database";
-		else $dsn = "host=$hostname user=$username password=$password dbname=$database";
-		
-		if ($new) {
-			$this->connection = pg_connect($dsn,PGSQL_CONNECT_FORCE_NEW);
-		} else {
-			$this->connection = pg_connect($dsn);
+  		if( function_exists( 'pg_connect')){
+			$host_data = split(":",$hostname);
+			$hostname = $host_data[0];
+			$port = $hostname[1];
+			if ($hostname == "localhost") $dsn = "user=$username password=$password dbname=$database";
+			else $dsn = "host=$hostname user=$username password=$password dbname=$database";
+			
+			if ($new) {
+				$this->connection = pg_connect($dsn,PGSQL_CONNECT_FORCE_NEW);
+			} else {
+				$this->connection = pg_connect($dsn);
+			}
+	
+			trigger_error( $this->connection );
+			
+			$this->prefix = DB_TABLE_PREFIX . '_';
 		}
-		
-		$this->prefix = DB_TABLE_PREFIX . '_';
 	}
 	
 	function createTable($tablename,$datadef,$info) {
