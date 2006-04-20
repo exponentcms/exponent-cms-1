@@ -97,7 +97,18 @@ if ($errcount > 0) {
 	}
 	?>
 	<br /><br />
-	<a href="index.php?page=sanity"><?php echo $i18n['rerun']; ?></a>
+	
+	<?
+	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'new'){
+		?>
+		<a href="index.php?page=sanity&type=new"><?php echo $i18n['rerun']; ?></a>
+		<?php
+	} else {
+		?>
+		<a href="index.php?page=sanity"><?php echo $i18n['rerun']; ?></a>
+		<?php
+	} ?>
+
 	<?php
 } else if ($warncount > 0) {
 	echo $i18n['found_minor'];
