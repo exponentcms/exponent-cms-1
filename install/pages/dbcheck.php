@@ -50,7 +50,6 @@ function isAllGood($str) {
 
 exponent_sessions_set("installer_config",$_POST['c']);
 $config = $_POST['c'];
-
 $passed = true;
 
 if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {
@@ -60,6 +59,7 @@ if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {
 
 if ($passed) {
 	$db = exponent_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name'],$config['db_engine'],1);
+
 	$db->prefix = $config['db_table_prefix'].'_';
 	
 	$status = array();
