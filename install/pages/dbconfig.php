@@ -110,7 +110,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 	</div>
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['password']; ?>: </span>
-		<input class="text" type="text" name="c[db_pass]" value="<?php echo $config['db_pass']; ?>" />
+		<input class="text" type="password" name="c[db_pass]" value="<?php echo $config['db_pass']; ?>" />
 		<div class="control_help">
 			<?php echo $i18n['password_desc']; ?>
 		</div>
