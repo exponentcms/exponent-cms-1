@@ -19,9 +19,11 @@
 
 if (!defined('EXPONENT')) exit('');
 
-$file = 'modules/' . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php';
-if (is_readable($file)) {
-	include($file);
-} else echo SITE_404_HTML;
+$file = str_replace('../','','modules/' . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php');
+if (exponent_permissions_check('administration',exponent_core_makeLocation('administrationmodule'))) {
+	if (is_readable($file)) {
+		include($file);
+	} else echo SITE_404_HTML;
+} else echo SITE_403_HTML;
 
 ?>
