@@ -38,15 +38,44 @@ class navigationmodule {
 	}
 	
 	function show($view,$loc = null,$title = '') {
+		global $db;
 		$id = exponent_sessions_get('last_section');
 		$current = null;
-
-		$sections = navigationmodule::levelTemplate(0,0);
-        foreach ($sections as $section) {
-			if ($section->id == $id) {
-				$current = $section;
-				break;
-			}
+		
+		switch( $view )
+		{
+  			case "Breadcrumb":
+				//Show not only the location of a page in the hyarchie but also the location of a standalone page
+				$current = $db->selectObject('section',' id= '.$id);
+				
+				if( $current->parent == -1 )
+				{
+					$sections = navigationmodule::levelTemplate(-1,0);
+					foreach ($sections as $section) {
+						if ($section->id == $id) {
+							$current = $section;
+							break;
+						}
+					}
+				} else {
+					$sections = navigationmodule::levelTemplate(0,0);
+					foreach ($sections as $section) {
+						if ($section->id == $id) {
+							$current = $section;
+							break;
+						}
+					}
+				}
+			break;
+			default:
+				$sections = navigationmodule::levelTemplate(0,0);
+				foreach ($sections as $section) {
+					if ($section->id == $id) {
+						$current = $section;
+						break;
+					}
+				}
+			break;
 		}
 		
 		$template = new template('navigationmodule',$view,$loc);
@@ -55,7 +84,6 @@ class navigationmodule {
 		global $user;
 		$template->assign('canManage',(($user && $user->is_acting_admin == 1) ? 1 : 0));
 		$template->assign('moduletitle',$title);
-		
 		$template->output();
 	}
 	
