@@ -81,19 +81,25 @@ function exponent_config_parse($configname,$site_root = null) {
 function exponent_config_parseFile($file) {
 	$options = array();
 	foreach (file($file) as $line) {
-
-		$got_key = preg_match('/define\([\"\'].*[\"\'],/iU',$line,$key);
-		$got_value = preg_match('/[\"\'],.*(\d\)|[\"\']\)|[\"\'],)/',$line,$value);
-		
-		if ($got_key && $got_value) {
-			$key = rtrim($key[0],"\",");
-			$key = substr($key,8);
-			$value = substr($value[0],2);
-			$value = preg_replace('/html_entity_decode\(/i','',$value);
-			$value = rtrim($value,"\),");		
-			$value = html_entity_decode(trim($value,"\x27\x22"),ENT_QUOTES);
-			$value = preg_replace('/<[bB][rR]\s?\/?>/',"\r\n",$value);
-			$options[$key] = $value;
+		$line = trim(preg_replace(array("/^.*define\([\"']/","/[^&][#].*$/"),"",$line));
+		if ($line != "" && substr($line,0,2) != "<?" && substr($line,-2,2) != "?>") {
+			$line = str_replace(array("<?php","?>","<?",),"",$line);
+						
+			$opts = split("[\"'],",$line);
+			
+			
+			if (count($opts) == 2) {
+				if (substr($opts[1],0,1) == '"' || substr($opts[1],0,1) == "'") 
+					$opts[1] = substr($opts[1],1,-3);
+				else 
+					$opts[1] = substr($opts[1],0,-2);
+					
+				if (substr($opts[0],-5,5) == "_HTML") {
+					$opts[1] = eval("return ".$opts[1].";");
+					$opts[1] = preg_replace('/<[bB][rR]\s?\/?>/',"\r\n",$opts[1]);
+				}
+				$options[$opts[0]] = str_replace("\\'","'",$opts[1]);
+			}
 		}
 	}
 	return $options;
@@ -196,7 +202,7 @@ function exponent_config_saveConfiguration($values,$site_root=null) {
 		if (substr($directive,-5,5) == "_HTML") {
 			$value = htmlentities(stripslashes($value),ENT_QUOTES,LANG_CHARSET); // slashes added by POST
 			$value = str_replace(array("\r\n","\r","\n"),"<br />",$value);
-			$str .= "html_entity_decode('$value',ENT_QUOTES)";
+			$str .= "exponent_unhtmlentities('$value')";
 			
 		} elseif (is_int($value)) {
 			$str .= $value;
@@ -225,8 +231,8 @@ function exponent_config_saveConfiguration($values,$site_root=null) {
 	foreach ($original_config as $directive=>$value) {
 		$str .= "define(\"$directive\",";
 		if (substr($directive,-5,5) == "_HTML") {
-			$value = htmlentities(stripslashes($value),ENT_COMPAT,LANG_CHARSET); // slashes added by POST
-			$str .= "html_entity_decode('$value',ENT_COMPAT)";
+			$value = htmlentities(stripslashes($value),ENT_QUOTES,LANG_CHARSET); // slashes added by POST
+			$str .= "exponent_unhtmlentities('$value')";
 		}
 		else if (is_int($value)) $str .= $value;
 		else $str .= "'".str_replace("'","\'",$value)."'";

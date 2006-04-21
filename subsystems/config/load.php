@@ -19,6 +19,18 @@
 
 if (!defined('EXPONENT')) exit('');
 
+//overides function html entity decode
+function exponent_unhtmlentities( $str )
+{
+	$trans = get_html_translation_table(HTML_ENTITIES);
+	$trans['&apos;'] = '\'';
+	$trans=array_flip($trans);
+	
+	$trans['&apos;'] = '\'';
+	$trans['&#039;'] = '\'';
+	return strtr($str, $trans);
+}
+
 @include_once(BASE."conf/config.php");
 if (is_readable(BASE."conf/extensions")) {
 	$dh = opendir(BASE."conf/extensions");

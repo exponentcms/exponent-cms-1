@@ -18,4 +18,4 @@
 ##################################################
 
 if (!defined('MAINTENANCE_MODE')) define('MAINTENANCE_MODE',0);
-if (!defined('MAINTENANCE_MSG_HTML')) define('MAINTENANCE_MSG_HTML',html_entity_decode('This site is currently down for maintenance.'));
+if (!defined('MAINTENANCE_MSG_HTML')) define('MAINTENANCE_MSG_HTML',exponent_unhtmlentities('This site is currently down for maintenance.'));
