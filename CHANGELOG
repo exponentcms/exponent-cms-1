@@ -1,5 +1,6 @@
 0.96.5
-- Fixed two issues with Daylight Savings Time in the calendar module [FD]
+- Fixed bug (mostly) in calendar module where event times were off on the days DST changed [FD]
+- Fixed bug in calendar module where monthly events displyed in the list view were cutoff after the day DST changed [IB]
 - Added an eDebug function to do preformated outputing of objects/arrays. [FD]
 - Added fix in block.paginate.php Smarty plugin to fix bug related to random insertion of PHPSESSID [PB]
 - Fixed existing content picker 'No Content' error message [FD]
