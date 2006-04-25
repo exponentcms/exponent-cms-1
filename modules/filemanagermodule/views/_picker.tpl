@@ -1,5 +1,6 @@
 {*
  * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2005-2006 Maxim Mueller
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -65,7 +66,7 @@
 			
 			div.imagecollection_previews table tr td {
 				text-align: center;
-				NOborder: 1px solid #666;
+				border: 1px solid #666;
 				font-size: 10px;
 				padding: 5px;
 			}
@@ -103,8 +104,21 @@
 			}
 			{/literal}
 		</style>
+		<script type="text/javascript" src="../../../exponent.js.php"></script>
 		<script type="text/javascript">
 		{literal}
+			// fckedior unfortunately does not ship with our efm_pickedFile() :)
+			function FCKeditor_pickedFile(id, pickedFile) {
+				window.opener.SetUrl(Exponent.PATH_RELATIVE + pickedFile);
+			}
+			
+			if (typeof window.opener.efm_pickedFile != "function") {
+				//attach this to the window that opened the filemanager(=FCKeditor`s image insert)
+				window.opener.efm_pickedFile = FCKeditor_pickedFile;
+			}
+			
+			
+			 
 			function openWindow(filename,width,height) {
 				if (width != 0) {
 					width = width+40;

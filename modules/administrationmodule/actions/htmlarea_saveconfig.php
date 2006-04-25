@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -23,32 +24,21 @@ if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
 	$config = null;
-	if (isset($_POST['id'])) $config = $db->selectObject('htmlareatoolbar','id='.intval($_POST['id']));
+	if (isset($_POST['id'])) $config = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR,'id='.intval($_POST['id']));
 	$config->name = $_POST['config_name'];
-	$config->data = array();
-	foreach (explode(':',$_POST['config']) as $line) {
-		$line = trim($line);
-		if ($line != '') {
-			$i = count($config->data);
-			$config->data[] = array();
-			foreach (explode(';',$line) as $icon) {
-				$config->data[$i][] = $icon; // MAY need to strip off ed
-			}
-		}
-	}
-	$config->data = serialize($config->data);
+	$config->data = $_POST['config'];
 	
 	if (isset($_POST['config_activate'])) {
-		$active = $db->selectObject('htmlareatoolbar','active=1');
+		$active = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR,'active=1');
 		$active->active = 0;
-		$db->updateObject($active,'htmlareatoolbar');
+		$db->updateObject($active,'toolbar_' . SITE_WYSIWYG_EDITOR);
 		$config->active = 1;
 	}
 	
 	if (isset($config->id)) {
-		$db->updateObject($config,'htmlareatoolbar');
+		$db->updateObject($config,'toolbar_' . SITE_WYSIWYG_EDITOR);
 	} else {
-		$db->insertObject($config,'htmlareatoolbar');
+		$db->insertObject($config,'toolbar_' . SITE_WYSIWYG_EDITOR);
 	}
 	
 	exponent_flow_redirect();

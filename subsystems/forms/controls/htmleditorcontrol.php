@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2005-2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -41,10 +42,13 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
  *
  * @package Subsystems
  * @subpackage Forms
- */class htmleditorcontrol extends formcontrol {
+ */
+class htmleditorcontrol extends formcontrol {
 	var $module = "";
 	
-	function name() { return "WYSIWYG Editor"; }
+	function name() {
+		return "WYSIWYG Editor";
+	}
 	
 	function htmleditorcontrol($default="",$module = "",$rows = 20,$cols = 60) {
 		$this->default = $default;
@@ -52,114 +56,17 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 	}
 	
 	function controlToHTML($name) {
-		ob_start();
-		if (!defined("CTL_HTMLAREAINIT")) {
-			// We are the first htmleditor control.  Set up basic initializations
-			
-			global $db;
-			// Handle associations some day.
-			$templates = $db->selectObjects("htmltemplate");
-			
-			?>
-			<!-- Basic setup for HTMLArea -->
-			<script type="text/javascript">
-			_editor_url = "<?php echo PATH_RELATIVE."external/htmlarea/"; ?>";
-			_editor_lang = "en";
-			</script>
-			<!-- Pull in HTMLAREA source -->
-			<script type="text/javascript" src="<?php echo PATH_RELATIVE."external/htmlarea/"; ?>htmlarea.js"></script>
-			<!-- Setup initialization functions for htmleditorcontrol -->
-			<script type="text/javascript">
-			// Setup the basic HTMLArea environment
-			HTMLArea.loadPlugin("ContextMenu");
-			HTMLArea.loadPlugin("Template");
-			
-			var htmleditorcontrols = new Array(); // an array of textareanames.
-			var editors = new Array();
-			
-			// Register an initialization function with the Exponent JS Support System.
-			// This will be called onLoad (assuming the theme is playing nice)
-			var once = false;
-			exponentJSregister(function () {
-				for (i = 0; i < htmleditorcontrols.length; i++) {
-					editors[i] = new HTMLArea(htmleditorcontrols[i]);
-					editors[i].config = htmleditorconfig;
-					if (!once) {
-						if (typeof TableOperations != "undefined") {
-							editors[i].registerPlugin(TableOperations);
-						}
-						if (typeof ContextMenu != "undefined") editors[i].registerPlugin(ContextMenu);
-						<?php if (count($templates)) { ?>
-						if (typeof Template != "undefined") editors[i].registerPlugin(Template,{
-							combos: [
-								{	label: "Template",
-									options: {"None":""<?php
-									foreach ($templates as $template) echo ',"'.$template->title . '":"' . str_replace(array("\n","\r"),"",str_replace('"','\"',$template->body)) . '"';
-									?>}
-								}
-							]
-						});
-						<?php } ?>
-						
-						once = true;
-					}
-					setTimeout("editors["+i+"].generate();",i*500+100);
-				}
-			});
+		
+		$PATH_TO_INCs = BASE . "external/editors/";
 
-			var htmleditorconfig = new HTMLArea.Config();
-			<?php
-			global $db;
-			$config = $db->selectObject("htmlareatoolbar","active=1");
-			if ($config) {
-				$plugins = array();
-				echo "htmleditorconfig.toolbar = [ ";
-				$data = unserialize($config->data);
-				$rowcount = 0;
-				foreach ($data as $row) {
-					if ($rowcount != 0) echo ",\n";
-					echo "[  ";
-					
-					for ($j = 0; $j < count($row); $j++) {
-						echo '"'.$row[$j].'"';
-						if ($j != count($row)-1) echo ",";
-						if ($row[$j] == "inserttable") $plugins[] = "TableOperations";
-					}
-					
-					echo " ]";
-					$rowcount++;
-				}
-				echo "];\n";
-				
-				foreach ($plugins as $plug) {
-					echo 'HTMLArea.loadPlugin("'.$plug.'");'."\n";
-				}
-			}
-			if (is_readable(THEME_ABSOLUTE."icons/htmleditorcontrol")) {
-				echo "htmleditorconfig.imgURL = '".ICON_RELATIVE."htmleditorcontrol/';\n";
-			} else {
-				echo "htmleditorconfig.imgURL = '".PATH_RELATIVE."external/htmlarea/toolbaricons/';\n";
-			}
-			echo "htmleditorconfig.generateButtons();\n";
-			?>
-			// Configured toolbar.
-			htmleditorconfig.pageStyle = "@import url(<?php echo THEME_RELATIVE; ?>editor.css);";
-			</script>
-			<?php
-			define("CTL_HTMLAREAINIT",1);
+		if(is_readable($PATH_TO_INCs . SITE_WYSIWYG_EDITOR . '.glue')){
+			include($PATH_TO_INCs . SITE_WYSIWYG_EDITOR . '.glue');
+			return $html;
 		}
-		// all setup has been done.
-		?>
-		<script type="text/javascript">
-		htmleditorcontrols[htmleditorcontrols.length] = "<?php echo $name; ?>";
-		</script>
-		<textarea id="<?php echo $name; ?>" name="<?php echo $name; ?>" style="width:100%" rows="24" cols="80"><?php
-			echo htmlentities($this->default,ENT_COMPAT,LANG_CHARSET); 
-		?></textarea>
-		<?php
-		$html = ob_get_contents();
-		ob_end_clean();
-		return $html;
+		else {
+			echo "Sorry, the " . SITE_WYSIWYG_EDITOR . " WYSIWYG Editor is not installed";
+			//TODO: handle fallback to <htmlarea> here, and dispatch message to regular error channel
+		}
 	}
 	
 	function parseData($name, $values, $for_db = false) {

@@ -1,3 +1,21 @@
+//##################################################
+//#
+//# Copyright (c) 2004-2006 OIC Group, Inc.
+//# Copyright (c) 2006 Maxim Mueller
+//# Written and Designed by James Hunt
+//#
+//# This file is part of Exponent
+//#
+//# Exponent is free software; you can redistribute
+//# it and/or modify it under the terms of the GNU
+//# General Public License as published by the Free
+//# Software Foundation; either version 2 of the
+//# License, or (at your option) any later version.
+//#
+//# GPL: http://www.gnu.org/licenses/gpl.txt
+//#
+//##################################################
+
 var used = new Array();
 var rows = new Array();
 var rowlens = new Array();
@@ -130,7 +148,7 @@ function delRowLinkTd(rownum) {
 			delRow(rownum);
 		});
 	} else {
-		img.setAttribute("onClick","delRow("+rownum+")");
+		img.setAttribute("onclick","delRow("+rownum+")");
 	}
 	
 	td.appendChild(img);
@@ -158,14 +176,13 @@ function iconTd(icon,rownum, pos) {
 		td.style.border = "1px dashed #CCCCCC";
 		td.colspan = (toolbarIconSpan(icon)-1)*2+1;
 	} else {
-		td.setAttribute("onClick","deleteIconTd(this,"+rownum+","+pos+"); return false;");
-		td.setAttribute("onmouseover","this.style['background-color']='#FF0000'");
-		td.setAttribute("onmouseout","this.style['background-color']='inherit'");
+		td.setAttribute("onclick","deleteIconTd(this,"+rownum+","+pos+"); return false;");
+		td.setAttribute("class", 'htmleditor_toolboxbutton');
 		td.setAttribute("style","cursor: pointer;");
 		td.setAttribute("colspan",(toolbarIconSpan(icon)-1)*2+1);
 	}
 	var img = document.createElement("img");
-	img.setAttribute("src",imagePrefix+icon+imageSuffix);
+	img.setAttribute("src",Exponent.WYSIWYG_toolboxbuttons[icon][1]);
 	
 	td.appendChild(img);
 	
@@ -250,9 +267,8 @@ function enableToolbox(rownum, key) {
 					a.onclick = ie_register;
 					a.holding = used[key2];
 				} else {
-					td.setAttribute("onmouseover","this.style.background=\"red\"");
-					td.setAttribute("onmouseout","this.style.background=\"white\"");
-					a.setAttribute("onClick","register('"+used[key2]+"')");
+					td.setAttribute("class", 'htmleditor_toolboxbutton');
+					a.setAttribute("onclick","register('"+used[key2]+"')");
 				}
 				used.splice(key2,1);
 			}
@@ -263,7 +279,7 @@ function enableToolbox(rownum, key) {
 function disableToolbox(icon) {
 	if (icon != "space" && icon != "separator") {
 		used.push(icon);		
-		
+
 		var td = document.getElementById("td_"+icon);
 		var a = document.getElementById("a_"+icon);
 		if (document.all) {
@@ -272,11 +288,9 @@ function disableToolbox(icon) {
 			td.onmouseout = function() { return false; };
 			a.onclick = function() { return false; };
 		} else {
-			td.setAttribute("style","background-color: grey");
-			td.removeAttribute("onmouseover");
-			td.removeAttribute("onmouseout");
+			td.setAttribute("class", 'htmleditor_toolboxbutton_selected');
 			
-			a.removeAttribute("onClick");
+			a.removeAttribute("onclick");
 		}
 	}
 }
@@ -295,9 +309,8 @@ function delRow(rownum) {
 					a.attachEvent('onclick',ie_register);
 					a.holding = used[key2];
 				} else {
-					td.setAttribute("onmouseover","this.style.background=\"red\"");
-					td.setAttribute("onmouseout","this.style.background=\"white\"");
-					a.setAttribute("onClick","register('"+used[key2]+"')");
+					td.setAttribute("class", 'htmleditor_toolboxbutton');
+					a.setAttribute("onclick","register('"+used[key2]+"')");
 				}
 				used.splice(key2,1);
 			}
@@ -314,18 +327,27 @@ function delRow(rownum) {
 	regenerateTable();
 }
 
+//serialize into JS linear array notation
 function save(frm) {
-	var saveStr = "";
+	var saveStr = "[";
 	for (i = 0; i < rows.length; i++) {
+		saveStr += "['";
 		for (j = 0; j < rows[i].length; j++) {
 			saveStr += rows[i][j];
-			if (j != rows[i].length-1) saveStr+=";";
+			if (j != rows[i].length-1) {
+				saveStr+="', '";
+			}
 		}
-		if (i != rows.length - 1) saveStr += ":";
+		saveStr += "']";
+		if (i != rows.length - 1) {
+			saveStr += ", ";
+		}
+		
 	}
+	saveStr += "]";
 	
 	input = document.getElementById("config_htmlarea");
-	input.setAttribute("value",saveStr);
+	input.setAttribute("value", saveStr);
 	frm.submit();
 }
 
@@ -342,4 +364,32 @@ function ie_unhighlight() {
 
 function ie_register() {
 	register(event.srcElement.holding);
+}
+
+// used to build a toolbox of available buttons, the array Exponent.WYSIWYG_toolbar in /external/editors/<currenteditor>_toolbar.js has to be maintened manually(for now)
+function exponentJSbuildHTMLEditorButtonSelector(Buttons) {
+	myButtonPanel = document.getElementById("htmleditor_toolbox");
+	
+	for (currButton in Buttons) {
+		myButton_img  = document.createElement("img");
+		myButton_a  = document.createElement("a");
+		myButton_td  = document.createElement("td");
+		
+		// differrence between internal name and displayed name is possible because of i18n 
+		myButton_img.setAttribute("src", Buttons[currButton][1]);
+		myButton_img.setAttribute("title", Buttons[currButton][0]);
+		myButton_img.setAttribute("alt", currButton);
+		myButton_img.setAttribute("id", "img_" + currButton);
+		
+		myButton_a.setAttribute("id", "a_" + currButton);
+		myButton_a.setAttribute("onclick","register('" + currButton + "')");
+		
+		myButton_td.setAttribute("id", "td_" + currButton);
+		myButton_td.setAttribute('class' , 'htmleditor_toolboxbutton');
+		
+		myButton_a.appendChild(myButton_img);
+		myButton_td.appendChild(myButton_a);
+		myButtonPanel.appendChild(myButton_td);
+		
+	}
 }

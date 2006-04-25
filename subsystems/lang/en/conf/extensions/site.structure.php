@@ -51,6 +51,13 @@ return array(
 	
 	'ssl_url'=>'SSL URL Base',
 	'ssl_url_desc'=>'Full URL of the website with SSL support (usually starting with "https://")',
+
+	'wysiwyg_editor'=>'WYSIWYG Editor',
+	'wysiwyg_editor_desc'=>'Which What-You-See-Is-What-You-Get Editor would you like to use for Content Input?',
+
+	'revision_limit'=>'Revision History Limit',
+	'revision_limit_desc'=>'The maximum number of major revisions (excluding the "current" revision) to keep per item of content.  A limit of 0 (zero) means that all revisions will be kept.',
+
 );
 
 ?>

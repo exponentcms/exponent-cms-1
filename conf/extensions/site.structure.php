@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -20,6 +21,11 @@
 if (!defined('EXPONENT')) exit('');
 
 $i18n = exponent_lang_loadFile('conf/extensions/site.structure.php');
+
+foreach (glob(BASE . "external/editors/*.glue") as $installed_glue_file) {
+   $installed_editor = basename($installed_glue_file, ".glue"); 
+   $installed_editors[$installed_editor] = $installed_editor;
+}
 
 $stuff = array(
 	$i18n['title'],
@@ -69,6 +75,11 @@ $stuff = array(
 			'description'=>$i18n['default_section_desc'],
 			'control'=>new dropdowncontrol('',navigationmodule::levelDropDownControlArray(0))
 		),
+		'SITE_WYSIWYG_EDITOR'=>array(
+			'title'=>$i18n['wysiwyg_editor'],
+			'description'=>$i18n['wysiwyg_editor_desc'],
+			'control'=>new dropdowncontrol(null,$installed_editors)
+		),
 		'SESSION_TIMEOUT'=>array(
 			'title'=>$i18n['session_timeout'],
 			'description'=>$i18n['session_timeout_desc'],
@@ -105,8 +116,8 @@ $stuff = array(
 			'control'=>new textcontrol()
 		),
 		'WORKFLOW_REVISION_LIMIT'=>array(
-			'title'=>'Revision History Limit',
-			'description'=>'The maximum number of major revisions (excluding the "current" revision) to keep per item of content.  A limit of 0 (zero) means that all revisions will be kept.',
+			'title'=>$i18n['revision_limit'],
+			'description'=>$i18n['revision_limit_desc'],
 			'control'=>new textcontrol()
 		),
 	)

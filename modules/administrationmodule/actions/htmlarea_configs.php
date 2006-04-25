@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -25,7 +26,7 @@ if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administra
 	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	$template = new template('administrationmodule','_htmlareaconfigs',$loc);
-	$configs = $db->selectObjects('htmlareatoolbar');
+	$configs = $db->selectObjects('toolbar_' . SITE_WYSIWYG_EDITOR);
 	$template->assign('configs',$configs);
 	$template->output();
 } else {

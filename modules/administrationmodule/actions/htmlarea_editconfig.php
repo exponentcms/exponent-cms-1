@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -25,97 +26,77 @@
 if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
+	$config = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=".intval($_GET['id']));
 
-	$imagedir = BASE."external/htmlarea/toolbaricons";
-	$imagebase = PATH_RELATIVE."external/htmlarea/toolbaricons";
-	$confdir = BASE."external/htmlarea";
-
-	$config = $db->selectObject("htmlareatoolbar","id=".intval($_GET['id']));
-
-	?>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>js/HTMLAreaToolbarBuilder.js"></script>
-	<script type="text/javascript">
-	var imagePrefix = "<?php echo $imagebase."/"; ?>";
-	</script>
-<?php
-	$iconconfig = "";
-	if (is_readable(THEME_ABSOLUTE."toolbaricons.conf.php")) {
-		$iconconfig = include($confdir."/toolbaricons.conf.php");
-	} else if (is_readable($confdir . "/toolbaricons.conf.php")) {
-		$iconconfig = include($confdir."/toolbaricons.conf.php");
+?>
+<style type="text/css">
+	.htmleditor_toolboxbutton:hover {
+		border : 2px red solid;
 	}
-	else {
-		echo "Toolbar Icon Configuration file not found";
-		return;
+	.htmleditor_toolboxbutton_selected {
+		background-color : grey;
 	}
+</style>
 	
-?>
+	
+<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>js/HTMLAreaToolbarBuilder.js"></script>
+<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/editors/<?php echo SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	
+
 <table cellspacing="0" cellpadding="2" border="0">
-<tr>
-<?php
-
-foreach ($iconconfig as $row) {
-	foreach ($row as $icondata) {
-		$icon = $icondata['icon'];
-		$span = (isset($icondata['span']) ? ($icondata['span']) : 1);
-		$tooltip = (isset($icondata['tooltip']) ? $icondata['tooltip'] : "");
-		
-		$file = $icon . ".gif";
-		echo "<td colspan='$span' id='td_$icon' onmouseover='this.style.background=\"red\";' onmouseout='this.style.background=\"white\"'>";
-		echo "<a id='a_$icon' href='#' onClick='register(\"$icon\")'>";
-		echo "<img id='img_$icon' src='$imagebase/$file' border='0' alt='" . $tooltip . "' title='" . $tooltip . "' />";
-		echo '</a>';
-		echo "</td>";
-	}
-	echo "</tr><tr>";
-}
-
-?>
-</tr>
-<tr><td colspan="<?php echo $perrow; ?>" style="font-size: 12px; font-style: italic;" id="msgTD"></td></tr>
+	<tbody>
+		<tr id="htmleditor_toolbox" />
+		<tr>
+			<td colspan="<?php echo $perrow; ?>" style="font-size: 12px; font-style: italic;" id="msgTD"></td>
+		</tr>
+	</tbody>
 </table>
 <hr size="1" />
 <a class="mngmntlink administration_mngmntlink" href="#" onclick="newRow(); return false">New Row</a>
 <hr size="1" />
 <table cellpadding="2" cellspacing="2" rules="all" border="0">
-<tbody id="toolbar_workspace">
-<tbody>
+	<tbody id="toolbar_workspace" />
 </table>
+
 <script type="text/javascript">
+	var imagePrefix = "";
+	// populate the button panel
+	exponentJSbuildHTMLEditorButtonSelector(Exponent.WYSIWYG_toolboxbuttons);
+		
 <?php
 	
 if ($config == null) {
 ?>
-// 3 initial rows.
-rows.push(new Array());
-rowlens.push(0);
-rows.push(new Array());
-rowlens.push(0);
-rows.push(new Array());
-rowlens.push(0);
+	// 3 initial rows.
+	rows.push(new Array());
+	rowlens.push(0);
+	rows.push(new Array());
+	rowlens.push(0);
+	rows.push(new Array());
+	rowlens.push(0);
 <?php
-
 } else {
-	$data = unserialize($config->data);
-	$rowcount = 0;
-	foreach ($data as $row) {
-		?>
-rows.push(new Array());
-rowlens.push(0);
-		<?php
-		foreach ($row as $icon) {
-			?>
-rows[<?php echo $rowcount;?>].push("<?php echo $icon;?>");
-rowlens[<?php echo $rowcount;?>] += toolbarIconSpan("<?php echo $icon;?>");
-disableToolbox("<?php echo $icon;?>");
-			<?php
-			
+?>	
+
+	Exponent.WYSIWYG_toolbar = <?php echo $config->data; ?>;
+	
+	for(currRow = 0; currRow < Exponent.WYSIWYG_toolbar.length; currRow++) {
+		rows.push(new Array());
+		rowlens.push(0);
+		
+		for(currButton = 0; currButton < Exponent.WYSIWYG_toolbar[currRow].length; currButton++) {
+			//TODO: decide whether to disallow empty rows altoghether -> htmlareatoolbarbuilder.js->save()
+			if (Exponent.WYSIWYG_toolbar[currRow][currButton] != "") {
+				rows[currRow].push(Exponent.WYSIWYG_toolbar[currRow][currButton]);
+				disableToolbox(Exponent.WYSIWYG_toolbar[currRow][currButton]);
+			}
 		}
-		$rowcount++;
 	}
+<?php
 }
 ?>
-regenerateTable();
+
+	regenerateTable();
 </script>
 <br />
 <hr size="1" />

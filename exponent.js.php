@@ -22,6 +22,15 @@ include_once("exponent.php");
 ?>
 // exponent Javascript Support Systems
 
+//EXPERIMENTAL: introduction of a common namespace object
+//TODO: migrate all of E`s JS API to this new object
+Exponent = new Object();
+
+Exponent.LANG = "<?php echo LANG; ?>";
+Exponent.PATH_RELATIVE = "<?php echo PATH_RELATIVE; ?>";
+Exponent.THEME_RELATIVE = "<?php echo THEME_RELATIVE; ?>";
+Exponent.ICON_RELATIVE = "<?php echo ICON_RELATIVE; ?>";
+
 var onLoadInits = new Array(); // array of functions
 
 var openWindows = new Array(); // array of window references.
@@ -51,6 +60,7 @@ function exponentJSregister(func) {
 var PATH_RELATIVE = "<?php echo PATH_RELATIVE; ?>";
 var THEME_RELATIVE = "<?php echo THEME_RELATIVE; ?>";
 var ICON_RELATIVE = "<?php echo ICON_RELATIVE; ?>";
+
 
 function exponentGetCookie(name) {
 	cookiestr = document.cookie;

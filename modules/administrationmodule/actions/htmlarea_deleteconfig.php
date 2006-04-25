@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -22,7 +23,7 @@
 if (!defined('EXPONENT')) exit('');
 
 if (isset($_GET['id']) && exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
-	$db->delete('htmlareatoolbar','id='.intval($_GET['id']));
+	$db->delete('toolbar_' . SITE_WYSIWYG_EDITOR, 'id='.intval($_GET['id']));
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
