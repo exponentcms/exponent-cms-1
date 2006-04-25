@@ -70,8 +70,9 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		}
 		
 		myConfig.setupToolbar = function(myToolbar) {
-			for(currRow = 1; currRow < myToolbar.length - 1; currRow++) {
-				//FCKeditor's way of forcing rowbreaks is setting an "/" behind every array element
+			myLength = myToolbar.length;
+			for(currRow = 1; currRow < myLength; currRow++) {
+				//FCKeditor's way of forcing rowbreaks is placing an "/" behind an array element
 				myToolbar.splice(currRow, 0, "/");
 			}
 			return this.serialize(myToolbar);
@@ -109,7 +110,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		oFCKeditor.Config['ImageBrowserURL'] = "<?PHP echo $path_to_editor; ?>../../../modules/filemanagermodule/actions/picker.php?id=0";
 		
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
-		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost:8080/external/editors/fcktoolbarconfig.js.php?toolbar=" + encodeURI(myConfig.setupToolbar(Exponent.WYSIWYG_toolbar)) + "&plugins=" + encodeURI(myConfig.setupPlugins(Exponent.WYSIWYG_toolbar));
+		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost:8080/external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(myConfig.setupPlugins(Exponent.WYSIWYG_toolbar)) + "&toolbar=" + encodeURI(myConfig.setupToolbar(Exponent.WYSIWYG_toolbar));
 		
 		oFCKeditor.Create();
 		
