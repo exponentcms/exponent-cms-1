@@ -1,0 +1,129 @@
+<?PHP
+
+##################################################
+#
+# Copyright (c) 2005-2006  Maxim Mueller
+#
+# This file is part of Exponent
+#
+# Exponent is free software; you can redistribute
+# it and/or modify it under the terms of the GNU
+# General Public License as published by the Free
+# Software Foundation; either version 2 of the
+# License, or (at your option) any later version.
+#
+# GPL: http://www.gnu.org/licenses/gpl.txt
+#
+##################################################
+
+#This glue file is included by subsystems/forms/controls/htmleditorcontrol.php
+#it provides the code for the htmleditorcontrol class' controltoHTML() method 
+# it's based on James Hunt's code for that original class
+
+ob_start();
+if (!defined("CTL_HTMLAREAINIT")) {
+	$path_to_editor = PATH_RELATIVE . "external/editors/" . SITE_WYSIWYG_EDITOR . "/";
+?>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		_editor_url = "<?php echo $path_to_editor; ?>";
+		_editor_lang = "<?PHP echo LANG; ?>";
+	/* ]]> */
+	</script>
+	
+	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/htmlarea.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	
+	<script type="text/javascript">
+	/* <![CDATA[ */
+<?php
+	global $db;
+		
+	$config = $db->selectObject("toolbar_Xinha", "active=1");
+	if ($config) {
+		echo "		Exponent.WYSIWYG_toolbar = " . $config->data . ";\n";
+	}
+?>
+		// new namespace for our config
+		myConfig = new Object();
+		
+		// if plugins are needed, set them up
+		myConfig.setupPlugins = function (myToolbar) {
+			plugins = new Array();
+			
+			for(currRow = 0; currRow < myToolbar.length; currRow++) {
+				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
+					currItem = myToolbar[currRow][currButton];
+					// plugin required ?
+					if(Exponent.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(Exponent.WYSIWYG_toolboxbuttons[currItem][2]);
+					}
+				}
+			}
+			
+			//serialize 
+			for(currPlugin = 0; currPlugin < plugins.length; currPlugin++) {
+				HTMLArea.loadPlugin(plugins[currPlugin]);
+			}
+		}
+		
+		myConfig.setupToolbar = function (myToolbar) {
+			return myToolbar;
+		}
+		
+		<!-- Setup initialization functions for htmleditorcontrol -->
+		// Setup the basic HTMLArea environment
+		HTMLArea.loadPlugin("ContextMenu");
+		HTMLArea.loadPlugin("Template");
+			
+		var htmleditorcontrols = new Array(); // an array of textareanames.
+		var editors = new Array();
+			
+		// Register an initialization function with the Exponent JS Support System.
+		// This will be called onLoad (assuming the theme is playing nice)
+		var once = false;
+		exponentJSregister(function () {
+			for (i = 0; i < htmleditorcontrols.length; i++) {
+				editors[i] = new HTMLArea(htmleditorcontrols[i]);
+				editors[i].config = htmleditorconfig;
+				
+				setTimeout("editors["+i+"].generate();",i*500+100);
+			}
+		});
+
+		var htmleditorconfig = new HTMLArea.Config();
+		
+		htmleditorconfig.debug = false;
+
+		//redirect Image&Link browsers to E's connector
+		htmleditorconfig.URIs = {
+			"blank": "blank.html",
+			"link": "../../connector/link.php",
+			"insert_image": "../../connector/insert_image.php",
+			"insert_table": "insert_table.html",
+			"select_color": "select_color.html",
+			"about": "about.html",
+			"help": "editor_help.html"
+		};
+		
+		if (Exponent.WYSIWYG_toolbar) {
+			myConfig.setupPlugins(Exponent.WYSIWYG_toolbar);
+			htmleditorconfig.toolbar = myConfig.setupToolbar(Exponent.WYSIWYG_toolbar);
+		}
+		
+	/* ]]> */
+	</script>
+<?php
+	define("CTL_HTMLAREAINIT", 1);
+}
+// all setup has been done.
+?>
+		<script type="text/javascript">
+			htmleditorcontrols[htmleditorcontrols.length] = "<?php echo $name; ?>";
+		</script>
+		<textarea id="<?php echo $name; ?>" name="<?php echo $name; ?>" style="width:100%" rows="24" cols="80"><?php echo htmlentities($this->default, ENT_COMPAT, LANG_CHARSET);?></textarea>
+		
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+?>
