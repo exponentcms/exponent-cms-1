@@ -35,6 +35,10 @@ if (!defined('BASE')) {
  */
 define('EXPONENT',include(BASE.'exponent_version.php'));
 
+if (!defined('PATHOS')) {
+        define('PATHOS', EXPONENT);
+}
+
 if (!defined('PATH_RELATIVE')) {
 	if (isset($_SERVER['DOCUMENT_ROOT'])) {
 		/*

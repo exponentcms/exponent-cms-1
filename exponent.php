@@ -147,8 +147,10 @@ if (!navigationmodule::isPublic(intval($section))) {
 }
 
 function eDebug($var){
-	echo "<xmp>";
-	print_r($var);
-	echo "</xmp>";
+	if (DEVELOPMENT) {
+		echo "<xmp>";
+		print_r($var);
+		echo "</xmp>";
+	}
 }
 ?>
