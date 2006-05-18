@@ -27,6 +27,24 @@ $i18n = exponent_lang_loadFile('install/pages/final.php');
 <?php
 
 unlink(BASE.'install/not_configured');
+
+//old files merged into coretasks.php
+if (file_exists(BASE.'modules/administrationmodule/tasks/files_tasks.php')){
+	$ret = unlink(BASE.'modules/administrationmodule/tasks/files_tasks.php');
+	if ($ret == false){
+		echo '<br />';
+        	echo '<span style="color: red">'.$i18n['no_remove_filetask'].'</span>';
+	}
+}
+
+if (file_exists(BASE.'modules/administrationmodule/tasks/workflow_tasks.php')){
+	$ret = unlink(BASE.'modules/administrationmodule/tasks/workflow_tasks.php');
+	if ($ret == false){
+		echo '<br /><br />';
+        	echo '<span style="color: red">'.$i18n['no_remove_workflow'].'</span>';
+	}
+}
+
 if (file_exists(BASE.'install/not_configured')) {
 	echo '<br /><br />';
 	echo '<span style="color: red">'.$i18n['no_remove'].'</span>';
@@ -35,7 +53,10 @@ if (file_exists(BASE.'install/not_configured')) {
 ?>
 <br /><br />
 <?php echo $i18n['success']; ?>
-<?php unset($_SESSION['nav_cache']); ?>
+<?php exponent_sessions_clearAllSessionData();?>
 <br /><br />
+<span style="font-weight:bold;color:red;"><u>Notice:</u></span><span style="color:red;font-size:12px;"><br />The PATHOS function, constant, and file prefixes are being deprecated in favor of the EXPONENT prefix.  For the time being a limited compatibility layer is in place to ease the transition.  If you experience any problems with custom themes and modules, this could be the cause.  Please note that the compatibility layer will be eliminated by version 0.97.0. Please update any custom code accordingly.
+<br />
+<br />
 <a href="<?php echo URL_FULL; ?>index.php"><?php echo $i18n['visit']; ?></a>.
 <br /><br />
