@@ -25,7 +25,6 @@ if (!defined('EXPONENT')) exit('');
 <head>
 <?php echo pathos_theme_headerInfo($section); ?>
 <script type="text/JavaScript" src="<?php echo THEME_RELATIVE; ?>swapimage.js"></script>
-<link rel="shortcut icon" href="/themes/portaltheme/images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>textmodule.css" />
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>css-dropmenu-style.css" />
@@ -58,7 +57,7 @@ if (!defined('EXPONENT')) exit('');
 			
 			<div id="bluepanel">
 				<div id="latestexponent"><?php pathos_theme_showModule("textmodule","Bluepanel","","bluepanel"); ?></div>
-				<div id="getexponent"><a href="http://sourceforge.net/project/showfiles.php?group_id=118524">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>			
+				<div id="getexponent"><a href="http://www.exponentcms.org/index.php?section=12">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>			
 			</div>
 			
 			<!-- <a class="imagebutton" href="http://sourceforge.net/project/showfiles.php?group_id=118524&package_id=136680&release_id=406474"><img src="<?php // echo THEME_RELATIVE;?>images/download-stable.jpg" alt="download exponent" width="195" height="138" border="0"></a>
@@ -77,7 +76,7 @@ if (!defined('EXPONENT')) exit('');
           <tr>
             <td width="582" height="35" valign="top"><table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td id="bodytop"></td>
+                  <td id="bodytop-long"></td>
                 </tr>
                 <tr>
                   <td id="bodycontentall">
@@ -89,18 +88,12 @@ if (!defined('EXPONENT')) exit('');
                   <td><div align="right"><img src="<?php echo THEME_RELATIVE;?>images/body-bottom-nd.gif" alt="bottom" width="581" height="41"></div></td>
                 </tr>
               </table></td>
-            <td valign="top" align="left"><div class="sidebar" style="margin-left:7px;">
-                <?php exponent_theme_showModule("navigationmodule","Children Only"); ?>
-				<?php exponent_theme_showModule("previewmodule","Default");	?>
-				<?php //exponent_theme_showModule("searchmodule","Default"); ?>
-                <img src="<?php echo THEME_RELATIVE; ?>images/community.gif" alt="community" border="0" usemap="#Map">
-                <?php exponent_theme_showSectionalModule("containermodule","Default","","@rightsidebar"); ?>
-              </div></td>
+            
           </tr>
         </table></td>
     </tr>
   </table>
-  <div class="siteFooter"><img src="<?php echo THEME_RELATIVE;?>images/header-rule.gif" alt="header rule" width="781" height="12" /></div>
+  <div class="siteFooter"> <img src="<?php echo THEME_RELATIVE;?>images/header-rule.gif" alt="header rule" width="781" height="12" /> </div>
 </div>
 <span style="padding: 5px; background-image: url(<?php echo THEME_RELATIVE; ?><?php echo THEME_RELATIVE;?>images/bottombg.gif);">
 <?php pathos_theme_showModule("textmodule","Footer","","footer"); ?>

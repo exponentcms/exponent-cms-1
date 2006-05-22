@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2005 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -20,9 +20,9 @@
 if (class_exists('portaltheme')) return;
 
 class portaltheme {
-	function name() { return "Portal Site"; }
-	function author() { return "Jake Hamann (jake@jakehamann.com)"; }
-	function description() { return "A simple portal page theme."; }
+	function name() { return "Exponent Theme v1"; }
+	function author() { return "Exponent Designing Crew"; }
+	function description() { return "ExponentCMS.org Theme."; }
 }
 
 ?>
