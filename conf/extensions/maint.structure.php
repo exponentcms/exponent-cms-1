@@ -19,17 +19,19 @@
 
 if (!defined('EXPONENT')) exit('');
 
+$i18n = exponent_lang_loadFile('conf/extensions/maint.structure.php');
+
 return array(
-	'Site Maintenance Settings',
+	$i18n['title'],
 	array(
 		'MAINTENANCE_MODE'=>array(
-			'title'=>'Maintenance Mode?',
-			'description'=>'Whether or not the site is in maintenance mode.  While in maintenance mode, only administrators and acting administrators will be allowed to login.',
+			'title'=>$i18n['maint_mode'],
+			'description'=>$i18n['maint_mode_desc'],
 			'control'=>new checkboxcontrol(false,true)
 		),
 		'MAINTENANCE_MSG_HTML'=>array(
-			'title'=>'Maintenance Mode Message',
-			'description'=>'A message to display to all non-administrators visiting the site.',
+			'title'=>$i18n['maint_msg'],
+			'description'=>$i18n['maint_msg_desc'],
 			'control'=>new texteditorcontrol()
 		)
 	)
