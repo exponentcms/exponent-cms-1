@@ -27,6 +27,9 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 // Initialize the Exponent Framework
 require_once('exponent.php');
 
+// set the output header
+Header("Content-Type: text/html; charset=LANG_CHARSET");
+
 // Check to see if we are in maintenance mode.
 if (MAINTENANCE_MODE == 1) {
 	if (!$user || $user->is_admin == 0 || $user->is_acting_admin == 0) {
