@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'title'=>'Datenbank Benutzer Berechtigungen',
+	'title'=>'Datenbank-Benutzer-Berechtigungen',
 	'header'=>'Wenn Exponent zur DB verbindet müssen folgende Querietypen erlaubt sein:',
 	
 	'create'=>'CREATE TABLE',

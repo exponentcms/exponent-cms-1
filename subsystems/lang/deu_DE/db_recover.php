@@ -5,7 +5,7 @@ return array(
 	'activate_panel'=>'Aktiviere das Administration Modul als Voreinstellung.',
 	'home'=>'Haupt',
 	'create_section'=>'Erstelle den "Haupt"-Bereich.',
-	'disabled'=>'Das Datenbank Widerherstellungsscript ist aus Sicherhetsgründen deaktiviert.  Um es zu aktivieren mmuss diese PHP Datei bearbeitet werden indem die exit() zeilen unkommentiert wird.',
+	'disabled'=>'Das Datenbank Widerherstellungsscript ist aus Sicherhetsgründen deaktiviert.  Um es zu aktivieren muss diese PHP Datei bearbeitet werden indem die <i>exit() Zeilen </i>unkommentiert wird.',
 );
 
 ?>

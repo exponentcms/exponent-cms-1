@@ -1,16 +1,16 @@
 <?php
 
 return array(
-	'check_db'=>'Database Backend',
+	'check_db'=>'Datenbank Backend',
 	'check_gd'=>'GD Graphics Library 2.0+',
 	'check_zlib'=>'ZLib Support',
 	'check_xml'=>'XML (Expat) Library Support',
-	'check_safemode'=>'Safe Mode ist nicht aktiviert',
-	'check_basedir'=>'Open BaseDir ist nicht aktiviert',
-	'check_upload'=>'Datei Uploads aktiviert',
+	'check_safemode'=>'Safe Mode ist <b>nicht</b> aktiviert',
+	'check_basedir'=>'Open BaseDir ist <b>nicht</b> aktiviert',
+	'check_upload'=>'Datei Hochladen <b>aktiviert</b>',
 	'check_temp'=>'Temporäre Dateierstellung',
 	
-	'no_gd'=>'Kein GD Support',
+	'no_gd'=>'<i>Kein</i> GD Support',
 	'old_gd'=>'Ältere Version installiert (%s)',
 	
 	'not_supported'=>'(Nicht unterstützt)',

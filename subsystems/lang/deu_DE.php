@@ -17,10 +17,11 @@
 #
 ##################################################
 # Translation von gerhard starrermayr
-# Version: 0.9.1
+# Version: 0.9.4
 # eXp version: RC4
-# Datum: 20.Mai.2006
+# Datum: 24.Mai.2006
 # url www.uttendorf.de
+# Deutsches Portal:www.exponent-portal.de
 ###################################################
 return array(
 	'name'=>'Deutsch',
