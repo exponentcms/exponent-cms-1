@@ -1,0 +1,16 @@
+<?php
+
+return array(
+	'identifier'=>'Kennung',
+	'caption'=>'Bezeichnung',
+	'default'=>'Vorgabe',
+	'size'=>'Größe',
+	'maxlength'=>'Maximale Länge',
+	
+	'save'=>'Speichern',
+	'cancel'=>'Abbrechen',
+	
+	'id_req'=>'Kennung ist notwendig.',
+);
+
+?>

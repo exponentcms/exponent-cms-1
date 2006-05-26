@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -45,7 +46,7 @@ if (MAINTENANCE_MODE == 1) {
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
-	header('Location: install/index.php?page=welcome');
+	header('Location: install/index.php');
 	exit('Redirecting to the Exponent Install Wizard');
 }
 

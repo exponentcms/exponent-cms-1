@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -31,6 +32,11 @@ if (isset($_POST['c'])) {
 	define('DB_BACKEND',$_POST['c']['db_engine']);
 }
 
+// Initialize the language
+if (isset($_POST['lang'])) {
+	define('LANG', $_POST['lang']);
+}
+
 
 define('SCRIPT_EXP_RELATIVE','install/');
 define('SCRIPT_FILENAME','index.php');
@@ -38,15 +44,28 @@ include_once('../exponent.php');
 
 // Load i18n values
 $i18n = exponent_lang_loadFile('install/index.php');
+
+// Initialize the language
+if (isset($_POST['lang'])) {
+	//prepare value array for exponent_config_saveConfiguration
+	$values = array("c");
+	$values["c"]["LANG"] = LANG;
+	include_once(BASE . "/subsystems/config.php");
+	exponent_config_saveConfiguration($values);
+}
 		
 if (!isset($_REQUEST['page'])) {
-	$_REQUEST['page'] = 'welcome';
+	$_REQUEST['page'] = 'setlang';
 }
 $page = $_REQUEST['page'];
 
 $page_image = '';
 $page_text = '';
 switch ($page) {
+	case 'setlang':
+		$page_image = 'setlang';
+		$page_text = $i18n['setlang'];
+		break;
 	case 'sanity':
 		$page_image = 'sanity';
 		$page_text = $i18n['sanity'];
