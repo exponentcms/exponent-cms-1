@@ -42,7 +42,7 @@ function exponent_lang_list() {
 
 function exponent_lang_initialize() {
 	if (!defined('LANG')) {
-		if (is_readable(BASE.'subsystems/lang/'.USE_LANG.'.php')) {
+		if ((is_readable(BASE.'subsystems/lang/'.USE_LANG.'.php')) && (USE_LANG != 'en')) {
 			define('LANG',USE_LANG); // Lang file exists.
 		} else {
 			define('LANG','en'); // Fallback to 'en' if language file not present.

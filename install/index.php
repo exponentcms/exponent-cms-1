@@ -37,7 +37,6 @@ if (isset($_POST['lang'])) {
 	define('LANG', $_POST['lang']);
 }
 
-
 define('SCRIPT_EXP_RELATIVE','install/');
 define('SCRIPT_FILENAME','index.php');
 include_once('../exponent.php');
