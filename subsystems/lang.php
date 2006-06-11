@@ -45,7 +45,7 @@ function exponent_lang_initialize() {
 		if ((is_readable(BASE.'subsystems/lang/'.USE_LANG.'.php')) && (USE_LANG != 'en')) {
 			define('LANG',USE_LANG); // Lang file exists.
 		} else {
-			define('LANG','en'); // Fallback to 'en' if language file not present.
+			define('LANG','eng_US'); // Fallback to 'eng_US' if language file not present.
 		}
 		$info = include(BASE.'subsystems/lang/'.LANG.'.php');
 		setlocale(LC_ALL,$info['locale']);
