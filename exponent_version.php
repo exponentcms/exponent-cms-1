@@ -27,15 +27,15 @@ if (!defined('EXPONENT_VERSION_MAJOR')) {
 	/* exdoc
 	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
 	 */
-	define('EXPONENT_VERSION_MAJOR',0);
+	define('EXPONENT_VERSION_MAJOR','%%MAJOR%%');
 	/* exdoc
 	 * This is the minor version number of Exponent; the 96 in 0.96.2-beta3
 	 */
-	define('EXPONENT_VERSION_MINOR',96);
+	define('EXPONENT_VERSION_MINOR','%%MINOR%%');
 	/* exdoc
 	 * This is the revision version number of Exponent; the 2 in 0.96.2-beta3
 	 */
-	define('EXPONENT_VERSION_REVISION',5);
+	define('EXPONENT_VERSION_REVISION','%%REVISION%%');
 	/* exdoc
 	 * This is the date that this version of Exponent was exported from CVS and built.
 	 */
@@ -43,12 +43,12 @@ if (!defined('EXPONENT_VERSION_MAJOR')) {
 	/* exdoc
 	 * This specifies the type of release, either 'alpha','beta','rc' or '' (for stable).
 	 */
-	define('EXPONENT_VERSION_TYPE','2');
+	define('EXPONENT_VERSION_TYPE','%%TYPE%%');
 	/* exdoc
 	 * This number is bumped each time a distribution of a single version is
 	 * released.  For instance, the 3rd beta has an version type iteration of 3.
 	 */
-	define('EXPONENT_VERSION_ITERATION',0); // only applies to betas/alphas / rcs
+	define('EXPONENT_VERSION_ITERATION','%%ITERATION%%'); // only applies to betas/alphas / rcs
 }
 
 //return '0.96'; uncomment this when full deprecation of exponent is complete
