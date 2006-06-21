@@ -32,7 +32,7 @@ class htmltemplate {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('title',$i18n['name'],new textcontrol($object->title));
+		$form->register('title',$i18n['title'],new textcontrol($object->title));
 		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
 		
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
