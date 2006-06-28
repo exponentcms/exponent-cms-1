@@ -46,7 +46,9 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
 	'recv_html'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)),
+	"created_on"=>array(
+                DB_FIELD_TYPE=>DB_DEF_TIMESTAMP)
 );
 
 ?>

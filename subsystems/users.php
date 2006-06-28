@@ -386,6 +386,7 @@ function exponent_users_create($formvalues) {
 
 	// Insert the user object into the database, and save the ID.
 	global $db;
+	$u->created_on = time();
 	$u->id = $db->insertObject($u,'user');
 
 	// Calculate Group Memeberships for newly created users.  Any groups that
