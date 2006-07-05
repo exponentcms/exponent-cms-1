@@ -19,16 +19,16 @@
 
 class bannermodule {
 	function name() { return exponent_lang_loadKey('modules/bannermodule/class.php','module_name'); }
-	function author() { return "James Hunt"; }
+	function author() { return exponent_lang_loadKey('modules/bannermodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/bannermodule/class.php','module_description'); }
-	
+
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
-	function permissions($internal = '') {	
+
+	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/bannermodule/class.php');
 		return array(
 			'administrate'=>$i18n['perm_administrate'],
@@ -37,7 +37,7 @@ class bannermodule {
 			'manage_af'=>$i18n['perm_manage_af'],
 		);
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
 		$banners = $db->selectObjects('banner_ad',"location_data='".serialize($loc)."'");
@@ -51,40 +51,40 @@ class bannermodule {
 		}
 		$db->delete('banner_ad',"location_data='".serialize($loc)."'");
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/bannermodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory) && exponent_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 			return;
 		}
-		
+
 		global $db;
 		foreach ($db->selectObjects('banner_ad',"location_data='".serialize($oloc)."'") as $banner) {
 			$file = $db->selectObject('file','id='.$banner->file_id);
-			
+
 			copy($file->directory.'/'.$file->filename,$directory.'/'.$file->filename);
 			$file->directory = $directory;
 			unset($file->id);
 			$file->id = $db->insertObject($file,'file');
-			
+
 			$banner->location_data = serialize($nloc);
 			$banner->file_id = $file->id;
 			unset($banner->id);
 			$db->insertObject($banner,'banner_ad');
 		}
 	}
-	
+
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
 	function show($view,$loc, $title = '') {
 		global $db;
-		
+
 		$template = new template('bannermodule',$view,$loc);
 		$template->assign('title',$title);
-		
+
 		$viewconfig = array('type'=>'default','number'=>1);
 		if (is_readable($template->viewdir."/$view.config")) $viewconfig = include($template->viewdir."/$view.config");
 		if ($viewconfig['type'] == 'affiliates') {
@@ -95,11 +95,11 @@ class bannermodule {
 			}
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			usort($af,'exponent_sorting_byNameAscending');
-			
+
 			$template->assign('affiliates',$af);
 		} else {
 			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
-		
+
 			$directory = 'files/bannermodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
 				$err = exponent_files_makeDirectory($directory);
@@ -108,12 +108,12 @@ class bannermodule {
 					$template->assign('uploadError',$err);
 				}
 			}
-			
+
 			$all = $db->selectObjects('banner_ad',"location_data='".serialize($loc)."'");
-			
+
 			if ($viewconfig['type'] == 'allbanners') {
 				$bfiles = $db->selectObjectsIndexedArray('file',"directory='".$directory."'");
-				
+
 				$template->assign('affiliates',bannermodule::listAffiliates());
 				$template->assign('files',$bfiles);
 				$template->assign('banners',$all);
@@ -121,7 +121,7 @@ class bannermodule {
 				$num = $viewconfig['number'];
 				shuffle($all);
 				$banners = array_slice($all,0,$num);
-				
+
 				for ($i = 0; $i < count($banners); $i++) {
 					$banners[$i]->file = $db->selectObject('file','id='.$banners[$i]->file_id);
 				}
@@ -133,7 +133,7 @@ class bannermodule {
 			$loc);
 		$template->output();
 	}
-	
+
 	function listAffiliates() {
 		global $db;
 		$affiliates = array();

@@ -18,7 +18,7 @@
 	{if ($permissions.administrate == 1 || $permissions.edit_module == 1 || $permissions.delete_module == 1 || $permissions.add_module == 1 || $container->permissions.administrate == 1)}
 		{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 		<div class="container_editbox">
-		 
+
 			<div class="container_editheader">
 				{* I.E. requires a 'dummy' div inside of the above div, so that it
 				   doesn't just 'lose' the margins and padding. jh 8/23/04 *}
@@ -32,8 +32,8 @@
 						</td>
 						<td align="right" valign="top">
 							{if $container->is_private == 1 && $permissions.administrate == 1}
-									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Define which user(s) can see this module" alt="Define which user(s) can see this module" /></a>&nbsp;
-									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Define which group(s) can see this module" alt="Define which group(s) can see this module" /></a>
+									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_define_user}" alt="{$_TR.alt_define_user}" /></a>&nbsp;
+									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_define_group}" alt="{$_TR.alt_define_group}" /></a>
 							{/if}
 							{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 								<a href="{link action=edit id=$container->id}">
@@ -45,7 +45,7 @@
 									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
 								</a>
 							{/if}
-							
+
 						</td>
 					</tr>
 				</table>

@@ -2,8 +2,9 @@
 
 return array(
 	'module_name'=>'Banner Manager',
+	'module_author'=>'James Hunt',
 	'module_description'=>'Manages advertisements and click throughs.',
-	
+
 	'perm_administrate'=>'Administrate',
 	'perm_configure'=>'Configure',
 	'perm_manage'=>'Manage Banners',

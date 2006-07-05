@@ -26,14 +26,14 @@
 		} else {
 			width = 400;
 		}
-		
+
 		if (height != 0) {
 			height = height+20;
 			if (height > 400) height = 400;
 		} else {
 			height = 400;
 		}
-		
+
 		window.open(filename,'image'+Math.random(),'status=no,status=no,width='+width+',height='+height);
 		return false;
 	}
@@ -66,9 +66,9 @@
 		{/if}
 	</td>
 	{foreachelse}
-	<td><i>No files found.</i></td>
+	<td><i>{$_TR.no_files}</i></td>
 	{/foreach}
 </tr>
 </table>
 <br />
-<a href="{link action=upload_file id=$collection->id}">New File</a>
+<a href="{link action=upload_file id=$collection->id}">{$_TR.new_file}</a>

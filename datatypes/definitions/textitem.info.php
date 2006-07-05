@@ -20,7 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 return array(
-	DB_TABLE_COMMENT=>'Text Items',
+	DB_TABLE_COMMENT=>exponent_lang_loadKey('datatypes/definitions/textitem.info.php','text_items'),
 	DB_TABLE_WORKFLOW=>true
 );
 

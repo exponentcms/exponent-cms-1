@@ -19,15 +19,15 @@
 
 class resourcesmodule {
 	function name() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
+	function author() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_description'); }
-	
+
 	function hasContent() { return true; }
 	function hasViews() { return true; }
 	function hasSources() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/resourcesmodule/class.php');
 		if ($internal == '') {
@@ -47,7 +47,7 @@ class resourcesmodule {
 			);
 		}
 	}
-	
+
 	function getLocationHierarchy($loc) {
 		if ($loc->int == '') {
 			return array($loc);
@@ -55,12 +55,12 @@ class resourcesmodule {
 			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
-	
+
 	function show($view,$loc,$title = '') {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
-		
+
 		$template = new template('resourcesmodule',$view,$loc);
-		
+
 		$directory = 'files/resourcesmodule/' . $loc->src;
 		if (!file_exists(BASE.$directory)) {
 			$err = exponent_files_makeDirectory($directory);
@@ -69,9 +69,9 @@ class resourcesmodule {
 				$template->assign('uploadError',$err);
 			}
 		}
-		
+
 		global $db;
-		
+
 		$location = serialize($loc);
 		if(!isset($_SESSION['resource_cache'][$location])) {
 			$resources = $db->selectObjects('resourceitem',"location_data='".serialize($loc)."'");
@@ -90,25 +90,25 @@ class resourcesmodule {
 		}
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		usort($resources,'exponent_sorting_byRankAscending');
-		
+
 		$rfiles = array();
 		foreach ($db->selectObjects('file',"directory='$directory'") as $file) {
 			$file->mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
 			$rfiles[$file->id] = $file;
 		}
-		
+
 		$template->assign('moduletitle',$title);
 		$template->assign('resources',$resources);
 		$template->assign('files',$rfiles);
-		
+
 		$template->register_permissions(
 			array('administrate','configure','post','edit','delete'),
 			$loc);
-		
+
 		$template->output($view);
-		
+
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
 		foreach($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $res) {
@@ -122,42 +122,42 @@ class resourcesmodule {
 		rmdir(BASE.'files/resourcesmodule/'.$loc->src);
 		$db->delete('resourceitem',"location_data='".serialize($loc)."'");
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		$directory = 'files/resourcesmodule/'.$nloc->src;
 		if (!file_exists(BASE.$directory) && exponent_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 			return;
 		}
-		
+
 		global $db;
 		foreach ($db->selectObjects('resourceitem',"location_data='".serialize($oloc)."'") as $r) {
 			$file = $db->selectObject('file','id='.$r->file_id);
-			
+
 			copy($file->directory.'/'.$file->filename,$directory.'/'.$file->filename);
 			$file->directory = $directory;
 			unset($file->id);
 			$file->id = $db->insertObject($file,'file');
-			
+
 			$r->location_data = serialize($nloc);
 			$r->file_id = $file->id;
 			unset($r->id);
 			$db->insertObject($r,'resourceitem');
 		}
 	}
-	
+
 	function spiderContent($item = null) {
 		$i18n = exponent_lang_loadFile('modules/resourcesmodule/class.php');
-		
+
 		global $db;
-		
+
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
-		
+
 		$search = null;
 		$search->category = $i18n['search_category'];
 		$search->ref_module = 'resourcesmodule';
 		$search->ref_type = 'resourceitem';
-		
+
 		if ($item) {
 			$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
@@ -177,7 +177,7 @@ class resourcesmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-		
+
 		return true;
 	}
 }

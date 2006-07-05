@@ -13,8 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">Deactivate Deployed Site</div>
+<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-When you deactivate a deployed site, a page is put up to catch visitors and notify them that the site has been taken down.  Choose the template you wish to use, and enter some explanation of why the deployed site is being deactivated (this will be shown to visitors).
+{$_TR.form_header}
 </div>
 {$form_html}

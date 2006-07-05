@@ -19,4 +19,4 @@
 	{/foreach}
 </ul>
 
-<a href="{link action=edit_collection}">New Collection</a>
+<a href="{link action=edit_collection}">{$_TR.new_collection}</a>

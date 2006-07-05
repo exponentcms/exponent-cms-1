@@ -19,7 +19,7 @@
 
 {paginate objects=$users}
 	{literal}
-	
+
 	function serializeData() {
 		elem = document.getElementById("membdata");
 		arr = new Array();
@@ -36,7 +36,7 @@
 		}
 		elem.value = arr.join(",");
 	}
-	
+
 	function makeMember(id,checked) {
 		paginate.allData[id].var_is_member = (checked ? 1 : 0);
 		if (!checked && paginate.allData[id].var_is_admin == 1) {
@@ -44,7 +44,7 @@
 			paginate.drawTable();
 		}
 	}
-	
+
 	function makeAdmin(id,checked) {
 		paginate.allData[id].var_is_admin = (checked ? 1 : 0);
 		if (checked && paginate.allData[id].var_is_member == 0) {
@@ -52,7 +52,7 @@
 			paginate.drawTable();
 		}
 	}
-	
+
 	function changeAll(checked) {
 		for (i = 0; i < paginate.allData.length; i++) {
 			{/literal}
@@ -64,7 +64,7 @@
 		}
 		paginate.drawTable();
 	}
-	
+
 	function isMember(object) {
 		html = '<input type="checkbox" ';
 		if (object.var_is_member == 1) {
@@ -75,11 +75,11 @@
 		if (object.var_is_admin == 1) html += 'disabled ';
 		{/if}
 		{literal}
-		
+
 		html += 'onClick="makeMember('+object.__ID+',this.checked)" />';
 		return html;
 	}
-	
+
 	function isAdmin(object) {
 		html = '<input type="checkbox" ';
 		if (object.var_is_admin == 1) {
@@ -93,27 +93,27 @@
 		html += 'onClick="makeAdmin('+object.__ID+',this.checked)" />';
 		return html;
 	}
-	
+
 	function sortMember(a,b) {
 		return (a.var_is_member > b.var_is_member ? -1 : 1);
 	}
-	
+
 	function sortAdmin(a,b) {
 		return (a.var_is_admin > b.var_is_admin ? -1 : 1);
 	}
-	
+
 	paginate.columns = new Array(
-		new cColumn("User","username",null,null),
-		new cColumn("Is Member?","",isMember,sortMember),
-		new cColumn("Group Admin","",isAdmin,sortAdmin)
+		new cColumn("{/literal}{$_TR.user}{literal}","username",null,null),
+		new cColumn("{/literal}{$_TR.is_member}{literal}","",isMember,sortMember),
+		new cColumn("{/literal}{$_TR.group_admin}{literal}","",isAdmin,sortAdmin)
 	);
-	
+
 	{/literal}
 {/paginate}
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tbody id="dataTable">
-	
+
 	</tbody>
 </table>
 <table width="100%">
@@ -137,6 +137,6 @@
 </form>
 <br />
 
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(true); return false;">Select All</a>
+<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(true); return false;">{$_TR.select_all}</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(false); return false;">Unselect All</a>
+<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(false); return false;">{$_TR.unselect_all}</a>

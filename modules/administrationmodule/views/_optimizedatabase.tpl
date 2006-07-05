@@ -24,7 +24,7 @@
 {foreach from=$before key=table item=info}
 <tr class="row {cycle values='odd,even'}_row">
 	<td>{$table}</td>
-	<td align="right">{math format="%.3f" equation="x / 1024" x=$info->data_total} kb</td>
+	<td align="right">{math format="%.3f" equation="x / 1024" x=$info->data_total} {$_TR.kb}</td>
 </tr>
 {/foreach}
 </table>

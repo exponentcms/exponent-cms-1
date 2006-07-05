@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>{$smarty.const.SITE_TITLE} :: Down for Maintenance</title>
+		<title>{$smarty.const.SITE_TITLE} :: {$_TR.down}</title>
 		<style type="text/css">{literal}
 			div {
 				font-size: 10pt;
@@ -11,7 +11,7 @@
 		{/literal}</style>
 	</head>
 	<body>
-	
+
 	<div style="border: 1px solid black; margin: 25%; padding: 3em;">
 	{$smarty.const.MAINTENANCE_MSG_HTML}
 	</div>

@@ -19,15 +19,15 @@
 
 class htmltemplatemodule {
 	function name() { return exponent_lang_loadKey('modules/htmltemplatemodule/class.php','module_name'); }
+	function author() { return exponent_lang_loadKey('modules/htmltemplatemodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/htmltemplatemodule/class.php','module_description'); }
-	function author() { return 'James Hunt'; }
-	
+
 	function hasSources() { return false; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/htmltemplatemodule/class.php');
 		return array(
@@ -37,7 +37,7 @@ class htmltemplatemodule {
 			'delete'=>$i18n['perm_delete']
 		);
 	}
-	
+
 	function show($view,$loc = null,$title = '') {
 		if (
 			exponent_permissions_check('administrate',$loc) ||
@@ -46,10 +46,10 @@ class htmltemplatemodule {
 			exponent_permissions_check('delete',$loc)
 		) {
 			$template = new template('htmltemplatemodule',$view,$loc);
-			
+
 			$template->assign('noupload',0);
 			$template->assign('uploadError','');
-				
+
 			if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 			$directory = 'files/htmltemplatemodule/' . $loc->src;
 			if (!file_exists(BASE.$directory)) {
@@ -59,7 +59,7 @@ class htmltemplatemodule {
 					$template->assign('uploadError',$err);
 				}
 			}
-			
+
 			global $db;
 			$templates = $db->selectObjects('htmltemplate');
 			for ($i = 0; $i < count($templates); $i++) {
@@ -71,29 +71,29 @@ class htmltemplatemodule {
 					$templates[$i]->associations = $assocs;
 				}
 			}
-			
+
 			$template->assign('moduletitle',$title);
 			$template->assign('templates',$templates);
 			$template->register_permissions(
 				array('administrate','create','edit','delete'),
 				exponent_core_makeLocation('htmltemplatemodule'));
-			
+
 			$template->output();
 		}
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
-	
+
 		$db->delete('htmltemplate');
 		$db->delete('htmltemplateassociation');
 	}
-	
+
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-	
+
 	function copyContent($from_loc,$to_loc) {
 		// Do nothing, no content
 	}

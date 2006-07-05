@@ -2,8 +2,9 @@
 
 return array(
 	'module_name'=>'Weblog / Online Journal',
+	'module_author'=>'James Hunt',
 	'module_description'=>'Manages an online journal.',
-	
+
 	'perm_administrate'=>'Administrate',
 	'perm_configure'=>'Configure',
 	'perm_post'=>'Post',
@@ -13,11 +14,11 @@ return array(
 	'perm_edit_comments'=>'Edit Comments',
 	'perm_delete_comments'=>'Delete Comments',
 	'perm_view_private'=>'View Private Posts',
-	
+
 	'perm_edit_one'=>'Edit Post',
 	'perm_delete_one'=>'Delete Post',
 	'perm_view_private_one'=>'View (if private)',
-	
+
 	'search_category'=>'Blog Postings',
 );
 

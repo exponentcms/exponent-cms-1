@@ -35,7 +35,7 @@
 					<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
 					<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 				{/if}
-			
+
 				{if $permissions.edit_module == 1}
 					<a href="{link action=edit id=$top->id}">
 						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" />
@@ -74,8 +74,8 @@
 							</td>
 							<td align="right" valign="top">
 								{if $container->is_private == 1 && $permissions.administrate == 1}
-									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Define which user(s) can see this module" alt="Define which user(s) can see this module" /></a>&nbsp;
-									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Define which group(s) can see this module" alt="Define which group(s) can see this module" /></a>
+									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_define_user}" alt="{$_TR.alt_define_user}" /></a>&nbsp;
+									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_define_group}" alt="{$_TR.alt_define_group}" /></a>
 								{/if}
 								{if $smarty.foreach.c.first == false}
 									{if $permissions.order_modules == 1}
@@ -104,7 +104,7 @@
 										<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
 									</a>
 								{/if}
-								
+
 							</td>
 						</tr>
 					</table>

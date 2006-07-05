@@ -19,15 +19,15 @@
 
 class formmodule {
 	function name() { return exponent_lang_loadKey('modules/formmodule/class.php','module_name'); }
+	function author() { return exponent_lang_loadKey('modules/formmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/formmodule/class.php','module_description'); }
-	function author() { return 'Greg Otte'; }
-	
+
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = "") {
 		$i18n = exponent_lang_loadFile('modules/formmodule/class.php');
 		if ($internal == "") {
@@ -52,14 +52,14 @@ class formmodule {
 			);
 		}
 	}
-	
+
 	function show($view,$loc = null) {
 		global $db;
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		exponent_forms_initialize();
-		
+
 		$i18n = exponent_lang_loadFile('modules/formmodule/class.php');
-		
+
 		if (defined("PREVIEW_READONLY") && !defined("SELECTOR")) {
 			// Pass
 		}  else {
@@ -93,12 +93,12 @@ class formmodule {
 			$SYS_FLOW_REDIRECTIONPATH = "editfallback";
 			exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 			$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
-			
+
 			$floc = unserialize($f->location_data);
 			$controls = $db->selectObjects("formbuilder_control","form_id=".$f->id);
 			if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 			usort($controls,"exponent_sorting_byRankAscending");
-			
+
 			$form = new form();
 			foreach ($controls as $c) {
 				$ctl = unserialize($c->data);
@@ -108,7 +108,7 @@ class formmodule {
 			}
 			$form->register(uniqid(""),"", new htmlcontrol("<br /><br />"));
 			$form->register("submit","",new buttongroupcontrol($f->submitbtn,$f->resetbtn,""));
-			
+
 			$form->meta("action","submit_form");
 			$form->meta("m",$floc->mod);
 			$form->meta("s",$floc->src);
@@ -122,7 +122,7 @@ class formmodule {
 			}
 			if ($f->is_saved == 0 && $f->is_email == 0) {
 				$form->controls['submit']->disabled = true;
-				$formmsg .= $i18n['no_actions']; 
+				$formmsg .= $i18n['no_actions'];
 			}
 			$template = new template("formmodule",$view,$loc);
 			$template->assign("formmsg",$formmsg);
@@ -132,7 +132,7 @@ class formmodule {
 			$template->output();
 		}
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
 		$form = $db->selectObject("formbuilder_form","location_data='".serialize($loc)."'");
@@ -144,7 +144,7 @@ class formmodule {
 		}
 		$db->delete("formbuilder_form","location_data='".serialize($loc)."'");
 	}
-	
+
 	function spiderContent($item = null) {
 		// No content
 		return false;

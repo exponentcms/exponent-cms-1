@@ -14,9 +14,9 @@
  *
  *}
 {if $message == ''}
-Thank you for your submission
+{$_TR.default_message}
 {else}
 {$message}
 {/if}
 <br /><br />
-<a href="index.php">Back</a>
+<a href="index.php">{$_TR.back}</a>

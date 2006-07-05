@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<h3>Contact Information : {$contact->firstname} {$contact->lastname}</h3>
+<h3>{$_TR.contact_info} : {$contact->firstname} {$contact->lastname}</h3>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1}
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=edit id= $contact->id}">

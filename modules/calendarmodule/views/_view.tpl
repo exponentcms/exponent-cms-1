@@ -29,8 +29,8 @@
  *
  *}
 {if $permissions.administrate == 1 || $item->permissions.administrate == 1}
-	<a href="{link action=userperms int=$item->id _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_user_perms}" alt="{$_TR.alt_user_perms}" /></a>&nbsp;
-	<a href="{link action=groupperms int=$item->id _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_group_perms}" alt="{$_TR.alt_group_perms}" /></a>
+	<a href="{link action=userperms int=$item->id _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms int=$item->id _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.edit == 1 || $item->permissions.edit == 1}
 	{if $item->approved == 1}
@@ -42,7 +42,7 @@
 {if $permissions.delete == 1 || $item->permissions.delete == 1}
 	{if $item->approved == 1}
 		{if $item->is_recurring == 0}
-		<a href="{link action=delete id=$item->id}" onClick="return confirm('{$_TR.dlg_delete_confirm}');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+		<a href="{link action=delete id=$item->id}" onClick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 		{else}
 		<a href="{link action=delete_form date_id=$item->eventdate->id id=$item->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 		{/if}

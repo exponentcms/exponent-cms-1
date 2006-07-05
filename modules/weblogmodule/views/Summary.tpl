@@ -15,11 +15,11 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Weblog" alt="Assign user permissions on this Weblog" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Weblog" alt="Assign group permissions on this Weblog" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_groupperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Weblog" alt="Change the configuration of this Weblog" /></a>
+	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -28,47 +28,47 @@
 {if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$posts item=post}
 <div>
-<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}
+<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
 <a href="{link action=userperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign permissions on this Weblog Post" alt="Assign permissions on this Weblog Post" />
+	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
 </a>
 <a href="{link action=groupperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Weblog Post" alt="Assign group permissions on this Weblog Post" />
+	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
 </a>
 {/if}
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1 || $post->permissions.edit == 1}
 <a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$post->id}">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="Edit this Weblog Post" alt="Edit this Weblog Post" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 {/if}
 {if $permissions.delete == 1 || $post->permissions.delete == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onClick="return confirm('Are you sure you want to delete this Weblog Post?');">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="Delete this Weblog Post" alt="Delete this Weblog Post" />
+<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onClick="return confirm('{$_TR.delete:confirm}');">
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}
 </div>
-<div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+<div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body|summarize:html:para}</div>
 {if $smarty.const.MEANINGFUL_URLS}
-<div><a href="{$smarty.const.URL_FULL}content/blog/{$post->internal_name}">Read More</a></div>
+<div><a href="{$smarty.const.URL_FULL}content/blog/{$post->internal_name}">{$_TR.read_more}</a></div>
 {else}
-<div><a href="{$smarty.const.URL_FULL}content/blog.php?id={$post->id}">Read More</a></div>
+<div><a href="{$smarty.const.URL_FULL}content/blog.php?id={$post->id}">{$_TR.read_more}</a></div>
 {/if}
 <hr size="1" />
 </div>
 {/foreach}
 {if $total_posts > $config->items_per_page}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1}">Next</a>
+	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>
 {/if}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
 <br />
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit}">New Post</a>
+<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a>
 {/if}
 {/permissions}

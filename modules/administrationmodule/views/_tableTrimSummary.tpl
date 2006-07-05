@@ -28,9 +28,9 @@
 </table>
 {if $real_dropped != 0}
 <hr size="1">
-Dropped a total of {$dropped} tables.<br />
+{$_TR.dropped_total|sprintf:$dropped}<br />
 {math assign=diff equation="x-y" x=$dropped y=$real_dropped}
 {if $diff != 0}
-{$diff} empty table{if $diff != 1}s{/if} were re-created.<br />
+{$diff} {if $diff == 1}{$_TR.recreated_single}{/if}{if $diff != 1}{$_TR.recreated_multiple}{/if}<br />
 {/if}
 {/if}

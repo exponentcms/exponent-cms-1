@@ -16,11 +16,11 @@
  <div>
 {math equation="x-1" x=$current->rank assign="prevrank"}
 {if $prevrank < 0}
-	&lt; Prev Page
+	{$_TR.previous}
 {else}
 	{foreach from=$sections item=section}
 	{if $section->parent ==$current->parent && $section->rank==$prevrank}
-	<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>&lt; Prev Page</a>
+	<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$_TR.previous}</a>
 	{/if}
 	{/foreach}
 {/if}
@@ -28,11 +28,11 @@
 &nbsp;|&nbsp;
 
 {if $current->parent == 0}
-	Up
+	{$_TR.up}
 {else}
-	<a href="?section={$current->parent}">Up</a>
+	<a href="?section={$current->parent}">{$_TR.up}</a>
 	&nbsp;|&nbsp;
-	<a href="?section={$current->parents[0]}">Top</a>
+	<a href="?section={$current->parents[0]}">{$_TR.top}</a>
 {/if}
 
 &nbsp;|&nbsp;
@@ -41,11 +41,11 @@
 {assign var=gotlink value=0}
 {foreach from=$sections item=section }
 {if $section->parent == $current->parent && $section->rank == $nextrank}
-<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>Next Page &gt;</a>
+<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$_TR.next}</a>
 {assign var=gotlink value=1}
 {/if}
 {/foreach}
 {if $gotlink == 0}
-Next Page &gt;
+{$_TR.next}
 {/if}
 </div>

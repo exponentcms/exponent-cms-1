@@ -19,19 +19,19 @@
 
 class uiswitchermodule {
 	function name() { return exponent_lang_loadKey('modules/uiswitchermodule/class.php','module_name'); }
+	function author() { return exponent_lang_loadKey('modules/uiswitchermodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/uiswitchermodule/class.php','module_description'); }
-	function author() { return 'James Hunt'; }
-	
+
 	function hasSources() { return false; }
 	function hasContent() { return false; }
 	function hasViews() { return false; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = '') {
 		return array();
 	}
-	
+
 	function show($view,$loc = null, $title = '') {
 		$ui_levels = exponent_sessions_get('uilevels');
 		if (count($ui_levels)) {
@@ -42,20 +42,20 @@ class uiswitchermodule {
 			$template->output();
 		}
 	}
-	
+
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 		// Do nothing, no content
 	}
-	
+
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-	
+
 }
 
 ?>

@@ -19,23 +19,23 @@
 
 class loginmodule {
 	function name() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; } 
+	function name() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_description'); }
-	
+
 	function hasContent() { return false; }
 	function hasSources() { return false; }
 	function hasViews()   { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = '') {
 		return array();
 	}
-	
+
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
-	
+
 	function copyContent($from_loc,$to_loc) {
 		// Do nothing, no content
 	}
@@ -64,11 +64,11 @@ class loginmodule {
 		}
 		$template->output($view);
 	}
-	
+
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-	
+
 }
 ?>

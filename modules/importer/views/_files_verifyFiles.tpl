@@ -18,14 +18,14 @@
 {assign var=warn value=0}
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 {foreach from=$files_data item=mod_data key=modname }
-<tr><td colspan="2"><b>{if $mod_data[0] != ''}{$mod_data[0]}{else}Unknown module : {$modname}{/if}</b></td></tr>
+<tr><td colspan="2"><b>{if $mod_data[0] != ''}{$mod_data[0]}{else}{$_TR.unknown_module} : {$modname}{/if}</b></td></tr>
 {foreach from=$mod_data[1] key=file item=status}
 {assign var=haveFiles value=1}
 <tr>
 	<td style="padding-left: 2.5em;">{$file}</td>
 	<td>
 		{if $status == $smarty.const.SYS_FILES_SUCCESS}
-		<span style="color: green;">passed</span>
+		<span style="color: green;">{$_TR.passed}</span>
 		{elseif $status == $smarty.const.SYS_FILES_FOUNDFILE || $status == $smarty.const.SYS_FILES_FOUNDDIR}
 		{assign var=warn value=1}
 		<span style="color: orange;">{$_TR.file_exists}</span>

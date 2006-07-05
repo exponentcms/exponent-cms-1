@@ -13,8 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">Choose Modules and Themes</div>
+<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-Here, you can choose which modules and themes you want to make available to the shared core site.
+{$_TR.form_header}
 </div>
 {$form_html}

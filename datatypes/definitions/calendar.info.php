@@ -20,7 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 return array(
-	DB_TABLE_COMMENT=>'Calendar post table.',
+	DB_TABLE_COMMENT=>exponent_lang_loadKey('datatypes/definitions/calendar.info.php','calendar_post_table'),
 	DB_TABLE_WORKFLOW=>true
 );
 

@@ -15,23 +15,23 @@
  *}
  {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="Assign user permissions on this Calendar" alt="Assign user permissions on this Calendar" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="Assign group permissions on this Calendar" alt="Assign group permissions on this Calendar" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="Change the configuration of this Calendar" alt="Change the configuration of this Calendar" /></a>
+	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {/permissions}
 <table cellspacing="0" cellpadding="2" border="0" width="160">
 <tr><td align="center" class="weblog_header" colspan="7">{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B"}</td></tr>
 	<tr>
-		<td align="center" class="weblog_miniday">S</td>
-		<td align="center" class="weblog_miniday">M</td>
-		<td align="center" class="weblog_miniday">T</td>
-		<td align="center" class="weblog_miniday">W</td>
-		<td align="center" class="weblog_miniday">T</td>
-		<td align="center" class="weblog_miniday">F</td>
-		<td align="center" class="weblog_miniday">S</td>
+		<td align="center" class="weblog_miniday">{$_TR.sunday_short}</td>
+		<td align="center" class="weblog_miniday">{$_TR.monday_short}</td>
+		<td align="center" class="weblog_miniday">{$_TR.tuesday_short}</td>
+		<td align="center" class="weblog_miniday">{$_TR.wednesday_short}</td>
+		<td align="center" class="weblog_miniday">{$_TR.thursday_short}</td>
+		<td align="center" class="weblog_miniday">{$_TR.friday_short}</td>
+		<td align="center" class="weblog_miniday">{$_TR.saturday_short}</td>
 	</tr>
 {foreach from=$days item=week key=weekid}
 	<tr class="{if $currentweek == $weekid}weblog_currentweek{/if}">
@@ -54,14 +54,14 @@
 <br />
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=edit}" title="Create a new Calendar Event" alt="Create a new Calendar Event">Create Event</a><br />
+<a class="mngmntlink weblog_mngmntlink" href="{link action=edit}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a><br />
 {/if}
 {if $in_approval != 0 && $canview_approval_link == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="View Calendar Events in Approval" alt="View Calendar Events in Approval">View Approval</a><br />
+<a class="mngmntlink weblog_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.view_approval}</a><br />
 {/if}
 {/permissions}
 <br />
 
 {if $modconfig->enable_categories == 1}
-<a href="{link module=categories m=calendarmodule action=manage}" class="mngmntlink weblog_mngmntlink">Manage Categories</a>
+<a href="{link module=categories m=calendarmodule action=manage}" class="mngmntlink weblog_mngmntlink">{$_TR.manage_categories}</a>
 {/if}

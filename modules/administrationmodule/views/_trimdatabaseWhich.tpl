@@ -13,8 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">Trim Database</div>
-<div class="form_header">Exponent has examined the database and determined which tables are no longer being used.  Please select which ones you want to remove from the database.</div>
+<div class="form_title">{$_TR.form_title}</div>
+<div class="form_header">{$_TR.form_header}</div>
 <form method="post" action="">
 <input type="hidden" name="module" value="administrationmodule" />
 <input type="hidden" name="action" value="trimdatabase_final" />
@@ -29,15 +29,15 @@
 {$rowcount} {plural singular=Record plural=Records count=$rowcount}
 </td></tr>
 {foreachelse}
-<tr><td colspan="3"><b>No unused tables were found.</b></td></tr>
+<tr><td colspan="3"><b>{$_TR.no_unused_tables}</b></td></tr>
 {/foreach}
 {if $droppable_count != 0}
 <tr><td colspan="3">
-<a href="#" onClick="selectAll('tables[',true); return false; ">Select All</a>
+<a href="#" onClick="selectAll('tables[',true); return false; ">{$_TR.select_all}</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
-<a href="#" onClick="selectAll('tables[',false); return false; ">Deselect All</a>
+<a href="#" onClick="selectAll('tables[',false); return false; ">{$_TR.deselect_all}</a>
 <br />
-<input type="submit" value="Delete Selected" onClick="{literal}if (isOneSelected('tables[')) { return true; } else { alert('You must select at least one table.'); return false; }{/literal}" />
+<input type="submit" value="Delete Selected" onClick="{literal}if (isOneSelected('tables[')) { return true; } else { alert('{$_TR.select_one_table}'); return false; }{/literal}" />
 </td></tr>
 {/if}
 </table>

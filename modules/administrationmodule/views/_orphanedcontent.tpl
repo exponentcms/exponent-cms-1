@@ -31,9 +31,9 @@
 {/foreach}
 </div>
 {foreachelse}
-<i>No archived modules were found.</i>
+<i>{$_TR.no_orphans}</i>
 {/foreach}
 {if $have_bad_orphans == 1}
 <br /><br />
-<b><i>{$_TR.uninstalled_orphans}</i></b> 
+<b><i>{$_TR.uninstalled_orphans}</i></b>
 {/if}

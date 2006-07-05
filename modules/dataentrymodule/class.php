@@ -18,40 +18,42 @@
 ##################################################
 
 class dataentrymodule {
-	function name() { return "Data Entry Reports Module"; }
-	function description() { return "Allows the creation of arbitrary database tables, provides forms to manage table data, and reports to view and analyze it.<br><font color='red'><b>This is not functional yet!!</b></b></font>"; }
-	function author() { return "Greg Otte and James Hunt"; }
-	
+	function name() { return exponent_lang_loadKey('modules/dataentrymodule/class.php','module_name'); }
+	function author() { return exponent_lang_loadKey('modules/dataentrymodule/class.php','module_author'); }
+	function description() { return exponent_lang_loadKey('modules/dataentrymodule/class.php','module_description'); }
+
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = "") {
+		$i18n = exponent_lang_loadFile('modules/dataentrymodule/class.php');
+		
 		if ($internal == "") {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
-				"manage_table"=>"Manage Tables",
-				"manage_data"=>"Manage Table Data"
+				'administrate'=>$i18n['perm_administrate'],
+				'configure'=>$i18n['perm_configure'],
+				'manage_table'=>$i18n['perm_manage_tables'],
+				'manage_data'=>$i18n['perm_manage_data'],
 			);
 		} else {
 			return array(
-				"administrate"=>"Administrate",
-				"configure"=>"Configure",
-				"manage_table"=>"Manage Table",
-				"manage_data"=>"Manage Table Data"
+				'administrate'=>$i18n['perm_administrate'],
+				'configure'=>$i18n['perm_configure'],
+				'manage_table'=>$i18n['perm_manage_table'],
+				'manage_data'=>$i18n['perm_manage_data'],
 			);
 		}
 	}
-	
+
 	function show($view,$loc = null) {
 		global $db;
 	/*
 		$tables = $db->selectObjects("dataentry_table","location_data='".serialize($loc)."'");
 		$uninstalled = $db->selectObjects("dataentry_table","location_data='".serialize($loc)."' AND installed=0");
-		
+
 		$template = new template("dataentrymodule",$view,$loc);
 		$template->assign("tables",$tables);
 		$template->assign("uninstalled",$uninstalled);
@@ -68,7 +70,7 @@ class dataentrymodule {
 		$template->assign("reports",$reports);
 		$template->output();
 	}
-	
+
 	function getFieldTypes() {
 		return array(
 			DB_DEF_ID=>"ID",
@@ -78,7 +80,7 @@ class dataentrymodule {
 			DB_DEF_STRING=>"Text"
 		);
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
 		foreach ($db->selectObjects("dataentry_table","location_data='".serialize($loc)."'") as $table) {
@@ -86,7 +88,7 @@ class dataentrymodule {
 		}
 		$db->delete("dataentry_table","location_data='".serialize($loc)."'");
 	}
-	
+
 	function spiderContent($item = null) {
 		// No content searchable
 		return false;

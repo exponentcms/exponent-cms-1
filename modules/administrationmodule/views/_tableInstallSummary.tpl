@@ -17,8 +17,8 @@
 <div class="form_header">{$_TR.form_header}</div>
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
 <tr>
-	<td class="Header administration_header">Table Name</td>
-	<td class="Header administration_header">Status</td>
+	<td class="Header administration_header">{$_TR.table_name}</td>
+	<td class="Header administration_header">{$_TR.status}</td>
 </tr>
 {foreach from=$status key=table item=statusnum}
 <tr class="row {cycle values='odd,even'}_row"><td>

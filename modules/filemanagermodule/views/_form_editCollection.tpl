@@ -13,8 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{if $is_edit == 1}Edit Collection{else}New Collection{/if}</div>
+<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
 <div class="form_header">
-Enter the name of your collection, and a description of how it should be used (what files are stored here, etc.)
+{$_TR.form_header}
 </div>
 {$form_html}

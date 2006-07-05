@@ -20,7 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 return array(
-	DB_TABLE_COMMENT=>'Holds resource items',
+	DB_TABLE_COMMENT=>exponent_lang_loadKey('datatypes/definitions/resourceitem.info.php','holds_resource_items'),
 	DB_TABLE_WORKFLOW=>true
 );
 

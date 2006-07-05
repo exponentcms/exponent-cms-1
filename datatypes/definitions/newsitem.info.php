@@ -20,7 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 return array(
-	DB_TABLE_COMMENT=>'Holds news items',
+	DB_TABLE_COMMENT=>exponent_lang_loadKey('datatypes/definitions/newsitem.info.php','holds_news_items'),
 	DB_TABLE_WORKFLOW=>true
 );
 

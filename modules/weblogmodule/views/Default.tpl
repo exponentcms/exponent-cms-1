@@ -28,7 +28,7 @@
 {if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$posts item=post}
 <div>
-<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</div>
+<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}</div>
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
@@ -53,7 +53,7 @@
 {/if}
 {/permissions}
 </div>
-<div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+<div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body}</div>
 {if $config->allow_comments}
 	<div class="comments" style="padding-left: 35px;">
@@ -79,7 +79,7 @@
 				{/if}
 				{/permissions}
 				</div>
-				<div class="weblog_comment_attribution">Posted by {attribution user_id=$comment->poster} on {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+				<div class="weblog_comment_attribution">{$_TR.posted_by} {attribution user_id=$comment->poster} {$_TR.on} {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 				<div class="weblog_comment_body">{$comment->body}</div>
 			</div>
 		{/foreach}
