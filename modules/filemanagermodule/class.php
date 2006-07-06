@@ -21,7 +21,6 @@ class filemanagermodule {
 	function name() { return exponent_lang_loadKey('modules/filemanagermodule/class.php','module_name'); }
 	function author() { return exponent_lang_loadKey('modules/filemanagermodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/filemanagermodule/class.php','module_description'); }
-
 	function hasSources() { return false; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
