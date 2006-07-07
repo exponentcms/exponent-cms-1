@@ -40,7 +40,7 @@ function pathosJSinitialize() {
 	exponentJSinitialize();
 }
 function pathosJSregister(func) {
-	exponentJSregister();
+	exponentJSregister(func);
 }
 function pathosGetCookie(name) {
 	return exponentGetCookie(name);

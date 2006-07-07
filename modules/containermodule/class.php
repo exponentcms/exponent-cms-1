@@ -102,19 +102,20 @@ class containermodule {
 		$containers = array();
 
         $container_key = serialize( $loc );
-
-        if(!isset($_SESSION['containers_cache'][$container_key]))
+		$cache = exponent_sessions_getCacheValue('containermodule');
+        if(!isset($cache[$container_key]))
         {
 		    foreach ($db->selectObjects('container',"external='" . serialize($loc) . "'") as $c) {
 			    if ($c->is_private == 0 || exponent_permissions_check('view',exponent_core_makeLocation($loc->mod,$loc->src,$c->id))) {
 				    $containers[$c->rank] = $c;
 			    }
 		    }
-            $_SESSION['containers_cache'][$container_key] = serialize($containers);
+            $cache[$container_key] = serialize($containers);
+            exponent_sessions_setCacheValue('containermodule', $cache);
         }
         else
         {
-            $containers = unserialize($_SESSION['containers_cache'][$container_key]);
+            $containers = unserialize($cache[$container_key]);
         }
 
 		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');

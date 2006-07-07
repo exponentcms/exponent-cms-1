@@ -26,8 +26,7 @@ if ($user && $user->is_acting_admin == 1) {
 		$standalone->rank = intval($_POST['rank']);
 		$db->increment('section','rank',1,'parent='.$standalone->parent.' AND rank >= '.$standalone->rank);
 		$db->updateObject($standalone,'section');
-		if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			
 		exponent_flow_redirect();
 	} else {

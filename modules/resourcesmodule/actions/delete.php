@@ -35,7 +35,7 @@ if ($resource != null) {
 		//Delete search entries
 		$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=".$resource->id);
 		
-		unset($_SESSION['resource_cache']);
+		exponent_sessions_clearAllUsersSessionCache('resourcesmodule');
 		exponent_flow_redirect(SYS_FLOW_SECTIONAL);
 	} else {
 		echo SITE_403_HTML;

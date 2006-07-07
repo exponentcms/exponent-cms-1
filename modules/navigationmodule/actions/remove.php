@@ -26,8 +26,7 @@ if ($user->is_acting_admin == 1) {
 		$db->decrement('section','rank',1,'rank > ' . $section->rank . ' AND parent='.$section->parent);
 		$section->parent = -1;
 		$db->updateObject($section,'section');
-		if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			
 		exponent_flow_redirect();
 	} else {

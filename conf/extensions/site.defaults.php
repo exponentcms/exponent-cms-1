@@ -44,7 +44,7 @@ if (!defined('FILE_DEFAULT_MODE')) define('FILE_DEFAULT_MODE',octdec(FILE_DEFAUL
 if (!defined('DIR_DEFAULT_MODE_STR')) define('DIR_DEFAULT_MODE_STR','0777');
 if (!defined('DIR_DEFAULT_MODE')) define('DIR_DEFAULT_MODE',octdec(DIR_DEFAULT_MODE_STR+0));
 
-if (!defined('USE_LANG')) define('USE_LANG','en');
+if (!defined('USE_LANG')) define('USE_LANG','eng_US');
 
 if (!defined('WORKFLOW_REVISION_LIMIT')) define('WORKFLOW_REVIOSION_LIMIT',0);
 

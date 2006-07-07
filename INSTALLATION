@@ -26,13 +26,18 @@ If you are running on a UNIX box, you can unpack the .tar.gz archive like this:
     tar -xzvpf exponent-VERSION.tar.gz
 
 The -p option will preserve file permissions, and is very important.  Exponent requires certain files and directories to be writable by the web server, and the standard tar-based distributions have this permission information preset.
-You should also change ownership of the Exponent files to whatever user your webserver is running as. For example:
+If you have root access to your webserver, you should also change ownership of the Exponent files to whatever user your webserver is running as. For example:
 
 chown -R apache:apache exponent-VERSION
 
 If you are unable to do this, you will have to adjust your file permissions in order to allow your webserver to write to certain directories (identified in the Installer Sanity checks).
 
-If your are using Windows and the .zip archive, the Exponent Development team recommends the WinZip utility, downloadable from http://www.winzip.com/. The .zip archives have not yet been tested with Windows XP's built in zip support.
+If your are using Windows and the .zip archive, the Exponent Development team recommends any of the following utilities:
+- the WinZip utility, downloadable from http://www.winzip.com/. 
+- the Power Archiver utility from http://www.powerarchiver.com/.
+- the 7-up OpenSource utility, downloadable from http://www.7-zip.org/.
+
+The .zip archives have not yet been tested with Windows XP's built in zip support.
 
 Each archive will create a directory named exponent-VERSION. This directory contains all of the files used by Exponent.
 

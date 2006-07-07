@@ -35,6 +35,31 @@ td.error, td.warning {
 	background-color: #999;
 }
 
+tr.even_row {
+	background-color: #DDD;
+	font-size: 11pt;
+	font-family: Arial, Verdana, sans-serif;
+}
+
+tr.row:hover td, tr.row:hover td a {
+	background-color: #666;
+	color: #fff;
+	font-size: 11pt;
+	font-family: Arial, Verdana, sans-serif;
+}
+
+tr.odd_row {
+	font-size: 11pt;
+	font-family: Arial, Verdana, sans-serif;
+	
+}
+
+.administration_header {
+	font-size: 12pt;
+	font-family: Arial, Verdana, sans-serif;
+	font-weight: bold;
+}
+
 h1#maintitle {
 	height: 62px;
 	background-image: url(images/logo.jpg);
@@ -124,7 +149,6 @@ body {
 
 a {
 	color: #060;
-	font-weight: bold;
 	border-bottom: 2px;
 }
 

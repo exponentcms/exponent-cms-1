@@ -21,6 +21,9 @@ if (!defined('EXPONENT')) exit('');
 
 if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
 $errors = null;
+$continue = URL_FULL.'index.php?section='.SITE_DEFAULT_SECTION;
+
+exponent_sessions_clearAllUsersSessionCache();
 
 $template = new template('importer','_eql_results',$loc);
 //GREP:UPLOADCHECK
@@ -29,6 +32,7 @@ if (!exponent_backup_restoreDatabase($db,$_FILES['file']['tmp_name'],$errors)) {
 	$template->assign('errors',$errors);
 } else {
 	$template->assign('success',1);
+	$template->assign('continue',$continue);
 }
 $template->output();
 

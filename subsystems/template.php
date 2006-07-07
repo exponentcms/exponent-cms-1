@@ -86,7 +86,8 @@ class basetemplate {
 	 */
 	function render() { // Caching support?
 		// Load language constants
-		$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
+		//$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
+		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
 		return $this->tpl->fetch($this->view.'.tpl');
 	}
 }

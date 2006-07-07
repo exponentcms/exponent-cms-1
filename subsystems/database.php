@@ -195,6 +195,15 @@ define('TABLE_ALTER_NOT_NEEDED',	200);
 define('TABLE_ALTER_SUCCEEDED',	201);
 
 /**
+ * Table Alteration Error Message - 201 : Alter Succeeded
+ *
+ * A message constant returned by parts of the Database Subsystem
+ * indicating that a table alteration failed.
+ */
+define('TABLE_ALTER_FAILED',	202);
+
+
+/**
  * Table Meta Info : Workflow Table
  *
  * If specified as true in a table info array, the workflow tables will

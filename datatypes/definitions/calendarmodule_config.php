@@ -30,7 +30,7 @@ return array(
 	'enable_categories'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'enable_feedback'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)	
 );
 
 ?>

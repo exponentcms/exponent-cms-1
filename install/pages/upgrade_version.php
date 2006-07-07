@@ -19,13 +19,8 @@
 
 if (!defined('EXPONENT')) exit('');
 
-$versions = array(
-	'0.95'=>'Nebula',
-	'0.96'=>'Origin',
-	'0.97'=>'Portent',
-	'0.98'=>'Quip',
-	'0.99'=>'Ramose',
-	'1.0'=>'Salient',
+$versions = array(	
+	'0.96.3'=>'Origin',	
 );
 
 $i18n = exponent_lang_loadFile('install/pages/upgrade_version.php');

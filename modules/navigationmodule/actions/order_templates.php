@@ -22,8 +22,7 @@ if (!defined('EXPONENT')) exit('');
 if ($user && $user->is_acting_admin == 1) {
 	$db->switchValues('section_template','rank',intval($_GET['a']),intval($_GET['b']),'parent='.intval($_GET['parent']));
 	
-	if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+	exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

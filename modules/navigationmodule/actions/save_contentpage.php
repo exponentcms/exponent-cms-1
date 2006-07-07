@@ -54,8 +54,7 @@ if (($check_id != -1 &&
 	
 		// Existing section.  Update the database record.
 		// The 'id=x' where clause is implicit with an updateObject
-		if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			
 		$db->updateObject($section,'section');
 	} else {
@@ -63,8 +62,7 @@ if (($check_id != -1 &&
 		// added it in the middle of the level.
 		$db->increment('section','rank',1,'rank >= ' . $section->rank . ' AND parent=' . $section->parent);
 		// New section.  Insert a new database record.
-		if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			
 		$db->insertObject($section,'section');
 	}

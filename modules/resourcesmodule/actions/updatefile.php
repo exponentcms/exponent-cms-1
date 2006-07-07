@@ -30,7 +30,7 @@ if ($item) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
 		
-		unset($_SESSION['resource_cache']);
+		exponent_sessions_clearAllUsersSessionCache('resourcesmodule');
 		
 		$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/updatefile.php');
 		

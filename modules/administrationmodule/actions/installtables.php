@@ -40,7 +40,12 @@ if (is_readable($dir)) {
 				}
 			} else {
 				foreach ($db->alterTable($tablename,$dd,$info) as $key=>$status) {
-					$tables[$key] = ($status == TABLE_ALTER_NOT_NEEDED ? DATABASE_TABLE_EXISTED : DATABASE_TABLE_ALTERED);
+					if ($status == TABLE_ALTER_FAILED){
+						$tables[$key] = $status;
+					}else{
+						$tables[$key] = ($status == TABLE_ALTER_NOT_NEEDED ? DATABASE_TABLE_EXISTED : DATABASE_TABLE_ALTERED);						
+					}
+					
 				}
 			}
 		}
@@ -48,7 +53,7 @@ if (is_readable($dir)) {
 	ksort($tables);
 	
 	$template = new template("administrationmodule","_tableInstallSummary",$loc);
-	$template->assign("status",$tables);
+	$template->assign("status",$tables);	
 	$template->output();
 }
 

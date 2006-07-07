@@ -32,6 +32,8 @@
 <div style="color: red; font-weight: bold">{$_TR.failed}</div>
 {elseif $statusnum == $smarty.const.TMP_TABLE_ALTERED}
 <div style="color: green; font-weight: bold">{$_TR.altered_existing}</div>
+{elseif $statusnum == $smarty.const.TABLE_ALTER_FAILED}
+<div style="color: red; font-weight: bold">{$_TR.alter_failed}</div>
 {/if}
 </td></tr>
 {/foreach}

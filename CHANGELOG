@@ -49,6 +49,10 @@ Technical changes (this does not cover some of the stuff in the Release Notes) f
 - Consolidated all file-upload error handling into one place.
 
 0.96.5
+- Added new Logout view for the loginmodule [AK]
+- Added unlinking in installer of two deprecated files in administrationmodule/tasks [AK]
+- Fixed undefined index in administrationmodule/actions/configsite.php [FD]
+- Fixed two issues with Daylight Savings Time in the calendar module [FD]
 - Added an eDebug function to do preformated outputing of objects/arrays. [FD]
 - Added fix in block.paginate.php Smarty plugin to fix bug related to random insertion of PHPSESSID [PB]
 - Fixed existing content picker 'No Content' error message [FD]

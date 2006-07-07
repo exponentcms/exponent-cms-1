@@ -381,6 +381,8 @@ function exponent_workflow_post($object,$table,$loc,$userdata = null) {
 		call_user_func(array($table,'onWorkflowPost'),$real_object,$is_post,$userdata);
 	}
 	
+	exponent_sessions_clearAllUsersSessionCache(); 
+	
 	if ($policy != null) {
 		// run actions, either EDIT or POST or IMPLICIT_APPROVAL
 		exponent_workflow_runActions($policy,$object->wf_type,$object);

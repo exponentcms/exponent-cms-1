@@ -28,8 +28,7 @@ if ($user && $user->is_acting_admin == 1) {
 	$page = section_template::update($_POST,$page);
 	
 	if (isset($page->id)) {
-		if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			
 		$db->updateObject($page,'section_template');	
 	} else {
@@ -37,8 +36,7 @@ if ($user && $user->is_acting_admin == 1) {
 			// May have to change the section rankings, because the user could have put us in between two previous pages
 			$db->increment('section_template','rank',1,'parent='.$page->parent.' AND rank >= ' . $page->rank);
 		}
-		if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			
 		$db->insertObject($page,'section_template');
 	}

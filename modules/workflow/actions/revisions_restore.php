@@ -23,6 +23,7 @@ $rloc = exponent_core_makeLocation($_GET['m'],$_GET['s']);
 if (exponent_permissions_check("manage_approval",$rloc)) {
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	exponent_workflow_restoreRevision($_GET['datatype'],intval($_GET['id']),$_GET['major']);
+	exponent_sessions_clearAllUsersSessionCache();
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

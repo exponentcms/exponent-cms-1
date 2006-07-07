@@ -20,8 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 // PERM CHECK
-    if (isset($_SESSION['containers_cache']))
-        unset($_SESSION['containers_cache']);
+   	exponent_sessions_clearAllUsersSessionCache('containermodule');
 
 	$orphan_mods = array();
 	foreach ($db->selectObjects('locationref','refcount = 0') as $orphan) {
@@ -29,6 +28,7 @@ if (!defined('EXPONENT')) exit('');
 			$modclass = $orphan->module;
 			$mod = new $modclass();
 			$orphan_mods[$modclass] = $mod->name();
+	
 		}
 	}
 	uasort($orphan_mods,'strnatcmp');

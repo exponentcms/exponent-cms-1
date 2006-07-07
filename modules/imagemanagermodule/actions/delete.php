@@ -30,7 +30,7 @@ if ($item != null) {
 		$db->delete("imagemanageritem","id=".$item->id);
        
         unlink("$file->directory/$file->filename");
-        unset($_SESSION['image_cache']);
+        exponent_sessions_clearAllUsersSessionCache('imagemanagermodule');
        
         exponent_flow_redirect();
 	} else {

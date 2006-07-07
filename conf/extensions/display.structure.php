@@ -39,11 +39,35 @@ if (is_readable(BASE.'themes')) {
 }
 uasort($themes,'strnatcmp');
 
+/*
+$languages = array();
+if (is_readable(BASE.'subsystems/lang')) {
+	$lang_dir = opendir(BASE.'subsystems/lang');
+	while (($lang_file = readdir($lang_dir)) !== false) {
+		$lang_file = realpath(BASE.'subsystems/lang/'.$lang_file);
+			if (is_readable($lang_file) && is_file($lang_file)) {
+				$thislang = include($lang_file);
+				$languages[$thislang['locale']] = $thislang['name'];				
+			}
+	}
+}
+
+echo "<xmp>";
+print_r($languages);
+print_r($themes);
+echo "</xmp>";
+*/
 $i18n = exponent_lang_loadFile('conf/extensions/display.structure.php');
 
 return array(
 	$i18n['title'],
 	array(
+		/*'DISPLAY_LANGUAGE'=>array(
+			'title'=>$i18n['language'],
+			'description'=>$i18n['language_desc'],
+			'control'=>new dropdowncontrol(null,$languages)
+		),
+		*/		
 		'DISPLAY_THEME_REAL'=>array(
 			'title'=>$i18n['theme_real'],
 			'description'=>$i18n['theme_real_desc'],

@@ -168,9 +168,9 @@ RECORD:O:8:"stdClass":5:{s:6:"module";s:10:"textmodule";s:6:"source";s:11:"welco
 
 TABLE:mimetype
 RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:10:"text/plain";s:4:"name";s:10:"Plain Text";s:4:"icon";s:12:"document.png";}
-RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:10:"image/jpeg";s:4:"name";s:10:"JPEG Image";s:4:"icon";s:0:"";}
-RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:9:"image/gif";s:4:"name";s:9:"GIF Image";s:4:"icon";s:0:"";}
-RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:9:"image/png";s:4:"name";s:37:"PNG (Portable Network Graphics) Image";s:4:"icon";s:0:"";}
+RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:10:"image/jpeg";s:4:"name";s:10:"JPEG Image";s:4:"icon";s:9:"image.png";}
+RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:9:"image/gif";s:4:"name";s:9:"GIF Image";s:4:"icon";s:9:"image.png";}
+RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:9:"image/png";s:4:"name";s:37:"PNG (Portable Network Graphics) Image";s:4:"icon";s:9:"image.png";}
 RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:15:"application/pdf";s:4:"name";s:12:"PDF Document";s:4:"icon";s:7:"pdf.png";}
 RECORD:O:8:"stdClass":3:{s:8:"mimetype";s:30:"application/vnd.sun.xml.writer";s:4:"name";s:20:"Open Office Document";s:4:"icon";s:8:"txt2.png";}
 

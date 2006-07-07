@@ -22,7 +22,7 @@
 if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
-	ob_end_clean();
+	//ob_end_clean();
 	
 	header('Content-type: application/octet-stream');
 	header('Content-Disposition: inline; filename="exponent.phpinfo.html"');

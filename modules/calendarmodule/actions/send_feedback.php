@@ -34,7 +34,7 @@ if (isset($_POST['id'])) {
 	if ($event->feedback_email != '') {
 		$email_addrs = split(',', $event->feedback_email);
 		$email_addrs = array_map('trim', $email_addrs);
-		$ret = exponent_smtp_mail($email_addrs, 'website@'.HOSTNAME,$_POST['subject'],$msg);
+		$ret = exponent_smtp_mail($email_addrs, SMTP_FROMADDRESS,$_POST['subject'],$msg);
 	}
 }
 

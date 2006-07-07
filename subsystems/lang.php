@@ -56,6 +56,18 @@ function exponent_lang_initialize() {
 	}
 }
 
+function exponent_lang_loadLangs() {
+	$ret = array();
+	if (is_readable(BASE.'subsystems/lang')) {		
+		while (($lang_file = readfile(BASE.'subsystems/lang/*.php')) !== false) {
+			if (is_readable($lang_file)) {
+				$ret = include($lang_file);
+			}
+		}
+	}	
+	return $ret;
+}
+
 /*
  * Load a set of language keys.
  *

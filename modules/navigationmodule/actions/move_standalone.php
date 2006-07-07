@@ -23,8 +23,7 @@ if ($user && $user->is_acting_admin == 1) {
 	$sect = null;
 	$sect->parent = intval($_GET['parent']);
 	$form = section::moveStandaloneForm($sect);
-	if (isset($_SESSION['nav_cache']['kids']))
-			unset($_SESSION['nav_cache']['kids']);
+	exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 	$form->meta('action','reparent_standalone');
 	$form->meta('module','navigationmodule');
 	$template = new template('navigationmodule','_move_standalone');

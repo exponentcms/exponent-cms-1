@@ -56,12 +56,13 @@ function exponent_sessions_initialize() {
 	session_name(SYS_SESSION_COOKIE);
 	session_id($sessid);
 	$_COOKIE['PHPSESSID'] = $sessid;
-	session_set_cookie_params(SESSION_TIMEOUT*2); // Full cookie lasts twice as long as the login session.
+	//session_set_cookie_params(SESSION_TIMEOUT*2); // Full cookie lasts twice as long as the login session.
 	
 	session_start();
 	if (!isset($_SESSION[SYS_SESSION_KEY])) $_SESSION[SYS_SESSION_KEY] = array();
 	if (!isset($_SESSION[SYS_SESSION_KEY]['vars'])) $_SESSION[SYS_SESSION_KEY]['vars'] = array();
 	if (isset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme'])) define('DISPLAY_THEME',$_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
+	
 }
 
 /* exdoc
@@ -71,27 +72,34 @@ function exponent_sessions_initialize() {
  */
 function exponent_sessions_validate() {
 	global $db;
-	if (exponent_sessions_loggedIn()) {
+
+	
+	//FJD - create a ticket for every session instead of just logged in users
+	if (!isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {	
+		$ticket = exponent_sessions_createTicket();
+	}else{
 		$ticket = $db->selectObject('sessionticket',"ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
-		$timeoutval = SESSION_TIMEOUT;
-		if ($timeoutval < 300) $timeoutval = 300;
-		if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
-			exponent_sessions_logout();
-			define('SITE_403_HTML',SESSION_TIMEOUT_HTML);
-			return;
-		}
-		
-		global $user;
-		$user = $_SESSION[SYS_SESSION_KEY]['user'];
-		if ($ticket->refresh == 1) {
-			exponent_permissions_load($user);
-			$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
-		}
-		$ticket->refresh = 0;
-		
-		$ticket->last_active = time();
-		$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
+	}	
+	
+	$timeoutval = SESSION_TIMEOUT;
+	if ($timeoutval < 300) $timeoutval = 300;
+	if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
+		exponent_sessions_logout();
+		define('SITE_403_HTML',SESSION_TIMEOUT_HTML);
+		return;
 	}
+		
+	
+	global $user;
+	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) $user = $_SESSION[SYS_SESSION_KEY]['user'];
+	
+	if (isset($ticket->refresh) && $ticket->refresh == 1) {				
+		if (isset($user)) exponent_permissions_load($user);			
+		exponent_sessions_clearCurrentUserSessionCache();
+		$ticket->refresh = 0;		
+	}
+	exponent_sessions_updateTicket($ticket, $user);		
+	
 	define('SITE_403_HTML',SITE_403_REAL_HTML);
 }
 
@@ -103,8 +111,23 @@ function exponent_sessions_validate() {
  * @param User $user The user object of the newly logged-in user.
  * @node Subsystems:Sessions
  */
-function exponent_sessions_login($user) {
+function exponent_sessions_login($user) {	
+	$ticket = exponent_sessions_getTicketString();
+	if (!isset($ticket)) $ticket = exponent_sessions_createTicket($user);	
+	$_SESSION[SYS_SESSION_KEY]['user'] = $user;
+	exponent_sessions_updateTicket($ticket, $user);
+	exponent_permissions_load($user);
+}
+
+/* exdoc
+ * Creates user ticket in sessionticket table and session
+ *
+ * @param User $user The user object of the newly logged-in user. Uses id of 0 if not supplied.
+ * @node Subsystems:Sessions
+ */
+function exponent_sessions_createTicket($user = null){
 	$ticket = null;
+	if (!isset($user)) $user->id = 0;
 	$ticket->uid = $user->id;
 	$ticket->ticket = uniqid("",true);
 	$ticket->last_active = time();
@@ -112,14 +135,29 @@ function exponent_sessions_login($user) {
 	$ticket->browser = $_SERVER['HTTP_USER_AGENT'];
 	$ticket->ip_address = $_SERVER['REMOTE_ADDR'];
 	
+	$_SESSION[SYS_SESSION_KEY]['ticket'] = $ticket->ticket;
+	
 	global $db;
 	$db->insertObject($ticket,'sessionticket');
-	
-	$_SESSION[SYS_SESSION_KEY]['ticket'] = $ticket->ticket;
-	$_SESSION[SYS_SESSION_KEY]['user'] = $user;
-	
-	exponent_permissions_load($user);
+	return $ticket;
 }
+
+/* exdoc
+ * Creates user ticket in sessionticket table and session
+ *
+ * @param User $user The user object of the newly logged-in user. Uses id of 0 if not supplied.
+ * @node Subsystems:Sessions
+ */
+function exponent_sessions_updateTicket($ticket, $user){
+	global $db;	
+	if (isset($ticket->ticket)){
+		$ticket->uid = $user->id;
+		$ticket->last_active = time();
+		$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
+	}
+	return $ticket;
+}
+
 
 /* exdoc
  * Clears the session of all user data, used when a user logs out.
@@ -129,11 +167,19 @@ function exponent_sessions_login($user) {
  */
 function exponent_sessions_logout() {
 	global $db;
-	if (isset($_SESSION['ticket'])) $db->delete('sessionticket',"ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
+	//echo $_SESSION['ticket'];
+	//exit();
+	//if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) $db->delete('sessionticket',"ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
+	$ticket = $db->selectObject('sessionticket', "ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
 	
-	unset($_SESSION[SYS_SESSION_KEY]['ticket']);
+	//unset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
+	//unset($_SESSION[SYS_SESSION_KEY]['ticket']);
 	unset($_SESSION[SYS_SESSION_KEY]['user']);
-	unset($_SESSION[SYS_SESSION_KEY]['vars']['display_theme']);
+	
+	//FJD - set ticker user back to 0 instead of deleting the ticket
+	$user->id = 0;
+	$ticket->refresh = 0;
+	exponent_sessions_updateTicket($ticket, $user);
 	
 	exponent_permissions_clear();
 }
@@ -145,13 +191,32 @@ function exponent_sessions_logout() {
  * @node Subsystems:Sessions
  */
 function exponent_sessions_loggedIn() {
-	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));
+	//if ($anon){
+	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']) && isset($_SESSION[SYS_SESSION_KEY]['user']));
+	//}
+	//else{
+	//	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));		
+	//}	
 }
 
+//Clears entire user session data and truncates the sessionticket table
+function exponent_sessions_clearAllSessionData(){
+	global $db;
+	$db->delete('sessionticket',"1");
+	unset($_SESSION[SYS_SESSION_KEY]);
+}
+
+
 function exponent_sessions_getTicketString() {
+	//if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) { 
+	//	return $_SESSION[SYS_SESSION_KEY]['ticket'];
+	//} else return null;
+	global $db;
 	if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {
-		return $_SESSION[SYS_SESSION_KEY]['ticket'];
-	} else return "";
+		if($db->selectObject('sessionticket',"ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'") != null ) {
+			return $_SESSION[SYS_SESSION_KEY]['ticket'];
+		}else return null;
+	}
 }
 
 /* exdoc
@@ -207,6 +272,81 @@ function exponent_sessions_get($var) {
 		return $_SESSION[SYS_SESSION_KEY]['vars'][$var];
 	} else return null;
 }
+
+/* exdoc
+ * Clears current users session cache
+ *
+ * @param Modules $modules Array or string. If not set, applies to all modules.  If set, will only clear cache for that module
+ * @param User $user if not set,applies to all users. If set, will only clear for that user
+ * @node Subsystems:Sessions
+ */
+function exponent_sessions_clearCurrentUserSessionCache($modules = null) {	
+		
+	if (isset($modules)){	
+		if (is_array($modules)){
+			foreach ($modules as $mod){
+				if (isset($_SESSION[SYS_SESSION_KEY]['cache'][$mod])) unset($_SESSION[SYS_SESSION_KEY]['cache'][$mod]);
+			}
+		}else{
+			if (isset($_SESSION[SYS_SESSION_KEY]['cache'][$modules])) unset($_SESSION[SYS_SESSION_KEY]['cache'][$modules]);	
+		}		
+	}else{
+		if (isset($_SESSION[SYS_SESSION_KEY]['cache'])) unset($_SESSION[SYS_SESSION_KEY]['cache']);
+	}		
+}
+
+function exponent_sessions_getCacheValue($module){
+	//returns array or null
+	if (isset($_SESSION[SYS_SESSION_KEY]['cache'][$module])) return($_SESSION[SYS_SESSION_KEY]['cache'][$module]);
+	else return null;
+}
+
+function exponent_sessions_setCacheValue($module, $val){
+	//should always be an array, even if single index
+	$_SESSION[SYS_SESSION_KEY]['cache'][$module] = $val;
+}
+
+/* exdoc
+ * Clears global users session cache
+ *
+ * @param Modules $modules If not set, applies to all modules.  If set, will only clear cache for that module
+ * @param User $user if not set,applies to all users. If set, will only clear for that user
+ * @node Subsystems:Sessions
+ */
+function exponent_sessions_clearAllUsersSessionCache($modules = null, $user = null) {	
+	//ignoring module for now, as we can only easily clear entire cache
+	//by just flagging the refresh field in the session ticket. 
+	//Maybe we'll enhance this later to store the session cache in the db
+	//and we can then use this to only clear certain modules' cache.
+	//We can easily clear for just an individual user or all users though,
+	//but I don't see why we need to clear just one other specified user's cache 
+	//at this point either.  This just updates all sessionticket records to refresh=1
+		
+	global $db;
+	$sessionticket->refresh = 1;
+	$db->updateObject($sessionticket, 'sessionticket', '1');
+		
+	/* Possible future code
+	if (isset($user)){
+		$where = " uid='" . $user->id . "'";
+	}else {
+		$where = '';
+	}	
+	
+	if (isset($modules)){	
+		if (is_array($modules)){
+			foreach ($modules as $mod){
+				
+			}
+		}else{
+				
+		}		
+	}else{
+		
+	}	
+	*/	
+}
+
 
 // Database-stored session handling
 //

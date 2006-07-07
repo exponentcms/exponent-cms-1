@@ -32,25 +32,25 @@ if (	($item == null && exponent_permissions_check('post',$loc)) ||
 ) {
 
 	// unset the image cache
-	unset($_SESSION['image_cache']);
+	exponent_sessions_clearAllUsersSessionCache('imagemanagermodule');
 
-    // check for real images.
-    $filenew = $_FILES['file']['tmp_name'];
-    $fileup = getimagesize ( $filenew );
-
-    if (
-        $fileup[2] > 0 &&
-        $fileup[1] > 0) {
-
-        $item = imagemanageritem::update($_POST,$item);
-    	$item->location_data = serialize($loc);
+    $item = imagemanageritem::update($_POST,$item);
+  	$item->location_data = serialize($loc);    		
 	
-    	if (!isset($item->id)) {
+   	if (!isset($item->id)) {
+	    // check for real images.
+	    $filenew = $_FILES['file']['tmp_name'];
+	    $fileup = getimagesize ( $filenew );
+		
+	    if (
+	        $fileup[2] > 0 &&
+	        $fileup[1] > 0) {
+
 	    	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
-	
+		
     		$directory = 'files/imagemanagermodule/'.$loc->src;
 	    	$fname = null;
-		
+			
 		    if (exponent_files_uploadDestinationFileExists($directory,'file')) {
     			// Auto-uniqify Logic here
 	    		$fileinfo = pathinfo($_FILES['file']['name']);
@@ -59,7 +59,7 @@ if (	($item == null && exponent_permissions_check('post',$loc)) ||
     				$fname = basename($fileinfo['basename'],$fileinfo['extension']).uniqid('').$fileinfo['extension'];
 	    		} while (file_exists(BASE.$directory.'/'.$fname));
 		    }
-		
+			
     		$file = file::update('file',$directory,null,$fname);
 	    	if (is_object($file)) {
 		    	$item->file_id = $db->insertObject($file,'file');
@@ -74,7 +74,6 @@ if (	($item == null && exponent_permissions_check('post',$loc)) ||
     			exponent_sessions_set('last_POST',$post);
     			header('Location: ' . $_SERVER['HTTP_REFERER']);
     		}
-
         }
 
 	} else {

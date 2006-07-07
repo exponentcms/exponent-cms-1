@@ -21,8 +21,7 @@ if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('order_modules',$loc)) {
 	$db->switchValues('container','rank',$_GET['a'],$_GET['b'],"external='".serialize($loc)."'");
-    if (isset($_SESSION['containers_cache']))
-        unset($_SESSION['containers_cache']);
+   	exponent_sessions_clearAllUsersSessionCache('containermodule');
     exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

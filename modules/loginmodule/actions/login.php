@@ -27,17 +27,7 @@ exponent_users_login($_POST['username'],$_POST['password']);
 if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {
 	echo $i18n['login_error'];
 } else {
-	if (isset($_SESSION['nav_cache']['kids']))
-		unset($_SESSION['nav_cache']['kids']);
-
-    if(isset($_SESSION['containers_cache']))
-        unset($_SESSION['containers_cache']);
-            
-    if(isset($_SESSION['image_cache']))
-    		unset($_SESSION['image_cache']);
-
-	if(isset($_SESSION['resource_cache']))    
-    		unset($_SESSION['resource_cache']);             
+	//exponent_sessions_clearCurrentUserSessionCache(); 
 	exponent_flow_redirect();
 }
 
