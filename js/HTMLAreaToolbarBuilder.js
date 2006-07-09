@@ -92,7 +92,7 @@ function addLinkTd(rownum,pos) {
 		td.height = 20;
 		td.style.border = "1px dashed #CCCCCC";
 	} else {
-		td.setAttribute("onClick","clickedTd(this,"+rownum+","+pos+"); return false;");
+		td.setAttribute("onclick","clickedTd(this,"+rownum+","+pos+"); return false;");
 		td.setAttribute("onmouseover","this.style.background='grey'");
 		td.setAttribute("onmouseout","unColorLink(this,"+rownum+","+pos+")");
 		td.setAttribute("width","2");

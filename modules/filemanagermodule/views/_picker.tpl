@@ -161,16 +161,16 @@
 					{/if}
 					<td width="110" height="110" valign="top" align="center"{if $highlight_file == $file->id} id="highlight"{/if}>
 						{if $file->is_image}
-						<a href="#" onClick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">
+						<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">
 
 							<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" border="0"/>
 						</a>
 						<br />
-						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onClick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
+						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
 							Full Image
 						</a>
 						<br />
-						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onClick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
+						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
 							{$file->name}
 						</a>
 						{else}
@@ -182,7 +182,7 @@
 								{$file->name}
 							{/if}
 							<br />
-							<a href="#" onClick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">Use</a>
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">Use</a>
 						{/if}
 					</td>
 					{foreachelse}

@@ -80,7 +80,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		var editors = new Array();
 			
 		// Register an initialization function with the Exponent JS Support System.
-		// This will be called onLoad (assuming the theme is playing nice)
+		// This will be called onload (assuming the theme is playing nice)
 		var once = false;
 		exponentJSregister(function () {
 			for (i = 0; i < htmleditorcontrols.length; i++) {

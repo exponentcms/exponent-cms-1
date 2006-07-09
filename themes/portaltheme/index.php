@@ -36,7 +36,7 @@ if (!defined('EXPONENT')) exit('');
 		</style>
 		<![endif]-->
 </head>
-<body onLoad="pathosJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
+<body onload="pathosJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
 <?php pathos_theme_sourceSelectorInfo(); ?>
 <div id="shell" align="center">
   <table style="margin-left:auto; margin-right:auto;" width="780" border="0" cellspacing="0" cellpadding="0">
@@ -54,13 +54,13 @@ if (!defined('EXPONENT')) exit('');
     <tr>
       <td style="padding:4px 0 4px 0;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td style=" padding:0 2px 0 0" nowrap="nowrap"><div id="lightbulb"><img src="<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg" alt="Content Management Made Simple!" width="256" height="138"><a class="imagebutton" href="index.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a></div>
-			
+            <td style=" padding:0 2px 0 0" nowrap="nowrap"><div id="lightbulb"><img src="<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg" alt="Content Management Made Simple!" width="256" height="138"><a class="imagebutton" href="index.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a></div>
+
 			<div id="bluepanel">
 				<div id="latestexponent"><?php pathos_theme_showModule("textmodule","Bluepanel","","bluepanel"); ?></div>
-				<div id="getexponent"><a href="http://sourceforge.net/project/showfiles.php?group_id=118524">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>			
+				<div id="getexponent"><a href="http://sourceforge.net/project/showfiles.php?group_id=118524">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>
 			</div>
-			
+
 			<!-- <a class="imagebutton" href="http://sourceforge.net/project/showfiles.php?group_id=118524&package_id=136680&release_id=406474"><img src="<?php // echo THEME_RELATIVE;?>images/download-stable.jpg" alt="download exponent" width="195" height="138" border="0"></a>
 			-->
 			</td>

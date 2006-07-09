@@ -76,7 +76,7 @@
 		{/if}
 		{literal}
 
-		html += 'onClick="makeMember('+object.__ID+',this.checked)" />';
+		html += 'onclick="makeMember('+object.__ID+',this.checked)" />';
 		return html;
 	}
 
@@ -90,7 +90,7 @@
 		html += 'disabled ';
 		{/if}
 		{literal}
-		html += 'onClick="makeAdmin('+object.__ID+',this.checked)" />';
+		html += 'onclick="makeAdmin('+object.__ID+',this.checked)" />';
 		return html;
 	}
 
@@ -132,11 +132,11 @@
 <input type="hidden" name="action" value="gmgr_savemembers" />
 <input type="hidden" name="id" value="{$group->id}"/>
 <input type="hidden" id="membdata" name="membdata" value="" />
-<input type="submit" value="Save" onClick="serializeData(); return true;" />
-<input type="button" value="Cancel" onClick="document.location.href = '{$__redirect}';" />
+<input type="submit" value="Save" onclick="serializeData(); return true;" />
+<input type="button" value="Cancel" onclick="document.location.href = '{$__redirect}';" />
 </form>
 <br />
 
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(true); return false;">{$_TR.select_all}</a>
+<a class="mngmntlink administration_mngmntlink" href="#" onclick="changeAll(true); return false;">{$_TR.select_all}</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="changeAll(false); return false;">{$_TR.unselect_all}</a>
+<a class="mngmntlink administration_mngmntlink" href="#" onclick="changeAll(false); return false;">{$_TR.unselect_all}</a>

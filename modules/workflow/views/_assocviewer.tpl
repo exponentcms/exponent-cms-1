@@ -17,7 +17,7 @@
 <hr size="1" />
 <div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">{$_TR.form_header}<br /><br />
-<a class="mngmntlink administration_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}source_selector.php?&dest='+escape('{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy')+'&vmod=workflow&vview=_sourcePicker','picker','title=no,toolbar=no,width=640,height=480,scrollbars=yes'); return false">{$_TR.single_link}</a></div>
+<a class="mngmntlink administration_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}source_selector.php?&dest='+escape('{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy')+'&vmod=workflow&vview=_sourcePicker','picker','title=no,toolbar=no,width=640,height=480,scrollbars=yes'); return false">{$_TR.single_link}</a></div>
 {if $policy_count == 0}
 <div style="font-style: italic;">{$_TR.no_policies}</div>
 <hr size="1"/>

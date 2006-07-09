@@ -33,11 +33,11 @@
 {/foreach}
 {if $droppable_count != 0}
 <tr><td colspan="3">
-<a href="#" onClick="selectAll('tables[',true); return false; ">{$_TR.select_all}</a>
+<a href="#" onclick="selectAll('tables[',true); return false; ">{$_TR.select_all}</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
-<a href="#" onClick="selectAll('tables[',false); return false; ">{$_TR.deselect_all}</a>
+<a href="#" onclick="selectAll('tables[',false); return false; ">{$_TR.deselect_all}</a>
 <br />
-<input type="submit" value="Delete Selected" onClick="{literal}if (isOneSelected('tables[')) { return true; } else { alert('{$_TR.select_one_table}'); return false; }{/literal}" />
+<input type="submit" value="Delete Selected" onclick="{literal}if (isOneSelected('tables[')) { return true; } else { alert('{$_TR.select_one_table}'); return false; }{/literal}" />
 </td></tr>
 {/if}
 </table>

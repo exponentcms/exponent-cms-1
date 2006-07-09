@@ -51,7 +51,7 @@ if (!document.body.appendChild) {
 			<tr>
 				<td valign="top">{$_TR.module}</td>
 				<td style='padding-left: 5px;' valign="top">
-					<select id="i_mod" name="i_mod" size="1" onChange="writeViews()" {if $is_edit == 1}disabled {/if}>
+					<select id="i_mod" name="i_mod" size="1" onchange="writeViews()" {if $is_edit == 1}disabled {/if}>
 						{html_options options=$modules selected=$container->internal->mod}
 					</select>
 				</td>
@@ -59,13 +59,13 @@ if (!document.body.appendChild) {
 			<tr>
 				<td valign="top">{$_TR.view}</td>
 				<td style='padding-left: 5px;' valign="top">
-					<select id="view" name="view" size="1" onChange="showPreviewCall()"></select>
+					<select id="view" name="view" size="1" onchange="showPreviewCall()"></select>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top">{$_TR.title}</td>
 				<td style='padding-left: 5px;' valign="top">
-					<input type="text" name="title" id="title" value="{$container->title}" onChange="showPreviewCall()" />
+					<input type="text" name="title" id="title" value="{$container->title}" onchange="showPreviewCall()" />
 				</td>
 			</tr>
 			{if $is_edit == 0}
@@ -75,16 +75,16 @@ if (!document.body.appendChild) {
 					<table cellpadding='0' cellspacing='0' border='0'>
 						<tr>
 							<td>
-								<input type='radio' name='i_src' value='new_source' id='r_new_source' onClick='activate("New");' />
+								<input type='radio' name='i_src' value='new_source' id='r_new_source' onclick='activate("New");' />
 							</td>
 							<td>{$_TR.new_content}&nbsp;</td>
 						</tr>
 						<tr>
 							<td>
-								<input type='radio' name='i_src' value='existing_source' id='r_existing_source' onClick='activate("Existing");' />
+								<input type='radio' name='i_src' value='existing_source' id='r_existing_source' onclick='activate("Existing");' />
 							</td>
 							<td>
-								<a id="existing_source_link" class='mngmntlink container_mngmntlink' href='' onClick="pickSource(); return false;">{$_TR.existing_content}</a>
+								<a id="existing_source_link" class='mngmntlink container_mngmntlink' href='' onclick="pickSource(); return false;">{$_TR.existing_content}</a>
 								&nbsp;
 							</td>
 						</tr>
@@ -107,8 +107,8 @@ if (!document.body.appendChild) {
 				<textarea rows="5" cols="30" id="ta_description" {if $container->is_existing}disabled{/if} name="description">{$locref->description}</textarea>
 			</td></tr>
 			<tr><td></td><td>
-				<input type="submit" value="{$_TR.save}" onClick="return validateNew()" />
-				<input type="button" value="{$_TR.cancel}" onClick="document.location.href = '{$back}'" />
+				<input type="submit" value="{$_TR.save}" onclick="return validateNew()" />
+				<input type="button" value="{$_TR.cancel}" onclick="document.location.href = '{$back}'" />
 			</td></tr>
 		</table>	
 		</td><td width="50%">

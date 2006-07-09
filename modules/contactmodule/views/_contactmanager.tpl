@@ -35,7 +35,7 @@
 			<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact id=$c->id}">
 				<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
-			<a class="mngmntlink contact_mngmntlink" href="{link action=delete_contact id=$c->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+			<a class="mngmntlink contact_mngmntlink" href="{link action=delete_contact id=$c->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 				<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 			</a>
 		</td>

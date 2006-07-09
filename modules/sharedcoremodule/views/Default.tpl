@@ -34,7 +34,7 @@
 				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 			</a>
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=delete_core id=$core->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" onClick="return confirm('{$_TR.delete_core_confirm}');" />
+				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" onclick="return confirm('{$_TR.delete_core_confirm}');" />
 			</a>
 			{/if}
 			{/permissions}
@@ -58,7 +58,7 @@
 				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=edit_site id=$site->id}">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
 				</a>
-				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}" onClick="return confirm('{$_TR.delete_site_confirm}');">
+				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}" onclick="return confirm('{$_TR.delete_site_confirm}');">
 					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
 				</a>
 				{if $site->inactive == 1}

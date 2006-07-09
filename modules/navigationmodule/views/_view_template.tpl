@@ -21,7 +21,7 @@
 <td>
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$template->id}">{$_TR.subpage}</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$template->id}">{$_TR.properties}</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$template->id}'); return false">{$_TR.content}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$template->id}'); return false">{$_TR.content}</a> ]
 </td>
 {foreach from=$subs item=sub}
 {math equation="x+1" x=$sub->rank assign=nextrank}
@@ -33,7 +33,7 @@
 <td>
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template parent=$sub->id}">{$_TR.subpage}</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=edit_template id=$sub->id}">{$_TR.properties}</a> ]
-[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onClick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$sub->id}'); return false">{$_TR.content}</a> ]
+[ <a class="mngmntlink sitetemplate_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}modules/navigationmodule/actions/edit_page.php?sitetemplate_id={$sub->id}'); return false">{$_TR.content}</a> ]
 [ <a class="mngmntlink sitetemplate_mngmntlink" href="{link action=delete_template id=$sub->id}">{$_TR.delete}</a> ]
 {if $sub->last == 0}
 	<a href="{link action=order_templates parent=$sub->parent a=$sub->rank b=$nextrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0" /></a>

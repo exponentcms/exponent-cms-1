@@ -41,7 +41,7 @@
 								</a>
 							{/if}
 							{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}
-								<a href="{link action=delete id=$container->id}" onClick="return confirm('{$_TR.delete_confirm|sprintf:$container->info.module}');">
+								<a href="{link action=delete id=$container->id}" onclick="return confirm('{$_TR.delete_confirm|sprintf:$container->info.module}');">
 									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
 								</a>
 							{/if}

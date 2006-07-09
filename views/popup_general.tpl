@@ -22,7 +22,7 @@
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}popup.css" />
 		<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}exponent.js.php"></script>
 	</head>
-	<body onLoad="exponentJSinitialize()">
+	<body onload="exponentJSinitialize()">
 	{$output}
 	</body>
 </html>

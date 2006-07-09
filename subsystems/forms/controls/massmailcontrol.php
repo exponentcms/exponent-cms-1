@@ -44,9 +44,9 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
  */
 class massmailcontrol extends formcontrol {
 	var $type = 0;
-	
+
 	function name() { return "Mass-Mailling Control"; }
-	
+
 	function massmailcontrol($default = "",$type = 0) {
 		$this->default = $default;
 		$this->type = $type;
@@ -56,9 +56,9 @@ class massmailcontrol extends formcontrol {
 		// First, grab the data for the users
 		$html = "<script type='text/javascript' src='".PATH_RELATIVE."js/MassMailControl.js'></script>";
 		$html .= "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-		$html .= '<input type="radio" id="r_'.$name.'_users" name="'.$name.'_type" value="0" onClick="activateMassMailControl(0,\''.$name.'\');" />All Users';
+		$html .= '<input type="radio" id="r_'.$name.'_users" name="'.$name.'_type" value="0" onclick="activateMassMailControl(0,\''.$name.'\');" />All Users';
 		$html .= '</td></tr><tr><td>';
-		$html .= '<input type="radio" id="r_'.$name.'_email" name="'.$name.'_type" value="1" onClick="activateMassMailControl(1,\''.$name.'\');" />This Address:';
+		$html .= '<input type="radio" id="r_'.$name.'_email" name="'.$name.'_type" value="1" onclick="activateMassMailControl(1,\''.$name.'\');" />This Address:';
 		$html .= '<input type="text" name="'.$name.'[1]" id="'.$name.'_email" ';
 		if ($this->type == 1) $html .= 'value="'.$this->default.'" ';
 		$html .= '/>';

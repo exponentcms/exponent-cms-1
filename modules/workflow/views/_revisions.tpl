@@ -43,7 +43,7 @@ function confirmDelete() {
 		<tr>
 			<td style="font-weight: bold">{if $revision->title != ""}'{$revision->title}' v{else}V{/if}ersion {$revision->wf_major}.{$revision->wf_minor} :: {attribution user_id=$revision->wf_user_id}
 			{if $revision->wf_minor == 0 && $revision->wf_major != $current}
-			<input type="checkbox" name="d[{$revision->id}]" onClick="registerCheck(this)" /> {$_TR.delete}
+			<input type="checkbox" name="d[{$revision->id}]" onclick="registerCheck(this)" /> {$_TR.delete}
 			{/if}</td>
 			<td align="right">{$revision->wf_updated|format_date:$smarty.const.DISPLAY_DATETIME_FORMAT}</td>
 		</tr>
@@ -65,5 +65,5 @@ function confirmDelete() {
 {foreachelse}
 <div align="center"><i>{$_TR.revisions}</i></div>
 {/foreach}
-<input type="submit" value="{$_TR.delete}" onClick="return confirmDelete();" />
+<input type="submit" value="{$_TR.delete}" onclick="return confirmDelete();" />
 </form>

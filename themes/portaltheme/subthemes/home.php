@@ -26,8 +26,8 @@ if (!defined('EXPONENT')) exit('');
 		<?php echo pathos_theme_headerInfo($section); ?>
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
-	
-	<body onLoad="pathosJSinitialize();">
+
+	<body onload="pathosJSinitialize();">
 		<?php pathos_theme_sourceSelectorInfo(); ?>
 	<div id="shell" align="center">
 			<table style="margin-left:auto; margin-right:auto;" width="775" border="0" cellspacing="0" cellpadding="0">
@@ -68,16 +68,16 @@ if (!defined('EXPONENT')) exit('');
 								<td width="582" height="35" valign="top">
 								<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td id="childlinks">								
+    <td id="childlinks">
 	<?php pathos_theme_showModule("navigationmodule","Children Only2"); ?>
 </td>
   </tr>
   <tr>
     <td id="bodycontent">
 	<?php
-	
+
 	pathos_theme_main();
-	
+
 	?>
 				  </td>
   </tr>
@@ -88,7 +88,7 @@ if (!defined('EXPONENT')) exit('');
 								</td>
 							  <td valign="top" align="left">
 						        <img src="<?php echo THEME_RELATIVE; ?>images/community.gif" alt="community" border="0" usemap="#MapMap">
-						       
+
 					          <?php //pathos_theme_showSectionalModule("containermodule","Default","","@right"); ?></td>
 							</tr>
 					  </table>

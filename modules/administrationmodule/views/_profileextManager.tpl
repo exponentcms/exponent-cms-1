@@ -26,7 +26,7 @@
 	<tr class="row {cycle values='odd,even'}_row">
 		<td>{$extension->name}</td>
 		<td>
-			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_delete id=$extension->id}" onClick="return confirm('{$_TR.deactivate_confirm}');">
+			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_delete id=$extension->id}" onclick="return confirm('{$_TR.deactivate_confirm}');">
 				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 			</a>
 			{if $smarty.foreach.e.first != 1}

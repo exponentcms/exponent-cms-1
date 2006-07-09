@@ -46,7 +46,7 @@ class textcontrol extends formcontrol {
 	var $size = 0;
 	var $maxlength = "";
 	var $caption = "";
-	
+
 	function name() { return "Text Box"; }
 	function isSimpleControl() { return true; }
 	function getFieldDefinition() {
@@ -54,7 +54,7 @@ class textcontrol extends formcontrol {
 			DB_FIELD_TYPE=>DB_DEF_STRING,
 			DB_FIELD_LEN=>512);
 	}
-	
+
 	function textcontrol($default = "", $size = 0, $disabled = false, $maxlength = 0, $filter = "") {
 		$this->default = $default;
 		$this->size = $size;
@@ -72,10 +72,10 @@ class textcontrol extends formcontrol {
 		$html .= ($this->tabindex>=0?"tabindex=\"".$this->tabindex."\" ":"");
 		$html .= ($this->accesskey != ""?"accesskey=\"".$this->accesskey."\" ":"");
 		if ($this->filter != "") {
-			$html .= "onKeyPress=\"return ".$this->filter."_filter.on_key_press(this, event);\" ";
-			$html .= "onBlur=\"".$this->filter."_filter.onBlur(this);\" ";
-			$html .= "onFocus=\"".$this->filter."_filter.onFocus(this);\" ";
-			$html .= "onPaste=\"return ".$this->filter."_filter.onPaste(this, event);\" ";
+			$html .= "onkeypress=\"return ".$this->filter."_filter.on_key_press(this, event);\" ";
+			$html .= "onblur=\"".$this->filter."_filter.onblur(this);\" ";
+			$html .= "onfocus=\"".$this->filter."_filter.onfocus(this);\" ";
+			$html .= "onpaste=\"return ".$this->filter."_filter.onpaste(this, event);\" ";
 		}
 		if (@$this->required) {
 			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
@@ -83,11 +83,11 @@ class textcontrol extends formcontrol {
 		$html .= "/>";
 		return $html;
 	}
-	
+
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		exponent_forms_initialize();
-	
+
 		$form = new form();
 		if (!isset($object->identifier)) {
 			$object->identifier = "";
@@ -96,19 +96,19 @@ class textcontrol extends formcontrol {
 			$object->size = 0;
 			$object->maxlength = 0;
 			$object->required = false;
-		} 
+		}
 		$i18n = exponent_lang_loadFile('subsystems/forms/controls/textcontrol.php');
-		
+
 		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
 		$form->register("default",$i18n['default'], new textcontrol($object->default));
 		$form->register("size",$i18n['size'], new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
 		$form->register("maxlength",$i18n['maxlength'], new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
-		
+
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
-	
+
 	function update($values, $object) {
 		if ($object == null) $object = new textcontrol();
 		if ($values['identifier'] == "") {
@@ -126,7 +126,7 @@ class textcontrol extends formcontrol {
 		$object->required = isset($values['required']);
 		return $object;
 	}
-	
+
 }
 
 ?>

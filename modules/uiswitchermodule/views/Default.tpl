@@ -16,7 +16,7 @@
 <form method="post">
 	<input type="hidden" name="module" value="uiswitchermodule" />
 	<input type="hidden" name="action" value="switch" /> 
-	<select name="level" onChange="this.form.submit()">
+	<select name="level" onchange="this.form.submit()">
 	{foreach from=$levels key=i item=level}
 		<option value="{$i}"{if $default_level == $i} selected{/if}>{$level}</option>
 	{/foreach}
