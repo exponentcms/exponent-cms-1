@@ -23,7 +23,7 @@
 		<a class="mngmntlink container_mngmntlink" href="{link action=orphanedcontent_delete mod=$class delsrc=$src}">{$_TR.delete_content}</a>
 	</div>
 	<div class="container_box">
-		<div width="100%" style="width: 100%">
+		<div style="width: 100%">
 		{$output}
 		</div>
 	</div>

@@ -43,7 +43,7 @@
 						{if $item->scale == 100}
 						<img src="{$smarty.const.PATH_RELATIVE}{$files[$fid]->directory}/{$files[$fid]->filename}" border="0" title="{$_TR.use_image}" alt="{$_TR.use_image}"/>
 						{else}
-						<img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" title="{$_TR.use_image}" alt="{$_TR.use_image}"/>
+						<img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&amp;scale={$item->scale}" border="0" title="{$_TR.use_image}" alt="{$_TR.use_image}"/>
 						{/if}
 					</a>
 					{else}
@@ -51,7 +51,7 @@
 						{if $item->scale == 100}
 						<img src="{$smarty.const.PATH_RELATIVE}{$files[$fid]->directory}/{$files[$fid]->filename}" border="0" title="{$_TR.view_image}" alt="{$_TR.view_image}"/>
 						{else}
-						<img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" title="{$_TR.view_image}" alt="{$_TR.view_image}"/>
+						<img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&amp;scale={$item->scale}" border="0" title="{$_TR.view_image}" alt="{$_TR.view_image}"/>
 						{/if}
 					</a>
 					{/if}
@@ -70,12 +70,12 @@
 				<td>
 					{permissions level=$smarty.const.UILEVEL_NORMAL}
 					{if $permissions.edit == 1}
-					<a class="mngmntlink imagemanager_mngmntlink" href="{link action=edit id=$item->id}" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
+					<a class="mngmntlink imagemanager_mngmntlink" href="{link action=edit id=$item->id}" />
+						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
 					{/if}
 					{if $permissions.delete == 1}
-					<a class="mngmntlink imagemanager_mngmntlink" href="{link action=delete id=$item->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+					<a class="mngmntlink imagemanager_mngmntlink" href="{link action=delete id=$item->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 					{/if}

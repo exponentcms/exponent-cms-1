@@ -16,7 +16,7 @@
  {assign var=bar value=0}
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tnav">
 	<tr>
-		<td width="100%" align="left" valign="middle" class="tnav">
+		<td align="left" valign="middle" class="tnav">
 		&nbsp;&nbsp;|&nbsp;
 		{foreach from=$sections item=section}
 		{if $section->parent == 0}
@@ -28,7 +28,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td width="100%" align="left" valign="middle" class="tnav">
+		<td align="left" valign="middle" class="tnav">
 		&nbsp;&nbsp;|&nbsp;
 		{else}		
 			{if $section->active == 1}

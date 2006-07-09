@@ -38,7 +38,7 @@ function confirmDelete() {
 {foreach from=$revisions item=revision}
 {assign var=type value=$revision->wf_type}
 <div class="{$css[$type]} {if $revision->wf_minor == 0}workflow_approved{else}workflow_inapproval{/if}">
-	<div width="100%" style="width: 100%">
+	<div style="width: 100%">
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td style="font-weight: bold">{if $revision->title != ""}'{$revision->title}' v{else}V{/if}ersion {$revision->wf_major}.{$revision->wf_minor} :: {attribution user_id=$revision->wf_user_id}

@@ -21,7 +21,7 @@
 	{assign var=fid value=$item->file_id}
 		<td align="center">
 			<a class="mngmntlink imagemanager_mngmntlink" href="" onclick="setContent('{$files[$fid]->directory}/{$files[$fid]->filename}','{$smarty.const.PATH_RELATIVE}'); return false">
-				<img src="thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&scale={$item->scale}" border="0" />
+				<img src="thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&amp;scale={$item->scale}" border="0" />
 			</a>
 			<br />
 			{$item->name}

@@ -23,7 +23,7 @@
 <div class="container_editheader">
 	{* I.E. requires a 'dummy' div inside of the above div, so that it
 	   doesn't just 'lose' the margins and padding. jh 8/23/04 *}
-	<div width="100%" style="width: 100%">
+	<div style="width: 100%">
 	<table width="100%" cellpadding="0" cellspacing="3" border="0" class="container_editheader">
 		<tr>
 			<td valign="top" class="info">
@@ -64,7 +64,7 @@
 				<div class="container_editheader">
 					{* I.E. requires a 'dummy' div inside of the above div, so that it
 					   doesn't just 'lose' the margins and padding. jh 8/23/04 *}
-					<div width="100%" style="width: 100%">
+					<div style="width: 100%">
 					<table width="100%" cellpadding="0" cellspacing="3" border="0" class="container_editheader">
 						<tr>
 							<td valign="top" class="info">
@@ -112,7 +112,7 @@
 				</div>
 			{/permissions}
 				<div class="container_box">
-					<div width="100%" style="width: 100%">
+					<div style="width: 100%">
 					{$container->output}
 					</div>
 				</div>
@@ -121,7 +121,7 @@
 			{/permissions}
 		{elseif $container->output != ""}
 			<div class="container_box">
-				<div width="100%" style="width: 100%">
+				<div style="width: 100%">
 				{$container->output}
 				</div>
 			</div>
