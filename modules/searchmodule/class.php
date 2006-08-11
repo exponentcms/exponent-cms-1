@@ -19,15 +19,15 @@
 
 class searchmodule {
 	function name() { return exponent_lang_loadKey('modules/searchmodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/searchmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/searchmodule/class.php','module_description'); }
-
+	function author() { return 'James Hunt'; }
+	
 	function hasSources() { return true; }
 	function hasContent() { return false; }
 	function hasViews() { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/searchmodule/class.php');
 		return array(
@@ -35,30 +35,30 @@ class searchmodule {
 			'configure'=>$i18n['perm_configure']
 		);
 	}
-
+	
 	function show($view,$loc = null, $title = '') {
 		$template = new template('searchmodule',$view,$loc);
-
+		
 		$template->assign('loc',$loc);
-
+		
 		$template->register_permissions(
 			array('administrate','configure'),$loc);
 		$template->output();
 	}
-
+	
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		// Do nothing, no content
 	}
-
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-
+	
 }
 
 ?>
