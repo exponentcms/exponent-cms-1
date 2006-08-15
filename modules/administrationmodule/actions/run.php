@@ -19,11 +19,21 @@
 
 if (!defined('EXPONENT')) exit('');
 
-$file = str_replace('../','','modules/' . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php');
+$realbase = realpath(BASE) .'/modules/';
+$file = realpath($realbase . $_REQUEST['m'] . '/actions/' . $_REQUEST['a'] . '.php');
+
 if (exponent_permissions_check('administration',exponent_core_makeLocation('administrationmodule'))) {
-	if (is_readable($file)) {
-		include($file);
-	} else echo SITE_404_HTML;
-} else echo SITE_403_HTML;
+	if( substr($file, 0, strlen($realbase) ) == $realbase ){
+		if (is_readable($file)) {
+			include($file);
+		}
+		else {
+			echo SITE_404_HTML;
+		}
+	}
+	else {
+		echo SITE_403_HTML;
+	}
+}else echo SITE_403_HTML;
 
 ?>
