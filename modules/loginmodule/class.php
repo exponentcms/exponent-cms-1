@@ -19,7 +19,7 @@
 
 class loginmodule {
 	function name() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_name'); }
-	function name() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_author'); }
+	function author() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/loginmodule/class.php','module_description'); }
 
 	function hasContent() { return false; }
