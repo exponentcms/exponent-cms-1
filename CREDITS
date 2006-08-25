@@ -1,6 +1,8 @@
 Exponent CMS, Credits
 
-The Exponent team wants to recognize the following people for their contribution(s) to and support of the Exponent project.  Exponent wouldn't be where it is today without the help and support of these people.
+The Exponent team wants to recognize the following people for their contribution(s) to and support of the Exponent project.
+If you don't see your name in this list, but it should be here, please don't be shy - let us know and we will add you.
+Exponent wouldn't be where it is today without the help and support of these people.
 
 ====================
 Project Owner and Lead Developer
@@ -28,10 +30,17 @@ Daniel Grabert - For fixing the section linker code
 Xavier Basty - For fixing some CRLF problems with the SMTP Subsystem implementation
 faz2 - For suggesting some file and directory permission options
 Michael Anthon - For patching the paginator to work with Opera 7.x.x
-jacobmesu - For the Interbase database handler and various other contributions
+Jacob Mesu - For the Interbase database handler, testing, and various other contributions
 Jeremy Shinall (OIC Group, Inc.)
 Hans Wolters - Security fixes, many enhancements, features, and bug fixes.
 Maxim Muller - Various features and methodology/design.
+Einar Oli - Various code fixes, and many contributions to the new ExponentCMS.org website
+Maia Good - Various code fixes, testing, and documentation
+Gerry Starrermayr - Translation work
+Tom Zeiler - Various code fixes and contributions.
+Sammy (qbnflaco) - Various code contributions.
+Daniele Mezzetti - Various code contributions.
+
 
 =====================
 Testing / Bug Hunting
@@ -40,15 +49,16 @@ tipichris
 thinkinfinity
 schultkl
 mouton_io
-jacobmesu
 g14
 dwgoodale
 dgharrison
 chris_meeder
+sanna
 
 =================================
 User Feedback / Community Support
 =================================
+David Andor
 arglborps
 beehock
 chris_meeder
@@ -59,7 +69,6 @@ krayc
 thinkinfinity
 generare
 wilko_76
-optiondelete
 chrisjlocke
 
-(Last updated 2006.04.05, release 0.96.5)
+(Last updated 2006.08.08, release 0.96.5)
