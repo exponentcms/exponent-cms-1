@@ -21,7 +21,7 @@ return array(
 	'name'=>'English',
 	'charset'=>'iso-8859-1', // Used in the META.  Very important.
 	'author'=>'James Hunt',
-	'locale'=>'en_US', // See RFC 1766 and ISO 639,
+	'locale'=>'eng_US', // See RFC 1766 and ISO 639-2 
 	'default_view'=>'Default' // For recursion in view resolution
 );
 
