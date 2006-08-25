@@ -29,7 +29,7 @@ $errcount = count($status);
 $warncount = 0; // No warnings with permissions
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
-<table cellspacing="0" cellpadding="3" rules="all" border="0" style="border:1px solid grey;" width="100%">
+<table cellspacing="0" cellpadding="3" rules="all" border="0" style="border:1px solid grey;" width="425">
 <tr><td colspan="2" style="background-color: lightgrey;"><b><?php echo $i18n['filedir_tests']; ?></b></td></tr>
 <?php
 
