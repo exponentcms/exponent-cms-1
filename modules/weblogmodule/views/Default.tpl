@@ -86,7 +86,6 @@
 	</div>
 {/if}
 <hr size="1" />
-</div>
 {/foreach}
 {if $total_posts > $config->items_per_page}
 	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>

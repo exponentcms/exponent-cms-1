@@ -69,7 +69,7 @@ class section_template {
 		$form->register('keywords',$i18n['keywords'],new texteditorcontrol($object->keywords,5,25));
 		$form->register('description',$i18n['description'],new texteditorcontrol($object->keywords,5,25));
 		
-		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['save']));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 	

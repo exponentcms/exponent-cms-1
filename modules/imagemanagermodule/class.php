@@ -19,18 +19,18 @@
 
 class imagemanagermodule {
 	function name() { return exponent_lang_loadKey('modules/imagemanagermodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/imagemanagermodule/class.php','module_author'); }
+	function author() { return 'James Hunt'; }
 	function description()  { return exponent_lang_loadKey('modules/imagemanagermodule/class.php','module_description'); }
-
+	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews() { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = "") {
 		$i18n = exponent_lang_loadFile('modules/imagemanagermodule/class.php');
-
+		
 		if ($internal == '') {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
@@ -45,15 +45,15 @@ class imagemanagermodule {
 			);
 		}
 	}
-
+	
 	function show($view,$loc,$title = '') {
-
+		
 		$template = new template('imagemanagermodule',$view,$loc);
-
+		
 		$uilevel = 99; // MAX
 		if (exponent_sessions_isset("uilevel")) $uilevel = exponent_sessions_get("uilevel");
 		$template->assign('show',((defined('SELECTOR') || $uilevel > UILEVEL_PREVIEW) ? 1 : 0));
-
+		
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
 		$directory = 'files/imagemanagermodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
@@ -63,19 +63,21 @@ class imagemanagermodule {
 				$template->assign('uploadError',$err);
 			}
 		}
-
+		
 		global $db;
-
+		
 		$location = serialize($loc);
-
-		if (!isset($_SESSION['image_cache'][$location])) {
+		$cache = exponent_sessions_getCacheValue('imagemanagermodule');
+		
+		if (!isset($cache[$location])) {
 			$items = $db->selectObjects("imagemanageritem","location_data='".serialize($loc)."'");
-			$_SESSION['image_cache'][$location] = $items;
+			$cache[$location] = $items;		
+			exponent_sessions_setCacheValue('imagermanagermodule', $cache);
 		} else {
-			$items = $_SESSION['image_cache'][$location];
+			$items = $cache[$location];	
 		}
-
-
+		
+		
 
 		$files = $db->selectObjectsIndexedArray("file","directory='$directory'");
 		$template->assign('items',$items);
@@ -84,10 +86,10 @@ class imagemanagermodule {
 		$template->register_permissions(
 			array('administrate','post','edit','delete'),
 			$loc);
-
+		
 		$template->output();
 	}
-
+	
 	function deleteIn($loc) {
 		global $db;
 		$directory = 'files/imagemanagermodule/'.$loc->src;
@@ -97,7 +99,7 @@ class imagemanagermodule {
 		rmdir(BASE.$directory);
 		$db->delete('imagemanageritem',"location_data='".serialize($loc)."'");
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		$directory = 'files/imagemanagermodule/'.$nloc->src;
@@ -110,19 +112,19 @@ class imagemanagermodule {
 			$file->directory = $directory;
 			unset($file->id);
 			$file->id = $db->insertObject($file,'file');
-
+			
 			$i->location_data = serialize($nloc);
 			unset($i->id);
 			$i->file_id = $file->id;
 			$db->insertObject($i,'imagemanageritem');
 		}
 	}
-
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-
+	
 }
 
 ?>

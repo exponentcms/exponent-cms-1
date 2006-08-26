@@ -8,7 +8,10 @@ return array(
 	'succeeded'=>'Succeeded',
 	'failed'=>'Failed',
 	'altered_existing'=>'Altered Existing Table',
-	'alter_failed'=>'Alter Table Failed'
+	'alter_failed'=>'Alter Table Failed',
+		
+	'table_name'=>'Table Name',
+	'status'=>'Status',
 );
 
 ?>

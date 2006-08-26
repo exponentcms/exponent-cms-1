@@ -43,14 +43,12 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
  * @subpackage Forms
  */class htmleditorcontrol extends formcontrol {
 	var $module = "";
-  var $toolbar = "";
 	
 	function name() { return "WYSIWYG Editor"; }
 	
-	function htmleditorcontrol($default="",$module = "",$rows = 20,$cols = 60, $toolbar="") {
+	function htmleditorcontrol($default="",$module = "",$rows = 20,$cols = 60) {
 		$this->default = $default;
 		$this->module = $module; // For looking up templates.
-    $this->toolbar = $toolbar; //This is for using custom toolbars in specific modules.
 	}
 	
 	function controlToHTML($name) {
@@ -112,11 +110,7 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 			var htmleditorconfig = new HTMLArea.Config();
 			<?php
 			global $db;
-      if ($this->toolbar == "" ){
-			  $config = $db->selectObject("htmlareatoolbar","active=1");
-      } else {
-        $config = $db->selectObject("htmlareatoolbar","name='".$this->toolbar."'");
-      }
+			$config = $db->selectObject("htmlareatoolbar","active=1");
 			if ($config) {
 				$plugins = array();
 				echo "htmleditorconfig.toolbar = [ ";

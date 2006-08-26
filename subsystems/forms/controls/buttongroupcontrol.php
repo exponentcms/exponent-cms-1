@@ -50,15 +50,15 @@ class buttongroupcontrol extends formcontrol {
 	var $submit = "Submit";
 	var $reset = "";
 	var $cancel = "";
-
+	
 	var $validateJS = "";
-
+	
 	function name() { return "Button Group"; }
-
+	
 	function parseData($name, $values, $for_db = false) {
 		return;
 	}
-
+	
 	function buttongroupcontrol($submit = "Submit", $reset = "", $cancel = "") {
 		$this->submit = $submit;
 		$this->reset = $reset;
@@ -69,14 +69,14 @@ class buttongroupcontrol extends formcontrol {
 		if ($this->submit . $this->reset . $this->cancel == "") return "";
 		return parent::toHTML($label,$name);
 	}
-
+	
 	function controlToHTML($name) {
 		if ($this->submit . $this->reset . $this->cancel == "") return "";
 		$html = "";
 		if ($this->submit != "") {
 			$html .= '<input type="submit" value="' . $this->submit . '"';
 			if ($this->disabled) $html .= " disabled";
-			$html .= ' onclick="if (checkRequired(this.form)) ';
+			$html .= ' onClick="if (checkRequired(this.form)) ';
 			if ($this->validateJS != "") {
 				$html .= '{ if (' . $this->validateJS . ') { return true; } else { return false; } }';
 			} else {
@@ -84,17 +84,17 @@ class buttongroupcontrol extends formcontrol {
 			}
 			$html .= ' else { return false; }"';
 			$html .= ' />';
-
+			
 		}
 		if ($this->reset != "") $html .= '<input type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
 		if ($this->cancel != "") {
 			$html .= '<input type="button" value="' . $this->cancel . '"';
-			$html .= ' onclick="document.location.href=\''.exponent_flow_get().'\'"';
+			$html .= ' onClick="document.location.href=\''.exponent_flow_get().'\'"';
 			$html .= ' />';
 		}
 		return $html;
 	}
-
+	
 }
 
 ?>

@@ -28,23 +28,23 @@ class fakeform extends form {
 			$this->scripts[] = $this->validationScript;
 			$this->controls["submit"]->validateJS = "validate(this.form)";
 		}
-
+	
 		// Persistent Form Data extension
 		$formError = "";
 		if (exponent_sessions_isset("last_POST")) {
 			// We have cached POST data.  Use it to update defaults.
 			$last_POST = exponent_sessions_get("last_POST");
-
+			
 			foreach (array_keys($this->controls) as $name) {
 				// may need to look to control a la parseData
 				$this->controls[$name]->default = @$last_POST[$name];
 			}
-
+			
 			$formError = @$last_POST['_formError'];
-
+			
 			exponent_sessions_unset("last_POST");
 		}
-
+		
 		$html = "<!-- Form Object '" . $this->name . "' -->\r\n";
 		$html .= "<script type=\"text/javascript\" src=\"" .PATH_RELATIVE."subsystems/forms/js/inputfilters.js.php\"></script>\r\n";
 		foreach ($this->scripts as $name=>$script) $html .= "<script type=\"text/javascript\" src=\"$script\"></script>\r\n";
@@ -72,7 +72,7 @@ class fakeform extends form {
 			} else {
 				$html .= "<img src='".ICON_RELATIVE."up.disabled.png' />";
 			}
-
+			
 			$html .= "&nbsp;&nbsp;";
 			if (!$this->controls[$name]->_readonly) {
 				$html .= '<a href="?module=formbuilder&action=edit_control&id='.$this->controls[$name]->_id.'&form_id='.$form_id.'">';
@@ -81,19 +81,19 @@ class fakeform extends form {
 			} else {
 				$html .= '<img border="0" src="'.ICON_RELATIVE.'edit.disabled.png" />';
 			}
-
+			
 			$html .= '&nbsp;';
 			if (!$this->controls[$name]->_readonly && $this->controls[$name]->_controltype != 'htmlcontrol' ) {
-				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onclick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
+				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
 			}
 			else {
-				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onclick="return confirm(\'Are you sure you want to delete this?\');">';
+				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this?\');">';
 			}
 			$html .= '<img border="0" src="'.ICON_RELATIVE.'delete.png" />';
 			$html .= '</a>';
 			$html .= "</td>";
 			$html .= "</td></tr>";
-
+			
 			$rank++;
 		}
 		$html .= "<tr><td width='5%'></td><td wdith='90%'><td></td width='5%'></tr>\r\n";

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'email'=>'Email',
+	'email'=>'Your Email Address',
 	'subject'=>'Subject',
 	'message'=>'Message',
 	'send'=>'Send',

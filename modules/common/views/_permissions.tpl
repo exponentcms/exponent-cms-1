@@ -53,7 +53,7 @@ function serializeData() {
 		var html = '<div align="center"><input type="checkbox" name="p['+object['id']+'][{$perm}]" ';
 		if (object['var_perms_{$perm}'] > 0) html += 'checked ';
 		if (object['var_perms_{$perm}'] == 2) html += 'disabled ';
-		else html += 'onclick="box_checked('+object['__ID']+',\'{$perm}\',this);" ';
+		else html += 'onClick="box_checked('+object['__ID']+',\'{$perm}\',this);" ';
 		html += '/></div>';
 		return html;
 	{literal}}{/literal}
@@ -97,6 +97,6 @@ paginate.columns = new Array(
 {/if}
 <input type="hidden" name="_common" value="1" />
 <input type="hidden" id="permdata" name="permdata" value="" />
-<input type="submit" value="{$_TR.save}" onclick="serializeData(); return true;"{if $have_users == 0} disabled{/if} />
-<input type="button" value="{$_TR.cancel}" onclick="document.location.href = '{$smarty.server.HTTP_REFERER}';" />
+<input type="submit" value="{$_TR.save}" onClick="serializeData(); return true;"{if $have_users == 0} disabled{/if} />
+<input type="button" value="{$_TR.cancel}" onClick="document.location.href = '{$smarty.server.HTTP_REFERER}';" />
 </form>

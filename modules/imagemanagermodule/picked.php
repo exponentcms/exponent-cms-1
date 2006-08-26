@@ -29,6 +29,6 @@
 		}
 		</script>
 	</head>
-	<body onload="go();">
+	<body onLoad="go();">
 	</body>
 </html>

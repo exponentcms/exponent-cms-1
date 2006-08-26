@@ -19,30 +19,30 @@
 
 class previewmodule {
 	function name() { return exponent_lang_loadKey('modules/previewmodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/previewmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/previewmodule/class.php','module_description'); }
-
+	function author() { return 'James Hunt'; }
+	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
 	function hasViews()   { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = '') {
-
+	
 	}
-
+	
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
-
+	
 	function copyContent($from_loc,$to_loc) {
 		// Do nothing, no content
 	}
-
+	
 	function show($view,$loc = null, $title = '') {
 		$template = new template('previewmodule',$view,$loc);
-
+		
 		$level = 99;
 		if (exponent_sessions_isset('uilevel')) {
 			$level = exponent_sessions_get('uilevel');
@@ -50,13 +50,13 @@ class previewmodule {
 		$template->assign('editMode',exponent_sessions_loggedIn() && $level != UILEVEL_PREVIEW);
 		$template->assign('title',$title);
 		$template->assign('previewMode',($level == UILEVEL_PREVIEW));
-
+		
 		$template->output($view);
 	}
-
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-
+	
 }

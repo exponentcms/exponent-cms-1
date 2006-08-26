@@ -19,20 +19,20 @@
 
 class administrationmodule {
 	function name() { return exponent_lang_loadKey('modules/administrationmodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/administrationmodule/class.php','module_author'); }
+	function author() { return 'James Hunt'; }
 	function description() { return exponent_lang_loadKey('modules/administrationmodule/class.php','module_description'); }
-
+	
 	function hasContent() { return false; }
 	function hasSources() { return false; }
 	function hasViews()   { return true;  }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = "") {
 		$i18n = exponent_lang_loadFile('modules/administrationmodule/class.php');
-
+		
 		$permissions = array('administrate'=>$i18n['perm_admin']);
-
+		
 		$menu = array();
 		$dir = BASE.'modules/administrationmodule/tasks';
 		if (is_readable($dir)) {
@@ -43,27 +43,27 @@ class administrationmodule {
 				}
 			}
 		}
-
+		
 		foreach (array_keys($menu) as $header) {
 			$permissions[strtolower(str_replace(' ','_',$header))] = $header;
 		}
 		return $permissions;
 	}
-
+	
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
-
+	
 	function copyContent($from_loc,$to_loc) {
 		// Do nothing, no content
 	}
-
-
+	
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-
+	
 	function show($view,$loc = null,$title = "") {
 		global $user;
 		$menu = array();
@@ -80,11 +80,11 @@ class administrationmodule {
 		$template->assign('menu',$menu);
 		$template->assign('moduletitle',$title);
 		$template->assign('user',$user);
-
+		
 		$perms = administrationmodule::permissions();
 		$template->assign('check_permissions',array_flip($perms));
 		$template->register_permissions(array_keys($perms),exponent_core_makeLocation('administrationmodule'));
-
+		
 		$template->output($view);
 	}
 }

@@ -45,7 +45,7 @@ function mods_selectUnselectAll(setChecked) {
 </tr>
 {/foreach}
 <tr><td colspan="2">
-<a href="#" onclick="mods_selectUnselectAll(true); return false;">{$_TR.select_all}</a>&nbsp;|&nbsp;<a href="#" onclick="mods_selectUnselectAll(false); return false;">{$_TR.deselect_all}</a>
+<a href="#" onClick="mods_selectUnselectAll(true); return false;">{$_TR.select_all}</a>&nbsp;|&nbsp;<a href="#" onClick="mods_selectUnselectAll(false); return false;">{$_TR.deselect_all}</a>
 </td></tr>
 <tr>
 	<td colspan="2" valign="top"><b>{$_TR.file_template}</b>

@@ -19,18 +19,18 @@
 
 class addressbookmodule {
 	function name() { return exponent_lang_loadKey('modules/addressbookmodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/addressbookmodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/addressbookmodule/class.php','module_description'); }
-
+	function author() { return 'James Hunt'; }
+	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/addressbookmodule/class.php');
-
+		
 		if ($internal == '') {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
@@ -56,10 +56,10 @@ class addressbookmodule {
 			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
-
+	
 	function show($view,$loc = null,$title = '') {
 		global $db;
-
+		
 		$config = $db->selectObject('addressbookmodule_config',"location_data='".serialize($loc)."'");
 		if (!$config) {
 			$config->sort_type = 'lastname_asc';
@@ -111,7 +111,7 @@ class addressbookmodule {
 			}
 		}
 		//End Pathos Compatibility
-
+		
 		switch ($config->sort_type) {
 			case 'lastname_asc':
 				usort($contacts,'exponent_sorting_byLastNameAscending');
@@ -126,24 +126,24 @@ class addressbookmodule {
 				usort($contacts,'exponent_sorting_byFirstNameDescending');
 				break;
 		}
-
+		
 		$template = new template('addressbookmodule',$view,$loc);
-
+		
 		$template->assign('contacts',$contacts);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','configure','post','edit','delete'),
 			$loc
 		);
-
+		
 		$template->output();
 	}
-
+	
 	function deleteIn($loc) {
 		global $db;
 		$db->delete("addressbook_contact","location_data='".serialize($loc)."'");
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		foreach ($db->selectObjects("addressbook_contact","location_data='".serialize($oloc)."'") as $entry) {
@@ -151,15 +151,15 @@ class addressbookmodule {
 			unset($entry->id);
 			$db->insertObject($entry,'addressbook_contact');
 		}
-
+		
 	}
-
+	
 	function getContacts($location) {
 		global $db;
 		$contacts = array();
 		foreach ($db->selectObjects("addressbook_contact","location_data='".serialize($location)."'") as $c) {
 			$contacts[$c->id] = $c;
-
+			
 			$iloc = exponent_core_makeLocation($location->mod,$location->src,$c->id);
 			$contacts[$c->id]->permissions = array(
 				'administrate'=>exponent_permissions_check('administrate',$iloc),
@@ -169,7 +169,7 @@ class addressbookmodule {
 		}
 		return $contacts;
 	}
-
+	
 	function spiderContent($item = null) {
 		// Do nothing for address book
 		return false;

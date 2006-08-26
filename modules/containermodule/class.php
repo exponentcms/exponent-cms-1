@@ -19,15 +19,15 @@
 
 class containermodule {
 	function name() { return exponent_lang_loadKey('modules/containermodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/containermodule/class.php','module_author'); }
+	function author() { return 'James Hunt'; }
 	function description() { return exponent_lang_loadKey('modules/containermodule/class.php','module_description'); }
-
+	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/containermodule/class.php');
 		return array(
@@ -38,32 +38,32 @@ class containermodule {
 			'order_modules'=>$i18n['perm_order_modules'],
 		);
 	}
-
+	
 	function deleteIn($loc) {
 		global $user;
 		if ($user && $user->is_acting_admin == 1) {
 			include_once(BASE.'datatypes/container.php');
-
+			
 			global $db;
 			$containers = $db->selectObjects('container',"external='" . serialize($loc) . "'");
-
+			
 			foreach ($containers as $container) {
 				container::delete($container);
 				$db->delete('container','id='.$container->id);
 			}
 		}
 	}
-
+	
 	function show($view,$loc = null,$title = '') {
 		$i18n = exponent_lang_loadFile('modules/containermodule/class.php');
-
+	
 		$source_select = array();
 		$clickable_mods = null; // Show all
 		$dest = null;
-
+		
 		$singleview = '_container';
 		$singlemodule = 'containermodule';
-
+		
 		if (exponent_sessions_isset('source_select') && defined('SELECTOR')) {
 			$source_select = exponent_sessions_get('source_select');
 			$singleview = $source_select['view'];
@@ -72,14 +72,14 @@ class containermodule {
 			if (!is_array($clickable_mods)) $clickable_mods = null;
 			$dest = $source_select['dest'];
 		}
-
+		
 		global $db;
-
+		
 		$container = null;
 		if (!isset($this) || !isset($this->_hasParent) || $this->_hasParent == 0) {
 			// Top level container.
 			$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".serialize($loc)."'");
-
+	
             if ($container == null) {
 				$container->external = serialize(null);
 				$container->internal = serialize($loc);
@@ -87,18 +87,18 @@ class containermodule {
 				$container->title = $title;
 				$container->id = $db->insertObject($container,'container');
 			}
-
+			
 			if (!defined('PREVIEW_READONLY') || defined('SELECTOR')) $view = $container->view;
 			$title = $container->title;
 		}
-
+		
 		$template = new template('containermodule',$view,$loc);
 		if ($dest) $template->assign('dest',$dest);
 		$template->assign('singleview',$singleview);
 		$template->assign('singlemodule',$singlemodule);
-
+		
 		$template->assign('top',$container);
-
+		
 		$containers = array();
 
         $container_key = serialize( $loc );
@@ -117,25 +117,25 @@ class containermodule {
         {
             $containers = unserialize($cache[$container_key]);
         }
-
+ 
 		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		ksort($containers);
 		foreach (array_keys($containers) as $i) {
 			$location = unserialize($containers[$i]->internal);
 			$modclass = $location->mod;
-
+			
 			if (class_exists($modclass)) {
 				$mod = new $modclass();
-
+				
 				ob_start();
 				$mod->_hasParent = 1;
 				$mod->show($containers[$i]->view,$location,$containers[$i]->title);
 
 				$containers[$i]->output = trim(ob_get_contents());
 				ob_end_clean();
-
+				
 				$policy = exponent_workflow_getPolicy($modclass,$location->src);
-
+				
 				$containers[$i]->info = array(
 					'module'=>$mod->name(),
 					'source'=>$location->src,
@@ -164,7 +164,7 @@ class containermodule {
 				);
 			}
 			$containers[$i]->moduleLocation = $location;
-
+			
 			$cloc = null;
 			$cloc->mod = $loc->mod;
 			$cloc->src = $loc->src;
@@ -174,29 +174,29 @@ class containermodule {
 				'configure'=>(exponent_permissions_check('configure',$location) ? 1 : 0)
 			);
 		}
-
+		
 		$template->assign('containers',$containers);
 		$template->assign('hasParent',(isset($this) && isset($this->_hasParent) ? 1 : 0));
 		$template->register_permissions(
 			array('administrate','add_module','edit_module','delete_module','order_modules'),
 			$loc
 		);
-
+		
 		$template->output();
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		foreach ($db->selectObjects('container',"external='".serialize($oloc)."'") as $c) {
 			unset($c->id);
 			$c->external = serialize($nloc);
-
+			
 			if (!$c->is_existing == 1) { // Copy over content to a new source
 				$oldinternal = unserialize($c->internal);
 				$iloc = exponent_core_makeLocation($oldinternal->mod,'@random'.uniqid(''));
 				$c->internal = serialize($iloc);
 				$db->insertObject($c,'container');
-
+				
 				// Now copy over content
 				if (call_user_func(array($oldinternal->mod,'hasContent')) == true) {
 					call_user_func(array($oldinternal->mod,'copyContent'),$oldinternal,$iloc);
@@ -209,34 +209,34 @@ class containermodule {
 			}
 		}
 	}
-
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-
+	
 	function wrapOutput($modclass,$view,$loc = null,$title = '') {
 		if (defined('SOURCE_SELECTOR') && strtolower($modclass) != 'containermodule') {
 			$container = null;
 			$mod = new $modclass();
-
+			
 			ob_start();
 			$mod->show($view,$loc,$title);
-
+			
 			$container->output = ob_get_contents();
 			ob_end_clean();
-
-
+			
+			
 			$source_select = exponent_sessions_get('source_select');
 			$c_view = $source_select['view'];
 			$c_module = $source_select['module'];
 			$clickable_mods = $source_select['showmodules'];
 			if (!is_array($clickable_mods)) $clickable_mods = null;
 			$dest = $source_select['dest'];
-
+			
 			$template = new template($c_module,$c_view,$loc);
 			if ($dest) $template->assign('dest',$dest);
-
+			
 			$container->info = array(
 				'module'=>$mod->name(),
 				'source'=>$loc->src,
@@ -246,7 +246,7 @@ class containermodule {
 				'class'=>$modclass,
 				'clickable'=>($clickable_mods == null || in_array($modclass,$clickable_mods))
 			);
-
+			
 			$template->assign('container',$container);
 			$template->output();
 		} else {

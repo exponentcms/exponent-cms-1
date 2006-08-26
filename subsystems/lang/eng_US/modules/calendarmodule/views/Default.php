@@ -27,7 +27,7 @@ return array(
 	
 	'sunday'=>'Sunday',
 	'monday'=>'Monday',
-	'tuseday'=>'Tuesday',
+	'tuesday'=>'Tuesday',
 	'wednesday'=>'Wednesday',
 	'thursday'=>'Thursday',
 	'friday'=>'Friday',

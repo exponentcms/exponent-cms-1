@@ -16,7 +16,7 @@
 <b>{$message->subject}</b>
 <div style="padding: 5px; background-color: #CCC;">
 {capture assign=date}{$message->date_sent|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{/capture}
-{$_TR.sent_when|sprtinf:$date:$message->from_name}
+{$_TR.sent_when|sprintf:$date:$message->from_name}
 </div>
 <div style="padding: 5px; background-color: #DDD;">
 {$message->body}

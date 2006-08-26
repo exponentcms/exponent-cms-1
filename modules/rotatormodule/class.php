@@ -19,15 +19,15 @@
 
 class rotatormodule {
 	function name() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_author'); }
 	function description() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_description'); }
-
+	function author() { return 'James Hunt'; }
+	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/rotatormodule/class.php');
 		return array(
@@ -35,10 +35,10 @@ class rotatormodule {
 			'manage'=>$i18n['perm_manage'],
 		);
 	}
-
+	
 	function show($view,$loc = null, $title = "") {
 		global $db;
-
+		
 		$obj = null;
 		$o = $db->selectObjects('rotator_item',"location_data='".serialize($loc)."'");
 		$num = rand(0,count($o)-1);
@@ -55,12 +55,12 @@ class rotatormodule {
 			$loc);
 		$template->output();
 	}
-
+	
 	function deleteIn($loc) {
 		global $db;
 		$db->delete('rotator_item',"location_data='".serialize($loc)."'");
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		foreach ($db->selectObject('rotator_item',"location_data='".serialize($oloc)."'") as $item) {
@@ -69,12 +69,12 @@ class rotatormodule {
 			$db->insertObject($item,'rotator_item');
 		}
 	}
-
+	
 	function spiderContent($item = null) {
 		// Do nothing, no content
 		return false;
 	}
-
+	
 }
 
 ?>

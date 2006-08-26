@@ -36,9 +36,9 @@
 		</style>
 		{/literal}
 	</head>
-	<body onload="exponentJSinitialize()">
+	<body onLoad="exponentJSinitialize()">
 	<div class="printer_link">
-		<a href="#" onclick="print(); return false;">{$_TR.print}</a>
+		<a href="#" onClick="print(); return false;">{$_TR.print}</a>
 		<br />
 	</div>
 	{$output}

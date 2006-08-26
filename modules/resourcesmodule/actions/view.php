@@ -17,9 +17,10 @@
 #
 ##################################################
 
+
 if (!defined('EXPONENT')) exit('');
 
-exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+//exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $resource = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 if ($resource != null) {
@@ -50,13 +51,21 @@ if ($resource != null) {
         $filenametest = $file->directory . "/" . $file->filename;
 	
         if (file_exists($filenametest)) {
-        	       		
-            	header("Content-Disposition: attachment; filename=" . $file->filename);
-            	$host  	= $_SERVER['HTTP_HOST'];
+			//FJD: this should not be done here. Should be a new view for One Click Download        	      		
+            /*header("Content-Disposition: attachment; filename=" . $file->filename);
+            $host  	= $_SERVER['HTTP_HOST'];
 			$uri  	= rtrim(dirname($_SERVER['PHP_SELF']), '/\\');		
 			header("Location: http://$host$uri/$filenametest");
+            */
+            $template = new template('resourcesmodule','_view',$loc);            
+			$template->assign('resource',$resource);                      
+            $template->assign('user',$user);
+            $template->assign('file',$file);
+            $template->assign('mimetype',$mimetype);                                                                                                                                                                                                                                                        
+            $template->register_permissions(             
+	            array('administrate','edit','delete','manage_approval'),$loc);
+            $template->output();
             
-
          } else {
             echo SITE_404_HTML;
          }

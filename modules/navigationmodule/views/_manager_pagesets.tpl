@@ -44,7 +44,7 @@
 
 [ <a class="mngmntlink navigation_mngmntlink" href="{link action=view_template id=$t->id}">{$_TR.view}</a> ]
 [ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_template id=$t->id}">{$_TR.properties}</a> ]
-[ <a class="mngmntlink navigation_mngmntlink" href="{link action=delete_template id=$t->id}" onclick="return confirm('{$_TR.delete_confirm}');">{$_TR.delete}</a> ]
+[ <a class="mngmntlink navigation_mngmntlink" href="{link action=delete_template id=$t->id}" onClick="return confirm('{$_TR.delete_confirm}');">{$_TR.delete}</a> ]
 </td></tr>
 {foreachelse}
 <tr><td><i>{$_TR.no_pagesets}</i></td></tr>

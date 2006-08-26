@@ -30,6 +30,7 @@ if ($user->username == '') {
 	$user->lastname = $_POST['lastname'];
 	$user->is_admin = 1;
 	$user->is_acting_admin = 1;
+	$user->email = $_POST['email'];
 	
 	$db->updateObject($user,'user');
 	

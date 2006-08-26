@@ -19,13 +19,13 @@
 
 class textmodule {
 	function name()		{ return exponent_lang_loadKey('modules/textmodule/class.php','module_name'); }
-	function author()		{ return exponent_lang_loadKey('modules/textmodule/class.php','module_author'); }
+	function author()		{ return 'James Hunt'; }
 	function description()	{ return exponent_lang_loadKey('modules/textmodule/class.php','module_description'); }
 
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
-
+	
 	function supportsWorkflow() { return true; }
 
 	function deleteIn($loc) {
@@ -35,12 +35,12 @@ class textmodule {
 			$db->delete('textitem',"location_data='".serialize($loc)."'");
 			$db->delete('textitem_wf_revision','wf_original='.$text->id);
 			$db->delete('textitem_wf_info','real_id='.$text->id);
-
+			
 			// Remove search key
 			$db->delete('search',"ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $text->id);
 		}
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		$text = $db->selectObject("textitem","location_data='".serialize($oloc)."'");
@@ -63,35 +63,42 @@ class textmodule {
 
 	function show($view,$loc,$title = '') {
 		global $db;
-
+		
 		$template = new template('textmodule',$view,$loc);
-
-		$textitem = $db->selectObject('textitem',"location_data='" . serialize($loc) . "'");
-		if (!$textitem) {
-			$textitem->id = 0;
-			$textitem->approved = 1;
-			$textitem->text = '';
+		$location = serialize($loc);
+		$cache = exponent_sessions_getCacheValue('textmodule');
+		if (!isset($cache[$location])){
+			$textitem = $db->selectObject('textitem',"location_data='" . $location . "'");
+			if (!$textitem) {
+				$textitem->id = 0;
+				$textitem->approved = 1;
+				$textitem->text = '';
+			}
+			$cache[$location] = $textitem;
+			exponent_sessions_setCacheValue('textmodule', $cache);
+		}else{
+			$textitem = $cache[$location];
 		}
 		$template->assign('textitem',$textitem);
 		$template->assign('moduletitle',$title);
-
+		
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
-	    unset($textitem);
+	    unset($textitem);	
 		$template->output($view);
 	}
-
+	
 	function spiderContent($item=null) {
 		global $db;
-
+		
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
-
+		
 		$search = null;
 		$search->title = '';
 		$search->view_link = '';
 		$search->category = exponent_lang_loadKey('modules/textmodule/class.php','search_post_type');
 		$search->ref_module = 'textmodule';
 		$search->ref_type = 'textitem';
-
+		
 		if ($item) {
 			$db->delete('search',"ref_module='textmodule' AND ref_type='textitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
@@ -107,7 +114,7 @@ class textmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-
+		
 		return true;
 	}
 }

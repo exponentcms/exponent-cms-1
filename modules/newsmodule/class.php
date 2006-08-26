@@ -19,15 +19,15 @@
 
 class newsmodule {
 	function name() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_name'); }
-	function author() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_author'); }
+	function author() { return 'James Hunt'; }
 	function description() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_description'); }
-
+	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
-
+	
 	function supportsWorkflow() { return true; }
-
+	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/newsmodule/class.php');
 		if ($internal == '') {
@@ -49,7 +49,7 @@ class newsmodule {
 			);
 		}
 	}
-
+	
 	function getLocationHierarchy($loc) {
 		if ($loc->int == '') {
 			return array($loc);
@@ -57,7 +57,7 @@ class newsmodule {
 			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
-
+	
 	function deleteIn($location) {
 		global $db;
 		$items = $db->selectObjects('newsitem',"location_data='".serialize($location)."'");
@@ -67,16 +67,16 @@ class newsmodule {
 		}
 		$db->delete('newsitem',"location_data='".serialize($location)."'");
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		foreach ($db->selectObjects('newsitem',"location_data='".serialize($oloc)."'") as $n) {
 			$revs = $db->selectObjects('newsitem_wf_revision','wf_original='.$n->id);
-
+			
 			$n->location_data = serialize($nloc);
 			unset($n->id);
 			$n->id = $db->insertObject($n,'newsitem');
-
+			
 			foreach ($revs as $rev) {
 				unset($rev->id);
 				$rev->wf_original = $n->id;
@@ -85,10 +85,10 @@ class newsmodule {
 			}
 		}
 	}
-
+	
 	function show($view,$loc = null,$title = '') {
 		global $db, $user;
-
+		
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
 			$config->sortorder = 'ASC';
@@ -106,15 +106,15 @@ class newsmodule {
 				}
 			}
 		}
-
-
+		
+	
 		$template = new template('newsmodule',$view,$loc);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','configure','add_item','delete_item','edit_item','manage_approval','view_unpublished'),
 			$loc
 		);
-
+		
 		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
@@ -125,30 +125,30 @@ class newsmodule {
 				'administrate'=>((exponent_permissions_check('administrate',$loc) || exponent_permissions_check('administrate',$nloc)) ? 1 : 0)
 			);
 		}
-
+		
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");
 		$template->assign('canview_approval_link',$canviewapproval);
 		$template->assign('in_approval',$in_approval);
 		$template->assign('news',$news);
-
+		
 		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
-
+		
 		$template->output();
 	}
-
+	
 	function spiderContent($item = null) {
 		global $db;
-
+		
 		$i18n = exponent_lang_loadFile('modules/newsmodule/class.php');
-
+		
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
-
+		
 		$search = null;
 		$search->category = $i18n['search_category'];
 		$search->ref_module = 'newsmodule';
 		$search->ref_type = 'newsitem';
-
+		
 		if ($item) {
 			$db->delete('search',"ref_module='newsmodule' AND ref_type='newsitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
@@ -168,7 +168,7 @@ class newsmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-
+		
 		return true;
 	}
 

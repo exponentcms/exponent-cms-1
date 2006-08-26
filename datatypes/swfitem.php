@@ -37,7 +37,7 @@ class swfitem {
 			$object->swf_id = 0;
 			$object->alt_image_id = 0;
 			$object->unpublish = null;
-			$object->loop = 1;
+			$object->loop_movie = 1;
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -47,7 +47,7 @@ class swfitem {
 		$form->register('width',$i18n['width'],new textcontrol($object->width,5,false,5,'integer'));
 		$align = array($i18n['center'],$i18n['left'],$i18n['right']);
 		$form->register('alignment', $i18n['alignment'], new dropdowncontrol($object->alignment,$align));
-		$form->register('loop',$i18n['loop'],new checkboxcontrol($object->loop,true));
+		$form->register('loop_movie',$i18n['loop'],new checkboxcontrol($object->loop_movie,true));
 		
 		$form->register('swf_name',$i18n['swf_name'], new uploadcontrol());
 		if ($object->swf_id != 0) {
@@ -69,7 +69,7 @@ class swfitem {
 		$object->height = $values['height'] + 0;
 		$object->width = $values['width'] + 0;
 		$object->alignment = $values['alignment'];
-		$object->loop = (isset($values['loop']) ? 1 : 0);
+		$object->loop_movie = (isset($values['loop_movie']) ? 1 : 0);
 		return $object;
 	}
 }

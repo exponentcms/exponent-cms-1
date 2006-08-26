@@ -73,6 +73,7 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 		$resource->editor = $user->id;
 		$resource->edited = time();
 		$db->updateObject($resource,'resourceitem');
+		exponent_sessions_clearAllUsersSessionCache('resourcesmodule');
 		exponent_flow_redirect();
 	}
 } else {

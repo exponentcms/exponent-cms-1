@@ -34,8 +34,8 @@ if (document.body.appendChild) {
 				disableAll();
 				g_radio_existing.disabled = false;
 				g_radio_existing.checked = true;
-				g_existing_link.setAttribute("onclick","pickSource(); return false;");
-				//g_existing_link.onclick = function() { pickSource(); return false; }
+				g_existing_link.setAttribute("onClick","pickSource(); return false;");
+				//g_existing_link.onClick = function() { pickSource(); return false; }
 				
 				clearList(g_ta_description);
 				g_ta_description.value = "";
@@ -51,8 +51,8 @@ if (document.body.appendChild) {
 				g_ta_description.disabled = false
 				clearList(g_ta_description);
 				g_ta_description.value = "";
-				g_existing_link.setAttribute("onclick","pickSource(); return false;");
-				//g_existing_link.onclick = function() { pickSource(); return false; }
+				g_existing_link.setAttribute("onClick","pickSource(); return false;");
+				//g_existing_link.onClick = function() { pickSource(); return false; }
 				
 				g_radio_existing.disabled = false;
 				break;
@@ -60,8 +60,8 @@ if (document.body.appendChild) {
 				g_radio_new.disabled = false;
 				g_radio_existing.disabled = false;
 				g_ta_description.disabled = false
-				g_existing_link.setAttribute("onclick","pickSource(); return false;");
-				//g_existing_link.onclick = function() { alert("This module does not support Sources"); return false; }
+				g_existing_link.setAttribute("onClick","pickSource(); return false;");
+				//g_existing_link.onClick = function() { alert("This module does not support Sources"); return false; }
 				break;
 		}
 		sourceInit = true;
@@ -73,7 +73,7 @@ if (document.body.appendChild) {
 		for (i in g_radio_all) {
 			g_radio_all[i].disabled = true;
 		}
-		g_existing_link.setAttribute("onclick",'alert("This module does not support Sources"); return false;');
+		g_existing_link.setAttribute("onClick",'alert("This module does not support Sources"); return false;');
 	}
 	
 	// Clears out all of the options in a select box.

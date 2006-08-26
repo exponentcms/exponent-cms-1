@@ -22,7 +22,7 @@
 <input type="hidden" name="msg" value="_Default" />
 <table cellpadding="2" cellspacing="0" border="0">
 <tr>
-	<td width="10" style="width: 10px" valign="top">{$_TR.email}:</td>
+	<td style="width: 125px;" valign="top">{$_TR.email}:</td>
 	<td>
 		<input type="text" name="email" />
 	</td>

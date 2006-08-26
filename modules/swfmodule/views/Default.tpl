@@ -71,8 +71,8 @@ function FlashInstalled()
 				temp+=' codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" ';
 				temp+='  WIDTH="{$data->width}" HEIGHT="{$data->height}">';
 				temp+=' <PARAM NAME="movie" VALUE="{$data->_flashurl}"> <PARAM NAME="quality" VALUE="high"> <PARAM NAME="wmode" VALUE="transparent">  '; 
-				temp+=' <PARAM NAME="loop" VALUE="{if $data->loop == 1}true{else}false{/if}">';
-				temp+=' <EMBED src="{$data->_flashurl}" quality="high" bgcolor="{$data->bgcolor}" loop="{if $data->loop == 1}true{else}false{/if}" ';
+				temp+=' <PARAM NAME="loop" VALUE="{if $data->loop_movie == 1}true{else}false{/if}">';
+				temp+=' <EMBED src="{$data->_flashurl}" quality="high" bgcolor="{$data->bgcolor}" loop="{if $data->loop_movie == 1}true{else}false{/if}" ';
 				temp+=' swLiveConnect="FALSE" WIDTH="{$data->width}" HEIGHT="{$data->height}"';
 				temp+=' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">';
 				temp+=' </EMBED></OBJECT>';

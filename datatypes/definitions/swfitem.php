@@ -44,7 +44,7 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
-	'loop'=>array(
+	'loop_movie'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 ?>

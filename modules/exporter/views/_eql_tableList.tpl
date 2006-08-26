@@ -67,11 +67,11 @@ function isOneSelected() {
 {/section}
 <tr>
 	<td colspan="2">
-		<a href="#" onclick="selectAll(true); return false">{$_TR.select_all}</a>
+		<a href="#" onClick="selectAll(true); return false">{$_TR.select_all}</a>
 	</td>
 	<td></td>
 	<td colspan="2">
-		<a href="#" onclick="selectAll(false); return false">{$_TR.deselect_all}</a>
+		<a href="#" onClick="selectAll(false); return false">{$_TR.deselect_all}</a>
 	</td>
 </tr>
 <tr>
@@ -90,7 +90,7 @@ function isOneSelected() {
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<td colspan="3">
-		<input type="submit" value="{$_TR.export_data}" onclick="return isOneSelected();" />
+		<input type="submit" value="{$_TR.export_data}" onClick="return isOneSelected();" />
 	</td>
 </tr>
 </table>

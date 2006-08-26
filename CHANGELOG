@@ -1,5 +1,6 @@
 Added / Fixed in 0.96.5
 
+0.96.5	Added _mainteanance.tpl language file. [FD]
 0.96.5  A php injection problem is fixed in the bannermodule [HW]
 0.96.5  Added a final confirmation message to the Contact Form module (which is NOT being deprecated, contrary to popular belief)
 0.96.5  Added a notification to the connect code for the database (mysql) simular as phpReview [HW]

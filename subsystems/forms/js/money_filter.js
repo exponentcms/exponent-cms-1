@@ -36,16 +36,16 @@ function money_filter_class() {
 		return false;
 	}
 	
-	this.onblur = function(ptObject) {
+	this.onBlur = function(ptObject) {
 		ptObject.value = this.FormatUSCurrency(ptObject.value, true);
 		if (ptObject.value != ptObject.previousValue) ptObject.fireEvent("onchange");
 	}
 	
-	this.onfocus = function(ptObject) {
+	this.onFocus = function(ptObject) {
 		this.previousValue = ptObject.value
 	}
 	
-	this.onpaste = function(ptObject, evt) {
+	this.onPaste = function(ptObject, evt) {
 		var strNewVal = GetResultingValue(ptObject, String.fromCharCode(evt.charCode));
 		alert(strNewVal);
 		if (this.isValueIllegal(strNewVal)) {
