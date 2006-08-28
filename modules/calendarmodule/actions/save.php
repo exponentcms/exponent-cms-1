@@ -137,6 +137,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 		}
 		calendarmodule::spiderContent($item);
 	}
+	exponent_workflow_post($item,'calendar',$iloc);
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
