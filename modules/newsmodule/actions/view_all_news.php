@@ -43,7 +43,7 @@ $template->register_permissions(
 	$loc
 );
 
-$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY posted " . $config->sortorder);
+$news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY publish ".$config->sortorder);
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 usort($news,($config->sortorder == "DESC" ? "exponent_sorting_byPostedDescending" : "exponent_sorting_byPostedAscending"));
 for ($i = 0; $i < count($news); $i++) {
@@ -57,6 +57,7 @@ for ($i = 0; $i < count($news); $i++) {
 		"delete_item"=>((exponent_permissions_check("delete_item",$loc) || exponent_permissions_check("delete_item",$nloc)) ? 1 : 0),
 		"administrate"=>((exponent_permissions_check("administrate",$loc) || exponent_permissions_check("administrate",$nloc)) ? 1 : 0)
 	);
+  $news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
 }
 // EVIL WORKFLOW
 $in_approval = $db->countObjects("newsitem_wf_info","location_data='".serialize($loc)."'");
