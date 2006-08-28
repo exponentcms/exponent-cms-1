@@ -151,7 +151,7 @@ function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @param Array $params An associative array of the desired querystring parameters.
  * @node Subsystems:Core
  */
-function exponent_core_makeLink($params) {
+function exponent_core_makeLink($params,$type='') {
 	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 #	if (SEF_URLS == 0) {
 		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
@@ -161,7 +161,12 @@ function exponent_core_makeLink($params) {
 			if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
 		}
 		$link = substr($link,0,-1);
-		return htmlspecialchars($link,ENT_QUOTES);
+		
+		if ($type='')
+		  return htmlspecialchars($link,ENT_QUOTES);
+		else 
+		  return $link;
+		  
 /*	} else {
 		$link .= SCRIPT_RELATIVE  . SCRIPT_FILENAME . "/";
 		ksort($params);
