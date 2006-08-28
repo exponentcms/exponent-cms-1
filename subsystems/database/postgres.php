@@ -72,8 +72,14 @@ class postgres_database {
 			$host_data = split(":",$hostname);
 			$hostname = $host_data[0];
 			$port = $hostname[1];
-			if ($hostname == "localhost") $dsn = "user=$username password=$password dbname=$database";
-			else $dsn = "host=$hostname user=$username password=$password dbname=$database";
+      
+      if ($password != "" ) {
+        if ($hostname == "localhost") $dsn = "user=$username password=$password dbname=$database";
+			  else $dsn = "host=$hostname user=$username password=$password dbname=$database";
+      } else {
+        if ($hostname == "localhost") $dsn = "user=$username dbname=$database";
+			  else $dsn = "host=$hostname user=$username dbname=$database";
+      }
 			
 			if ($new) {
 				$this->connection = pg_connect($dsn,PGSQL_CONNECT_FORCE_NEW);
