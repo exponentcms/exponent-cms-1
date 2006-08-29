@@ -41,7 +41,7 @@ class rotatormodule {
 		
 		$obj = null;
 		$o = $db->selectObjects('rotator_item',"location_data='".serialize($loc)."'");
-		$num = rand(0,count($o)-1);
+		$num = mt_rand(0,count($o)-1);
 		if (isset($o[$num])) {
 			$obj = $o[$num];
 		} else {
