@@ -17,7 +17,7 @@
 {literal}
 var message = "{/literal}{$_TR.confirm}";{literal} 
 if (confirm(message)) {
-	document.location = {/literal}"{dirtylink m=$iloc->mod s=$iloc->src i=$iloc->int action=delete_content}";{literal}
+	document.location = {/literal}"{link m=$iloc->mod s=$iloc->src i=$iloc->int action=delete_content}";{literal}
 } else {
 	document.location = {/literal}"{$redirect}";{literal}
 }
