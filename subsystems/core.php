@@ -162,7 +162,7 @@ function exponent_core_makeLink($params,$type='') {
 		}
 		$link = substr($link,0,-1);
 		
-		if ($type='')
+		if ($type=='')
 		  return htmlspecialchars($link,ENT_QUOTES);
 		else 
 		  return $link;
