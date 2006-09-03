@@ -40,7 +40,7 @@ return array(
 	'test_settings'=>'Test Settings',
 
 	'DB_ENCODING'=>'Database Encoding',
-	'DB_ENCODING_desc'=>"This setting is currently respected on mySQL > 4.1.2. Don't choose anything else than "UTF8" unless you know what you are doing."
+	'DB_ENCODING_desc'=>'Dont change that unless you know what you are doing. This setting is currently only respected on MySQL 4.1.2+'
 );
 
 ?>
