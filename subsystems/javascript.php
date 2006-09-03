@@ -75,7 +75,7 @@ function exponent_javascript_object($object, $name) {
 		if (is_string($val)) $js .= "'".str_replace("'","&apos;",$val)."',";
 		else if (is_array($val)) $js .= exponent_javascript_array($val) . ",";
 		else if (is_object($val)) $js .= exponent_javascript_object($val,$name."_".$var) . ",";
-		else $js .= "$val,";
+		else $js .= '"' . $val . '", ';
 	}
 	return substr($js,0,-1) . ")";
 }
@@ -94,7 +94,7 @@ function exponent_javascript_array($array) {
 		if (is_string($val)) $js .= "'".str_replace("'","&apos;",$val)."',";
 		else if (is_array($val)) $js .= exponent_javascript_array($val) . ",";
 		else if (is_object($val)) $js .= exponent_javascript_object($val,$var) . ",";
-		else $js .= "$val,";
+		else $js .= '"' . $val . '", ';
 	}
 	return substr($js,0,-1) . ")";
 }
