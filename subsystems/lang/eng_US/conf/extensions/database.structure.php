@@ -23,6 +23,10 @@ return array(
 	
 	'db_table_prefix'=>'Table Prefix',
 	'db_table_prefix_desc'=>'A prefix to prepend to all table names.',
+	
+	'db_encoding'=>'Database Connection Encoding',
+	'db_encoding_desc'=>'Sets the encoding of a connection. Supported on mySQL higher 4.1.12.'
+
 );
 
 ?>

@@ -38,6 +38,9 @@ return array(
 	'verify'=>'Verify Configuration',
 	'verify_desc'=>'After you are satisfied that the information you have entered is correct, click the "Test Settings" button, below.  The Exponent Install Wizard will then perform some preliminary tests to ensure that the configuration is valid.',
 	'test_settings'=>'Test Settings',
+
+	'DB_ENCODING'=>'Database Encoding',
+	'DB_ENCODING_desc'=>"This setting is currently respected on mySQL > 4.1.2. Don't choose anything else than "UTF8" unless you know what you are doing."
 );
 
 ?>

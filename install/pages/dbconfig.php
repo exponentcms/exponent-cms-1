@@ -30,6 +30,7 @@ if (exponent_sessions_isset('installer_config')) {
 		'db_user'=>'',
 		'db_pass'=>'',
 		'db_table_prefix'=>'exponent',
+		'DB_ENCODING'=>'utf8'
 	);
 }
 
@@ -45,7 +46,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 <div class="form_section">
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['backend']; ?>: </span>
-		<select name="c[db_engine]">
+		<select name="c[db_engine]" onchange="">
 		<?php
 		$dh = opendir(BASE.'subsystems/database');
 		while (($file = readdir($dh)) !== false) {
@@ -68,6 +69,26 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 		</div>
 	</div>
 	
+	<div class="control">
+		&#0149; <span class="control_caption"><?php echo $i18n['DB_ENCODING']; ?>: </span>
+		<select name="c[DB_ENCODING]" value="<?php echo $config['DB_ENCODING']; ?>" >
+<?PHP
+	if (!defined('SYS_CONFIG')) {
+		include_once(BASE.'subsystems/config.php');
+	}
+
+	foreach(exponent_config_dropdownData("DB_ENCODING") as $key=>$value){
+		echo '			<option value="' . $key . '">' . $value . '</option>';
+	}
+?>			
+		</select>
+		<div class="control_help">
+			<?php echo $i18n['DB_ENCODING_desc']; ?>
+			<br /><br />
+			<?php echo $i18n['in_doubt']; ?>
+		</div>
+	</div>
+
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['address']; ?>: </span>
 		<input class="text" type="text" name="c[db_host]" value="<?php echo $config['db_host']; ?>" />

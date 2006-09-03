@@ -58,6 +58,11 @@ return array(
 			'title'=>$i18n['db_table_prefix'],
 			'description'=>$i18n['db_table_prefix_desc'],
 			'control'=>new textcontrol()
+		),
+		'DB_ENCODING'=>array(
+			'title'=>$i18n['db_encoding'],
+			'description'=>$i18n['db_encoding_desc'],
+			'control'=>new dropdowncontrol('', exponent_config_dropdownData('DB_ENCODING'))
 		)
 	)
 );

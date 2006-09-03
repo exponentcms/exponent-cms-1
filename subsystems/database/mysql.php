@@ -75,7 +75,14 @@ class mysql_database {
 		        //mail (  $dba, 'Selectdb', "Could not select the database");
             }
         }
-		$this->prefix = DB_TABLE_PREFIX.'_';
+		//fix to support utf8, warning it only works from a certain mySQL version on
+		//needed on mySQL servers that dont have the default connection encoding setting to utf8	
+		list($major, $minor, $micro) = sscanf(mysql_get_server_info(), "%d.%d.%d-%s");
+		if(($major >= 4) AND (($minor > 1) OR (($minor == 1) AND ($micro >= 12))) AND defined("DB_ENCODING")) {
+			@mysql_query("SET NAMES " . DB_ENCODING,$this->connection);
+		}
+
+		$this->prefix = DB_TABLE_PREFIX . '_';
 	}
 
 	/* exdoc
