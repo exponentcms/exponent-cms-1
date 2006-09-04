@@ -37,6 +37,23 @@ if (exponent_sessions_isset('installer_config')) {
 $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 
 ?>
+<script language="javascript">
+	function hideAllOptions() {
+		allEngines = new Array("mysql");
+		for(option in allEngines) {
+			optionObj = document.getElementById(allEngines[option] + "_options");
+			optionObj.style.display = "none";
+		}
+	}
+	function showOptions(engine) {
+		hideAllOptions();
+		
+		myOptions = document.getElementById(engine + "_options");
+		if(myOptions) {
+			myOptions.style.display = "block";
+		}
+	}
+</script>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
 
 <form method="post" action="index.php">
@@ -46,7 +63,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 <div class="form_section">
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['backend']; ?>: </span>
-		<select name="c[db_engine]" onchange="">
+		<select name="c[db_engine]" onchange="showOptions(this.value);">
 		<?php
 		$dh = opendir(BASE.'subsystems/database');
 		while (($file = readdir($dh)) !== false) {
@@ -69,7 +86,8 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 		</div>
 	</div>
 	
-	<div class="control">
+
+	<div class="control" id="mysql_options">
 		&#0149; <span class="control_caption"><?php echo $i18n['DB_ENCODING']; ?>: </span>
 		<select name="c[DB_ENCODING]" value="<?php echo $config['DB_ENCODING']; ?>" >
 <?PHP
