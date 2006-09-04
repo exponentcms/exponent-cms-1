@@ -60,10 +60,13 @@ if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {
 if ($passed) {
 	$db = exponent_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name'],$config['db_engine'],1);
 
-	//set connection encoding, works only on mySQL > 4.1.2 
+	//set connection encoding, works only on mySQL > 4.1 
 	list($major, $minor, $micro) = sscanf(mysql_get_server_info(), "%d.%d.%d-%s");
-	if(($major >= 4) AND (($minor > 1) OR (($minor == 1) AND ($micro >= 2))) AND ($config["db_engine"] == "mysql")) {
-		@mysql_query("SET NAMES " . $config["DB_ENCODING"],$this->connection);
+	if($config["db_engine"] == "mysql") {
+		//SET NAMES is possible since version 4.1
+		if(($major > 4) OR (($major == 4) AND ($minor >= 1))) {
+			@mysql_query("SET NAMES " . $config["DB_ENCODING"], $this->connection);
+		}
 	}
 
 

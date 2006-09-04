@@ -76,10 +76,21 @@ class mysql_database {
             }
         }
 		//fix to support utf8, warning it only works from a certain mySQL version on
-		//needed on mySQL servers that dont have the default connection encoding setting to utf8	
+		//needed on mySQL servers that dont have the default connection encoding setting to utf8
+		
+		//As we do not have any setting for ISAM or InnoDB tables yet, i set the minimum specs
+		// for using this feature to 4.1.2, although isam tables got the support for utf8 already in 4.1
+		
+		//anything else would result in an inconsitent user experience
+		
 		list($major, $minor, $micro) = sscanf(mysql_get_server_info(), "%d.%d.%d-%s");
-		if(($major >= 4) AND (($minor > 1) OR (($minor == 1) AND ($micro >= 12))) AND defined("DB_ENCODING")) {
-			@mysql_query("SET NAMES " . DB_ENCODING,$this->connection);
+		//in case the config was written before the constant was introduced
+		//TODO:we might need a general api/registry to make backward compatibility checks + automatic upgrade wizzard
+		if(defined("DB_ENCODING")) {
+			//SET NAMES is possible since version 4.1
+			if(($major > 4) OR (($major == 4) AND ($minor >= 1))) {
+				@mysql_query("SET NAMES " . DB_ENCODING, $this->connection);
+			}
 		}
 
 		$this->prefix = DB_TABLE_PREFIX . '_';
