@@ -331,18 +331,19 @@ function delRow(rownum) {
 function save(frm) {
 	var saveStr = "[";
 	for (i = 0; i < rows.length; i++) {
-		saveStr += "['";
-		for (j = 0; j < rows[i].length; j++) {
-			saveStr += rows[i][j];
-			if (j != rows[i].length-1) {
-				saveStr+="', '";
+		if (typeof(rows[i][0]) != "undefined") {
+			saveStr += "['";
+			for (j = 0; j < rows[i].length; j++) {
+				saveStr += rows[i][j];
+				if (j != rows[i].length-1) {
+					saveStr+="', '";
+				}
+			}
+			saveStr += "']";
+			if (i != rows.length - 1) {
+				saveStr += ", ";
 			}
 		}
-		saveStr += "']";
-		if (i != rows.length - 1) {
-			saveStr += ", ";
-		}
-		
 	}
 	saveStr += "]";
 	
