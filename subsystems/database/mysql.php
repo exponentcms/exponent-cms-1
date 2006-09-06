@@ -83,9 +83,11 @@ class mysql_database {
 		
 		//anything else would result in an inconsitent user experience
 		
+		//TODO: determine how to handle encoding on postgres
+		
 		list($major, $minor, $micro) = sscanf(mysql_get_server_info(), "%d.%d.%d-%s");
 		//in case the config was written before the constant was introduced
-		//TODO:we might need a general api/registry to make backward compatibility checks + automatic upgrade wizzard
+		//TODO: we might need a general api/registry to make backward compatibility checks + automatic upgrade wizzard
 		if(defined("DB_ENCODING")) {
 			//SET NAMES is possible since version 4.1
 			if(($major > 4) OR (($major == 4) AND ($minor >= 1))) {

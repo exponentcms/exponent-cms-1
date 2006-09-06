@@ -47,7 +47,7 @@ if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administra
 	<tbody>
 		<tr id="htmleditor_toolbox" />
 		<tr>
-			<td colspan="<?php echo $perrow; ?>" style="font-size: 12px; font-style: italic;" id="msgTD"></td>
+			<td style="font-size: 12px; font-style: italic;" id="msgTD"></td>
 		</tr>
 	</tbody>
 </table>
