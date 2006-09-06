@@ -19,7 +19,6 @@
 #it provides the code for the htmleditorcontrol class' controltoHTML() method
 # it's based on James Hunt's code for that original class
 
-ob_start(); 
 if (!defined("CTL_HTMLAREAINIT")) {
 ?>
 	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/jscripts/tiny_mce/tiny_mce.js"></script>
@@ -193,11 +192,3 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	</script> 
 
 	<textarea class="mceEditor" id="<?php echo $name; ?>" name="<?php echo $name; ?>" style="width:100%" rows="24" cols="80"><?php echo htmlentities($this->default, ENT_COMPAT, LANG_CHARSET);?></textarea> 
-
-
-<?PHP
-
-$html = ob_get_contents();
-ob_end_clean(); 
-
-?>

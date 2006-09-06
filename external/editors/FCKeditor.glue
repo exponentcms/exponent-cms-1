@@ -20,7 +20,7 @@
 #it provides the code for the htmleditorcontrol class' controltoHTML() method 
 # it's based on James Hunt's code for that original class
  
-ob_start(); 
+
 if (!defined("CTL_HTMLAREAINIT")) { 
 	// We are the first htmleditor control. Set up basic initializations 
 ?>
@@ -120,9 +120,5 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	define("CTL_HTMLAREAINIT",1);
 	 
 } 
-
- 
-$html = ob_get_contents();
-ob_end_clean(); 
 
 ?>
