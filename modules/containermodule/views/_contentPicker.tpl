@@ -27,10 +27,8 @@
 				</td>
 				<td align="right" valign="top">
 					{if $container->info.clickable && $container->info.hasContent}
-					{*<a class="mngmntlink container_mngmnltink" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}">*}
-					<a class="mngmntlink container_mngmnltink" href="{link action=content_selector module=$container->info.class src=$container->info.source channel_id=$dest}">
-					{$_TR.select_content}
-					</a>
+					{*<a class="mngmntlink container_mngmntlink" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}">*}
+					<a class="mngmntlink container_mngmntlink" href="{link action=content_selector module=$container->info.class src=$container->info.source channel_id=$dest}">{$_TR.select_content}</a>
 					{/if}
 				</td>
 			</tr>

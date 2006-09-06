@@ -26,9 +26,7 @@
 					{if $container->view != ""}<br />{$_TR.shown_in_view|sprintf:$container->view}{/if}
 				</td>
 				<td align="right" valign="top">
-					<a class="mngmntlink container_mngmnltink" href="{$dest}&cid={$container->id}">
-					{$_TR.link_to_module}
-					</a>
+					<a class="mngmntlink container_mngmnltink" href="{$dest}&cid={$container->id}">{$_TR.link_to_module}</a>
 				</td>
 			</tr>
 		</table>

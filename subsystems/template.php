@@ -65,7 +65,6 @@ class basetemplate {
 		// Load language constants
 		//$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php')); //fix lamp issue
 		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
-		
 		$this->tpl->display($this->view.'.tpl');
 	}
 	
@@ -87,7 +86,7 @@ class basetemplate {
 	function render() { // Caching support?
 		// Load language constants
 		//$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php'));
-		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
+		$this->tpl->assign('_TR', exponent_lang_loadFile($this->langdir . $this->view . '.php')); //fix lamp issue
 		return $this->tpl->fetch($this->view.'.tpl');
 	}
 }
@@ -112,7 +111,7 @@ class template extends basetemplate {
 		$this->tpl->template_dir = $this->viewdir;
 		
 		//fix for the wamp/lamp issue
-		$this->langdir = "modules/".$module."/views/";
+		$this->langdir = "modules/" . $module . "/views/";
 		//$this->langdir = $this->viewdir;
 		//
 		

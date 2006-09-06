@@ -35,9 +35,7 @@
 					</td>
 					<td align="right" valign="top">
 						{if $container->info.supportsWorkflow == 1}
-						<a class="mngmntlink container_mngmnltink" href="{$dest}&s={$container->info.source}&m={$container->info.class}">
-						{$_TR.change_policy}
-						</a>
+						<a class="mngmntlink container_mngmnltink" href="{$dest}&s={$container->info.source}&m={$container->info.class}">{$_TR.change_policy}</a>
 						{/if}
 					</td>
 				</tr>
