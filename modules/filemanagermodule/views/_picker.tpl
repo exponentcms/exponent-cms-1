@@ -167,7 +167,7 @@
 						</a>
 						<br />
 						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
-							Full Image
+							{$_TR.show_full}
 						</a>
 						<br />
 						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
@@ -184,6 +184,7 @@
 							<br />
 							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">Use</a>
 						{/if}
+						<a href="{link action=delete id=$file->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
 					</td>
 					{foreachelse}
 					<td><i>{$_TR.no_files}</i></td>
@@ -195,7 +196,7 @@
 			<form method="post" action="upload_standalone.php" enctype="multipart/form-data">
 			<input type="hidden" name="collection_id" value="{$collection->id}" />
 			<input type="hidden" name="name" value="" />
-			{$_RE.img_upload} <input type="file" name="file" />
+			{$_TR.img_upload} <input type="file" name="file" />
 			<input type="submit" value="Go" />
 			</form>
 		</div>
