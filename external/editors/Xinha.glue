@@ -27,7 +27,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		_editor_url = "<?php echo $path_to_editor; ?>";
-		_editor_lang = "<?PHP echo LANG; ?>";
+		_editor_lang = "<?PHP echo exponent_lang_convertLangCode(LANG); ?>";
 	/* ]]> */
 	</script>
 	

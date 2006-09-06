@@ -31,14 +31,9 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	<script type="text/javascript">
 	/* <![CDATA[ */
 <?php
-
 	$path_to_editor = PATH_RELATIVE . "external/editors/" . SITE_WYSIWYG_EDITOR . "/";
 	
-	global $db;
-	$config = $db->selectObject("toolbar_FCKeditor", "active=1");
 	if ($config) {
-		echo "		Exponent.WYSIWYG_toolbar = " . $config->data . ";\n";
-	}
 ?>
 		// create namespace object
 		myConfig = new Object();
@@ -92,6 +87,9 @@ if (!defined("CTL_HTMLAREAINIT")) {
 			}
 			return this.serialize(plugins);
 		}
+<?PHP
+	}
+?>
 
 		var oFCKeditor = new FCKeditor('<?PHP echo $name; ?>');
 		
@@ -108,10 +106,15 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	
 		oFCKeditor.Config['LinkBrowserURL'] = "<?PHP echo $path_to_editor; ?>../connector/FCKeditor_link.php";
 		oFCKeditor.Config['ImageBrowserURL'] = "<?PHP echo $path_to_editor; ?>../../../modules/filemanagermodule/actions/picker.php?id=0";
-		
+
+<?PHP
+	if($config) {
+?>		
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
 		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost:8080/external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(myConfig.setupPlugins(Exponent.WYSIWYG_toolbar)) + "&toolbar=" + encodeURI(myConfig.setupToolbar(Exponent.WYSIWYG_toolbar));
-		
+<?PHP
+	}
+?>		
 		oFCKeditor.Create();
 		
 	/* ]]> */

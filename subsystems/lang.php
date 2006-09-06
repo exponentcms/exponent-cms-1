@@ -128,4 +128,22 @@ function exponent_lang_loadKey($filename,$key) {
 	return $keys[$key];
 }
 
+/*
+ * Return a short language code from a long one, many external programs use the short ones
+ * its a dumb, straight table lookup function, no fancy regexp rules
+ * 
+ * @param string $long_code something like "eng_US"
+ *
+ * @return string the short version of the lang code
+ */
+function exponent_lang_convertLangCode($long_code) {
+	switch ($long_code) {
+		case "deu_DE":
+			$short_code = "de";
+		case "eng_US":
+			$short_code = "en";
+	}
+	return $short_code;
+}
+
 ?>

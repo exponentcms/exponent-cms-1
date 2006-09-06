@@ -27,16 +27,13 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	<!-- load languagefile, prepare for HTMLArea popup(Link + Image Browsers) -->
 	<script type="text/javascript">
 	/* <![CDATA[ */
-<?php
-	global $db;
-	$config = $db->selectObject("toolbar_TinyMCE", "active=1");
-	if ($config) {
-		echo "		Exponent.WYSIWYG_toolbar = " . $config->data . ";\n";
-	}
-?>
+
 		// new namespace for our config
 		myConfig = new Object();
-		
+
+<?php
+	if ($config) {
+?>		
 		// if plugins are needed, set them up
 		myConfig.setupPlugins = function (myToolbar) {
 			plugins = new Array();
@@ -78,7 +75,9 @@ if (!defined("CTL_HTMLAREAINIT")) {
 				}	
 			}
 		}
-		
+<?PHP
+	}
+?>		
 		
 		//we need this to get the data from the popup(object for "opener" interaction)
 		var Dialog = new Object();
@@ -163,7 +162,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 								theme_advanced_toolbar_location : "top",
 								theme_advanced_layout_manager	: "SimpleLayout",
 								add_unload_trigger				: false,
-								language						: "<?PHP echo LANG?>",
+								language						: "<?PHP echo exponent_lang_convertLangCode(LANG);?>",
 								execcommand_callback 			: "myCustomExecCommandHandler",
 								convert_urls					: false
 							};
