@@ -23,8 +23,11 @@ if (!defined('EXPONENT')) exit('');
 $i18n = exponent_lang_loadFile('conf/extensions/site.structure.php');
 
 foreach (glob(BASE . "external/editors/*.glue") as $installed_glue_file) {
-   $installed_editor = basename($installed_glue_file, ".glue"); 
-   $installed_editors[$installed_editor] = $installed_editor;
+   $installed_editor = basename($installed_glue_file, ".glue");
+   //also check if the editor is actually installed, not just its glue file
+   if (file_exists(substr($installed_glue_file, 0, -5))) { 
+		$installed_editors[$installed_editor] = $installed_editor;
+   }
 }
 
 $stuff = array(
