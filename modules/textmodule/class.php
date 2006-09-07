@@ -32,7 +32,8 @@ class textmodule {
 		global $user, $db;
 		$text = $db->selectObject('textitem',"location_data='".serialize($loc)."'");
 		if ($text) {
-			$db->delete('textitem',"location_data='".serialize($loc)."'");
+			//eDebug($text); exit();
+			$db->delete('textitem',"id=".$text->id);
 			$db->delete('textitem_wf_revision','wf_original='.$text->id);
 			$db->delete('textitem_wf_info','real_id='.$text->id);
 			
