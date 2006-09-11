@@ -27,7 +27,9 @@
 				</td>
 				<td align="right" valign="top">
 					{if $container->info.clickable}
-					<a class="mngmntlink container_mngmntlink" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}">{$_TR.use_this_content}</a>
+					<a class="mngmntlink container_mngmntlink" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}">
+						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.use_this_content}" alt="{$_TR.use_this_content}" />
+						</a>
 					{/if}
 				</td>
 			</tr>
