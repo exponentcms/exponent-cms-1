@@ -47,7 +47,7 @@
 </a>
 {/if}
 {if $permissions.delete == 1 || $post->permissions.delete == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete:confirm}');">
+<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
@@ -58,7 +58,7 @@
 {if $smarty.const.MEANINGFUL_URLS}
 <div><a href="{$smarty.const.URL_FULL}content/blog/{$post->internal_name}">{$_TR.read_more}</a></div>
 {else}
-<div><a href="{$smarty.const.URL_FULL}content/blog.php?id={$post->id}">{$_TR.read_more}</a></div>
+<div><a href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}</a></div>
 {/if}
 <hr size="1" />
 </div>
