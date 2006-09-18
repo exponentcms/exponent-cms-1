@@ -191,6 +191,7 @@ class navigationmodule {
 				$child->parents = $parents;
 				$child->canManage = ($user && $user->is_acting_admin == 1 ? 1 : 0);
 				$child->canManageRank = $child->canManage;
+				if (!isset($child->sef_name)) {$child->sef_name = '';}
 				
 				// Generate the link attribute base on alias type.
 				if ($child->alias_type == 1) {
