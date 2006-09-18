@@ -20,7 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 $ctl = new checkboxcontrol(false,true);
-$ctl->disabled = 1;
+$ctl->disabled = 0;
 
 $i18n = exponent_lang_loadFile('conf/extensions/sef.structure.php');
 

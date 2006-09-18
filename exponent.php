@@ -132,7 +132,11 @@ exponent_permissions_initialize();
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 } else {
-	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
+	if(stristr($REQUEST_URI, 'index.php')) {
+		$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
+	} else {
+		$section = $db->selectValue('section', 'id', 'sef_name='.$sef_name);
+	}
 }
 $section = $db->selectObject('section','id='. intval($section));
 if (!navigationmodule::canView($section)) {

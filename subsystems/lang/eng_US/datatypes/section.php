@@ -2,6 +2,7 @@
 
 return array(
 	'name'=>'Name',
+	'sef_name'=>'SEF Name',
 	'rank'=>'Position',
 	'parent'=>'Parent Page',
 	'new_window'=>'Open in New Window',

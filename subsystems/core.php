@@ -151,9 +151,18 @@ function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @param Array $params An associative array of the desired querystring parameters.
  * @node Subsystems:Core
  */
-function exponent_core_makeLink($params,$type='') {
+function exponent_core_makeLink($params,$type='',$sef_name='') {
 	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
-#	if (SEF_URLS == 0) {
+	
+	if ($params['section'] == SITE_DEFAULT_SECTION) {
+		$link .= SCRIPT_RELATIVE;
+		return $link;
+	}
+	
+	if (SEF_URLS == 1 && $sef_name != '') {
+		$link .= SCRIPT_RELATIVE.$sef_name;
+		return $link;
+	} else {
 		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
 		foreach ($params as $key=>$value) {
 			$value = chop($value);
@@ -166,19 +175,7 @@ function exponent_core_makeLink($params,$type='') {
 		  return htmlspecialchars($link,ENT_QUOTES);
 		else 
 		  return $link;
-		  
-/*	} else {
-		$link .= SCRIPT_RELATIVE  . SCRIPT_FILENAME . "/";
-		ksort($params);
-		foreach ($params as $key=>$value) {
-			$value = chop($value);
-			$key = chop($key);
-			if ($value != "") $link .= urlencode($key)."/".urlencode($value)."/";
-		}
-		$link = substr($link,0,-1);
-		return $link;
 	}
-*/
 }
 
 

@@ -35,6 +35,7 @@ class section {
 		if (!isset($object->id)) {
 			// This is a new section, so we need to set up some defaults.
 			$object->name = '';
+			$object->sef_name = '';
 			$object->active = 1;
 			$object->public = 1;
 			$object->new_window = 0;
@@ -60,6 +61,7 @@ class section {
 		
 		// The name of the section, as it will be linked in the section hierarchy.
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('sef_name',$i18n['sef_name'],new textcontrol($object->sef_name));
 		
 		if (!isset($object->id)) {
 			// This is a new section, so we can add the positional dropdown
@@ -302,6 +304,7 @@ class section {
 	 */
 	function _updateCommon($values,$object) {
 		$object->name = $values['name'];
+		$object->sef_name = $values['sef_name'];
 		if (isset($values['rank'])) $object->rank = $values['rank'];
 		if (isset($values['parent'])) $object->parent = $values['parent'];
 		$object->new_window = (isset($values['new_window']) ? 1 : 0);

@@ -77,7 +77,8 @@ class navigationmodule {
 				}
 			break;
 		}
-		
+	
+		//eDebug($sections);exit();	
 		$template = new template('navigationmodule',$view,$loc);
 		$template->assign('sections',$sections);
 		$template->assign('current',$current);
@@ -212,11 +213,11 @@ class navigationmodule {
 						// (and vice-versa) and because the section::updateInternalLink
 						// does 'alias to alias' dereferencing before the section is saved
 						// (see datatypes/section.php)
-						$child->link = exponent_core_makeLink(array('section'=>$child->internal_id));
+						$child->link = exponent_core_makeLink(array('section'=>$child->internal_id,'',$child->sef_name));
 					}
 				} else {
 					// Normal link.  Just create the URL from the section's id.
-					$child->link = exponent_core_makeLink(array('section'=>$child->id));
+					$child->link = exponent_core_makeLink(array('section'=>$child->id),'',$child->sef_name);
 				}
 				$child->numChildren = $db->countObjects('section','parent='.$child->id);
 				$nodes[] = $child;

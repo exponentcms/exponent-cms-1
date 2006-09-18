@@ -448,6 +448,36 @@ class mysql_database {
 		return $objects;
 	}
 
+	function selectObjectsBySql($sql) {
+                $res = @mysql_query($sql, $this->connection);
+                if ($res == null) return array();
+                $objects = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
+                return $objects;
+        }
+
+        function selectColumn($table,$col,$where = null,$orderby = null) {
+                if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+            	else $orderby = "ORDER BY " . $orderby;
+
+                $res = @mysql_query("SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
+                if ($res == null) return array();
+                $resarray = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++){
+                        $row = mysql_fetch_array($res, MYSQL_NUM);
+                        $resarray[$i] = $row[0];
+                }
+                return $resarray;
+        }
+
+	function selectValue($table,$col,$where) {
+                $res = @mysql_query("SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
+
+                if ($res == null) return null;
+                    return mysql_fetch_object($res);
+        }
+
 	/* exdoc
 	 * Select a series of objects, and return by ID
 	 *
