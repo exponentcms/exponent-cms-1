@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -77,37 +78,52 @@ function exponent_lang_loadLangs() {
  * @return Array The language set found, or an empty array if no set file was found.
  */
 function exponent_lang_loadFile($filename) {
-	// Try to load the language set for the preferred language.
-	//echo "here...BASE=" . BASE . ", LANG=". LANG . ", filename=". $filename . "<br/>";
-	$file = realpath(BASE.'subsystems/lang/'.LANG.'/'.$filename);
-	//echo "File:" . $file;
-	
-	if (is_readable($file)) {
-#		// HACK
-#		$r = include($file);
-#		foreach ($r as $key=>$value) {
-#			$r[$key] = '[i18n];'.$value.'[/i18n]';
-#		}
-#		return $r;
-#		// END HACK
-		return include($file);
+
+
+	//so much for having a private function :(
+	//we should convert REALLY convert our API to be OO
+	if (!function_exists("loadStrings")) {
+		//pass-by-reference to shave off a copy operation
+		function loadStrings(&$tr_array, $filepath) {
+			if (is_readable($filepath)) {
+				$tr_array = array_merge($tr_array, include($filepath));
+			}
+		}
 	}
 	
-	// If we get to this point, the preferred language does not exist.  Try english.
-	$file = realpath(BASE.'subsystems/lang/en/'.$filename);
-	if (is_readable($file)) {
-#		// HACK
-#		$r = include($file);
-#		foreach ($r as $key=>$value) {
-#			$r[$key] = '[i18n]'.$value.'[/i18n]';
-#		}
-#		return $r;
-#		// END HACK
-		return include($file);
+
+	//initialize the array to be returned
+	$_TR = array();
+
+
+	//set the language directory
+	$lang_dir = BASE . 'subsystems/lang/' . LANG;
+	
+	//check if the requested language is installed
+	if (!file_exists($lang_dir)) {
+
+		// If we get to this point, the preferred language does not exist.  Try english.
+		$lang_dir = BASE . 'subsystems/lang/eng_US';
 	}
-	// By default, return an empty array.
-	return array();
+
+
+	//load the most common strings
+	loadStrings($_TR, $lang_dir . "/modules/modules.php");
+
+
+	//load module specific strings
+	$path_components = explode("/", $filename);
+	//as the typical path will be something like modules/somemodule/views/someview.php it must be 1
+	$module = $path_components[1];
+	loadStrings($_TR, $lang_dir . "/modules/" . $module . "/" . $module . ".php");
+	
+
+	//load the view specific strings
+	loadStrings($_TR, $lang_dir . "/" . $filename);
+
+	return $_TR;
 }
+
 
 /*
  * Return a single key from a language set.
@@ -130,7 +146,10 @@ function exponent_lang_loadKey($filename,$key) {
 
 /*
  * Return a short language code from a long one, many external programs use the short ones
- * its a dumb, straight table lookup function, no fancy regexp rules
+ * its a dumb, straight table lookup function, no fancy regexp rules.
+ * It should rather be replaced by introducing a short lang code to the language descriptor files
+ * and replacing the site wide CONSTANTS by global objects, which then in return
+ * could have a multitude of subobjects and properties, such as long and short codes
  * 
  * @param string $long_code something like "eng_US"
  *
