@@ -128,21 +128,13 @@ exponent_sessions_validate();
 // Initialize permissions variables
 exponent_permissions_initialize();
 
-//Check to see if we in an action, if not get the section (check for SEF URLS too)
-if (!isset($REQUEST_URI)) { $REQUEST_URI = $_SERVER["REDIRECT_URL"];}
+#$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
-  $section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 } else {
-  if(stristr($REQUEST_URI, 'index.php') || stristr($REQUEST_URI, 'login.php') || $REQUEST_URI == PATH_RELATIVE || SEF_URLS == 0) {
-    $section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
-    $section = $db->selectObject('section','id='. intval($section));
-  } else {
-      $url_parts = explode('/', $REQUEST_URI);
-      $sef_name = $url_parts[count($url_parts) -1];
-      $section = $db->selectObject('section', 'sef_name="'.trim($sef_name).'"');
-  }
+	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
 }
-
+$section = $db->selectObject('section','id='. intval($section));
 if (!navigationmodule::canView($section)) {
 	define('AUTHORIZED_SECTION',0);
 } else {
