@@ -472,10 +472,11 @@ class mysql_database {
         }
 
 	function selectValue($table,$col,$where) {
-                $res = @mysql_query("SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
+    	$res = @mysql_query("SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
 
-                if ($res == null) return null;
-                    return mysql_fetch_object($res);
+        if ($res == null) return null;
+		$obj = mysql_fetch_object($res);
+		return $obj->$col;
         }
 
 	/* exdoc
