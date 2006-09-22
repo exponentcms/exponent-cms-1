@@ -40,16 +40,16 @@ function exponent_javascript_class($object, $name) {
 	$js = "function $name(";
 	$js1 = "";
 	foreach (get_object_vars($object) as $var=>$val) {
-		$js .= "var_$var,";
+		$js .= "var_$var, ";
 		$js1 .= "\tthis.var_$var = var_$var;\n";
 		if (is_object($val)) {
-			$otherclasses[] = array($name."_".$var,$val);
+			$otherclasses[] = array($name . "_" . $var, $val);
 		}
 	}
-	$js = substr($js,0,-1) . ") {\n" . $js1 . "}\n";
+	$js = substr($js, 0, -2) . ") {\n" . $js1 . "}\n";
 	foreach ($otherclasses as $other) {
-		echo "/// Other Object : ".$other[1] . "," . $other[0] ."\n";
-		$js .= "\n".exponent_javascript_class($other[1],$other[0]);
+		echo "/// Other Object : ".$other[1] . ", " . $other[0] ."\n";
+		$js .= "\n" . exponent_javascript_class($other[1], $other[0]);
 	}
 	return $js;
 }
@@ -69,15 +69,33 @@ function exponent_javascript_class($object, $name) {
  * @param string $name The name of the javascript class
  * @node Subsystems:Javascript
  */
-function exponent_javascript_object($object, $name) {
+function exponent_javascript_object($object, $name="Array") {
 	$js = "new $name(";
-	foreach (get_object_vars($object) as $var=>$val) {
-		if (is_string($val)) $js .= "'".str_replace("'","&apos;",$val)."',";
-		else if (is_array($val)) $js .= exponent_javascript_array($val) . ",";
-		else if (is_object($val)) $js .= exponent_javascript_object($val,$name."_".$var) . ",";
-		else $js .= '"' . $val . '",';
+
+	//PHP4: "foreach" does not work on object properties
+	if (is_object($object)) {
+		//transform the object into an array
+		$object = get_object_vars($object); 
 	}
-	return substr($js,0,-1) . ")";
+
+	foreach ($object as $var=>$val) {
+		switch (gettype($val)){
+			case "string":
+				$js .= "'" . str_replace("'", "&apos;", $val) . "'";
+				break;
+			case "array":
+				$js .= exponent_javascript_object($val);
+				break;
+			case "object":
+				$js .= exponent_javascript_object($val, $name . "_" . $var);
+				break;
+			default:
+				$js .= '"' . $val . '"';
+		}
+		$js .= ', ';
+	}
+	//remove the useless last ", " and close with ")"
+	return substr($js, 0, -2) . ")";
 }
 
 /* exdoc
@@ -85,18 +103,13 @@ function exponent_javascript_object($object, $name) {
  * identical to the passed array.  Returns The javascript code
  * to create and populate the array in javascript.
  *
+ * DEPRECATED: - Rationale: remove needless code duplication, in JavaScript Array==Object
+ *
  * @param $array The PHP array to translate
  * @node Subsystems:Javascript
  */
 function exponent_javascript_array($array) {
-	$js = "new Array( ";
-	foreach ($array as $val) {
-		if (is_string($val)) $js .= "'".str_replace("'","&apos;",$val)."',";
-		else if (is_array($val)) $js .= exponent_javascript_array($val) . ",";
-		else if (is_object($val)) $js .= exponent_javascript_object($val,$var) . ",";
-		else $js .= '"' . $val . '", ';
-	}
-	return substr($js,0,-1) . ")";
+	return exponent_javascript_object($array);
 }
 
 ?>
