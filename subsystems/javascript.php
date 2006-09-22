@@ -94,8 +94,15 @@ function exponent_javascript_object($object, $name="Array") {
 		}
 		$js .= ', ';
 	}
-	//remove the useless last ", " and close with ")"
-	return substr($js, 0, -2) . ")";
+	
+	//if there have been any values
+	if($js != "new $name(") {
+		//remove the useless last ", "
+		$js = substr($js, 0, -2);
+	}
+	
+	//close with ")"
+	return  $js . ")";
 }
 
 /* exdoc
