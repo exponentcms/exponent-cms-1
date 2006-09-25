@@ -32,7 +32,8 @@ return array(
 		DB_FIELD_LEN=>10000),
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>250),
+		DB_FIELD_LEN=>250,
+                DB_INDEX=>10),
 	'file_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'flock_owner'=>array(

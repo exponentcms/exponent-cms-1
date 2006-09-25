@@ -118,6 +118,11 @@ $stuff = array(
 			'description'=>$i18n['ssl_url_desc'],
 			'control'=>new textcontrol()
 		),
+		'ENABLE_WORKFLOW'=>array(
+			'title'=>$i18n['enable_workflow'],
+			'description'=>$i18n['enable_workflow_desc'],
+			'control'=>new checkboxcontrol()
+		),
 		'WORKFLOW_REVISION_LIMIT'=>array(
 			'title'=>$i18n['revision_limit'],
 			'description'=>$i18n['revision_limit_desc'],

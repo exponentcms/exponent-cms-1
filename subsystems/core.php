@@ -92,6 +92,12 @@ function pathos_core_maxUploadSizeMessage() {
 }
 //End Pathos Compatibility
 
+function exponent_core_initializeNavigation () {
+	$sections = array();
+	$sections = navigationmodule::levelTemplate(0,0);
+	return $sections;
+}
+
 function exponent_core_makeLocation($mod=null,$src=null,$int=null) {
 	$loc = null;
 	$loc->mod = ($mod ? $mod : "");

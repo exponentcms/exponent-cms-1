@@ -22,9 +22,11 @@ if (!defined('EXPONENT')) exit('');
 return array(
 	'module'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_PRIMARY=>true,
 		DB_FIELD_LEN=>100),
 	'source'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_PRIMARY=>true,
 		DB_FIELD_LEN=>100),
 	'internal'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,

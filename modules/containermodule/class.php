@@ -76,23 +76,31 @@ class containermodule {
 		global $db;
 		
 		$container = null;
+		$container_key = serialize( $loc );
+		$cache = exponent_sessions_getCacheValue('containermodule');		
 		if (!isset($this) || !isset($this->_hasParent) || $this->_hasParent == 0) {
-			// Top level container.
-			$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".serialize($loc)."'");
-	
-            if ($container == null) {
-				$container->external = serialize(null);
-				$container->internal = serialize($loc);
-				$container->view = $view;
-				$container->title = $title;
-				$container->id = $db->insertObject($container,'container');
-			}
-			
+			// Top level container.			
+			if(!isset($cache['top'][$container_key]))
+        	{        		
+				$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".$container_key."'");				
+				//if container isn't here already, then create it.
+	            if ($container == null) {
+					$container->external = serialize(null);
+					$container->internal = serialize($loc);
+					$container->view = $view;
+					$container->title = $title;
+					$container->id = $db->insertObject($container,'container');
+				}
+				$cache['top'][$container_key] = $container;
+				exponent_sessions_setCacheValue('containermodule', $cache);
+        	}else{
+        		$container = $cache['top'][$container_key];
+        	}
 			if (!defined('PREVIEW_READONLY') || defined('SELECTOR')) $view = $container->view;
 			$title = $container->title;
 		}
 		
-		$template = new template('containermodule',$view,$loc);
+		$template = new template('containermodule',$view,$loc,$cache);
 		if ($dest) $template->assign('dest',$dest);
 		$template->assign('singleview',$singleview);
 		$template->assign('singlemodule',$singlemodule);
@@ -100,23 +108,21 @@ class containermodule {
 		$template->assign('top',$container);
 		
 		$containers = array();
-
-        $container_key = serialize( $loc );
-		$cache = exponent_sessions_getCacheValue('containermodule');
-        if(!isset($cache[$container_key]))
-        {
-		    foreach ($db->selectObjects('container',"external='" . serialize($loc) . "'") as $c) {
-			    if ($c->is_private == 0 || exponent_permissions_check('view',exponent_core_makeLocation($loc->mod,$loc->src,$c->id))) {
+       
+        	if(!isset($cache[$container_key]))
+        	{
+		    	foreach ($db->selectObjects('container',"external='" . $container_key . "'") as $c) {
+				if ($c->is_private == 0 || exponent_permissions_check('view',exponent_core_makeLocation($loc->mod,$loc->src,$c->id))) {
 				    $containers[$c->rank] = $c;
-			    }
-		    }
-            $cache[$container_key] = serialize($containers);
-            exponent_sessions_setCacheValue('containermodule', $cache);
-        }
-        else
-        {
-            $containers = unserialize($cache[$container_key]);
-        }
+			    	}
+		    	}
+            		$cache[$container_key] = $containers;
+            		exponent_sessions_setCacheValue('containermodule', $cache);
+        	}
+        	else
+        	{
+            		$containers = $cache[$container_key];            
+        	}
  
 		if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
 		ksort($containers);

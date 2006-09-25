@@ -129,7 +129,14 @@ class template extends basetemplate {
 		
 		// View Config
 		global $db;
-		$container = $db->selectObject("container","internal='".serialize($loc)."'");
+		$container_key = serialize($loc);
+		$cache = exponent_sessions_getCacheValue('containermodule');
+		if (isset($cache[$container_key])){
+			$container = $cache[$container_key];
+		}else{
+			$container = $db->selectObject("container","internal='".$container_key."'");
+			$cache[$container_key] = $container;
+		}
 		$this->viewconfig = ($container && $container->view_data != "" ? unserialize($container->view_data) : array());
 		$this->tpl->assign("__viewconfig",$this->viewconfig);
 		//echo "<xmp>";

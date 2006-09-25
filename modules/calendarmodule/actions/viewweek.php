@@ -46,8 +46,7 @@ for ($i = 0; $i < 7; $i++) {
 		$o->eventdate = $dates[$j];
 		$o->eventstart += $o->eventdate->date;
 		$o->eventend += $o->eventdate->date;
-		$days[$start][] = $o;		
-		
+		$days[$start][] = $o;
 	}
 	$counts[$start] = count($days[$start]);
 }

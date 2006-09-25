@@ -26,7 +26,8 @@ return array(
 		DB_INCREMENT=>true),
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>200),
+		DB_FIELD_LEN=>200,
+                DB_INDEX=>10),
 	'title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
@@ -34,9 +35,11 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
 	'eventstart'=>array(
-		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
+		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP,
+                DB_INDEX=>0),
 	'eventend'=>array(
-		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
+		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP,
+                DB_INDEX=>0),
 	'posted'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
 	'poster'=>array(

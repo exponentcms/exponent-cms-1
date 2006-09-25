@@ -249,12 +249,16 @@ function exponent_workflow_clearRevisions($existingname,$major) {
  * @node Undocumented
  */
 function exponent_workflow_getPolicy($module,$source) {
-	global $db;
-	$assoc = $db->selectObject('approvalpolicyassociation',"module='$module' AND source='$source' AND is_global=0");
-	if (!$assoc) return exponent_workflow_getDefaultPolicy($module);
-	else {
-		$policy = $db->selectObject('approvalpolicy','id='.$assoc->policy_id);
-		return $policy;
+	if (ENABLE_WORKFLOW){
+		global $db;
+		$assoc = $db->selectObject('approvalpolicyassociation',"module='$module' AND source='$source' AND is_global=0");
+		if (!$assoc) return exponent_workflow_getDefaultPolicy($module);
+		else {
+			$policy = $db->selectObject('approvalpolicy','id='.$assoc->policy_id);
+			return $policy;
+		}
+	}else{
+		return null;
 	}
 }
 

@@ -351,6 +351,7 @@ class mysql_database {
 		$dd = $this->getDataDefinition($tablename);
 		$modified = false;
 
+		//Drop any old columns from the table if aggressive mode is set.
 		if ($aggressive) {
 			$oldcols = array_diff_assoc($dd, $newdatadef);
 			if (count($oldcols)) {
@@ -364,6 +365,8 @@ class mysql_database {
 				@mysql_query($sql,$this->connection);
 			}
 		}
+		
+		//Add any new columns to the table
 		$diff = array_diff_assoc($newdatadef,$dd);
 		if (count($diff)) {
 			$modified = true;
@@ -377,6 +380,38 @@ class mysql_database {
 			@mysql_query($sql,$this->connection);
 		}
 
+		//Add any new indexes & keys to the table.  
+		$index = array();
+		foreach ($newdatadef as $name=>$def) {
+                        if ($def != null) {
+                                if (isset($def[DB_PRIMARY]) && $def[DB_PRIMARY] == true) $primary[] = $name;
+                                if (isset($def[DB_INDEX]) && ($def[DB_INDEX] > 0)) {
+                                        if ($def[DB_FIELD_TYPE] == DB_DEF_STRING) {
+                                                $index[$name] = $def[DB_INDEX];
+                                        }
+                                        else {
+                                                $index[$name] = 0;
+                                        }
+                                }
+                                if (isset($def[DB_UNIQUE])) {
+                                        if (!isset($unique[$def[DB_UNIQUE]])) $unique[$def[DB_UNIQUE]] = array();
+                                        $unique[$def[DB_UNIQUE]][] = $name;
+                                }
+                        }
+                }
+		$sql = "ALTER TABLE `" . $this->prefix . "$tablename` ";
+                /*if (count($primary)) {
+                        $sql .= ", PRIMARY KEY(`" . implode("`,`",$primary) . "`)";
+                }
+                foreach ($unique as $key=>$value) {
+                        $sql .= ", UNIQUE `".$key."` ( `" . implode("`,`",$value) . "`)";
+                }*/
+                foreach ($index as $key=>$value) {
+                        $sql .= "ADD INDEX (" . $key . ")";
+                        @mysql_query($sql,$this->connection);
+                }
+		
+		//Get the return code
 		$return = array(
 			$tablename=>($modified ? TABLE_ALTER_SUCCEEDED : TABLE_ALTER_NOT_NEEDED)
 		);

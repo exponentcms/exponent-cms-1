@@ -216,7 +216,8 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 		if ($section_id == null) {
 			$section_id = SITE_DEFAULT_SECTION;
 		}
-		$section = $db->selectObject('section','id='.$section_id);
+		//$section = $db->selectObject('section','id='.$section_id);
+		$section->id = $section_id;
 	}
 	if ($module == "loginmodule" && defined("PREVIEW_READONLY") && PREVIEW_READONLY == 1) return;
 	

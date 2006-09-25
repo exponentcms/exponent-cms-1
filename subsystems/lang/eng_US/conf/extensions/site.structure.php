@@ -54,6 +54,9 @@ return array(
 
 	'revision_limit'=>'Revision History Limit',
 	'revision_limit_desc'=>'The maximum number of major revisions (excluding the "current" revision) to keep per item of content.  A limit of 0 (zero) means that all revisions will be kept.',
+	
+	'enable_workflow'=>'Enable Workflow',
+	'enable_workflow_desc'=>'Turns workflow on and off.  Leave off unless you are specifically using it, as workflow will effect system performance.',
 );
 
 ?>

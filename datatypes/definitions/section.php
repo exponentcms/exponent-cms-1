@@ -40,7 +40,8 @@ return array(
 	'new_window'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'parent'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID),
+		DB_FIELD_TYPE=>DB_DEF_ID,
+		DB_INDEX=>10),
 	'rank'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	'page_title'=>array(

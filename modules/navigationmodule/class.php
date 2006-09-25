@@ -19,7 +19,7 @@
 
 class navigationmodule {
 	function name() { return exponent_lang_loadKey('modules/navigationmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
+	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/navigationmodule/class.php','module_description'); }
 	
 	function hasContent() { return false; }
@@ -58,7 +58,8 @@ class navigationmodule {
 						}
 					}
 				} else {
-					$sections = navigationmodule::levelTemplate(0,0);
+					//$sections = navigationmodule::levelTemplate(0,0);
+					global $sections;
 					foreach ($sections as $section) {
 						if ($section->id == $id) {
 							$current = $section;
@@ -68,7 +69,8 @@ class navigationmodule {
 				}
 			break;
 			default:
-				$sections = navigationmodule::levelTemplate(0,0);
+				//$sections = navigationmodule::levelTemplate(0,0);
+				global $sections;
 				foreach ($sections as $section) {
 					if ($section->id == $id) {
 						$current = $section;
@@ -78,10 +80,10 @@ class navigationmodule {
 			break;
 		}
 	
-		//eDebug($sections);exit();	
 		$template = new template('navigationmodule',$view,$loc);
 		$template->assign('sections',$sections);
 		$template->assign('current',$current);
+		$template->assign('num_sections', count($sections));
 		global $user;
 		$template->assign('canManage',(($user && $user->is_acting_admin == 1) ? 1 : 0));
 		$template->assign('moduletitle',$title);
@@ -220,7 +222,7 @@ class navigationmodule {
 					// Normal link.  Just create the URL from the section's id.
 					$child->link = exponent_core_makeLink(array('section'=>$child->id),'',$child->sef_name);
 				}
-				$child->numChildren = $db->countObjects('section','parent='.$child->id);
+				//$child->numChildren = $db->countObjects('section','parent='.$child->id);
 				$nodes[] = $child;
 				$nodes = array_merge($nodes,navigationmodule::levelTemplate($child->id,$depth+1,$parents));
 			}
