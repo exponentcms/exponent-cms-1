@@ -146,18 +146,17 @@ class calendarmodule {
 			$template->assign("currentday",$currentday);
 			$template->assign("now",time());
 		} else if ($viewconfig['type'] == "byday") {
-		
 		  // Remember this is the code for weekly view and monthly listview
 		  // Test your fixes on both views before submitting your changes to cvs
-		
-    	$startperiod = 0;
+    			$startperiod = 0;
 			$totaldays = 0;
 			if ($viewconfig['range'] == "week") {
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
 			} else {
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
-				$totaldays  = date('t', time());
+				//$totaldays  = date('t', time());
+				$totaldays  = date('t', $time);
 			}
 						
 			$template->assign("prev_timestamp",$startperiod - 3600);
@@ -165,27 +164,17 @@ class calendarmodule {
 			
 			$days = array();
 			// added per Ignacio 
-      // 
+
 			$endofmonth = date('t', $time);
 			for ($i = 1; $i <= $totaldays; $i++) {
 				$info = getdate($time);
 								
-        if ($viewconfig['range'] == "week") {
-          $start = $startperiod + ($i*86400);  
-			  } else {
-          $start = mktime(0,0,0,$info['mon'],$i,$info['year']);  
-			  }
+        			if ($viewconfig['range'] == "week") {
+          				$start = $startperiod + ($i*86400);  
+				} else {
+          				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);  
+				}
 			
-        				        						
-			 //for ($i = 0; $i < $totaldays; $i++) {
-			 // 	if( $i == 0 )
-			 // 	{
-			 //	    $start = $startperiod + ($i*86400);
-			 //	} else {
-			 //		$start = $startperiod + ($i*86400)-3600;
-			 //	}
-									
-				#$days[$start] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
 				$edates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
 				
@@ -197,6 +186,7 @@ class calendarmodule {
 						"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 					);
 				}
+			
 				usort($days[$start],"exponent_sorting_byEventStartAscending");
 			}
 			$template->assign("days",$days);
