@@ -177,7 +177,7 @@ function exponent_permissions_getSourceUID($src) {
  *	of permissions.
  * @node Subsystems:Permissions
  */
-function exponent_permissions_check($permission,$location) {
+function exponent_permissions_check($permission, $location) {
 	global $exponent_permissions_r, $user;
 	if ($user) {
 		if ($user->is_acting_admin == 1) return true;

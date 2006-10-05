@@ -132,7 +132,7 @@ class navigationmodule {
 				$html .= navigationmodule::levelShowDropdown($node->id,$depth+1,$default,$ignore_ids);
 			}
 		}
-		return $options;
+		return $html;
 	}
 	
 	/*

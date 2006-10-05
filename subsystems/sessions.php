@@ -149,7 +149,7 @@ function exponent_sessions_createTicket($user = null){
  * @node Subsystems:Sessions
  */
 function exponent_sessions_updateTicket($ticket, $user){
-	global $db;	
+	global $db, $user;	
 	if (isset($ticket->ticket)){
 		$ticket->uid = $user->id;
 		$ticket->last_active = time();
@@ -166,7 +166,7 @@ function exponent_sessions_updateTicket($ticket, $user){
  * @node Subsystems:Sessions
  */
 function exponent_sessions_logout() {
-	global $db;
+	global $db, $user;
 	//echo $_SESSION['ticket'];
 	//exit();
 	//if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) $db->delete('sessionticket',"ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
@@ -322,7 +322,7 @@ function exponent_sessions_clearAllUsersSessionCache($modules = null, $user = nu
 	//but I don't see why we need to clear just one other specified user's cache 
 	//at this point either.  This just updates all sessionticket records to refresh=1
 		
-	global $db;
+	global $db, $sessionticket;
 	$sessionticket->refresh = 1;
 	$db->updateObject($sessionticket, 'sessionticket', '1');
 		

@@ -27,17 +27,7 @@ if (phpversion() >= 5) {
 	 * @node Subsystems:Autoloader
 	 */
 	define('SYS_AUTOLOADER',1);
-	
-	/* exdoc
-	 * In PHP5, the autoloader function will check these
-	 * directories when it tries to load a class definition
-	 * file.  Other parts of the system should append to this
-	 * directory as needed, in order to take full advantage
-	 * of autoloading
-	 * @node Subsystems:Autoloader
-	 */
-	$auto_dirs = array(BASE.'datatypes', BASE.'subsystems/forms', BASE.'subsystems/forms/controls');
-	
+		
 	/* exdoc
 	 * This function overrides the default PHP5 autoloader,
 	 * and instead looks at the $AutoLoadDirs global to look
@@ -48,11 +38,26 @@ if (phpversion() >= 5) {
 	 * @node Subsystems:Autoloader
 	 */
 	function __autoload($class) {
-		global $auto_dirs;
+		/* exdoc
+		 * In PHP5, the autoloader function will check these
+		 * directories when it tries to load a class definition
+		 * file.  Other parts of the system should append to this
+		 * directory as needed, in order to take full advantage
+		 * of autoloading
+		 * @node Subsystems:Autoloader
+		 */
+		$auto_dirs = array(BASE.'datatypes', BASE.'subsystems/forms', BASE.'subsystems/forms/controls', BASE . "/modules/" . $class);
+
 		foreach ($auto_dirs as $auto_dir) {
 			if (is_readable($auto_dir.'/'.$class.'.php')) {
 				include_once($auto_dir.'/'.$class.'.php');
-				return;
+				break;
+			}
+			if ($auto_dir == BASE . "/modules/" . $class) {
+				if (is_readable($auto_dir.'/class.php')) {
+					include_once($auto_dir.'/class.php');
+					break;
+				}	
 			}
 		}
 	}

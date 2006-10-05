@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -27,6 +28,13 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 // Initialize the Exponent Framework
 require_once('exponent.php');
 
+//the default user is anonymous
+if (!$user) {
+	// Initialize the users subsystem
+	require_once(BASE.'subsystems/users.php');
+	exponent_users_login("anonymous", "anonymous");
+}
+
 // Check to see if we are in maintenance mode.
 if (MAINTENANCE_MODE == 1) {
 	if (!$user || $user->is_admin == 0 || $user->is_acting_admin == 0) {
@@ -38,11 +46,14 @@ if (MAINTENANCE_MODE == 1) {
 	}
 }
 
+
+
+
 // Initialize the theme subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
-	header('Location: install/index.php?page=setlang');
+	header('Location: install/index.php');
 	exit('Redirecting to the Exponent Install Wizard');
 }
 
