@@ -19,7 +19,7 @@
 
 class inbox_contactbanned {
 	function form($object) {
-		$i18n = exponent_lang_loadFile('database/inbox_contactbanned.php');
+		$i18n = exponent_lang_loadFile('datatypes/inbox_contactbanned.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
