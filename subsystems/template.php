@@ -184,7 +184,7 @@ class ControlTemplate extends BaseTemplate {
 	
 	//PHP5 constructor
 	function __construct($control, $view = "Default", $loc = null) {
-		parent::__construct("controls", $control, $view, $loc);
+		parent::__construct("controls", $control, $view);
 		
 		$this->tpl->assign("__name", $control);
 	}
