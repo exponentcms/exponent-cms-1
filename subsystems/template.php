@@ -178,7 +178,7 @@ class template extends BaseTemplate {
  * 
  * 
  */
-class ControlTemplate extends basetemplate {
+class ControlTemplate extends BaseTemplate {
 	
 	var $viewitem = "";
 	
