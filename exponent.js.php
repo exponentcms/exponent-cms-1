@@ -25,13 +25,13 @@ include_once("exponent.php");
 
 //DEPRECATED: Compatibility layer
 function pathosJSinitialize() {
-	exponentJSinitialize();
+	eXp.initialize();
 }
 function pathosJSregister(func) {
-	exponentJSregister(func);
+	eXp.register(func);
 }
 function pathosGetCookie(name) {
-	return exponentGetCookie(name);
+	eXp.getCookie(name);
 }
 //End compatibility layer
 
