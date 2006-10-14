@@ -65,40 +65,24 @@ function openSelector(mod, dest, vmod, vview) {
 	eXp.openSelector(mod, dest, vmod, vview);
 }
 
-function openContentSelector(mod,dest,view) {
-	var url = PATH_RELATIVE+"content_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod=containermodule&vview="+view;
-	openWindow(url,'contentPicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+//DEPRECATED: functional wrapper around OO API
+function openContentSelector(mod, dest, view) {
+	eXp.openContentSelector(mod, dest, view);
 }
 
-function sourceSelected(hidden,showPreview,src,desc) {
-	var hidden = document.getElementById(hidden);
-	hidden.value = src;
-	if (showPreview){
-	showPreviewCall();
-	}
+//DEPRECATED: functional wrapper around OO API
+function sourceSelected(hidden, showPreview, src, desc) {
+	eXp.sourceSelected(hidden, showPreview, src, desc);
 }
 
+//DEPRECATED: functional wrapper around OO API
 function selectAll(prefix,checked) {
-	elems = document.getElementsByTagName("input");
-	for (var key in elems) {
-		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
-			elems[key].checked = checked;
-		}
-	}
+	eXp.selectAll(prefix, checked);
 }
 
-function isOneSelected(prefix,enabledOnly) {
-	if (typeof enabledOnly == "undefined") {
-		enabledOnly = true;
-	}
-	elems = document.getElementsByTagName("input");
-	for (var key in elems) {
-		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
-			if (enabledOnly && elems[key].checked && !elems[key].disabled) return true;
-			if (!enabledOnly && elems[key].checked) return true;
-		}
-	}
-	return false;
+//DEPRECATED: functional wrapper around OO API
+function isOneSelected(prefix, enabledOnly) {
+	eXp.isOneSelected(prefix, enabledOnly);
 }
 
 // Patch the String object, to make string parsing a little easier in exponent
@@ -232,4 +216,40 @@ eXp.openWindow = function(url, name, options) {
 eXp.openSelector = function(mod, dest, vmod, vview) {
 	var url = eXp.PATH_RELATIVE+"source_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod="+vmod+"&vview="+vview;
 	openWindow(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+}
+
+eXp.openContentSelector = function(mod, dest, view) {
+	var url = eXp.PATH_RELATIVE+"content_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod=containermodule&vview="+view;
+	eXp.openWindow(url,'contentPicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+}
+
+eXp.sourceSelected = function(hidden, showPreview, src, desc) {
+	var hidden = document.getElementById(hidden);
+	hidden.value = src;
+	if (showPreview){
+		showPreviewCall();
+	}
+}
+
+eXp.selectAll = function(prefix, checked) {
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
+			elems[key].checked = checked;
+		}
+	}
+}
+
+eXp.isOneSelected = function(prefix, enabledOnly) {
+	if (typeof enabledOnly == "undefined") {
+		enabledOnly = true;
+	}
+	elems = document.getElementsByTagName("input");
+	for (var key in elems) {
+		if (elems[key].type == "checkbox" && elems[key].name.substr(0,prefix.length) == prefix) {
+			if (enabledOnly && elems[key].checked && !elems[key].disabled) return true;
+			if (!enabledOnly && elems[key].checked) return true;
+		}
+	}
+	return false;
 }

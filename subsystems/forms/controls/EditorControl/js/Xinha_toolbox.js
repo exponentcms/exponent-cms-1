@@ -22,9 +22,10 @@
 // first = action name
 // second = icon location
 // third = required plugin
-eXp.WYSIWYG_toolboxbuttons =	{
-									"About" : ["About FCKEditor", "/external/editors/FCKeditor/editor/skins/default/toolbar/about.gif", ""],
-									"Image" : ["Image", "/external/editors/FCKeditor/editor/skins/default/toolbar/image.gif", ""],
-									"Link" : ["Link", "/external/editors/FCKeditor/editor/skins/default/toolbar/link.gif", ""],
-									"TableInsertRow" : ["Insert a Table", "/external/editors/FCKeditor/editor/skins/default/toolbar/tableinsertrow.gif", "tablecommands"]
-									};
+eXp.WYSIWYG.toolbox =	{
+				"about" : ["About Xinha", "/external/editors/Xinha/images/ed_about.gif", ""],
+				"cut" : ["cut", "/external/editors/Xinha/images/ed_cut.gif", ""],
+				"createlink" : ["link", "/external/editors/Xinha/images/ed_link.gif", ""],
+				"insertimage" : ["image", "/external/editors/Xinha/images/ed_image.gif", ""],
+				"abbreviation" : ["Abbreviation Dialog", "/external/editors/Xinha/plugins/Abbreviation/img/ed_abbreviation.gif", "Abbreviation"]
+			};

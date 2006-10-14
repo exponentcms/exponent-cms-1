@@ -69,12 +69,19 @@ class htmleditorcontrol extends formcontrol {
 				}else{
 					$config = $db->selectObject("toolbar_" . SITE_WYSIWYG_EDITOR, "name='" . $this->toolbar . "'");
 				}
+				
+?>
+<script language="javascript">
+/* <![CDATA[ */
+	eXp.WYSIWYG = new Object();
+<?PHP
 				if ($config) {
-					echo '<script language="javascript">/* <![CDATA[ */' . "\n";
-					echo "		eXp.WYSIWYG_toolbar = " . $config->data . ";\n";
-					echo '/* ]]> */</script>' . "\n";
+					echo "		eXp.WYSIWYG.toolbar = " . $config->data . ";\n";
 				}
-
+?>
+/* ]]> */
+</script>
+<?PHP
 				include($PATH_TO_INCs . SITE_WYSIWYG_EDITOR . '.glue');
 			$html = ob_get_contents();
 			ob_end_clean();	

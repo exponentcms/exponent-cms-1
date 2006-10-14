@@ -25,8 +25,8 @@ var g_row = 0;
 var g_pos = 0;
 var g_maxRowLength = 0;
 
-var removeIcon = ICON_RELATIVE+"delete.gif";
-var removeDisabledIcon = ICON_RELATIVE+"delete.disabled.gif";
+var removeIcon = eXp.WYSIWYG.toolbox+"delete.gif";
+var removeDisabledIcon = eXp.WYSIWYG.toolbox+"delete.disabled.gif";
 var lastTd = null;
 var imageSuffix = ".gif";
 
@@ -182,7 +182,7 @@ function iconTd(icon,rownum, pos) {
 		td.setAttribute("colspan",(toolbarIconSpan(icon)-1)*2+1);
 	}
 	var img = document.createElement("img");
-	img.setAttribute("src",eXp.WYSIWYG_toolboxbuttons[icon][1]);
+	img.setAttribute("src",eXp.WYSIWYG.toolbox[icon][1]);
 	
 	td.appendChild(img);
 	
@@ -367,7 +367,7 @@ function ie_register() {
 	register(event.srcElement.holding);
 }
 
-// used to build a toolbox of available buttons, the array eXp.WYSIWYG_toolbar in /external/editors/<currenteditor>_toolbar.js has to be maintened manually(for now)
+// used to build a toolbox of available buttons, the array eXp.WYSIWYG.toolbar in /external/editors/<currenteditor>_toolbar.js has to be maintened manually(for now)
 function exponentJSbuildHTMLEditorButtonSelector(Buttons) {
 	myButtonPanel = document.getElementById("htmleditor_toolbox");
 	
