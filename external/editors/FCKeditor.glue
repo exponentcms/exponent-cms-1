@@ -25,7 +25,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	// We are the first htmleditor control. Set up basic initializations 
 ?>
 	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/fckeditor.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'subsystems/forms/controls/EditorControl/js/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
 	
 	<!-- load languagefile, prepare for HTMLArea popup(Link + Image Browsers) -->
 	<script type="text/javascript">
