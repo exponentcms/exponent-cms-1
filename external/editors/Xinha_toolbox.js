@@ -22,7 +22,7 @@
 // first = action name
 // second = icon location
 // third = required plugin
-Exponent.WYSIWYG_toolboxbuttons =	{
+eXp.WYSIWYG_toolboxbuttons =	{
 									"about" : ["About Xinha", "/external/editors/Xinha/images/ed_about.gif", ""],
 									"cut" : ["cut", "/external/editors/Xinha/images/ed_cut.gif", ""],
 									"createlink" : ["link", "/external/editors/Xinha/images/ed_link.gif", ""],

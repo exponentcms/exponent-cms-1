@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -70,7 +71,7 @@ class htmleditorcontrol extends formcontrol {
 				}
 				if ($config) {
 					echo '<script language="javascript">/* <![CDATA[ */' . "\n";
-					echo "		Exponent.WYSIWYG_toolbar = " . $config->data . ";\n";
+					echo "		eXp.WYSIWYG_toolbar = " . $config->data . ";\n";
 					echo '/* ]]> */</script>' . "\n";
 				}
 

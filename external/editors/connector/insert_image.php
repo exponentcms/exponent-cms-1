@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/connector/lang/'  . exponent_lang_convertLangCode(LANG) . '.js';?>"></script>
 		<script type="text/javascript">
 		/* <![CDATA[ */
-			I18N = Exponent.I18N;
+			I18N = eXp.I18N;
 					
 			function i18n(str) {
 			  return (I18N[str] || str);
@@ -42,7 +42,7 @@
 						window.ipreview.location.replace(param.f_url);
 					}
 					else {
-						window.ipreview.location.replace(Exponent.PATH_RELATIVE + param.f_url);
+						window.ipreview.location.replace(eXp.PATH_RELATIVE + param.f_url);
 					}
 				}
 			
@@ -101,7 +101,7 @@
 				if (url.substr(0,7) == "http://") {
 					window.ipreview.location.replace(url);
 				} else {
-					window.ipreview.location.replace(Exponent.PATH_RELATIVE + url);
+					window.ipreview.location.replace(eXp.PATH_RELATIVE + url);
 				}
 			
 				return false;

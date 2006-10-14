@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/connector/lang/' . exponent_lang_convertLangCode(LANG) . '.js'?>"></script>
   		<script type="text/javascript">
 		/* <![CDATA[ */
-			I18N = Exponent.I18N;
+			I18N = eXp.I18N;
 			
 			function i18n(str) {
   				return (I18N[str] || str);

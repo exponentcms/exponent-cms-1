@@ -3,7 +3,7 @@
 // term´s and licenses are equal to htmlarea!
 // translation improved by broxx<broxx@broxx.com>
 
-Exponent.I18N = {
+eXp.I18N = {
 		"Select a Page, or Content"							: "Verweise auf Seiten oder Inhalte",
 		"Link to a Page"									: "Verweis auf Seite",
 		"Link to Content"									: "Verweis auf Inhalt",

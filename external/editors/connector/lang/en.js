@@ -1,5 +1,5 @@
 // Placeholder
 
-Exponent.I18N = {
+eXp.I18N = {
 		};
 

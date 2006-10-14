@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -474,9 +475,7 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	//BASE does not have a trailing slash ?!
 	$locations = array(BASE . "/", THEME_ABSOLUTE);
 	foreach($locations as $location) {
-		// legacy support
 		$checkpaths[] = $location . $typepath . "common/" . $relpath2;
-		//$checkpaths[] = $location . $typepath . "lib/" . $relpath2;
 		$checkpaths[] = $location . $relpath;
 	}
 	

@@ -61,34 +61,30 @@ if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administra
 <script type="text/javascript">
 	var imagePrefix = "";
 	// populate the button panel
-	exponentJSbuildHTMLEditorButtonSelector(Exponent.WYSIWYG_toolboxbuttons);
+	exponentJSbuildHTMLEditorButtonSelector(eXp.WYSIWYG_toolboxbuttons);
 		
 <?php
 	
 if ($config == null) {
 ?>
-	// 3 initial rows.
-	rows.push(new Array());
-	rowlens.push(0);
-	rows.push(new Array());
-	rowlens.push(0);
+	//initial row.
 	rows.push(new Array());
 	rowlens.push(0);
 <?php
 } else {
 ?>	
 
-	Exponent.WYSIWYG_toolbar = <?php echo $config->data; ?>;
+	eXp.WYSIWYG_toolbar = <?php echo $config->data; ?>;
 	
-	for(currRow = 0; currRow < Exponent.WYSIWYG_toolbar.length; currRow++) {
+	for(currRow = 0; currRow < eXp.WYSIWYG_toolbar.length; currRow++) {
 		rows.push(new Array());
 		rowlens.push(0);
 		
-		for(currButton = 0; currButton < Exponent.WYSIWYG_toolbar[currRow].length; currButton++) {
+		for(currButton = 0; currButton < eXp.WYSIWYG_toolbar[currRow].length; currButton++) {
 			//TODO: decide whether to disallow empty rows altoghether -> htmlareatoolbarbuilder.js->save()
-			if (Exponent.WYSIWYG_toolbar[currRow][currButton] != "") {
-				rows[currRow].push(Exponent.WYSIWYG_toolbar[currRow][currButton]);
-				disableToolbox(Exponent.WYSIWYG_toolbar[currRow][currButton]);
+			if (eXp.WYSIWYG_toolbar[currRow][currButton] != "") {
+				rows[currRow].push(eXp.WYSIWYG_toolbar[currRow][currButton]);
+				disableToolbox(eXp.WYSIWYG_toolbar[currRow][currButton]);
 			}
 		}
 	}

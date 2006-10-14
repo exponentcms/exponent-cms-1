@@ -182,7 +182,7 @@ function iconTd(icon,rownum, pos) {
 		td.setAttribute("colspan",(toolbarIconSpan(icon)-1)*2+1);
 	}
 	var img = document.createElement("img");
-	img.setAttribute("src",Exponent.WYSIWYG_toolboxbuttons[icon][1]);
+	img.setAttribute("src",eXp.WYSIWYG_toolboxbuttons[icon][1]);
 	
 	td.appendChild(img);
 	
@@ -367,7 +367,7 @@ function ie_register() {
 	register(event.srcElement.holding);
 }
 
-// used to build a toolbox of available buttons, the array Exponent.WYSIWYG_toolbar in /external/editors/<currenteditor>_toolbar.js has to be maintened manually(for now)
+// used to build a toolbox of available buttons, the array eXp.WYSIWYG_toolbar in /external/editors/<currenteditor>_toolbar.js has to be maintened manually(for now)
 function exponentJSbuildHTMLEditorButtonSelector(Buttons) {
 	myButtonPanel = document.getElementById("htmleditor_toolbox");
 	
