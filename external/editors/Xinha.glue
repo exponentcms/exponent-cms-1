@@ -75,7 +75,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		// Register an initialization function with the Exponent JS Support System.
 		// This will be called onload (assuming the theme is playing nice)
 		var once = false;
-		exponentJSregister(function () {
+		eXp.register(function () {
 			for (i = 0; i < htmleditorcontrols.length; i++) {
 				editors[i] = new HTMLArea(htmleditorcontrols[i]);
 				editors[i].config = htmleditorconfig;

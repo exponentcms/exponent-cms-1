@@ -162,13 +162,12 @@ eXp.includeOnce = function(id, file) {
 
 eXp.initialize = function() {
 	for (i = 0; i < eXp.onLoadInits.length; i++) {
-		// if the last sign is a ")", then we are likely to have a function -> new style allows for function parameters
-		if (eXp.onLoadInits[i].charAt(eXp.onLoadInits[i].length - 1) == ")") {
+		if(typeof(eXp.onLoadInits[i]) == "String") {
+			//new style allows for function parameters
 			eval(eXp.onLoadInits[i]);
 		} else {
 			eXp.onLoadInits[i]();
 		}
-		
 	}
 }	
 
