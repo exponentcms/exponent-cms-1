@@ -149,7 +149,7 @@ eXp.WYSIWYG.createCursor = function(rownum, pos) {
 		});
 		myCursor.className = "editorcontrol_cursor";
 	} else {
-		myCursor.setAttribute("onClick","eXp.WYSIWYG.selectCursor(this,"+rownum+","+pos+"); return false;");
+		myCursor.setAttribute("onclick","eXp.WYSIWYG.selectCursor(this,"+rownum+","+pos+"); return false;");
 		myCursor.setAttribute("class", "editorcontrol_cursor");
 	}
 	
@@ -289,11 +289,11 @@ eXp.WYSIWYG.deleteRow = function(rownum) {
 				if (document.all) {
 					myButton.className = "editorcontrol_toolboxbutton";
 					myButton.attachEvent('onclick', function() { 
-						eXp.WYSIWYG.register('"+used[key2]+"');
+						eXp.WYSIWYG.register('" + used[key2] + "');
 					});
 				} else {
 					myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
-					myButton.setAttribute("onclick","eXp.WYSIWYG.register('"+used[key2]+"')");
+					myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
 				}
 				used.splice(key2,1);
 			}
@@ -343,9 +343,18 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 		myButton.setAttribute("title", Buttons[currButton][0]);
 		myButton.setAttribute("alt", currButton);
 		myButton.setAttribute("id", "toolboxButton_" + currButton);
-		myButton.setAttribute("onclick","eXp.WYSIWYG.register('" + currButton + "')");
-		myButton.setAttribute('class' , 'editorcontrol_toolboxbutton');
 		
+		//ie6 hack
+		if (document.all) {
+			myButton.className = "editorcontrol_toolboxbutton";
+			myButton.attachEvent('onclick', function() { 
+				eXp.WYSIWYG.register('" + currButton + "');
+			});
+		} else {
+			myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
+			myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + currButton + "')");
+		}
+				
 		myButtonPanel.appendChild(myButton);
 		
 	}
