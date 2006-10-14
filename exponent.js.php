@@ -192,7 +192,7 @@ eXp.register = function(func) {
 	eXp.onLoadInits.push(func);
 }
 
-eXp.getCookie() = function(name) {
+eXp.getCookie = function(name) {
 	cookiestr = document.cookie;
 	var nameIndex = cookiestr.indexOf(name);
 	if (nameIndex != -1) { // found the named cookie
