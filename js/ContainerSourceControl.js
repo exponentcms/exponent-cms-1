@@ -95,14 +95,14 @@ if (document.body.appendChild) {
 		var iframe = document.getElementById("iframePreview");
 		if (iframe) {
 			if (g_noSourceControl) {
-				iframe.src = PATH_RELATIVE+"mod_preview.php?module="+modclass+"&source="+sourceHidden.value+"&view="+g_ctl_views.options[g_ctl_views.selectedIndex].value+"&title="+escape(titleText.value);
+				iframe.src = eXp.PATH_RELATIVE+"mod_preview.php?module="+modclass+"&source="+sourceHidden.value+"&view="+g_ctl_views.options[g_ctl_views.selectedIndex].value+"&title="+escape(titleText.value);
 			} else { // Adding new
 				if ((sourceHidden.value != "" && g_radio_existing.checked == true) && module.var_supportsSources == 1) {
-					iframe.src = PATH_RELATIVE+"mod_preview.php?module="+modclass+"&source="+sourceHidden.value+"&view="+g_ctl_views.options[g_ctl_views.selectedIndex].value+"&title="+escape(titleText.value);
+					iframe.src = eXp.PATH_RELATIVE+"mod_preview.php?module="+modclass+"&source="+sourceHidden.value+"&view="+g_ctl_views.options[g_ctl_views.selectedIndex].value+"&title="+escape(titleText.value);
 				} else if (g_radio_new.checked == true || module.var_supportsSources == 0) {
-					iframe.src = PATH_RELATIVE+"mod_preview.php?module="+modclass+"&view="+g_ctl_views.options[g_ctl_views.selectedIndex].value+"&title="+escape(titleText.value);
+					iframe.src = eXp.PATH_RELATIVE+"mod_preview.php?module="+modclass+"&view="+g_ctl_views.options[g_ctl_views.selectedIndex].value+"&title="+escape(titleText.value);
 				} else {
-					iframe.src = PATH_RELATIVE+"modules/containermodule/nosourceselected.php";
+					iframe.src = eXp.PATH_RELATIVE+"modules/containermodule/nosourceselected.php";
 				}
 			}
 		}
