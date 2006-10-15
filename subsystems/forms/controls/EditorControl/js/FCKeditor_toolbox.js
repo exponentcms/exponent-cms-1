@@ -23,8 +23,8 @@
 // second = icon location
 // third = required plugin
 eXp.WYSIWYG.toolbox =	{
-				"About" : ["About FCKEditor", "/external/editors/FCKeditor/editor/skins/default/toolbar/about.gif", ""],
-				"Image" : ["Image", "/external/editors/FCKeditor/editor/skins/default/toolbar/image.gif", ""],
-				"Link" : ["Link", "/external/editors/FCKeditor/editor/skins/default/toolbar/link.gif", ""],
-				"TableInsertRow" : ["Insert a Table", "/external/editors/FCKeditor/editor/skins/default/toolbar/tableinsertrow.gif", "tablecommands"]
+				"About" : ["About FCKEditor", "external/editors/FCKeditor/editor/skins/default/toolbar/about.gif", ""],
+				"Image" : ["Image", "external/editors/FCKeditor/editor/skins/default/toolbar/image.gif", ""],
+				"Link" : ["Link", "external/editors/FCKeditor/editor/skins/default/toolbar/link.gif", ""],
+				"TableInsertRow" : ["Insert a Table", "external/editors/FCKeditor/editor/skins/default/toolbar/tableinsertrow.gif", "tablecommands"]
 			};

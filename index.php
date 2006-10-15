@@ -28,57 +28,56 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 // Initialize the Exponent Framework
 require_once('exponent.php');
 
-//the default user is anonymous
-if (!$user) {
-	// Initialize the users subsystem
-	require_once(BASE.'subsystems/users.php');
-	exponent_users_login("anonymous", "anonymous");
-}
 
 // Check to see if we are in maintenance mode.
-if (MAINTENANCE_MODE == 1) {
-	if (!$user || $user->is_admin == 0 || $user->is_acting_admin == 0) {
+if (MAINTENANCE_MODE) {
+	//only admins/acting_admins are allowed to get to the site,
+	//all others get the maintenance view
+	//Note: admins are automatically acting admins
+	if (!$user || $user->is_acting_admin == 0) {
 		$template = new standalonetemplate('_maintenance');
 		$template->output();
-		exit();
-	} else {
-		echo '<div class="error">The site is currently in maintenance mode.</div>';
 	}
-}
-
-
-
-
-// Initialize the theme subsystem
-if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
-
-if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
-	header('Location: install/index.php');
-	exit('Redirecting to the Exponent Install Wizard');
-}
-
-// Setting $page  to an empty value, we do not want to get out
-// side params to be used when handling subsystems fail.
-
-$page = '';
-
-// Handle sub themes
-$page = ($section && $section->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
-	BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
-	BASE.'themes/'.DISPLAY_THEME.'/index.php'
-);
-
-$base_i18n = exponent_lang_loadFile('index.php');
-
-if (is_readable($page)) {
-	include_once($page);
 } else {
-	echo sprintf($base_i18n['not_readable'],$page);
+
+	//the default user is anonymous
+	if (!$user) {
+		// Initialize the users subsystem
+		require_once(BASE.'subsystems/users.php');
+		exponent_users_login("anonymous", "anonymous");
+	}
+	
+	// Initialize the theme subsystem
+	if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
+	
+	if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
+		header('Location: install/index.php');
+		exit('Redirecting to the Exponent Install Wizard');
+	}
+	
+	// Setting $page  to an empty value, we do not want to get out
+	// side params to be used when handling subsystems fail.
+	
+	$page = '';
+	
+	// Handle sub themes
+	$page = ($section && $section->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php') ?
+		BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$section->subtheme.'.php' :
+		BASE.'themes/'.DISPLAY_THEME.'/index.php'
+	);
+	
+	$base_i18n = exponent_lang_loadFile('index.php');
+	
+	if (is_readable($page)) {
+		include_once($page);
+	} else {
+		echo sprintf($base_i18n['not_readable'], $page);
+	}
 }
 
 $microtime_str = explode(' ',microtime());
 $i_end = $microtime_str[0] + $microtime_str[1];
-
+	
 echo "\r\n<!--".sprintf($base_i18n['exec_time'],round($i_end - $i_start,4)).'-->';
 
 while (ob_get_level() > 0) {

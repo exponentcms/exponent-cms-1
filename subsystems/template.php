@@ -27,8 +27,6 @@ if (!defined('EXPONENT')) exit('');
  */
 define('SYS_TEMPLATE',1);
 
-define('TEMPLATE_FALLBACK_VIEW', BASE.'views/viewnotfound.tpl');
-
 class BaseTemplate {
 	// Smarty template object.
 	var $tpl;
@@ -72,7 +70,7 @@ class BaseTemplate {
 		
 		$this->tpl->template_dir = $this->viewdir;
 		
-		$this->tpl->compile_dir = BASE.'/tmp/views_c';
+		$this->tpl->compile_dir = BASE . '/tmp/views_c';
 		$this->tpl->compile_id = md5($this->viewfile);
 		
 		$this->tpl->assign("__view", $this->view);
@@ -94,24 +92,24 @@ class BaseTemplate {
 	 * @param string $var The name of the variable - how it will be referenced inside the Smarty code
 	 * @param mixed $val The value of the variable.
 	 */
-	function assign($var,$val) {
-		$this->tpl->assign($var,$val);
+	function assign($var, $val) {
+		$this->tpl->assign($var, $val);
 	}
 	
 	/*
 	 * Render the template and echo it to the screen.
 	 */
 	function output() {
-		$this->tpl->display($this->view.'.tpl');
+		$this->tpl->display($this->view . '.tpl');
 	}
 	
-	function register_permissions($perms,$locs) {
+	function register_permissions($perms, $locs) {
 		$permissions_register = array();
 		if (!is_array($perms)) $perms = array($perms);
 		if (!is_array($locs)) $locs = array($locs);
 		foreach ($perms as $perm) {
 			foreach ($locs as $loc) {
-				$permissions_register[$perm] = (exponent_permissions_check($perm,$loc) ? 1 : 0);
+				$permissions_register[$perm] = (exponent_permissions_check($perm, $loc) ? 1 : 0);
 			}
 		}
 		$this->tpl->assign('permissions', $permissions_register);
@@ -122,7 +120,7 @@ class BaseTemplate {
 	 */
 	function render() {
 		// Caching support?
-		return $this->tpl->fetch($this->view.'.tpl');
+		return $this->tpl->fetch($this->view . '.tpl');
 	}
 }
 /*
@@ -281,18 +279,16 @@ class standalonetemplate extends BaseTemplate {
  *
  * @return string The full filepath of the view template
  */
-function exponent_template_getViewFile($type="", $name="", $view) {
+function exponent_template_getViewFile($type="", $name="", $view="Default") {
 	$viewfilepath = exponent_core_resolveFilePaths($type, $name, "tpl", $view);
-	if ($viewfilepath != false) {
-		return array_shift($viewfilepath);
-	} else if ($view != DEFAULT_VIEW) {
-		// If we get here, try it with a different view.
-		return exponent_template_getViewFile($type, $name, DEFAULT_VIEW);
-	} else {
-		// Something is really screwed up.
+
+	// Something is really screwed up.
+	if ($viewfilepath == false) {
 		// Fall back to something that won't error.
-		return TEMPLATE_FALLBACK_VIEW;
+		return BASE . 'views/viewnotfound.tpl';
 	}
+	//return first match
+	return array_shift($viewfilepath);	
 }
 
 //DEPRECATED: backward compatibility wrapper

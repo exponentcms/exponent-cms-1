@@ -39,18 +39,15 @@ if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('Administra
 	}
 	
 	.editorcontrol_toolbarbutton {
-		clear:both;
 	}
 	
 	.editorcontrol_cursor {
-		float:left;
 		border:1px black solid;
 		background-color : white;
 		width:5px;
 		height:20px;
 	}
 	.editorcontrol_cursor_selected {
-		float:left;
 		background-color : blue;
 		width:5px;
 		height:20px;
@@ -102,41 +99,40 @@ var g_pos = 0;
 var lastCursor = null;
 
 
-eXp.WYSIWYG.newRow = function() {
-	rows.push(new Array());
-	g_pos = 0;
-	g_row = rows.length - 1;
-	eXp.WYSIWYG.buildToolbar();
-}
-
 eXp.WYSIWYG.recurseClear = function(elem) {
 	while (elem.childNodes.length) {
 		elem.removeChild(elem.firstChild);
 	}
 }
 
-eXp.WYSIWYG.buildToolbar = function() {
-	var myToolbar = document.getElementById("editorcontrol_toolbar");
-	eXp.WYSIWYG.recurseClear(myToolbar);
-	
-	for (rownum in rows) {
-		var myRow = document.createElement("div");
-		myRow.setAttribute("id", "row" + rownum);
-		
-		myRow.appendChild(eXp.WYSIWYG.createCursor(rownum, 0));
-		
-		for (itemkey in rows[rownum]) {
-			myRow.appendChild(eXp.WYSIWYG.createButton(rows[rownum][itemkey], rownum, parseInt(itemkey)));
-			myRow.appendChild(eXp.WYSIWYG.createCursor(rownum, parseInt(itemkey)));
-		}
-				
-		myRow.appendChild(eXp.WYSIWYG.createDelRowButton(rownum));
-		
-		myToolbar.appendChild(myRow);
-	}
-	
+eXp.WYSIWYG.newRow = function() {
+	rows.push(new Array());
+	eXp.WYSIWYG.buildToolbar();
 }
 
+eXp.WYSIWYG.deleteRow = function(rownum) {
+	for (key in rows[rownum]) {
+		for (key2 in used) {
+			if (used[key2] == rows[rownum][key]) {
+				var myButton = document.getElementById("toolboxButton_"+used[key2]);
+				
+				//ie6 hack
+				if (document.all) {
+					myButton.className = "editorcontrol_toolboxbutton";
+					myButton.attachEvent('onclick', function() { 
+						eXp.WYSIWYG.register('" + used[key2] + "');
+					});
+				} else {
+					myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
+					myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
+				}
+				used.splice(key2,1);
+			}
+		}
+	}
+	rows.splice(rownum,1);
+	eXp.WYSIWYG.buildToolbar();
+}
 
 eXp.WYSIWYG.createCursor = function(rownum, pos) {
 	
@@ -145,11 +141,11 @@ eXp.WYSIWYG.createCursor = function(rownum, pos) {
 	//ie6 hack
 	if (document.all) {
 		myCursor.attachEvent('onclick',function() {
-			eXp.WYSIWYG.selectCursor(event.srcElement,rownum,pos);
+			eXp.WYSIWYG.selectCursor(event.srcElement, rownum, pos);
 		});
 		myCursor.className = "editorcontrol_cursor";
 	} else {
-		myCursor.setAttribute("onclick","eXp.WYSIWYG.selectCursor(this,"+rownum+","+pos+"); return false;");
+		myCursor.setAttribute("onclick","eXp.WYSIWYG.selectCursor(this, " + rownum + ", " + pos + ");");
 		myCursor.setAttribute("class", "editorcontrol_cursor");
 	}
 	
@@ -164,13 +160,13 @@ eXp.WYSIWYG.selectCursor = function(myCursor, new_row, new_pos) {
 
 	//ie6 hack
 	if (document.all) {
-		//in case this is our first cursor
+		//in case this is our first cursor, there is no lastCursor
 		if(lastCursor) {
 			lastCursor.className = "editorcontrol_cursor";
 		}
 		myCursor.className = "editorcontrol_cursor_selected";
 	} else {
-		//in case this is our first cursor
+		//in case this is our first cursor, there is no lastCursor
 		if(lastCursor) {
 			lastCursor.setAttribute("class", "editorcontrol_cursor");
 		}
@@ -199,6 +195,7 @@ eXp.WYSIWYG.createDelRowButton = function(rownum) {
 }
 
 
+
 eXp.WYSIWYG.createButton = function(icon, rownum, pos) {
 	
 	myButton = document.createElement("img");
@@ -213,7 +210,7 @@ eXp.WYSIWYG.createButton = function(icon, rownum, pos) {
 		myButton.setAttribute("class", 'htmleditor_toolbarbutton');
 	}
 	
-	myButton.setAttribute("src", eXp.WYSIWYG.toolbox[icon][1]);
+	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG.toolbox[icon][1]);
 
 	return myButton;
 }
@@ -230,7 +227,6 @@ eXp.WYSIWYG.deleteButton = function(td, rownum, pos) {
 
 eXp.WYSIWYG.register = function(icon) {
 	rows[g_row].splice(g_pos, 0, icon);
-	g_pos++;
 	eXp.WYSIWYG.disableToolbox(icon);
 	eXp.WYSIWYG.buildToolbar();
 	
@@ -242,17 +238,17 @@ eXp.WYSIWYG.enableToolbox = function(rownum, key) {
 		// clear used
 		for (key2 in used) {
 			if (used[key2] == key) {
-				myButton = document.getElementById("toolboxButton_"+used[key2]);
+				myButton = document.getElementById("toolboxButton_" + used[key2]);
 				
 				//ie6 hack
 				if (document.all) {
 					myButton.className = 'htmleditor_toolboxbutton';
 					myButton.attachEvent('onclick', function() { 
-						eXp.WYSIWYG.register('"+used[key2]+"');
+						eXp.WYSIWYG.register('" + used[key2] + "');
 					});
 				} else {
 					myButton.setAttribute("class", 'htmleditor_toolboxbutton');
-					myButton.setAttribute("onclick","eXp.WYSIWYG.register('"+used[key2]+"')");
+					myButton.setAttribute("onclick","eXp.WYSIWYG.register('" + used[key2] + "')");
 				}
 				used.splice(key2,1);
 			}
@@ -279,32 +275,7 @@ eXp.WYSIWYG.disableToolbox = function(icon) {
 	}
 }
 
-eXp.WYSIWYG.deleteRow = function(rownum) {
-	for (key in rows[rownum]) {
-		for (key2 in used) {
-			if (used[key2] == rows[rownum][key]) {
-				var myButton = document.getElementById("toolboxButton_"+used[key2]);
-				
-				//ie6 hack
-				if (document.all) {
-					myButton.className = "editorcontrol_toolboxbutton";
-					myButton.attachEvent('onclick', function() { 
-						eXp.WYSIWYG.register('" + used[key2] + "');
-					});
-				} else {
-					myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
-					myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
-				}
-				used.splice(key2,1);
-			}
-		}
-	}
-	rows.splice(rownum,1);
 
-	g_pos = 0;
-	g_row = 0;
-	eXp.WYSIWYG.buildToolbar();
-}
 
 //serialize into JS linear array notation
 eXp.WYSIWYG.save = function(frm) {
@@ -339,7 +310,7 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 		myButton  = document.createElement("img");
 		
 		// difference between internal name and displayed name is possible because of i18n 
-		myButton.setAttribute("src", Buttons[currButton][1]);
+		myButton.setAttribute("src", eXp.PATH_RELATIVE + Buttons[currButton][1]);
 		myButton.setAttribute("title", Buttons[currButton][0]);
 		myButton.setAttribute("alt", currButton);
 		myButton.setAttribute("id", "toolboxButton_" + currButton);
@@ -358,6 +329,28 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 		myButtonPanel.appendChild(myButton);
 		
 	}
+}
+
+eXp.WYSIWYG.buildToolbar = function() {
+	var myToolbar = document.getElementById("editorcontrol_toolbar");
+	eXp.WYSIWYG.recurseClear(myToolbar);
+	
+	for (rownum in rows) {
+		myRow = document.createElement("div");
+		myRow.setAttribute("id", "row" + rownum);
+		
+		//first initial cursor on a row
+		myRow.appendChild(eXp.WYSIWYG.createCursor(rownum, 0));
+		
+		for (itemkey in rows[rownum]) {
+			myRow.appendChild(eXp.WYSIWYG.createButton(rows[rownum][itemkey], rownum, parseInt(itemkey)));
+			//increment position number by one because the insert point is after the icon
+			myRow.appendChild(eXp.WYSIWYG.createCursor(rownum, parseInt(itemkey) + 1));
+		}		
+		myRow.appendChild(eXp.WYSIWYG.createDelRowButton(rownum));
+		
+		myToolbar.appendChild(myRow);
+	}	
 }	
 </script>
 
