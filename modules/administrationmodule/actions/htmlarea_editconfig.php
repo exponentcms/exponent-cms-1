@@ -30,27 +30,42 @@ if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('Administra
 
 ?>
 <style type="text/css">
+	
+	.htmleditor_toolbarbutton,
+	.editorcontrol_toolbarbutton {
+		float: left;
+	}
+	
+	.editorcontrol_toolboxbutton {
+		border : 2px white solid;
+	}
 
 	.editorcontrol_toolboxbutton:hover {
 		border : 2px red solid;
 	}
-	.editorcontrol_toolboxbutton_selected {
-		background-color : grey;
-	}
 	
-	.editorcontrol_toolbarbutton {
+	.editorcontrol_toolboxbutton_selected {
+		background-color : gray;
+		border : 2px white solid;
 	}
 	
 	.editorcontrol_cursor {
+		float:left;
 		border:1px black solid;
 		background-color : white;
 		width:5px;
-		height:20px;
+		height:16px;
 	}
+
 	.editorcontrol_cursor_selected {
+		float:left;
 		background-color : blue;
 		width:5px;
-		height:20px;
+		height:16px;
+	}
+	
+	.clearfloat {
+		clear:both;
 	}
 </style>
 	
@@ -114,7 +129,7 @@ eXp.WYSIWYG.deleteRow = function(rownum) {
 	for (key in rows[rownum]) {
 		for (key2 in used) {
 			if (used[key2] == rows[rownum][key]) {
-				var myButton = document.getElementById("toolboxButton_"+used[key2]);
+				var myButton = document.getElementById("toolboxButton_" + used[key2]);
 				
 				//ie6 hack
 				if (document.all) {
@@ -206,7 +221,7 @@ eXp.WYSIWYG.createButton = function(icon, rownum, pos) {
 		});
 		myButton.className = "editorcontrol_toolbarbutton"
 	} else {
-		myButton.setAttribute("onclick","eXp.WYSIWYG.deleteButton(this,"+rownum+","+pos+"); return false;");
+		myButton.setAttribute("onclick", "eXp.WYSIWYG.deleteButton(this, " + rownum + ", " + pos + ");");
 		myButton.setAttribute("class", 'htmleditor_toolbarbutton');
 	}
 	
@@ -248,7 +263,7 @@ eXp.WYSIWYG.enableToolbox = function(rownum, key) {
 					});
 				} else {
 					myButton.setAttribute("class", 'htmleditor_toolboxbutton');
-					myButton.setAttribute("onclick","eXp.WYSIWYG.register('" + used[key2] + "')");
+					myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
 				}
 				used.splice(key2,1);
 			}
@@ -260,7 +275,7 @@ eXp.WYSIWYG.disableToolbox = function(icon) {
 	if (icon != "space" && icon != "separator") {
 		used.push(icon);		
 
-		var myButton = document.getElementById("toolboxButton_"+icon);
+		var myButton = document.getElementById("toolboxButton_" + icon);
 
 		//ie6 hack
 		if (document.all) {
@@ -338,6 +353,7 @@ eXp.WYSIWYG.buildToolbar = function() {
 	for (rownum in rows) {
 		myRow = document.createElement("div");
 		myRow.setAttribute("id", "row" + rownum);
+		myRow.setAttribute("class", "clearfloat");
 		
 		//first initial cursor on a row
 		myRow.appendChild(eXp.WYSIWYG.createCursor(rownum, 0));
@@ -357,13 +373,14 @@ eXp.WYSIWYG.buildToolbar = function() {
 <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>subsystems/forms/controls/EditorControl/js/<?php echo SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
 
 <div>
-	<div id="editorcontrol_toolbox"></div>
+	<div id="editorcontrol_toolbox" class="clearfloat"></div>
 	<div id="msgTD"></div>
 </div>
-<hr/>
-<a class="mngmntlink administration_mngmntlink" href="#" onclick="eXp.WYSIWYG.newRow(); return false">{$_TR.create}</a>
-<hr/>
-<div id="editorcontrol_toolbar"></div>
+<div class="clearfloat">
+	<hr/>
+	<a class="mngmntlink administration_mngmntlink" href="#" onclick="eXp.WYSIWYG.newRow(); return false">{$_TR.create}</a><hr/>
+</div>
+<div id="editorcontrol_toolbar" class="clearfloat"></div>
 
 <script type="text/javascript">
 	// populate the button panel
@@ -392,17 +409,23 @@ eXp.WYSIWYG.buildToolbar = function() {
 	eXp.WYSIWYG.buildToolbar();
 </script>
 <br />
-<hr size="1" />
-<form method="post">
-<input type="hidden" name="module" value="AdministrationModule"/>
-<input type="hidden" name="action" value="htmlarea_saveconfig"/>
-<?php if ($config->id) { ?><input type="hidden" name="id" value="<?php echo $config->id; ?>"/><?php } ?>
-<input type="hidden" name="config" value="" id="config_htmlarea" />
-{$_TR.item_name}:<br /><input type="text" name="config_name" value="<?php echo $config->name ?>" /><br />
-<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? 'checked="checked" ' : '');?>/> {$_TR.activate}?<br />
+<div class="clearfloat">
+		<hr size="1" />
 
-<input type="submit" value="Save" onclick="eXp.WYSIWYG.save(this.form); return false">
-</form>
+		<form method="post">
+		<input type="hidden" name="module" value="AdministrationModule"/>
+		<input type="hidden" name="action" value="htmlarea_saveconfig"/>
+<?php if ($config->id) { ?>
+		<input type="hidden" name="id" value="<?php echo $config->id; ?>"/>
+<?php } ?>
+		<input type="hidden" name="config" value="" id="config_htmlarea" />
+		{$_TR.item_name}:<br />
+		<input type="text" name="config_name" value="<?php echo $config->name ?>" /><br />
+		<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? 'checked="checked" ' : '');?>/> {$_TR.activate}?<br />
+
+		<input type="submit" value="Save" onclick="eXp.WYSIWYG.save(this.form); return false">
+	</form>
+</div>
 
 <?php
 } else {
