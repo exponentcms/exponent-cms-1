@@ -135,8 +135,9 @@ eXp.WYSIWYG.deleteRow = function(rownum) {
 				if (document.all) {
 					myButton.className = "editorcontrol_toolboxbutton";
 					myButton.attachEvent('onclick', function() { 
-						eXp.WYSIWYG.register('" + used[key2] + "');
+						eXp.WYSIWYG.register(event.srcElement.holding);
 					});
+					myButton.holding = used[key2];
 				} else {
 					myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
 					myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
@@ -249,26 +250,24 @@ eXp.WYSIWYG.register = function(icon) {
 
 
 eXp.WYSIWYG.enableToolbox = function(rownum, key) {
-	//for (key in rows[rownum]) {
-		// clear used
-		for (key2 in used) {
-			if (used[key2] == key) {
-				myButton = document.getElementById("toolboxButton_" + used[key2]);
-				
-				//ie6 hack
-				if (document.all) {
-					myButton.className = 'htmleditor_toolboxbutton';
-					myButton.attachEvent('onclick', function() { 
-						eXp.WYSIWYG.register('" + used[key2] + "');
-					});
-				} else {
-					myButton.setAttribute("class", 'htmleditor_toolboxbutton');
-					myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
-				}
-				used.splice(key2,1);
+	for (key2 in used) {
+		if (used[key2] == key) {
+			myButton = document.getElementById("toolboxButton_" + used[key2]);
+			
+			//ie6 hack
+			if (document.all) {
+				myButton.className = 'htmleditor_toolboxbutton';
+				myButton.attachEvent('onclick', function() { 
+					eXp.WYSIWYG.register(event.srcElement.holding);
+				});
+				myButton.holding = used[key2];
+			} else {
+				myButton.setAttribute("class", 'htmleditor_toolboxbutton');
+				myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + used[key2] + "')");
 			}
+			used.splice(key2,1);
 		}
-	//}	
+	}	
 }
 
 eXp.WYSIWYG.disableToolbox = function(icon) {
@@ -334,8 +333,9 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 		if (document.all) {
 			myButton.className = "editorcontrol_toolboxbutton";
 			myButton.attachEvent('onclick', function() { 
-				eXp.WYSIWYG.register('" + currButton + "');
+				eXp.WYSIWYG.register(event.srcElement.holding);
 			});
+			myButton.holding = currButton;
 		} else {
 			myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
 			myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + currButton + "')");
@@ -353,7 +353,13 @@ eXp.WYSIWYG.buildToolbar = function() {
 	for (rownum in rows) {
 		myRow = document.createElement("div");
 		myRow.setAttribute("id", "row" + rownum);
-		myRow.setAttribute("class", "clearfloat");
+		
+		if(document.all) {
+			myRow.className = "clearfloat";
+		} else {
+			myRow.setAttribute("class", "clearfloat");
+		}
+		
 		
 		//first initial cursor on a row
 		myRow.appendChild(eXp.WYSIWYG.createCursor(rownum, 0));
@@ -367,7 +373,8 @@ eXp.WYSIWYG.buildToolbar = function() {
 		
 		myToolbar.appendChild(myRow);
 	}	
-}	
+}
+	
 </script>
 
 <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>subsystems/forms/controls/EditorControl/js/<?php echo SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
