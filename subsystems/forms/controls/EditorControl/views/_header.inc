@@ -19,10 +19,14 @@
 <div class="">
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		//initialize the namespace
-		eXp.WYSIWYG = new Object();
+{literal}
+		//initialize the namespace object
+		if(! eXp.WYSIWYG) {
+			eXp.WYSIWYG = new Object();
+		}
+{/literal}
 {if $toolbar != NULL}
-		eXp.WYSIWYG.toolbar = "{$toolbar}";
+		eXp.WYSIWYG.toolbar = {$toolbar};
 {/if}
 
 	/* ]]> */

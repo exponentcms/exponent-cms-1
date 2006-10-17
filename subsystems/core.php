@@ -413,7 +413,17 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	// new style name processing
 	//once baseclasses are in place, simply lookup the baseclass name of an object
 	if($type == "guess") {
-		$type = array_pop(preg_split("*(?=[A-Z])*", $name));
+		//$type = array_pop(preg_split("*(?=[A-Z])*", $name));
+
+		
+		//TODO: convert everything to the new naming model
+		if(stripos($name, "module") != false){
+			$type = "modules";
+		} else if (stripos($name, "control") != false) {
+			$type = "controls";
+		} else if (stripos($name, "theme") != false) {
+			$type = "themes";
+		}
 	}
 	
 	// convert types into paths
@@ -473,7 +483,7 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	//TODO: now that glob is used build a syntax for it instead of calling it repeatedly
 	//latter override the precursors
 	//BASE does not have a trailing slash ?!
-	$locations = array(BASE . "/", THEME_ABSOLUTE);
+	$locations = array(BASE, THEME_ABSOLUTE);
 	foreach($locations as $location) {
 		$checkpaths[] = $location . $typepath . "common/" . $relpath2;
 		$checkpaths[] = $location . $relpath;

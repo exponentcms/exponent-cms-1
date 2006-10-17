@@ -17,6 +17,10 @@
 //#
 //##################################################
 
+//initialize the namespace object
+if(! eXp.WYSIWYG) {
+	eXp.WYSIWYG = new Object();
+}
 
 //TODO: move to separate file
 eXp._TR = {

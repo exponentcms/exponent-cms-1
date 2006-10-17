@@ -34,25 +34,24 @@
  * This function creates html loaders for - currently - JS and CSS Files
  * Please note it wil only work for newtype __names (SomeModule, SomeForm, SomeTheme, SomeControl...)
  */
-function smarty_postfilter_includeMiscFiles($compiledsource,&$smarty) {		
+function smarty_postfilter_includeMiscFiles($compiledsource, &$smarty) {		
 	ob_start();
 
-		
 		//CSS	
-		$myCSS = exponent_core_resolveFilePaths("modules", $smarty->_tpl_vars['__name'], "css", $smarty->_tpl_vars['__view'] . "*");
-		
+		$myCSS = exponent_core_resolveFilePaths("guess", $smarty->_tpl_vars['__name'], "css", $smarty->_tpl_vars['__view'] . "*");
+
 		if($myCSS != false) {
 			foreach($myCSS as $myCSSFile){
-				echo "<link rel='stylesheet' type='text/css' href='" . exponent_core_abs2rel($myCSSFile) . "'></link>";
+				echo "<link rel='stylesheet' type='text/css' href='" . exponent_core_abs2rel($myCSSFile) . "'></link>\n";
 			}
 		}
 		
 		//JavaScript
-		$myJS = exponent_core_resolveFilePaths("modules", $smarty->_tpl_vars['__name'], "js", $smarty->_tpl_vars['__view'] . "*");
+		$myJS = exponent_core_resolveFilePaths("guess", $smarty->_tpl_vars['__name'], "js", $smarty->_tpl_vars['__view'] . "*");
 		
 		if($myJS != false) {
 			foreach($myJS as $myJSFile){
-				echo "<script type='text/javascript' src='" . exponent_core_abs2rel($myJSFile) . "'></script>";
+				echo "<script type='text/javascript' src='" . exponent_core_abs2rel($myJSFile) . "'></script>\n";
 			}
 		}
 	

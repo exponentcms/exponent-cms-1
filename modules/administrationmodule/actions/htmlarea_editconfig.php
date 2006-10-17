@@ -23,18 +23,16 @@
 
 if (!defined("EXPONENT")) exit("");
 
-$loc = exponent_core_makeLocation('AdministrationModule');
+$loc = exponent_core_makeLocation('administrationmodule');
 
-if (exponent_permissions_check('htmlarea', exponent_core_makeLocation('AdministrationModule'))) {
+if (exponent_permissions_check('htmlarea', $loc)) {
 	$dm = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=" . intval($_GET['id']));
 
 	$template = new template("administrationmodule", "_form_EditorControl_Toolbar", $loc);
-	$template->assign("dm", $dm);
+
 	if($dm) {
+		$template->assign("dm", $dm);
 		$template->assign("toolbar", $dm->data);
-	} else {
-		// is this really necessary ?
-		$template->assign("toolbar", null);
 	}	
 
 	$template->output();

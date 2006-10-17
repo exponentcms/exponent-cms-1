@@ -22,17 +22,19 @@
 
 *}
 {* the header include contains the starting <div> tag*}	
-	{include file="../../../../subsystems/forms/controls/EditorControl/views/_header.inc" toolbar="`$toolbar`"}
+	{include file="../../../subsystems/forms/controls/EditorControl/views/_header.inc" toolbar="`$toolbar`"}
 	
-	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}/subsystems/forms/controls/EditorControl/js/{$smarty.const.SITE_WYSIWYG_EDITOR}_toolbox.js"></script>	
+	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}subsystems/forms/controls/EditorControl/js/{$smarty.const.SITE_WYSIWYG_EDITOR}_toolbox.js"></script>	
 
+	<h2>{$smarty.const.SITE_WYSIWYG_EDITOR}</h2>
+	<p>{$_TR.desc}</p>
 	<div>
 		<div id="editorcontrol_toolbox" class="clearfloat"></div>
 		<div id="msgTD"></div>
 	</div>
 	<div class="clearfloat">
 		<hr/>
-		<a class="mngmntlink administration_mngmntlink" href="#" onclick="eXp.WYSIWYG.createRow(); return false">{$_TR.create}</a><hr/>
+		<a class="mngmntlink administration_mngmntlink" href="#" onclick="eXp.WYSIWYG.createRow();">{$_TR.create}</a><hr/>
 	</div>
 	<div id="editorcontrol_toolbar" class="clearfloat"></div>
 
@@ -41,7 +43,8 @@
 		// populate the button panel
 		eXp.WYSIWYG.buildToolbox(eXp.WYSIWYG.toolbox);
 		
-{IF $toolbar != null}		
+{if $toolbar != NULL}
+{literal}		
 		for(currRow = 0; currRow < eXp.WYSIWYG.toolbar.length; currRow++) {
 			rows.push(new Array());
 		
@@ -53,8 +56,8 @@
 				}
 			}
 		}
-
-{/IF}
+{/literal}
+{/if}
 		eXp.WYSIWYG.buildToolbar();
 	/* ]]> */
 	</script>
@@ -64,17 +67,18 @@
 		<hr/>
 
 		<form method="post">
-			<input type="hidden" name="module" value="AdministrationModule"/>
+			<input type="hidden" name="module" value="administrationmodule"/>
 			<input type="hidden" name="action" value="htmlarea_saveconfig"/>
-{IF $dm->id != null}
+{if $dm->id != null}
 			<input type="hidden" name="id" value="{$dm->id}"/>
-{/IF}
+{/if}
 			<input type="hidden" name="config" value="" id="config_htmlarea" />
-			{$_TR.item_name}:<br />
+			{$_TR.item}:<br />
 			<input type="text" name="config_name" value="{$dm->name}" /><br />
-			<input type="checkbox" name="config_activate" {IF $dm->active == 1}checked="checked"{/IF}/> {$_TR.activate}?<br />
+			<input type="checkbox" name="config_activate" {if $dm->active == 1}checked="checked"{/if}/> {$_TR.activate}?<br />
 
-			<input type="submit" value="{$_TR.submit}" onclick="eXp.WYSIWYG.save(this.form); return false">
+			<input type="submit" value="{$_TR.submit}" onclick="eXp.WYSIWYG.save(this.form); return false;"/>
+			<input type="button" value="{$_TR.back}" onclick="window.location={$__redirect};"/>
 		</form>
 	</div>
 </div>
