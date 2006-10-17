@@ -19,9 +19,11 @@
 <div class="">
 	<script type="text/javascript">
 	/* <![CDATA[ */
+		//initialize the namespace
 		eXp.WYSIWYG = new Object();
-{IF $toolbar != NULL}
+{if $toolbar != NULL}
 		eXp.WYSIWYG.toolbar = "{$toolbar}";
-{/IF}
+{/if}
+
 	/* ]]> */
 	</script>

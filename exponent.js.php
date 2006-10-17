@@ -252,3 +252,10 @@ eXp.isOneSelected = function(prefix, enabledOnly) {
 	}
 	return false;
 }
+
+eXp.i18n = function(i18n_string) {
+	if(eXp._TR[i18n_string]) {
+		i18n_string = eXp._TR[i18n_string];
+	}
+	return i18n_string;
+}

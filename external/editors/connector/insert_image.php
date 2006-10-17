@@ -14,10 +14,10 @@
 		<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/connector/lang/'  . exponent_lang_convertLangCode(LANG) . '.js';?>"></script>
 		<script type="text/javascript">
 		/* <![CDATA[ */
-			I18N = eXp.I18N;
+			I18N = eXp._TR;
 					
 			function i18n(str) {
-			  return (I18N[str] || str);
+			  return (eXp._TR[str] || str);
 			};
 			
 			function efm_pickedFile(file_id,file_path) {
@@ -26,7 +26,7 @@
 			}
 			
 			function Init() {
-				__dlg_translate(I18N);
+				__dlg_translate(eXp._TR);
 				__dlg_init();
 				var param = window.dialogArguments;
 			

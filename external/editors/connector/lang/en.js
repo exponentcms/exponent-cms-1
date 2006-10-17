@@ -1,5 +1,5 @@
 // Placeholder
 
-eXp.I18N = {
+eXp._TR = {
 		};
 
