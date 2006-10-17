@@ -78,7 +78,7 @@
 			<input type="checkbox" name="config_activate" {if $dm->active == 1}checked="checked"{/if}/> {$_TR.activate}?<br />
 
 			<input type="submit" value="{$_TR.submit}" onclick="eXp.WYSIWYG.save(this.form); return false;"/>
-			<input type="button" value="{$_TR.back}" onclick="window.location={$__redirect};"/>
+			<input type="button" value="{$_TR.back}" onclick="window.location='{$__redirect};'"/>
 		</form>
 	</div>
 </div>
