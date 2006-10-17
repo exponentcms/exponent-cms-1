@@ -75,27 +75,33 @@ if (!defined('THEME_RELATIVE')) {
 
 // iconset base
 if (!defined('ICON_RELATIVE')) {
-	if (is_readable(THEME_ABSOLUTE.'icons/')) {
+	//DEPRECATED: old directory, inconsitent naming
+	if (is_readable(THEME_ABSOLUTE . 'icons/')) {
 		/* exdoc
 		 * The relative web path to the current icon set.  If an icons/ directory exists directly
 		 * underneath the theme's directory, that is used.  Otherwise, the system falls back to
 		 * the iconset directory in the root of the Exponent directory.
 		 */
-		define('ICON_RELATIVE',THEME_RELATIVE.'icons/');
+		define('ICON_RELATIVE', THEME_RELATIVE . 'icons/');
+	} else if(is_readable(THEME_ABSOLUTE . "images/icons/")){
+		define('ICON_RELATIVE',THEME_RELATIVE . 'images/icons/');
 	} else {
-		define('ICON_RELATIVE',PATH_RELATIVE.'iconset/');
+		define('ICON_RELATIVE', PATH_RELATIVE . 'themes/common/images/icons/');
 	}
 }
 if (!defined('MIMEICON_RELATIVE')) {
-	if (is_readable(THEME_ABSOLUTE.'mimetypes/')) {
+	//DEPRECATED: old directory, inconsitent naming
+	if (is_readable(THEME_ABSOLUTE . 'mimetypes/')) {
 		/* exdoc
 		 * The relative web path to the current MIME icon set.  If a mimetypes/ directory
 		 * exists directly underneath the theme's directory, then that is used.  Otherwise, the
 		 * system falls back to the iconset/mimetypes/ directory in the root of the Exponent directory.
 		 */
-		define('MIMEICON_RELATIVE',THEME_RELATIVE.'mimetypes/');
+		define('MIMEICON_RELATIVE', THEME_RELATIVE . 'mimetypes/');
+	} else if(is_readable(THEME_ABSOLUTE . "images/icons/mimetypes" )){
+		define('MIMEICON_RELATIVE', THEME_RELATIVE . "images/icons/mimetypes/");
 	} else {
-		define('MIMEICON_RELATIVE',PATH_RELATIVE.'iconset/mimetypes/');
+		define('MIMEICON_RELATIVE', PATH_RELATIVE . 'themes/common/images/icons/mimetypes/');
 	}
 }
 
