@@ -36,7 +36,7 @@ if (!defined('EXPONENT')) exit('');
 		</style>
 		<![endif]-->
 </head>
-<body onload="pathosJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
+<body onload="eXp.initialize();MM_preloadImages('images/lightbulb-h.jpg')">
 <?php pathos_theme_sourceSelectorInfo(); ?>
 <div id="shell" align="center">
   <table style="margin-left:auto; margin-right:auto;" width="780" border="0" cellspacing="0" cellpadding="0">
