@@ -33,8 +33,8 @@ if (!defined('EXPONENT')) exit('');
  */
 class EditorControl extends formcontrol {
 	
-	public $datamodel; //every view item commands a datamodel
-	public $context; //most likely identical to $loc
+	var $datamodel; //every view item commands a datamodel
+	var $context; //most likely identical to $loc
 	
 	//PHP5 constructor
 	function __construct($content = "", $context = "") {
