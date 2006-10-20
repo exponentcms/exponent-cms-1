@@ -134,6 +134,16 @@ exponent_sessions_validate();
 // Initialize permissions variables
 exponent_permissions_initialize();
 
+//Initialize the navigation heirarchy
+$sections = exponent_core_initializeNavigation ();
+
+//Check to see if we are executing an ajax action.
+if (isset($_REQUEST['ajax_action']) ) { 
+	define('IN_AJAX_ACTION', 1);
+} else {
+	define('IN_AJAX_ACTION', 0);
+}
+
 #$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
@@ -146,7 +156,7 @@ if (!navigationmodule::canView($section)) {
 } else {
 	define('AUTHORIZED_SECTION',1);
 }
-if (!navigationmodule::isPublic(intval($section))) {
+if (!navigationmodule::isPublic($section)) {
 	define('PUBLIC_SECTION',0);
 } else {
 	define('PUBLIC_SECTION',1);
