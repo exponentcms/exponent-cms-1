@@ -155,7 +155,7 @@ class template extends BaseTemplate {
 			$container = $db->selectObject("container","internal='".$container_key."'");
 			$cache[$container_key] = $container;
 		}
-		$this->viewconfig = ($container && $container->view_data != "" ? unserialize($container->view_data) : array());
+		$this->viewconfig = ($container && isset($container->view_data) && $container->view_data != "" ? unserialize($container->view_data) : array());
 		$this->tpl->assign("__viewconfig",$this->viewconfig);
 		//echo "<xmp>";
 		//print_r($this);
