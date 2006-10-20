@@ -117,8 +117,10 @@ function exponent_lang_loadFile($filename) {
 	//load module specific strings
 	$path_components = explode("/", $filename);
 	//as the typical path will be something like modules/somemodule/views/someview.php it must be 1
-	$module = $path_components[1];
-	loadStrings($_TR, $lang_dir . "/modules/" . $module . "/" . $module . ".php");
+	if (count($path_components) > 1) {
+		$module = $path_components[1];
+		loadStrings($_TR, $lang_dir . "/modules/" . $module . "/" . $module . ".php");
+	}
 	
 
 	//load the view specific strings
