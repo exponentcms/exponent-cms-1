@@ -336,6 +336,7 @@ class navigationmodule {
 	
 	function canView($section) {
 		global $db;
+		if ($section == null) {return false;}
 		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
 			return exponent_permissions_check('view',exponent_core_makeLocation('navigationmodule','',$section->id));
@@ -353,7 +354,7 @@ class navigationmodule {
 
     function isPublic($s) {
        global $db;
-
+	if ($s == null) {return false;}
         while ($s->public && $s->parent >0) {
             $s = $db->selectObject('section','id='.$s->parent);
         }
