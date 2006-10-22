@@ -65,7 +65,17 @@ class BaseTemplate {
 		$this->view = substr(basename($this->viewfile),0,-4);
 		
 		//fix for the wamp/lamp issue
-		$this->langdir = $item_type . "/" . $item_dir . "/views/";
+		//checks necessary in case a file from /views/ is used
+		//should go away, the stuff should be put into a CoreModule
+		//then this can be simplified
+		//TODO: generate this through $this->viewfile using find BASE/THEME_ABSOLUTE and replace with ""
+		if($item_type != "") {
+			$this->langdir .= $item_type . "/";
+		}
+		if($item_dir != "") {
+			$this->langdir .= $item_dir . "/";
+		}
+		$this->langdir .= "views/";
 		
 		
 		$this->tpl->template_dir = $this->viewdir;
@@ -133,7 +143,7 @@ class template extends BaseTemplate {
 	var $module = '';
 	
 	//PHP5 constructor
-	function __construct($module, $view = null, $loc=null, $caching=false) {
+	function __construct($module, $view = null, $loc = null, $caching=false) {
 		parent::__construct("modules", $module, $view);
 		
 		$this->viewparams = exponent_template_getViewParams($this->viewfile);
@@ -163,7 +173,7 @@ class template extends BaseTemplate {
 	}	
 	
 	//PHP4: compatibility wrapper
-	function template($module, $view = null, $loc=null, $caching=false) {
+	function template($module, $view = null, $loc = null, $caching=false) {
 		$this->__construct($module, $view, $loc, $caching);
 	}
 	
