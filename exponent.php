@@ -150,13 +150,13 @@ if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 } else {
 	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
 }
-$section = $db->selectObject('section','id='. intval($section));
-if (!navigationmodule::canView($section)) {
+$sectionObj = $db->selectObject('section','id='. intval($section));
+if (!navigationmodule::canView($sectionObj)) {
 	define('AUTHORIZED_SECTION',0);
 } else {
 	define('AUTHORIZED_SECTION',1);
 }
-if (!navigationmodule::isPublic($section)) {
+if (!navigationmodule::isPublic($sectionObj)) {
 	define('PUBLIC_SECTION',0);
 } else {
 	define('PUBLIC_SECTION',1);

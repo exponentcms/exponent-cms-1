@@ -73,7 +73,6 @@ function exponent_sessions_initialize() {
 function exponent_sessions_validate() {
 	global $db;
 
-	
 	//FJD - create a ticket for every session instead of just logged in users
 	if (!isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {	
 		$ticket = exponent_sessions_createTicket();
@@ -91,7 +90,12 @@ function exponent_sessions_validate() {
 		
 	
 	global $user;
-	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) $user = $_SESSION[SYS_SESSION_KEY]['user'];
+	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) {
+		$user = $_SESSION[SYS_SESSION_KEY]['user'];
+	} else {
+		$user = null;
+	}
+	 
 	
 	if (isset($ticket->refresh) && $ticket->refresh == 1) {				
 		if (isset($user)) exponent_permissions_load($user);			
@@ -151,7 +155,7 @@ function exponent_sessions_createTicket($user = null){
 function exponent_sessions_updateTicket($ticket, $user){
 	global $db, $user;	
 	if (isset($ticket->ticket)){
-		$ticket->uid = isset($user->id) ? $user->id : 0;
+		$ticket->uid = isset($user) ? $user->id : 0;
 		$ticket->last_active = time();
 		$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
 	}
@@ -177,6 +181,7 @@ function exponent_sessions_logout() {
 	unset($_SESSION[SYS_SESSION_KEY]['user']);
 	
 	//FJD - set ticker user back to 0 instead of deleting the ticket
+	//MaxxCorp - Why ? What do we reuse the ticket for ?
 	$user->id = 0;
 	$ticket->refresh = 0;
 	exponent_sessions_updateTicket($ticket, $user);
@@ -184,19 +189,14 @@ function exponent_sessions_logout() {
 	exponent_permissions_clear();
 }
 
-/* exdpc
+/* exdoc
  * Looks at the session data to see if the current session is
  * that of a logged in user. Returns true if the viewer is logged
  * in, and false if it is not
  * @node Subsystems:Sessions
  */
 function exponent_sessions_loggedIn() {
-	//if ($anon){
 	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']) && isset($_SESSION[SYS_SESSION_KEY]['user']));
-	//}
-	//else{
-	//	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));		
-	//}	
 }
 
 //Clears entire user session data and truncates the sessionticket table

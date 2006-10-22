@@ -41,7 +41,7 @@ if (MAINTENANCE_MODE) {
 } else {
 
 	//the default user is anonymous
-	if (!$user) {
+	if (exponent_sessions_loggedIn()) {
 		// Initialize the users subsystem
 		require_once(BASE.'subsystems/users.php');
 		exponent_users_login("anonymous", "anonymous");
@@ -50,7 +50,7 @@ if (MAINTENANCE_MODE) {
 	// Initialize the theme subsystem
 	if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 	
-	if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
+	if (!DEVELOPMENT && @file_exists(BASE . 'install/not_configured')) {
 		header('Location: install/index.php');
 		exit('Redirecting to the Exponent Install Wizard');
 	}

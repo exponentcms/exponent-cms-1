@@ -54,18 +54,22 @@ if (exponent_permissions_check('workflow',exponent_core_makeLocation('administra
 		
 		// Grab all policies
 		$assocs = array();
-		foreach ($db->selectObjects('approvalpolicyassociation',"module='$mod' AND is_global=0") as $assoc) {
+		foreach ($db->selectObjects('approvalpolicyassociation', "module='$mod' AND is_global=0") as $assoc) {
 			$assocs[$assoc->source] = $assoc->policy_id;
 		}
 		
-		$default = $db->selectObject('approvalpolicyassociation',"module='$mod' AND is_global=1");
-		$defaults[$mod] = $default->policy_id;
+		$default = $db->selectObject('approvalpolicyassociation', "module='$mod' AND is_global=1");
+		if(isset($default)) {
+			$defaults[$mod] = $default->policy_id;
+		} else {
+			$defaults[$mod] = null;
+		}
 		
 		// Now grab all the sources.
-		foreach ($db->selectObjects('locationref',"module='$mod'") as $ref) {
+		foreach ($db->selectObjects('locationref', "module='$mod'") as $ref) {
 			$modules[$mod][] = array(
 				'source'=>$ref->source,
-				'policy_id'=>(isset($assocs[$ref->source])?$assocs[$ref->source]:0)
+				'policy_id'=>(isset($assocs[$ref->source]) ? $assocs[$ref->source] : 0)
 			);
 		}
 	}

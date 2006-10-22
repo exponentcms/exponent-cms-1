@@ -205,7 +205,7 @@ function exponent_users_login($username, $password) {
 	$user = $db->selectObject('user', "username='" . $username . "'");
 	
 	// Check to make sure that the username exists ($user is not null)
-	if($user) {
+	if(isset($user)) {
 		//DEPRECATED: scheduled for removal
 		if ($user->is_admin == 1) {
 			// User is an admin.  Update is_acting_admin, just in case.
@@ -214,7 +214,7 @@ function exponent_users_login($username, $password) {
 		}
 		
 		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
-		if (!MAINTENANCE_MODE OR (MAINTENANCE_MODE AND $user->is_acting_admin)){
+		if (!MAINTENANCE_MODE  OR (MAINTENANCE_MODE AND $user->is_acting_admin != 0 )){
 			// check whether the password is correct,
 			// and that the account is either not locked, or an admin account (account locking doesn't
 			// apply to administrators.
