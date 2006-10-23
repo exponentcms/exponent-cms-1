@@ -91,7 +91,7 @@ function exponent_sessions_validate() {
 	
 	global $user;
 	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) {
-		$user = $_SESSION[SYS_SESSION_KEY]['user'];
+		$user = $_SESSION[SYS_SESSION_KEY]['user'];		
 	} else {
 		$user = null;
 	}

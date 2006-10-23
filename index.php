@@ -30,14 +30,13 @@ require_once('exponent.php');
 
 
 // Check to see if we are in maintenance mode.
-if (MAINTENANCE_MODE) {
+if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admin == 0)) {
 	//only admins/acting_admins are allowed to get to the site,
 	//all others get the maintenance view
 	//Note: admins are automatically acting admins
-	if (!$user || $user->is_acting_admin == 0) {
-		$template = new standalonetemplate('_maintenance');
-		$template->output();
-	}
+
+	$template = new standalonetemplate('_maintenance');
+	$template->output();
 } else {
 
 	//the default user is anonymous
