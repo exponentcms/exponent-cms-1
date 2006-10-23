@@ -41,7 +41,7 @@ if (MAINTENANCE_MODE) {
 } else {
 
 	//the default user is anonymous
-	if (exponent_sessions_loggedIn()) {
+	if (!exponent_sessions_loggedIn()) {
 		// Initialize the users subsystem
 		require_once(BASE.'subsystems/users.php');
 		exponent_users_login("anonymous", "anonymous");

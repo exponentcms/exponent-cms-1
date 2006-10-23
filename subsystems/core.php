@@ -410,9 +410,10 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	//TODO: implement caching
 	//TODO: optimization - walk the tree backwards and stop on the first match
 	
-	// new style name processing
+	
 	//once baseclasses are in place, simply lookup the baseclass name of an object
 	if($type == "guess") {
+		// new style name processing
 		//$type = array_pop(preg_split("*(?=[A-Z])*", $name));
 
 		
@@ -482,7 +483,6 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	//TODO: handle subthemes
 	//TODO: now that glob is used build a syntax for it instead of calling it repeatedly
 	//latter override the precursors
-	//BASE does not have a trailing slash ?!
 	$locations = array(BASE, THEME_ABSOLUTE);
 	foreach($locations as $location) {
 		$checkpaths[] = $location . $typepath . "common/" . $relpath2;
