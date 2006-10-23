@@ -226,9 +226,7 @@ function exponent_users_login($username, $password) {
 				exponent_sessions_login($user);
 			}
 		}	
-	}
-	
-	
+	}	
 }
 
 /* exdoc

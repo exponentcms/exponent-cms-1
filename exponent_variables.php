@@ -33,7 +33,7 @@ if (!defined('BASE')) {
  * It's definition also signals to other parts of the system that they are operating within the confines
  * of the Exponent Framework.  (Module actions check this -- if it is not defined, they must abort).
  */
-define('EXPONENT',include(BASE.'exponent_version.php'));
+define('EXPONENT', include(BASE.'exponent_version.php'));
 
 if (!defined('PATHOS')) {
         define('PATHOS', EXPONENT);
@@ -81,22 +81,22 @@ if (!defined('URL_FULL')) {
 	 * The URL_FULL constant is the full URL path to the Exponent directory.  The automatic
 	 * detection code can figure out if the server is running in SSL mode or not.
 	 */
-	define('URL_FULL',URL_BASE.PATH_RELATIVE);
+	define('URL_FULL', URL_BASE.PATH_RELATIVE);
 }
 
 if (defined('SCRIPT_EXP_RELATIVE')) {
-	define('SCRIPT_RELATIVE',PATH_RELATIVE.SCRIPT_EXP_RELATIVE);
-	define('SCRIPT_ABSOLUTE',BASE.SCRIPT_EXP_RELATIVE);
+	define('SCRIPT_RELATIVE', PATH_RELATIVE.SCRIPT_EXP_RELATIVE);
+	define('SCRIPT_ABSOLUTE', BASE.SCRIPT_EXP_RELATIVE);
 } else {
 	ob_start();
-	define('SCRIPT_RELATIVE',PATH_RELATIVE);
-	define('SCRIPT_ABSOLUTE',BASE);
+	define('SCRIPT_RELATIVE', PATH_RELATIVE);
+	define('SCRIPT_ABSOLUTE', BASE);
 }
 
 if (!defined('SCRIPT_FILENAME')) {
-	define('SCRIPT_FILENAME','index.php');
+	define('SCRIPT_FILENAME', 'index.php');
 }
 
-include_once(BASE.'/subsystems/config/load.php');
+include_once(BASE . '/subsystems/config/load.php');
 
 ?>

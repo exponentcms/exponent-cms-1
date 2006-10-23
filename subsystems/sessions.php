@@ -91,7 +91,16 @@ function exponent_sessions_validate() {
 	
 	global $user;
 	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) {
-		$user = $_SESSION[SYS_SESSION_KEY]['user'];		
+		$user = $_SESSION[SYS_SESSION_KEY]['user'];
+		//TODO: (MaxxCorp)this is the point where the overrides of the SITE CONSTANTS
+		//should be loaded from the $user object's properties
+		//however CONSTANTS can not be changed once defined
+		//so either eXp needs to convert to a global $config object 
+		//to make that happen
+		//or those CONSTANTS need to be removed from the general config
+		//but latter might cause trouble in early scripts
+		//i'd opt for a dual approach: first have an obj
+		//then convert its properties to CONSTANTS at the end of exponent.php 
 	} else {
 		$user = null;
 	}
@@ -104,7 +113,7 @@ function exponent_sessions_validate() {
 	}
 	exponent_sessions_updateTicket($ticket, $user);		
 	
-	define('SITE_403_HTML',SITE_403_REAL_HTML);
+	define('SITE_403_HTML', SITE_403_REAL_HTML);
 }
 
 /* exdoc

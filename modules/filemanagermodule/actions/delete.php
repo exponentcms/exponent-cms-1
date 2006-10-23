@@ -29,7 +29,6 @@ if ($item) {
 		$db->delete('file', 'id=' . $item->id);
 		unlink(BASE . "files/" . $item->filename);
 		
-		exponent_template_clear();
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;

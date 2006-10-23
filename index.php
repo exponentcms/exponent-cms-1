@@ -38,7 +38,6 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	$template = new standalonetemplate('_maintenance');
 	$template->output();
 } else {
-
 	//the default user is anonymous
 	if (!exponent_sessions_loggedIn()) {
 		// Initialize the users subsystem
