@@ -77,6 +77,7 @@ function exponent_lang_loadLangs() {
  *
  * @return Array The language set found, or an empty array if no set file was found.
  */
+ //TODO: change api to use a global location object, which tells us module(/other types) and view, then we can do overriding cleanly
 function exponent_lang_loadFile($filename) {
 
 
@@ -85,6 +86,9 @@ function exponent_lang_loadFile($filename) {
 	if (!function_exists("loadStrings")) {
 		//pass-by-reference to shave off a copy operation
 		function loadStrings(&$tr_array, $filepath) {
+			//TODO: use GPR to allow for local overrides/extensions
+			//remove $lang_dir
+			//$filepath = array_pop(exponent_core_resolveFilePaths());
 			if (is_readable($filepath)) {
 				$tr_array = array_merge($tr_array, include($filepath));
 			}
@@ -118,8 +122,7 @@ function exponent_lang_loadFile($filename) {
 	$path_components = explode("/", $filename);
 	//as the typical path will be something like modules/somemodule/views/someview.php it must be 1
 	if (count($path_components) > 1) {
-		$module = $path_components[1];
-		loadStrings($_TR, $lang_dir . "/modules/" . $module . "/" . $module . ".php");
+		loadStrings($_TR, $lang_dir . $path_components[0] . "/" . $path_components[1] . "/" . $path_components[1] . ".php");
 	}
 	
 
