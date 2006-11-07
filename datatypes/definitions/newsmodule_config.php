@@ -27,7 +27,7 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200,
-                DB_INDEX=>10),
+        DB_INDEX=>10),
 	'sortorder'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
@@ -36,6 +36,14 @@ return array(
 		DB_FIELD_LEN=>100),
 	'item_limit'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'enable_rss'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'feed_title'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>75),
+	'feed_desc'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),
 );
 
 ?>

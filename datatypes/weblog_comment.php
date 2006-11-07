@@ -28,25 +28,27 @@ class weblog_comment {
 		if (!isset($object->id)) {
 			global $db;
 			// Sanitize the parent_id parameter, to protect against injection attacks.
-			$_GET['parent_id'] = intval($_GET['parent_id']);
-			$post = $db->selectObject('weblog_post','id='. intval($_GET['parent_id']));
-			
-			$object->title = sprintf($i18n['re'],$post->title);
+			//$_REQUEST['parent_id'] = intval($_REQUEST['parent_id']);
+			//$post = $db->selectObject('weblog_post','id='. intval($_REQUEST['parent_id']));
+			//$form->meta('parent_id',intval($_REQUEST['parent_id']));
+			$object->name = '';
+			$object->email = '';
 			$object->body = '';
-			$form->meta('parent_id',intval($_GET['parent_id']));
 		} else {
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('title',$i18n['title'],new textcontrol($object->title));
-		$form->register('body',$i18n['body'], new htmleditorcontrol($object->body));
-		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
+		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register('email',$i18n['email'],new textcontrol($object->email));
+		$form->register('body',$i18n['body'], new texteditorcontrol($object->body,8,60));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',''));
 		
 		return $form;
 	}
 	
 	function update($values,$object) {
-		$object->title = $values['title'];
+		$object->name = $values['name'];
+		$object->email = $values['email'];
 		$object->body = $values['body'];
 		return $object;
 	}

@@ -32,7 +32,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	</script>
 	
 	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/htmlarea.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'subsystems/forms/controls/EditorControl/js/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
 	
 	<script type="text/javascript">
 	/* <![CDATA[ */
@@ -48,8 +48,8 @@ if (!defined("CTL_HTMLAREAINIT")) {
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+					if(Exponent.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(Exponent.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
 			}
@@ -75,7 +75,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		// Register an initialization function with the Exponent JS Support System.
 		// This will be called onload (assuming the theme is playing nice)
 		var once = false;
-		eXp.register(function () {
+		exponentJSregister(function () {
 			for (i = 0; i < htmleditorcontrols.length; i++) {
 				editors[i] = new HTMLArea(htmleditorcontrols[i]);
 				editors[i].config = htmleditorconfig;
@@ -99,9 +99,9 @@ if (!defined("CTL_HTMLAREAINIT")) {
 			"help": "editor_help.html"
 		};
 		
-		if (eXp.WYSIWYG.toolbar) {
-			myConfig.setupPlugins(eXp.WYSIWYG.toolbar);
-			htmleditorconfig.toolbar = myConfig.setupToolbar(eXp.WYSIWYG.toolbar);
+		if (Exponent.WYSIWYG_toolbar) {
+			myConfig.setupPlugins(Exponent.WYSIWYG_toolbar);
+			htmleditorconfig.toolbar = myConfig.setupToolbar(Exponent.WYSIWYG_toolbar);
 		}
 		
 	/* ]]> */

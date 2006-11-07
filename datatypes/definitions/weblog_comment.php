@@ -26,7 +26,10 @@ return array(
 		DB_INCREMENT=>true),
 	'parent_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
-	'title'=>array(
+	'name'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>50),
+	'email'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
 	'body'=>array(

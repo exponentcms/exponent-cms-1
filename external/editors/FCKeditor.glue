@@ -25,7 +25,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	// We are the first htmleditor control. Set up basic initializations 
 ?>
 	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/fckeditor.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'subsystems/forms/controls/EditorControl/js/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
 	
 	<!-- load languagefile, prepare for HTMLArea popup(Link + Image Browsers) -->
 	<script type="text/javascript">
@@ -80,8 +80,8 @@ if (!defined("CTL_HTMLAREAINIT")) {
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+					if(Exponent.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(Exponent.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
 			}
@@ -111,7 +111,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	if($config) {
 ?>		
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
-		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost:8080/external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(myConfig.setupPlugins(eXp.WYSIWYG.toolbar)) + "&toolbar=" + encodeURI(myConfig.setupToolbar(eXp.WYSIWYG.toolbar));
+		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost:8080/external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(myConfig.setupPlugins(Exponent.WYSIWYG_toolbar)) + "&toolbar=" + encodeURI(myConfig.setupToolbar(Exponent.WYSIWYG_toolbar));
 <?PHP
 	}
 ?>		

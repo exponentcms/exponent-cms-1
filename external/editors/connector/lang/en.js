@@ -1,5 +1,5 @@
 // Placeholder
 
-eXp._TR = {
+Exponent.I18N = {
 		};
 

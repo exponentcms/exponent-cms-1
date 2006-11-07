@@ -31,7 +31,15 @@ return array(
 	'enable_categories'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'enable_feedback'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)	
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'enable_rss'=>array(
+    	DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+  	'feed_title'=>array(
+    	DB_FIELD_TYPE=>DB_DEF_STRING,
+    	DB_FIELD_LEN=>75),
+  	'feed_desc'=>array(
+    	DB_FIELD_TYPE=>DB_DEF_STRING,
+    	DB_FIELD_LEN=>200),	
 );
 
 ?>

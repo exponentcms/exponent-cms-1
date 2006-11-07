@@ -22,7 +22,7 @@
 if (!defined("CTL_HTMLAREAINIT")) {
 ?>
 	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/jscripts/tiny_mce/tiny_mce.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'subsystems/forms/controls/EditorControl/js/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
 	
 	<!-- load languagefile, prepare for HTMLArea popup(Link + Image Browsers) -->
 	<script type="text/javascript">
@@ -42,8 +42,8 @@ if (!defined("CTL_HTMLAREAINIT")) {
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+					if(Exponent.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(Exponent.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
 			}
@@ -166,9 +166,9 @@ if (!defined("CTL_HTMLAREAINIT")) {
 								execcommand_callback 			: "myCustomExecCommandHandler",
 								convert_urls					: false
 							};
-		if (eXp.WYSIWYG.toolbar) {
-			myConfig.setupPlugins(eXp.WYSIWYG.toolbar);
-			myConfig.setupToolbar(eXp.WYSIWYG.toolbar);
+		if (Exponent.WYSIWYG_toolbar) {
+			myConfig.setupPlugins(Exponent.WYSIWYG_toolbar);
+			myConfig.setupToolbar(Exponent.WYSIWYG_toolbar);
 		}
 		
 		tinyMCE.init(myConfig.config);

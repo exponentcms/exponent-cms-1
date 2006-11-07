@@ -15,6 +15,12 @@
 		<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/connector/lang/' . exponent_lang_convertLangCode(LANG) . '.js'?>"></script>
   		<script type="text/javascript">
 		/* <![CDATA[ */
+			I18N = Exponent.I18N;
+			
+
+			function i18n(str) {
+  				return (I18N[str] || str);
+			};
 
 			function onTargetChanged() {
   				var f = document.getElementById("f_other_target");
@@ -26,7 +32,7 @@
 			};
 
 			function Init() {
-				__dlg_translate(eXp._TR);
+				__dlg_translate(I18N);
 				__dlg_init();
 				var param = window.dialogArguments;
 				var target_select = document.getElementById("f_target");
@@ -45,7 +51,7 @@
 				}
 				var opt = document.createElement("option");
 				opt.value = "_other";
-				opt.innerHTML = eXp.i18n("Other");
+				opt.innerHTML = i18n("Other");
 				target_select.appendChild(opt);
 				target_select.onchange = onTargetChanged;
 				document.getElementById("f_href").focus();
