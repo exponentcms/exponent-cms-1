@@ -1,0 +1,30 @@
+<?php
+
+return array(
+	'datatypes/definitions/imagegallery_gallery.php'=>'',
+	'datatypes/definitions/imagegallery_image.php'=>'',
+	'datatypes/imagegallery_gallery.php'=>'',
+	'datatypes/imagegallery_image.php'=>'',
+	'modules/imagegallerymodule/actions/edit_gallery.php'=>'',
+	'modules/imagegallerymodule/actions/save_gallery.php'=>'',
+	'modules/imagegallerymodule/actions/delete_gallery.php'=>'',
+	'modules/imagegallerymodule/actions/view_gallery.php'=>'',
+	'modules/imagegallerymodule/actions/edit_image.php'=>'',
+	'modules/imagegallerymodule/actions/save_image.php'=>'',
+	'modules/imagegallerymodule/actions/delete_image.php'=>'',
+	'modules/imagegallerymodule/actions/view_image.php'=>'',
+	'modules/imagegallerymodule/actions/sort_images.php'=>'',
+	'modules/imagegallerymodule/actions/order_images.php'=>'',
+	'modules/imagegallerymodule/actions/upload_multiple.php'=>'',
+	'modules/imagegallerymodule/actions/save_multiple.php'=>'',
+	'modules/imagegallerymodule/views/Default.tpl'=>'',
+	'modules/imagegallerymodule/views/_form_editgallery.tpl'=>'',
+	'modules/imagegallerymodule/views/_form_editimage.tpl'=>'',
+	'modules/imagegallerymodule/views/_form_multiple.tpl'=>'',
+	'modules/imagegallerymodule/views/_view_gallery.tpl'=>'',
+	'modules/imagegallerymodule/views/_view_image.tpl'=>'',
+	'modules/imagegallerymodule/class.php'=>'',
+	'modules/imagegallerymodule/manifest.php'=>'',
+	'modules/imagegallerymodule/views/Gallery List.tpl'=>'',
+);
+?>

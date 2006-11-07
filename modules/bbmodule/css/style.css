@@ -1,0 +1,248 @@
+/** Bulletin Board Module  **/
+.bb_moduletitle {
+        color: #333333;
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 5px;
+		border-bottom:1px dashed #cccccc;
+		margin-bottom:5px;
+
+}
+
+.bb_postsubject {
+        color: #333333;
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 5px;
+		border-bottom:1px dashed #cccccc;
+		margin-bottom:5px;
+
+}
+
+
+.bb_editicons {
+ float:right;
+}
+
+.bb_boarddesc {
+        color: #999999;
+        font-weight:normal;
+        font-size: 11px;
+        padding-bottom: 3px;
+}
+
+.bb_boardlist_header {
+	background:#b1d83d;	
+	font-size: 10px;
+	font-weight: bold;
+	color: #ffffff;
+	text-align: center;
+	height: 30px;
+	background-image: url(images/green-bg-image.gif);
+	background-repeat: reapeat-x;
+}
+/* Not used */
+.bb_boardlist_header2 {
+	background:#e3e3e3;	
+	font-size: 10px;
+	font-weight: bold;
+	color: #ffffff;
+	text-align: center;
+	height: 30px;
+	background-image: url(images/gray-bg-image.gif);
+	background-repeat: reapeat-x;
+}/**/
+
+.bb_boardlist_header td{
+	padding:5px 2px 5px 2px;
+	border-top:0px solid #666699;
+	border-left:0px solid #666699;
+	border-bottom:1px solid #8dab35;
+	border-right:1px solid #8dab35;
+}
+
+.bb_boardtitle {
+	padding: 3px;
+}
+.bb_boardtopics {
+	text-align:center;
+}
+
+.bb_boardposts {
+	text-align:center;
+}
+
+.bb_boardlastpost {
+  width: 120px;
+	font-size: 11px;
+	text-align: center;
+}
+
+.bb_header {
+    background:#65A8BF;	
+	font-size: 10px;
+	font-weight: bold;
+	border-top:1px solid #333333;
+	border-bottom:1px solid #eeeeee;
+	color: #ffffff;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
+.bb_threadlist {
+	font-size: 10px;
+	padding: 5px;
+}
+
+
+.bb_postcredit {
+	text-align: left;
+	vertical-align: top;
+	font-size: 10px;
+	padding-left: 5px;
+	width: 150px;
+}
+
+.bb_postsubject {
+        color: #333333;
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 5px;
+		border-bottom:1px dashed #cccccc;
+		margin-bottom:5px;
+}
+
+.bb_replysubject {
+        color: #777777;
+        font-weight: bold;
+        font-size: 13px;
+        padding-bottom: 5px;
+		border-bottom:1px dashed #cccccc;
+		margin-bottom:5px;
+}
+
+.bb_postbody {
+}
+
+a.bb_icon_link {
+	text-decoration: none;
+	border: 0px dotted #111111;
+}
+
+
+
+tr.bb_row {
+        background-color: #fff;
+		font-size:12px;
+		color:#555555;
+		vertical-align:middle;
+}
+
+tr.bb_row:hover td, tr.row:hover td a a:hover {
+        background: #f8ffe2;
+		border-bottom:1px solid #e2f0b6;
+		border-right:1px solid #f8ffe2;
+}
+
+tr.bb_row td {
+		border-bottom:1px solid #effcc5;
+		border-right:1px solid #effcc5;
+		padding:5px;
+		height:40px;
+		vertical-align:middle;
+}
+tr.bb_row td span.bb_date {
+		font-size:10px;
+		color:#999999;
+}
+
+
+
+div.bb_bio {
+		float:right;
+		font-style:italic;
+		font-size:10px;
+		color:#999999;
+		text-align:left;
+		width:250px;
+		border-left: 1px dotted #999999;
+		padding:0 0 0 10px;
+		font-style:italic;
+		margin:0 0 0 10px;
+}
+.bb_reply_light{
+		padding:5px;
+		background:#FBFBFB;
+		width:100%;
+}
+
+.bb_reply_dark{
+		padding:5px;
+		background:#fff;
+		background:#F3F3F3;
+		width:100%;
+}
+
+.bbreplies{
+font-size:12px;
+color:#6e891f;
+		background:#b1d83d;
+		padding:5px;
+		border-bottom:1px solid #8dab35;
+}
+
+.bb_avitar {
+  	float: right;
+	margin: 0 0 10px 0;
+}
+
+.bb_signature {
+		padding:5px;
+		clear:both;
+		border:1px dotted #555555;
+		
+}
+
+.bb_quote{
+	border-left:1px dotted #999999;
+	margin-left: 15px;
+	padding-left:5px;
+	margin-bottom: 20px;
+	font-style:oblique;
+	color:#999999;
+}
+
+.bb_quote span{
+	font-weight:bold;
+	color:#555555;
+}
+
+.bb_whosonline {
+ 	background:#f8ffe2 url(images/sidebox_rep.gif);
+	padding:0 0 0 0px;
+	margin:0 0 0 0;
+	text-align:left;
+}
+
+.bb_whosonline span {
+color:#555555;
+display:block;
+	padding:0 0 0 45px;
+	margin:0 0 10px 0;
+	text-align:left;
+}
+
+.bb_whosonline ul {
+list-style:none;
+padding:0 0 0 45px;
+margin:0;
+}
+
+.bb_whosonline ul li {
+list-style:url(images/arrowsub3.gif);
+padding:0;
+margin:0;
+}
