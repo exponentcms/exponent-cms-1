@@ -49,10 +49,10 @@ if (!function_exists('__realpath')) {
 include_once('overrides.php');
 
 // Auto-detect whatever variables the user hasn't overridden in overrides.php
-include_once(dirname(__realpath(__FILE__)) . '/exponent_variables.php');
+include_once(dirname(__realpath(__FILE__)).'/exponent_variables.php');
 
 // Process PHP-wrapper settings (ini_sets and setting detectors)
-include_once(dirname(__realpath(__FILE__)) . '/exponent_setup.php');
+include_once(dirname(__realpath(__FILE__)).'/exponent_setup.php');
 
 // Initialize the Compatibility Layer
 include(BASE.'compat.php');
