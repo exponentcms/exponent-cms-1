@@ -13,7 +13,10 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
+{if $moduletitle != ""}
+  <div class="moduletitle weblog_moduletitle">{$moduletitle}</div>
+  <hr class="weblog_moduletitle" />
+{/if}
 {foreach from=$months key=m_ts item=count}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_month month=$m_ts}">{$m_ts|format_date:"%B %Y"} ({$count})</a><br />
+	<a class="mngmntlink weblog_mngmntlink weblog_monthview_mngmntlink" href="{link action=view_month month=$m_ts}">{$m_ts|format_date:"%B %Y"} ({$count})</a><br />
 {/foreach}

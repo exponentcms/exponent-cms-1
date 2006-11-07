@@ -3,7 +3,6 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
-# Copyright 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -167,7 +166,7 @@ function exponent_users_getFullProfile($user) {
 	exponent_users_clearDeletedExtensions();
 	// Pull the database object in from the global scope.
 	global $db;
-	// Get a list of all active Profile Extenions.
+	// Get a list of all acrtive Profile Extenions.
 	$exts = $db->selectObjects('profileextension');
 	// Initialize the Sorting Subsystem, if this hasn't previously been done.
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
@@ -199,34 +198,27 @@ function exponent_users_login($username, $password) {
 	// same database as all other website content.  Therefore, we must pull in the database
 	// object from the global scope.
 	global $db;
-	
 	// Retrieve the user object from the database.  Note that this may be null, if the username is
 	// non-existent.
-	$user = $db->selectObject('user', "username='" . $username . "'");
-	
-	// Check to make sure that the username exists ($user is not null)
-	if(isset($user)) {
-		//DEPRECATED: scheduled for removal
-		if ($user->is_admin == 1) {
-			// User is an admin.  Update is_acting_admin, just in case.
-			// This can be removed as soon as 0.95 is deprecated.
-			$user->is_acting_admin = 1;
-		}
-		
+	$user = $db->selectObject('user',"username='" . $username . "'");
+	if ($user && $user->is_admin == 1) {
+		// User is an admin.  Update is_acting_admin, just in case.
+		// This can be removed as soon as 0.95 is deprecated.
+		$user->is_acting_admin = 1;
+	}
+	// Check to make sure that the username exists ($user is not null), the password is correct,
+	// and that the account is either not locked, or an admin account (account locking doesn't
+	// apply to administrators.
+	if ($user != null && ($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
+		// Retrieve the full profile, complete with all Extension data.
+		$user = exponent_users_getFullProfile($user);
+
 		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
-		if (!MAINTENANCE_MODE  OR (MAINTENANCE_MODE AND $user->is_acting_admin != 0 )){
-			// check whether the password is correct,
-			// and that the account is either not locked, or an admin account (account locking doesn't
-			// apply to administrators.
-			if (($user->is_admin == 1 OR $user->is_locked == 0) AND $user->password == md5($password)) {
-				// Retrieve the full profile, complete with all Extension data.
-				$user = exponent_users_getFullProfile($user);
-				
-				// Call on the Sessions subsystem to log the user into the site.
-				exponent_sessions_login($user);
-			}
-		}	
-	}	
+		if (!MAINTENANCE_MODE || $user->is_admin == 1 || $user->is_acting_admin == 1) {
+			// Call on the Sessions subsystem to log the user into the site.
+			exponent_sessions_login($user);
+		}
+	}
 }
 
 /* exdoc
@@ -413,6 +405,35 @@ function exponent_users_create($formvalues) {
 		$db->insertObject($memb,'groupmembership');
 	}
 
+	//signup email stuff
+  	if (USER_REGISTRATION_SEND_WELCOME){
+    		//email user
+    		//their username is: $formvalues['username'];
+    		//their password is: $formvalues['pass1'];
+    		//their email is: $formvalues['email'] or $u->email;
+    		$headers = ''; //define email specific headers here if you'd like
+    		$from = SMTP_FROMADDRESS;
+    		$to = $u->email;
+    		$subject = USER_REGISTRATION_WELCOME_SUBJECT;
+    		$msg = $u->firstname . ", \n\n";
+		$msg .= USER_REGISTRATION_WELCOME_MSG;
+
+    		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+    		if (!exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
+	}
+
+	if (USER_REGISTRATION_SEND_NOTIF){
+    		//email admin
+    		$headers = ''; //define email specific headers here if you'd like
+    		$from = SMTP_FROMADDRESS;
+    		$to = USER_REGISTRATION_ADMIN_EMAIL; //put admin email here.
+    		$subject = USER_REGISTRATION_NOTIF_SUBJECT;
+    		$msg = "When: " . date("F j, Y, g:i a") ."\n\n";
+    		$msg .= "Their name is: " . $u->firstname . " " . $u->lastname . "\n\n";
+
+    		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+    		if (exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
+  	}
 	// Return the newly created user object (complete with ID) to the caller.
 	return $u;
 }
@@ -722,6 +743,16 @@ function exponent_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusiv
 	return $groups;
 }
 
+function exponent_user_getGroupById($id=null) {
+	global $db;
+	if ($id == null || !isset($id)) {
+		return array();
+	}
+	
+	$group = null;
+	$group = $db->selectObject("group", "id=".$id);
+	return $group;
+}
 /* exdoc
  * This function consults the group membership data and returns a
  * list of all users that belong to the specified group.  Returns

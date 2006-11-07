@@ -13,6 +13,9 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+{if $enable_rss == true}
+        <a href="{rsslink}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="Subscribe to this blog" /></a>
+{/if}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
@@ -25,10 +28,11 @@
 	<br />
 {/if}
 {/permissions}
-{if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
+{if $moduletitle != ""}<h1 class="moduletitle weblog_moduletitle">{$moduletitle}</h1>{/if}
 {foreach from=$posts item=post}
 <div>
-<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}</div>
+<h1 class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
+<div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
@@ -47,45 +51,20 @@
 </a>
 {/if}
 {if $permissions.delete == 1 || $post->permissions.delete == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
+<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onClick="return confirm('{$_TR.delete_confirm}');">
 	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}
 </div>
-<div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body}</div>
+<hr size="1" />
 {if $config->allow_comments}
 	<div class="comments" style="padding-left: 35px;">
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.comment == 1 || $post->permissions.comment == 1}
-		<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit parent_id=$post->id}">{$_TR.comment}</a>
-		{/if}
-		{/permissions}
-		{foreach from=$post->comments item=comment}
-			<div class="weblog_comment">
-				<div class="weblog_comment_title">{$comment->title}
-				<br />
-				{permissions level=$smarty.const.UILEVEL_NORMAL}
-				{if $permissions.edit_comments == 1 || $post->permissions.edit_comments == 1}
-				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id}">
-					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit_comment}" alt="{$_TR.alt_edit_comment}" />
-				</a>
-				{/if}
-				{if $permissions.delete_comments == 1 || $post->permissions.delete_comments == 1}
-				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_delete id=$comment->id parent_id=$post->id}" onclick="return confirm('{$_TR.delete_comment_confirm}');">
-					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete_comment}" alt="{$_TR.alt_delete_comment}" />
-				</a>
-				{/if}
-				{/permissions}
-				</div>
-				<div class="weblog_comment_attribution">{$_TR.posted_by} {attribution user_id=$comment->poster} {$_TR.on} {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
-				<div class="weblog_comment_body">{$comment->body}</div>
-			</div>
-		{/foreach}
+    <a href="{link action=view id=$post->id}">{$post->total_comments} Comment{if $post->total_comments != 1}s{/if} >></a>
 	</div>
 {/if}
-<hr size="1" />
+</div>
 {/foreach}
 {if $total_posts > $config->items_per_page}
 	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>

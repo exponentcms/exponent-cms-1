@@ -53,10 +53,20 @@ function checkRequired(locForm) {
 			if (s != null) {
 				val = trim(locForm.elements[field].value);
 				s = unescape(s);
-				if ((s == val) || (val == "")) {
-					locForm.elements[field].focus();
-					alert(unescape(locForm.elements[field].getAttribute("caption")) + " is a required field.");
-					return false;
+				//if ((s == val) || (val == "")) {
+				//alert (locForm.elements[field].type);
+				if (locForm.elements[field].type == 'checkbox') {
+					if (!locForm.elements[field].checked) {
+						locForm.elements[field].focus();
+                                                alert(unescape(locForm.elements[field].getAttribute("caption")) + " is a required field.");
+                                                return false;
+					}
+				} else {
+					if (val == "") {
+						locForm.elements[field].focus();
+						alert(unescape(locForm.elements[field].getAttribute("caption")) + " is a required field.");
+						return false;
+					}
 				}
 			}
 		}

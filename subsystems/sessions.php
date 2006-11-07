@@ -73,6 +73,7 @@ function exponent_sessions_initialize() {
 function exponent_sessions_validate() {
 	global $db;
 
+	
 	//FJD - create a ticket for every session instead of just logged in users
 	if (!isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {	
 		$ticket = exponent_sessions_createTicket();
@@ -90,21 +91,7 @@ function exponent_sessions_validate() {
 		
 	
 	global $user;
-	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) {
-		$user = $_SESSION[SYS_SESSION_KEY]['user'];
-		//TODO: (MaxxCorp)this is the point where the overrides of the SITE CONSTANTS
-		//should be loaded from the $user object's properties
-		//however CONSTANTS can not be changed once defined
-		//so either eXp needs to convert to a global $config object 
-		//to make that happen
-		//or those CONSTANTS need to be removed from the general config
-		//but latter might cause trouble in early scripts
-		//i'd opt for a dual approach: first have an obj
-		//then convert its properties to CONSTANTS at the end of exponent.php 
-	} else {
-		$user = null;
-	}
-	 
+	if (isset($_SESSION[SYS_SESSION_KEY]['user'])) $user = $_SESSION[SYS_SESSION_KEY]['user'];
 	
 	if (isset($ticket->refresh) && $ticket->refresh == 1) {				
 		if (isset($user)) exponent_permissions_load($user);			
@@ -113,7 +100,7 @@ function exponent_sessions_validate() {
 	}
 	exponent_sessions_updateTicket($ticket, $user);		
 	
-	define('SITE_403_HTML', SITE_403_REAL_HTML);
+	define('SITE_403_HTML',SITE_403_REAL_HTML);
 }
 
 /* exdoc
@@ -162,9 +149,9 @@ function exponent_sessions_createTicket($user = null){
  * @node Subsystems:Sessions
  */
 function exponent_sessions_updateTicket($ticket, $user){
-	global $db, $user;	
+	global $db;	
 	if (isset($ticket->ticket)){
-		$ticket->uid = isset($user) ? $user->id : 0;
+		$ticket->uid = $user->id;
 		$ticket->last_active = time();
 		$db->updateObject($ticket,'sessionticket',"ticket='" . $ticket->ticket . "'");
 	}
@@ -179,7 +166,7 @@ function exponent_sessions_updateTicket($ticket, $user){
  * @node Subsystems:Sessions
  */
 function exponent_sessions_logout() {
-	global $db, $user;
+	global $db;
 	//echo $_SESSION['ticket'];
 	//exit();
 	//if (isset($_SESSION[SYS_SESSION_KEY]['ticket'])) $db->delete('sessionticket',"ticket='" . $_SESSION[SYS_SESSION_KEY]['ticket'] . "'");
@@ -190,7 +177,6 @@ function exponent_sessions_logout() {
 	unset($_SESSION[SYS_SESSION_KEY]['user']);
 	
 	//FJD - set ticker user back to 0 instead of deleting the ticket
-	//MaxxCorp - Why ? What do we reuse the ticket for ?
 	$user->id = 0;
 	$ticket->refresh = 0;
 	exponent_sessions_updateTicket($ticket, $user);
@@ -198,14 +184,19 @@ function exponent_sessions_logout() {
 	exponent_permissions_clear();
 }
 
-/* exdoc
+/* exdpc
  * Looks at the session data to see if the current session is
  * that of a logged in user. Returns true if the viewer is logged
  * in, and false if it is not
  * @node Subsystems:Sessions
  */
 function exponent_sessions_loggedIn() {
+	//if ($anon){
 	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']) && isset($_SESSION[SYS_SESSION_KEY]['user']));
+	//}
+	//else{
+	//	return (isset($_SESSION[SYS_SESSION_KEY]['ticket']));		
+	//}	
 }
 
 //Clears entire user session data and truncates the sessionticket table
@@ -331,7 +322,7 @@ function exponent_sessions_clearAllUsersSessionCache($modules = null, $user = nu
 	//but I don't see why we need to clear just one other specified user's cache 
 	//at this point either.  This just updates all sessionticket records to refresh=1
 		
-	global $db, $sessionticket;
+	global $db;
 	$sessionticket->refresh = 1;
 	$db->updateObject($sessionticket, 'sessionticket', '1');
 		

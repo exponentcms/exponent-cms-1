@@ -19,15 +19,16 @@
 
 class newsmodule {
 	function name() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
+	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
+	function getRSSType() { return "news"; }
 	
 	function supportsWorkflow() { return true; }
-	
+
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/newsmodule/class.php');
 		if ($internal == '') {
@@ -48,6 +49,26 @@ class newsmodule {
 				'edit_item'=>$i18n['perm_edit_item']
 			);
 		}
+	}
+
+	function getRSSContent($loc) {
+		global $db;
+	
+		//Get this modules items
+		$items = array();
+		$items = $db->selectObjects("newsitem", "location_data='".serialize($loc)."'");
+
+		//Convert the newsitems to rss items
+		$rssitems = array();
+		foreach ($items as $key => $item) {	
+			$rss_item = new FeedItem();
+			$rss_item->title = $item->title;
+			$rss_item->description = $item->body;
+			$rss_item->date = date('r',$item->posted);
+			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=newsmodule&action=view&id=".$item->id."&src=".$loc->src;
+			$rssitems[$key] = $rss_item;
+		}
+		return $rssitems;
 	}
 	
 	function getLocationHierarchy($loc) {
@@ -94,7 +115,9 @@ class newsmodule {
 			$config->sortorder = 'ASC';
 			$config->sortfield = 'posted';
 			$config->item_limit = 10;
+			$config->enable_rss = false;
 		}
+	
 		// Check permissions for AP link
 		$canviewapproval = false;
 		if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
@@ -114,6 +137,10 @@ class newsmodule {
 			array('administrate','configure','add_item','delete_item','edit_item','manage_approval','view_unpublished'),
 			$loc
 		);
+	
+		//If rss is enabled tell the view to show the RSS button	
+		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+		$template->assign('enable_rss', $config->enable_rss);
 		
 		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
 		for ($i = 0; $i < count($news); $i++) {

@@ -33,6 +33,8 @@ return array(
 	'file_types'=>'File Types',
 	'workflow_policies'=>'Workflow Policies',
 	'system_info'=>'System Info',
+
+	'manage_wizards'=>'Manage Wizards',
 );
 
 ?>

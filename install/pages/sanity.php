@@ -29,7 +29,7 @@ $errcount = count($status);
 $warncount = 0; // No warnings with permissions
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
-<table cellspacing="0" cellpadding="3" rules="all" border="0" style="border:1px solid grey;" width="100%">
+<table cellspacing="0" cellpadding="3" rules="all" border="0" style="border:1px solid grey;" width="425">
 <tr><td colspan="2" style="background-color: lightgrey;"><b><?php echo $i18n['filedir_tests']; ?></b></td></tr>
 <?php
 
@@ -95,19 +95,22 @@ if ($errcount > 0) {
 	if (ini_get('safe_mode') == true) {
 		echo '<br /><br /><div style="font-weight: bold; color: red;">'.$i18n['safe_mode'].'</div>';
 	}
-?>
-	<br /><br />	
-<?php
+	?>
+	<br /><br />
+	
+	<?
 	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'new'){
-?>
+		?>
 		<a href="index.php?page=sanity&type=new"><?php echo $i18n['rerun']; ?></a>
-<?php
+		<?php
 	} else {
-?>
+		?>
 		<a href="index.php?page=sanity"><?php echo $i18n['rerun']; ?></a>
-<?php
-	}
-} elseif ($warncount > 0) {
+		<?php
+	} ?>
+
+	<?php
+} else if ($warncount > 0) {
 	echo $i18n['found_minor'];
 	
 	if (ini_get('safe_mode') == true) {
@@ -123,14 +126,14 @@ if ($errcount > 0) {
 }
 
 if ($errcount == 0) {
-	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'new') {
-?>
+	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'new'){
+		?>
 		<br /><a href="index.php?page=dbconfig"><?php echo $i18n['continue_new']; ?></a>.
-<?php
+		<?php
 	} else {
-?>
+		?>
 		<br /><a href="index.php?page=upgrade_version"><?php echo $i18n['continue_upgrade']; ?></a>.
-<?php
+		<?php
 	}
 }
 

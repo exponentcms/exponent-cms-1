@@ -21,7 +21,7 @@
 {/if}
 {/permissions}
 <div class="moduletitle rotator_moduletitle">{$moduletitle}</div>
-<div>
+<div class="rotator_text">
 {$content->text}
 </div>
 {permissions level=$smarty.const.UILEVEL_NORMAL}

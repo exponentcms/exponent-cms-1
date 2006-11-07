@@ -67,10 +67,18 @@ if ($this_post) {
 		);
 		
 		$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id);
+    $this_post->total_comments = count($this_post->comments);
 		usort($this_post->comments,'exponent_sorting_byPostedDescending');
-	
+
 		$template = new template('weblogmodule','_view',$loc);
-	
+   
+    //Get the comment form and pass it to the template
+    $form = weblog_comment::form(null);
+    $form->location($loc);
+    $form->meta('action','comment_save');
+    $form->meta('parent_id',$this_post->id);
+    
+    $template->assign('form_html',$form->toHTML());  
 		$template->assign('this_post',$this_post);
 		$template->assign('next_post',$next_post);
 		$template->assign('prev_post',$prev_post);

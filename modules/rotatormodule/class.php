@@ -20,7 +20,7 @@
 class rotatormodule {
 	function name() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_name'); }
 	function description() { return exponent_lang_loadKey('modules/rotatormodule/class.php','module_description'); }
-	function author() { return 'James Hunt'; }
+	function author() { return 'OIC Group, Inc'; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }

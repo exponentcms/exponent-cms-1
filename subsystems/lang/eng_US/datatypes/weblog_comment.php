@@ -3,7 +3,8 @@
 return array(
 	're'=>'Re: %s',
 
-	'title'=>'Title',
+	'name'=>'Name',
+	'email'=>'Email Address',
 	'body'=>'Comment',
 	
 	'save'=>'Save',

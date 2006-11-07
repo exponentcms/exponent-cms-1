@@ -13,6 +13,9 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+{if $enable_rss == true}
+        <a href="{rsslink}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="Subscribe to this calendar" /></a>
+{/if}
 {$_TR.calendar_view}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a><br /><br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}

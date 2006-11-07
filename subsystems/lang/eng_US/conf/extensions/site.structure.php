@@ -57,6 +57,9 @@ return array(
 	
 	'enable_workflow'=>'Enable Workflow',
 	'enable_workflow_desc'=>'Turns workflow on and off.  Leave off unless you are specifically using it, as workflow will effect system performance.',
+
+	'wysiwyg_editor'=>'HTML Editor',
+	'wysiwyg_editor_desc'=>'Choose the HTML editor to use as the default editor for this site.',
 );
 
 ?>

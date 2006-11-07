@@ -126,18 +126,13 @@ function exponent_theme_sourceSelectorInfo() {
  */
 function exponent_theme_headerInfo($section) {
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
-	$str = '';
-	if ($section != null) {
-		$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
-		$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
-		$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
-		$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
-		$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
-		$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
-		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/scriptaculous/lib/prototype.js"></script>'."\r\n";
-	        $str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/scriptaculous/src/scriptaculous.js"></script>'."\r\n";
-	}
+	$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
+	$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
+	$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
+	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
+	$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
+	$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
+	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
 	return $str;
 }
 

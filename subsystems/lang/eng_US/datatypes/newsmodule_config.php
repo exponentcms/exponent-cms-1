@@ -12,6 +12,11 @@ return array(
 	'descending'=>'Descending',
 	'posteddate'=>'Posted Date',
 	'publishdate'=>'Publication Date',
+
+  	'enable_rss'=>'Enable RSS',
+    'feed_title'=>'Title for this RSS feed',
+    'feed_desc'=>'Description for this RSS feed',
+
 	
 	
 );

@@ -17,27 +17,104 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
+//GREP:HARDCODEDTEXT
+//GREP:VIEWIFY
+//GREP:REIMPLEMENT
 
 // Part of the HTMLArea category
-//should be moved to EditorControl or ToolbarItem
 
 if (!defined("EXPONENT")) exit("");
 
-$loc = exponent_core_makeLocation('administrationmodule');
+if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administrationmodule'))) {
+	$config = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=".intval($_GET['id']));
 
-if (exponent_permissions_check('htmlarea', $loc)) {
-	$dm = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=" . intval($_GET['id']));
+?>
+<style type="text/css">
+	.htmleditor_toolboxbutton:hover {
+		border : 2px red solid;
+	}
+	.htmleditor_toolboxbutton_selected {
+		background-color : grey;
+	}
+</style>
+	
+	
+<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>js/HTMLAreaToolbarBuilder.js"></script>
+<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/editors/<?php echo SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	
 
-	$template = new template("administrationmodule", "_form_EditorControl_Toolbar", $loc);
+<table cellspacing="0" cellpadding="2" border="0">
+	<tbody>
+		<tr id="htmleditor_toolbox" />
+		<tr>
+			<td style="font-size: 12px; font-style: italic;" id="msgTD"></td>
+		</tr>
+	</tbody>
+</table>
+<hr size="1" />
+<a class="mngmntlink administration_mngmntlink" href="#" onclick="newRow(); return false">New Row</a>
+<hr size="1" />
+<table cellpadding="2" cellspacing="2" rules="all" border="0">
+	<tbody id="toolbar_workspace" />
+</table>
 
-	if($dm) {
-		$template->assign("dm", $dm);
-		$template->assign("toolbar", $dm->data);
-	}	
+<script type="text/javascript">
+	var imagePrefix = "";
+	// populate the button panel
+	exponentJSbuildHTMLEditorButtonSelector(Exponent.WYSIWYG_toolboxbuttons);
+		
+<?php
+	
+if ($config == null) {
+?>
+	// 3 initial rows.
+	rows.push(new Array());
+	rowlens.push(0);
+	rows.push(new Array());
+	rowlens.push(0);
+	rows.push(new Array());
+	rowlens.push(0);
+<?php
+} else {
+?>	
 
-	$template->output();
+	Exponent.WYSIWYG_toolbar = <?php echo $config->data; ?>;
+	
+	for(currRow = 0; currRow < Exponent.WYSIWYG_toolbar.length; currRow++) {
+		rows.push(new Array());
+		rowlens.push(0);
+		
+		for(currButton = 0; currButton < Exponent.WYSIWYG_toolbar[currRow].length; currButton++) {
+			//TODO: decide whether to disallow empty rows altoghether -> htmlareatoolbarbuilder.js->save()
+			if (Exponent.WYSIWYG_toolbar[currRow][currButton] != "") {
+				rows[currRow].push(Exponent.WYSIWYG_toolbar[currRow][currButton]);
+				disableToolbox(Exponent.WYSIWYG_toolbar[currRow][currButton]);
+			}
+		}
+	}
+<?php
+}
+?>
+
+	regenerateTable();
+</script>
+<br />
+<hr size="1" />
+<form method="post">
+<input type="hidden" name="module" value="administrationmodule"/>
+<input type="hidden" name="action" value="htmlarea_saveconfig"/>
+<?php if ($config->id) { ?><input type="hidden" name="id" value="<?php echo $config->id; ?>"/><?php } ?>
+<input type="hidden" name="config" value="" id="config_htmlarea" />
+Configuration Name:<br /><input type="text" name="config_name" value="<?php echo $config->name ?>" /><br />
+<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? 'checked="checked" ' : '');?>/> Activate?<br />
+
+<input type="submit" value="Save" onclick="save(this.form); return false">
+</form>
+
+	<?php
 
 } else {
 	echo SITE_403_HTML;
 }
+
 ?>

@@ -55,13 +55,13 @@ class textcontrol extends formcontrol {
 			DB_FIELD_LEN=>512);
 	}
 	
-	function textcontrol($default = "", $size = 0, $disabled = false, $maxlength = 0, $filter = "") {
+	function textcontrol($default = "", $size = 0, $disabled = false, $maxlength = 0, $filter = "", $required = false) {
 		$this->default = $default;
 		$this->size = $size;
 		$this->disabled = $disabled;
 		$this->maxlength = $maxlength;
 		$this->filter = $filter;
-		$this->required = false;
+		$this->required = $required;
 	}
 
 	function controlToHTML($name) {
@@ -104,7 +104,9 @@ class textcontrol extends formcontrol {
 		$form->register("default",$i18n['default'], new textcontrol($object->default));
 		$form->register("size",$i18n['size'], new textcontrol((($object->size==0)?"":$object->size),4,false,3,"integer"));
 		$form->register("maxlength",$i18n['maxlength'], new textcontrol((($object->maxlength==0)?"":$object->maxlength),4,false,3,"integer"));
-		
+		$form->register(null, null, new htmlcontrol('<br />'));	
+		$form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));	
+		$form->register(null, null, new htmlcontrol('<br />'));	
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}

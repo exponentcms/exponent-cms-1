@@ -28,8 +28,9 @@
 {/permissions}
 *}
 
-<div>
-<div class="itemtitle weblog_itemtitle">{$this_post->title}{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}</div>
+<div style="margin-top: 15px;">
+<h1 class="itemtitle weblog_itemtitle">{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
+<div class="subheader weblog_subheader">Posted by {attribution user_id=$this_post->poster} on {$this_post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $this_post->permissions.administrate == 1}
@@ -54,22 +55,17 @@
 {/if}
 {/permissions}
 </div>
-<div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$this_post->poster} {$_TR.on} {$this_post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$this_post->body}</div>
 {if $config->allow_comments}
-	<div class="comments" style="padding-left: 35px;">
+	<div class="comments">
 	{if $post->is_draft}
 		<i>{$_TR.draft_desc}</i>
 	{else}
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.comment == 1 || $this_post->permissions.comment == 1}
-		<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit parent_id=$this_post->id}">{$_TR.comment}</a>
-		{/if}
-		{/permissions}
+    <br />
+    <div class="weblog_itemtitle"><a name="comments">{$this_post->total_comments} comment{if $this_post->total_comments != 1}s{/if} to "{$this_post->title}"</a></div>
 		{foreach from=$this_post->comments item=comment}
-			<div class="weblog_comment">
-				<div class="weblog_comment_title">{$comment->title}
-				<br />
+			<div class="weblog_comment_{cycle values="odd,even"}">
+        <div class="weblog_comment_body">{$comment->body}
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_comments == 1 || $this_post->permissions.edit_comments == 1}
 				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id parent_id=$this_post->id}">
@@ -83,33 +79,35 @@
 				{/if}
 				{/permissions}
 				</div>
-				<div class="weblog_comment_attribution">{$_TR.posted_by} {attribution user_id=$comment->poster} {$_TR.on} {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
-				<div class="weblog_comment_body">{$comment->body}</div>
+				<div class="weblog_comment_attribution">
+          <img src="{$smarty.const.THEME_RELATIVE}images/oic-arrow-small.gif" border="0" />
+          Posted by {$comment->name} on {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+        </div>
 			</div>
 		{/foreach}
 	{/if}
 	</div>
 {/if}
+<div class="weblog_itemtitle">Leave a comment</div>
+{$form_html}
 </div>
+<br /><br />
+{if $prev_post != 0 || $next_post != 0}
+<table border="0" cellpadding="3" cellspacing="0" align="left" width="100%">
+<tr><td align="left">&lt;&lt;Previous Post</td><td style="text-align: right;padding-right:10px;">Next Post&gt;&gt;</td></tr>
+<tr><td align="left">
 {if $prev_post != 0}
-	&lt;&lt;<a class="mngmntlink weblog_mngmntlink" href="{link action=view id=$prev_post->id}">{$prev_post->title}</a>&nbsp;&nbsp;
+	<a class="mngmntlink weblog_mngmntlink" href="{link action=view id=$prev_post->id}">{$prev_post->title}</a>
+{else}
+&nbsp;
 {/if}
+</td>
+<td style="text-align: right; padding-right:10px;">
 {if $next_post != 0}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view id=$next_post->id}">{$next_post->title}</a>&gt;&gt;
+	<a class="mngmntlink weblog_mngmntlink" href="{link action=view id=$next_post->id}">{$next_post->title}</a>
+{else}
+  &nbsp;
 {/if}
-<br />
+</td></tr></table>
+{/if}
 
-{if $prev_post != 0}
-	{if $smarty.const.MEANINGFUL_URLS}
-	&lt;&lt;<a class="mngmntlink weblog_mngmntlink" href="{$smarty.const.URL_FULL}content/blog/{$prev_post->internal_name}">{$prev_post->title} ((SEF))</a>&nbsp;&nbsp;
-	{else}
-	&lt;&lt;<a class="mngmntlink weblog_mngmntlink" href="{$smarty.const.URL_FULL}content/blog.php?id={$prev_post->id}">{$prev_post->title}</a>&nbsp;&nbsp;
-	{/if}
-{/if}
-{if $next_post != 0}
-	{if $smarty.const.MEANINGFUL_URLS}
-	<a class="mngmntlink weblog_mngmntlink" href="{$smarty.const.URL_FULL}content/blog/{$next_post->internal_name}">{$next_post->title} ((SEF))</a>&gt;&gt;
-	{else}
-	<a class="mngmntlink weblog_mngmntlink" href="{$smarty.const.URL_FULL}content/blog.php?id={$next_post->id}">{$next_post->title}</a>&gt;&gt;
-	{/if}
-{/if}

@@ -47,11 +47,12 @@ class radiocontrol extends formcontrol {
 	
 	function name() { return "Radio Button"; }
 	
-	function radiocontrol($default = false, $value = "", $groupname="radiogroup", $flip=false) {
+	function radiocontrol($default = false, $value = "", $groupname="radiogroup", $flip=false, $onclick="") {
 		$this->default = $default;
 		$this->groupname = $groupname;
 		$this->value = $value;
 		$this->flip = $flip;
+		$this->onclick = $onclick;
 	}
 	
 	
@@ -68,6 +69,9 @@ class radiocontrol extends formcontrol {
 	function controlToHTML($name) {
 		$html = '<input type="radio" value="'.$this->value .'" name="' . $this->groupname . '"';
 		if ($this->default) $html .= ' checked="checked"';
+		if ($this->onclick != "") {
+			$html .= ' onclick="'.$this->onclick.'"';
+		}
 		$html .= ' />';
 		return $html;
 	}

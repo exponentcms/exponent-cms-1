@@ -101,6 +101,10 @@ $stuff = array(
 			'title'=>$i18n['system_info'],
 			'module'=>'administrationmodule',
 			'action'=>'sysinfo'),
+		'wizards'=>array(
+			'title'=>$i18n['manage_wizards'],
+			'module'=>'wizardmodule',
+			'action'=>'manage_wizards'),
 	)
 );
 global $user;

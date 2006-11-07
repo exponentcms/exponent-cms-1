@@ -22,7 +22,7 @@ if (!defined('EXPONENT')) exit('');
 include_once(BASE."subsystems/forms/form.php");
 
 class fakeform extends form {
-	function toHTML($form_id) {
+	function toHTML($form_id, $module="formbuilder") {
 		// Form validation script
 		if ($this->validationScript != "") {
 			$this->scripts[] = $this->validationScript;
@@ -58,7 +58,7 @@ class fakeform extends form {
 			$html .= $this->controls[$name]->controlToHTML($name) . "\r\n";
 			$html .= "<td>";
 			if ($rank != count($this->controlIdx)-1) {
-				$html .= '<a href="?module=formbuilder&action=order_controls&p='.$form_id.'&a='.$rank.'&b='.($rank+1).'">';
+				$html .= '<a href="?module='.$module.'&action=order_controls&p='.$form_id.'&a='.$rank.'&b='.($rank+1).'">';
 				$html .= "<img border='0' src='".ICON_RELATIVE."down.png' />";
 				$html .= '</a>';
 			} else {
@@ -66,7 +66,7 @@ class fakeform extends form {
 			}
 			$html .= "&nbsp;";
 			if ($rank != 0) {
-				$html .= '<a href="?module=formbuilder&action=order_controls&p='.$form_id.'&a='.$rank.'&b='.($rank-1).'">';
+				$html .= '<a href="?module='.$module.'&action=order_controls&p='.$form_id.'&a='.$rank.'&b='.($rank-1).'">';
 				$html .= "<img border='0' src='".ICON_RELATIVE."up.png' />";
 				$html .= '</a>';
 			} else {
@@ -75,7 +75,7 @@ class fakeform extends form {
 			
 			$html .= "&nbsp;&nbsp;";
 			if (!$this->controls[$name]->_readonly) {
-				$html .= '<a href="?module=formbuilder&action=edit_control&id='.$this->controls[$name]->_id.'&form_id='.$form_id.'">';
+				$html .= '<a href="?module='.$module.'&action=edit_control&id='.$this->controls[$name]->_id.'&form_id='.$form_id.'">';
 				$html .= '<img border="0" src="'.ICON_RELATIVE.'edit.png" />';
 				$html .= '</a>';
 			} else {
@@ -84,10 +84,10 @@ class fakeform extends form {
 			
 			$html .= '&nbsp;';
 			if (!$this->controls[$name]->_readonly && $this->controls[$name]->_controltype != 'htmlcontrol' ) {
-				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
+				$html .= '<a href="?module='.$module.'&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
 			}
 			else {
-				$html .= '<a href="?module=formbuilder&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this?\');">';
+				$html .= '<a href="?module='.$module.'&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this?\');">';
 			}
 			$html .= '<img border="0" src="'.ICON_RELATIVE.'delete.png" />';
 			$html .= '</a>';

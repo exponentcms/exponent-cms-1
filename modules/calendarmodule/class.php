@@ -1,5 +1,4 @@
 <?php
-
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
@@ -27,6 +26,26 @@ class calendarmodule {
 	function hasViews()   { return true; }
 	
 	function supportsWorkflow() { return true; }
+
+	function getRSSContent($loc) {
+                global $db;
+
+                //Get this modules items
+                $items = array();
+                $items = $db->selectObjects("calendar", "location_data='".serialize($loc)."'");
+
+                //Convert the newsitems to rss items
+                $rssitems = array();
+                foreach ($items as $key => $item) {
+                        $rss_item = new FeedItem();
+                        $rss_item->title = $item->title;
+                        $rss_item->description = $item->body;
+                        $rss_item->date = date('r', $item->posted);
+                        $rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
+                        $rssitems[$key] = $rss_item;
+                }
+                return $rssitems;
+        }
 	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/calendarmodule/class.php');
@@ -247,7 +266,6 @@ class calendarmodule {
 			$template->assign("prevmonth",$timefirst-(86400*15));
 			$template->assign("now",$timefirst);
 		} else if ($viewconfig['type'] == "administration") {
-		  
 			// Check perms and return if cant view
 			if ($viewconfig['type'] == "administration" && !$user) return;
 			
@@ -351,6 +369,8 @@ class calendarmodule {
 			$config->enable_categories = 0;
 		}
 		$template->assign("modconfig",$config);
+		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+		$template->assign("enable_rss", $config->enable_rss);
 		
 		$template->output();
 	}
@@ -447,6 +467,4 @@ class calendarmodule {
 		return $events;
 	}
 }
-
 ?>
-

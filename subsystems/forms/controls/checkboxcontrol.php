@@ -58,18 +58,20 @@ class checkboxcontrol extends formcontrol {
 			DB_FIELD_TYPE=>DB_DEF_BOOLEAN);
 	}
 
-	function checkboxcontrol($default = false,$flip = false) {
+	function checkboxcontrol($default = false,$flip = false,$required = false) {
 		$this->default = $default;
 		$this->flip = $flip;
 		$this->jsHooks = array();
+		$this->required = $required;
 	}
 	
 	function toHTML($label,$name) {
 		if (!$this->flip) return parent::toHTML($label,$name);
 		else {
-			$html = "<tr><td valign=\"top\">&nbsp;</td><td style='padding-left: 5px;' valign=\"top\">";
-			$html .= $this->controlToHTML($name);
-			$html .= "&nbsp;$label</td></tr>";
+			$html = "<tr><td valign=\"top\" align=\"left\" colspan=\"2\">".$this->controlToHTML($name)."&nbsp;&nbsp;&nbsp;".$label."</td>";
+			//$html .= "<td style='padding-left: 5px;' valign=\"top\">".$label."</td></tr>";
+			//$html .= $this->controlToHTML($name);
+			//$html .= "&nbsp;$label</td></tr>";
 			return $html;
 		}
 	}
@@ -83,6 +85,9 @@ class checkboxcontrol extends formcontrol {
 		foreach ($this->jsHooks as $type=>$val) {
 			$html .= ' '.$type.'="'.$val.'"';
 		}
+		if (@$this->required) {
+                        $html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
+                }
 		$html .= ' />';
 		return $html;
 	}
@@ -107,13 +112,16 @@ class checkboxcontrol extends formcontrol {
 			$object->caption = "";
 			$object->default = false;
 			$object->flip = false;
+			$object->required = false;
 		} 
 		
 		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
 		$form->register("default",$i18n['default'], new checkboxcontrol($object->default,false));
 		$form->register("flip",$i18n['caption_right'], new checkboxcontrol($object->flip,false));
-		
+	 	$form->register(null, null, new htmlcontrol('<br />'));
+                $form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));
+                $form->register(null, null, new htmlcontrol('<br />'));	
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
@@ -133,6 +141,7 @@ class checkboxcontrol extends formcontrol {
 		$object->caption = $values['caption'];
 		$object->default = isset($values['default']);
 		$object->flip = isset($values['flip']);
+		$object->required = isset($values['required']);
 		return $object;
 	}
 	

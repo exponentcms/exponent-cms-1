@@ -32,16 +32,13 @@ if (exponent_permissions_check('searching',exponent_core_makeLocation('administr
 		if (class_exists($mod) && is_callable(array($mod,'spiderContent'))) {
 			if (call_user_func(array($mod,'spiderContent'))) {
 				$mods[$name] = 1;
-			} else {
-//				$mods[$name] = 0;	
 			}
 		} else {
-//			$mods[$name] = 0;
+			$mods[$name] = 0;
 		}
 	}
 	
 	uksort($mods,'strnatcasecmp');
-	
 	$template->assign('mods',$mods);
 	$template->output();
 }

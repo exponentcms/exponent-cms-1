@@ -48,7 +48,7 @@ class formcontrol {
 	function getFieldDefinition() { return array(); }
 
 	function toHTML($label,$name) {
-		$html = "<tr><td valign=\"top\">$label</td><td style='padding-left: 5px;' valign=\"top\">";
+		$html = "<tr><td valign=\"top\" class=\"form_lable\">$label</td><td style='padding-left: 5px;' valign=\"top\" class=\"form_input\">";
 		$html .= $this->controlToHTML($name);
 		$html .= "</td></tr>";
 		return $html;

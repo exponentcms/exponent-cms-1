@@ -33,6 +33,7 @@
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $canManage == 1}
+<br /><br />
 [ <a class="navlink" href="{link action=manage}">{$_TR.manage}</a> ]
 {/if}
 {/permissions}

@@ -46,6 +46,7 @@ class dropdowncontrol extends formcontrol {
 	var $items = array();
 	var $size = 1;
 	var $jsHooks = array();
+	var $include_blank = false;
 	
 	function name() { return "Drop Down List"; }
 	function isSimpleControl() { return true; }
@@ -55,9 +56,10 @@ class dropdowncontrol extends formcontrol {
 			DB_FIELD_LEN=>255);
 	}
 	
-	function dropdowncontrol($default = "",$items = array()) {
+	function dropdowncontrol($default = "",$items = array(), $include_blank = false) {
 		$this->default = $default;
 		$this->items = $items;
+		$this->include_blank = $include_blank;
 		$this->required = false;
 	}
 	
@@ -72,6 +74,11 @@ class dropdowncontrol extends formcontrol {
 			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
 		$html .= '>';
+
+		if ($this->include_blank == true) {
+			$html .= '<option value=""></option>';
+		}
+
 		foreach ($this->items as $value=>$caption) {
 			$html .= '<option value="' . $value . '"';
 			if ($value == $this->default) $html .= " selected";
@@ -92,6 +99,7 @@ class dropdowncontrol extends formcontrol {
 			$object->default = "";
 			$object->size = 1;
 			$object->items = array();
+			$object->required = false;
 		} 
 		
 		$i18n = exponent_lang_loadFile('subsystems/forms/controls/dropdowncontrol.php');
@@ -101,7 +109,9 @@ class dropdowncontrol extends formcontrol {
 		$form->register("items",$i18n['items'], new listbuildercontrol($object->items,null));
 		$form->register("default",$i18n['default'], new textcontrol($object->default));
 		$form->register("size",$i18n['size'], new textcontrol($object->size,3,false,2,"integer"));
-		
+		$form->register(null, null, new htmlcontrol('<br />'));
+                $form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));
+                $form->register(null, null, new htmlcontrol('<br />'));	
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
@@ -122,6 +132,7 @@ class dropdowncontrol extends formcontrol {
 		$object->default = $values['default'];
 		$object->items = listbuildercontrol::parseData($values,'items',true);
 		$object->size = (intval($values['size']) <= 0)?1:intval($values['size']);
+		$object->required = isset($values['required']);
 		return $object;
 	}
 }

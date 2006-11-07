@@ -41,12 +41,10 @@ class loginmodule {
 	}
 
 	function show($view,$loc=null,$title='') {
-		global $user;
-		
 		$template = new template('loginmodule',$view,$loc);
 		$template->assign('title',$title);
-		if (exponent_sessions_loggedIn() && $user->username != "anonymous") {
-			global $db;
+		if (exponent_sessions_loggedIn()) {
+			global $user, $db;
 			$template->assign('loggedin',1);
 			$template->assign('user',$user);
 			// Generate display name as username if the first and last name fields are blank.

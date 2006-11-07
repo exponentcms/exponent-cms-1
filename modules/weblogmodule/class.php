@@ -19,7 +19,7 @@
 
 class weblogmodule {
 	function name() { return exponent_lang_loadKey('modules/weblogmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
+	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/weblogmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
@@ -27,6 +27,26 @@ class weblogmodule {
 	function hasViews() { return true; }
 	
 	function supportsWorkflow() { return false; }
+
+	function getRSSContent($loc) {
+                global $db;
+
+                //Get this modules items
+                $items = array();
+                $items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."'");
+
+                //Convert the newsitems to rss items
+                $rssitems = array();
+                foreach ($items as $key => $item) {
+                        $rss_item = new FeedItem();
+                        $rss_item->title = $item->title;
+                        $rss_item->description = $item->body;
+                        $rss_item->date = date('r', $item->posted);
+                        $rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
+                        $rssitems[$key] = $rss_item;
+                }
+                return $rssitems;
+        }
 	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/weblogmodule/class.php');
@@ -76,8 +96,12 @@ class weblogmodule {
 		if ($config == null) {
 			$config->allow_comments = 1;
 			$config->items_per_page = 10;
+			$config->enable_rss = "false";
 		}
 		
+		//Tell the template whether or not to show the RSS button		
+		$template->assign('enable_rss', $config->enable_rss);
+
 		$viewconfig = array('type'=>'default');
 		if (is_readable($template->viewdir."/$view.config")) {
 			$viewconfig = include($template->viewdir."/$view.config");
@@ -141,6 +165,7 @@ class weblogmodule {
 				$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);
 				usort($comments,'exponent_sorting_byPostedDescending');
 				$posts[$i]->comments = $comments;
+				$posts[$i]->total_comments = count($comments);
 			}
 			usort($posts,'exponent_sorting_byPostedDescending');
 			$template->assign('posts',$posts);

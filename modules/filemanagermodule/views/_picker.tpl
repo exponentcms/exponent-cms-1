@@ -64,6 +64,12 @@
 				margin-left: 220px;
 			}
 
+			div.scroller {
+				width: 650px;
+                                height: 600px;
+				overflow: auto;
+			}
+
 			div.imagecollection_previews table tr td {
 				text-align: center;
 				border: 1px solid #666;
@@ -109,7 +115,7 @@
 		{literal}
 			// fckedior unfortunately does not ship with our efm_pickedFile() :)
 			function FCKeditor_pickedFile(id, pickedFile) {
-				window.opener.SetUrl(eXp.PATH_RELATIVE + pickedFile);
+				window.opener.SetUrl(Exponent.PATH_RELATIVE + pickedFile);
 			}
 
 			if (typeof window.opener.efm_pickedFile != "function") {
@@ -134,7 +140,8 @@
 					height = 400;
 				}
 
-				window.open(filename,'image'+Math.random(),'status=no,status=no,width='+width+',height='+height);
+				//window.open(filename,'image'+Math.random(),'status=no,status=no,width='+width+',height='+height);
+				window.open(filename,'image'+Math.random(),'status=yes,status=yes,width='+width+',height='+height);
 				return false;
 			}
 		{/literal}
@@ -152,12 +159,13 @@
 		<div class="imagecollection_previews">
 			<div style="font-size: larger;">{$collection->name} ({$numfiles} {plural singular=file plural=files count=$numfiles})</div>
 			<div style="padding-left: 2em; margin-bottom: 1em; border-bottom: 2px solid black;">{$collection->description}</div>
+			<div class="scroller">
 			<table>
 				<tr>
 					{foreach name=i from=$files item=file}
 					{if ($smarty.foreach.i.iteration - 1) mod 5 == 0}
-				</tr>
-				<tr>
+						</tr>
+						<tr>
 					{/if}
 					<td width="110" height="110" valign="top" align="center"{if $highlight_file == $file->id} id="highlight"{/if}>
 						{if $file->is_image}
@@ -191,6 +199,7 @@
 					{/foreach}
 				</tr>
 			</table>
+			</div>
 		</div>
 		<div class="imagecollection_upload">
 			<form method="post" action="upload_standalone.php" enctype="multipart/form-data">
