@@ -24,7 +24,7 @@ if (!defined('EXPONENT')) exit('');
 <html>
 	<head>
 		<title><?php echo SITE_TITLE; ?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=<?PHP echo LANG_CHARSET; ?>" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<meta name="Generator" value="Exponent Content Management System" />
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 		<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>exponent.js.php"></script>
@@ -44,23 +44,23 @@ if (!defined('EXPONENT')) exit('');
 	$title = $_GET['title'];
 	
 	$source = (isset($_GET['source']) ? $_GET['source'] : '@example');
-	$loc = exponent_core_makeLocation($module, $source,'');
-	$mod->show($view, $loc, $title);
+	$loc = exponent_core_makeLocation($module,$source,'');
+	$mod->show($view,$loc,$title);
 	?>
 	<script type="text/javascript">
 	var elems = document.getElementsByTagName("a");
 	for (var i = 0; i < elems.length; i++) {
-		elems[i].setAttribute("onclick","return false;");
+		elems[i].setAttribute("onClick","return false;");
 	}
 	
 	elems = document.getElementsByTagName("input");
 	for (var i = 0; i < elems.length; i++) {
-		if (elems[i].type == "submit") elems[i].setAttribute("disabled", "disabled");
+		if (elems[i].type == "submit") elems[i].setAttribute("disabled","disabled");
 	}
 	
 	elems = document.getElementsByTagName("button");
 	for (var i = 0; i < elems.length; i++) {
-		elems[i].setAttribute("disabled", "disabled");
+		elems[i].setAttribute("disabled","disabled");
 	}
 	</script>
 	</body>

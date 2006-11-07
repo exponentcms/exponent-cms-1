@@ -29,12 +29,20 @@ class newsmodule_config {
 			$object->sortorder = 'ASC';
 			$object->sortfield = 'posted';
 			$object->item_limit = 10;
+			$object->enable_rss = false;
+			$object->feed_title = "";
+			$object->feed_desc = "";
 		}
 		$opts  = array('ASC'=>$i18n['ascending'],'DESC'=>$i18n['descending']);
 		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate']);
+		$form->register(null,'',new htmlcontrol('<div class="moduletitle">General Configuration</div><hr size="1" />'));
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
 		$form->register('sortorder',$i18n['sortorder'], new dropdowncontrol($object->sortorder,$opts));
 		$form->register('sortfield',$i18n['sortfield'], new dropdowncontrol($object->sortfield,$fields));
+		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
+		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
+		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
+		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
 		$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
@@ -43,6 +51,9 @@ class newsmodule_config {
 	function update($values,$object) {
 		$object->sortorder = $values['sortorder'];
 		$object->sortfield = $values['sortfield'];
+		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
+		$object->feed_title = $values['feed_title'];
+		$object->feed_desc = $values['feed_desc'];
 		if ($values['item_limit'] > 0) {
 			$object->item_limit = $values['item_limit'];
 		} else {
