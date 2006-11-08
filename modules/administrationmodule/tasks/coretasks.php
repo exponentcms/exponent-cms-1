@@ -49,6 +49,14 @@ $stuff = array(
 			'title'=>$i18n['manage_themes'],
 			'module'=>'administrationmodule',
 			'action'=>'managethemes'),
+		'tags'=>array(
+			'title'=>$i18n['manage_tags'],
+			'module'=>'tags',
+			'action'=>'manage'),
+		'wizards'=>array(
+			'title'=>$i18n['manage_wizards'],
+			'module'=>'wizardmodule',
+			'action'=>'manage_wizards'),
 		'managesubsystems'=>array(
 			'title'=>$i18n['manage_subsystems'],
 			'module'=>'administrationmodule',
@@ -101,10 +109,6 @@ $stuff = array(
 			'title'=>$i18n['system_info'],
 			'module'=>'administrationmodule',
 			'action'=>'sysinfo'),
-		'wizards'=>array(
-			'title'=>$i18n['manage_wizards'],
-			'module'=>'wizardmodule',
-			'action'=>'manage_wizards'),
 	)
 );
 global $user;

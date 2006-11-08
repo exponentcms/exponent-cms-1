@@ -13,6 +13,8 @@ return array(
 	
 	'manage_modules'=>'Manage Modules',
 	'manage_themes'=>'Manage Themes',
+	'manage_tags'=>'Manage Tags',
+	'manage_wizards'=>'Manage Wizards',
 	'manage_subsystems'=>'Subsystems',
 	'upload_extension'=>'Upload Extension',
 	
@@ -34,7 +36,6 @@ return array(
 	'workflow_policies'=>'Workflow Policies',
 	'system_info'=>'System Info',
 
-	'manage_wizards'=>'Manage Wizards',
 );
 
 ?>

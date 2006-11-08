@@ -33,6 +33,8 @@ color:#026788;
 text-decoration:underline;
 border-bottom:1px dotted #111111;
 }
+
+
 /* A litle fix for the dotten line under the header images... */
 .imagebutton {
 	border-bottom: 0px;
@@ -614,12 +616,16 @@ div.itemtitle {
 div.form_title {
 	font-size: 14px;
 	font-weight: bold;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 div.form_header {
 	border-top: 1px solid #DDD;
 	border-bottom: 1px solid #DDD;
 	margin-bottom: 1em;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 tr.even_row {
