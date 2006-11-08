@@ -15,6 +15,7 @@
 #
 ##################################################
 
-rename(BASE . "plugins", BASE . "subsystems/template/Smarty/plugins");
+//commenting out for now, as we're not sure about moving this here.
+//rename(BASE . "plugins", BASE . "subsystems/template/Smarty/plugins");
 
 ?>
