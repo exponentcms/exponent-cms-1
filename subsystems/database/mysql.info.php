@@ -36,7 +36,7 @@ return array(
 	'name'=>'MySQL Database Backend',
 	'author'=>'James Hunt',
 	'description'=>'MySQL Database Backend.',
-	'is_valid'=>(function_exists('mysql_connect') ? 1 : 0),
+	'is_valid'=>(function_exists('mysql_connect') || function_exists('mysqli_connect') ? 1 : 0),
 	'version'=>exponent_core_version(true)
 );
 
