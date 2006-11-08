@@ -143,9 +143,9 @@ function exponent_modules_verifyModule($basedir) {
 		!is_readable("$basedir/views"))) return false;
 	
 	// views_c
-	if (file_exists("$basedir/views_c") && (
-		!is_dir("$basedir/views_c") ||
-		!is_readable("$basedir/views_c"))) return false;
+	if (file_exists("$basedir/tmp/views_c") && (
+		!is_dir("$basedir/tmp/views_c") ||
+		!is_readable("$basedir/tmp/views_c"))) return false;
 		
 	return true;
 }
