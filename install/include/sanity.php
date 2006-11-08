@@ -112,11 +112,11 @@ function sanity_checkFiles() {
 		'conf/profiles/'=>sanity_checkFile(BASE.'conf/profiles',0,SANITY_READWRITE),
 		'overrides.php'=>sanity_checkFile(BASE.'overrides.php',1,SANITY_READWRITE),
 		'install/'=>sanity_checkFile(BASE.'install',0,SANITY_READWRITE),
-		'modules/'=>sanity_checkFile(BASE.'modules',0,SANITY_READONLY),
-		'views_c/'=>sanity_checkFile(BASE.'views_c',0,SANITY_READWRITE),
+		'modules/'=>sanity_checkFile(BASE.'modules',0,SANITY_READONLY),		
 		'extensionuploads/'=>sanity_checkFile(BASE.'extensionuploads',0,SANITY_READWRITE),
 		'files/'=>sanity_checkDirectory('files',SANITY_READWRITE),
-		'tmp/'=>sanity_checkDirectory('tmp',SANITY_READWRITE)
+		'tmp/'=>sanity_checkDirectory('tmp',SANITY_READWRITE),
+		'tmp/views_c'=>sanity_checkDirectory('tmp/views_c',SANITY_READWRITE)
 	);
 	
 	return $status;
