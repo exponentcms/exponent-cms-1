@@ -150,6 +150,7 @@ function exponent_sessions_createTicket($user = null){
  */
 function exponent_sessions_updateTicket($ticket, $user){
 	global $db;	
+	if (!isset($user)) $user->id=0;
 	if (isset($ticket->ticket)){
 		$ticket->uid = $user->id;
 		$ticket->last_active = time();
