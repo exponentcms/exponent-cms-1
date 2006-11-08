@@ -64,7 +64,7 @@
 	<td class="center">{attribution user=$announcement->user}<br /><span class="bb_date">{$announcement->posted|format_date:"%D %T"}</span></td>
 	<td class="center">{$announcement->num_views}</td>
 	<!--td class="center"><span class="bb_date">{$announcement->posted|format_date:"%D %T"}</span></td-->
-	<td class="center"><span class="bb_date">{$announcement->updated|format_date:"%D %T"}<br />{$sticky->last_poster->username}</span></td>
+	<td class="center"><span class="bb_date">{$announcement->updated|format_date:"%D %T"}<br />{$announcement->last_poster->username}</span></td>
 </tr>
 {/foreach}
 {foreach from=$stickys item=sticky}
@@ -99,7 +99,7 @@
 	<td class="center">{attribution user=$thread->user}<br /><span class="bb_date">{$thread->posted|format_date:"%D %T"}</span></td>
 	<td class="center">{$thread->num_views}</td>
 	<!--td class="center"><span class="bb_date">{$thread->posted|format_date:"%D %T"}</span></td-->
-	<td class="center"><span class="bb_date">{$thread->updated|format_date:"%D %T"}<br />{$sticky->last_poster->username}</span></td>
+	<td class="center"><span class="bb_date">{$thread->updated|format_date:"%D %T"}<br />{$thread->last_poster->username}</span></td>
 </tr>
 {foreachelse}
 <tr>

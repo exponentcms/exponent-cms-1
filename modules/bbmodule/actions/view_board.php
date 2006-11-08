@@ -49,9 +49,10 @@ for ($i = 0; $i < count($posts); $i++) {
 		if (!isset($users[$posts[$i]->editor])) $users[$posts[$i]->editor] = exponent_users_getUserById($posts[$i]->poster);
 		$posts[$i]->editor = $users[$posts[$i]->editor];
 	}
-	
+
+	//eDebug($posts);	
 	$last_reply = $db->selectObject("bb_post", "id=".$posts[$i]->last_reply);
-  $posts[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
+	$posts[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
 for ($i = 0; $i < count($announcements); $i++) {
@@ -62,7 +63,7 @@ for ($i = 0; $i < count($announcements); $i++) {
                 $announcements[$i]->editor = $users[$announcements[$i]->editor];
         }
 	$last_reply = $db->selectObject("bb_post", "id=".$announcements[$i]->last_reply);
-  $announcements[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
+  	$announcements[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
 for ($i = 0; $i < count($stickys); $i++) {
@@ -73,7 +74,7 @@ for ($i = 0; $i < count($stickys); $i++) {
                 $stickys[$i]->editor = $users[$stickys[$i]->editor];
         }
 	$last_reply = $db->selectObject("bb_post", "id=".$stickys[$i]->last_reply);
-  $stickys[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
+  	$stickys[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
 
