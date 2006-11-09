@@ -27,7 +27,7 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200,
-        DB_INDEX=>10),
+        	DB_INDEX=>10),
 	'title'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
@@ -53,7 +53,10 @@ return array(
 	'editor'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'approved'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER)
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'tags'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000),
 );
 
 ?>

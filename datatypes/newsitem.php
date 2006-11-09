@@ -38,11 +38,17 @@ class newsitem {
 			if ($object->publish == 0) $object->publish = null;
 			if ($object->unpublish == 0) $object->unpublish = null;
 		}
-		
+	
+		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">News Content</div><hr size="1" />'));	
 		$form->register('title',$i18n['title'],new textcontrol($object->title));
 		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
+	
+		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Publish Information</div><hr size="1" />'));
 		$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
 		$form->register('unpublish',$i18n['unpublish'],new popupdatetimecontrol($object->unpublish,$i18n['nounpublish']));
+
+		$form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">Tags</div><hr size="1" />'));
+
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;

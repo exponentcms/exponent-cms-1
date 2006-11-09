@@ -116,6 +116,7 @@ class newsmodule {
 			$config->sortfield = 'posted';
 			$config->item_limit = 10;
 			$config->enable_rss = false;
+			$config->group_by_tags = false;
 		}
 	
 		// Check permissions for AP link
@@ -130,8 +131,13 @@ class newsmodule {
 			}
 		}
 		
-	
+
+		if ($config->group_by_tags == true) {	
+			$view = "_group_by_tags";	
+		} 
+
 		$template = new template('newsmodule',$view,$loc);
+
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','configure','add_item','delete_item','edit_item','manage_approval','view_unpublished'),
@@ -151,13 +157,30 @@ class newsmodule {
 				'delete_item'=>((exponent_permissions_check('delete_item',$loc) || exponent_permissions_check('delete_item',$nloc)) ? 1 : 0),
 				'administrate'=>((exponent_permissions_check('administrate',$loc) || exponent_permissions_check('administrate',$nloc)) ? 1 : 0)
 			);
-		}
+			
+			//Get the tags for this newsitem
+			$selected_tags = array();
+	        	$tag_ids = unserialize($news[$i]->tags);
+	                if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+			$news[$i]->tags = $selected_tags;
 		
+			//If this module was configured to group the newsitems by tags, then we need to change the data array a bit
+			if ($config->group_by_tags == true) {
+				foreach($news[$i]->tags as $tag) {
+					if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();} 
+					array_push($grouped_news[$tag->name],$news[$i]);
+				}
+			}	
+		}
+
+		//eDebug($grouped_news);
+		//eDebug($news);
+			
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");
 		$template->assign('canview_approval_link',$canviewapproval);
 		$template->assign('in_approval',$in_approval);
-		$template->assign('news',$news);
+		if($config->group_by_tags == true) {$template->assign('news',$grouped_news);} else {$template->assign('news',$news);}
 		
 		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
 		

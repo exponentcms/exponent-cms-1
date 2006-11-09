@@ -23,15 +23,31 @@ class newsmodule_config {
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
+	
+		global $db;
+                $tag_collections = $db->selectObjects("tag_collections");
+                foreach ($tag_collections as $tag_collections => $collection) {
+                        $tc_list[$collection->id] = $collection->name;
+                }
+	
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->sortorder = 'ASC';
 			$object->sortfield = 'posted';
 			$object->item_limit = 10;
 			$object->enable_rss = false;
+			$object->enable_tags = false;
+			$object->group_by_tags = false;
 			$object->feed_title = "";
 			$object->feed_desc = "";
+			$object->collections = array();
+		} else {
+			$cols = unserialize($object->collections);
+			$object->collections = array();
+			foreach ($cols as $col_id) {
+				$collection = $db->selectObject('tag_collections', 'id='.$col_id);
+				$object->collections[$collection->id] = $collection->name;
+			}
 		}
 		$opts  = array('ASC'=>$i18n['ascending'],'DESC'=>$i18n['descending']);
 		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate']);
@@ -39,6 +55,12 @@ class newsmodule_config {
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
 		$form->register('sortorder',$i18n['sortorder'], new dropdowncontrol($object->sortorder,$opts));
 		$form->register('sortfield',$i18n['sortfield'], new dropdowncontrol($object->sortfield,$fields));
+		
+		$form->register(null,'',new htmlcontrol('<div class="moduletitle">Tagging</div><hr size="1" />'));
+		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
+		$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
+		$form->register('collections',$i18n['tag_collections'],new listbuildercontrol($object->collections,$tc_list));
+		
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
 		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
@@ -49,9 +71,14 @@ class newsmodule_config {
 	}
 	
 	function update($values,$object) {
+		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
+                exponent_forms_initialize();
 		$object->sortorder = $values['sortorder'];
 		$object->sortfield = $values['sortfield'];
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
+		$object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
+		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);
+		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
 		if ($values['item_limit'] > 0) {
@@ -59,7 +86,7 @@ class newsmodule_config {
 		} else {
 			$object->item_limit = 10;
 		}
-		
+		//eDebug($object);exit();
 		return $object;
 	}
 }

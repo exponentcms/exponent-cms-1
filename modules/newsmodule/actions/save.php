@@ -42,7 +42,10 @@ if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
 ) {
 	
 	$news = newsitem::update($_POST,$news);
-	
+
+	//Get and add the tags selected by the user
+	$news->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
+		
 	//not sure why this is here - added by James?
 	/*if (!isset($news->id) && $db->countObjects('newsitem',"internal_name='".$news->internal_name."'")) {
 		unset($_POST['internal_name']);
