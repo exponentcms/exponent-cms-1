@@ -23,7 +23,7 @@
 		window.open('{$pickerurl}','sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
 	 {rdelim}
 </script>
-
+{if $edit_mode != 1}
 <table cellpadding="5" cellspacing="0" border="0">
 <tr>
 <td>
@@ -46,3 +46,4 @@
 </td>
 </tr>
 </table>
+{/if}
