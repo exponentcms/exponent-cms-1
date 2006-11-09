@@ -474,6 +474,7 @@ class mysql_database {
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
 
+		//eDebug("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
 	    	$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
@@ -511,6 +512,24 @@ class mysql_database {
 		$obj = mysql_fetch_object($res);
 		return $obj->$col;
         }
+
+	/*
+	* This function takes an array of indexes and returns an array with the objects associated with each id
+	*/
+	function selectObjectsInArray($table, $array=array(), $orderby=null) {
+		$where = '';
+		foreach($array as $array_id) {
+			if ($where == '') {
+				$where .= 'id='.$array_id; 
+			} else {
+				$where .= ' OR id='.$array_id;
+			}
+		}
+	
+		//eDebug($where);
+		$res = $this->selectObjects($table, $where, $orderby);
+		return $res;
+	}
 
 	/* exdoc
 	 * Select a series of objects, and return by ID
