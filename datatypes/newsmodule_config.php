@@ -41,13 +41,33 @@ class newsmodule_config {
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->collections = array();
+			$object->show_tags = array();
 		} else {
 			$cols = unserialize($object->collections);
 			$object->collections = array();
+			$available_tags = array();
 			foreach ($cols as $col_id) {
 				$collection = $db->selectObject('tag_collections', 'id='.$col_id);
 				$object->collections[$collection->id] = $collection->name;
+
+				//while we're here we will get he list of available tags.
+				$tmp_tags = $db->selectObjects('tags', 'collection_id='.$col_id);
+				foreach ($tmp_tags as $tag) {
+					$available_tags[$tag->id] = $tag->name;
+				}
 			}
+
+			//Get the tags the user chose to show in the group by views
+			$stags = unserialize($object->show_tags);
+			$object->show_tags = array();
+			
+			if (is_array($stags)) {
+				foreach ($stags as $stag_id) {
+        	                        $show_tag = $db->selectObject('tags', 'id='.$stag_id);
+                	                $object->show_tags[$show_tag->id] = $show_tag->name;
+                        	}
+			}
+
 		}
 		$opts  = array('ASC'=>$i18n['ascending'],'DESC'=>$i18n['descending']);
 		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate']);
@@ -58,8 +78,10 @@ class newsmodule_config {
 		
 		$form->register(null,'',new htmlcontrol('<div class="moduletitle">Tagging</div><hr size="1" />'));
 		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
-		$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
 		$form->register('collections',$i18n['tag_collections'],new listbuildercontrol($object->collections,$tc_list));
+		$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
+		$form->register(null,'',new htmlcontrol($i18n['show_tags_desc']));
+		$form->register('show_tags','',new listbuildercontrol($object->show_tags,$available_tags));
 		
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
@@ -78,6 +100,7 @@ class newsmodule_config {
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
 		$object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
 		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);
+		$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
 		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
