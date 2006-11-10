@@ -17,7 +17,7 @@
 <div class="form_header">
 {$form_header}
 </div>
-<form name="form" method="post" action="/sf_trunk/index.php" enctype="">
+<form name="form" method="post" action="{$smarty.const.PATH_RELATIVE}index.php" enctype="">
 <input type="hidden" name="collection_id" id="collection_id" value="{$tag_collection}" />
 <input type="hidden" name="module" id="module" value="tags" />
 <input type="hidden" name="action" id="action" value="save_tag" />
