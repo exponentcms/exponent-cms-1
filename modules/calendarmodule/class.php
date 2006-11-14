@@ -367,6 +367,7 @@ class calendarmodule {
 		
 		if (!$config) {
 			$config->enable_categories = 0;
+			$config->enable_rss = 0;
 		}
 		$template->assign("modconfig",$config);
 		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
