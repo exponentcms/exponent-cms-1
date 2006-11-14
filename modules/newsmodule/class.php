@@ -149,7 +149,12 @@ class newsmodule {
 		$template->assign('enable_rss', $config->enable_rss);
 		
 		//Get the tags that have been selected to be shown in the grouped by tag views
-		$available_tags = unserialize($config->show_tags);
+		if (isset($config->show_tags)) {
+                        $available_tags = unserialize($config->show_tags);
+                } else {
+                        $available_tags = array();
+                }
+
 		//eDebug($available_tags);	
 
 		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
@@ -170,8 +175,9 @@ class newsmodule {
 	
 			//If this module was configured to group the newsitems by tags, then we need to change the data array a bit
 			if ($config->group_by_tags == true) {
+				$grouped_news = array();
 				foreach($news[$i]->tags as $tag) {
-					if (in_array($tag->id, $available_tags)) {
+					if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
 						if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();} 
 						array_push($grouped_news[$tag->name],$news[$i]);
 					}
