@@ -143,7 +143,7 @@ class bbmodule {
     //If the option to show online users is enabled, get the user data
     $show_users = false;
     $bbmod_config = $db->selectObject("bbmodule_config", "location_data='".serialize($loc)."'");  
-    if ($bbmod_config->whos_online == true) {
+    if ($bbmod_config != null && $bbmod_config->whos_online == true) {
       $users_online = $this->whoisOnline();
       $num_members = count($users_online);
       $anon_users = $this->total_anonymous_users();

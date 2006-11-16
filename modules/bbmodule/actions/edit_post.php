@@ -77,8 +77,9 @@ if ($bb && $user) {
     if ( isset($_GET['quote']) && $_GET['quote'] != "" ) {
       //$oldpost = $db->selectObject("bb_post", "id=".$_GET['quote']);
       $form->meta("quote", $_GET['quote']);
-      $quote_text = $db->selectObject('bb_post', "id=".$_GET['quote']);
-      $template->assign("quote_text", $quote_text->body);
+      $quote_text = $db->selectObject('bb_post', "id=".$_GET['quote']." AND parent=".$parent->id);
+      if($quote_text == null)  $template->assign("quote_text", "");
+	  else $template->assign("quote_text", $quote_text->body);
     }
 		
 		if ( (!isset($post->parent)) && (exponent_permissions_check("announcements",$loc) || exponent_permissions_check("stickies",$loc)) ) {

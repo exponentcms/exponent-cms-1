@@ -34,11 +34,10 @@
 if (!defined("EXPONENT")) exit("");
 
 $bb = null;
+$post = null;
 $post = $db->selectObject("bb_post","id=".$_GET['id']);
 	
-//update the number of times this post has been viewed
-$post->num_views++;
-$db->updateObject($post, 'bb_post');
+
 
 if ($post && $post->parent != 0) $post = $db->selectObject("bb_post","id=".$post->parent);
 if ($post) $bb = $db->selectObject("bb_board","id=".$post->board_id);
@@ -55,10 +54,28 @@ if ($post && $bb) {
 	if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 
 	//Get the user data (including the bb profile extension)	
+	$users[$post->poster] = null;
 	$users[$post->poster] = exponent_users_getUserById($post->poster);
-	$post->poster = exponent_users_getFullProfile($users[$post->poster]);
+	
+	//update the number of times this post has been viewed
+	// Also checks to make sure currently logged in user is not the user viewing the thread before adding views.
+	if(isset($_SESSION[SYS_SESSION_KEY]['user'])) {
+		if($post->poster != $_SESSION[SYS_SESSION_KEY]['user']->id && $post != null) {
+			$post->num_views++;
+			$db->updateObject($post, 'bb_post');
+		}
+	} else {
+		$post->num_views++;
+		$db->updateObject($post, 'bb_post');
+	}	
+	
+	//echo serialize($users[$post->poster]);
+	if($users[$post->poster] != null) {
+		$post->poster = exponent_users_getFullProfile($users[$post->poster]);
+	}
 	//Get the rank(s) of the poster
 	$mainloc = exponent_core_makeLocation("bbmodule", $_GET['src']);
+	//if($post->poster != null)
 	$rank_ids = $db->selectObjects('bb_ranks_users', "user_id=".$post->poster->id." AND location_data='".serialize($mainloc)."'");
 	$ranks = null;
 	for ($i = 0; $i < count($rank_ids); $i++) {
@@ -67,12 +84,16 @@ if ($post && $bb) {
 	$post->poster->ranks = $ranks;
 
 	//Get the users avatar image if available
-	$avatar = null;
-	$avatar = $db->selectObject("file", "id=".$post->poster->bb_user->file_id);  //get the users avatar
-	if ($avatar != null && $avatar != "") {
-		$post->poster->avatar_path = $avatar->directory.'/'.$avatar->filename;
-	} else {
-		$post->poster->avatar_path = "";
+	// First we must check to make sure the user has it's bb_user setup.  
+	// This should probably get setup when the user first gets created but oh well.
+	if(isset($post->poster->bb_user) && $post->poster->bb_user != null) {
+		$avatar = null;
+		$avatar = $db->selectObject("file", "id=".$post->poster->bb_user->file_id);  //get the users avatar
+		if ($avatar != null && $avatar != "") {
+			$post->poster->avatar_path = $avatar->directory.'/'.$avatar->filename;
+		} else {
+			$post->poster->avatar_path = "";
+		}
 	}
 	//eDebug($post);
 	//die();
@@ -89,13 +110,17 @@ if ($post && $bb) {
         	$replies[$i]->poster->ranks = $ranks;
 
 		//Get the users avatar image if available
-		$avatar = null;
-   	$avatar = $db->selectObject("file", "id=".$replies[$i]->poster->bb_user->file_id);  //get the users avatar
-		if ($avatar != null && $avatar != "") {
-        		$replies[$i]->poster->avatar_path = $avatar->directory.'/'.$avatar->filename;
-		} else {
-			$replies[$i]->poster->avatar_path = "";
-   	}
+		// First we must check to make sure the user has it's bb_user setup.  
+		// This should probably get setup when the user first gets created but oh well.
+		if(isset($replies[$i]->poster->bb_user) && $replies[$i]->poster->bb_user != null) {
+			$avatar = null;
+			$avatar = $db->selectObject("file", "id=".$replies[$i]->poster->bb_user->file_id);  //get the users avatar
+			if ($avatar != null && $avatar != "") {
+					$replies[$i]->poster->avatar_path = $avatar->directory.'/'.$avatar->filename;
+			} else {
+				$replies[$i]->poster->avatar_path = "";
+			}
+		}
 	}
 	//eDebug($replies);
 	//die();

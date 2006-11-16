@@ -51,8 +51,9 @@ for ($i = 0; $i < count($posts); $i++) {
 	}
 
 	//eDebug($posts);	
+	$last_reply = null;
 	$last_reply = $db->selectObject("bb_post", "id=".$posts[$i]->last_reply);
-	$posts[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
+	if($last_reply) $posts[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
 for ($i = 0; $i < count($announcements); $i++) {
