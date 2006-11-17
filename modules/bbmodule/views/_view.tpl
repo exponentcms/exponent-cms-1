@@ -96,10 +96,10 @@
 		<a href="{link action=view_thread id=$thread->id}" class="mngmntlink bb_mngmntlink">{$thread->subject}</a>
 	</td>
 	<td class="center">{$thread->num_replies}</td>
-	<td class="center">{attribution user=$thread->user}<br /><span class="bb_date">{$thread->posted|format_date:"%D %T"}</span></td>
+	<td class="center"><a href="{link action=showuserprofile module=loginmodule id=$thread->user->id}" class="mngmntlink bb_mngmntlink">{attribution user=$thread->user}</a><br /><span class="bb_date">{$thread->posted|format_date:"%D %T"}</span></td>
 	<td class="center">{$thread->num_views}</td>
 	<!--td class="center"><span class="bb_date">{$thread->posted|format_date:"%D %T"}</span></td-->
-	<td class="center"><span class="bb_date">{$thread->updated|format_date:"%D %T"}<br />{$thread->last_poster->username}</span></td>
+	<td class="center"><span class="bb_date">{$thread->updated|format_date:"%D %T"}<br /><a href="{link action=showuserprofile module=loginmodule id=$thread->last_poster->id}" class="mngmntlink bb_mngmntlink">{$thread->last_poster->username}</a></span></td>
 </tr>
 {foreachelse}
 <tr>

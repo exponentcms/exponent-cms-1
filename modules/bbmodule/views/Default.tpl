@@ -68,15 +68,15 @@
         	</a>
         	{/if}
         	{/permissions}</div>	</td>
-	<td align="center" class=""> 
-		{$board->num_topics}	</td>
+		<td align="center" class="">
+		{$board->num_topics}</td>
 	<!-- td align="center" class="">stuff</td-->
 	<td align="center" class="">
 		{if $board->last_post == null}
 			No Posts
 		{else}
 			<span class="bb_date">{$board->last_post->posted|format_date:"%D %T"}</span> <br /> 
-			{attribution user=$board->last_post->poster} 
+			<a href="{link action=showuserprofile module=loginmodule id=$board->last_post->poster->id}" class="mngmntlink bb_mngmntlink">{attribution user=$board->last_post->poster}</a>
 			<a style="border: 0px solid black" href="{link action=view_thread id=$board->last_post->id}" title="View latest post"><img src="{$smarty.const.ICON_RELATIVE}expmode.png" border="0"></a>
 	  {/if}	</td>
 </tr>
