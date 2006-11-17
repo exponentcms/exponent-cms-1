@@ -82,6 +82,16 @@ class bbmodule {
     global $user;
 
 		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
+		
+		$directory = 'files/bbmodule/avatars/';
+		if (!file_exists(BASE.$directory)) {
+			$err = exponent_files_makeDirectory($directory);
+			if ($err != SYS_FILES_SUCCESS) {
+				$template->assign('noupload',1);
+				$template->assign('uploadError',$err);
+			}
+		}
 		
 		$boards = $db->selectObjects("bb_board","location_data='".serialize($loc)."'");
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
