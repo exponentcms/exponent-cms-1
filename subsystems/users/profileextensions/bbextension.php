@@ -55,7 +55,7 @@ class bbextension {
 		$form->register("attach_signature",$i18n['attach_signature'], new radiogroupcontrol($user->bb_user->attach_signature,$yesno,false,100,3));
 		
 		//Show the avatar pic if there is one available.
-		if ($user->bb_user->file_id != "") {
+		if ($user->bb_user->file_id != 0) {
 			global $db;
 			$file = $db->selectObject('file', 'id='.$user->bb_user->file_id);
 			$form->register(null,"",new htmlcontrol('<hr size="1" />'));
@@ -70,69 +70,71 @@ class bbextension {
 	
 	function saveProfile($values,$user,$is_new) {
 		global $db;
-   
-    $bb_user = null;  
-    $bb_user = $db->selectObject('bb_user', 'uid='.$user->id);
-		$db->delete("bb_user","uid=".$user->id);
+		$bb_user = null;  
+		$bb_user = $db->selectObject('bb_user', 'uid='.$user->id);
+		//$db->delete("bb_user","uid=".$user->id);
+		if($bb_user == null) $is_new = true;
 		$bb_user->uid = intval( $user->id );
 		$bb_user->icq_num = strip_tags($values['icq_num']);
-    $bb_user->aim_addy = strip_tags($values['aim_addy']);
-    $bb_user->msn_addy = strip_tags($values['msn_addy']);
-    $bb_user->yahoo_addy = strip_tags($values['yahoo_addy']);
-    $bb_user->skype_addy = strip_tags($values['skype_addy']);
-    $bb_user->gtalk_addy = strip_tags($values['gtalk_addy']);
-    $bb_user->website = strip_tags($values['website']);
-    $bb_user->location = strip_tags($values['location']);
-    $bb_user->occupation = strip_tags($values['occupation']);
-    $bb_user->interests = strip_tags($values['interests']);
-    $bb_user->signature = strip_tags($values['signature']);
-    $bb_user->show_email_addy = $values['show_email_addy'];
-    $bb_user->hide_online_status = $values['hide_online_status'];
-    $bb_user->notify_of_replies = $values['notify_of_replies'];
-    $bb_user->notify_of_pvt_msg = $values['notify_of_pvt_msg'];
-    $bb_user->attach_signature = $values['attach_signature'];
-
-		// check for avatar images.
-    $filenew = $_FILES['file']['tmp_name'];
-    $fileup = getimagesize ( $filenew );
-    if ($fileup[2] > 0 && $fileup[1] > 0) {
+		$bb_user->aim_addy = strip_tags($values['aim_addy']);
+		$bb_user->msn_addy = strip_tags($values['msn_addy']);
+		$bb_user->yahoo_addy = strip_tags($values['yahoo_addy']);
+		$bb_user->skype_addy = strip_tags($values['skype_addy']);
+		$bb_user->gtalk_addy = strip_tags($values['gtalk_addy']);
+		$bb_user->website = strip_tags($values['website']);
+		$bb_user->location = strip_tags($values['location']);
+		$bb_user->occupation = strip_tags($values['occupation']);
+		$bb_user->interests = strip_tags($values['interests']);
+		$bb_user->signature = strip_tags($values['signature']);
+		$bb_user->show_email_addy = $values['show_email_addy'];
+		$bb_user->hide_online_status = $values['hide_online_status'];
+		$bb_user->notify_of_replies = $values['notify_of_replies'];
+		$bb_user->notify_of_pvt_msg = $values['notify_of_pvt_msg'];
+		$bb_user->attach_signature = $values['attach_signature'];
+	
+			// check for avatar images.
+		$filenew = $_FILES['file']['tmp_name'];
+		$fileup = getimagesize ( $filenew );
+		if ($fileup[2] > 0 && $fileup[1] > 0) {
 			if ($fileup[0] <= 80 && $fileup[1] <= 80) {
-                		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
-
-                		$directory = 'files/bbmodule/avatars';
-                		$fname = null;
-				            $file = null;
-				            //if the avatars directory is not there, create it.
-                    if (exponent_files_uploadDestinationFileExists($directory,'file')) {
-                        		// Auto-uniqify Logic here
-                        		$fileinfo = pathinfo($_FILES['file']['name']);
-                        		$fileinfo['extension'] = '.'.$fileinfo['extension'];
-                        		do {
-                               			$fname = basename($fileinfo['basename'],$fileinfo['extension']).uniqid('').$fileinfo['extension'];
-                        		} while (file_exists(BASE.$directory.'/'.$fname));
-				            }
-
-                		$file = file::update('file',$directory,null,$fname);
-                		if (is_object($file)) {
-                        		$bb_user->file_id = $db->insertObject($file,'file');
-			 	            } else {
-                        		// If file::update() returns a non-object, it should be a string.  That string is the error message.
-                        		$post = $_POST;
-                           	$post['_formError'] = $file;
-                        		exponent_sessions_set('last_POST',$post);
-                        		header('Location: ' . $_SERVER['HTTP_REFERER']);
-					                  exit();
-                		}
+				if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+	
+				$directory = 'files/bbmodule/avatars';
+				$fname = null;
+				$file = null;
+					//if the avatars directory is not there, create it.
+				if (exponent_files_uploadDestinationFileExists($directory,'file')) {
+					// Auto-uniqify Logic here
+					$fileinfo = pathinfo($_FILES['file']['name']);
+					$fileinfo['extension'] = '.'.$fileinfo['extension'];
+					do {
+							$fname = basename($fileinfo['basename'],$fileinfo['extension']).uniqid('').$fileinfo['extension'];
+					} while (file_exists(BASE.$directory.'/'.$fname));
+				}
+				
+				$file = file::update('file',$directory,null,$fname);
+				if (is_object($file)) {
+						$bb_user->file_id = $db->insertObject($file,'file');
+				} else {
+					// If file::update() returns a non-object, it should be a string.  That string is the error message.
+					$post = $_POST;
+					$post['_formError'] = $file;
+					exponent_sessions_set('last_POST',$post);
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
+					exit();
+				}
 			} else {
 				$post = $_POST;
 				$post['_formError'] = "Your avatar file is too large to upload.";
-        exponent_sessions_set('last_POST',$post);
-        header('Location: '.$_SERVER['HTTP_REFERER']);
+				exponent_sessions_set('last_POST',$post);
+				header('Location: '.$_SERVER['HTTP_REFERER']);
 				exit();
 			}
-        	}
-
-    $db->insertObject($bb_user,"bb_user");
+		}
+		if($is_new)
+			$db->insertObject($bb_user,"bb_user");
+		else
+			$db->updateObject($bb_user,"bb_user");
 		$user->bb_user = $bb_user;
 		unset($user->bb_user->uid);
 		return $user;
