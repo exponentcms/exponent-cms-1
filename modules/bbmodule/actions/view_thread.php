@@ -89,7 +89,7 @@ if ($post && $bb) {
 	if(isset($post->poster->bb_user) && $post->poster->bb_user != null) {
 		$avatar = null;
 		$avatar = $db->selectObject("file", "id=".$post->poster->bb_user->file_id);  //get the users avatar
-		if ($avatar != null && $avatar != "") {
+		if ($avatar != null) {
 			$post->poster->avatar_path = $avatar->directory.'/'.$avatar->filename;
 		} else {
 			$post->poster->avatar_path = "";
@@ -115,7 +115,7 @@ if ($post && $bb) {
 		if(isset($replies[$i]->poster->bb_user) && $replies[$i]->poster->bb_user != null) {
 			$avatar = null;
 			$avatar = $db->selectObject("file", "id=".$replies[$i]->poster->bb_user->file_id);  //get the users avatar
-			if ($avatar != null && $avatar != "") {
+			if ($avatar != null) {
 					$replies[$i]->poster->avatar_path = $avatar->directory.'/'.$avatar->filename;
 			} else {
 				$replies[$i]->poster->avatar_path = "";
