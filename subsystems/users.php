@@ -570,6 +570,7 @@ function exponent_users_getUserById($uid) {
 			// This can be removed as soon as 0.95 is deprecated.
 			$tmpu->is_acting_admin = 1;
 		}
+		
 		$SYS_USERS_CACHE[$uid] = $tmpu;
 	}
 	// Regardless of whether or not the user had been retrieved prior to the calling of
