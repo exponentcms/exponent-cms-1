@@ -132,8 +132,8 @@
 <input type="hidden" name="action" value="gmgr_savemembers" />
 <input type="hidden" name="id" value="{$group->id}"/>
 <input type="hidden" id="membdata" name="membdata" value="" />
-<input type="submit" value="Save" onclick="serializeData(); return true;" />
-<input type="button" value="Cancel" onclick="document.location.href = '{$__redirect}';" />
+<input type="submit" value="{$_TR.save}" onclick="serializeData(); return true;" />
+<input type="button" value="{$_TR.cancel}" onclick="document.location.href = '{$__redirect}';" />
 </form>
 <br />
 
