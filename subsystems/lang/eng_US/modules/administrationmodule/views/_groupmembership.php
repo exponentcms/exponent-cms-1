@@ -8,6 +8,8 @@ return array(
 	'user'=>'User',
 	'is_member'=>'Is Member?',
 	'group_admin'=>'Group Admin',
+	'save'=>'Save',
+	'cancel'=>'Cancel',
 );
 
 ?>

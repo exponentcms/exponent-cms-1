@@ -10,6 +10,8 @@ return array(
 	'group'=>'Group',
 	'is_member'=>'Is Member?',
 	'group_admin'=>'Group Admin',
+	'save'=>'Save',
+	'cancel'=>'Cancel',
 );
 
 ?>
