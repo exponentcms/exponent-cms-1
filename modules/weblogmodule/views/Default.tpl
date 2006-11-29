@@ -31,6 +31,7 @@
 {if $moduletitle != ""}<h1 class="moduletitle weblog_moduletitle">{$moduletitle}</h1>{/if}
 {foreach from=$posts item=post}
 <div>
+<div>
 <h1 class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
 <div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <br />
