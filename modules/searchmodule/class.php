@@ -40,10 +40,11 @@ class searchmodule {
 		$template = new template('searchmodule',$view,$loc);
 		
 		$template->assign('loc',$loc);
-		
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','configure'),$loc);
 		$template->output();
+		
 	}
 	
 	function deleteIn($loc) {
