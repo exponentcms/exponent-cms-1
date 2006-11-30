@@ -2,7 +2,7 @@
 
 return array(
 	'alt_userperm'=>'Assign user permissions on this Weblog',
-	'alt_userperm'=>'Assign group permissions on this Weblog',
+	'alt_groupperm'=>'Assign group permissions on this Weblog',
 
 	'alt_configure'=>'Configure this Weblog',
 
