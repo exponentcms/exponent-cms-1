@@ -17,16 +17,16 @@
 # a date format that isn't listed here, and you tell me, I
 # will put it in the standard distribution.
 
-%A, %B %e, %l:%M%P
+%A, %B %e, %l:%M%p
 	Monday, November 1, 2004, 6:45pm
 	
-%B %e, %l:%M%P
+%B %e, %l:%M%p
 	November 1, 2004, 6:45pm
 
 %D %T
 	11/01/04 18:45:00
 	
-%D %l:%M%P
+%D %l:%M%p
 	11/01/04 6:45pm
 
 %b %d %Y %H:%M

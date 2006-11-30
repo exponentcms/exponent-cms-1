@@ -92,6 +92,11 @@ return array(
 			'title'=>$i18n['time_format'],
 			'description'=>$i18n['time_format_desc'],
 			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('time_format'))
+		),
+		'DISPLAY_START_OF_WEEK'=>array(
+			'title'=>$i18n['start_of_week'],
+			'description'=>$i18n['start_of_week_desc'],
+			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('start_of_week'))
 		)
 	)
 );
