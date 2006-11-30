@@ -55,7 +55,7 @@
 </div>
 <div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body|summarize:html:para}</div>
-{if $smarty.const.MEANINGFUL_URLS}
+{if $smarty.const.SEF_URLS == 1}
 <div><a href="{$smarty.const.URL_FULL}content/blog/{$post->internal_name}">{$_TR.read_more}</a></div>
 {else}
 <div><a href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}</a></div>
