@@ -31,7 +31,7 @@ if (!defined('EXPONENT')) exit('');
  * @package Subsystems
  * @subpackage Database
  */
-
+ //TODO: investigate/fix PHP5 MySql function issues
 return array(
 	'name'=>'MySQL Database Backend',
 	'author'=>'James Hunt',

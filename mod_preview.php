@@ -29,10 +29,10 @@ $SYS_FLOW_REDIRECTIONPATH='previewreadonly';
 
 if (is_readable(BASE.'themes/' . DISPLAY_THEME . '/module_preview.php')) {
 	// Include the Theme's module_preview.php file if it exists.  Otherwise, we will include the default file later.
-	include_once('themes/' . DISPLAY_THEME .'/module_preview.php');
+	include_once('themes/' . DISPLAY_THEME . '/module_preview.php');
 } else if (is_readable(BASE.'module_preview.php')) {
 	// Include the default module_preview.php, because we didn't find one in the theme.
-	include_once(BASE.'module_preview.php');
+	include_once(BASE . 'module_preview.php');
 } else {
 	echo $i18n['no_preview'];
 }

@@ -43,6 +43,16 @@ $stuff = array(
 			'description'=>$i18n['use_lang_desc'],
 			'control'=>new dropdowncontrol(0,exponent_lang_list())
 		),
+		'SITE_ALLOW_REGISTRATION'=>array(
+			'title'=>$i18n['allow_registration'],
+			'description'=>$i18n['allow_registration_desc'],
+			'control'=>new checkboxcontrol()
+		),
+		'SITE_USE_CAPTCHA'=>array(
+			'title'=>$i18n['use_captcha'],
+			'description'=>$i18n['use_captcha_desc'],
+			'control'=>new checkboxcontrol()
+		),
 		'SITE_KEYWORDS'=>array(
 			'title'=>$i18n['site_keywords'],
 			'description'=>$i18n['site_keywords_desc'],
@@ -61,7 +71,7 @@ $stuff = array(
 		'SITE_403_REAL_HTML'=>array(
 			'title'=>$i18n['site_403'],
 			'description'=>$i18n['site_403_desc'],
-			'control'=>new texteditorcontrol('',15,50)
+			'control'=>new htmleditorcontrol('',15,50)
 		),
 		'SITE_DEFAULT_SECTION'=>array(
 			'title'=>$i18n['default_section'],
@@ -71,7 +81,7 @@ $stuff = array(
 		'SITE_WYSIWYG_EDITOR'=>array(
 			'title'=>$i18n['wysiwyg_editor'],
 			'description'=>$i18n['wysiwyg_editor_desc'],
-			'control'=>new dropdowncontrol(null,$installed_editors)
+			'control'=>new dropdowncontrol(null, $installed_editors)
 		),
 		'SESSION_TIMEOUT'=>array(
 			'title'=>$i18n['session_timeout'],
@@ -81,7 +91,7 @@ $stuff = array(
 		'SESSION_TIMEOUT_HTML'=>array(
 			'title'=>$i18n['timeout_error'],
 			'description'=>$i18n['timeout_error_desc'],
-			'control'=>new texteditorcontrol('',15,50)
+			'control'=>new htmleditorcontrol('',15,50)
 		),
 		'FILE_DEFAULT_MODE_STR'=>array(
 			'title'=>$i18n['fileperms'],

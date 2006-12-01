@@ -182,7 +182,7 @@ function iconTd(icon,rownum, pos) {
 		td.setAttribute("colspan",(toolbarIconSpan(icon)-1)*2+1);
 	}
 	var img = document.createElement("img");
-	img.setAttribute("src",Exponent.WYSIWYG_toolboxbuttons[icon][1]);
+	img.setAttribute("src",eXp.WYSIWYG_toolboxbuttons[icon][1]);
 	
 	td.appendChild(img);
 	

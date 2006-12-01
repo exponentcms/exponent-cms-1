@@ -75,27 +75,33 @@ if (!defined('THEME_RELATIVE')) {
 
 // iconset base
 if (!defined('ICON_RELATIVE')) {
-	if (is_readable(THEME_ABSOLUTE.'icons/')) {
+	//DEPRECATED: old directory, inconsitent naming
+	if (is_readable(THEME_ABSOLUTE . 'icons/')) {
 		/* exdoc
 		 * The relative web path to the current icon set.  If an icons/ directory exists directly
 		 * underneath the theme's directory, that is used.  Otherwise, the system falls back to
 		 * the iconset directory in the root of the Exponent directory.
 		 */
-		define('ICON_RELATIVE',THEME_RELATIVE.'icons/');
+		define('ICON_RELATIVE', THEME_RELATIVE . 'icons/');
+	} else if(is_readable(THEME_ABSOLUTE . "images/icons/")){
+		define('ICON_RELATIVE',THEME_RELATIVE . 'images/icons/');
 	} else {
-		define('ICON_RELATIVE',PATH_RELATIVE.'iconset/');
+		define('ICON_RELATIVE', PATH_RELATIVE . 'themes/common/images/icons/');
 	}
 }
 if (!defined('MIMEICON_RELATIVE')) {
-	if (is_readable(THEME_ABSOLUTE.'mimetypes/')) {
+	//DEPRECATED: old directory, inconsitent naming
+	if (is_readable(THEME_ABSOLUTE . 'mimetypes/')) {
 		/* exdoc
 		 * The relative web path to the current MIME icon set.  If a mimetypes/ directory
 		 * exists directly underneath the theme's directory, then that is used.  Otherwise, the
 		 * system falls back to the iconset/mimetypes/ directory in the root of the Exponent directory.
 		 */
-		define('MIMEICON_RELATIVE',THEME_RELATIVE.'mimetypes/');
+		define('MIMEICON_RELATIVE', THEME_RELATIVE . 'mimetypes/');
+	} else if(is_readable(THEME_ABSOLUTE . "images/icons/mimetypes" )){
+		define('MIMEICON_RELATIVE', THEME_RELATIVE . "images/icons/mimetypes/");
 	} else {
-		define('MIMEICON_RELATIVE',PATH_RELATIVE.'iconset/mimetypes/');
+		define('MIMEICON_RELATIVE', PATH_RELATIVE . 'themes/common/images/icons/mimetypes/');
 	}
 }
 
@@ -128,23 +134,29 @@ exponent_sessions_validate();
 // Initialize permissions variables
 exponent_permissions_initialize();
 
+//Initialize the navigation heirarchy
+$sections = exponent_core_initializeNavigation();
+
+//Check to see if we are executing an ajax action.
+if (isset($_REQUEST['ajax_action']) ) { 
+	define('IN_AJAX_ACTION', 1);
+} else {
+	define('IN_AJAX_ACTION', 0);
+}
+
 #$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 } else {
 	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
 }
-$section = $db->selectObject('section','id='. intval($section));
-
-//Initialize the navigation 
-$sections = exponent_core_initializeNavigation();
-
-if (!navigationmodule::canView($section)) {
+$sectionObj = $db->selectObject('section','id='. intval($section));
+if (!navigationmodule::canView($sectionObj)) {
 	define('AUTHORIZED_SECTION',0);
 } else {
 	define('AUTHORIZED_SECTION',1);
 }
-if (!navigationmodule::isPublic($section)) {
+if (!navigationmodule::isPublic($sectionObj)) {
 	define('PUBLIC_SECTION',0);
 } else {
 	define('PUBLIC_SECTION',1);
@@ -157,5 +169,4 @@ function eDebug($var){
 		echo "</xmp>";
 	}
 }
-
 ?>

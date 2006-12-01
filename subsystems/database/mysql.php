@@ -473,9 +473,8 @@ class mysql_database {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
-
-		//eDebug("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
-	    	$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
+		
+	    $res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);

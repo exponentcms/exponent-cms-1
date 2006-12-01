@@ -44,7 +44,6 @@ class searchmodule {
 		$template->register_permissions(
 			array('administrate','configure'),$loc);
 		$template->output();
-		
 	}
 	
 	function deleteIn($loc) {

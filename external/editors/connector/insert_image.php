@@ -14,10 +14,10 @@
 		<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/connector/lang/'  . exponent_lang_convertLangCode(LANG) . '.js';?>"></script>
 		<script type="text/javascript">
 		/* <![CDATA[ */
-			I18N = Exponent.I18N;
+			I18N = eXp._TR;
 					
 			function i18n(str) {
-			  return (I18N[str] || str);
+			  return (eXp._TR[str] || str);
 			};
 			
 			function efm_pickedFile(file_id,file_path) {
@@ -26,7 +26,7 @@
 			}
 			
 			function Init() {
-				__dlg_translate(I18N);
+				__dlg_translate(eXp._TR);
 				__dlg_init();
 				var param = window.dialogArguments;
 			
@@ -42,7 +42,7 @@
 						window.ipreview.location.replace(param.f_url);
 					}
 					else {
-						window.ipreview.location.replace(Exponent.PATH_RELATIVE + param.f_url);
+						window.ipreview.location.replace(eXp.PATH_RELATIVE + param.f_url);
 					}
 				}
 			
@@ -101,7 +101,7 @@
 				if (url.substr(0,7) == "http://") {
 					window.ipreview.location.replace(url);
 				} else {
-					window.ipreview.location.replace(Exponent.PATH_RELATIVE + url);
+					window.ipreview.location.replace(eXp.PATH_RELATIVE + url);
 				}
 			
 				return false;

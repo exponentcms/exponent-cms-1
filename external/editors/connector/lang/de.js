@@ -1,19 +1,19 @@
 // german version for htmlArea v3.0 - Alpha Release
 // - translated by AtK<atk@chello.at>
-// term´s and licenses are equal to htmlarea!
+// termï¿½s and licenses are equal to htmlarea!
 // translation improved by broxx<broxx@broxx.com>
 
-Exponent.I18N = {
+eXp._TR = {
 		"Select a Page, or Content"							: "Verweise auf Seiten oder Inhalte",
 		"Link to a Page"									: "Verweis auf Seite",
 		"Link to Content"									: "Verweis auf Inhalt",
 		"Internal Links"									: "Interne Verweise",
 		"Manually Enter Address"							: "Adresse Manuell Eingeben",
 		"External Website"									: "Externe Website",
-		"Additional Link Options"							: "Zusätzliche Optionen",
+		"Additional Link Options"							: "Zusï¿½tzliche Optionen",
 		"Cancel"                                            : "Abbrechen",
-		"Insert/Modify Link"                                : "Internet-Link Anlegen/Verändern",
-		"New window (_blank)"                               : "In neuem Fenster öffnen (_blank)",
+		"Insert/Modify Link"                                : "Internet-Link Anlegen/Verï¿½ndern",
+		"New window (_blank)"                               : "In neuem Fenster ï¿½ffnen (_blank)",
 		"None (use implicit)"                               : "Keines (implicit)",
 		"OK"                                                : "OK",
 		"Other"                                             : "Sonstiges",
@@ -22,11 +22,11 @@ Exponent.I18N = {
 		"Title (tooltip)"                                  : "Titel (tooltip)",
 		"Top frame (_top)"                                  : "Im obersten Rahmen (_top)",
 		"URL"                                              : "URL",
-		"You must enter the URL where this link points to"  : "Sie müssen eine Ziel-URL auswählen/eingeben !",
+		"You must enter the URL where this link points to"  : "Sie mï¿½ssen eine Ziel-URL auswï¿½hlen/eingeben !",
 		"Image Preview"										: "Voransicht",
 		"Alignment"											: "Anordnung",
-		"Border Thickness"									: "Stärke der Ränder",
-		"Spacing"											: "Abstände",
+		"Border Thickness"									: "Stï¿½rke der Rï¿½nder",
+		"Spacing"											: "Abstï¿½nde",
 		"Not Set"											: "k. A.",
 		"Left"												: "Links",
 		"Right"												: "Rechts",
@@ -38,13 +38,13 @@ Exponent.I18N = {
 		"Alternate Text"									: "Alternativer Text",
 		"Horizontal"										: "Horizontal",
 		"Vertical"											: "Vertikal",
-		"Insert/Modify Image"								: "Bild Einfügen/Verändern",
+		"Insert/Modify Image"								: "Bild Einfï¿½gen/Verï¿½ndern",
 		"Browse"											: "Durchsuchen",
 		"Enter the image URL here"							: "Bitte die Internetadresse(URL) des Bildes eingeben",
-		"Browse Uploaded Images and Select One"				: "Ein Bild aus der Gallerie wählen",
-		"For browsers that don't support images"			: "Alternative für Browser ohne Bilddarstellung",
+		"Browse Uploaded Images and Select One"				: "Ein Bild aus der Gallerie wï¿½hlen",
+		"For browsers that don't support images"			: "Alternative fï¿½r Browser ohne Bilddarstellung",
 		"Positioning of this image"							: "Position des Bildes",
-		"Leave empty for no border"							: "Leerlassen, wenn keine Ränder gewünscht",
+		"Leave empty for no border"							: "Leerlassen, wenn keine Rï¿½nder gewï¿½nscht",
 		"Horizontal padding"								: "Horizontaler Abstand",
 		"Vertical padding"									: "Vertikaler Abstand"
 };

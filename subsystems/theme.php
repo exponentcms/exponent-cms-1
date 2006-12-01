@@ -124,15 +124,21 @@ function exponent_theme_sourceSelectorInfo() {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_theme_headerInfo($section) {
+function exponent_theme_headerInfo($section /*this variable is now deprecated*/) {
+	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
-	$str = '<title>'.($section->page_title == "" ? SITE_TITLE : $section->page_title)."</title>\r\n";
-	$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
-	$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
-	$str .= "\t\t".'<meta name="Keywords" content="'.($section->keywords == "" ? SITE_KEYWORDS : $section->keywords) . '" />'."\n";
-	$str .= "\t\t".'<meta name="Description" content="'.($section->description == "" ? SITE_DESCRIPTION : $section->description) . '" />'."\n";
-	$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
-	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
+	$str = '';
+	if ($sectionObj != null) {
+		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
+		$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
+		$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
+		$str .= "\t\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
+		$str .= "\t\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
+		$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
+		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
+		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/scriptaculous/lib/prototype.js"></script>'."\r\n";
+	    $str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/scriptaculous/src/scriptaculous.js"></script>'."\r\n";
+	}
 	return $str;
 }
 
@@ -160,14 +166,14 @@ function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null,
 		$src = $config['src_prefix'].$prefix;
 		$section = null;
 	} else {
-		global $section;
+		global $sectionObj;
 		//$last_section = exponent_sessions_get("last_section");
 		//$section = $db->selectObject("section","id=".$last_section);
-		$src .= $section->id;
+		$src .= $sectionObj->id;
 	}
 	
 	
-	exponent_theme_showModule($module,$view,$title,$src,$pickable,$section);
+	exponent_theme_showModule($module,$view,$title,$src,$pickable,$sectionObj->id);
 }
 
 /* exdoc
@@ -209,15 +215,16 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 	if (!AUTHORIZED_SECTION && $module != 'navigationmodule' && $module != 'loginmodule') {
 		return;
 	}
-	global $db;
+	global $db, $sectionObj;
 	// Ensure that we have a section
+	//FJD - changed to $sectionObj
 	if ($section == null) {
 		$section_id = exponent_sessions_get('last_section');
 		if ($section_id == null) {
 			$section_id = SITE_DEFAULT_SECTION;
-		}
-		//$section = $db->selectObject('section','id='.$section_id);
-		$section->id = $section_id;
+		}		
+		$sectionObj = $db->selectObject('section','id='.$section_id);
+		//$section->id = $section_id;
 	}
 	if ($module == "loginmodule" && defined("PREVIEW_READONLY") && PREVIEW_READONLY == 1) return;
 	
@@ -234,8 +241,8 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 		$locref->internal = "";
 		$locref->refcount = 1000;
 		$db->insertObject($locref,"locationref");
-		if ($section != null) {
-			$locref->section = $section->id;
+		if ($sectionObj != null) {
+			$locref->section = $sectionObj->id;
 			$locref->is_original = 1;
 			$db->insertObject($locref,'sectionref');
 		}

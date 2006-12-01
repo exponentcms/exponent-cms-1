@@ -24,7 +24,7 @@ if (!defined('EXPONENT')) exit('');
 <html>
 	<head>
 		<title><?php echo SITE_TITLE; ?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=<?PHP echo LANG_CHARSET; ?>" />
 		<meta name="Generator" value="Exponent Content Management System" />
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 		<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>exponent.js.php"></script>
@@ -44,8 +44,8 @@ if (!defined('EXPONENT')) exit('');
 	$title = $_GET['title'];
 	
 	$source = (isset($_GET['source']) ? $_GET['source'] : '@example');
-	$loc = exponent_core_makeLocation($module,$source,'');
-	$mod->show($view,$loc,$title);
+	$loc = exponent_core_makeLocation($module, $source,'');
+	$mod->show($view, $loc, $title);
 	?>
 	<script type="text/javascript">
 	var elems = document.getElementsByTagName("a");

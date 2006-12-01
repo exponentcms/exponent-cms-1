@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -32,7 +33,7 @@ return array(
 		'MAINTENANCE_MSG_HTML'=>array(
 			'title'=>$i18n['maint_msg'],
 			'description'=>$i18n['maint_msg_desc'],
-			'control'=>new texteditorcontrol()
+			'control'=>new htmleditorcontrol()
 		)
 	)
 );

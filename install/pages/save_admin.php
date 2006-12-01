@@ -31,8 +31,12 @@ if ($user->username == '') {
 	$user->is_admin = 1;
 	$user->is_acting_admin = 1;
 	$user->email = $_POST['email'];
+	$user->created_on = time();
 	
 	$db->updateObject($user,'user');
+	
+	//create anonymous user
+	include(BASE . "install/upgrades/0.95.6/create_anonymous_user.php");
 	
 	header('Location: '.'index.php?page=final');
 }

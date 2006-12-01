@@ -61,7 +61,7 @@ if (exponent_permissions_check('htmlarea',exponent_core_makeLocation('administra
 <script type="text/javascript">
 	var imagePrefix = "";
 	// populate the button panel
-	exponentJSbuildHTMLEditorButtonSelector(Exponent.WYSIWYG_toolboxbuttons);
+	exponentJSbuildHTMLEditorButtonSelector(eXp.WYSIWYG_toolboxbuttons);
 		
 <?php
 	
@@ -78,17 +78,17 @@ if ($config == null) {
 } else {
 ?>	
 
-	Exponent.WYSIWYG_toolbar = <?php echo $config->data; ?>;
+	eXp.WYSIWYG_toolbar = <?php echo $config->data; ?>;
 	
-	for(currRow = 0; currRow < Exponent.WYSIWYG_toolbar.length; currRow++) {
+	for(currRow = 0; currRow < eXp.WYSIWYG_toolbar.length; currRow++) {
 		rows.push(new Array());
 		rowlens.push(0);
 		
-		for(currButton = 0; currButton < Exponent.WYSIWYG_toolbar[currRow].length; currButton++) {
+		for(currButton = 0; currButton < eXp.WYSIWYG_toolbar[currRow].length; currButton++) {
 			//TODO: decide whether to disallow empty rows altoghether -> htmlareatoolbarbuilder.js->save()
-			if (Exponent.WYSIWYG_toolbar[currRow][currButton] != "") {
-				rows[currRow].push(Exponent.WYSIWYG_toolbar[currRow][currButton]);
-				disableToolbox(Exponent.WYSIWYG_toolbar[currRow][currButton]);
+			if (eXp.WYSIWYG_toolbar[currRow][currButton] != "") {
+				rows[currRow].push(eXp.WYSIWYG_toolbar[currRow][currButton]);
+				disableToolbox(eXp.WYSIWYG_toolbar[currRow][currButton]);
 			}
 		}
 	}
@@ -103,10 +103,12 @@ if ($config == null) {
 <form method="post">
 <input type="hidden" name="module" value="administrationmodule"/>
 <input type="hidden" name="action" value="htmlarea_saveconfig"/>
-<?php if ($config->id) { ?><input type="hidden" name="id" value="<?php echo $config->id; ?>"/><?php } ?>
+<?php if (isset($config->id)) { ?>
+	<input type="hidden" name="id" value="<?php echo $config->id; ?>"/>
+<?php } ?>
 <input type="hidden" name="config" value="" id="config_htmlarea" />
-Configuration Name:<br /><input type="text" name="config_name" value="<?php echo $config->name ?>" /><br />
-<input type="checkbox" name="config_activate" <?php echo ($config->active == 1 ? 'checked="checked" ' : '');?>/> Activate?<br />
+Configuration Name:<br /><input type="text" name="config_name" value="<?php echo (isset($config->name) ? $config->name : ""); ?>" /><br />
+<input type="checkbox" name="config_activate" <?php echo (isset($config->active) && $config->active == 1 ? 'checked="checked" ' : '');?>/> Activate?<br />
 
 <input type="submit" value="Save" onclick="save(this.form); return false">
 </form>

@@ -50,7 +50,7 @@ if (exponent_permissions_check('configuration',exponent_core_makeLocation('admin
 	
 	$dd = new dropdowncontrol($configname,$profiles);
 	$href = preg_replace("/&configname.*/",'',$_SERVER['REQUEST_URI']);
-	$dd->jsHooks['onChange'] = "document.location.href = makeLink('module','administrationmodule','action','configuresite','configname',this.options[this.selectedIndex].value);";
+	$dd->jsHooks['onchange'] = "document.location.href = eXp.makeLink('module', 'administrationmodule', 'action', 'configuresite', 'configname', this.options[this.selectedIndex].value);";
 	$form->register('configname',$i18n['profile'],$dd);
 	$template->assign('form_html',$form->toHTML());
 	

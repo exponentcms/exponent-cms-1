@@ -29,8 +29,8 @@ class calendarmodule_config {
 			$object->enable_categories = 0;
 			$object->enable_feedback = 0;
 			$object->enable_rss = false;
-      $object->feed_title = "";
-      $object->feed_desc = "";
+      		$object->feed_title = "";
+      		$object->feed_desc = "";
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -40,8 +40,8 @@ class calendarmodule_config {
 		$form->register('enable_feedback',$i18n['enable_feedback'],new checkboxcontrol($object->enable_feedback,true));				
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
-    $form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
-    $form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
+   		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
+   		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
@@ -51,8 +51,8 @@ class calendarmodule_config {
 		$object->enable_categories = (isset($values['enable_categories']) ? 1 : 0);
 		$object->enable_feedback = (isset($values['enable_feedback']) ? 1 : 0);
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
-    $object->feed_title = $values['feed_title'];
-    $object->feed_desc = $values['feed_desc'];
+    	$object->feed_title = $values['feed_title'];
+    	$object->feed_desc = $values['feed_desc'];
 		return $object;
 	}
 }

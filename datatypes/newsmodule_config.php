@@ -109,7 +109,7 @@ class newsmodule_config {
 		} else {
 			$object->item_limit = 10;
 		}
-		//eDebug($object);exit();
+		
 		return $object;
 	}
 }

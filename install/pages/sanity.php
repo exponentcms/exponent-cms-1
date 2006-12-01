@@ -97,8 +97,7 @@ if ($errcount > 0) {
 	}
 	?>
 	<br /><br />
-	
-	<?
+<?php
 	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'new'){
 		?>
 		<a href="index.php?page=sanity&type=new"><?php echo $i18n['rerun']; ?></a>

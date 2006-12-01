@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/connector/lang/' . exponent_lang_convertLangCode(LANG) . '.js'?>"></script>
   		<script type="text/javascript">
 		/* <![CDATA[ */
-			I18N = Exponent.I18N;
+			I18N = eXp.I18N;
 			
 			function i18n(str) {
   				return (I18N[str] || str);
@@ -107,7 +107,7 @@
 
 	</head>
 
-	<body onload="__dlg_translate(I18N);">
+	<body onload="__dlg_translate(eXp._TR);">
 		<div class="title">Insert/Modify Link</div>
 
 		<table border="0" style="width: 100%;">

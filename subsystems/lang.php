@@ -43,24 +43,24 @@ function exponent_lang_list() {
 
 function exponent_lang_initialize() {
 	if (!defined('LANG')) {
-		if ((is_readable(BASE.'subsystems/lang/'.USE_LANG.'.php')) && (USE_LANG != 'en')) {
-			define('LANG',USE_LANG); // Lang file exists.
+		if ((is_readable(BASE . 'subsystems/lang/' . USE_LANG . '.php')) && (USE_LANG != 'en')) {
+			define('LANG', USE_LANG); // Lang file exists.
 		} else {
-			define('LANG','eng_US'); // Fallback to 'eng_US' if language file not present.
+			define('LANG', 'eng_US'); // Fallback to 'eng_US' if language file not present.
 		}
-		$info = include(BASE.'subsystems/lang/'.LANG.'.php');
-		setlocale(LC_ALL,$info['locale']);
-		// For view resolution
-		define('DEFAULT_VIEW',$info['default_view']);
+		$info = include(BASE . 'subsystems/lang/' . LANG.'.php');
+		setlocale(LC_ALL, $info['locale']);
+		//DEPRECATED: we no longer use views for i18n
+		define('DEFAULT_VIEW', $info['default_view']);
 		// For anything related to character sets:
-		define('LANG_CHARSET',$info['charset']);
+		define('LANG_CHARSET', $info['charset']);
 	}
 }
 
 function exponent_lang_loadLangs() {
 	$ret = array();
 	if (is_readable(BASE.'subsystems/lang')) {		
-		while (($lang_file = readfile(BASE.'subsystems/lang/*.php')) !== false) {
+		while (($lang_file = readfile(BASE . 'subsystems/lang/*.php')) !== false) {
 			if (is_readable($lang_file)) {
 				$ret = include($lang_file);
 			}
@@ -77,6 +77,7 @@ function exponent_lang_loadLangs() {
  *
  * @return Array The language set found, or an empty array if no set file was found.
  */
+ //TODO: change api to use a global location object, which tells us module(/other types) and view, then we can do overriding cleanly
 function exponent_lang_loadFile($filename) {
 
 
@@ -85,6 +86,9 @@ function exponent_lang_loadFile($filename) {
 	if (!function_exists("loadStrings")) {
 		//pass-by-reference to shave off a copy operation
 		function loadStrings(&$tr_array, $filepath) {
+			//TODO: use GPR to allow for local overrides/extensions
+			//remove $lang_dir
+			//$filepath = array_pop(exponent_core_resolveFilePaths());
 			if (is_readable($filepath)) {
 				$tr_array = array_merge($tr_array, include($filepath));
 			}
@@ -99,10 +103,13 @@ function exponent_lang_loadFile($filename) {
 	//set the language directory
 	$lang_dir = BASE . 'subsystems/lang/' . LANG;
 	
-	//check if the requested language is installed
-	if (!file_exists($lang_dir)) {
+	// check if the requested language file is installed
+	// in that specific language
+	// (an incomplete translation)
+	if (!file_exists($lang_dir . "/" . $filename)) {
 
-		// If we get to this point, the preferred language does not exist.  Try english.
+		// If we get to this point,
+		// the preferred language file does not exist.  Try english.
 		$lang_dir = BASE . 'subsystems/lang/eng_US';
 	}
 
@@ -138,14 +145,21 @@ function exponent_lang_loadFile($filename) {
  *
  * @return Array The language set found, or an empty array if no set file was found.
  */
-function exponent_lang_loadKey($filename,$key) {
+function exponent_lang_loadKey($filename, $key) {
 	// First we load the full set.
 	$keys = exponent_lang_loadFile($filename);
-	// Then we return just the key we were told to.
-#	// HACK
-#	return '[i18n]'.$keys[$key].'[/i18n]';
-#	// END HACK
-	return $keys[$key];
+
+	// return either the looked-up value
+	// or if non-existent
+	// the key itself, so there is a visual indicator
+	// of a missing translation
+	if($keys[$key] != null) {
+		$return_value = $keys[$key];
+	} else {
+		$return_value = $key;
+	}
+		
+	return $return_value;
 }
 
 /*

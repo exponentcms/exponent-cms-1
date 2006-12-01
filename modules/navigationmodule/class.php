@@ -132,7 +132,7 @@ class navigationmodule {
 				$html .= navigationmodule::levelShowDropdown($node->id,$depth+1,$default,$ignore_ids);
 			}
 		}
-		return $options;
+		return $html;
 	}
 	
 	/*
@@ -177,8 +177,7 @@ class navigationmodule {
 			exponent_sessions_setCacheValue('navigationmodule', $cache);
 		} else {
 			$kids = $cache['kids'][$parent];
-		}
-		
+		}		
 			
         if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($kids,'exponent_sorting_byRankAscending');
@@ -336,6 +335,7 @@ class navigationmodule {
 	
 	function canView($section) {
 		global $db;
+		if ($section == null) {return false;}
 		if ($section->public == 0) {
 			// Not a public section.  Check permissions.
 			return exponent_permissions_check('view',exponent_core_makeLocation('navigationmodule','',$section->id));
@@ -353,7 +353,7 @@ class navigationmodule {
 
     function isPublic($s) {
        global $db;
-
+	if ($s == null) {return false;}
         while ($s->public && $s->parent >0) {
             $s = $db->selectObject('section','id='.$s->parent);
         }

@@ -66,7 +66,7 @@
 
 			div.scroller {
 				width: 650px;
-                                height: 600px;
+                height: 600px;
 				overflow: auto;
 			}
 

@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright 2006 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -374,6 +375,180 @@ function exponent_core_maxUploadSizeMessage() {
 	}
 	$i18n = exponent_lang_loadFile('subsystems/core.php');
 	return sprintf($i18n['max_upload'],$size_msg);
+}
+
+/* exdoc
+ * This function converts an absolute path, such as the one provided
+ * by the exponent_core_resolveFilePaths() function into a relative one.
+ * 
+ * This is useful if the file is not to be included server-
+ * but loaded client-side
+ *
+ * @param string $inPath The absolute file path
+ * @node Subsystems:Core
+ */
+function exponent_core_abs2rel($inPath) {
+	//TODO: Investigate the chances of BASE occurring more than once
+	$outPath = str_replace(BASE, PATH_RELATIVE, $inPath);
+	return $outPath;
+}
+
+
+//helper function
+function glob2keyedArray($workArray){
+	$temp = array();
+	foreach($workArray as $myWorkFile){
+		$temp[basename($myWorkFile)] = $myWorkFile;
+	} 
+	return $temp;
+}
+
+
+/* exdoc
+ * This function finds the most appropriate version of a file
+ *  - if given wildcards, files -
+ * and returns an array with the file's physical loaction's full path or,
+ * if no file was found, false
+ *
+ * @param string $type (to be superceeded) type of base ressource (= directory name)
+ * @param string $name (hopefully in the future type named) Ressource identifier (= class name = directory name)
+ * @param string $subtype type of the actual file (= file extension = (future) directory name)
+ * @param string $subname name of the actual file (= filename name without extension)
+ * 
+ * @node Subsystems:Core
+ */
+function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
+	//TODO: implement caching
+	//TODO: optimization - walk the tree backwards and stop on the first match
+	
+	
+	//once baseclasses are in place, simply lookup the baseclass name of an object
+	if($type == "guess") {
+		// new style name processing
+		//$type = array_pop(preg_split("*(?=[A-Z])*", $name));
+
+		
+		//TODO: convert everything to the new naming model
+		if(stripos($name, "module") != false){
+			$type = "modules";
+		} else if (stripos($name, "control") != false) {
+			$type = "controls";
+		} else if (stripos($name, "theme") != false) {
+			$type = "themes";
+		}
+	}
+	
+	// convert types into paths
+	$relpath = '';
+	if ($type == "modules") {
+		$relpath .= "modules/";
+	} elseif($type == "forms") {
+		$relpath .= "subsystems/forms/";
+	} elseif($type == "themes") {
+		$relpath .= "themes/";
+	} elseif($type == "datatypes") {
+		$relpath .= "datatypes/";
+	} elseif($type == "controls") {
+		$relpath .= "subsystems/forms/controls/";
+	// new style names
+	} elseif($type == "Control") {
+		$relpath .= "subsystems/forms/controls/";
+	} elseif($type == "Form") {
+		$relpath .= "subsystems/forms/";
+	} elseif($type == "Module") {
+		$relpath .= "modules/";
+	} elseif($type == "Theme") {
+		$relpath .= "themes/";
+	}
+	
+	// for later use for searching in lib/common
+	$typepath = $relpath;
+	if ($name != "") {
+		$relpath .= $name . "/";
+	}
+	
+	// for later use for searching in lib/common
+	$relpath2 = '';
+	if ($subtype == "css") {
+		$relpath2 .= "css/";
+	} elseif($subtype == "js") {
+		$relpath2 .= "js/";
+	} elseif($subtype == "tpl") {
+		$relpath2 .= "views/";
+	} elseif($subtype == "form") {
+		$relpath2 .= "views/";
+	} elseif($subtype == "action") {
+		$relpath2 .= "actions/";
+		//HACK: workaround for now
+		$subtype = "php";
+	}
+	
+	
+	$relpath2 .= $subname;
+	if($subtype != "") {
+		$relpath2 .= "." . $subtype;
+	}
+
+	$relpath .= $relpath2;
+	
+	//TODO: handle subthemes
+	//TODO: now that glob is used build a syntax for it instead of calling it repeatedly
+	//latter override the precursors
+	$locations = array(BASE, THEME_ABSOLUTE);
+	foreach($locations as $location) {
+		$checkpaths[] = $location . $typepath . "common/" . $relpath2;
+		$checkpaths[] = $location . $relpath;
+	}
+	
+	//TODO: handle the - currently unused - case where there is 
+	//the same file in different $type categories 
+	$myFiles = array();
+	foreach($checkpaths as $checkpath) {
+		$tempFiles = glob2keyedArray(glob($checkpath));
+		if ($tempFiles != false) {
+			$myFiles = array_merge($myFiles, $tempFiles);
+		}
+	}
+	
+	if(count($myFiles) != 0) {
+		return array_values($myFiles);
+	} else {
+		//TODO: invent better error handling, maybe an error message channel ?
+		//die("The file " . basename($filepath) . " could not be found in the filesystem");
+		return false;
+	}
+		
+}
+
+/* exdoc
+ * This function is a wrapper around exponent_core_resolveFilePaths()
+ * and returns a list of the basenames, minus the fileextensions - if any 
+ *
+ * @param string $type (to be superceeded) type of base ressource (= directory name)
+ * @param string $name (hopefully in the future type named) Ressource identifier (= class name = directory name)
+ * @param string $subtype type of the actual file (= file extension = (future) directory name)
+ * @param string $subname name of the actual file (= filename name without extension)
+ * 
+ * @node Subsystems:Core
+ */
+function exponent_core_buildNameList($type, $name, $subtype, $subname) {
+	$nameList = array();
+	$fileList = exponent_core_resolveFilePaths($type, $name, $subtype, $subname);
+	if ($fileList != false) {
+		foreach ($fileList as $file) {
+			// exponent_core_resolveFilePaths() might also return directories
+			if (basename($file) != "") {
+				// just to make sure: do we have an extension ?
+				// relying on there is only one dot in the filename
+				$extension = strstr(basename($file), ".");
+				$nameList[] = basename($file, $extension);
+			} else {
+				// don't know where this might be needed, but...
+				$nameList[] = array_pop(explode("/", $file));
+			}
+		}
+	}
+	return $nameList;
 }
 
 ?>
