@@ -203,17 +203,17 @@ function exponent_users_login($username, $password) {
 	// Retrieve the user object from the database.  Note that this may be null, if the username is
 	// non-existent.
 	$user = $db->selectObject('user', "username='" . $username . "'");
-	
+	//eDebug(debug_backtrace());
 	// Check to make sure that the username exists ($user is not null)
-	echo "Here:";
-	eDebug($user);
-	if(isset($user)) {
+	//echo "Here:";
+	//eDebug($user);
+	if(isset($user) && $user != null) {
 		//DEPRECATED: scheduled for removal
 		if ($user->is_admin == 1) {
 			// User is an admin.  Update is_acting_admin, just in case.
 			// This can be removed as soon as 0.95 is deprecated.
 			$user->is_acting_admin = 1;
-		}
+		} else $user->is_acting_admin = 0;
 		
 		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
 		if (!MAINTENANCE_MODE || (MAINTENANCE_MODE && $user->is_acting_admin != 0 )){
