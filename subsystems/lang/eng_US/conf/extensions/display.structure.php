@@ -20,6 +20,9 @@ return array(
 	
 	'time_format'=>'Time Format',
 	'time_format_desc'=>'Default system-wide date format, displaying time only.',
+	
+	'start_of_week'=>'Start of Week',
+	'start_of_week_desc'=>'Default day to start the week.',
 );
 
 ?>
