@@ -24,6 +24,8 @@ exponent_users_logout();
 exponent_permissions_clear();
 exponent_sessions_unset('uilevel');
 //exponent_sessions_clearCurrentUserSessionCache();
+//TODO: Maxims initial anonymous user implementation
+exponent_users_login("anonymous", "anonymous");
 exponent_flow_redirect();
 
 ?>
