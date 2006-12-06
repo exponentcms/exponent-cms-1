@@ -218,7 +218,7 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 	global $db, $sectionObj;
 	// Ensure that we have a section
 	//FJD - changed to $sectionObj
-	if ($section == null) {
+	if ($sectionObj == null) {
 		$section_id = exponent_sessions_get('last_section');
 		if ($section_id == null) {
 			$section_id = SITE_DEFAULT_SECTION;
