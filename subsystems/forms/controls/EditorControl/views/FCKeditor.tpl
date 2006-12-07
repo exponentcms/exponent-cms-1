@@ -55,7 +55,7 @@
 		
 		eXp.WYSIWYG.setupToolbar = function(myToolbar) {
 			myLength = myToolbar.length;
-			for(currRow = 1; currRow < myLength; currRow++) {
+			for(currRow = 1; currRow < myLength; cuif(eXp.WYSIWYG.toolbox[currItem]rrRow++) {
 				//FCKeditor's way of forcing rowbreaks is placing an "/" behind an array element
 				myToolbar.splice(currRow, 0, "/");
 			}
@@ -69,8 +69,8 @@
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+					if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
 			}

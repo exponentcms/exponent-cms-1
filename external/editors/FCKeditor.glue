@@ -80,8 +80,8 @@ if (!defined("CTL_HTMLAREAINIT")) {
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+					if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
 			}
@@ -111,7 +111,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	if($config) {
 ?>		
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
-		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost:8080/external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(myConfig.setupPlugins(eXp.WYSIWYG.toolbar)) + "&toolbar=" + encodeURI(myConfig.setupToolbar(eXp.WYSIWYG.toolbar));
+		oFCKeditor.Config["CustomConfigurationsPath"] = "<?PHP echo PATH_RELATIVE; ?>external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(myConfig.setupPlugins(eXp.WYSIWYG.toolbar)) + "&toolbar=" + encodeURI(myConfig.setupToolbar(eXp.WYSIWYG.toolbar));
 <?PHP
 	}
 ?>		

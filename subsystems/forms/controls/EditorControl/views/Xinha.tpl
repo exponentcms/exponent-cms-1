@@ -44,9 +44,8 @@
 			for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 				currItem = myToolbar[currRow][currButton];
 				// plugin required ?
-				if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-					//the third column of the toolbox array contains the plugin's name
-					plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+				if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+					plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
 				}
 			}
 		}

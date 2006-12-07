@@ -43,13 +43,14 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		// if plugins are needed, set them up
 		myConfig.setupPlugins = function (myToolbar) {
 			plugins = new Array();
-			
+			alert(print_r(eXp,'-'));
 			for(currRow = 0; currRow < myToolbar.length; currRow++) {
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+					//alert(print_r(eXp.WYSIWYG,''));
+					if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+						plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
 			}
@@ -100,6 +101,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		};
 		
 		if (eXp.WYSIWYG.toolbar) {
+			//alert(print_r(eXp,''));
 			myConfig.setupPlugins(eXp.WYSIWYG.toolbar);
 			htmleditorconfig.toolbar = myConfig.setupToolbar(eXp.WYSIWYG.toolbar);
 		}
