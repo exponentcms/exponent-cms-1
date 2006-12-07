@@ -197,6 +197,11 @@ function exponent_sessions_logout() {
 	exponent_sessions_updateTicket($ticket, $user);
 	
 	exponent_permissions_clear();
+	// Initialize the users subsystem
+	require_once(BASE.'subsystems/users.php');
+	
+	//TODO: Maxims initial anonymous user implementation
+	exponent_users_login("anonymous", "anonymous");
 }
 
 /* exdoc
