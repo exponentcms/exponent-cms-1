@@ -79,9 +79,9 @@ class newsmodule_config {
 		$form->register(null,'',new htmlcontrol('<div class="moduletitle">Tagging</div><hr size="1" />'));
 		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
 		$form->register('collections',$i18n['tag_collections'],new listbuildercontrol($object->collections,$tc_list));
-		$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
-		$form->register(null,'',new htmlcontrol($i18n['show_tags_desc']));
-		$form->register('show_tags','',new listbuildercontrol($object->show_tags,$available_tags));
+		//$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
+		//$form->register(null,'',new htmlcontrol($i18n['show_tags_desc']));
+		//$form->register('show_tags','',new listbuildercontrol($object->show_tags,$available_tags));
 		
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));

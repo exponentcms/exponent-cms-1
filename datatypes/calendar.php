@@ -90,7 +90,7 @@ class calendar {
 		
 			$form->meta('date_id',$object->eventdate->id); // Will be 0 if we are creating.
 		}
-		
+		$form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">Tags</div><hr size="1" />'));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;

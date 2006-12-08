@@ -61,7 +61,10 @@ return array(
 		DB_FIELD_LEN=>100),
 	'feedback_email'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>1000)
+		DB_FIELD_LEN=>1000),
+	'tags'=>array(
+                DB_FIELD_TYPE=>DB_DEF_STRING,
+                DB_FIELD_LEN=>10000),
 );
 
 ?>
