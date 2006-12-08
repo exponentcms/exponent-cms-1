@@ -51,6 +51,48 @@ if (($item == null && exponent_permissions_check('post',$loc)) ||
 	}
 	
 	$i18n = exponent_lang_loadFile('modules/calendarmodule/actions/edit.php');
+
+	if ($config->enable_tags) {
+                $cols = array();
+                $tags = array();
+                $cols = unserialize($config->collections);
+                if (count($cols) > 0) {
+                        foreach ($cols as $col) {
+                                $available_tags = array();
+                                $available_tags = $db->selectObjects('tags', 'collection_id='.$col);
+                                $tags = array_merge($tags, $available_tags);
+                        }
+
+                        if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+                        usort($tags, "exponent_sorting_byNameAscending");
+
+                        $tag_list = array();
+                        foreach ($tags as $tag) {
+                                $tag_list[$tag->id] = $tag->name;
+                        }
+
+                        $selected_tags = array();
+                        $used_tags = array();
+                        if (isset($item->id)) {
+                                $tag_ids = unserialize($item->tags);
+                                if (is_array($tag_ids)) {  //If it's not an array, we don't have any tags.
+                                        $selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');
+                                        foreach ($selected_tags as $selected_tag) {
+                                                $used_tags[$selected_tag->id] = $selected_tag->name;
+                                        }
+                                }
+                        }
+
+                        if (count($tag_list) > 0) {
+                                $form->registerAfter('tag_header','tags',$i18n['tags'],new listbuildercontrol($used_tags,$tag_list));
+                        } else {
+                                $form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>There are no tags assigned to the collection(s) available to this module.</div>'));
+                        }
+                } else {
+                        $form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>No tag collection have been assigned to this module</div>'));
+                }
+
+        }
 	
 	if ($config->enable_categories == 1) {
 		$ddopts = array();

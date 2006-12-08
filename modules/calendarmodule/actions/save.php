@@ -37,6 +37,9 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 	if (isset($_POST['category'])) $item->category_id = $_POST['category'];
 	else $item->category_id = 0;
 
+	//Get and add the tags selected by the user
+        $item->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
+
 	//Check to see if the feedback form is enabled and/or being used for this event.
 	if (isset($_POST['feedback_form'])) {
 		$item->feedback_form = $_POST['feedback_form'];
