@@ -6,8 +6,10 @@ return array(
 	'save'=>'Save',
 	'cancel'=>'Cancel',	
   	'enable_rss'=>'Enable RSS',
-    'feed_title'=>'Title for this RSS feed',
-    'feed_desc'=>'Description for this RSS feed',
+  	'enable_tags'=>'Enable Tags',
+  	'tag_collections'=>'Tags Collections',
+	'feed_title'=>'Title for this RSS feed',
+    	'feed_desc'=>'Description for this RSS feed',
 );
 
 ?>
