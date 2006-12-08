@@ -32,7 +32,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 	</script>
 	
 	<script type="text/javascript" src="<?PHP echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>/htmlarea.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'external/editors/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE . 'subsystems/forms/controls/EditorControl/js/' . SITE_WYSIWYG_EDITOR; ?>_toolbox.js"></script>
 	
 	<script type="text/javascript">
 	/* <![CDATA[ */

@@ -23,8 +23,7 @@ if(! eXp.WYSIWYG) {
 }
 
 //TODO: move to separate file
-eXp._TR = {
-};
+eXp._TR = {};
 
 
 
