@@ -22,7 +22,7 @@
 // first = action name
 // second = icon location
 // third = required plugin
-eXp.WYSIWYG.toolbox =	{
+eXp.WYSIWYG_toolboxbuttons =	{
 				"About" : ["About FCKEditor", "external/editors/FCKeditor/editor/skins/default/toolbar/about.gif", ""],
 				"Image" : ["Image", "external/editors/FCKeditor/editor/skins/default/toolbar/image.gif", ""],
 				"Link" : ["Link", "external/editors/FCKeditor/editor/skins/default/toolbar/link.gif", ""],

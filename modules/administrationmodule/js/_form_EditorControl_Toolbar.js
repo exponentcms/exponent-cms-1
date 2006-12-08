@@ -149,7 +149,7 @@ eXp.WYSIWYG.createButton = function(icon, rownum, pos) {
 		myButton.setAttribute("class", 'htmleditor_toolbarbutton');
 	}
 	
-	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG.toolbox[icon][1]);
+	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG_toolboxbuttons[icon][1]);
 
 	return myButton;
 }

@@ -22,7 +22,7 @@
 // first = action name
 // second = icon location
 // third = required plugin
-eXp.WYSIWYG.toolbox =	{
+eXp.WYSIWYG_toolboxbuttons =	{
 				"cut" : ["cut", "external/editors/TinyMCE/jscripts/tiny_mce/themes/advanced/images/cut.gif", ""],
 				"paste" : ["paste", "external/editors/TinyMCE/jscripts/tiny_mce/themes/advanced/images/paste.gif", ""],
 				"copy" : ["copy", "external/editors/TinyMCE/jscripts/tiny_mce/themes/advanced/images/copy.gif", ""],
