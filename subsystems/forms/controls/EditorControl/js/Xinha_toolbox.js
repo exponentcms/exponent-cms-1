@@ -24,14 +24,12 @@
 // third = required plugin
 
 eXp.WYSIWYG_toolboxbuttons =	{
- "about" : ["About Xinha", "/external/editors/Xinha/images/ed_about.gif", ""],
-        "align" : ["Align", "/external/editors/Xinha/images/ed_align.gif", ""],
+ 	"about" : ["About Xinha", "/external/editors/Xinha/images/ed_about.gif", ""],
         "align_center" : ["Align Center", "/external/editors/Xinha/images/ed_align_center.gif", ""],
         "align_justify" : ["Align Justify", "/external/editors/Xinha/images/ed_align_justify.gif", ""],
         "align_left" : ["Align Left", "/external/editors/Xinha/images/ed_align_left.gif", ""],
         "align_right" : ["Align Right", "/external/editors/Xinha/images/ed_align_right.gif", ""],
         "blank" : ["Blank", "/external/editors/Xinha/images/ed_blank.gif", ""],
-        "buttons_main" : ["Button Main", "/external/editors/Xinha/images/ed_buttons_main.gif", ""],
         "charmap" : ["Character Map", "/external/editors/Xinha/images/ed_charmap.gif", ""],
         "clearfonts" : ["Clear Fonts", "/external/editors/Xinha/images/ed_clearfonts.gif", ""],
         "color_bg" : ["Background Color", "/external/editors/Xinha/images/ed_color_bg.gif", ""],
@@ -78,5 +76,4 @@ eXp.WYSIWYG_toolboxbuttons =	{
         "insertmacro" : ["Insert Macro", "/external/editors/Xinha/images/insertmacro.png", ""],
         "tidy.gif" : ["Tidy", "/external/editors/Xinha/images/tidy.gif", ""],
         "toggle_borders" : ["Toggle Borders", "/external/editors/Xinha/images/toggle_borders.gif", ""],
-        "xinha_logo" : ["Xinha Logo", "/external/editors/Xinha/images/xinha_logo.gif", ""],
 };
