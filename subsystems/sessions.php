@@ -72,7 +72,7 @@ function exponent_sessions_initialize() {
  */
 function exponent_sessions_validate() {
 	global $db;
-
+	//eDebug($_SESSION);
 	//FJD - create a ticket for every session instead of just logged in users
 	if (!isset($_SESSION[SYS_SESSION_KEY]['ticket'])) {	
 		$ticket = exponent_sessions_createTicket();

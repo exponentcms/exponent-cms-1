@@ -14,7 +14,7 @@
 # License, or (at your option) any later version.
 #
 # GPL: http://www.gnu.org/licenses/gpl.txt
-#
+# 
 ##################################################
 
 class navigationmodule {
@@ -85,7 +85,7 @@ class navigationmodule {
 		$template->assign('current',$current);
 		$template->assign('num_sections', count($sections));
 		global $user;
-		$template->assign('canManage',(($user && $user->is_acting_admin == 1) ? 1 : 0));
+		$template->assign('canManage',((isset($user->is_acting_admin) && $user->is_acting_admin == 1) ? 1 : 0));
 		$template->assign('moduletitle',$title);
 		$template->output();
 	}
@@ -190,7 +190,7 @@ class navigationmodule {
 				$child->first = ($i == 0 ? 1 : 0);
 				$child->last = ($i == count($kids)-1 ? 1 : 0);
 				$child->parents = $parents;
-				$child->canManage = ($user && $user->is_acting_admin == 1 ? 1 : 0);
+				$child->canManage = (isset($user->is_acting_admin) && $user->is_acting_admin == 1 ? 1 : 0);
 				$child->canManageRank = $child->canManage;
 				if (!isset($child->sef_name)) {$child->sef_name = '';}
 				

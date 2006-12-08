@@ -179,8 +179,8 @@ function exponent_permissions_getSourceUID($src) {
  */
 function exponent_permissions_check($permission,$location) {
 	global $exponent_permissions_r, $user;
-	if (isset($user) && $user != null) {
-		if ($user->is_acting_admin == 1) return true;
+	if (isset($user) && $user != null) {		
+		if (isset($user->is_acting_admin) && $user->is_acting_admin == 1) return true;
 		if (exponent_permissions_getSourceUID($location->src) == $user->id) return true;
 	} else {
 		return false;
