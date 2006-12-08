@@ -27,6 +27,7 @@
 	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}subsystems/forms/controls/EditorControl/js/{$smarty.const.SITE_WYSIWYG_EDITOR}_toolbox.js"></script>	
 
 	<h2>{$smarty.const.SITE_WYSIWYG_EDITOR}</h2>
+	<!--a href="http://www.xinha.com" target="_blank"><img style="border:0px solid none;" src="{$smarty.const.PATH_RELATIVE}external/editors/Xinha/images/xinha_logo.gif" /></a-->
 	<p>{$_TR.desc}</p>
 	<div>
 		<div id="editorcontrol_toolbox" class="clearfloat"></div>
