@@ -23,7 +23,20 @@ $i18n = exponent_lang_loadFile('install/pages/admin_user.php');
 
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
-<form method="post">
+<span style="color: red; font-weight: bold; padding-top: 8px;" id="errorMessage"></span>
+<script>
+function checkPassword(f){	
+	if (f.password.value != f.password2.value) {
+		//alert('<?php echo $i18n['bad_password_message']; ?>');
+		document.getElementById("errorMessage").innerHTML = "<?php echo $i18n['bad_password_message']; ?>";
+		return false;
+	}else{
+		f.submit();
+		return true;
+	}
+}
+</script>
+<form method="post" onsubmit="return checkPassword(this);">
 <input type="hidden" name="page" value="save_admin" />
 <div class="form_section">
 	<div class="control">
@@ -35,12 +48,14 @@ $i18n = exponent_lang_loadFile('install/pages/admin_user.php');
 	</div>
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['password']; ?>: </span>
-		<input class="text" type="text" name="password" value="
+		<input class="text" type="password" name="password" value="" />
 <?php
+//FJD - this isn't working well and it's unnecessary
+
 //		Written by Michael Bernd, adapted by Maxim Mueller for eXp
 //		Public Domain
 //
-//		letzte Änderung: Michael Berndt - Berlin
+//		letzte ï¿½nderung: Michael Berndt - Berlin
 //		Montag der 09. Mai. 2005
 //		08:01:53
 //
@@ -54,17 +69,17 @@ $i18n = exponent_lang_loadFile('install/pages/admin_user.php');
 // - at least 1 small alphabetic character
 // - at least 1 capital alphabetic character
 
-function Berndt ($passwd_length){
+/*function Berndt ($passwd_length){
 	$s[0]=array('0','1','2','3','4','5','6','7','8','9',);
-	$s[1]=array('!','"','§','%','/','(',')','=','?','`',
-			'#','+','*','~',';','.','-','|','<','>','^','°');
+	$s[1]=array('!','"','ï¿½','%','/','(',')','=','?','`',
+			'#','+','*','~',';','.','-','|','<','>','^','ï¿½');
 	$s[2]=array('A','B','C','D','E','F','G','H','I','J','K',
 			'L','M','N','O','P','Q','R','S','T','U','V',
 			'W','X','Y','Z');
 	$s[3]=array('a','b','c','d','e','f','g','h','i','j','k',
 			'l','m','n','o','p','q','r','s','t','u','v',
 			'w','x','y','z');
-	$s[4]=array('Ä','Ö','Ü','ä','ö','ü','ß');
+	$s[4]=array('ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½');
 
 	$l=count($s);
 
@@ -84,10 +99,17 @@ function Berndt ($passwd_length){
 }
 
 	echo Berndt(8);
-
-?>" />
+*/
+?>
 		<div class="control_help">
 			<?php echo $i18n['password_desc']; ?>
+		</div>
+	</div>
+		<div class="control">
+		&#0149; <span class="control_caption"><?php echo $i18n['password2']; ?>: </span>
+		<input class="text" type="password" name="password2" value="" />
+		<div class="control_help">
+			<?php echo $i18n['password_desc2']; ?>
 		</div>
 	</div>
 	<div class="control">
