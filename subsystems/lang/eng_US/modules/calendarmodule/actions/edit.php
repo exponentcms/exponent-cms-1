@@ -6,6 +6,7 @@ return array(
 	'feedback_email'=>'Feedback Email',
 	
 	'categories'=>'Category',
+	'tags'=>'Tags',
 );
 
 ?>
