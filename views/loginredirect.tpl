@@ -13,13 +13,14 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
  <html>
  <head>
 	<title>{$smarty.const.SITE_TITLE}</title>
 	<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}style.css" />
  </head>
  <body>
- <div align="center" style="font-weight: bold; font-size: 14pt;">{$smarty.const.SITE_TITLE}::{$_TR.login_page}</div>
+ <div style="text-align: center; font-weight: bold; font-size: 14pt;">{$smarty.const.SITE_TITLE}::{$_TR.login_page}</div>
 	<br />
 	<table align="center">
 		<tr>
