@@ -18,10 +18,12 @@
 //##################################################
 
 //initialize the namespace object
+//strictly speaking: unecessary because previous layers should provide that.
 if(! eXp.WYSIWYG) {
 	eXp.WYSIWYG = new Object();
 }
 
+//translation file
 //TODO: move to separate file
 eXp._TR = {};
 
@@ -134,7 +136,7 @@ eXp.WYSIWYG.createDelRowButton = function(rownum) {
 
 
 
-eXp.WYSIWYG.createButton = function(icon, rownum, pos) {
+eXp.WYSIWYG.createButton = function(currButton, rownum, pos) {
 	
 	myButton = document.createElement("img");
 	
@@ -142,13 +144,22 @@ eXp.WYSIWYG.createButton = function(icon, rownum, pos) {
 		myButton.attachEvent('onclick',function() { 
 			eXp.WYSIWYG.deleteButton(this, rownum, pos);
 		});
-		myButton.className = "editorcontrol_toolbarbutton"
+		myButton.className = "editorcontrol_toolbarbutton";
 	} else {
 		myButton.setAttribute("onclick", "eXp.WYSIWYG.deleteButton(this, " + rownum + ", " + pos + ");");
 		myButton.setAttribute("class", 'htmleditor_toolbarbutton');
 	}
 	
-	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG_toolboxbuttons[icon][1]);
+	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG_toolboxbuttons[currButton][1]);
+	myButton.setAttribute("title", eXp.i18n(eXp.WYSIWYG_toolboxbuttons[currButton][0]));
+	myButton.setAttribute("alt", currButton);
+
+	//in case we have a big combined image as the icon file,
+	//we will have a number pointing to the position as the fourth array item and
+	//a method (provided in the respective toolbox file)
+	//if(eXp.WYSIWYG_toolboxbuttons[currButton][3]) { 
+	//	myButton = eXp.WYSIWYG_toolboxbuttons.setupMasterFileIcon(myButton, eXp.WYSIWYG_toolboxbuttons[currButton][3]);
+	//}
 
 	return myButton;
 }
@@ -247,7 +258,7 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 		
 		// difference between internal name and displayed name is possible because of i18n 
 		myButton.setAttribute("src", eXp.PATH_RELATIVE + Buttons[currButton][1]);
-		myButton.setAttribute("title", Buttons[currButton][0]);
+		myButton.setAttribute("title", eXp.i18n(Buttons[currButton][0]));
 		myButton.setAttribute("alt", currButton);
 		myButton.setAttribute("id", "toolboxButton_" + currButton);
 		
@@ -262,6 +273,13 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 			myButton.setAttribute("class", 'editorcontrol_toolboxbutton');
 			myButton.setAttribute("onclick", "eXp.WYSIWYG.register('" + currButton + "')");
 		}
+
+		//in case we have a big combined image as the icon file,
+		//we will have a number pointing to the position as the fourth array item and
+		//a method (provided in the respective toolbox file)
+		//if(eXp.WYSIWYG_toolboxbuttons[currButton][3]) { 
+		//	myButton = eXp.WYSIWYG_toolboxbuttons.setupMasterFileIcon(myButton, eXp.WYSIWYG_toolboxbuttons[currButton][3]);
+		//}
 				
 		myButtonPanel.appendChild(myButton);
 		
