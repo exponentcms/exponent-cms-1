@@ -37,7 +37,7 @@
 <input type="password" name="password" id="login_password" size="15" /><br />
 <input type="submit" value="{$_TR.login}" /><br />
 </form>
-{if $smarty.const.SITE_ALLOW_REGISTRATION == 1}
+{if ($smarty.const.SITE_ALLOW_REGISTRATION == 1 && $smarty.const.MAINTENANCE_MODE != 1)}
 <a href="{link action=createuser}">{$_TR.create_account}</a><br />
 <a href="{link action=resetpass}">{$_TR.forgot_password}</a><br />
 {/if}
