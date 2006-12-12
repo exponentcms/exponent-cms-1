@@ -31,7 +31,7 @@
 {if $container->info.clickable && $container->info.class == "imagemanagermodule"}
 	<div class="container_editbox">
 		<div class="container_box">
-			<div width="100%" style="width: 100%">
+			<div style="width: 100%">
 			{$container->output}
 			</div>
 		</div>
