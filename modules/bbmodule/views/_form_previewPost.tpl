@@ -43,7 +43,7 @@
 		<tr>
 		<td align="center" style="border-width:0px;">
 		{if $thread->poster->forumPic != null}
-			<img border="0" src="thumb.php?base={$smarty.const.BASE}&file={$thread->poster->forumPic->file->directory}/{$thread->poster->forumPic->file->filename}&width=50" alt="{$thread->poster->username}" title="{$thread->poster->username}" />
+			<img border="0" src="thumb.php?base={$smarty.const.BASE}&amp;file={$thread->poster->forumPic->file->directory}/{$thread->poster->forumPic->file->filename}&amp;width=50" alt="{$thread->poster->username}" title="{$thread->poster->username}" />
 		{else}
 			&nbsp;
 		{/if}
@@ -59,7 +59,7 @@
 		</table>
 		</td>
 
-		<td align="left" style="border-width:0px;" valign="top"><br><br>
+		<td align="left" style="border-width:0px;" valign="top"><br /><br />
 				{$thread->body}
 		</td>
 	</tr>
@@ -70,5 +70,5 @@
 </table>
 
 {$form_html}
-<br>
+<br />
 *Use shift-enter to insert a single line.
