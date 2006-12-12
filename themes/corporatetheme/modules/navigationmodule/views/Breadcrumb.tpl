@@ -15,18 +15,18 @@
  *}
 <tr>
 	<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/title_bg.gif); padding: 10px;" height="25">
-	<img src="{$smarty.const.THEME_RELATIVE}images/doublearrow.gif" align="middle" hspace="5"/>
+	<img src="{$smarty.const.THEME_RELATIVE}images/doublearrow.gif" alt="" align="middle" hspace="5"/>
 {assign var=i value=0}
 {foreach from=$sections item=section}
 {if $current->parents[$i] == $section->id || $current->id == $section->id}
 {math equation="x+1" x=$i assign=i}
 {if $section->active == 1}
-<a class="mngmntlink navigation_mngmntlink" href="{$section->link}" class="navlink">{$section->name}</a>&nbsp;
+<a class="mngmntlink navigation_mngmntlink navlink" href="{$section->link}">{$section->name}</a>&nbsp;
 {else}
 <span class="navlink">{$section->name}</span>&nbsp;
 {/if}
 {if $section->id != $current->id}
-	<img src="{$smarty.const.THEME_RELATIVE}images/slash.gif" align="middle" hspace="5" />
+	<img src="{$smarty.const.THEME_RELATIVE}images/slash.gif" alt="" align="middle" hspace="5" />
 {/if}
 {/if}
 {/foreach}
