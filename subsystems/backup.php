@@ -52,7 +52,7 @@ function exponent_backup_dumpDatabase($db,$tables = null,$force_version = null) 
 	} else {
 		$dump .= 'VERSION:'.$force_version."\r\n\r\n";
 	}
-	
+
 	if (!is_array($tables)) {
 		$tables = $db->getTables();
 		if (!function_exists('tmp_removePrefix')) {
@@ -92,18 +92,18 @@ function exponent_backup_dumpDatabase($db,$tables = null,$force_version = null) 
  */
 function exponent_backup_restoreDatabase($db,$file,&$errors,$force_version = null) {
 	$errors = array();
-	
+
 	$i18n = exponent_lang_loadFile('subsystems/backup.php');
-	
+
 	if (is_readable($file)) {
 		$lines = @file($file);
-		
+
 		// Sanity check
 		if (count($lines) < 2 || trim($lines[0]) != EQL_HEADER) {
 			$errors[] = $i18n['bad_eql'];
 			return false;
 		}
-		
+
 		if ($force_version == null) {
 			$version = explode(':',trim($lines[1]));
 			$eql_version = $version[1]+0;
@@ -111,7 +111,7 @@ function exponent_backup_restoreDatabase($db,$file,&$errors,$force_version = nul
 			$eql_version = $force_version;
 		}
 		$current_version = EXPONENT+0;
-		
+
 		$clear_function = '';
 		$fprefix = '';
 		// Check version and include necessary converters
@@ -122,7 +122,7 @@ function exponent_backup_restoreDatabase($db,$file,&$errors,$force_version = nul
 				$clear_function = $fprefix.'clearedTable';
 			}
 		}
-		
+
 		$table = '';
 		$table_function = '';
 		for ($i = 2; $i < count($lines); $i++) {
@@ -132,7 +132,7 @@ function exponent_backup_restoreDatabase($db,$file,&$errors,$force_version = nul
 				$pair = explode(':',$line);
 				$pair[1] = implode(':',array_slice($pair,1));
 				$pair = array_slice($pair,0,2);
-				
+
 				if ($pair[0] == 'TABLE') {
 					$table = $pair[1];
 					if ($fprefix != '') {
@@ -147,7 +147,7 @@ function exponent_backup_restoreDatabase($db,$file,&$errors,$force_version = nul
 						if (!file_exists(BASE.'datatypes/definitions/'.$table.'.php')) {
 							$errors[] = sprintf($i18n['no_definition'],$table,$line_number);
 						} else if (!is_readable(BASE.'datatypes/definitions/'.$table.'.php')) {
-							$errors[] = sprintf($i18n['unreadable_definition'],$table,'datatypes/definitsion/'.$table.'.php',$line_number);
+							$errors[] = sprintf($i18n['unreadable_definition'],$table,'datatypes/definitions/'.$table.'.php',$line_number);
 						} else {
 							$dd = include(BASE.'datatypes/definitions/'.$table.'.php');
 							$info = (is_readable(BASE.'datatypes/definitions/'.$table.'.info.php') ? include(BASE.'datatypes/definitions/'.$table.'.info.php') : array());
