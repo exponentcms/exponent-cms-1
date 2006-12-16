@@ -59,7 +59,7 @@
 	{/permissions}
 	<br />
 {foreachelse}
-	<i>No upcoming events.</i><br />
+	<i>{$_TR.no_event}</i><br />
 {/foreach}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
