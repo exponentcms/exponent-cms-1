@@ -52,7 +52,7 @@ function exponentGetCookie(name) {
 
 //DEPRECATED: functional wrapper around OO API
 function makeLink() {
-	eXp.makeLink();
+	return eXp.makeLink(makeLink.arguments);
 }
 
 //DEPRECATED: functional wrapper around OO API
@@ -189,13 +189,24 @@ eXp.getCookie = function(name) {
 
 eXp.makeLink = function() {
 	var args = eXp.makeLink.arguments;
-	link = eXp.PATH_RELATIVE + "index.php?";
+	var link = eXp.PATH_RELATIVE + "index.php?";
 	for (var i = 0; i < args.length; i+=2) {
-		var v = args[i+1];
-		if (v != null && v != "") {
-			link += escape(args[i]) + "=" + escape(args[i+1]) + "&";
+		if(typeof(args[i]) == "object") {
+			for (var j = 0; j < args[i].length; j+=2) {
+				var w = args[i][j+1];
+				if (w != null && w != "") {
+					link += escape(args[i][j]) + "=" + escape(args[i][j+1]) + "&";
+					//alert(link);
+				}
+			}
+		} else {
+			var v = args[i+1];
+			if (v != null && v != "") {
+				link += escape(args[i]) + "=" + escape(args[i+1]) + "&";
+			}
 		}
 	}
+
 	return link.substr(0,link.length - 1);
 }
 
