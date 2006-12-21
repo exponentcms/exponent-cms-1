@@ -80,7 +80,7 @@
 				{/permissions}
 				</div>
 				<div class="weblog_comment_attribution">
-          <img src="{$smarty.const.THEME_RELATIVE}images/oic-arrow-small.gif" border="0" />
+          <img src="{$smarty.const.ICON_RELATIVE}/arrow_right.gif" border="0" />
           Posted by {$comment->name} on {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
         </div>
 			</div>

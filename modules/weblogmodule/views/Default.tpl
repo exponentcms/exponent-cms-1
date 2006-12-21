@@ -62,7 +62,7 @@
 <hr size="1" />
 {if $config->allow_comments}
 	<div class="comments" style="padding-left: 35px;">
-    <a href="{link action=view id=$post->id}">{$post->total_comments} Comment{if $post->total_comments != 1}s{/if} >></a>
+    		<a href="{link action=view id=$post->id}">{$post->total_comments} Comment{if $post->total_comments != 1}s{/if} >></a>
 	</div>
 {/if}
 </div>

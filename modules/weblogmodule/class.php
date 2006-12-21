@@ -96,10 +96,11 @@ class weblogmodule {
 		if ($config == null) {
 			$config->allow_comments = 1;
 			$config->items_per_page = 10;
-			$config->enable_rss = "false";
+			$config->enable_rss = false;
 		}
 		
-		//Tell the template whether or not to show the RSS button		
+		//If rss is enabled tell the view to show the RSS button
+                if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
 		$template->assign('enable_rss', $config->enable_rss);
 
 		$viewconfig = array('type'=>'default');
