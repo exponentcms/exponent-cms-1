@@ -48,13 +48,14 @@ function exponent_lang_initialize() {
 		} else {
 			define('LANG', 'eng_US'); // Fallback to 'eng_US' if language file not present.
 		}
-		$info = include(BASE . 'subsystems/lang/' . LANG.'.php');
-		setlocale(LC_ALL, $info['locale']);
-		//DEPRECATED: we no longer use views for i18n
-		define('DEFAULT_VIEW', $info['default_view']);
-		// For anything related to character sets:
-		define('LANG_CHARSET', $info['charset']);
 	}
+
+	$info = include(BASE . 'subsystems/lang/' . LANG.'.php');
+	setlocale(LC_ALL, $info['locale']);
+	//DEPRECATED: we no longer use views for i18n
+	define('DEFAULT_VIEW', $info['default_view']);
+	// For anything related to character sets:
+	define('LANG_CHARSET', $info['charset']);
 }
 
 function exponent_lang_loadLangs() {
