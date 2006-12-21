@@ -21,6 +21,7 @@ if (!defined('EXPONENT')) exit('');
 
 $versions = array(	
 	'0.96.3'=>'Origin',	
+	'0.96.5'=>'All Versions',	
 );
 
 $i18n = exponent_lang_loadFile('install/pages/upgrade_version.php');

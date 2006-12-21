@@ -23,6 +23,17 @@ if (!defined('EXPONENT')) exit('');
 $errors = array();
 
 include_once(BASE . 'modules/administrationmodule/actions/installtables.php');
+
+//Run the upgrade scripts
+$upgrade_dir = 'upgrades/'.$_POST['from_version'];
+if (is_readable($upgrade_dir)) {
+	$dh = opendir($upgrade_dir);
+        while (($file = readdir($dh)) !== false) {
+        	if (is_readable($upgrade_dir.'/'.$file) && ($file != '.' && $file != '..' && $file != '.svn') ) {
+                	include_once($upgrade_dir.'/'.$file);
+                }
+       	}
+}
 	
 $i18n = exponent_lang_loadFile('install/pages/upgrade.php');
 
