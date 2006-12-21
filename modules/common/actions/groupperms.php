@@ -24,7 +24,8 @@ if (exponent_permissions_check('administrate',$loc)) {
 	if (exponent_template_getModuleViewFile($loc->mod,'_grouppermissions',false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template('common','_grouppermissions',$loc);
 	} else {
-		$template = new template($loc->mod,'_grouppermissions',$loc);
+		$template = new template('common','_grouppermissions',$loc);
+		//$template = new template($loc->mod,'_grouppermissions',$loc);
 	}
 	$template->assign('user_form',0);
 

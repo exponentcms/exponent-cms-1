@@ -23,7 +23,12 @@ if (exponent_permissions_check('administrate',$loc)) {
 	if (exponent_template_getModuleViewFile($loc->mod,'_userpermissions',false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template('common','_userpermissions',$loc);
 	} else {
-		$template = new template($loc->mod,'_userpermissions',$loc);
+		//TODO
+		//ADK - I hard coded the common module name into the new template declaration since the path resolver 
+		// can't seem to figure out that we are in the common module and not the module that call this action.
+
+		//$template = new template($loc->mod,'_userpermissions',$loc);
+		$template = new template('common','_userpermissions',$loc);
 	}
 	$template->assign('user_form',1);
 	
