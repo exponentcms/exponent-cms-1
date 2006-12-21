@@ -18,7 +18,7 @@
 ##################################################
 
 class file {
-	function update($name,$dest,$object,$destname = null) {
+	function update($name,$dest,$object,$destname = null,$force=false) {
 		$i18n = exponent_lang_loadFile('datatypes/file.php');
 		
 		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
@@ -52,11 +52,17 @@ class file {
 		
 		// Fix the filename, so that we don't have funky characters screwing with out attempt to create the destination file.
 		$object->filename = exponent_files_fixName($object->filename);
-		
-		if (file_exists(BASE.$dest.'/'.$object->filename)) {
+	
+			
+		if (file_exists(BASE.$dest.'/'.$object->filename) && $force == false) {
 			return $err.$i18n['file_exists'];
 		}
-		
+	
+		//Check to see if the directory exists.  If not, create the directory structure.
+		if (!file_exists(BASE.$dest)) {
+			exponent_files_makeDirectory($dest);
+		}	
+
 		// Move the temporary uploaded file into the destination directory, and change the name.
 		exponent_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$object->filename);
 		
