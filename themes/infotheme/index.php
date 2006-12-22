@@ -111,6 +111,8 @@ if (!defined('EXPONENT')) exit('');
 										<td width="7">&nbsp;</td>
 										<td class="footer">
 										<?php exponent_theme_showModule("textmodule","Default","","footer"); ?>
+										<a href="http://www.exponentcms.org">Powered by Exponent Content Management System</a>
+										<br><a href="http://www.oicgroup.net">Exponent CMS Copyright&copy; OIC Group, Inc 2006</a>
 										</td>
 									</tr>
 								</table>

@@ -191,6 +191,9 @@ if (!defined('EXPONENT')) exit('');
 			</table>
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>
+			<p><a href="http://www.exponentcms.org">Powered by Exponent Content Management System</a>
+		                &nbsp;&nbsp;&nbsp;<a href="http://www.oicgroup.net">Exponent CMS copyright&copy; OIC Group, Inc 2006</a>
+			</p>
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>
 		</div>

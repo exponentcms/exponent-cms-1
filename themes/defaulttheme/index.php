@@ -83,6 +83,12 @@ if (!defined('EXPONENT')) exit('');
 					?>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="2" align="center">	
+					 <a href="http://www.exponentcms.org">Powered by Exponent Content Management System</a>
+					&nbsp;&nbsp;&nbsp;<a href="http://www.oicgroup.net">Exponent CMS Copyright&copy; OIC Group, Inc 2006</a>
+				</td>
+			</tr>
 		</table>
 	</body>
 </html>

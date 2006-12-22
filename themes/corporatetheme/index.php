@@ -87,6 +87,12 @@ if (!defined('EXPONENT')) exit('');
 				<?php exponent_theme_showModule("textmodule","Wide","","copyright"); ?>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="4" align="center">
+          			<a href="http://www.exponentcms.org">Powered by Exponent Content Management System</a>
+				&nbsp;&nbsp;&nbsp;<a href="http://www.oicgroup.net">Exponent CMS Copyright&copy; OIC Group, Inc 2006</a>
+			</td>
+		</tr>
 		</table>
 	</body>
 </html>

@@ -46,6 +46,10 @@ if (!defined('EXPONENT')) exit('');
 		<div id="main">
 		<?php exponent_theme_sourceSelectorInfo(); ?>
 		<?php exponent_theme_main(); ?>
+		<p style="margin-top:10px;text-align:center">
+			<a href="http://www.exponentcms.org">Powered by Exponent Content Management System</a>
+			&nbsp;&nbsp;&nbsp;<a href="http://www.oicgroup.net">Exponent CMS Copyright&copy; OIC Group, Inc 2006</a>
+		</p>
 		</div>
 	</body>
 </html>

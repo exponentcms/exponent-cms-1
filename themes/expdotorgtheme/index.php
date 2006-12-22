@@ -177,10 +177,8 @@ if (!defined('EXPONENT')) exit('');
 	</div>
 	<div class="footinfo">
 		<div>
-			<a href="http://www.exponentcms.org/">Exponent CMS</a>:<a href="http://www.oicgroup.net/content-management-system"> Content Management System </a>
-			<a href="http://www.oicgroup.net/website-hosting">Web Hosting</a> and <a href="http://oicgroup.net/exponent-cms">Exponent CMS Support</a> 
-			Provided by 
-			<a href="http://www.oicgroup.net/">OIC Group Inc.</a>, <a href="http://www.oicgroup.net/peoria-illinois-il">Peoria Illinois IL</a>
+			<a href="http://www.exponentcms.org/">Exponent Content Management System </a>
+			&nbsp;&nbsp;&nbsp;<a href="http://www.oicgroup.net">Exponent CMS Copyright&copy; OIC Group, Inc 2006</a>
 		</div>
 		<div class="poweredbyexponent"></div> 
 		<div class="xhtmlcompliant">
