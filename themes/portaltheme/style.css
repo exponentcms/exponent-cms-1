@@ -736,7 +736,19 @@ div.workflow_action_posted {
 
 /* FAQ Module*/
 div.faq_moduletitle {
-	font-size: 16px;
+        font-size: 16px;
+}
+
+td.category_bg {
+        background-color: lightgrey;
+}
+td.category_title {
+        font-size: 12px;
+        font-weight: bold;
+}
+td.question {
+        font-size: 10px;
+        font-weight: bold;
 }
 
 td.category_bg {
@@ -1233,4 +1245,55 @@ div.comments {
   text-align: right;
   font-size: 10px;
   margin-bottom: 30px;
+}
+
+/* Image Gallery */
+div.imagegallery_gallerytitle {
+        width: 95%;
+        background-color: #3850a2;
+        font-size: 12px;
+        font-weight: bold;
+        color: #ffffff;
+        padding: 2px 5px 2px 5px;
+	margin-bottom: 10px;
+}
+
+div.imagegallery_picbox{
+        padding: 1em;
+        position: absolute;
+}
+
+div.imagegallery_picbox a:hover {
+        /*border: 1px solid blue;*/
+}
+
+div.imagegallery_picbox span {
+        display: none;
+}
+
+div.imagegallery_picbox a {
+        display: block;
+        text-align: center;
+        font: bold 1em sans-serif;
+        padding: 5px 10px;
+        margin: 0 0 1px;
+        border-width: 0;
+        text-decoration: none;
+}
+
+div.imagegallery_picbox a:hover span {
+        display: inline;
+        float:left;
+        position: absolute;
+        top: -125px;
+        left: -20px;
+        width: 260px;
+        padding: 5px 5px 5px 5px;
+        margin: 0px;
+        z-index: 100;
+        background: #7786be;
+        color: #ffffff;
+        font: 10px verdana, sans-serif;
+        text-align: center;
+        border: 2px solid blue;
 }
