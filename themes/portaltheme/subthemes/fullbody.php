@@ -94,6 +94,10 @@ if (!defined('EXPONENT')) exit('');
     </tr>
   </table>
   <div class="siteFooter"> <img src="<?php echo THEME_RELATIVE;?>images/header-rule.gif" alt="header rule" width="781" height="12" /> </div>
+  <div>
+	  <a href="http://www.exponentcms.org">Powered by Exponent Content Management System</a>
+	&nbsp;&nbsp;&nbsp;<a href="http://www.oicgroup.net">Exponent CMS Copyright&copy; OIC Group, Inc 2006</a>
+  </div>
 </div>
 <span style="padding: 5px; background-image: url(<?php echo THEME_RELATIVE; ?><?php echo THEME_RELATIVE;?>images/bottombg.gif);">
 <?php pathos_theme_showModule("textmodule","Footer","","footer"); ?>
