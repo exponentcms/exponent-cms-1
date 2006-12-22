@@ -61,7 +61,7 @@
 					<img border="0" src="{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />
 				</a>
 				<div>
-				<a href="{link action=view_image id=$image->id}">{$image->name}</a>
+					<a href="{link action=view_image id=$image->id}">{$image->name}</a>
 				</div>
 				<table cellpadding="0" cellspacing="0" border="0">
 				<tr>
@@ -74,10 +74,10 @@
 				</td>
 				{/if}
 				<td width="16">
-				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
 				</td>
 				<td width="16">
-				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onClick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onClick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>
 				</td>
 				{if $smarty.foreach.a.last == false}
 				{math equation="x+1" x=$image->rank assign=nextrank}
@@ -87,10 +87,8 @@
 				{/if}
 				{/if}
 				{/permissions}
-				<tr>
+				</tr>
 				</table>
-			</div>
-			</div>
 		</td>
 		{if $smarty.foreach.a.iteration mod $gallery->perrow == 0}</tr>{/if}			
 	{/foreach}

@@ -70,7 +70,12 @@ class imagegallerymodule {
 	function show($view,$loc = null, $title = '') {
 		global $db;
 		
+		$config = null;
 		$config = $db->selectObject('imagegallerymodule_config', "location_data='".serialize($loc)."'");
+		if (!is_object($config)) {
+			$config->multiple_galleries = 0;
+		}
+	
 		if ($config->multiple_galleries == 0) {
 			$template = new template("imagegallerymodule",'_view_all_galleries',$loc);
 		} else {

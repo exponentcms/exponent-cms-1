@@ -39,7 +39,7 @@ class imagegallerymodule_config {
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->multiple_galleries = 0;
-			$object->show_pic_desc = 0;
+			//$object->show_pic_desc = 0;
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -54,7 +54,7 @@ class imagegallerymodule_config {
 	
 	function update($values,$object) {
 		$object->multiple_galleries = (isset($values['multiple_galleries']) ? 1 : 0);;
-		$object->show_pic_desc = (isset($values['show_pic_desc']) ? 1 : 0);;
+		//$object->show_pic_desc = (isset($values['show_pic_desc']) ? 1 : 0);;
 		return $object;
 	}
 }
