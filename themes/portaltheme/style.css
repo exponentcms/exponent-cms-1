@@ -229,7 +229,8 @@ li.news_itemtitle {
 
 .siteFooter{
 	background:#FFFFFF url(images/bottomBGrep.gif) repeat-x;
-	height: 100px;
+	/*height: 100px;*/
+	margin-bottom: 10px;
 	width:100%;
 	text-align:center;
 }
