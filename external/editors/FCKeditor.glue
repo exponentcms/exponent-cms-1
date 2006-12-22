@@ -80,6 +80,7 @@ if (!defined("CTL_HTMLAREAINIT")) {
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
+					console.log(eXp.WYSIWYG_toolboxbuttons);
 					if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
 						plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
 					}

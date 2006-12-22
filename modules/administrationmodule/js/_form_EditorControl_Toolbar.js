@@ -27,8 +27,6 @@ if(! eXp.WYSIWYG) {
 //TODO: move to separate file
 eXp._TR = {};
 
-
-
 var used = new Array();
 var rows = new Array();
 
@@ -36,7 +34,6 @@ var g_row = 0;
 var g_pos = 0;
 
 var lastCursor = null;
-
 
 eXp.WYSIWYG.recurseClear = function(elem) {
 	while (elem.childNodes.length) {
@@ -138,16 +135,21 @@ eXp.WYSIWYG.createDelRowButton = function(rownum) {
 
 eXp.WYSIWYG.createButton = function(currButton, rownum, pos) {
 	
+	//FJD - trying to fix ugly layout.
+	mySpan = document.createElement("div");	
 	myButton = document.createElement("img");
+	mySpan.appendChild(myButton);
 	
 	if (document.all) {
 		myButton.attachEvent('onclick',function() { 
 			eXp.WYSIWYG.deleteButton(this, rownum, pos);
 		});
 		myButton.className = "editorcontrol_toolbarbutton";
+		mySpan.className = "editorcontrol_toobarbutton_wrapper";
 	} else {
 		myButton.setAttribute("onclick", "eXp.WYSIWYG.deleteButton(this, " + rownum + ", " + pos + ");");
 		myButton.setAttribute("class", 'htmleditor_toolbarbutton');
+		mySpan.setAttribute("class", "editorcontrol_toobarbutton_wrapper");
 	}
 	
 	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG_toolboxbuttons[currButton][1]);
@@ -161,7 +163,9 @@ eXp.WYSIWYG.createButton = function(currButton, rownum, pos) {
 	//	myButton = eXp.WYSIWYG_toolboxbuttons.setupMasterFileIcon(myButton, eXp.WYSIWYG_toolboxbuttons[currButton][3]);
 	//}
 
-	return myButton;
+	//return myButton;
+	console.log(mySpan);
+	return mySpan;
 }
 
 
@@ -208,7 +212,7 @@ eXp.WYSIWYG.disableToolbox = function(icon) {
 		used.push(icon);		
 
 		var myButton = document.getElementById("toolboxButton_" + icon);
-
+		//FJD - console.log("MyButton:", icon);
 		//ie6 hack
 		if (document.all) {
 			myButton.className = 'editorcontrol_toolboxbutton_selected';

@@ -42,19 +42,31 @@ if (!defined("CTL_HTMLAREAINIT")) {
 		
 		// if plugins are needed, set them up
 		myConfig.setupPlugins = function (myToolbar) {
+			console.log("Starting setup plugins");
+			debugger;
 			plugins = new Array();
-			alert(print_r(eXp,'-'));
+			//console.log(print_r(eXp));
+//			console.log("myToolbar:");
+	//		console.log(print_r(myToolbar));
+		//	console.log("myConfig:");
+			//console.log(print_r(myConfig));
+			console.log(print_r(eXp.WYSIWYG_toolboxbuttons));
 			for(currRow = 0; currRow < myToolbar.length; currRow++) {
+				var currButton;
 				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
-					currItem = myToolbar[currRow][currButton];
+					currItem = myToolbar[currRow][currButton];					
 					// plugin required ?
 					//alert(print_r(eXp.WYSIWYG,''));
+					console.log("currItem:", currItem);
 					if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
 						plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
 					}
 				}
+				//FJD - added to force a linebreak for our defined rows
+				myToolbar[currRow][myToolbar[currRow].length] = "linebreak";
 			}
-			
+			console.log("myToolbar:", myToolbar);
+						
 			//serialize 
 			for(currPlugin = 0; currPlugin < plugins.length; currPlugin++) {
 				HTMLArea.loadPlugin(plugins[currPlugin]);
