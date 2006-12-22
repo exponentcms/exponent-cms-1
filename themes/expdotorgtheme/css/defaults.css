@@ -1,0 +1,52 @@
+/* Sitewide default styles */
+
+body, html {
+/* since <HTML> and <BODY> are block elements, define their height as 100% so that any nested blocks can expand vertically 100% as well */
+	height:100%;
+	padding:0;
+	margin:0px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+
+body{
+	background:url(../images/bodyrep.jpg) repeat-x 0 0;
+}
+
+.shell {
+/* The outermost <div> setting the site width and positioning */
+	display:table;
+	width:785px;
+	margin:0 auto 0 auto;
+}
+
+.expand {
+	width:90%;
+	min-width:790px;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	font-family:Arial, Helvetica, sans-serif;
+	padding:0px;
+	margin:0px;
+}
+
+a img {
+	border:0px;
+}
+
+a {
+	font-family:Arial, Helvetica, sans-serif;
+	color:#0099CC;
+	text-decoration:none;
+	font-size:12px;
+}
+
+a:hover {
+	font-family:Arial, Helvetica, sans-serif;
+	color:#026788;
+	text-decoration:underline;
+}
+
+
+

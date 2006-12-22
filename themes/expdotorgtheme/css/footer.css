@@ -1,0 +1,47 @@
+.footer {
+	height:75px;
+	background:url(../images/footer_bg.jpg) repeat-x 0 5px;
+}
+
+.footer .footrule {
+	width:785px;
+	margin:0 auto 0 auto;
+}
+
+
+.footer .footinfo {
+	width:780px;
+	height:15px;
+	margin:15px auto 25px auto;
+	text-align:center;
+}
+
+.footer .poweredbyexponent {
+	background:url(../images/powered_by_exponent.jpg) no-repeat;
+	width:175px;
+	height:50px;
+	text-align:center;
+	float:left;
+	margin:0 0 0 200px;
+}
+
+.footer .xhtmlcompliant {
+	background:url(http://www.w3.org/Icons/valid-xhtml10) no-repeat 100% 75%;
+	float:left;
+	width:150px;
+	height:50px;
+	text-align:center;
+}
+
+.footer .xhtmlcompliant span {
+	display:none;
+}
+.footer .xhtmlcompliant a {
+	display:block;
+	width:150px;
+	height:50px;
+}
+
+
+
+
