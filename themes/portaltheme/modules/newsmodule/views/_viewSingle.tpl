@@ -48,5 +48,5 @@ By: {attribution user_id=$newsitem->poster} on {$newsitem->real_posted|format_da
 </div>
 </div>
 <div style="padding: 15px;">
-<img src="{$smarty.const.THEME_RELATIVE}images/icons/arrow_left.gif" align="absmiddle" alt="Sitetree" border="0"><a href="javascript:history.go(-1)">Go Back</a>
+<img src="{$smarty.const.ICON_RELATIVE}arrow_left.gif" align="absmiddle" alt="Go Back" border="0"><a href="javascript:history.go(-1)">Go Back</a>
 </div>
