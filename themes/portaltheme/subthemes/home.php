@@ -87,7 +87,7 @@ if (!defined('EXPONENT')) exit('');
 </table>
 								</td>
 							  <td valign="top" align="left">
-						        <img src="<?php echo THEME_RELATIVE; ?>images/community.gif" alt="community" border="0" usemap="#MapMap">
+						        <img src="<?php echo THEME_RELATIVE; ?>images/join_core.jpg" alt="community" border="0" usemap="#MapMap">
 
 					          <?php //pathos_theme_showSectionalModule("containermodule","Default","","@right"); ?></td>
 							</tr>

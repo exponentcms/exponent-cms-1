@@ -93,7 +93,7 @@ if (!defined('EXPONENT')) exit('');
                 <?php exponent_theme_showModule("navigationmodule","Children Only"); ?>
 				<?php exponent_theme_showModule("previewmodule","Default");	?>
 				<?php //exponent_theme_showModule("searchmodule","Default"); ?>
-                <img src="<?php echo THEME_RELATIVE; ?>images/community.gif" alt="community" border="0" usemap="#Map">
+                <img style="padding-top:5px;" src="<?php echo THEME_RELATIVE; ?>images/join_core.jpg" alt="Join the Exponent core development community" border="0" usemap="#Map">
                 <?php exponent_theme_showSectionalModule("containermodule","Default","","@rightsidebar"); ?>
               </div></td>
           </tr>
