@@ -509,7 +509,7 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 			$myFiles = array_merge($myFiles, $tempFiles);
 		}
 	}
-	
+
 	if(count($myFiles) != 0) {
 		return array_values($myFiles);
 	} else {
