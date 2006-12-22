@@ -34,7 +34,7 @@
 class bbmodule {
 	function name() { return "Bulletin Board"; }
 	function description() { return "A lightweight bulletin board system that manages a set of boards, and flat-threads."; }
-	function author() { return "James Hunt"; }
+	function author() { return "OIC Group, Inc"; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
