@@ -54,6 +54,19 @@ class form extends baseform {
 	var $controlLbl = array();
 	
 	var $validationScript = "";
+
+	function ajaxUpdater($module=null, $ajax_action=null, $div_to_update=null) {
+                if ( ($ajax_action != null) && ($module != null) ) {
+                        $this->ajax_updater = 1;
+                        $this->meta('action',$ajax_action);
+                        $this->meta('module',$module);
+                        $this->meta('ajax_action', '1');
+                }
+
+                if ($div_to_update != null) {
+                        $this->div_to_update = $div_to_update;
+                }
+        }
 	
 	function secure() {
 		$this->action = (ENABLE_SSL ? SSL_URL : '') . SCRIPT_RELATIVE . SCRIPT_FILENAME;
@@ -192,19 +205,27 @@ class form extends baseform {
 		}
 		
 		$html = "<!-- Form Object '" . $this->name . "' -->\r\n";
-		$html .= "<script type=\"text/javascript\" src=\"" .PATH_RELATIVE."subsystems/forms/js/inputfilters.js.php\"></script>\r\n";
-		foreach ($this->scripts as $name=>$script) $html .= "<script type=\"text/javascript\" src=\"$script\"></script>\r\n";
-		$html .= '<div class="error">'.$formError.'</div>';
-		$html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
-		foreach ($this->meta as $name=>$value) $html .= "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />\r\n";
-		$html .= "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\r\n";
-		foreach ($this->controlIdx as $name) {
-			$html .= $this->controls[$name]->toHTML($this->controlLbl[$name],$name) . "\r\n";
-		}
-		$html .= "<tr><td width='5%'></td><td width='95%'></td></tr>\r\n";
-		$html .= "</table>\r\n";
-		$html .= "</form>\r\n";
-		return $html;
+                $html .= "<script type=\"text/javascript\" src=\"" .PATH_RELATIVE."subsystems/forms/js/inputfilters.js.php\"></script>\r\n";
+                foreach ($this->scripts as $name=>$script) $html .= "<script type=\"text/javascript\" src=\"$script\"></script>\r\n";
+                $html .= '<div class="error">'.$formError.'</div>';
+                if (isset($this->ajax_updater)) {
+                        $html .= "<form name=\"" . $this->name . "\" method=\"" ;
+                        $html .= $this->method . "\" action=\"" . $this->action ."\" ";
+                        $html .= " onsubmit=\"new Ajax.Updater('".$this->div_to_update."', '".$this->action."', ";
+                        $html .= "{asynchronous:true, parameters:Form.serialize(this)}); return false;\">\r\n";
+                } else {
+                        $html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
+                }
+                //$html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
+                foreach ($this->meta as $name=>$value) $html .= "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />\r\n";
+                $html .= "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\r\n";
+                foreach ($this->controlIdx as $name) {
+                        $html .= $this->controls[$name]->toHTML($this->controlLbl[$name],$name) . "\r\n";
+                }
+                $html .= "<tr><td width='5%'></td><td width='95%'></td></tr>\r\n";
+                $html .= "</table>\r\n";
+                $html .= "</form>\r\n";
+                return $html;	
 	}
 	/*
 	function mergeFormBefore($before_name,$form) {
