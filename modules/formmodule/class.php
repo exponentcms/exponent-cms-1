@@ -20,7 +20,7 @@
 class formmodule {
 	function name() { return exponent_lang_loadKey('modules/formmodule/class.php','module_name'); }
 	function description() { return exponent_lang_loadKey('modules/formmodule/class.php','module_description'); }
-	function author() { return 'Greg Otte'; }
+	function author() { return 'OIC Group, Inc'; }
 	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
