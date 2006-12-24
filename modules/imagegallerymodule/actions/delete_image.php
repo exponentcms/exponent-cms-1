@@ -40,9 +40,11 @@ if ($image) {
 	$gallery = $db->selectObject("imagegallery_gallery","id=".$image->gallery_id);
 	$loc = unserialize($gallery->location_data);
 	$loc->int = $gallery->id;
-	
+
 	if (exponent_permissions_check("manage",$loc)) {
 		$file = $db->selectObject('file','id='.$image->file_id);
+		file::delete($file);
+		$file->filename = $image->thumbnail;
 		file::delete($file);
 		$db->delete('file','id='.$image->file_id);
 		$db->delete("imagegallery_image","id=".$image->id);
