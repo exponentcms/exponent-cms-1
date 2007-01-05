@@ -31,7 +31,11 @@ $i18n = exponent_lang_loadFile('install/pages/setlang.php');
 	<input type="hidden" name="page" value="welcome" />
 	<select name="lang">
 		<?PHP foreach(exponent_lang_list() as $currid=>$currlang) {?>
+			<?php if ($currid == "eng_US") { ?>
+			<option value="<?PHP echo $currid?>" selected><?PHP echo $currlang?></option>
+			<?php } else { ?>
 			<option value="<?PHP echo $currid?>"><?PHP echo $currlang?></option>
+			<?php } ?>
 		<?PHP }?>
 	</select>
 	<input type="submit" value="<?php echo $i18n['setlang']; ?>" class="text" />

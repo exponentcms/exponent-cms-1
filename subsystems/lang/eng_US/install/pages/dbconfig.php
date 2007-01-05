@@ -29,7 +29,7 @@ return array(
 	
 	'prefix'=>'Table Prefix',
 	'prefix_desc'=>'A table prefix helps Exponent differentiate tables for this site from other tables that may already exist (or eventually be created by other scripts).  If you are using an existing database, you may want to change this.',
-	'prefix_note'=>'<b>Note:</b> A table prefix can only contains numbers and letters.  Spaces and symbols (including "_") are not allowed.  An underscore will be added for you, by Exponent.',
+	'prefix_note'=>'<b>Note:</b> A table prefix may only contain numbers and letters.  Spaces and symbols (including "_") are not allowed.  An underscore will be added for you, by Exponent.',
 	
 	'default_content'=>'Default Example Content',
 	'install'=>'Install Example Content',
