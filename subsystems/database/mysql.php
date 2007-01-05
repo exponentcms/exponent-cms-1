@@ -77,14 +77,14 @@ class mysql_database {
         }
 		//fix to support utf8, warning it only works from a certain mySQL version on
 		//needed on mySQL servers that dont have the default connection encoding setting to utf8
-		
+
 		//As we do not have any setting for ISAM or InnoDB tables yet, i set the minimum specs
 		// for using this feature to 4.1.2, although isam tables got the support for utf8 already in 4.1
-		
+
 		//anything else would result in an inconsitent user experience
-		
+
 		//TODO: determine how to handle encoding on postgres
-		
+
 		list($major, $minor, $micro) = sscanf(mysql_get_server_info(), "%d.%d.%d-%s");
 		//in case the config was written before the constant was introduced
 		//TODO: we might need a general api/registry to make backward compatibility checks + automatic upgrade wizzard
@@ -365,7 +365,7 @@ class mysql_database {
 				@mysql_query($sql,$this->connection);
 			}
 		}
-		
+
 		//Add any new columns to the table
 		$diff = array_diff_assoc($newdatadef,$dd);
 		if (count($diff)) {
@@ -380,7 +380,7 @@ class mysql_database {
 			@mysql_query($sql,$this->connection);
 		}
 
-		//Add any new indexes & keys to the table.  
+		//Add any new indexes & keys to the table.
 		$index = array();
 		foreach ($newdatadef as $name=>$def) {
                         if ($def != null) {
@@ -410,7 +410,7 @@ class mysql_database {
                         $sql .= "ADD INDEX (" . $key . ")";
                         @mysql_query($sql,$this->connection);
                 }
-		
+
 		//Get the return code
 		$return = array(
 			$tablename=>($modified ? TABLE_ALTER_SUCCEEDED : TABLE_ALTER_NOT_NEEDED)
@@ -473,7 +473,7 @@ class mysql_database {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
-		
+
 	    $res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
@@ -519,12 +519,12 @@ class mysql_database {
 		$where = '';
 		foreach($array as $array_id) {
 			if ($where == '') {
-				$where .= 'id='.$array_id; 
+				$where .= 'id='.$array_id;
 			} else {
 				$where .= ' OR id='.$array_id;
 			}
 		}
-	
+
 		//eDebug($where);
 		$res = $this->selectObjects($table, $where, $orderby);
 		return $res;
@@ -612,7 +612,11 @@ class mysql_database {
 			//We do not want to save any fields that start with an '_'
 			if ($var{0} != '_') {
 				$sql .= "$var,";
-				$values .= "'".mysql_escape_string($val)."',";
+				if (version_compare(phpversion(),'4.0.3','>=') > 0) {
+				  $values .= "'".mysql_real_escape_string($val)."',";
+				} else {
+				  $values .= "'".mysql_escape_string($val)."',";
+			   }
 			}
 		}
 		$sql = substr($sql,0,-1).substr($values,0,-1) . ")";
@@ -656,7 +660,11 @@ class mysql_database {
 		foreach (get_object_vars($object) as $var=>$val) {
 			//We do not want to save any fields that start with an '_'
 			if ($var{0} != '_') {
-				$sql .= "`$var`='".mysql_escape_string($val)."',";
+				if (version_compare(phpversion(),'4.0.3','>=') > 0) {
+				   $sql .= "`$var`='".mysql_real_escape_string($val)."',";
+				} else {
+				   $sql .= "`$var`='".mysql_escape_string($val)."',";
+			   }
 			}
 		}
 		$sql = substr($sql,0,-1) . " WHERE ";
