@@ -74,8 +74,9 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>500),
 	"whos_online"=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),	
+  "items_perpage"=>array(
+    DB_FIELD_TYPE=>DB_DEF_INTEGER),
 );
 
 ?>

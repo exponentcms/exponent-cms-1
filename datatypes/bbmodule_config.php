@@ -76,6 +76,8 @@ class bbmodule_config {
 		$form->register('email_signature','Email Signature',new texteditorcontrol($object->email_signature,5,30));
 		$form->register('whos_online','Display Who\'s Online?',new checkboxcontrol($object->whos_online));
 		
+		$form->register('items_perpage','Items per page: ',new textcontrol($object->items_perpage,5));
+		
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
@@ -95,6 +97,7 @@ class bbmodule_config {
 		
 		$object->email_signature = $values['email_signature'];
 		$object->whos_online = $values['whos_online'];
+		$object->items_perpage = $values['items_perpage'];
 		return $object;
 	}
 }

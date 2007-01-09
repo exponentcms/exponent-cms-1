@@ -109,10 +109,34 @@
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.create_thread == 1}
-<br />
+<div align="right">
 <a class="bb_icon_link" href="{link module="bbmodule" action="edit_post" bb=$board->id}"><img src="{$smarty.const.ICON_RELATIVE}/bb_newtopic.gif" border="0" /></a>
+</div>
 {/if}
 {/permissions}
+
+Page({$curpage} of {$pagecount})
+{if $curpage != 1}
+  <a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$curpage-1}">
+    <<
+  </a>
+{/if}
+{if $downlimit>1 }...{/if}
+{section name=pages start=$downlimit loop=$pagecount+1 max=$uplimit} 
+  <a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$smarty.section.pages.index}">
+    {if $curpage == $smarty.section.pages.index}
+    [{$smarty.section.pages.index}]
+    {else}
+    {$smarty.section.pages.index}
+    {/if}
+  </a>  
+{/section}
+{if $uplimit<$pagecount }...{/if}
+{if $curpage != $pagecount}
+  <a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$curpage+1}">
+    >>
+  </a>
+{/if}
 <br /><br />
 {if $loggedin == 1}
 {if $monitoring == 1}

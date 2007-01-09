@@ -132,7 +132,10 @@ a.bb_icon_link {
 	border: 0px dotted #111111;
 }
 
-
+a.bb_page_link {
+	text-decoration: none;
+	border: 0px dotted #111111;
+}
 
 tr.bb_row {
         background-color: #fff;

@@ -33,15 +33,45 @@
 
 if (!defined("EXPONENT")) exit("");
 
-$bb = $db->selectObject("bb_board","id=".$_GET['id']);
-
-$loc = unserialize($bb->location_data);
 exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+
+require (BASE."subsystems/pagingObject.php");
+
 if (!defined("SYS_USERS")) require(BASE."subsystems/users.php");
 $users = array();
-$posts = $db->selectObjects("bb_post","board_id=".$bb->id . " AND parent=0 AND is_announcement=0 AND is_sticky=0");
+
+// Board
+$bb = $db->selectObject("bb_board","id=". (int)$_GET['id']);
+$loc = unserialize($bb->location_data);
+
+$bbmod_config = $db->selectObject("bbmodule_config", "location_data='".serialize($loc)."'");  
+if ($bbmod_config != null ) {
+  $itemsperpage = $bbmod_config->items_perpage;
+} else {
+  $itemsperpage = 25;
+}
+
+$where = "board_id=".$bb->id . " AND parent=0 AND is_announcement=0 AND is_sticky=0 ";
+
+$threadsPaging = new PagingObject(
+  isset($_GET['page']) ? (int) $_GET['page'] : 1,
+  $db->countObjects("bb_post", $where),
+  $itemsperpage
+);
+
+// Calculate pages and get page count
+$itemcount = $db->countObjects("bb_post", $where);
+$pageid = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$pageid--;
+$where .= " ORDER BY updated";
+$where .= " LIMIT " . $threadsPaging->GetOffSet();
+
+// Get posts / announcements / stickys 
+$posts = $db->selectObjects("bb_post", $where);
 $announcements = $db->selectObjects("bb_post","board_id=".$bb->id . " AND parent=0 AND is_announcement=1");
 $stickys = $db->selectObjects("bb_post","board_id=".$bb->id . " AND parent=0 AND is_sticky=1");
+
+// Get users for each post
 for ($i = 0; $i < count($posts); $i++) {
 	if (!isset($users[$posts[$i]->poster])) $users[$posts[$i]->poster] = exponent_users_getUserById($posts[$i]->poster);
 	$posts[$i]->user = $users[$posts[$i]->poster];
@@ -49,13 +79,13 @@ for ($i = 0; $i < count($posts); $i++) {
 		if (!isset($users[$posts[$i]->editor])) $users[$posts[$i]->editor] = exponent_users_getUserById($posts[$i]->poster);
 		$posts[$i]->editor = $users[$posts[$i]->editor];
 	}
-
-	//eDebug($posts);	
+  		
 	$last_reply = null;
 	$last_reply = $db->selectObject("bb_post", "id=".$posts[$i]->last_reply);
 	if($last_reply) $posts[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
+// Get users for announcements
 for ($i = 0; $i < count($announcements); $i++) {
         if (!isset($users[$announcements[$i]->poster])) $users[$announcements[$i]->poster] = exponent_users_getUserById($announcements[$i]->poster);
         $announcements[$i]->user = $users[$announcements[$i]->poster];
@@ -67,6 +97,7 @@ for ($i = 0; $i < count($announcements); $i++) {
   	$announcements[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
+// Get users for stickys
 for ($i = 0; $i < count($stickys); $i++) {
         if (!isset($users[$stickys[$i]->poster])) $users[$stickys[$i]->poster] = exponent_users_getUserById($stickys[$i]->poster);
         $stickys[$i]->user = $users[$stickys[$i]->poster];
@@ -78,7 +109,7 @@ for ($i = 0; $i < count($stickys); $i++) {
   	$stickys[$i]->last_poster = $db->selectObject("user", "id=".$last_reply->poster);
 }
 
-
+/* Sort posts
 if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 if (!function_exists("exponent_sorting_byUpdatedDescending")) {
 	function exponent_sorting_byUpdatedDescending($a,$b) {
@@ -86,6 +117,7 @@ if (!function_exists("exponent_sorting_byUpdatedDescending")) {
 	}
 }
 usort($posts,"exponent_sorting_byUpdatedDescending");
+*/
 
 //Update the last visited date for this user on this board.
 global $user;
@@ -105,6 +137,13 @@ $template->assign("board",$bb);
 $template->assign("threads",$posts);
 $template->assign("announcements",$announcements);
 $template->assign("stickys",$stickys);
+
+// Assign page data
+$template->assign("curpage", $threadsPaging->GetCurrentPage());
+$template->assign("pagecount",$threadsPaging->GetPageCount());
+$template->assign("uplimit", $threadsPaging->GetUpperLimit());
+$template->assign("downlimit", $threadsPaging->GetLowerLimit());
+
 $template->register_permissions(
 	array("administrate","configure","create_thread","delete_thread"),
 	$bbloc
