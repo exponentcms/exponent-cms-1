@@ -201,7 +201,7 @@ function exponent_sessions_logout() {
 	require_once(BASE.'subsystems/users.php');
 	
 	//TODO: Maxims initial anonymous user implementation
-	exponent_users_login("anonymous", "anonymous");
+	//exponent_users_login("anonymous", "anonymous");
 }
 
 /* exdoc
