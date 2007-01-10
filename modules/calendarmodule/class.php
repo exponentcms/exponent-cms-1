@@ -18,7 +18,7 @@
 
 class calendarmodule {
 	function name() { return exponent_lang_loadKey('modules/calendarmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
+	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/calendarmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
@@ -299,9 +299,10 @@ class calendarmodule {
 					"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
 					"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 				);
+
 			}
 			usort($items,"exponent_sorting_byEventStartAscending");
-			
+		
 			$template->assign("items",$items);
 		} else if ($viewconfig['type'] == "default") {
 			if (!isset($viewconfig['range'])) $viewconfig['range'] = "all";
@@ -346,6 +347,15 @@ class calendarmodule {
 					'delete'=>(exponent_permissions_check('delete',$thisloc) || exponent_permissions_check('delete',$loc))
 				);
 			}
+		
+			//Get the image file if there is one.
+			for ($i = 0; $i < count($items); $i++) {
+			if (isset($items[$i]->file_id) && $items[$i]->file_id > 0) {
+				$file = $db->selectObject('file', 'id='.$items[$i]->file_id);
+				$items[$i]->image_path = $file->directory.'/'.$file->filename;
+				}
+			}
+			//eDebug($items);	
 			
 			$template->assign('items',$items);
 		}
@@ -356,7 +366,8 @@ class calendarmodule {
 			array('administrate','configure','post','edit','delete','manage_approval','manage_categories'),
 			$loc
 		);
-		
+	
+
 		$cats = $db->selectObjectsIndexedArray("category","location_data='".serialize($loc)."'");
 		$cats[0] = null;
 		$cats[0]->name = '<i>'.$i18n['no_category'].'</i>';
@@ -369,10 +380,40 @@ class calendarmodule {
 			$config->enable_categories = 0;
 			$config->enable_rss = 0;
 		}
+
+		
 		$template->assign("modconfig",$config);
 		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
 		$template->assign("enable_rss", $config->enable_rss);
 		
+		//Get the tags that have been selected to be shown in the grouped by tag views
+                if (isset($config->show_tags)) {
+                        $available_tags = unserialize($config->show_tags);
+                } else {
+                        $available_tags = array();
+                }
+
+                if (isset($items) && is_array($items)) {
+                        for ($i = 0; $i < count($items); $i++) {
+                                //Get the tags for this calendar event
+                                $selected_tags = array();
+                                $tag_ids = unserialize($items[$i]->tags);
+                                if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+                                $items[$i]->tags = $selected_tags;
+
+                                //If this module was configured to group the newsitems by tags, then we need to change the data array a bit
+                                if ($config->group_by_tags == true) {
+                                        $grouped_news = array();
+                                        foreach($items[$i]->tags as $tag) {
+                                                if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
+                                                        if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();}
+                                                        array_push($grouped_news[$tag->name],$items[$i]);
+                                                }
+                                        }
+                                }
+                        }
+                }
+
 		$template->output();
 	}
 	
