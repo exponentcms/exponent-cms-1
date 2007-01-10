@@ -53,6 +53,21 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 	if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
 	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 
+	//Get and save the image
+	if ($_FILES['file']['name'] != '') {
+                $dir = 'files/calendarmodule/'.$loc->src;
+                $file = file::update('file',$dir,null);
+                if (is_object($file)) {
+                        $item->file_id = $db->insertObject($file,'file');
+                } else {
+                        // If file::update() returns a non-object, it should be a string.  That string is the error message.
+                        $post = $_POST;
+                        $post['_formError'] = $file;
+                        exponent_sessions_set('last_POST',$post);
+                        header('Location: ' . $_SERVER['HTTP_REFERER']);
+                }
+        }
+
 	if (isset($item->id)) {
 		if ($item->is_recurring == 1) {
 			// For recurring events, check some stuff.
