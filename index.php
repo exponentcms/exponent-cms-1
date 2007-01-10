@@ -46,9 +46,8 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 		require_once(BASE.'subsystems/users.php');
 		
 		//TODO: Maxims initial anonymous user implementation		
-		exponent_users_login("anonymous", "anonymous");
+		//exponent_users_login("anonymous", "anonymous");
 	}
-	
 	// Initialize the theme subsystem
 	if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 	
