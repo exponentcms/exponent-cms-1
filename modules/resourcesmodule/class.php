@@ -19,7 +19,7 @@
 
 class resourcesmodule {
 	function name() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
+	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/resourcesmodule/class.php','module_description'); }
 	
 	function hasContent() { return true; }
@@ -36,14 +36,16 @@ class resourcesmodule {
 				'post'=>$i18n['perm_post'],
 				'edit'=>$i18n['perm_edit'],
 				'delete'=>$i18n['perm_delete'],
-				'manage_approval'=>$i18n['perm_manage_approval']
+				'manage_approval'=>$i18n['perm_manage_approval'],
+				'can_download'=>'Can Download',
 			);
 		} else {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
 				'edit'=>$i18n['perm_editone'],
 				'delete'=>$i18n['perm_deleteone'],
-				'manage_approval'=>$i18n['perm_manage_approval']
+				'manage_approval'=>$i18n['perm_manage_approval'],
+				'can_download'=>'Can Download',
 			);
 		}
 	}

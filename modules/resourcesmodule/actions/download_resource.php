@@ -31,8 +31,14 @@ if ($resource != null) {
 		'administrate'=>exponent_permissions_check('administrate',$iloc),
 		'edit'=>exponent_permissions_check('edit',$iloc),
 		'delete'=>exponent_permissions_check('delete',$iloc),
+		'can_download'=>exponent_permissions_check('delete',$iloc),
 	);
-	
+
+    if (!exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
+      echo '<div class="error">You do not have permissions to download this file.</div>';
+      exit();
+    }
+  
 	if ($resource->flock_owner != 0) {
 		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 		$resource->lock_owner = exponent_users_getUserById($resource->flock_owner);
@@ -50,12 +56,36 @@ if ($resource != null) {
 
         $filenametest = $file->directory . "/" . $file->filename;
 	
-        if (file_exists($filenametest)) {			
-            header("Content-Disposition: attachment; filename=" . $file->filename);
-            $host  	= $_SERVER['HTTP_HOST'];
-			$uri  	= rtrim(dirname($_SERVER['PHP_SELF']), '/\\');		
-			header("Location: http://$host$uri/$filenametest");                       
-         } else {
+    if (file_exists($filenametest)) {			
+      ob_end_clean();
+      ob_start("ob_gzhandler");
+      
+      // This code was lifted from phpMyAdmin, but this is Open Source, right?
+      // 'application/octet-stream' is the registered IANA type but
+      //        MSIE and Opera seems to prefer 'application/octetstream'
+      $mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octetstream' : $file->mimetype;
+
+      header('Content-Type: ' . $mime_type);
+      header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+      // IE need specific headers
+      if (EXPONENT_USER_BROWSER == 'IE') {
+        header('Content-Disposition: inline; filename="' . $file->filename . '"');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+      } else {
+        header('Content-Disposition: attachment; filename="' . $file->filename . '"');
+        header('Pragma: no-cache');
+      }
+
+      $handle = fopen($filenametest, "r");
+      $contents = null;
+      $contents = fread($handle, filesize($filenametest));
+      fclose($handle);
+      if (isset($contents) && $contents != '') {
+        echo $contents;
+      }
+      exit();
+    } else {
             echo SITE_404_HTML;
          }
 	} else {
