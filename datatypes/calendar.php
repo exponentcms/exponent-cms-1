@@ -36,6 +36,7 @@ class calendar {
 			$object->eventstart = time();
 			$object->eventend = time()+3600;
 			$object->is_allday = 0;
+			$object->is_featured = 0;
 			$object->is_recurring = 0;
 		} else {
 			$form->meta('id',$object->id);
@@ -90,6 +91,14 @@ class calendar {
 		
 			$form->meta('date_id',$object->eventdate->id); // Will be 0 if we are creating.
 		}
+		
+		$form->register('featured_header','',new htmlcontrol('<br /><div class="moduletitle">Featured Event Info</div><hr size="1" />'));
+		$form->register('is_featured','Feature this event',new checkboxcontrol($object->is_featured,true));
+	
+		$form->register('image_header','',new htmlcontrol('<br /><div class="moduletitle">Upload Image File</div><hr size="1" />'));
+		$form->register('file','Upload Image',new uploadcontrol());
+		
+		
 		$form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">Tags</div><hr size="1" />'));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
@@ -105,6 +114,7 @@ class calendar {
 		$object->body = preg_replace('/<br ?\/>$/','',trim($values['body']));
 		
 		$object->is_allday = (isset($values['is_allday']) ? 1 : 0);
+		$object->is_featured = (isset($values['is_featured']) ? 1 : 0);
 		
 		$object->eventstart = datetimecontrol::parseData('eventstart',$values);
 		$object->eventend = datetimecontrol::parseData('eventend',$values);

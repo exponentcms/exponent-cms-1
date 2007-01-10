@@ -52,6 +52,8 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'is_allday'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'is_featured'=>array(
+                DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'is_recurring'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'category_id'=>array(
@@ -65,6 +67,8 @@ return array(
 	'tags'=>array(
                 DB_FIELD_TYPE=>DB_DEF_STRING,
                 DB_FIELD_LEN=>10000),
+	'file_id'=>array(
+                DB_FIELD_TYPE=>DB_DEF_ID),
 );
 
 ?>

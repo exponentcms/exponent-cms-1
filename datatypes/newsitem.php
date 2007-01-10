@@ -33,6 +33,7 @@ class newsitem {
 			$object->body = '';
 			$object->publish = null;
 			$object->unpublish = null;
+			$object->is_featured = 0;
 		} else {
 			$form->meta('id',$object->id);
 			if ($object->publish == 0) $object->publish = null;
@@ -46,6 +47,12 @@ class newsitem {
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Publish Information</div><hr size="1" />'));
 		$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
 		$form->register('unpublish',$i18n['unpublish'],new popupdatetimecontrol($object->unpublish,$i18n['nounpublish']));
+		
+		$form->register('featured_header','',new htmlcontrol('<br /><div class="moduletitle">Featured Event Info</div><hr size="1" />'));
+                $form->register('is_featured','Feature this event',new checkboxcontrol($object->is_featured,true));
+
+                $form->register('image_header','',new htmlcontrol('<br /><div class="moduletitle">Upload Image File</div><hr size="1" />'));
+                $form->register('file','Upload Image',new uploadcontrol());
 
 		$form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">Tags</div><hr size="1" />'));
 
@@ -63,6 +70,7 @@ class newsitem {
 		$object->body = $values['body'];
 		$object->publish = popupdatetimecontrol::parseData('publish',$values);
 		$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);
+		$object->is_featured = (isset($values['is_featured']) ? 1 : 0);
 		
 		return $object;
 	}
