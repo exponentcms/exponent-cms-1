@@ -46,11 +46,10 @@ $loc = unserialize($bb->location_data);
 
 $bbmod_config = $db->selectObject("bbmodule_config", "location_data='".serialize($loc)."'");  
 if ($bbmod_config != null ) {
-  $itemsperpage = $bbmod_config->items_perpage;
+  $itemsperpage = isset($bbmod_config->items_perpage) ? $bbmod_config->items_perpage : 20;
 } else {
   $itemsperpage = 25;
 }
-
 $where = "board_id=".$bb->id . " AND parent=0 AND is_announcement=0 AND is_sticky=0 ";
 
 $threadsPaging = new PagingObject(
@@ -63,7 +62,7 @@ $threadsPaging = new PagingObject(
 $itemcount = $db->countObjects("bb_post", $where);
 $pageid = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $pageid--;
-$where .= " ORDER BY updated";
+$where .= " ORDER BY updated DESC";
 $where .= " LIMIT " . $threadsPaging->GetOffSet();
 
 // Get posts / announcements / stickys 

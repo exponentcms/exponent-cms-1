@@ -117,9 +117,8 @@
 
 Page({$curpage} of {$pagecount})
 {if $curpage != 1}
-  <a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$curpage-1}">
-    <<
-  </a>
+	<a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=1}"><<</a>&nbsp;
+  	<a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$curpage-1}"><</a>
 {/if}
 {if $downlimit>1 }...{/if}
 {section name=pages start=$downlimit loop=$pagecount+1 max=$uplimit} 
@@ -133,9 +132,8 @@ Page({$curpage} of {$pagecount})
 {/section}
 {if $uplimit<$pagecount }...{/if}
 {if $curpage != $pagecount}
-  <a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$curpage+1}">
-    >>
-  </a>
+	<a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$curpage+1}">></a>&nbsp;
+	<a class="bb_page_link" href="{link module="bbmodule" action="view_board" id=$board->id page=$pagecount}">>></a>
 {/if}
 <br /><br />
 {if $loggedin == 1}

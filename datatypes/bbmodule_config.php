@@ -54,6 +54,7 @@ class bbmodule_config {
 			$object->email_showpost_reply  = 0;
 			
 			$object->email_signature = "--\nThanks, Webmaster";
+			$object->items_perpage = 20;
 		} else {
 			$form->meta('id',$object->id);
 		}
