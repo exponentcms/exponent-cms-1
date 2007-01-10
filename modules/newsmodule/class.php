@@ -165,10 +165,16 @@ class newsmodule {
 				'administrate'=>((exponent_permissions_check('administrate',$loc) || exponent_permissions_check('administrate',$nloc)) ? 1 : 0)
 			);
 			
+			//Get the image file if there is one.
+                       	if (isset($news[$i]->file_id) && $news[$i]->file_id > 0) {
+                               	$file = $db->selectObject('file', 'id='.$news[$i]->file_id);
+                                $news[$i]->image_path = $file->directory.'/'.$file->filename;
+       	                }
+	
 			//Get the tags for this newsitem
 			$selected_tags = array();
-	        $tag_ids = unserialize($news[$i]->tags);
-	        if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+	        	$tag_ids = unserialize($news[$i]->tags);
+	        	if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 			$news[$i]->tags = $selected_tags;
 	
 			//If this module was configured to group the newsitems by tags, then we need to change the data array a bit
