@@ -100,6 +100,8 @@ if (($item == null && exponent_permissions_check('post',$loc)) ||
 			$ddopts[$opt->id] = $opt->name;
 		}
 		uasort($ddopts,'strnatcmp');
+
+		if (!isset($item->category_id)) $item->category_id = null;
 		$form->registerAfter('eventend','category',$i18n['categories'],new dropdowncontrol($item->category_id,$ddopts));
 		$form->registerBefore('category', null, '', new htmlcontrol('<br />'));
 	}
