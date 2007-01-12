@@ -42,6 +42,7 @@ class rssmodule_config {
 		if (!isset($object->id)) {
 			$object->url='';
 			$object->item_limit = 10;
+			$object->age = 0;
 		}
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
 		$form->register('url','url RSS', new textcontrol($object->url));
