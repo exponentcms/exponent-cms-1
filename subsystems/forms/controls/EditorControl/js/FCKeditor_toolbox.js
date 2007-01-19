@@ -18,11 +18,10 @@
 //TODO: determine whether the Editor provides a queryable API for that
 //TODO: adjust for themes
 
-//TODO: possibly create a subobject WYSIWYG ?
 // first = action name
 // second = icon location
 // third = required plugin
-eXp.WYSIWYG_toolboxbuttons =	{
+eXp.WYSIWYG.toolbox =	{
 
 "Source" : ["Source", "external/editors/images/FCKeditor/toolbar/source.gif", ""],
 "DocProps" : ["Document Properties", "external/editors/images/FCKeditor/toolbar/docprops.gif", ""],

@@ -153,14 +153,14 @@ eXp.WYSIWYG.createButton = function(currButton, rownum, pos) {
 	}
 	
 	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG_toolboxbuttons[currButton][1]);
-	myButton.setAttribute("title", eXp.i18n(eXp.WYSIWYG_toolboxbuttons[currButton][0]));
+	myButton.setAttribute("title", eXp.i18n(eXp.WYSIWYG.toolbox[currButton][0]));
 	myButton.setAttribute("alt", currButton);
 
 	//in case we have a big combined image as the icon file,
 	//we will have a number pointing to the position as the fourth array item and
 	//a method (provided in the respective toolbox file)
 	//if(eXp.WYSIWYG_toolboxbuttons[currButton][3]) { 
-	//	myButton = eXp.WYSIWYG_toolboxbuttons.setupMasterFileIcon(myButton, eXp.WYSIWYG_toolboxbuttons[currButton][3]);
+	//	myButton = eXp.WYSIWYG.toolbox.setupMasterFileIcon(myButton, eXp.WYSIWYG.toolbox[currButton][3]);
 	//}
 
 	//return myButton;
@@ -253,7 +253,7 @@ eXp.WYSIWYG.save = function(frm) {
 	frm.submit();
 }
 
-// used to build a toolbox of available buttons, the array eXp.WYSIWYG_toolbar in /external/editors/<currenteditor>_toolbar.js has to be maintened manually(for now)
+// used to build a toolbox of available buttons, the array eXp.WYSIWYG_toolbar in /subsystems/forms/controls/EditorControl/js/<currenteditor>_toolbar.js has to be maintened manually(for now)
 eXp.WYSIWYG.buildToolbox = function(Buttons) {
 	myButtonPanel = document.getElementById("editorcontrol_toolbox");
 	
@@ -282,7 +282,7 @@ eXp.WYSIWYG.buildToolbox = function(Buttons) {
 		//we will have a number pointing to the position as the fourth array item and
 		//a method (provided in the respective toolbox file)
 		//if(eXp.WYSIWYG_toolboxbuttons[currButton][3]) { 
-		//	myButton = eXp.WYSIWYG_toolboxbuttons.setupMasterFileIcon(myButton, eXp.WYSIWYG_toolboxbuttons[currButton][3]);
+		//	myButton = eXp.WYSIWYG.toolbox.setupMasterFileIcon(myButton, eXp.WYSIWYG.toolbox[currButton][3]);
 		//}
 				
 		myButtonPanel.appendChild(myButton);

@@ -18,11 +18,10 @@
 //TODO: determine whether the Editor provides a queryable API for that
 //TODO: adjust for themes
 
-//TODO: possibly create a subobject WYSIWYG ?
 // first = action name
 // second = icon location
 // third = required plugin
-eXp.WYSIWYG_toolboxbuttons =	{
+eXp.WYSIWYG.toolbox =	{
 				"cut" : ["cut", "external/editors/TinyMCE/jscripts/tiny_mce/themes/advanced/images/cut.gif", ""],
 				"paste" : ["paste", "external/editors/TinyMCE/jscripts/tiny_mce/themes/advanced/images/paste.gif", ""],
 				"copy" : ["copy", "external/editors/TinyMCE/jscripts/tiny_mce/themes/advanced/images/copy.gif", ""],

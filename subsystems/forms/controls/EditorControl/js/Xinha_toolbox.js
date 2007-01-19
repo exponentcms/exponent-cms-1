@@ -18,7 +18,6 @@
 //TODO: determine whether the Editor provides a queryable API for that
 //TODO: adjust for themes
 
-//TODO: possibly create a subobject WYSIWYG ?
 // first = action name
 // second = icon location
 // third = required plugin
@@ -29,7 +28,7 @@ console.log("Starting toolbox");
 //FJD - plugins are going to take a bit more work, so the few here are commented out for now.
 //there are many available - not nearly all are listed here.  Might have to load them differently.
 //Also todo, add configuration options for defining panel style, skin, etc.
-eXp.WYSIWYG_toolboxbuttons =	{
+eXp.WYSIWYG.toolbox =	{
  		"about" : ["About Xinha", "/external/editors/Xinha/images/ed_about.gif", ""],
         "justifycenter" : ["Align Center", "/external/editors/Xinha/images/ed_align_center.gif", ""],
         "justifyfull" : ["Align Justify", "/external/editors/Xinha/images/ed_align_justify.gif", ""],

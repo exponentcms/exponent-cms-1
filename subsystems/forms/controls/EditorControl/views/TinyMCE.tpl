@@ -39,7 +39,7 @@
 				currItem = myToolbar[currRow][currButton];
 				// plugin required ?
 				if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
-					plugins.push(eXp.WYSIWYG_toolboxbuttons[currItem][2]);
+					plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
 				}
 			}
 		}

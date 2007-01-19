@@ -42,8 +42,7 @@
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		// populate the button panel
-		//eXp.WYSIWYG.buildToolbox(eXp.WYSIWYG.toolbox);
-		eXp.WYSIWYG.buildToolbox(eXp.WYSIWYG_toolboxbuttons);
+		eXp.WYSIWYG.buildToolbox(eXp.WYSIWYG.toolbox);
 		
 {if $toolbar != NULL}
 {literal}		
