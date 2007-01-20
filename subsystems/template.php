@@ -3,7 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
-# Copyright (c) 2006 Maxim Mueller
+# Copyright (c) 2006-2007 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -31,7 +31,7 @@ define('TEMPLATE_FALLBACK_VIEW',BASE.'views/viewnotfound.tpl');
 
 include_once(BASE.'external/Smarty/libs/Smarty.class.php');
 
-class basetemplate {
+class BaseTemplate {
 	// Smarty template object.
 	var $tpl;
 	
@@ -149,7 +149,7 @@ class basetemplate {
  * interface to templates.
  */
 //TODO: prepare this class for multiple template systems
-class template extends basetemplate {	
+class template extends BaseTemplate {	
 		
 	var $module = '';	
 	
@@ -197,7 +197,7 @@ class template extends basetemplate {
  *
  * 
  */
-class controltemplate extends basetemplate {
+class ControlTemplate extends BaseTemplate {
 	
 	var $viewitem = "";
 	
@@ -217,17 +217,17 @@ class controltemplate extends basetemplate {
 	 * Render the template and return the result to the caller.
 	 * temporary override for testing functionality
 	 */
-	function render() {
-		//pump the viewitem into the view layer
-		
-		$this->tpl->assign("vi", $this->viewitem);
-		$this->tpl->assign("dm", $this->viewitem->datamodel);
-		
-		//call childobjects show() method recursively, based on render depth setting
-		//assign output
-		
-		return $this->tpl->fetch($this->view.'.tpl');
-	}
+//	function render() {
+//		//pump the viewitem into the view layer
+//		
+//		$this->tpl->assign("vi", $this->viewitem);
+//		$this->tpl->assign("dm", $this->viewitem->datamodel);
+//		
+//		//call childobjects show() method recursively, based on render depth setting
+//		//assign output
+//		
+//		return $this->tpl->fetch($this->view.'.tpl');
+//	}
 }
 
 /*
@@ -238,7 +238,7 @@ class controltemplate extends basetemplate {
  * @package Subsystems
  * @subpackage Template
  */
-class formtemplate extends basetemplate {
+class formtemplate extends BaseTemplate {
 	
 	//PHP5 constructor
 	function __construct($form, $view) {
@@ -253,7 +253,7 @@ class formtemplate extends basetemplate {
 	}
 }
 
-class filetemplate extends basetemplate {
+class filetemplate extends BaseTemplate {
 		
 	//PHP5 constructor
 	function __construct($file) {
@@ -275,7 +275,7 @@ class filetemplate extends basetemplate {
  * 
  * @param string $view The name of the standalone view.
  */
-class standalonetemplate extends basetemplate {
+class standalonetemplate extends BaseTemplate {
 		
 	//PHP5 constructor
 	function __construct($view) {

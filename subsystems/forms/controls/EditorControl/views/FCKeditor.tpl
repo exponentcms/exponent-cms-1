@@ -1,7 +1,7 @@
 {*
 ##################################################
 #
-# Copyright (c) 2005-2006  Maxim Mueller
+# Copyright (c) 2005-2007  Maxim Mueller
 #
 # This file is part of Exponent
 #
@@ -20,13 +20,14 @@
 # it's based on James Hunt's code for that original class
 *}
 {* the header include contains the starting <div> tag*}	
-	{include file="_header.inc" toolbar="`$dm->toolbar`"}
+	{include file="_header.inc" toolbar="`$view->toolbar`"}
 
-	<script type="text/javascript" src="{$dm->path_to_editor}fckeditor.js"></script>
+	<script type="text/javascript" src="{$view->path_to_editor}fckeditor.js"></script>
 	
 	<script type="text/javascript">
 	/* <![CDATA[ */
-{IF $dm->toolbar != NULL}
+{IF $view->toolbar != NULL}
+{literal}
 		eXp.WYSIWYG.serialize = function(myArray) {
 			var myStr = "[";
 			for (i = 0; i < myArray.length; i++) {
@@ -76,13 +77,14 @@
 			}
 			return this.serialize(plugins);
 		}
+{/literal}
 {/IF}		
 
-		var oFCKeditor = new FCKeditor('{$dm->name}');
+		var oFCKeditor = new FCKeditor('{$content->name}');
 		
 			
-		oFCKeditor.BasePath = "{$path_to_editor}";
-		oFCKeditor.Value = "{$dm->content}";
+		oFCKeditor.BasePath = "{$view->path_to_editor}";
+		oFCKeditor.Value = "{$content->content}";
 		
 		oFCKeditor.Height= '300';
 
@@ -90,16 +92,15 @@
 		oFCKeditor.Config['ImageUpload'] = "false";
 		oFCKeditor.Config['FlashUpload'] = "false";
 	
-		oFCKeditor.Config['LinkBrowserURL'] = "{$dm->path_to_editor}../connector/FCKeditor_link.php";
-		oFCKeditor.Config['ImageBrowserURL'] = "{$dm->path_to_editor}../../../modules/FileManagerModule/actions/picker.php?id=0";
+		oFCKeditor.Config['LinkBrowserURL'] = "{$view->path_to_editor}../connector/FCKeditor_link.php";
+		oFCKeditor.Config['ImageBrowserURL'] = "{$view->path_to_editor}../../../modules/FileManagerModule/actions/picker.php?id=0";
 		
-{IF $dm->toolbar != NULL}
+{IF $view->toolbar != NULL}
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
 		oFCKeditor.Config["CustomConfigurationsPath"] = "{$smarty.const.PATH_RELATIVE}external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.toolbar)) + "&toolbar=" + encodeURI(eXp.WYSIWYG.setupToolbar(eXp.WYSIWYG.toolbar));
 {/IF}
 		
 		oFCKeditor.Create();
-		delete eXp.WYSIWYG;
 	/* ]]> */
 	</script>
 </div>

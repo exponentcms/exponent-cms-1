@@ -1,7 +1,7 @@
 {*
 ##################################################
 #
-# Copyright (c) 2005-2006  Maxim Mueller
+# Copyright (c) 2005-2007  Maxim Mueller
 #
 # This file is part of Exponent
 #
@@ -31,3 +31,4 @@
 
 	/* ]]> */
 	</script>
+	

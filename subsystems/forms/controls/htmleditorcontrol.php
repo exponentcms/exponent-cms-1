@@ -3,7 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
-# Copyright 2006 Maxim Mueller
+# Copyright 2006-2007 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -47,9 +47,11 @@ class htmleditorcontrol extends formcontrol {
 	var $module = "";
 	var $toolbar = "";
 	
+	
 	function name() {
 		return "WYSIWYG Editor";
 	}
+	
 	
 	function htmleditorcontrol($default="",$module = "",$rows = 20,$cols = 60, $toolbar = "") {
 		$this->default = $default;
@@ -57,42 +59,39 @@ class htmleditorcontrol extends formcontrol {
 		$this->toolbar = $toolbar;
 	}
 	
+	
 	function controlToHTML($name) {
-		
-		$PATH_TO_INCs = BASE . "external/editors/";
 
-		if(is_readable($PATH_TO_INCs . SITE_WYSIWYG_EDITOR . '.glue')){
-			ob_start();
 			global $db;
 			if($this->toolbar == "") {
 				$config = $db->selectObject("toolbar_" . SITE_WYSIWYG_EDITOR, "active=1");
 			}else{
 				$config = $db->selectObject("toolbar_" . SITE_WYSIWYG_EDITOR, "name='" . $this->toolbar . "'");
 			}
-				
-			?>
-			<script language="javascript">
-			/* <![CDATA[ */
-			eXp.WYSIWYG = new Object();
-			<?PHP
-			if ($config) {
-				echo "		eXp.WYSIWYG.toolbar = " . $config->data . ";\n";
-			}
-			?>
-			/* ]]> */
-			</script>
-			<?PHP
-
-			include($PATH_TO_INCs . SITE_WYSIWYG_EDITOR . '.glue');
-			$html = ob_get_contents();
-			ob_end_clean();	
-			return $html;
-		}
-		else {
-			echo "Sorry, the " . SITE_WYSIWYG_EDITOR . " WYSIWYG Editor is not installed";
-			//TODO: handle fallback to <htmlarea> here, and dispatch message to regular error channel
-		}
+			
+			//as long as we don't have proper datamodels, emulate them
+			//there are at least two sets of data: view data and content data
+			$view = new StdClass();
+			$content = new StdClass();
+			
+			$view->toolbar = $config;
+			$view->path_to_editor = PATH_RELATIVE . "external/editors/" . SITE_WYSIWYG_EDITOR . "/";
+			$view->init_done = false;
+			
+			$content->name = $name;
+			$content->value = $this->default;
+			
+			//create new view object
+			$viewObj = new ControlTemplate("EditorControl", SITE_WYSIWYG_EDITOR);
+			
+			//assign the data models to the view object
+			$viewObj->assign("view", $view);
+			$viewObj->assign("content", $content);
+			
+			//return the processed template to the caller for display
+			return $viewObj->render();
 	}
+	
 	
 	function parseData($name, $values, $for_db = false) {
 		$html = $values[$name];

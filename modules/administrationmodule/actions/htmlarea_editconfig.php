@@ -3,7 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
-# Copyright (c) 2006 Maxim Mueller
+# Copyright (c) 2006-2007 Maxim Mueller
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -19,23 +19,19 @@
 ##################################################
 
 // Part of the HTMLArea category
-//should be moved to EditorControl or ToolbarItem
+//should be moved to EditorControl
 
 if (!defined("EXPONENT")) exit("");
 
 $loc = exponent_core_makeLocation('administrationmodule');
 
 if (exponent_permissions_check('htmlarea', $loc)) {
-	$dm = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=" . intval($_GET['id']));
+	$content = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=" . intval($_GET['id']));
 
-	$template = new template("administrationmodule", "_form_EditorControl_Toolbar", $loc);
+	$viewObj = new template("administrationmodule", "_form_EditorControl_Toolbar", $loc);
 
-	if($dm) {
-		$template->assign("dm", $dm);
-		$template->assign("toolbar", $dm->data);
-	}	
-
-	$template->output();
+	$viewObj->assign("content", $content);
+	$ViewObj->output();
 
 } else {
 	echo SITE_403_HTML;

@@ -1,7 +1,7 @@
 {*
 ##################################################
 #
-# Copyright (c) 2005-2006  Maxim Mueller
+# Copyright (c) 2005-2007  Maxim Mueller
 #
 # This file is part of Exponent
 #
@@ -20,16 +20,17 @@
 # it's based on James Hunt's code for that original class
 *}
 {* the header include contains the starting <div> tag*}	
-	{include file="_header.inc" toolbar="`$dm->toolbar`"}
+	{include file="_header.inc" toolbar="`$view->toolbar`"}
 	
-	<textarea id="{$dm->name}" name="{$dm->name}" class="mceEditor">{$dm->content}</textarea>
+	<textarea id="{$content->name}" name="{$content->name}" class="mceEditor">{$content->value}</textarea>
 
-	<script type="text/javascript" src="{$dm->path_to_editor}jscripts/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" src="{$view->path_to_editor}jscripts/tiny_mce/tiny_mce.js"></script>
 	
 	<!-- load languagefile, prepare for HTMLArea popup(Link + Image Browsers) -->
 	<script type="text/javascript">
 	/* <![CDATA[ */
-{IF $dm->toolbar != NULL}
+{IF $view->toolbar != NULL}
+{literal}
 	// if plugins are needed, set them up
 	eXp.WYSIWYG.setupPlugins = function (myToolbar) {
 		plugins = new Array();
@@ -38,7 +39,7 @@
 			for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 				currItem = myToolbar[currRow][currButton];
 				// plugin required ?
-				if(eXp.WYSIWYG_toolboxbuttons[currItem][2] != "") {
+				if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
 					plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
 				}
 			}
@@ -71,15 +72,16 @@
 			}	
 		}
 	}
+{literal}
 {/IF}		
-		
+{literal}	
 	//we need this to get the data from the popup(object for "opener" interaction)
 	var Dialog = new Object();
 	//callback from the HTMLArea popup(__dlg_close())
 	Dialog._return = function (val) {
 		if (val) {
 			if (val['f_dialogType'] == "Link") {
-				tinyMCE.execCommand('mceInsertContent',false,'<a href="' + val['f_href'] + '" target="' + val['f_target'] + '" title="' + val['f_title'] + '">' + tinyMCE.getInstanceById('{$dm->name}').selection.getSelectedHTML() + '</a>');
+				tinyMCE.execCommand('mceInsertContent',false,'<a href="' + val['f_href'] + '" target="' + val['f_target'] + '" title="' + val['f_title'] + '">' + tinyMCE.getInstanceById('{/literal}{$content->name}{literal}').selection.getSelectedHTML() + '</a>');
 			}
 			if (val['f_dialogType'] == "Image") {
 				// TODO: generate CSS styled images 
@@ -115,7 +117,7 @@
 				//		delete Dialog._arguments;
 				//	}
 				//}
-				var LinkWindow = window.open("{$smarty.const.PATH_RELATIVE}external/editors/connector/link.php", "Link", "width=400, height=275, resizable=yes");
+				var LinkWindow = window.open("{/literal}{$smarty.const.PATH_RELATIVE}{literal}external/editors/connector/link.php", "Link", "width=400, height=275, resizable=yes");
 				LinkWindow.focus();
 					
 				return true;
@@ -139,7 +141,7 @@
 				//		delete Dialog._arguments;
 				//	}
 				//}
-				var ImageWindow = window.open("{$smarty.const.PATH_RELATIVE}external/editors/connector/insert_image.php", "Image", "width=400, height=390, resizable=yes");
+				var ImageWindow = window.open("{/literal}{$smarty.const.PATH_RELATIVE}{literal}external/editors/connector/insert_image.php", "Image", "width=400, height=390, resizable=yes");
 				ImageWindow.focus();
 					
 				return true;
@@ -157,17 +159,18 @@
 							theme_advanced_layout_manager	: "SimpleLayout",
 							add_unload_trigger				: false,
 							//eXp's new lang naming semantics are incompatible to pretty much everything, translation functions are needed
-							//language						: "{$smarty.const.LANG}",
+							//language						: "",
 							execcommand_callback 			: "myCustomExecCommandHandler",
 							convert_urls					: false
 						};
-{IF $dm->toolbar != NULL}
+{/literal}
+{IF $view->toolbar != NULL}
 	eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.toolbar);
 	eXp.WYSIWYG.setupToolbar(eXp.WYSIWYG.toolbar);
 {/IF}
 		
 	tinyMCE.init(eXp.WYSIWYG.config);
-	delete eXp.WYSIWYG;
+
 	/* ]]> */
 	</script>
 </div>	
