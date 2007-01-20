@@ -27,11 +27,15 @@ $loc = exponent_core_makeLocation('administrationmodule');
 
 if (exponent_permissions_check('htmlarea', $loc)) {
 	$content = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=" . intval($_GET['id']));
-
+	
+	if (!isset($content)) {
+		$content = new StdClass();
+	}
+	
 	$viewObj = new template("administrationmodule", "_form_EditorControl_Toolbar", $loc);
 
 	$viewObj->assign("content", $content);
-	$ViewObj->output();
+	$viewObj->output();
 
 } else {
 	echo SITE_403_HTML;

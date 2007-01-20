@@ -177,7 +177,7 @@ class template extends BaseTemplate {
 			$cache[$container_key] = $container;
 		}
 		$this->viewconfig = ($container && isset($container->view_data) && $container->view_data != "" ? unserialize($container->view_data) : array());
-		$this->tpl->assign("__viewconfig",$this->viewconfig);
+		$this->tpl->assign("__viewconfig", $this->viewconfig);
 		//echo "<xmp>";
 		//print_r($this);
 		//echo "</xmp>";

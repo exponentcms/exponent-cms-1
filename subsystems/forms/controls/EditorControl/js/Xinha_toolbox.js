@@ -1,6 +1,6 @@
 //##################################################
 //#
-//# Copyright (c) 2006 Maxim Mueller
+//# Copyright (c) 2006-2007 Maxim Mueller
 //#
 //# This file is part of Exponent
 //#
@@ -17,12 +17,16 @@
 //this file provides an Array associating availiable Actions, their Icons, and, if required for this action, their plugins, with their internal ids
 //TODO: determine whether the Editor provides a queryable API for that
 //TODO: adjust for themes
+//TODO: account for combined image files
+
+//this will be handled better in the future
+if (! eXp.WYSIWYG) {
+	eXp.WYSIWYG = new Object();
+}
 
 // first = action name
 // second = icon location
 // third = required plugin
-
-console.log("Starting toolbox");
 
 //FIXME: 
 //FJD - plugins are going to take a bit more work, so the few here are commented out for now.
@@ -79,5 +83,5 @@ eXp.WYSIWYG.toolbox =	{
         /*"insertfilelink" : ["Insert File Link", "/external/editors/Xinha/images/insertfilelink.gif", ""],*/
         /*"insertmacro" : ["Insert Macro", "/external/editors/Xinha/images/insertmacro.png", ""],*/
         /*"tidy.gif" : ["Tidy", "/external/editors/Xinha/images/tidy.gif", ""],*/
-        "toggleborders" : ["Toggle Borders", "/external/editors/Xinha/images/toggle_borders.gif", ""],
+        "toggleborders" : ["Toggle Borders", "/external/editors/Xinha/images/toggle_borders.gif", ""]
 };

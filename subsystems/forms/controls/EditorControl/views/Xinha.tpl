@@ -22,16 +22,16 @@
 {* the header include contains the starting <div> tag*}	
 	{include file="_header.inc" toolbar="`$view->toolbar`"}
 
-{if $view->init_done=false}
+{if $view->init_done == false}
 	<script type="text/javascript">
 	/* <![CDATA[ */
 {literal}
 		//figure out an intelligent way to maintain the status of init_done in PHP, the handle it there
 		//best way to avoid additional CONSTANTS would be to have a eXp->WYSIWYG->init_done		
-		if(! _editor_url) {	
-			_editor_url = "{$view->path_to_editor}";
+//		if(! _editor_url) {	
+			_editor_url = "{/literal}{$view->path_to_editor}{literal}";
 			//eXp's new lang naming semantics are incompatible to pretty much everything, translation functions are needed
-			//_editor_lang = "{$smarty.const.LANG}";
+			//_editor_lang = "{/literal}{$smarty.const.LANG}{literal}";
 			_editor_lang = "en";
 			
 			
@@ -77,7 +77,7 @@
 					"help": "editor_help.html"
 				};
 	
-				eXp.WYSIWYG.editors = Xinha.makeEditors(eXp.WYSIWYG.editors, eXp.WYSIWYG.config);
+				eXp.WYSIWYG.editors = Xinha.makeEditors(eXp.WYSIWYG.editor_ids, eXp.WYSIWYG.config);
 				
 				//per xinha instance inits override the default settings
 				for (i = 0; i < eXp.WYSIWYG.toolbars.length; i++) {
@@ -97,8 +97,8 @@
 			}
 			
 			//register the callback function
-			eXp.register(xinha_init);
-		}
+			eXp.register(eXp.WYSIWYG.xinha_init);
+//		}
 {/literal}
 	/* ]]> */
 	</script>
@@ -108,8 +108,11 @@
 	
 	<script type="text/javascript">
 	/* <![CDATA[ */
+		//register the new textarea to become a Xinha editor	
+		eXp.WYSIWYG.editor_ids.push("{$content->name}");
+			
 		//transfer the current toolbar into the list of toolbars
-		eXp.WYSIWYG.toolbars.append({$view->toolbar});
+		eXp.WYSIWYG.toolbars.push({$view->toolbar});
 	/* ]]> */
 	</script>
 	
