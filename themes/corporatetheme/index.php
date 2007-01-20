@@ -26,7 +26,7 @@ if (!defined('EXPONENT')) exit('');
 		<?php echo exponent_theme_headerInfo($section); ?>
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
-	
+
 	<body onload="exponentJSinitialize();" topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
 	<?php exponent_theme_sourceSelectorInfo(); ?>
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
@@ -36,26 +36,26 @@ if (!defined('EXPONENT')) exit('');
 			<td colspan="4">
 			<table cellpadding="0" cellspacing="0" border="0">
 				<tr>
-					<td rowspan="3"><img src="<?php echo THEME_RELATIVE;?>images/lefttop.jpg"></td>
-					<td width="686" height="32" background="<?php echo THEME_RELATIVE;?>images/top.jpg"></td>
-					<td rowspan="3"><img src="<?php echo THEME_RELATIVE;?>images/righttop.jpg"></td>
+					<td rowspan="3"><img src="<?php echo THEME_RELATIVE;?>images/lefttop.jpg" alt="" /></td>
+					<td width="686" height="32" background="<?php echo THEME_RELATIVE;?>images/top.jpg" /></td>
+					<td rowspan="3"><img src="<?php echo THEME_RELATIVE;?>images/righttop.jpg" alt="" /></td>
 				</tr>
 				<tr>
-					<td><img width="686" height="120" src="<?php echo THEME_RELATIVE;?>images/name.jpg"></td>
+					<td><img width="686" height="120" src="<?php echo THEME_RELATIVE;?>images/name.jpg" alt="" /></td>
 				</tr>
 				<tr>
 					<td height="28" valign="top" style="padding-left: 20px; padding-top: 3px; background-image: url(<?php echo THEME_RELATIVE;?>images/title_bg.gif); border-top: 5px solid lightblue; ">
-						
+
 						<?php exponent_theme_showModule("navigationmodule","Top Nav"); ?>
 					</td>
 				</tr>
 			</table>
 			</td>
 			<td rowspan="10" width="1" bgcolor="#000000"></td>
-			<td rowspan="10" width="50%" height="100%" background="<?php echo THEME_RELATIVE;?>images/bg1223.jpg" style="background-position:left top; background-repeat:repeat-y"></td>	
+			<td rowspan="10" width="50%" height="100%" background="<?php echo THEME_RELATIVE;?>images/bg1223.jpg" style="background-position:left top; background-repeat:repeat-y"></td>
 		</tr>
 		<tr>
-			<td valign="top" width="55" height="100%" background="<?php echo THEME_RELATIVE;?>images/l01.gif"><img src="<?php echo THEME_RELATIVE;?>images/left.gif"></td>
+			<td valign="top" width="55" height="100%" background="<?php echo THEME_RELATIVE;?>images/l01.gif"><img src="<?php echo THEME_RELATIVE;?>images/left.gif" alt="" /></td>
 			<td valign="top" height="100%" width="215" style="padding: 5px">
 			<?php
 			exponent_theme_showModule("loginmodule","Default");
@@ -65,9 +65,9 @@ if (!defined('EXPONENT')) exit('');
 			?>
 			</td>
 			<td valign="top" height="100%" width="471" style="border: 0px solid blue; padding-right: 15px">
-			
+
 			<table cellpadding="0" width="100%" cellspacing="0" border="0" height="100%" style="padding-left: 10px; margin-right: 10px">
-				
+
 				<tr>
 					<td><br /></td>
 				</tr>
@@ -77,10 +77,10 @@ if (!defined('EXPONENT')) exit('');
 						<?php exponent_theme_main(); ?>
 					</td>
 				</tr>
-				
+
 			</table>
 			</td>
-			<td valign="top" width="59" height="100%" background="<?php echo THEME_RELATIVE;?>images/l02.gif"><img src="<?php echo THEME_RELATIVE;?>images/right.gif"></td>
+			<td valign="top" width="59" height="100%" background="<?php echo THEME_RELATIVE;?>images/l02.gif"><img src="<?php echo THEME_RELATIVE;?>images/right.gif" alt="" /></td>
 		</tr>
 		<tr>
 			<td colspan="4" style="padding-left: 10px; padding-right: 10px">
