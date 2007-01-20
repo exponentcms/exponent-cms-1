@@ -1,7 +1,7 @@
 {*
 ##################################################
 #
-# Copyright (c) 2005-2007  Maxim Mueller
+# Copyright (c) 2007  Maxim Mueller
 #
 # This file is part of Exponent
 #
@@ -16,8 +16,6 @@
 ##################################################
 
 #This glue file is included by subsystems/forms/controls/htmleditorcontrol.php
-#it provides the code for the htmleditorcontrol class' controltoHTML() method 
-# it's based on James Hunt's code for that original class
 *}
 <div class="">
 	<textarea id="{$content->name}" name="{$content->name}">{$content->value}</textarea>
