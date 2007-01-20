@@ -16,9 +16,9 @@
 {capture assign=output}
 <table cellpadding="0" cellspacing="0" border="0" style="margin-left:10px;margin-right:7px;margin-top:5px;margin-bottom: 10px;">
 	<tr>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_topleft.gif" /></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_topleft.gif" alt=""  /></td>
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/side_top_blank.gif); background-repeat: repeat-x;"></td>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_topright.gif" /></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_topright.gif" alt=""  /></td>
 	</tr>
 	</tr>
 	<tr>
@@ -42,9 +42,9 @@
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/side_right.gif); background-repeat: repeat-y"></td>
 	</tr>
 	<tr>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_bottomleft.gif" /></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_bottomleft.gif"  alt="" /></td>
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/side_bottom.gif); background-repeat: repeat-x"></td>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_bottomright.gif" /></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/corner_bottomright.gif"  alt="" /></td>
 	</tr>
 </table>
 {/capture}
