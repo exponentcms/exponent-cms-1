@@ -15,29 +15,29 @@
  *}
 <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 10px">
 	<tr>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_topleft.gif"/></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_topleft.gif" alt="" /></td>
 		<td width="100%" style="background-image: url({$smarty.const.THEME_RELATIVE}images/lineside_top.gif);"></td>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_topright.gif"/></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_topright.gif" alt="" /></td>
 	</tr>
 	<tr>
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/lineside_left.gif);"></td>
 		<td width="100%" height="100%">
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1}
-				<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-				<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+				<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png"  alt="" /></a>&nbsp;
+				<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png"  alt="" /></a>
 			{/if}
 			{if $permissions.configure == 1}
-				<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
+				<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png"  alt="" /></a>
 			{/if}
 			{/permissions}
 			{if $moduletitle != ""}<div class="moduletitle text_moduletitle">{$moduletitle}</div>{/if}
 			{permissions level=$smarty.const.UILEVEL_NORMAL} 
 			{if $permissions.edit == 1}
 				{if $textitem->approved != 1}
-					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" border="0" title="Editting Disabled - Content In Approval" />&nbsp;
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" border="0" title="Editting Disabled - Content In Approval" alt=""  />&nbsp;
 				{else}
-					<a class="mngmntlink text_mngmntlink" href="{link action=edit id=$textitem->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" /></a>
+					<a class="mngmntlink text_mngmntlink" href="{link action=edit id=$textitem->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"  alt="" /></a>
 				{/if}
 			{/if}
 			{if $textitem->approved != 1 && ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1)}
@@ -58,8 +58,8 @@
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/lineside_right.gif);"></td>
 	</tr>
 	<tr>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_bottomleft.gif"/></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_bottomleft.gif" alt="" /></td>
 		<td style="background-image: url({$smarty.const.THEME_RELATIVE}images/lineside_bottom.gif);"></td>
-		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_bottomright.gif"/></td>
+		<td><img src="{$smarty.const.THEME_RELATIVE}images/linecorner_bottomright.gif" alt="" /></td>
 	</tr>
 </table>
