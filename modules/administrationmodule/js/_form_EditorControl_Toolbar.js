@@ -152,7 +152,7 @@ eXp.WYSIWYG.createButton = function(currButton, rownum, pos) {
 		mySpan.setAttribute("class", "editorcontrol_toobarbutton_wrapper");
 	}
 	
-	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG_toolboxbuttons[currButton][1]);
+	myButton.setAttribute("src", eXp.PATH_RELATIVE + eXp.WYSIWYG.toolbox[currButton][1]);
 	myButton.setAttribute("title", eXp.i18n(eXp.WYSIWYG.toolbox[currButton][0]));
 	myButton.setAttribute("alt", currButton);
 
@@ -164,7 +164,7 @@ eXp.WYSIWYG.createButton = function(currButton, rownum, pos) {
 	//}
 
 	//return myButton;
-	console.log(mySpan);
+
 	return mySpan;
 }
 

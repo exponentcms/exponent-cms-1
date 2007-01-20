@@ -74,7 +74,7 @@ class htmleditorcontrol extends formcontrol {
 			$view = new StdClass();
 			$content = new StdClass();
 			
-			$view->toolbar = $config;
+			$view->toolbar = $config->data;
 			$view->path_to_editor = PATH_RELATIVE . "external/editors/" . SITE_WYSIWYG_EDITOR . "/";
 			$view->init_done = false;
 			
