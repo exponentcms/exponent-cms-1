@@ -496,7 +496,9 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	//latter override the precursors
 	$locations = array(BASE, THEME_ABSOLUTE);
 	foreach($locations as $location) {
+		//TODO: add a check for Default in common path here
 		$checkpaths[] = $location . $typepath . "common/" . $relpath2;
+		//TODO: add a check for Default in main path here
 		$checkpaths[] = $location . $relpath;
 	}
 	

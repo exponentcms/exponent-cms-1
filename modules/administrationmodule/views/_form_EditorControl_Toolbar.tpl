@@ -24,8 +24,6 @@
 {* the header include contains the starting <div> tag*}	
 	{include file="../../../subsystems/forms/controls/EditorControl/views/_header.inc" toolbar="`$content->data`"}
 	
-	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}subsystems/forms/controls/EditorControl/js/{$smarty.const.SITE_WYSIWYG_EDITOR}_toolbox.js"></script>
-	
 	<h2>{$smarty.const.SITE_WYSIWYG_EDITOR}</h2>
 	<!--a href="http://www.xinha.com" target="_blank"><img style="border:0px solid none;" src="{$smarty.const.PATH_RELATIVE}external/editors/Xinha/images/xinha_logo.gif" /></a-->
 	<p>{$_TR.desc}</p>
@@ -43,9 +41,7 @@
 	/* <![CDATA[ */
 		// populate the button panel
 		eXp.WYSIWYG.buildToolbox(eXp.WYSIWYG.toolbox);
-		
-{if $content->data != NULL}
-{literal}		
+{literal}				
 		for(currRow = 0; currRow < eXp.WYSIWYG.toolbar.length; currRow++) {
 			rows.push(new Array());
 		
@@ -58,7 +54,6 @@
 			}
 		}
 {/literal}
-{/if}
 		eXp.WYSIWYG.buildToolbar();
 	/* ]]> */
 	</script>

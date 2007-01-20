@@ -26,7 +26,8 @@
 	
 	<script type="text/javascript">
 	/* <![CDATA[ */
-{IF $view->toolbar != NULL}
+{* cannot exclude this part based on SITE_WYSIWYG_INIT because the first editor might come without a toolbar, but others with*}
+{if $view->toolbar != NULL}
 {literal}
 		eXp.WYSIWYG.serialize = function(myArray) {
 			var myStr = "[";
@@ -78,13 +79,13 @@
 			return this.serialize(plugins);
 		}
 {/literal}
-{/IF}		
+{/if}		
 
 		var oFCKeditor = new FCKeditor('{$content->name}');
 		
 			
 		oFCKeditor.BasePath = "{$view->path_to_editor}";
-		oFCKeditor.Value = "{$content->content}";
+		oFCKeditor.Value = "{$content->value}";
 		
 		oFCKeditor.Height= '300';
 
@@ -95,10 +96,10 @@
 		oFCKeditor.Config['LinkBrowserURL'] = "{$view->path_to_editor}../connector/FCKeditor_link.php";
 		oFCKeditor.Config['ImageBrowserURL'] = "{$view->path_to_editor}../../../modules/FileManagerModule/actions/picker.php?id=0";
 		
-{IF $view->toolbar != NULL}
+{if $view->toolbar != NULL}
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
 		oFCKeditor.Config["CustomConfigurationsPath"] = "{$smarty.const.PATH_RELATIVE}external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.toolbar)) + "&toolbar=" + encodeURI(eXp.WYSIWYG.setupToolbar(eXp.WYSIWYG.toolbar));
-{/IF}
+{/if}
 		
 		oFCKeditor.Create();
 	/* ]]> */

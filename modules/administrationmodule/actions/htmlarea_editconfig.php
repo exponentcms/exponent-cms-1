@@ -28,8 +28,10 @@ $loc = exponent_core_makeLocation('administrationmodule');
 if (exponent_permissions_check('htmlarea', $loc)) {
 	$content = $db->selectObject('toolbar_' . SITE_WYSIWYG_EDITOR, "id=" . intval($_GET['id']));
 	
-	if (!isset($content)) {
+	//initialize with an empty toolbar
+	if (!isset($content->data)) {
 		$content = new StdClass();
+		$content->data = "[]";
 	}
 	
 	$viewObj = new template("administrationmodule", "_form_EditorControl_Toolbar", $loc);

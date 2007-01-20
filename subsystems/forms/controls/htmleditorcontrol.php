@@ -63,6 +63,7 @@ class htmleditorcontrol extends formcontrol {
 	function controlToHTML($name) {
 
 			global $db;
+			
 			if($this->toolbar == "") {
 				$config = $db->selectObject("toolbar_" . SITE_WYSIWYG_EDITOR, "active=1");
 			}else{
@@ -76,12 +77,19 @@ class htmleditorcontrol extends formcontrol {
 			
 			$view->toolbar = $config->data;
 			$view->path_to_editor = PATH_RELATIVE . "external/editors/" . SITE_WYSIWYG_EDITOR . "/";
-			$view->init_done = false;
 			
 			$content->name = $name;
-			$content->value = $this->default;
+			if (SITE_WYSIWYG_EDITOR == "FCKeditor") {
+				//this belongs into the view layer, but as long we have PHP_REMOVE enabled on our templates...
+				$content->value = addslashes(str_replace(array("\n","\r"), "", $this->default));
+			} else {
+				$content->value = $this->default;
+			}
 			
 			//create new view object
+			//WARNING: automatic fallback to Default.tpl will not work
+			//until exponent_core_resolveFilePaths() gets an update
+			//waiting for switch to PHP5: strrpos() will take strings as needle
 			$viewObj = new ControlTemplate("EditorControl", SITE_WYSIWYG_EDITOR);
 			
 			//assign the data models to the view object
@@ -89,7 +97,16 @@ class htmleditorcontrol extends formcontrol {
 			$viewObj->assign("content", $content);
 			
 			//return the processed template to the caller for display
-			return $viewObj->render();
+			$html = $viewObj->render();
+			
+			//spares us to send the js editor init code more than once
+			//TODO: Convert to OO API and use eXp->EditorControl->doneInit instead
+			if(!defined("SITE_WYSIWYG_INIT")) {
+				define("SITE_WYSIWYG_INIT", 1);
+			}
+			
+			return $html;
+
 	}
 	
 	

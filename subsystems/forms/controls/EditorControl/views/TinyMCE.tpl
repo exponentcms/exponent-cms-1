@@ -29,7 +29,8 @@
 	<!-- load languagefile, prepare for HTMLArea popup(Link + Image Browsers) -->
 	<script type="text/javascript">
 	/* <![CDATA[ */
-{IF $view->toolbar != NULL}
+{* cannot exclude this part based on SITE_WYSIWYG_INIT because the first editor might come without a toolbar, but others with *}
+{if $view->toolbar != NULL}
 {literal}
 	// if plugins are needed, set them up
 	eXp.WYSIWYG.setupPlugins = function (myToolbar) {
@@ -72,8 +73,10 @@
 			}	
 		}
 	}
-{literal}
-{/IF}		
+{/literal}
+{/if}
+
+{if $smarty.const.SITE_WYSIWYG_INIT != 1}		
 {literal}	
 	//we need this to get the data from the popup(object for "opener" interaction)
 	var Dialog = new Object();
@@ -149,7 +152,9 @@
 		
 		return false;
 	}
-
+{/literal}
+{/if}
+{literal}
 	// initialize TinyMCE
 	eXp.WYSIWYG.config =	{
 							mode							: "textareas",
@@ -164,10 +169,10 @@
 							convert_urls					: false
 						};
 {/literal}
-{IF $view->toolbar != NULL}
+{if $view->toolbar != NULL}
 	eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.toolbar);
 	eXp.WYSIWYG.setupToolbar(eXp.WYSIWYG.toolbar);
-{/IF}
+{/if}
 		
 	tinyMCE.init(eXp.WYSIWYG.config);
 

@@ -31,4 +31,6 @@
 
 	/* ]]> */
 	</script>
-	
+{if $toolbar != NULL}
+	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}subsystems/forms/controls/EditorControl/js/_{$smarty.const.SITE_WYSIWYG_EDITOR}_toolbox.js"></script>
+{/if}

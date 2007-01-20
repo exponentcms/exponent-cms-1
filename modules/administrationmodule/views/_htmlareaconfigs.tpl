@@ -1,5 +1,6 @@
 {*
  * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2007 Maxim Mueller
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -36,13 +37,9 @@
 				<a class="mngmntlink administration_mngmntlink" href="{link action=htmlarea_editconfig id=$config->id}">
 					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
 				</a>
-				{if $config->active == 0}
 				<a class="mngmntlink administration_mngmntlink" href="{link action=htmlarea_deleteconfig id=$config->id}">
 					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
 				</a>
-				{else}
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" border="0" />
-				{/if}
 			</td>
 		</tr>
 	{foreachelse}

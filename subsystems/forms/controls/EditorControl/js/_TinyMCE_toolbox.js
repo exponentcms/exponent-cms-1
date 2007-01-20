@@ -19,11 +19,6 @@
 //TODO: adjust for themes
 //TODO: account for combined image files
 
-//this will be handled better in the future
-if (! eXp.WYSIWYG) {
-	eXp.WYSIWYG = new Object();
-}
-
 // first = action name
 // second = icon location
 // third = required plugin

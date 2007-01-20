@@ -66,7 +66,7 @@ $stuff = array(
 		'SITE_404_HTML'=>array(
 			'title'=>$i18n['site_404'],
 			'description'=>$i18n['site_404_desc'],
-			'control'=>new texteditorcontrol('',15,50)
+			'control'=>new htmleditorcontrol('',15,50)
 		),
 		'SITE_403_REAL_HTML'=>array(
 			'title'=>$i18n['site_403'],
