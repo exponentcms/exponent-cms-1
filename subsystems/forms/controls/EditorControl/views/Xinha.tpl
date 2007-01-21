@@ -25,12 +25,12 @@
 {if $smarty.const.SITE_WYSIWYG_INIT != 1}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-{literal}
 
-		_editor_url = "{/literal}{$view->path_to_editor}{literal}";
+
+		_editor_url = "{$view->path_to_editor}";
 		//eXp's new lang naming semantics are incompatible to pretty much everything, translation functions are needed
-		//_editor_lang = "{/literal}{$smarty.const.LANG}{literal}";
-		_editor_lang = "en";
+		_editor_lang = "{$smarty.const.LANG|convertLangCode}";
+
 			
 		//list of the id[0], toolbar[1] and plugins[2] for the individual xinha editors
 		eXp.WYSIWYG.editordata = new Array();
@@ -38,7 +38,7 @@
 		//list of plugins used by all xinha editors
 		eXp.WYSIWYG.plugins = new Array();
 		
-				
+{literal}				
 		// get the plugins used in this toolbar
 		eXp.WYSIWYG.getPlugins = function (myToolbar) {
 

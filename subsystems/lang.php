@@ -174,14 +174,36 @@ function exponent_lang_loadKey($filename, $key) {
  *
  * @return string the short version of the lang code
  */
-function exponent_lang_convertLangCode($long_code) {
+function exponent_lang_convertLangCode($long_code, $target = "iso639-1") {
+	//TODO: auto-guess the incoming type of lang code from the input format
+	//TODO: breakout the data into a xml file in subsystems/lang/
+
+	//assume that we are getting an iso639-2_Country code for now(standard for eXp's i18n)
 	switch ($long_code) {
 		case "deu_DE":
-			$short_code = "de";
+			$iso639_1 = "de";
+			$iso639_2 = "deu";
+			break;
 		case "eng_US":
-			$short_code = "en";
+			$iso639_1 = "en";
+			$iso639_2 = "eng";
+		break;
+		default:
+			$iso639_1 = "en";
+			$iso639_2 = "eng";
 	}
-	return $short_code;
+	
+	//resist the temptation to do eval()
+	switch ($target) {
+		case "iso639-1":
+			$converted_code = $iso639_1;
+			break;
+		case "iso639-2":
+			$converted_code = $iso639_2;
+			break;
+	}
+
+	return $converted_code;
 }
 
 ?>

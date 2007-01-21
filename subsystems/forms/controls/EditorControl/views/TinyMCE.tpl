@@ -157,17 +157,20 @@
 {literal}
 	// initialize TinyMCE
 	eXp.WYSIWYG.config =	{
-							mode							: "textareas",
-							editor_selector					: "mceEditor",
-							theme 							: "advanced",
-							theme_advanced_toolbar_location : "top",
-							theme_advanced_layout_manager	: "SimpleLayout",
-							add_unload_trigger				: false,
-							//eXp's new lang naming semantics are incompatible to pretty much everything, translation functions are needed
-							//language						: "",
-							execcommand_callback 			: "myCustomExecCommandHandler",
-							convert_urls					: false
-						};
+					mode				: "textareas",
+					editor_selector			: "mceEditor",
+					theme 				: "advanced",
+					theme_advanced_toolbar_location : "top",
+					theme_advanced_layout_manager	: "SimpleLayout",
+					add_unload_trigger		: false,
+					//eXp's new lang naming semantics are incompatible to pretty much everything, translation functions are needed
+					language			: "{/literal}{$smarty.const.LANG|convertLangCode}{literal}",
+					execcommand_callback 		: "myCustomExecCommandHandler",
+					convert_urls			: false,
+					//a temporary (?) fix for the layout of TinyMCE, currently it becomes "tiny" with a small custom toolbar
+					width				: "100%",
+					height				: "100%"
+				};
 {/literal}
 {if $view->toolbar != NULL}
 	eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.toolbar);
