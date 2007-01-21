@@ -32,13 +32,15 @@
 		//_editor_lang = "{/literal}{$smarty.const.LANG}{literal}";
 		_editor_lang = "en";
 			
-		//list of the id's of the textareas to become xinha editors
-		eXp.WYSIWYG.editor_ids = new Array();
-		//a list of per xinha instance toolbars
-		eXp.WYSIWYG.toolbars = new Array();
+		//list of the id[0], toolbar[1] and plugins[2] for the individual xinha editors
+		eXp.WYSIWYG.editordata = new Array();
+		
+		//list of plugins used by all xinha editors
+		eXp.WYSIWYG.plugins = new Array();
+		
 				
 		// get the plugins used in this toolbar
-		eXp.WYSIWYG.setupPlugins = function (myInstanceId, myToolbar) {
+		eXp.WYSIWYG.getPlugins = function (myToolbar) {
 
 			plugins = new Array();
 				
@@ -47,19 +49,26 @@
 					currItem = myToolbar[currRow][currButton];
 					// plugin required ?
 					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
+						// goes into per xinha editor plugin list
 						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+						
+						//goes into global plugin list
+						eXp.WYSIWYG.plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
 					}
 				}
 				//FJD - added to force a linebreak for our defined rows
-				eXp.WYSIWYG.toolbars[i][currRow][myToolbar[currRow].length] = "linebreak";
+				eXp.WYSIWYG.toolbar[currRow][myToolbar[currRow].length] = "linebreak";
 			}
-					
-			eXp.WYSIWYG.editors[myInstanceId].registerPlugins(plugins);
+			return plugins;	
 		}
 
 
 		//callback function on page load
 		eXp.WYSIWYG.xinha_init = function () {
+
+			// THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
+      			if(!Xinha.loadPlugins(eXp.WYSIWYG.plugins, eXp.WYSIWYG.xinha_init)) return;
+
 			eXp.WYSIWYG.config = new Xinha.Config();
 
 			eXp.WYSIWYG.config.debug = false;
@@ -75,17 +84,23 @@
 				"help": "editor_help.html"
 			};
 
-			eXp.WYSIWYG.editors = Xinha.makeEditors(eXp.WYSIWYG.editor_ids, eXp.WYSIWYG.config);
+			editor_ids = new Array();
+			for (i = 0; i < eXp.WYSIWYG.editordata.length; i++) {
+				editor_ids.push(eXp.WYSIWYG.editordata[i][0])
+			}
+
+			eXp.WYSIWYG.editors = Xinha.makeEditors(editor_ids, eXp.WYSIWYG.config);
 				
 			//per xinha instance inits override the default settings
-			for (i = 0; i < eXp.WYSIWYG.toolbars.length; i++) {
+			for (i = 0; i < eXp.WYSIWYG.editordata.length; i++) {
 				
 				//is there is a toolbar ? otherwise don't touch the defaults
-				if (eXp.WYSIWYG.toolbars[i]) {
+				if (eXp.WYSIWYG.editordata[i][1]) {
 					//load the plugins for this instance and it's toolbar
-					eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.editor_ids[i], eXp.WYSIWYG.toolbars[i]);
+					eXp.WYSIWYG.editors[eXp.WYSIWYG.editordata[i][0]].registerPlugins(eXp.WYSIWYG.editordata[i][2], eXp.WYSIWYG.editordata[i][0]);
+
 					//load the toolbar
-				eXp.WYSIWYG.editors[eXp.WYSIWYG.editor_ids[i]].config.toolbar = eXp.WYSIWYG.toolbars[i];
+					eXp.WYSIWYG.editors[eXp.WYSIWYG.editordata[i][0]].config.toolbar = eXp.WYSIWYG.editordata[i][1];
 				}
 			}
 			
@@ -105,11 +120,12 @@
 	
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		//register the new textarea to become a Xinha editor	
-		eXp.WYSIWYG.editor_ids.push("{$content->name}");
-			
-		//transfer the current toolbar into the list of toolbars
-		eXp.WYSIWYG.toolbars.push({$view->toolbar});
+		//eXp.WYSIWYG.getPlugins() also adds rowbreaks to the
+		// current toolbar where needed, so execute it first
+		plugins = eXp.WYSIWYG.getPlugins(eXp.WYSIWYG.toolbar);
+
+		//register the new textarea to become a Xinha editor, assign it's toolbar and it's plugins
+		eXp.WYSIWYG.editordata.push(["{$content->name}", eXp.WYSIWYG.toolbar, plugins]);
 	/* ]]> */
 	</script>
 	

@@ -15,26 +15,26 @@
 //##################################################
 
 //this file provides an Array associating availiable Actions, their Icons, and, if required for this action, their plugins, with their internal ids
-//TODO: determine whether the Editor provides a queryable API for that
-//TODO: adjust for themes
 //TODO: account for combined image files
+//TODO: convert this to do an auto-lookup, needs to be php-ed for that, relies on consitent naming by the Editor Devs
 
 // first = action name
 // second = icon location
 // third = required plugin
+// TODO: fourth = plugin options
 
-//FIXME: 
-//FJD - plugins are going to take a bit more work, so the few here are commented out for now.
-//there are many available - not nearly all are listed here.  Might have to load them differently.
-//Also todo, add configuration options for defining panel style, skin, etc.
+
+//FJD - Also todo, add configuration options for defining panel style, skin, etc.
+//Maxxcorp - yes, but not here. should go into the admin module, into a new action below the toolbar editor.
 eXp.WYSIWYG.toolbox =	{
  		"about" : ["About Xinha", "external/editors/Xinha/images/ed_about.gif", ""],
+		"abbreviation" : ["Abbreviation", "external/editors/Xinha/plugins/Abbreviation/img/ed_abbreviation.gif", "Abbreviation"],
         "justifycenter" : ["Align Center", "external/editors/Xinha/images/ed_align_center.gif", ""],
         "justifyfull" : ["Align Justify", "external/editors/Xinha/images/ed_align_justify.gif", ""],
         "justifyleft" : ["Align Left", "external/editors/Xinha/images/ed_align_left.gif", ""],
         "justifyright" : ["Align Right", "external/editors/Xinha/images/ed_align_right.gif", ""],
         "separator" : ["Blank Separator", "external/editors/Xinha/images/ed_blank.gif", ""],
-        /*"insertcharacter" : ["Character Map", "external/editors/Xinha/images/ed_charmap.gif", "CharacterMap"],*/
+        "insertcharacter" : ["Character Map", "external/editors/Xinha/images/ed_charmap.gif", "CharacterMap"],
         "clearfonts" : ["Clear Fonts", "external/editors/Xinha/images/ed_clearfonts.gif", ""],
         "hilitecolor" : ["Background Color", "external/editors/Xinha/images/ed_color_bg.gif", ""],
         "forecolor" : ["Foreground Color", "external/editors/Xinha/images/ed_color_fg.gif", ""],
