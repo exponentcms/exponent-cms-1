@@ -70,7 +70,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 	if ($f->is_email == 1 && !isset($_POST['data_id'])) {
 		//Building Email List...
 		$emaillist = array();
-		foreach ($db->selectObjects("wizard_address","form_id=".$f->id) as $address) {
+		foreach ($db->selectObjects("wizard_address","id=".$f->id) as $address) {
 			if ($address->group_id != 0) {
 				foreach (exponent_users_getUsersInGroup(exponent_user_getGroupById($address->group_id)) as $locUser){
 					if ($locUser->email != '') $emaillist[] = $locUser->email;
