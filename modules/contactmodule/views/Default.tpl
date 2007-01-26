@@ -36,7 +36,7 @@
 <tr>
 	<td valign="top">{$_TR.message}:</td>
 	<td>
-		<textarea name="message"></textarea>
+		<textarea name="message" rows="8" cols="45" wrap=soft></textarea>
 	</td>
 </tr>
 <tr>
