@@ -43,6 +43,9 @@ if (($news != null && exponent_permissions_check("edit_item",$loc)) ||
 
 	//Get the tags collections assigned to this module and then get all tags from those collections
 	//to populate the tag listbuilder control.
+	$eloc->mod = $loc->mod;
+        $eloc->src = $loc->src;
+        $eloc->int = '';
 	$newsmodule_config = $db->selectObject('newsmodule_config', "location_data='".serialize($loc)."'");
 	//$newsmodule_config = $db->selectObject('newsmodule_config', "location_data='".$news->location_data."'");
 	if (isset($newsmodule_config->enable_tags)) {
