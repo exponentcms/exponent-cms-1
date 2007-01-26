@@ -47,6 +47,7 @@ class imagegallerymodule_config {
 		$form->register(null,'',new htmlcontrol('Select whether would like to show the images from all the galleries on one page or if you would prefer '));	
 		$form->register(null,'',new htmlcontrol('each gallery to display on it\'s own page.<br /><br />'));	
 		$form->register('multiple_galleries','Show each gallery on it\'s own page?',new checkboxcontrol($object->multiple_galleries,true));
+		$form->register(null,'',new htmlcontrol('<span style="color: red">This feature is turned off due to bugs</span><br /><br />'));	
 		//$form->register('show_pic_desc','Show picture descriptions',new checkboxcontrol($object->show_pic_desc,true));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
