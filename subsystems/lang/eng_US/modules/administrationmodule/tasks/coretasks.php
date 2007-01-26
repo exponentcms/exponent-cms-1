@@ -7,7 +7,9 @@ return array(
 	'user_sessions'=>'User Sessions',
 	'group_accounts'=>'Group Accounts',
 	'profile_definitions'=>'Profile Definitions',
-	
+		
+	'subscriptions'=>'Subscriptions',
+        'manage_subscriptions'=>'Manage Subscriptions',
 	
 	'extensions'=>'Extensions',
 	
