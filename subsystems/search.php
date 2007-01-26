@@ -43,12 +43,17 @@ define("SEARCH_TYPE_PHRASE",3);
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
-	$where = "";
+function exponent_search_whereClause($fields,$terms,$modules,$type = SEARCH_TYPE_ANY) {
+	$where = "(";
 
-
-
+	$first_time = true;
 	foreach ($fields as $field) {
+		if ($first_time == false) {
+			$where .= " OR ";
+		} else {
+			$first_time = false;
+		}
+
 		switch ($type) {
 			case SEARCH_TYPE_ALL:
 				$where .= "(" . $field . " LIKE '%" . implode("% ' AND $field LIKE ' %",$terms) . " %') ";
@@ -60,10 +65,24 @@ function exponent_search_whereClause($fields,$terms,$type = SEARCH_TYPE_ANY) {
 				$where .= $field . " LIKE '%" . implode("%' OR $field LIKE '%",$terms) . "%' ";
 				break;
 		}
-		$where .= "OR ";
 	}
 
-	return substr($where,0,-4);
+	$first_time = true;
+	$where .= ') AND (';
+	foreach ($modules as $mod) {
+		if ($first_time == false) {
+                        $where .= " OR ";
+                } else {
+                        $first_time = false;
+                }
+
+		$where .= 'ref_module="'.$mod.'"';
+	}
+
+	$where .= ')';
+	
+	return $where;
+	//return substr($where,0,-4);
 }
 	
 /* exdoc
@@ -106,6 +125,31 @@ function exponent_search_cleanSearchQuery($query) {
 		}
 	}
 	return $newquery;
+}
+
+function getModuleNames($mods) {
+	$mod_list = array();
+
+	if(!isset($mods) || $mods == null) {
+		$mods = exponent_modules_list();
+	}
+	
+        foreach ($mods as $mod) {
+        	$name = null;
+        	if (class_exists($mod) && is_callable(array($mod,'searchName'))) {
+        		$name = call_user_func(array($mod,'searchName'));
+	        } elseif (class_exists($mod) && is_callable(array($mod,'spiderContent'))) {
+        		if (call_user_func(array($mod,'spiderContent'))) {
+                		$name = $mod;
+                	}
+        	}
+
+        	if ($name != null) {
+        		$mod_list[$mod] = $name;
+        	}
+        }
+        
+	return $mod_list;
 }
 
 ?>
