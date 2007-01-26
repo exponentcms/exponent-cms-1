@@ -26,7 +26,6 @@ if (isset($_POST['id'])) {
 } else {
 	$page->rank = $db->max('wizard_pages', 'rank', null, "wizard_id=".$_POST['wizard_id']);
         if ($page->rank == null) {
-		echo "rank is null";
         	$page->rank = 0;
         } else {
                 $page->rank += 1;
