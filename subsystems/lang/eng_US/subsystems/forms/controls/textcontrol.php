@@ -11,6 +11,7 @@ return array(
 	'cancel'=>'Cancel',
 	
 	'id_req'=>'Identifier is required.',
+	'required'=>'Make this a required field.',
 );
 
 ?>
