@@ -104,7 +104,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 		
 		//exponent_smtp_blankMailCallback();
 		
-		eDebug(count($to_r));
+		//eDebug(count($to_r));
 		$i = 0;
 		foreach ($to_r as $key=>$to) {
 			$i++;
