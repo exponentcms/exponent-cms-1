@@ -1,0 +1,20 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+div, td, span, body {
+	font-size: 11px;
+	font-family: Verdana, Arial, sans-serif;
+}
+
+hr {
+	color: #555;
+}
+
+/** Exponent-internals stylings **/
+a {
+	color: #244360;
+	text-decoration: none;
+}
