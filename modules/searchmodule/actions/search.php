@@ -26,6 +26,15 @@ if ($config == null) {
 	$config->is_categorized = 0;
 }
 
+//Double check which modules we are supposed to search
+if (isset($_REQUEST['modules'])) {
+	$modules = $_REQUEST['modules'];
+} elseif (!isset($config->modules) && !isset($_REQUEST['modules'])) {
+	$modules = array();
+} else {
+	$modules = unserialize($config->modules);
+}
+
 if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 $search_string = trim(strtolower(strip_tags($_GET['search_string'])));
 
@@ -42,7 +51,7 @@ $terms = $term_status['valid'];
 
 $results = array();
 
-foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,SEARCH_TYPE_ANY)) as $r) {
+foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,$modules, SEARCH_TYPE_ANY)) as $r) {
 	$result = null;
 	
 	$rloc = unserialize($r->location_data);
@@ -72,7 +81,7 @@ foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","
 		
 		if ($weight) {
 			// find view link
-            if ($r->view_link == "") {
+            		if ($r->view_link == "") {
 				// No viewlink - go to the page
 				$result->view_link = exponent_core_makeLink(
 					array("section"=>$sectionref->section));
