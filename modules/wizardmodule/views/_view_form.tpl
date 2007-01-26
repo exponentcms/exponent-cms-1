@@ -39,7 +39,7 @@
 	</form>
 </td>
 <td>
-	<a href="{$backlink}">Done</a>
+	&nbsp;&nbsp;<A HREF="javascript:history.go(-1)">[Done]</A>
 </td>
 <td>
 	<a href="JavaScript: pickSource();">{$_TR.append_existing}</a>
