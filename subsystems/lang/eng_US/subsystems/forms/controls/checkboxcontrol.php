@@ -11,6 +11,7 @@ return array(
 	'caption_right'=>'Caption on Right',
 	
 	'id_req'=>'Identifier is required.',
+	'required'=>'Make this a required field.',
 );
 
 ?>
