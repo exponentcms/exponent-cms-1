@@ -43,7 +43,7 @@ foreach ($controls as $c) {
 		$captions[$c->name] = $c->caption;
 	}
 }
-//eDebug($_POST);
+
 if (isset($_POST['data_id'])) {
 	$olddata = $db->selectObject($f->table_name,'id='.intval($_POST['data_id']));
 	$db_data->ip = $olddata->ip;
@@ -51,7 +51,6 @@ if (isset($_POST['data_id'])) {
 	$db_data->timestamp = $olddata->timestamp;
 	$db_data->optional_value_1 = $olddata->optional_value_1;
 	$db_data->optional_value_2 = $olddata->optional_value_2;
-	//eDebug($db_data);exit();
 	$db->delete($f->table_name,'id='.intval($_POST['data_id']));
 	$db->insertObject($db_data, $f->table_name);
 
@@ -63,7 +62,6 @@ if (isset($_POST['data_id'])) {
 	}
 	//exponent_flow_redirect();
 } else {
-	echo "Is NOT set!";exit();
 	echo SITE_404_HTML;
 }
 
