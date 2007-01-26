@@ -49,7 +49,7 @@ if (isset($_POST['users'])) {
 		$user =null;
 		$user->user_id = $user_id;
 		$user->wizard_id = $_POST['wizard_id'];
-		eDebug($user);
+		//eDebug($user);
 		$db->insertObject($user, "wizard_address");
 	}
 }
@@ -61,7 +61,7 @@ if (isset($_POST['addresses'])) {
 		$user = null;
                 $user->email = $email_addy;
                 $user->wizard_id = $_POST['wizard_id'];
-		eDebug($user);
+		//eDebug($user);
                 $db->insertObject($user, "wizard_address");
         }
 }
@@ -73,7 +73,7 @@ if (isset($_POST['groups'])) {
 		$user = null;
                 $user->group_id = $group_id;
                 $user->wizard_id = $_POST['wizard_id'];
-		eDebug($user);
+		//eDebug($user);
                 $db->insertObject($user, "wizard_address");
         }
 }
