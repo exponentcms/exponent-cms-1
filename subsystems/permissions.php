@@ -80,6 +80,13 @@ function exponent_permissions_load($user) {
 				$exponent_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
 			}
 		}
+		// Retrieve all of the implicit user permissions (by virtue of subscriptions).
+		foreach ($db->selectObjects('subscriptions_users','user_id='.$user->id) as $memb) {
+			foreach ($db->selectObjects('subscriptionpermission','subscription_id=' . $memb->subscription_id) as $obj) {
+				if ($obj->permission == 'administrate') $has_admin = 1;
+				$exponent_permissions_r[$obj->module][$obj->source][$obj->internal][$obj->permission] = 1;
+			}
+		}
 		// Retrieve sectional admin status.
 		// First, figure out what sections the user has permission to manage, through the navigationmodule permissions
 		if (isset($exponent_permissions_r['navigationmodule']['']) && is_array($exponent_permissions_r['navigationmodule'][''])) {
@@ -335,6 +342,35 @@ function exponent_permissions_checkGroup($group,$permission,$location,$explicitO
 }
 
 /* exdoc
+ * Checks to see if the given group has been given permission on a location.
+ * Returns true if the permission is granted, false if it is not.
+ *
+ * @param Object $group The group to check
+ * @param string $permission The name of the permission to check
+ * @param Object $location The location to check on.
+ *
+ * @node Subsystems:Permissions
+ */
+function exponent_permissions_checkSubscription($subscription,$permission,$location,$explicitOnly = false) {
+        global $db;
+        if ($subscription == null) return false;
+        $explicit = $db->selectObject("subscriptionpermission","subscription_id=" . $subscription->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
+        if ($explicitOnly == true) return $explicit;
+
+        if (!$explicit){
+                // Calculate implicit permissions if we dont' already have explicit perms
+                $implicit = false;
+                foreach ($db->selectObjects('subscriptionpermission','subscription_id='.$subscription->id." AND module='navigationmodule' AND permission='manage'") as $perm) {
+                        if ($db->countObjects('sectionref','is_original=1 AND section='.$perm->internal." AND module='".$location->mod."' AND source='".$location->src."'")) {
+                                $implicit = true;
+                                break;
+                        }
+                }
+        }
+        return ($implicit || $explicit);
+}
+
+/* exdoc
  * Grants the specified permission to the specified user, on the given location
  *
  * @param User $user The user to grant the permission to
@@ -383,6 +419,33 @@ function exponent_permissions_grantGroup($group,$permission,$location) {
 			echo "In groupGrant</br>";
 		}
 	}
+}
+
+/* exdoc
+ * Grants the specified permission to the specified subscription, on the given location
+ *
+ * @param Object $sub The subscription to grant the permission to
+ * @param string $permission The name of the permission to grant
+ * @param Object $location The location to grant the permission on
+ * @node Subsystems:Permissions
+ */
+function exponent_permissions_grantSubscription($sub,$permission,$location) {
+        if ($sub !== null) {
+                if (!exponent_permissions_checkGroup($group,$permission,$location)) {
+                        $obj = null;
+                        $obj->subscription_id = $sub->id;
+                        $obj->module = $location->mod;
+                        $obj->source = $location->src;
+                        $obj->internal = $location->int;
+                        $obj->permission = $permission;
+
+                        global $db;
+
+      			$db->delete("subscriptionpermission", " subscription_id='" . $obj->subscription_id . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
+                        $db->insertObject($obj,"subscriptionpermission");
+                        //echo "In groupGrant</br>";
+                }
+        }
 }
 
 /* exdoc
@@ -446,6 +509,18 @@ function exponent_permissions_revokeComplete($location) {
 function exponent_permissions_revokeAllGroup($group,$location) {
 	global $db;
 	return $db->delete('grouppermission','gid=' . $group->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
+}
+
+/* exdoc
+ * Removes all permissions from a subscription, on a specific location.
+ *
+ * @param Object $subscription The subscription to remove all permissions from
+ * @param Object $location The location to remove all permission on
+ * @node Subsystems:Permissions
+ */
+function exponent_permissions_revokeAllSubscription($sub,$location) {
+        global $db;
+        return $db->delete('subscriptionpermissions','subscription_id=' . $sub->id . " AND module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "'");
 }
 
 /* exdoc
