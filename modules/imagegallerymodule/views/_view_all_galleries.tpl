@@ -64,9 +64,9 @@
 					<a href="{link action=view_image id=$image->id}">{$image->name}</a>
 				</div>
 				<table cellpadding="0" cellspacing="0" border="0">
-				<tr>
 				{permissions level=$smarty.const.UI_LEVEL_NORMAL}
 				{if $permissions.manage == 1}
+				<tr>
 				{if $smarty.foreach.a.first == false}
 				{math equation="x-1" x=$image->rank assign=prevrank}
 				<td width="16">
@@ -85,9 +85,9 @@
 				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$nextrank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}right.png" /></a>
 				</td>
 				{/if}
+				</tr>
 				{/if}
 				{/permissions}
-				</tr>
 				</table>
 		</td>
 		{if $smarty.foreach.a.iteration mod $gallery->perrow == 0}</tr>{/if}			
