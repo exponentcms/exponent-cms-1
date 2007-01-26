@@ -19,7 +19,7 @@
 
 if (!defined('EXPONENT')) exit('');
 
-$i18n = exponent_lang_loadFile('modules/importers/importer/process.php');
+$i18n = exponent_lang_loadFile('modules/importer/importers/files/process.php');
 
 if ($_FILES['file']['error'] != UPLOAD_ERR_OK) {
 	switch($_FILES['file']['error']) {
