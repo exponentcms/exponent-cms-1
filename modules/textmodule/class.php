@@ -118,6 +118,10 @@ class textmodule {
 		
 		return true;
 	}
+	
+	function searchName() {
+		return "Text on web pages";
+	}
 }
 
 ?>

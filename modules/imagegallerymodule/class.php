@@ -76,11 +76,11 @@ class imagegallerymodule {
 			$config->multiple_galleries = 0;
 		}
 	
-		if ($config->multiple_galleries == 0) {
-			$template = new template("imagegallerymodule",'_view_all_galleries',$loc);
-		} else {
+		//if ($config->multiple_galleries == 0) {
+			//$template = new template("imagegallerymodule",'_view_all_galleries',$loc);
+		//} else {
 			$template = new template("imagegallerymodule",$view,$loc);
-		}
+		//}
 	
 		if (!defined('SYS_FILES')) require(BASE.'subsystems/files.php');
 		$directory = 'files/imagegallerymodule/'.$loc->src;

@@ -183,6 +183,10 @@ class articlemodule {
 		$conf->location_data = serialize($nloc);
 		$db->insertObject($conf,'articlemodule_config');
 	}
+
+	function searchName() {
+                return "Articles";
+        }
 	
 	function spiderContent($item = null) {
 		global $db;

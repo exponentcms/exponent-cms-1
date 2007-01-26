@@ -209,6 +209,10 @@ class weblogmodule {
 		$config->location_data = serialize($nloc);
 		$db->insertObject($config,'weblogmodule_config');
 	}
+
+	function searchName() {
+                return "Weblogs";
+        }
 	
 	function spiderContent($item = null) {
 		global $db;

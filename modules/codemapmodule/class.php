@@ -98,7 +98,10 @@ class codemapmodule {
 			}
 		}
 	}
-	
+
+	function searchName() {
+		return "Development Roadmap";
+	}	
 	function spiderContent($item = null) {
 		global $db;
 		

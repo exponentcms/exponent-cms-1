@@ -178,7 +178,11 @@ class faqmodule {
 		$conf->location_data = serialize($nloc);
 		$db->insertObject($conf,'faqmodule_config');
 	}
-	
+
+	function searchName() {
+		return "Frequently Asked Questions";
+	}	
+
 	function spiderContent($item = null) {
 		global $db;
 		

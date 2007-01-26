@@ -93,6 +93,10 @@ class listingmodule {
 	function copyContent($oloc,$nloc) {
 		// IMPLEMENTME:copyContent for the listing module
 	}
+
+	function searchName() {
+		return 'Listed Elements';
+	}
 	
 	function spiderContent($item = null) {
 		global $db;

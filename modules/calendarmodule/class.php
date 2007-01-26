@@ -402,7 +402,7 @@ class calendarmodule {
                                 $items[$i]->tags = $selected_tags;
 
                                 //If this module was configured to group the newsitems by tags, then we need to change the data array a bit
-                                if ($config->group_by_tags == true) {
+                                if (isset($config->group_by_tags) && $config->group_by_tags == true) {
                                         $grouped_news = array();
                                         foreach($items[$i]->tags as $tag) {
                                                 if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
@@ -426,6 +426,10 @@ class calendarmodule {
 		}
 		$db->delete("calendar","location_data='".serialize($loc)."'");
 	}
+	
+	function searchName() {
+                return "Calendar Events";
+        }
 	
 	function spiderContent($item = null) {
 		global $db;

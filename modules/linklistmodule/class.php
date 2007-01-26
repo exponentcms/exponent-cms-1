@@ -95,6 +95,10 @@ class linklistmodule {
 			$db->insertObject($l,'linklist_link');
 		}
 	}
+
+	function searchName() {
+		return 'Web Links';
+	}
 	
 	function spiderContent($item = null) {
 		global $db;

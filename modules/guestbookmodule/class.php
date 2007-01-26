@@ -140,6 +140,10 @@ class guestbookmodule {
 		$config->location_data = serialize($nloc);
 		$db->insertObject($config,'guestbookmodule_config');
 	}
+
+	function searchName() {
+		return "Guestbook & User Comments";
+	}
 	
 	function spiderContent($item = null) {
 		global $db;

@@ -149,6 +149,10 @@ class resourcesmodule {
 			$db->insertObject($r,'resourceitem');
 		}
 	}
+
+	function searchName() {
+		return "File Downloads";
+	}
 	
 	function spiderContent($item = null) {
 		$i18n = exponent_lang_loadFile('modules/resourcesmodule/class.php');

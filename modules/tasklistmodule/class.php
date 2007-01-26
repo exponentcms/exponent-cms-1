@@ -105,6 +105,10 @@ class tasklistmodule {
 			$db->insertObject($t,'tasklist_task');
 		}
 	}
+
+	function searchName() {
+		return "Tasks";
+	}
 	
 	function spiderContent($item = null) {
 		global $db;

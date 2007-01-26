@@ -243,6 +243,10 @@ class bbmodule {
 			}
 		}
 	}
+
+	function searchName() {
+                return "Forums";
+        }
 	
 	function spiderContent($item = null) {
 		global $db;

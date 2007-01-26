@@ -199,6 +199,10 @@ class newsmodule {
 		
 		$template->output();
 	}
+
+	function searchName() {
+                return "News Listings";
+        }
 	
 	function spiderContent($item = null) {
 		global $db;

@@ -37,12 +37,24 @@ class searchmodule {
 	}
 	
 	function show($view,$loc = null, $title = '') {
+		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
+		global $db;
+
 		$template = new template('searchmodule',$view,$loc);
+	
+		$config = $db->selectObject('searchmodule_config', "location_data='".serialize($loc)."'");	
 		
+		if (isset($config->modules)) {
+			$modules = getModuleNames(unserialize($config->modules));
+		} else {
+			$modules = getModuleNames(null);
+		}
+		
+		$template->assign('modules',$modules);
 		$template->assign('loc',$loc);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
-			array('administrate','configure'),$loc);
+		array('administrate','configure'),$loc);
 		$template->output();
 	}
 	

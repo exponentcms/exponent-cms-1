@@ -74,7 +74,7 @@ class rssmodule {
 		require_once(MAGPIE_DIR.'rss_fetch.inc');
 		require_once(MAGPIE_DIR.'rss_utils.inc');
 		if (!defined('MAGPIE_DEBUG'))
-		 define('MAGPIE_DEBUG', 2);
+		 define('MAGPIE_DEBUG', 1);
 		if (!defined('MAGPIE_CACHE_DIR'))
 		 define('MAGPIE_CACHE_DIR',BASE.'tmp/cache');
 		if (!defined('MAGPIE_CACHE_AGE'))
@@ -126,7 +126,11 @@ class rssmodule {
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
 		$template->output();
 	}
-	
+
+	function searchName() {
+		return 'RSS Feeds';
+	}	
+
 	function spiderContent($item = null) {
 		global $db;
 		
