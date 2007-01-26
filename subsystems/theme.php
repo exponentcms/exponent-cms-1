@@ -136,8 +136,14 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
 		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/scriptaculous/lib/prototype.js"></script>'."\r\n";
-	    $str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/scriptaculous/src/scriptaculous.js"></script>'."\r\n";
+		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
+	    	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
+	    	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/event/event.js"></script>'."\r\n";
+	    	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/animation/animation.js"></script>'."\r\n";
+	    	$str .= "\t\t".'<link rel="stylesheet" href="'.PATH_RELATIVE.'external/yui/build/reset/reset-min.css" type="text/css">'."\r\n";
+		$str .= "\t\t".'<link rel="stylesheet" href="'.PATH_RELATIVE.'external/yui/build/fonts/fonts-min.css" type="text/css">'."\r\n";
+	    	$str .= "\t\t".'<link rel="stylesheet" href="'.PATH_RELATIVE.'external/yui/build/grids/grids-min.css" type="text/css">'."\r\n";
+		$str .= "<script>var myAnim = new YAHOO.util.Anim('test', {width: { to: 200 }}, 1, YAHOO.util.Easing.easeOut);</script>";
 	}
 	return $str;
 }
