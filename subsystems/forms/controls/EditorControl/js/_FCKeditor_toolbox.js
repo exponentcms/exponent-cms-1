@@ -73,7 +73,7 @@ eXp.WYSIWYG.toolbox =	{
 "PageBreak" : ["Insert Page Break", "external/editors/images/FCKeditor/toolbar/pagebreak.gif", ""],
 "UniversalKey" : ["Universal Keyboard", "external/editors/images/FCKeditor/toolbar/universalkey.gif", ""],
 
-"inserthorizontalrule" : ["Insert Horizontal Line", "external/editors/images/FCKeditor/toolbar/inserthorizontalrule.gif", ""],
+"Rule" : ["Insert Horizontal Line", "external/editors/images/FCKeditor/toolbar/inserthorizontalrule.gif", ""],
 
 "JustifyLeft" : ["Left Justify", "external/editors/images/FCKeditor/toolbar/justifyleft.gif", ""],
 "JustifyCenter" : ["Center Justify", "external/editors/images/FCKeditor/toolbar/justifycenter.gif", ""],
@@ -105,8 +105,8 @@ eXp.WYSIWYG.toolbox =	{
 //"showdetails" : ["showdetails", "external/editors/images/FCKeditor/toolbar/showdetails.gif", ""],
 
 //NOTE:THESE ARE ONLY AVAILABLE ON RIGHT CLICK ON A TABLE
-"ShowTableBorders" : ["Show Table Borders", "external/editors/images/FCKeditor/toolbar/showtableborders.gif", ""],
-"TableCell" : ["Cell", "external/editors/images/FCKeditor/toolbar/tablecell.gif", ""],
+//"ShowTableBorders" : ["Show Table Borders", "external/editors/images/FCKeditor/toolbar/showtableborders.gif", ""],
+//"TableCell" : ["Cell", "external/editors/images/FCKeditor/toolbar/tablecell.gif", ""],
 "TableDeleteCells" : ["Delete Cells", "external/editors/images/FCKeditor/toolbar/tabledeletecells.gif", ""],
 "TableDeleteColumns" : ["Delete Columns", "external/editors/images/FCKeditor/toolbar/tabledeletecolumns.gif", ""],
 "TableDeleteRows" : ["Delete Rows", "external/editors/images/FCKeditor/toolbar/tabledeleterows.gif", ""],
