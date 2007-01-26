@@ -52,7 +52,7 @@ if (($item == null && exponent_permissions_check('post',$loc)) ||
 	
 	$i18n = exponent_lang_loadFile('modules/calendarmodule/actions/edit.php');
 
-	if ($config->enable_tags) {
+	if (isset($config->enable_tags)) {
                 $cols = array();
                 $tags = array();
                 $cols = unserialize($config->collections);
