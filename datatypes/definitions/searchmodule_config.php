@@ -30,7 +30,10 @@ return array(
 		DB_FIELD_LEN=>200,
                 DB_INDEX=>10),
 	'is_categorized'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'modules'=>array(
+                DB_FIELD_TYPE=>DB_DEF_STRING,
+                DB_FIELD_LEN=>10000),
 );
 
 ?>
