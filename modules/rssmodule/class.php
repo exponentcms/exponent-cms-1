@@ -120,7 +120,8 @@ class rssmodule {
 			}
 		$template->assign('rss', $rss );
 		$item = $rss->items[0];
-		$date = parse_w3cdtf( $item['dc']['date'] );
+		if (isset( $item['dc']['date'])) $date = parse_w3cdtf( $item['dc']['date'] );
+		else $date = parse_w3cdtf( $item['date_timestamp'] );	
 		$template->assign( 'date', $date );
 		}
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);

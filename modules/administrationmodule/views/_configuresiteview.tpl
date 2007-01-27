@@ -36,7 +36,7 @@
 {elseif $configname != ""}
 	<i>{$_TR.cannot_edit}</i>
 {/if}
-<table cellpadding="4" cellspacing="0" border="0" width="100%">
+<table cellpadding="4" cellspacing="0" border="0" width="">
 {foreach from=$configuration key=category item=opts}
 	<tr><td colspan="2"><hr size='1' /><h3>{$category}</h3></td></tr>
 	{foreach from=$opts key=directive item=option}

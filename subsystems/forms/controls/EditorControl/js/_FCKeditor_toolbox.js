@@ -71,7 +71,7 @@ eXp.WYSIWYG.toolbox =	{
 "SpecialChar" : ["Insert Special Character", "external/editors/images/FCKeditor/toolbar/specialchar.gif", ""],
 "Smiley" : ["Insert Smiley", "external/editors/images/FCKeditor/toolbar/smiley.gif", ""],
 "PageBreak" : ["Insert Page Break", "external/editors/images/FCKeditor/toolbar/pagebreak.gif", ""],
-"UniversalKey" : ["Universal Keyboard", "external/editors/images/FCKeditor/toolbar/universalkey.gif", ""],
+//"UniversalKey" : ["Universal Keyboard", "external/editors/images/FCKeditor/toolbar/universalkey.gif", ""],
 
 "Rule" : ["Insert Horizontal Line", "external/editors/images/FCKeditor/toolbar/inserthorizontalrule.gif", ""],
 
@@ -101,11 +101,16 @@ eXp.WYSIWYG.toolbox =	{
 "Select" : ["Select Field", "external/editors/images/FCKeditor/toolbar/select.gif", ""],
 "ImageButton" : ["Image Button", "external/editors/images/FCKeditor/toolbar/imagebutton.gif", ""],
 
+"FontName" : ["Font Family", "external/editors/images/FCKeditor/toolbar/fontfamily.gif", ""],
+"FontSize" : ["Font Size", "external/editors/images/FCKeditor/toolbar/fontsize.gif", ""],
+"FontFormat" : ["Format", "external/editors/images/FCKeditor/toolbar/format.gif", ""],
+"Style" : ["Style", "external/editors/images/FCKeditor/toolbar/style.gif", ""],
+
 // Extra image?
 //"showdetails" : ["showdetails", "external/editors/images/FCKeditor/toolbar/showdetails.gif", ""],
 
 //NOTE:THESE ARE ONLY AVAILABLE ON RIGHT CLICK ON A TABLE
-//"ShowTableBorders" : ["Show Table Borders", "external/editors/images/FCKeditor/toolbar/showtableborders.gif", ""],
+//"ShowBorders" : ["Show Table Borders", "external/editors/images/FCKeditor/toolbar/showtableborders.gif", ""],
 //"TableCell" : ["Cell", "external/editors/images/FCKeditor/toolbar/tablecell.gif", ""],
 "TableDeleteCells" : ["Delete Cells", "external/editors/images/FCKeditor/toolbar/tabledeletecells.gif", ""],
 "TableDeleteColumns" : ["Delete Columns", "external/editors/images/FCKeditor/toolbar/tabledeletecolumns.gif", ""],
