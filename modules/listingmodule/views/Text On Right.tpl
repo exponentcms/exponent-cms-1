@@ -110,7 +110,7 @@ function ViewImage(ifile,ix,iy,ititle) {
 				
 		{if $smarty.foreach.a.last == 0}
 		<a href="{link action=rank_switch a=$next b=$listing->rank id=$listing->id}">
-			<img src="{$smarty.const.ICON_RELATIVE}right.gif" style="border:none;" >
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" />
 		</a>
 		{/if}
 		
