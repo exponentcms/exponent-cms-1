@@ -56,7 +56,7 @@
     {if $profile->image_url != ""}
       <img src="{$profile->image_url}" border="0">
     {else}
-      <img src="{$smarty.const.THEME_RELATIVE}images/not_available.jpeg" border="0">
+      <img src="{$smarty.const.THEME_RELATIVE}images/not_available.jpeg" alt="N/A" >
     {/if}
 	</td><td valign="top">
     <h2><span>{$profile->username} - {$profile->firstname} {$profile->lastname}</span></h2>
@@ -65,56 +65,56 @@
 <tr>
   <td align="right" nowrap="nowrap" width="100">
   <div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}email.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}email.png" alt="email logo" />
 		</div>Email</td>
   <td><a href="mailto:{$profile->email}">{$profile->email}</a></td>
 </tr>
 <tr>
   <td align="right">  <div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}icq.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}icq.png" alt="icq logo" />
 		</div>ICQ</td>
   <td>{$profile->icq_num}</td>
 </tr>
 <tr>
   <td align="right"><div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}aim.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}aim.png" alt="aim logo"/>
 		</div>AIM</td>
   <td>{$profile->aim_addy}</td>
 </tr>
 <tr>
   <td align="right">
   <div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}msn.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}msn.png" alt="msn.logo" />
 		</div>Windows</td>
   <td>{$profile->msn_addy}</td>
 </tr>
 <tr>
   <td align="right"><div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}yahoo.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}yahoo.png" alt="yahoo.logo" />
 		</div>Yahoo</td>
   <td>{$profile->yahoo_addy}</td>
 </tr>
 <tr>
   <td align="right"><div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}website.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}website.png" alt="www" />
 		</div>Website</td>
   <td><a target"_blank" href="http://{$profile->website}">{$profile->website}</a></td>
 </tr>
 <tr>
   <td align="right" nowrap="nowrap"><div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}globe.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}globe.png" alt="globe" />
 		</div>Location</td>
   <td>{$profile->location}</td>
 </tr>
 <tr>
   <td align="right" nowrap="nowrap"><div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}globe.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}globe.png" alt="globe" />
 		</div>Occupation</td>
   <td>{$profile->occupation}</td>
 </tr>
 <tr>
   <td align="right"><div style=" float:right; width:25px; height:15px; padding-left:5px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}globe.png" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}globe.png" alt="globe" />
 		</div>Interests</td>
   <td>{$profile->interests}</td>
 </tr>

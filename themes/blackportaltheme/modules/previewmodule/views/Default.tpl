@@ -14,8 +14,8 @@
  *
  *}
 {if $editMode == 1}
-<img src="{$smarty.const.ICON_RELATIVE}expmode.png" align="absmiddle" alt="Sitetree" border="0">&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=preview}"><strong>{$_TR.preview}</strong></a>
+<img style="border:none;" src="{$smarty.const.ICON_RELATIVE}expmode.png" title="{$_TR.alt_expmode}" alt="{$_TR.alt_expmode}" />&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=preview}"><strong>{$_TR.preview}</strong></a>
 {/if}
 {if $previewMode == 1}
-<img src="{$smarty.const.ICON_RELATIVE}expmode.png" align="absmiddle" alt="Sitetree" border="0">&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=normal}"><strong>{$_TR.edit_mode}</strong></a>
+<img style="border:none;" src="{$smarty.const.ICON_RELATIVE}expmode.png" title="{$_TR.alt_expmode}" alt="{$_TR.alt_expmode}" />&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=normal}"><strong>{$_TR.edit_mode}</strong></a>
 {/if}

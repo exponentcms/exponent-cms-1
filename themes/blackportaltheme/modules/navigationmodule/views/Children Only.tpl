@@ -44,6 +44,6 @@
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $canManage == 1}
-<img src="{$smarty.const.ICON_RELATIVE}sitetree.png" align="absmiddle" alt="Sitetree" border="0">&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=manage}"><strong>Manage Site</strong></a>&nbsp;
+<img style="border:none;" src="{$smarty.const.ICON_RELATIVE}sitetree.png" align="absmiddle" alt="Sitetree" />&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=manage}"><strong>Manage Site</strong></a>&nbsp;
 {/if}
 {/permissions}

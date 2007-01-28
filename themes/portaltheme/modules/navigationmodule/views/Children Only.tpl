@@ -33,7 +33,7 @@
 {if $section->numParents != 0 && ($section->parents[0] == $current->parents[0] || $section->parents[0] == $current->id)}
 <tr><td class="childrenonly" style="padding-left: {math equation="x*20-20" x=$section->depth}px">
 {if $section->active == 1}
-<img src="{$smarty.const.THEME_RELATIVE}images/arrowsub2.gif" alt="arrow" border="0">
+<img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/arrowsub2.gif" alt="arrow" />
 <span class="childrenonly"><a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>&nbsp;{$section->name}</a>&nbsp;</span>
 {else}
 <span class="navlink">&nbsp;{$section->name}</span>&nbsp;
@@ -44,6 +44,6 @@
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $canManage == 1}
-<img src="{$smarty.const.THEME_RELATIVE}/images/sitetree.png" align="absmiddle" alt="Sitetree" border="0">&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=manage}"><strong>Manage Site</strong></a>&nbsp;
+<img style="border:none;" src="{$smarty.const.THEME_RELATIVE}/images/sitetree.png" align="absmiddle" alt="Sitetree" />&nbsp;<a class="mngmntlink preview_mngmntlink" href="{link action=manage}"><strong>Manage Site</strong></a>&nbsp;
 {/if}
 {/permissions}

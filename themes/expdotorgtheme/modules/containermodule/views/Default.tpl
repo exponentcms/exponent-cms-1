@@ -27,13 +27,13 @@
 	<div style="background:#66FFFF; display:table; width:100%">
 		<div style="float:right;">
 			{if $permissions.administrate == 1}
-				<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-				<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+				<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+				<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 			{/if}
 
 			{if $permissions.edit_module == 1}
 				<a href="{link action=edit id=$top->id}">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" />
 				</a>
 			{/if}
 		</div>
@@ -43,7 +43,7 @@
 	</div>
 {/if}
 {if $permissions.add_module == 1 && $hidebox == 0}
-	<a href="{link action=edit rerank=1 rank=0}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}"/></a>
+	<a href="{link action=edit rerank=1 rank=0}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
 {/if}
 
 {/permissions}
@@ -60,15 +60,16 @@
 						<div style=" background:#99FF00; ">
 							<div style="float:right; display:table; clear:both; ">
 								{if $container->is_private == 1 && $permissions.administrate == 1}
-									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_define_user}" alt="{$_TR.alt_define_user}" /></a>&nbsp;
-									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_define_group}" alt="{$_TR.alt_define_group}" /></a>
+
+									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 								{/if}
 								{if $smarty.foreach.c.first == false}
 									{if $permissions.order_modules == 1}
 									{math equation='x - 2' x=$smarty.foreach.c.iteration assign=a}
 									{math equation='x - 1' x=$smarty.foreach.c.iteration assign=b}
 									<a href="{link action=order a=$a b=$b}">
-										<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.move_up|sprintf:$container->info.module}" alt="{$_TR.move_up|sprintf:$container->info.module}"/>
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.move_up|sprintf:$container->info.module}" alt="{$_TR.move_up|sprintf:$container->info.module}"/>
 									</a>
 									{/if}
 								{/if}
@@ -76,18 +77,18 @@
 									{if $permissions.order_modules == 1}
 									{math equation='x - 1' x=$smarty.foreach.c.iteration assign=a}
 									<a href="{link action=order a=$a b=$smarty.foreach.c.iteration}">
-										<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.move_down|sprintf:$container->info.module}" alt="{$_TR.move_down|sprintf:$container->info.module}" />
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.move_down|sprintf:$container->info.module}" alt="{$_TR.move_down|sprintf:$container->info.module}" />
 									</a>
 									{/if}
 								{/if}
 								{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 									<a href="{link action=edit id=$container->id}">
-										<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.configure_module|sprintf:$container->info.module}" alt="{$_TR.configure_module|sprintf:$container->info.module}" />
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.configure_module|sprintf:$container->info.module}" alt="{$_TR.configure_module|sprintf:$container->info.module}" />
 									</a>
 								{/if}
 								{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}
 									<a href="{link action=delete rerank=1 id=$container->id}" onclick="return confirm('{$_TR.delete_confirm|sprintf:$container->info.module}');">
-										<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
 									</a>
 								{/if}
 
@@ -110,7 +111,7 @@
 {/permissions}
 		{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 		{if $permissions.add_module == 1 && $hidebox == 0}
-			<a href="{link action=edit rerank=1 rank=$smarty.foreach.c.iteration}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
+			<a href="{link action=edit rerank=1 rank=$smarty.foreach.c.iteration}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
 		{/if}
 		{/permissions}
 	{/if}
