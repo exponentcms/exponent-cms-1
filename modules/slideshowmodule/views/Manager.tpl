@@ -30,34 +30,34 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
-        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>\n<img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
+        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
 {/if}
 {/permissions}
 {if $moduletitle != ''}<div class="moduletitle">{$moduletitle}</div>{/if}
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table cellpadding="0" cellspacing="0" style="border:none;" width="100%">
 {foreach from=$slides item=slide}
 <tr>
 	<td>
-		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?base={$smarty.const.BASE}&file={$slide->file->directory}/{$slide->file->filename}&scale={$slide->scale}" />
+		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?base={$smarty.const.BASE}&amp;file={$slide->file->directory}/{$slide->file->filename}&amp;scale={$slide->scale}" />
 		<br />{$slide->name}
 	</td>
 	<td>
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.edit_slide == 1}
 		<a class="mngmntlink slideshow_mngmntlink" href="{link action=edit_slide id=$slide->id}">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
 		{/if}
 		{if $permissions.delete_slide == 1}
 		<a class="mngmntlink slideshow_mngmntlink" href="{link action=delete_slide id=$slide->id}">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		{/if}
 		{/permissions}

@@ -35,22 +35,22 @@
 	</td>
 	<td align="right">
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_edit id=$action->id}">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_delete id=$action->id}">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 	</td>
 	<td width="16">
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_switch a=$this b=$prev policy_id=$policy_id type=$type}">
 			{if $smarty.foreach.a.first == 0}
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
 			{/if}
 		</a>
 	</td><td width="16">
 		<a class="mngmntlink workflow_mngmntlink" href="{link action=action_switch a=$next b=$this policy_id=$policy_id type=$type}">
 			{if $smarty.foreach.a.last == 0}
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
 			{/if}
 		</a>
 	</td>

@@ -20,7 +20,7 @@
 		<td style="background-color: lightgrey">
 			{$summary->real->title} v{$summary->current_major}.{$summary->current_minor}
 			{if $permissions.manage_approval == 1}
-			<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype action=delete id=$summary->real_id major=$summary->current_major}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/></a>
+			<a class="mngmntlink workflow_mngmntlink" href="{link datatype=$datatype action=delete id=$summary->real_id major=$summary->current_major}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 			{/if}
 		</td>
 		<td style="background-color: lightgrey" align="right">

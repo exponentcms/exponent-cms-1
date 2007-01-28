@@ -32,7 +32,7 @@
 <div>From here you can create new pages, or edit existing pages.</div>
 
 <br />
-<table cellpadding="0" cellspacing="1" border="0" width="100%">
+<table cellpadding="0" cellspacing="1" style="border:none;" width="100%">
 <tr>
 	<td class="header wizard_header">Name</td>
 	<td class="header wizard_header">Description</td>
@@ -48,27 +48,27 @@
 	<td>{$page->description}</td>
 	<td width="105">
 		<a href="{link module="wizardmodule" action="edit_page" id=$page->id}" class="mngmntlink wizard_mngmntlink" title="Edit the name or description for this page">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
 		<a href="{link module="wizardmodule" action="delete_page" id=$page->id}" class="mngmntlink wizard_mngmntlink" title="Delete this page">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		<a href={link module="wizardmodule" action="view_form" wizard_page_id=$page->id} title="Edit the form on this page">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}manage_pages.gif" />
+			<img style="border:none;" src="{$smarty.const.ICON_RELATIVE}manage_pages.gif" title="{$_TR.alt_manage_pages}" alt="{$_TR.alt_manage_pages}" />
 		</a>
 		{if $smarty.foreach.a.first == 0}
                 	<a href="{link module=wizardmodule action=rank_switch a=$page->rank b=$prev id=$page->id wizard_id=$page->wizard_id}">
-                		<img src="{$smarty.const.ICON_RELATIVE}up.gif" border="0"/>
+                		<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
                 	</a>
 		{else}
-			<img src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
                 {/if}
 		{if $smarty.foreach.a.last == 0}
                 	<a href="{link module=wizardmodule action=rank_switch a=$next b=$page->rank id=$page->id wizard_id=$page->wizard_id}">
-                	<img src="{$smarty.const.ICON_RELATIVE}down.gif" border="0"/>
+                	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
                 	</a>
 		{else}
-			<img src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
                 {/if}
 	</td>
 </tr>

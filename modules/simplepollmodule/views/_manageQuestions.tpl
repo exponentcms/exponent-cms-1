@@ -1,6 +1,6 @@
 
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table cellpadding="0" cellspacing="0" style="border:none;" width="100%">
 <tr><td class="header">Question</td>
 <td class="header">Active?</td>
 <td class="header">Open Results?</td>
@@ -19,8 +19,8 @@
 {if $question->open_voting}yes{else}no{/if}
 </td><td>
 <a href="{link action=activate_question id=$question->id}">Activate</a>
-<a href="{link action=edit_question id=$question->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
-<a href="{link action=delete_question id=$question->id}" onClick="return confirm('Are you sure you want to delete this question and all associated answers / responses?');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>
+<a href="{link action=edit_question id=$question->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+<a href="{link action=delete_question id=$question->id}" onClick="return confirm('Are you sure you want to delete this question and all associated answers / responses?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 </td></tr>
 {foreachelse}
 <tr><td colspan="2" align="center"><i>No questions found</i></td></tr>

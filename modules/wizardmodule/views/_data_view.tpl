@@ -16,9 +16,9 @@
 {paginate objects=$items paginateName="dataView" modulePrefix="data" rowsPerPage=20}
 
 function links(object) {literal}{{/literal}
-	out = '<a href="{link action=view_record module=wizardmodule}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}view.png" /></a>'; 
-	out += '{if $permissions.editdata == 1}<a href="{link action=edit_record module=wizardmodule}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>{/if}'; 
-	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=wizardmodule}&id=' + object.var_id + '&form_id={$f->id}" onClick="return confirm(\'{$_TR.delete_confirm}\');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>{/if}'; 
+	out = '<a href="{link action=view_record module=wizardmodule}&amp;id=' + object.var_id + '&amp;form_id={$f->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}view.png" title="{$_TR.alt_view}" alt="{$_TR.alt_view}" /></a>'; 
+	out += '{if $permissions.editdata == 1}<a href="{link action=edit_record module=wizardmodule}&amp;id=' + object.var_id + '&amp;form_id={$f->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>{/if}'; 
+	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=wizardmodule}&amp;id=' + object.var_id + '&amp;form_id={$f->id}" onClick="return confirm(\'{$_TR.delete_confirm}\');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>{/if}'; 
 	
 	return out;
 {literal}}{/literal}
@@ -28,7 +28,7 @@ function links(object) {literal}{{/literal}
 {$columdef}
 
 {/paginate}
-<table cellspacing="0" cellpadding="2" border="0" width="100%">
+<table cellspacing="0" cellpadding="2" style="border:none;" width="100%">
 	<tbody id="dataTable">
 	</tbody>
 </table>

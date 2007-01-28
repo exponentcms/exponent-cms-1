@@ -36,13 +36,13 @@
 	</td>
 	<td align="right" style="padding-right: 5px;">
 		<a href="{link module=tags action=add_tags id=$collection->id}" title="Add tags to this collection" style="border: 0px solid black;">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}tag.png"  style="border: 0px;" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}tag.png" title="{$_TR.alt_tag}" alt="{$_TR.alt_tag}" />
 		</a>
 		<a href="{link module=tags action=edit_collection id=$collection->id}" title="Edit this tag collection" style="border: 0px solid black;">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" style="border: 0px;" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
 		<a href="{link module=tags action=delete_collection id=$collection->id}" title="Delete this tag collection" style="border: 0px solid black;">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" style="border: 0px;" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>	
 	</td>
 <tr>

@@ -30,8 +30,8 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1 int=$int}" title="Assign permissions on this Forum"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1 int=$int}" title="Assign group permissions on this Forum"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<a href="{link action=userperms _common=1 int=$int}" title="Assign permissions on this Forum"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1 int=$int}" title="Assign group permissions on this Forum"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {/permissions}
 
@@ -39,7 +39,7 @@
 <div>From here you can create new wizards, or edit existing wizards.</div>
 
 <br />
-<table cellpadding="0" cellspacing="1" border="0" width="100%">
+<table cellpadding="0" cellspacing="1" style="border:none;" width="100%">
 <tr>
 	<td class="header wizard_header">Name</td>
 	<td class="header wizard_header" colspan="2">Description</td>
@@ -52,10 +52,10 @@
 	<td>{$wizard->description}</td>
 	<td>
 		<a href="{link module="wizardmodule" action="delete_wizard" id=$wizard->id}" title="Delete this wizard">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.gif" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		<a href="{link module="wizardmodule" action="manage_pages" wizard_id=$wizard->id}" title="Manages pages for this wizard">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}manage_pages.gif" />
+			<img style="border:none;" src="{$smarty.const.ICON_RELATIVE}manage_pages.gif" title="{$_TR.alt_manage_pages}" alt="{$_TR.alt_manage_pages}" />
 		</a>
 	</td>
 </tr>

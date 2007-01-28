@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table cellspacing="0" cellpadding="0" style="border:none;" width="100%">
 	<tr>
 		<td class="header rotator_header">{$_TR.content}</td>
 		<td class="header rotator_header"></td>
@@ -24,10 +24,10 @@
 		<td valign="top">
 			{if $permissions.manage == 1}
 			<a href="{link action=edit_item id=$item->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
 			<a href="{link action=delete_item id=$item->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 			</a>
 			{/if}
 		</td>

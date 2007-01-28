@@ -15,13 +15,13 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 	<br />
 {/if}
 {/permissions}
 {if $moduletitle != ""}<div class="moduletitle sharedcore_moduletitle">{$moduletitle}</div>{/if}
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table cellpadding="0" cellspacing="0" style="border:none;" width="100%">
 {assign var=nocores value=0}
 {foreach from=$cores item=core}
 	<tr style="background-color: lightgrey;">
@@ -31,10 +31,10 @@
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.manage == 1}
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=edit_core id=$core->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
 			<a class="mngmntlink sharedcore_mngmntlink" href="{link action=delete_core id=$core->id}">
-				<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" onClick="return confirm('{$_TR.delete_core_confirm}');" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete}" alt="{$_TR.delete}" onClick="return confirm('{$_TR.delete_core_confirm}');" />
 			</a>
 			{/if}
 			{/permissions}
@@ -56,21 +56,21 @@
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.manage == 1}
 				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=edit_site id=$site->id}">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 				</a>
 				<a class="mngmntlink sharedsite_mngmntlink" href="{link action=delete_site id=$site->id}" onClick="return confirm('{$_TR.delete_site_confirm}');">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 				</a>
 				{if $site->inactive == 1}
 					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=activate_site id=$site->id}">
-						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}unlock.png" />
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}unlock.png" title="{$_TR.alt_unlock}" alt="{$_TR.alt_unlock}" />
 					</a>
 				{else}
 					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=deactivate_form id=$site->id}">
-						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}lock.png" />
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}lock.png" title="{$_TR.alt_lock}" alt="{$_TR.alt_lock}" />
 					</a>
 					<a class="mngmntlink sharedsite_mngmntlink" href="{link action=refresh_site id=$site->id}">
-						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}reload.png" />
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}reload.png" title="{$_TR.alt_reload}" alt="{$_TR.alt_reload}" />
 					</a>
 				{/if}
 				{/if}

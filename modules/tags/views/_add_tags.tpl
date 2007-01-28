@@ -47,7 +47,7 @@
         </td>
 	<td style="text-align: right; padding-right: 5px;">
 		<a href="{link module=tags action=delete_tag id=$tag->id}" title="Delete this tag" style="border: 0px solid black;">
-                        <img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png"  style="border: 0px;" />
+                        <img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
                 </a>
 	</td>
 <tr>
