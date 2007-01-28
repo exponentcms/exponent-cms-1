@@ -27,21 +27,21 @@
 		<td>{$extension->name}</td>
 		<td>
 			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_delete id=$extension->id}" onclick="return confirm('{$_TR.deactivate_confirm}');">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 			</a>
 			{if $smarty.foreach.e.first != 1}
 			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_order a=$extension->rank b=$prevrank}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" border="0" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
 			</a>
 			{else}
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" border="0" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 			{/if}
 			{if $smarty.foreach.e.last != 1}
 			<a class="mngmntlink administration_mngmntlink" href="{link action=profileext_order a=$extension->rank b=$nextrank}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" border="0" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
 			</a>
 			{else}
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" border="0" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 			{/if}
 		</td>
 	</tr>

@@ -30,11 +30,11 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSION}
 {if $permissions.administrate == 1}
-	<a href="{$linkbase}userperms&_common=1" title="Assign permissions on this Software Roadmap"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{$linkbase}groupperms&_common=1" title="Assign group permissions on this Software Roadmap"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<a href="{$linkbase}userperms&_common=1" title="Assign permissions on this Software Roadmap"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{$linkbase}groupperms&_common=1" title="Assign group permissions on this Software Roadmap"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{$linkbase}configure&_common=1" title="Configure this Software Roadmap"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
+	<a href="{$linkbase}configure&_common=1" title="Configure this Software Roadmap"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -58,7 +58,7 @@
 			{math equation="x-1" assign="previ" x=$i}
 			{if $smarty.foreach.ms.first== false}
 				<a href="{link action=order_milestones a=$previ b=$i}">
-					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" border="0" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_left}" alt="{$_TR.alt_left}" />
 				</a>
 			{/if}
 			{/if}{/permissions}
@@ -68,7 +68,7 @@
 			{permissions level=$smarty.const.UILEVEL_NORMAL}{if $permissions.manage_miles == 1}
 			{if $smarty.foreach.ms.last == false}
 				<a href="{link action=order_milestones a=$nexti b=$i}">
-					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}right.png" border="0" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" />
 				</a>
 			{/if}
 			{/if}{/permissions}

@@ -29,9 +29,9 @@
 		{/literal}
 			{if $perm_level == 2}
 			// Edit link
-			out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','gmgr_editprofile','id',object.var_id) +'"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>';
+			out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','gmgr_editprofile','id',object.var_id) +'"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>';
 			// Delete link
-			out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','gmgr_delete','id',object.var_id) +'" onclick="return confirm(\'{$_TR.sure_to_delete_group} \\\'' + object.var_name + '\\\'?\');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>';
+			out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','gmgr_delete','id',object.var_id) +'" onclick="return confirm(\'{$_TR.sure_to_delete_group} \\\'' + object.var_name + '\\\'?\');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>';
 			{/if}
 			// Members link
 			out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','gmgr_membership','id',object.var_id) +'">{$_TR.members}</a>';
@@ -55,7 +55,7 @@
 		new cColumn("","",links,null)
 	);
 {/literal}{/paginate}
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table cellpadding="0" cellspacing="0" style="border:none;" width="100%">
 	<tbody id="dataTable">
 
 	</tbody>

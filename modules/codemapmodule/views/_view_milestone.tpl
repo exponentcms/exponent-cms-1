@@ -34,10 +34,10 @@
 {if $permissions.manage_miles == 1}
 <br />
 <a href="{link action=milestone_edit id=$milestone->id}" class="mngmntlink codemap_mngmntlink">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/>
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 <a href="{link action=milestone_delete id=$milestone->id}" class="mngmntlink codemap_mngmntlink">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/>
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}

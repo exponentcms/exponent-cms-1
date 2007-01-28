@@ -31,7 +31,7 @@
 
 
 <div style="padding:15px;">
-	<img src="{$smarty.const.ICON_RELATIVE}arrow_left.gif" style="float:left" /><a href="{link module=bbmodule action=view_board id=$board_id}">Back to {$board_name}</a><br />
+	<img class="mngmnt_icon" style="border:none; float:left;" src="{$smarty.const.ICON_RELATIVE}arrow_left.gif" title="{$_TR.previous}" alt="{$_TR.previous}" /><a href="{link module=bbmodule action=view_board id=$board_id}">Back to {$board_name}</a><br />
 <br />
 
 	<div class="bb_postdiv"  style="display:table; width:100%; padding:0 0 10px 0">
@@ -39,19 +39,19 @@
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 				{if $permissions.administrate == 1}
 					{capture assign=int}p{$thread->id}{/capture}
-					<a href="{link action=userperms _common=1 int=$int}" title="Assign permissions on this Thread"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-					<a href="{link action=groupperms _common=1 int=$int}" title="Assign group permissions on this Thread"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+					<a href="{link action=userperms _common=1 int=$int}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+					<a href="{link action=groupperms _common=1 int=$int}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 				{/if}
 			{/permissions}
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_post == 1 || $thread->poster->id == $currentuser->id}
-					<a style="border: 0px;" class="mngmntlink bb_mngmntlink" href="{link action=edit_post id=$thread->id}">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+					<a style="border:none;" class="mngmntlink bb_mngmntlink" href="{link action=edit_post id=$thread->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
 				{/if}
 				{if $permissions.delete_thread == 1}
-					<a style="border: 0px;"  href="{link action=delete_post id=$thread->id}">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+					<a style="border:none;"  href="{link action=delete_post id=$thread->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 				{/if}
 			{/permissions}
@@ -60,7 +60,7 @@
 		<div class="bb_bio" >
 			<div class="bb_avitar" style="text-align:center">
 				{if $thread->poster->avatar_path != ""}
-					<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile" style="border:none;"><img src="{$thread->poster->avatar_path}" border="0" /></a>
+					<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile" style="border:none;"><img src="{$thread->poster->avatar_path}" style="border:none;" /></a>
 				{/if}
 				{if $thread->poster->bb_user->hide_online_status != 0}<br />
 					I'm Online
@@ -89,8 +89,8 @@
 	</div>	
 	<div>
 		{if $permissions.reply == 1}
-			<a href="{link action=edit_post parent=$thread->id }" style="border:0"><img src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" border="0" /></a>
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}" style="border:none"><img src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" border="0"  /></a>
+			<a href="{link action=edit_post parent=$thread->id }" style="border:none;"><img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{else}
 			<a href="{link module=loginmodule action=loginredirect redirecturl=$__redirect}">Login to reply to this topic.</a>
 		{/if}
@@ -104,13 +104,13 @@
 		<div class="bb_editicons" style="float:right">	
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_post == 1 || $reply->poster->id == $currentuser->id}
-					<a style="border: 0px;" href="{link action=edit_post id=$reply->id}">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.gif" />
+					<a style="border:none;" href="{link action=edit_post id=$reply->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
 				{/if}
 				{if $permissions.delete_thread == 1 || $reply->poster->id == $currentuser->id}
-					<a style="border-bottom: 0px;" href="{link action=delete_post id=$reply->id}">
-					<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+					<a style="border-bottom:none;" href="{link action=delete_post id=$reply->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 				{/if}
 			{/permissions}
@@ -119,7 +119,7 @@
 		<div class="bb_bio" >
 			<div class="bb_avitar" style="text-align:center">
 				{if $reply->poster->avatar_path != ""}
-					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" style="border:none;"><img src="{$reply->poster->avatar_path}" border="0" /></a>
+					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" style="border:none;"><img src="{$reply->poster->avatar_path}" style="border:none;" /></a>
 				{/if}
 				{if $reply->poster->bb_user->hide_online_status != 0}<br />
 					I'm Online
@@ -154,14 +154,14 @@
 		</div><br />
 		{if $permissions.reply == 1}
 		<div>
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}" style="border:none"><img src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" border="0"  /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		</div>		
 		{/if}
 	</div><br />
 {/foreach}
 
 {if $permissions.reply == 1}
-<br /><a href="{link action=edit_post parent=$thread->id}" style="border:none"><img src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" border="0" /></a>
+<br /><a href="{link action=edit_post parent=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
 {else}
   {if $loggedin == 1}
     You are not allowed to post to this topic

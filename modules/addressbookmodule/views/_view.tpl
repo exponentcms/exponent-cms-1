@@ -17,12 +17,12 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1}
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=edit id= $contact->id}">
-		<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+		<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 	</a>
 	{/if}
 	{if $permissions.delete == 1}
 	<a class="mngmntlink addressbook_mngmntlink" href="{link action=delete id=$contact->id}" onclick="return confirm('{$_TR.delete_confirm}');">
-		<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+		<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 	</a>
 	{/if}
 {/permissions}

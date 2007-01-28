@@ -45,10 +45,10 @@
 		<td class="bb_boardposts" style="border-bottom: 1px solid black;">{$rank->minimum_posts}</td>
 		<td class="bb_boardposts" style="border-bottom: 1px solid black;">{if $rank->is_special == 0}No{else}Yes{/if}</td>
 		<td class="bb_boardposts" style="border-bottom: 1px solid black;">
-			<a href="{link module=bbmodule action=edit_rank id=$rank->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" /></a>
+			<a href="{link module=bbmodule action=edit_rank id=$rank->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 		</td>
 		<td class="bb_boardposts" style="border-bottom: 1px solid black;">
-			<a href="{link module=bbmodule action=delete_rank id=$rank->id}"><img src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" /></a>
+			<a href="{link module=bbmodule action=delete_rank id=$rank->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 		</td>
 	</tr>
 {/foreach}

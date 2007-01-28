@@ -33,8 +33,8 @@
 
 {if $permissions.administrate == 1}
 	{capture assign=int}b{$board->id}{/capture}
-	<a href="{link action=userperms _common=1 int=$int}" title="Assign permissions on this Forum"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1 int=$int}" title="Assign group permissions on this Forum"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
+	<a href="{link action=userperms _common=1 int=$int}" title="Assign permissions on this Forum"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1 int=$int}" title="Assign group permissions on this Forum"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {/permissions}
 
@@ -53,10 +53,10 @@
 {foreach from=$announcements item=announcement}
 <!--tr class="row {cycle values=odd_,even_}row"-->
 <tr class="bb_row">
-	<!-- td class="bb_threadlist"><img src="{$smarty.const.ICON_RELATIVE}thread_icon.gif" border="0"></td -->
+	<!-- td class="bb_threadlist"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}thread_icon.gif" title="{$_TR.alt_thread_icon}" alt="{$_TR.alt_thread_icon}" /></td -->
 	<td class="bb_threadlist" valign="middle">
 		<div style=" float:left; width:25px; height:20px; ">
-		<img align="left" src="{$smarty.const.ICON_RELATIVE}announce16x16.gif" />
+		<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}sticky16x16.gif" title="{$_TR.alt_sticky}" alt="{$_TR.alt_sticky}" />
 		</div>
 		<a href="{link action=view_thread id=$announcement->id}" class="mngmntlink bb_mngmntlink">{$announcement->subject}</a>
 	</td>
@@ -70,11 +70,10 @@
 {foreach from=$stickys item=sticky}
 <!--tr class="row {cycle values=odd_,even_}row"-->
 <tr class="bb_row">
-	<!-- td class="bb_threadlist"><img src="{$smarty.const.ICON_RELATIVE}thread_icon.gif" border="0"></td -->
+	<!-- td class="bb_threadlist"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}thread_icon.gif" title="{$_TR.alt_thread_icon}" alt="{$_TR.alt_thread_icon}" /></td -->
 	<td class="bb_threadlist" valign="middle">
 		<div style=" float:left; width:25px; height:20px; ">
-	<img align="left" src="{$smarty.const.ICON_RELATIVE}sticky16x16.gif" />
-	
+	<img style="border:none; text-align:left;" src="{$smarty.const.ICON_RELATIVE}sticky16x16.gif" title="{$_TR.alt_sticky}" alt="{$_TR.alt_sticky}" />	
 		</div>
 		<a href="{link action=view_thread id=$sticky->id}" class="mngmntlink bb_mngmntlink">{$sticky->subject}</a>
 	</td>
@@ -88,7 +87,7 @@
 {foreach from=$threads item=thread}
 <!--tr class="row {cycle values=odd_,even_}row"-->
 <tr class="bb_row">
-	<!-- td class="bb_threadlist"><img src="{$smarty.const.ICON_RELATIVE}thread_icon.gif" border="0"></td -->
+	<!-- td class="bb_threadlist"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}thread_icon.gif" title="{$_TR.alt_thread_icon}" alt="{$_TR.alt_thread_icon}" /></td -->
 	<td class="bb_threadlist" valign="middle">
 		<div style=" float:left; width:0px; height:20px; ">
 
@@ -110,7 +109,7 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.create_thread == 1}
 <div align="right">
-<a class="bb_icon_link" href="{link module="bbmodule" action="edit_post" bb=$board->id}"><img src="{$smarty.const.ICON_RELATIVE}/bb_newtopic.gif" border="0" /></a>
+<a class="bb_icon_link" href="{link module="bbmodule" action="edit_post" bb=$board->id}"><img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/bb_newtopic.gif" title="{$_TR.alt_bb_newtopic}" alt="{$_TR.alt_bb_newtopic}" /></a>
 </div>
 {/if}
 {/permissions}

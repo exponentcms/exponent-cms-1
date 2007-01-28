@@ -30,11 +30,11 @@
  *}
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 /if}
 {if $permissions.configure == 1}
-        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>\n<img border="0" src="{$smarty.const.ICON_RELATIVE}configure.gif" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
+        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -42,7 +42,7 @@
 {/permissions}
 <div class="moduletitle article_moduletitle">{$moduletitle}</div>
 <br>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table cellspacing="0" cellpadding="0" style="border:none;" width="100%">
 {foreach name=c from=$data key=catid item=articles}
 
 {if $hasCategories != 0}
@@ -70,25 +70,25 @@
 	{if $permissions.manage == 1}
 	<td align="right">
 		<a href="{link action=edit_article id=$article->id}" title="Edit this entry">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
 		<a href="{link action=delete_article id=$article->id}" title="Delete this entry" onClick="return confirm('Are you sure you want to delete this article?');">
-			<img border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>	
 		{if $smarty.foreach.a.first == 0}
 		<a href="{link action=rank_switch a=$article->rank b=$prev id=$article->id category_id=$catid}">			
-			<img src="{$smarty.const.ICON_RELATIVE}up.png" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
 		</a>
 		{else}
-		<img src="{$smarty.const.ICON_RELATIVE}up.disabled.png" border="0"/>
+		<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 		{/if}
 		
 		{if $smarty.foreach.a.last == 0}
 		<a href="{link action=rank_switch a=$next b=$article->rank id=$article->id category_id=$catid}">
-			<img src="{$smarty.const.ICON_RELATIVE}down.png" border="0"/>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
 		</a>
 		{else}
-		<img src="{$smarty.const.ICON_RELATIVE}down.disabled.png" border="0"/>
+		<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 		{/if}
 		
 	</td>

@@ -34,10 +34,10 @@
 {if $permissions.manage_steps == 1}
 <br />
 <a href="{link action=stepstone_edit id=$stepstone->id}" class="mngmntlink codemap_mngmntlink">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0"/>
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 <a href="{link action=stepstone_delete id=$stepstone->id}" class="mngmntlink codemap_mngmntlink">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0"/>
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}
