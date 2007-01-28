@@ -18,8 +18,6 @@ return array(
 	'delete'=>'Delete this %s',
 	'delete_confirm'=>'Are you sure you want to delete this %s?',
 
-	'alt_define_user'=>'Define which user(s) can see this module',
-	'alt_define_group'=>'Define which group(s) can see this module',
 	'use_this_content'=>' Use this Module\'s Content ',
 );
 

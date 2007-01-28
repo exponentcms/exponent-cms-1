@@ -7,7 +7,7 @@ return array(
 	'alt_configure'=>'Configure this Weblog',
 
 	'alt_userperm_one'=>'Assign user permissions on this Weblog Post',
-	'alt_groupperm_one'=>'Assign grou permissions on this Weblog Post',
+	'alt_groupperm_one'=>'Assign group permissions on this Weblog Post',
 
 	'alt_edit'=>'Edit this Weblog Post',
 	'alt_delete'=>'Delete this Weblog Post',
@@ -27,6 +27,8 @@ return array(
 
 	'posted_by'=>'Posted by',
 	'on'=>'on',
+
+	'alt_rssfeed'=>'Subscribe to this Weblog RSS feed',
 );
 
 ?>
