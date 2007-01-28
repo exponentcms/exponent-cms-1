@@ -14,5 +14,5 @@
  *
  *}
 {if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
-	<a href="{link action=logout}"><img src="{$smarty.const.ICON_RELATIVE}logout.png" alt="Logout" border="0" />&nbsp;<strong>{$_TR.logout}</strong></a>
+	<a href="{link action=logout}"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}logout.png" title="{$_TR.logout}" alt="{$_TR.logout}" />&nbsp;<strong>{$_TR.logout}</strong></a>
 {/if}

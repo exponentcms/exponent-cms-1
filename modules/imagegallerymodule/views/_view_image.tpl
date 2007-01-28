@@ -32,7 +32,7 @@
 <br />
 {if $permissions.manage == 1}
 <a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}">
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 <br />
 {/if}

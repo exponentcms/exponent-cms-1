@@ -44,7 +44,7 @@
       <tr><td style="padding-left: {math equation="x*20+10" x=$section->depth-1}px;">
     {/if}
     {if $section->id == $current->id}
-      <img src="{$smarty.const.ICON_RELATIVE}nav_arrow.gif" alt="" border="0" />
+      <img style="border:none;" src="{$smarty.const.ICON_RELATIVE}nav_arrow.gif" alt="" />
     {/if}
     
     {if $section->active == 1 && $section->id == $current->id}

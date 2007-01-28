@@ -39,7 +39,7 @@
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
-	<td width="100" align="left" valign="top"><img border="0" src="{$listing->picpath}"</td>
+	<td width="100" align="left" valign="top"><img style="border:none" src="{$listing->picpath}" alt="" /></td>
 	<td align="left" style="font-size:16"><b>&nbsp;&nbsp;{$listing->name}</b></td>
 </tr>
 <tr>

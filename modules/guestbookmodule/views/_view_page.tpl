@@ -14,11 +14,11 @@
  
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
+	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -26,7 +26,7 @@
 {/permissions}
 {if $moduletitle != ""}<div class="moduletitle">{$moduletitle}</div>{/if}
 <br />
-<a class="mngmntlink guestbook_mngmntlink" href="{link action=post_edit}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.new_post}" alt="{$_TR.new_post}" align="absmiddle" style="margin-right: 5px;" />{$_TR.new_post}</a>
+<a class="mngmntlink guestbook_mngmntlink" href="{link action=post_edit}"><img class="mngmnt_icon" style="border:none; vertical-align:middle;  margin-right:5px;" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.new_post}" alt="{$_TR.new_post}"/>{$_TR.new_post}</a>
 
 <div style="margin-left: 20px; margin-right: 20px">
 {foreach from=$posts item=post}
@@ -44,22 +44,22 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
 <a href="{link action=userperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
 </a>
 <a href="{link action=groupperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
 </a>
 {/if}
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1 || $post->permissions.edit == 1}
 <a class="mngmntlink guestbook_mngmntlink" href="{link action=post_edit id=$post->id}">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 {/if}
 {if $permissions.delete == 1 || $post->permissions.delete == 1}
 <a class="mngmntlink guestbook_mngmntlink" href="{link action=post_delete id=$post->id}" onClick="return confirm('{$_TR.delete_confirm}');">
-	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}
@@ -71,7 +71,7 @@
 	<div style="background-color: silver;">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.comment == 1 || $post->permissions.comment == 1}
-		<a class="mngmntlink guestbook_mngmntlink" href="{link action=comment_edit parent_id=$post->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}package.png" title="{$_TR.alt_reply}" alt="{$_TR.alt_reply}" align="absmiddle" style="margin-right: 5px;" />{$_TR.txt_reply}</a>
+		<a class="mngmntlink guestbook_mngmntlink" href="{link action=comment_edit parent_id=$post->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}package.png" title="{$_TR.alt_reply}" alt="{$_TR.alt_reply}" align="absmiddle" style="margin-right: 5px;" />{$_TR.txt_reply}</a>
 		{/if}
 		{/permissions}
 		{if $post->comments}
@@ -87,12 +87,12 @@
 					{permissions level=$smarty.const.UILEVEL_NORMAL}
 					{if $permissions.edit_comments == 1 || $post->permissions.edit_comments == 1}
 						<a class="mngmntlink guestbook_mngmntlink" href="{link action=comment_edit id=$comment->id parent_id=$post->id}">
-							<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_edit_comment}" alt="{$_TR.alt_edit_comment}" />
+							<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_comment}" alt="{$_TR.alt_edit_comment}" />
 						</a>
 					{/if}
 					{if $permissions.delete_comments == 1 || $post->permissions.delete_comments == 1}
 						<a class="mngmntlink guestbook_mngmntlink" href="{link action=comment_delete id=$comment->id parent_id=$post->id}" onClick="return confirm('{$_TR.delete_comment_confirm}');">
-							<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_delete_comment}" alt="{$_TR.alt_delete_comment}" />
+							<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete_comment}" alt="{$_TR.alt_delete_comment}" />
 						</a>
 					{/if}
 					{/permissions}
@@ -113,7 +113,7 @@
 {if $page != 0}
 	{math equation="x-1" x=$page assign=prevpage}
 	<a class="mngmntlink guestbook_mngmntlink" href="{link action=_view_page page=$prevpage}">
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.previous}" alt="{$_TR.previous}" align="absmiddle" style="margin-right: 5px;" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.previous}" alt="{$_TR.previous}" align="absmiddle" style="margin-right: 5px;" />
 	{$_TR.previous}
 	</a>&nbsp;&nbsp;
 {/if}
@@ -121,7 +121,7 @@
 	{math equation="x+1" x=$page assign=nextpage}
 	<a class="mngmntlink guestbook_mngmntlink" href="{link action=_view_page page=$nextpage}">
 	{$_TR.next}
-	<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" align="absmiddle" style="margin-right: 5px;" />
+	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" align="absmiddle" style="margin-right: 5px;" />
 	</a>
 {/if}
 </div>

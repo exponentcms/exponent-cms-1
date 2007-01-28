@@ -30,9 +30,11 @@
  *}
 {permissions level=$smarty.const.UI_LEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="Assign permissions on this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="Assign group permissions on this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" /></a>
-	<a href="{link action=configure _common=1}" title="Configure this Module"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+{/if}
+{if $permissions.configure == 1}
+        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
@@ -48,17 +50,17 @@
 	{$gallery->name}&nbsp;&nbsp;
         {permissions level=$smarty.const.UI_LEVEL_NORMAL}
         {if $permissions.edit == 1}
-        	<a href="{link action=view_gallery id=$gallery->id}" title="Manage Images"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}manage_images.png" /></a>
-        	<a href="{link action=edit_gallery id=$gallery->id}" title="Edit Gallery"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
+        	<a href="{link action=view_gallery id=$gallery->id}" title="Manage Images"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}manage_images.png" title="{$_TR.alt_manage_images}" alt="{$_TR.alt_manage_images}" /></a>
+        	<a href="{link action=edit_gallery id=$gallery->id}" title="Edit Gallery"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
       	{/if}
         {/permissions}
 </div>
-<table cellspacing="0" cellpadding="0" border="0" width="95%" align="left" style="margin-bottom: 15px;">
+<table cellspacing="0" cellpadding="0" style="border:none;" width="95%" align="left" style="margin-bottom: 15px;">
 <tr>
 	{foreach name=a from=$gallery->images item=image}
 		<td valign="bottom" align="center" class="imagegallery_picbox">
 				<a href="{link action=view_image id=$image->id}">
-					<img border="0" src="{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />
+					<img style="border:none;" src="{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />
 				</a>
 				<div>
 					<a href="{link action=view_image id=$image->id}">{$image->name}</a>
@@ -70,19 +72,19 @@
 				{if $smarty.foreach.a.first == false}
 				{math equation="x-1" x=$image->rank assign=prevrank}
 				<td width="16">
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$prevrank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}left.png" /></a>
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$prevrank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
 				</td>
 				{/if}
 				<td width="16">
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 				</td>
 				<td width="16">
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onClick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onClick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 				</td>
 				{if $smarty.foreach.a.last == false}
 				{math equation="x+1" x=$image->rank assign=nextrank}
 				<td width="16">
-				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$nextrank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}right.png" /></a>
+				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$nextrank}"><img class="mngmnt_icon" style="border:none; text-align:center; margin-right: 5px;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" /></a>
 				</td>
 				{/if}
 				</tr>

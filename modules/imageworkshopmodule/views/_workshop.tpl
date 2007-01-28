@@ -1,12 +1,12 @@
 {if $noupload == 1}Uploads are disabled ({$uploadError}){/if}
-<table cellspacing="0" cellpadding="4" border="0" width="100%" />
+<table cellspacing="0" cellpadding="4" style="border:none;" width="100%" />
 <tr>
 	<td valign="top" width="120" align="center">
 		<b>Workspace</b><br />
 	{foreach name=i from=$images item=image}
 		{math equation="x-1" assign=this x=$smarty.foreach.i.iteration}
 		<a href="{link action=workshop id=$image->id}" />
-		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$image->file_id}&constraint=1&width=100&height=100" border="0" style="border: 1px solid black;"/>
+		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$image->file_id}&constraint=1&width=100&height=100" style="border:none;" style="border: 1px solid black;"/>
 		<br />
 		{$image->name}
 		</a>
@@ -15,21 +15,21 @@
 		{if $smarty.foreach.i.first == 0}
 		{math equation="x-2" assign="prev" x=$smarty.foreach.i.iteration}
 		<a href="{link action=order a=$this b=$prev}">
-			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}up.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
 		</a>
 		{else}
-			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 		{/if}
 		<a href="{link action=delete id=$image->id}" onClick="return confirm('Are you sure you want to delete this image and any changes you have made to it?');">
-			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		{* Down *}
 		{if $smarty.foreach.i.last == 0}
 		<a href="{link action=order a=$this b=$smarty.foreach.i.iteration}">
-			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}down.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
 		</a>
 		{else}
-			<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 		{/if}
 		<br />
 		<hr size="1" />
@@ -45,7 +45,7 @@
 		{else}
 		<div class="moduletitle">{$current->name}{if $nochange == 1} (Unchanged){else} (Modified){/if}</div>
 		
-		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$working->file_id}&constraint=1&width=400&height=400" border="0" style="border: 1px solid black;" alt="Loading image..." />
+		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$working->file_id}&constraint=1&width=400&height=400" style="border:none;" style="border: 1px solid black;" alt="Loading image..." />
 		{if $working->_width > 400 || $working->_height > 400}
 		<div align="right">
 			<a href="{$smarty.const.PATH_RELATIVE}{$working->_file->directory}/{$working->_file->filename}" target="_blank">(View Full-scale Image)</a>
@@ -99,7 +99,7 @@
 		</div>
 		<hr size="1" />
 		<b>Original Image:</b><br />
-		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$current->file_id}&constraint=1&width=400&height=400" border="0" style="border: 1px solid black;"/>
+		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$current->file_id}&constraint=1&width=400&height=400" style="border:none;" style="border: 1px solid black;"/>
 		{if $current->_width > 400 || $current->_height > 400}
 		<div align="right">
 			<a href="{$smarty.const.PATH_RELATIVE}{$current->_file->directory}/{$current->_file->filename}" target="_blank">(View Full-scale Image)</a>

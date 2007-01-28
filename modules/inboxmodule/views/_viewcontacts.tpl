@@ -29,10 +29,10 @@
 		<td valign="top">{$group->description}</td>
 		<td valign="top">
 			<a href="{link action=edit_list id=$group->id}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" border="0" title="{$_TR.alt_editlist}" alt="{$_TR.alt_editlist}" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_editlist}" alt="{$_TR.alt_editlist}" />
 			</a>
 			<a href="{link action=delete_list id=$group->id}" onClick="return confirm('{$_TR.deletelist_confirm}');">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_deletelist}" alt="{$_TR.alt_deletelist}" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_deletelist}" alt="{$_TR.alt_deletelist}" />
 			</a>
 		</td>
 	</tr>
@@ -60,7 +60,7 @@
 		<td valign="top">{$contact->user->username}</td>
 		<td valign="top">
 			<a href="{link action=unban id=$contact->id}" onClick="return confirm('{$_TR.unblock_confirm}');">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" border="0" title="{$_TR.alt_unblock}" alt="{$_TR.alt_unblock}"/>
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_unblock}" alt="{$_TR.alt_unblock}"/>
 			</a>
 		</td>
 	</tr>
