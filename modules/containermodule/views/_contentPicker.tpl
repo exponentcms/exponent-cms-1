@@ -27,9 +27,9 @@
 				</td>
 				<td align="right" valign="top">
 					{if $container->info.clickable && $container->info.hasContent}
-					{*<a class="mngmntlink container_mngmntlink" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}">*}
+					{*<a class="mngmntlink container_mngmntlink" href="{$dest}&amp;ss={$container->info.source}&amp;sm={$container->info.class}">*}
 					<a class="mngmntlink container_mngmntlink" href="{link action=content_selector module=$container->info.class src=$container->info.source channel_id=$dest}">
-						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.select_content}" alt="{$_TR.select_content}" />
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.select_content}" alt="{$_TR.select_content}" />
 					</a>
 					{/if}
 				</td>

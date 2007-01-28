@@ -192,7 +192,7 @@
 							<br />
 							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">Use</a>
 						{/if}
-						<a href="{link action=delete id=$file->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
+						<a href="{link action=delete id=$file->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
 					</td>
 					{foreachelse}
 					<td><i>{$_TR.no_files}</i></td>

@@ -32,17 +32,17 @@
 						</td>
 						<td align="right" valign="top">
 							{if $container->is_private == 1 && $permissions.administrate == 1}
-									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_define_user}" alt="{$_TR.alt_define_user}" /></a>&nbsp;
-									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_define_group}" alt="{$_TR.alt_define_group}" /></a>
+									<a href="{link action=userperms _common=1 int=$container->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+									<a href="{link action=groupperms _common=1 int=$container->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 							{/if}
 							{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 								<a href="{link action=edit id=$container->id}">
-									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.configure_module|sprintf:$container->info.module}" alt="{$_TR.configure_module|sprintf:$container->info.module}" />
+									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.configure_module|sprintf:$container->info.module}" alt="{$_TR.configure_module|sprintf:$container->info.module}" />
 								</a>
 							{/if}
 							{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}
 								<a href="{link action=delete id=$container->id}" onclick="return confirm('{$_TR.delete_confirm|sprintf:$container->info.module}');">
-									<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
+									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}deletemodule.png" title="{$_TR.delete|sprintf:$container->info.module}" alt="{$_TR.delete|sprintf:$container->info.module}" />
 								</a>
 							{/if}
 
@@ -70,7 +70,7 @@
 {else}
 	{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 	{if $permissions.add_module == 1 && $hidebox == 0}
-		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
+		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
 	{/if}
 	{/permissions}
 {/if}

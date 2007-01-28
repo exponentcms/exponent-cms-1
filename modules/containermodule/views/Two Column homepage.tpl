@@ -31,13 +31,13 @@
 			</td>
 			<td align="right" valign="top">
 				{if $permissions.administrate == 1}
-					<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-					<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+					<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+					<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 				{/if}
 			
 				{if $permissions.edit_module == 1}
 					<a href="{link action=edit id=$top->id}">
-						<img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" />
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configuremodule.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" />
 					</a>
 				{/if}
 			</td>

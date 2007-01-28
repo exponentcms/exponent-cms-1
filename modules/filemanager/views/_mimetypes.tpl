@@ -18,7 +18,7 @@
 <br /><br />
 <a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype}">{$_TR.create_new}</a>
 </div>
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<table cellpadding="2" cellspacing="0" style="border:none;" width="100%">
 <tr>
 	<td class="header administration_header">{$_TR.mime_type}</td>
 	<td class="header administration_header">{$_TR.name}</td>
@@ -37,8 +37,8 @@
 	{/if}
 </td>
 <td>
-	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype type=$type->mimetype}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}edit.png" /></a>
-	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_deletemimetype type=$type->mimetype}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}delete.png" /></a>
+	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype type=$type->mimetype}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_deletemimetype type=$type->mimetype}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 </td>
 </tr>
 {/foreach}

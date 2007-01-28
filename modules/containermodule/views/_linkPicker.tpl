@@ -27,7 +27,7 @@
 				</td>
 				<td align="right" valign="top">
 					<a class="mngmntlink container_mngmnltink" href="{$dest}&cid={$container->id}">
-						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.link_to_module}" alt="{$_TR.link_to_module}" />
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.link_to_module}" alt="{$_TR.link_to_module}" />
 					</a>
 				</td>
 			</tr>
