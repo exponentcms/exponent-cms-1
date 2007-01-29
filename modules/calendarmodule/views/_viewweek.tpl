@@ -14,7 +14,7 @@
  *
  *}
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.prev_week}" alt="{$_TR.prev_week}" /></a>
-<span style="font-weight: bold; font-size: 16px">Events for the week of {$startweek|format_date:"%B %e, %Y"}</span>
+<span style="font-weight: bold; font-size: 16px">{$_TR.view_week} {$startweek|format_date:"%B %e, %Y"}</span>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startnextweek}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next_week}" alt="{$_TR.next_week}" /></a>
 <br />
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$startweek}" title="{$_TR.alt_view_month}" alt="{$_TR.alt_view_month}">{$_TR.view_month}</a>
