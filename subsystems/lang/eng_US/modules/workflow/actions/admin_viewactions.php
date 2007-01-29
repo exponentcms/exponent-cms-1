@@ -7,7 +7,7 @@ return array(
 	'approved_edited'=>'Content Edited, but approved',
 	'approved_denied'=>'Content Denied Approval',
 	'approved_final'=>'Content Published',
-	'delete'=>'Approval Path Deleted',
+	'deleted'=>'Approval Path Deleted',
 	'restarted'=>'Approval Path Restarted',
 	'implicit_approval'=>'New Content Implicitly Approved',
 	'posted_admin'=>'Content posted or edited by an Administrator',

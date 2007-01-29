@@ -7,7 +7,7 @@ return array(
 	'approved_edited'=>'Content verändert aber nicht freigegeben',
 	'approved_denied'=>'Content mit verweigerteter Freigabe',
 	'approved_final'=>'Content Veröffentlicht',
-	'delete'=>'Genehmigungspfad gelöscht',
+	'deleted'=>'Genehmigungspfad gelöscht',
 	'restarted'=>'Genehmigungpfad wiederhergestellt',
 	'implicit_approval'=>'Neuer Content mit Freigabevorschrift',
 	'posted_admin'=>'Content erstellt oder geändert von einem Administrator',

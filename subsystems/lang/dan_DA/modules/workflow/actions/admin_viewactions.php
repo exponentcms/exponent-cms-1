@@ -7,7 +7,7 @@ return array(
 	'approved_edited'=>'Indhold redigeret, men godkendt',
 	'approved_denied'=>'Indhold nægtet godkendelse',
 	'approved_final'=>'Indhold offentliggjort',
-	'delete'=>'Godkendelses process slettet',
+	'deleted'=>'Godkendelses process slettet',
 	'restarted'=>'Godkendelses process genstartet',
 	'implicit_approval'=>'Nyt indhold ubetinget godkendt',
 	'posted_admin'=>'Indhold indlagt eller redigeret af en administrator',
