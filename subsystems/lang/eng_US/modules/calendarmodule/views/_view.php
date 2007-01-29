@@ -18,6 +18,7 @@ return array(
 
 	'view_month'=>'View Month',
 	'alt_view_month'=>'View Entire Month',
+	'all_day'=>'All Day',
 );
 
 ?>
