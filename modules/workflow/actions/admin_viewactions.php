@@ -24,11 +24,13 @@ if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('workflow',exponent_core_makeLocation('administrationmodule'))) {
 
+	$i18n = exponent_lang_loadFile('modules/workflow/actions/admin_viewactions.php');
+
 	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 
 	if (!defined('SYS_WORKFLOW')) require_once(BASE.'subsystems/workflow.php');
 	$actions = exponent_workflow_getActions($_GET['id']);
-	
+
 	// Workflow constants action names.
 	$names = array(
 		SYS_WORKFLOW_ACTION_POSTED=>$i18n['posted'],
@@ -43,7 +45,7 @@ if (exponent_permissions_check('workflow',exponent_core_makeLocation('administra
 		SYS_WORKFLOW_ACTION_POSTED_ADMIN=>$i18n['posted_admin'],
 		SYS_WORKFLOW_ACTION_APPROVED_ADMIN=>$i18n['approved_admin']
 	);
-	
+
 	$template = new template('workflow','_viewactions',$loc);
 	$template->assign('actions',$actions);
 	$template->assign('names',$names);
