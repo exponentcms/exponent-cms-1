@@ -51,7 +51,7 @@
 			<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$event->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">{$_TR.revisions}</a>
 		{/if}
 		<div style="padding-left: 10px">
-			<b>{if $event->is_allday == 1}All Day{else}
+			<b>{if $event->is_allday == 1}{$_TR.all_day}{else}
 			{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} - {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 			{/if}</b><br />
 			{$event->body|summarize:"html":"para"}

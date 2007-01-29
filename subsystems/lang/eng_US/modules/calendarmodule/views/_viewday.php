@@ -20,6 +20,7 @@ return array(
 	'revisions'=>'Revisions',
 
 	'no_events'=>'No Events',
+	'all_day'=>'All Day',
 );
 
 ?>
