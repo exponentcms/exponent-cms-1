@@ -8,6 +8,7 @@ return array(
 	'alt_delete_disabled'=>'Deleting Disabled - News Item in Approval',
 	'alt_delete'=>'Delete this News Item',
 	'delete_confirm'=>'Are you sure you want to delete this News Item?',
+	'attribution'=>'posted by',
 );
 
 ?>

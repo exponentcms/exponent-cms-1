@@ -42,7 +42,7 @@
 {/permissions}
 <div class="itemtitle news_itemtitle">{$newsitem->title}</div>
 <div class="itembody news_itembody">
-posted by {attribution user_id=$newsitem->poster} on {$newsitem->real_posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}<br /><br />
+{$_TR.attribution} {attribution user_id=$newsitem->poster} - {$newsitem->real_posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}<br /><br />
 {$newsitem->body}
 </div>
 </div>
