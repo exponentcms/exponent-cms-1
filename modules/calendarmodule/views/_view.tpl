@@ -51,7 +51,7 @@
 	{/if}
 {/if}
 {if $permissions.manage_approval == 1}
-	<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=CalendarModule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> \n</a>
+	<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=CalendarModule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /></a>
 {/if}
 {if $permissions.administrate == 1 || $item->permissions.administrate == 1 || $permissions.delete == 1 || $item->permissions.delete == 1 || $permissions.edit == 1 || $item->permissions.edit == 1}
 <br />
