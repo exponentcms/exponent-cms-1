@@ -70,7 +70,7 @@
 				<td>
 					{permissions level=$smarty.const.UILEVEL_NORMAL}
 					{if $permissions.edit == 1}
-					<a class="mngmntlink imagemanager_mngmntlink" href="{link action=edit id=$item->id}" />
+					<a class="mngmntlink imagemanager_mngmntlink" href="{link action=edit id=$item->id}">
 						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
 					{/if}

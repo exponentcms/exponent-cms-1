@@ -14,14 +14,14 @@
  *
  *}
 <script language="javascript" src="{$smarty.const.PATH_RELATIVE}js/ImageManagerHTMLArea.js"></script>
-<table cellpadding="2" cellspacing="0" border="0" width="100%" rules="rows" style="border: 1px solid lightgrey">
+<table cellpadding="2" cellspacing="0"  rules="rows" style="border: 1px solid lightgrey; width:100%;">
 {foreach from=$grid item=row}
 	<tr>
 	{foreach from=$row item=item}
 	{assign var=fid value=$item->file_id}
 		<td align="center">
 			<a class="mngmntlink imagemanager_mngmntlink" href="" onclick="setContent('{$files[$fid]->directory}/{$files[$fid]->filename}','{$smarty.const.PATH_RELATIVE}'); return false">
-				<img src="thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&amp;scale={$item->scale}" border="0" />
+				<img src="thumb.php?file={$files[$fid]->directory}/{$files[$fid]->filename}&amp;scale={$item->scale}" style="border:none;" />
 			</a>
 			<br />
 			{$item->name}
