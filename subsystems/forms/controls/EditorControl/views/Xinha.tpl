@@ -76,8 +76,8 @@
 			//redirect Image&Link browsers to E's connector
 			eXp.WYSIWYG.config.URIs = {
 				"blank": "blank.html",
-				"link": "../../connector/link.php",
-				"insert_image": "../../connector/insert_image.php",
+				"link": "../../external/editors/connector/link.php",
+				"insert_image": "../../external/editors/connector/insert_image.php",
 				"insert_table": "insert_table.html",
 				"select_color": "select_color.html",
 				"about": "about.html",
@@ -114,10 +114,10 @@
 {/literal}
 	/* ]]> */
 	</script>
-{/if}
 	
 	<script type="text/javascript" src="{$view->path_to_editor}XinhaCore.js"></script>
-	
+
+{/if}
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		//eXp.WYSIWYG.getPlugins() also adds rowbreaks to the
