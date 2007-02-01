@@ -136,13 +136,11 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
 		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
-    	$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
-    	$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/event/event.js"></script>'."\r\n";
-    	$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/animation/animation.js"></script>'."\r\n";
-    	$str .= "\t".'<link rel="stylesheet"  type="text/css" href="'.PATH_RELATIVE.'external/yui/build/reset/reset-fonts-grids.css" />'."\r\n";
-		$str .= "\t".'<script type="text/javascript">';
-		$str .= "var myAnim = new YAHOO.util.Anim('test', {width: { to: 200 }}, 1, YAHOO.util.Easing.easeOut);</script>";
+		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
+    		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
+    		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/event/event.js"></script>'."\r\n";
+    		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/animation/animation.js"></script>'."\r\n";
+    		//$str .= "\t".'<link rel="stylesheet"  type="text/css" href="'.PATH_RELATIVE.'external/yui/build/reset/reset-fonts-grids.css" />'."\r\n";
 	}
 	return $str;
 }
