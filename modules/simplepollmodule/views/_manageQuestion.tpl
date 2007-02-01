@@ -51,7 +51,7 @@
 <img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 {else}
 {math assign=next equation="x+1" x=$answer->rank}
-<a href="{link action=order_switch a=$answer->rank b=$next qid=$question->id}"><img style="border:none;" src="{$<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" /></a>
+<a href="{link action=order_switch a=$answer->rank b=$next qid=$question->id}"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" /></a>
 {/if}
 {/if}
 </td></tr>

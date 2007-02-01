@@ -26,7 +26,7 @@
 		{* Down *}
 		{if $smarty.foreach.i.last == 0}
 		<a href="{link action=order a=$this b=$smarty.foreach.i.iteration}">
-			<img class="mngmnt_icon" style="border:none;" src="{$<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
 		</a>
 		{else}
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
