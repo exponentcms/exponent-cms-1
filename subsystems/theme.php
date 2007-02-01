@@ -18,7 +18,7 @@
 ##################################################
 
 /* exdoc
- * The definition of this constant lets other parts of the system know 
+ * The definition of this constant lets other parts of the system know
  * that the subsystem has been included for use.
  * @node Subsystems:Theme
  */
@@ -130,20 +130,19 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 	$str = '';
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
-		$str .= "\t\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
-		$str .= "\t\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
-		$str .= "\t\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
-		$str .= "\t\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
-		$str .= "\t\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
-		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
-	    	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
-	    	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/event/event.js"></script>'."\r\n";
-	    	$str .= "\t\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/animation/animation.js"></script>'."\r\n";
-	    	$str .= "\t\t".'<link rel="stylesheet" href="'.PATH_RELATIVE.'external/yui/build/reset/reset-min.css" type="text/css">'."\r\n";
-		$str .= "\t\t".'<link rel="stylesheet" href="'.PATH_RELATIVE.'external/yui/build/fonts/fonts-min.css" type="text/css">'."\r\n";
-	    	$str .= "\t\t".'<link rel="stylesheet" href="'.PATH_RELATIVE.'external/yui/build/grids/grids-min.css" type="text/css">'."\r\n";
-		$str .= "<script>var myAnim = new YAHOO.util.Anim('test', {width: { to: 200 }}, 1, YAHOO.util.Easing.easeOut);</script>";
+		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
+		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
+		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
+		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
+		$str .= "\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
+		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
+		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
+    	$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
+    	$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/event/event.js"></script>'."\r\n";
+    	$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/animation/animation.js"></script>'."\r\n";
+    	$str .= "\t".'<link rel="stylesheet"  type="text/css" href="'.PATH_RELATIVE.'external/yui/build/reset/reset-fonts-grids.css" />'."\r\n";
+		$str .= "\t".'<script type="text/javascript">';
+		$str .= "var myAnim = new YAHOO.util.Anim('test', {width: { to: 200 }}, 1, YAHOO.util.Easing.easeOut);</script>";
 	}
 	return $str;
 }
@@ -161,11 +160,11 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
  */
 function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
-	
+
 	if ($prefix == null) $prefix = "@section";
-	
+
 	$src = $prefix;
-	
+
 	if (exponent_sessions_isset("themeopt_override")) {
 		$config = exponent_sessions_get("themeopt_override");
 		if (in_array($module,$config['ignore_mods'])) return;
@@ -177,8 +176,8 @@ function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null,
 		//$section = $db->selectObject("section","id=".$last_section);
 		$src .= $sectionObj->id;
 	}
-	
-	
+
+
 	exponent_theme_showModule($module,$view,$title,$src,$pickable,$sectionObj->id);
 }
 
@@ -191,19 +190,19 @@ function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null,
  * @param string $view The name of the view to display the module with
  * @param string $title The title of the module (support is view-dependent)
  * @param string $prefix The prefix of the module's source.  The current section id will be appended to this
- * @param bool $pickable Whether or not the module is pickable in the Source Picer. 
+ * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
 function exponent_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
 	global $db;
-	
+
 	if ($prefix == null) $prefix = "@section";
 	$last_section = exponent_sessions_get("last_section");
-	
+
 	$section = $db->selectObject("section","id=".$last_section);
 	// Loop until we find the top level parent.
 	while ($section->parent != 0) $section = $db->selectObject("section","id=".$section->parent);
-	
+
 	exponent_theme_showModule($module,$view,$title,$prefix.$section->id,$pickable,$section);
 }
 
@@ -228,18 +227,18 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 		$section_id = exponent_sessions_get('last_section');
 		if ($section_id == null) {
 			$section_id = SITE_DEFAULT_SECTION;
-		}		
+		}
 		$sectionObj = $db->selectObject('section','id='.$section_id);
 		//$section->id = $section_id;
 	}
 	if ($module == "loginmodule" && defined("PREVIEW_READONLY") && PREVIEW_READONLY == 1) return;
-	
+
 	if (exponent_sessions_isset("themeopt_override")) {
 		$config = exponent_sessions_get("themeopt_override");
 		if (in_array($module,$config['ignore_mods'])) return;
 	}
 	$loc = exponent_core_makeLocation($module,$source."");
-		
+
 	if ($db->selectObject("locationref","module='$module' AND source='".$loc->src."'") == null) {
 		$locref = null;
 		$locref->module = $module;
@@ -301,7 +300,7 @@ function exponent_theme_setFlow() {
 		global $db;
 		$last_section = exponent_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
-		
+
 		if ($section && $section->public == 0) {
 			exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
 		} else if ($section && $section->public == 1) {
@@ -316,7 +315,7 @@ function exponent_theme_setFlow() {
  */
 function exponent_theme_main() {
 	global $db, $user;
-	
+
 	if ((!defined("SOURCE_SELECTOR") || SOURCE_SELECTOR == 1) && (!defined("CONTENT_SELECTOR") || CONTENT_SELECTOR == 1)) {
 		$last_section = exponent_sessions_get("last_section");
 		$section = $db->selectObject("section","id=".$last_section);
@@ -343,7 +342,7 @@ function exponent_theme_main() {
  * @node Subsystems:Theme
  */
 function exponent_theme_runAction() {
-	
+
 	if (exponent_theme_inAction()) {
 		if (!AUTHORIZED_SECTION) {
 			echo SITE_403_HTML;
@@ -353,17 +352,17 @@ function exponent_theme_runAction() {
 			$config = exponent_sessions_get("themeopt_override");
 			echo "<a class='mngmntlink sitetemplate_mngmntlink' href='".$config['mainpage']."'>".$config['backlinktext']."</a><br /><br />";
 		}
-	
+
 		global $db, $user;
-		
+
 		$loc = null;
 		$loc->mod = $_REQUEST['module'];
 		$loc->src = (isset($_REQUEST['src']) ? $_REQUEST['src'] : "");
 		$loc->int = (isset($_REQUEST['int']) ? $_REQUEST['int'] : "");
-		
+
 		$actfile = "/" . $_REQUEST['module'] . "/actions/" . $_REQUEST['action'] . ".php";
 		if (isset($_REQUEST['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
-		
+
 		if (is_readable(BASE.'modules/'.$actfile)) {
 			include_once(BASE.'modules/'.$actfile);
 		} else {
@@ -409,10 +408,10 @@ function exponent_theme_mainContainer() {
 		echo SITE_403_HTML;
 		return;
 	}
-	
+
 	if (PUBLIC_SECTION) exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_SECTIONAL);
 	else exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_SECTIONAL);
-		
+
 #	if (exponent_sessions_isset("themeopt_override")) {
 #		$config = exponent_sessions_get("themeopt_override");
 		exponent_theme_showSectionalModule("containermodule","Default","","@section");
@@ -435,7 +434,7 @@ function exponent_theme_getSubthemes($include_default = true,$theme = DISPLAY_TH
 		// Caller wants us to include the default layout.
 		$subs[''] = DEFAULT_VIEW; // Not really its intended use, but it works.
 	}
-	
+
 	if (is_readable($base)) {
 		// subthemes directory exists and is readable by the web server.  Continue on.
 		$dh = opendir($base);
