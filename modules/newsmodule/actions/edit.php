@@ -46,7 +46,7 @@ if (($news != null && exponent_permissions_check("edit_item",$loc)) ||
 	$eloc->mod = $loc->mod;
         $eloc->src = $loc->src;
         $eloc->int = '';
-	$newsmodule_config = $db->selectObject('newsmodule_config', "location_data='".serialize($loc)."'");
+	$newsmodule_config = $db->selectObject('newsmodule_config', "location_data='".serialize($eloc)."'");
 	//$newsmodule_config = $db->selectObject('newsmodule_config', "location_data='".$news->location_data."'");
 	if (isset($newsmodule_config->enable_tags)) {
 		$cols = array();
