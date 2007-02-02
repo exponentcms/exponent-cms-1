@@ -27,6 +27,9 @@
 {/permissions}
 
 {if $moduletitle != ""}<div class="moduletitle news_moduletitle">{$moduletitle}</div>{/if}
+{if $enable_rss == true}
+        <a href="{rsslink}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+{/if}
 {foreach from=$news item=newsitem}
 	<div>
 		<div class="itemtitle news_itemtitle2">{$newsitem->title}</div>
