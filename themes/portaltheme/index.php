@@ -23,7 +23,7 @@ if (!defined('EXPONENT')) exit('');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<?php echo pathos_theme_headerInfo($section); ?>
+<?php echo exponent_theme_headerInfo($section); ?>
 <script type="text/JavaScript" src="<?php echo THEME_RELATIVE; ?>swapimage.js"></script>
 <link rel="shortcut icon" href="/themes/portaltheme/images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
@@ -37,7 +37,7 @@ if (!defined('EXPONENT')) exit('');
 		<![endif]-->
 </head>
 <body onload="eXp.initialize();MM_preloadImages('images/lightbulb-h.jpg')">
-<?php pathos_theme_sourceSelectorInfo(); ?>
+<?php exponent_theme_sourceSelectorInfo(); ?>
 <div id="shell" align="center">
   <table style="margin-left:auto; margin-right:auto;" width="780" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -45,7 +45,7 @@ if (!defined('EXPONENT')) exit('');
 	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td height="71" align="left"><img src="<?php echo THEME_RELATIVE;?>images/logo-exponent.jpg" alt="logo" /> </td>
-            <td align="right"><?php pathos_theme_showModule("loginmodule","Expanded"); ?>
+            <td align="right"><?php exponent_theme_showModule("loginmodule","Expanded"); ?>
             </td>
           </tr>
         </table>
@@ -57,7 +57,7 @@ if (!defined('EXPONENT')) exit('');
             <td style=" padding:0 2px 0 0" nowrap="nowrap"><div id="lightbulb"><img src="<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg" alt="Content Management Made Simple!" width="256" height="138"><a class="imagebutton" href="index.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a></div>
 
 			<div id="bluepanel">
-				<div id="latestexponent"><?php pathos_theme_showModule("textmodule","Bluepanel","","bluepanel"); ?></div>
+				<div id="latestexponent"><?php exponent_theme_showModule("textmodule","Bluepanel","","bluepanel"); ?></div>
 				<div id="getexponent"><a href="http://sourceforge.net/project/showfiles.php?group_id=118524">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>
 			</div>
 
@@ -69,7 +69,7 @@ if (!defined('EXPONENT')) exit('');
         </table></td>
     </tr>
     <tr>
-      <td height="38" id="toplevelnav"><?php pathos_theme_showModule("navigationmodule","CSS Menu"); ?>
+      <td height="38" id="toplevelnav"><?php exponent_theme_showModule("navigationmodule","CSS Menu"); ?>
       </td>
     </tr>
     <tr>
@@ -82,7 +82,7 @@ if (!defined('EXPONENT')) exit('');
                 <tr>
                   <td id="bodycontentall">
 				  <div id="breadcrumb"><?php exponent_theme_showModule("navigationmodule","Breadcrumb"); ?></div>
-				  <?php	pathos_theme_main();?>
+				  <?php	exponent_theme_main();?>
                   </td>
                 </tr>
                 <tr>
@@ -107,7 +107,7 @@ if (!defined('EXPONENT')) exit('');
 	</div>
 </div>
 <!--span style="padding: 5px; background-image: url(<?php echo THEME_RELATIVE; ?><?php echo THEME_RELATIVE;?>images/bottombg.gif);">
-<?php //pathos_theme_showModule("textmodule","Footer","","footer"); ?>
+<?php //exponent_theme_showModule("textmodule","Footer","","footer"); ?>
 </span-->
 <map name="Map">
   <area shape="rect" coords="45,101,137,116" href="http://sourceforge.net/forum/?group_id=118524">

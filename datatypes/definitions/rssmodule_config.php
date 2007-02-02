@@ -31,7 +31,7 @@
 # $Id: newsmodule_config.php,v 1.4 2005/02/19 00:39:00 filetreefrog Exp $
 ##################################################
 
-if (!defined('PATHOS')) exit('');
+if (!defined('EXPONENT')) exit('');
 
 return array(
 	'id'=>array(

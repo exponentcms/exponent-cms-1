@@ -23,12 +23,12 @@ if (!defined('EXPONENT')) exit('');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<?php echo pathos_theme_headerInfo($section); ?>
+		<?php echo exponent_theme_headerInfo($section); ?>
 		<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	</head>
 
-	<body onload="pathosJSinitialize();">
-		<?php pathos_theme_sourceSelectorInfo(); ?>
+	<body onload="exponentJSinitialize();">
+		<?php exponent_theme_sourceSelectorInfo(); ?>
 	<div id="shell" align="center">
 			<table style="margin-left:auto; margin-right:auto;" width="775" border="0" cellspacing="0" cellpadding="0">
 				<tr>
@@ -38,7 +38,7 @@ if (!defined('EXPONENT')) exit('');
 								<td height="72" align="left">
 									<img src="<?php echo THEME_RELATIVE;?>images/logo-exponent.jpg" alt="logo" />								</td>
 								<td align="right">
-								  <?php pathos_theme_showModule("loginmodule","Expanded"); ?>
+								  <?php exponent_theme_showModule("loginmodule","Expanded"); ?>
 							</td>
 							</tr>
 						</table>
@@ -58,7 +58,7 @@ if (!defined('EXPONENT')) exit('');
 				</tr>
 				<tr>
 					<td height="38" id="toplevelnav">
-					  <?php pathos_theme_showModule("navigationmodule","Top Nav"); ?>
+					  <?php exponent_theme_showModule("navigationmodule","Top Nav"); ?>
 					</td>
 				</tr>
 				<tr>
@@ -69,14 +69,14 @@ if (!defined('EXPONENT')) exit('');
 								<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td id="childlinks">
-	<?php pathos_theme_showModule("navigationmodule","Children Only2"); ?>
+	<?php exponent_theme_showModule("navigationmodule","Children Only2"); ?>
 </td>
   </tr>
   <tr>
     <td id="bodycontent">
 	<?php
 
-	pathos_theme_main();
+	exponent_theme_main();
 
 	?>
 				  </td>
@@ -89,7 +89,7 @@ if (!defined('EXPONENT')) exit('');
 							  <td valign="top" align="left">
 						        <img src="<?php echo THEME_RELATIVE; ?>images/join_core.jpg" alt="community" border="0" usemap="#MapMap">
 
-					          <?php //pathos_theme_showSectionalModule("containermodule","Default","","@right"); ?></td>
+					          <?php //exponent_theme_showSectionalModule("containermodule","Default","","@right"); ?></td>
 							</tr>
 					  </table>
 					</td>
@@ -104,7 +104,7 @@ if (!defined('EXPONENT')) exit('');
   		  </div>
 		</div>
 	    <span style="padding: 5px; background-image: url(<?php echo THEME_RELATIVE; ?><?php echo THEME_RELATIVE;?>images/bottombg.gif);">
-	    <?php pathos_theme_showModule("textmodule","Footer","","footer"); ?>
+	    <?php exponent_theme_showModule("textmodule","Footer","","footer"); ?>
 	    </span>
 		<map name="Map"><area shape="rect" coords="45,101,137,116" href="http://sourceforge.net/forum/?group_id=118524">
 </map>
