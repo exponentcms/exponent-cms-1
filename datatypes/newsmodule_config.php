@@ -25,6 +25,7 @@ class newsmodule_config {
 		exponent_forms_initialize();
 	
 		global $db;
+		$tc_list = array();
                 $tag_collections = $db->selectObjects("tag_collections");
                 foreach ($tag_collections as $tag_collections => $collection) {
                         $tc_list[$collection->id] = $collection->name;
