@@ -27,7 +27,6 @@ $i18n = exponent_lang_loadFile('install/pages/final.php');
 <?php
 
 unlink(BASE.'install/not_configured');
-rmdir(BASE.'install');
 
 //old files merged into coretasks.php
 if (file_exists(BASE.'modules/administrationmodule/tasks/files_tasks.php')){
