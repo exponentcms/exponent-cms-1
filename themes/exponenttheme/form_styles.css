@@ -1,0 +1,24 @@
+.imagebutton {
+	border-bottom: 0px;
+}
+.imagebutton:hover {
+	border-bottom: 0px;
+}
+input {
+	font-family: Arial, Helvetica, sans-serif;
+	background:#FFFFFF;
+	border:1px solid #CCCCCC;
+	padding:0;
+	margin: 0px;
+	font-size: 12px;
+	padding: 1px;
+	height: 22px;
+}
+.loginbutton {
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	padding: 0px;
+	margin: 0px;
+}
