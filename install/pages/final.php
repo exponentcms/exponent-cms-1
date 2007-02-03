@@ -59,8 +59,8 @@ if (file_exists(BASE.'install/not_configured')) {
 	<u>Important Notice:</u></span>
 <span style="color:red;font-size:12px;"><br />
 <ul>
-<li><b>You should remove or rename the install directory.</b></li>
-<li>The PATHOS function, constant, and file prefixes are being deprecated in favor of the EXPONENT prefix.  For the time being a limited compatibility layer is in place to ease the transition.  If you experience any problems with custom themes and modules, this could be the cause.  Please note that the compatibility layer will be eliminated by version 0.97.0. Please update any custom code accordingly.</li>
+<li><b>Important: **You should now remove or rename the 'install' directory.**</b><br/></li>
+<li>The PATHOS function, constant, and file prefixes are deprecated in favor of the EXPONENT prefix. The limited compatibility layer currently in place will be removed on our next release.</li>
 </ul>
 <br />
 <br />
