@@ -94,7 +94,7 @@
 		oFCKeditor.Config['FlashUpload'] = "false";
 	
 		oFCKeditor.Config['LinkBrowserURL'] = "{$view->path_to_editor}../connector/FCKeditor_link.php";
-		oFCKeditor.Config['ImageBrowserURL'] = "{$view->path_to_editor}../../../modules/FileManagerModule/actions/picker.php?id=0";
+		oFCKeditor.Config['ImageBrowserURL'] = "{$view->path_to_editor}../../../modules/filemanagermodule/actions/picker.php?id=0";
 		
 {if $view->toolbar != NULL}
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
