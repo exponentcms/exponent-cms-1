@@ -1,0 +1,16 @@
+.bugreport {
+	background:url(../images/report_bug.jpg)  0px 0px no-repeat;
+	width:196px;
+	height:76px;
+	margin:5px 0 0 0;
+}
+
+.bugreport a {
+	display:block;
+	width:196px;
+	height:76px;
+}
+
+.bugreport a span {
+	display:none;
+}

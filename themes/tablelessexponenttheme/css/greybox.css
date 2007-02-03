@@ -1,0 +1,63 @@
+.greybox {
+	margin:0 0 5px 0;
+	width:100%;
+}
+
+.greybox .topleft {
+	float:left;
+	height:28px;
+	width:20px;
+	background:url(../images/box_roundedgrey_tl.gif) no-repeat;
+}
+
+.greybox .topright {
+	float:right;
+	height:28px;
+	width:20px;
+	background:url(../images/box_reoundedgrey_tr.gif) no-repeat;
+}
+
+.greybox h1 {
+	font:Arial, Helvetica, sans-serif;
+	color:#00688A;
+	font-size:16px;
+	font-weight:normal;
+	padding:5px 0 5px 0px;
+	margin: 0 15px 0 19px;
+	background:url(../images/box_roundedgrey_rep.gif) repeat-x;
+	border-bottom:1px dashed #221E1F; 
+}
+
+.greybox p {
+	font-size:12px;
+	padding:10px 15px 5px 19px;
+	margin:0;
+	margin-top:-2px;
+	border-right:1px solid #CECECE;
+	border-left:1px solid #CECECE;
+	line-height:16px;
+}
+
+.greybox .foot {
+	background:url(../images/box_roundedgrey_brep.gif);
+	height:4px;
+}
+
+.greybox .bottomleft {
+	float:left;
+	height:3px;
+	width:3px;
+	background:url(../images/box_roundedgrey_bl.gif);
+}
+
+.greybox .bottomright {
+	float:right;
+	height:3px;
+	width:3px;
+	background:url(../images/box_reoundedgrey_br.gif);
+}
+
+.greybox .permissions {
+	padding:5px;
+	float:right;
+}

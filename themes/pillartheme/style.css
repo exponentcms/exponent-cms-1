@@ -1,0 +1,279 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 80px;
+}
+
+html > body {
+	margin-bottom: 0px; /* Workaround for IE - ignored by IE but no firefox */
+}
+
+img#header {
+	border-width: 0px;
+	border-right: 5px solid #000;
+	
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+div#logo_holder {
+	border-width: 0px;
+	border-bottom: 5px solid #000;
+}
+
+img#logo {
+	position: relative;
+	left: 324px;
+	top: 0px;
+}
+
+div#header_bottom {
+	border-width: 0px;
+	border-top: 5px solid #000;
+	
+	position: absolute;
+	left: 0px;
+	top: 126px;
+	width: 60%;
+}
+div#nav_holder {
+	border-width: 0px;
+	
+	position: absolute;
+	left: 324px;
+	top: 71px;
+	padding: 3px;
+}
+
+div#rightbar {
+	position: absolute;
+	right: 0px;
+	top: 81px;
+	
+	border-left: 1px solid black;
+	height: 80%;
+	width: 40px;
+}
+
+div#rightbar div.inner {
+	border-left: 5px solid black;
+	border-top: 5px solid black;
+	border-bottom: 5px solid black;
+	margin-left: 3px;
+	margin-top: 0px;
+	height: 100%;
+	background-color: #94b1c5;
+}
+
+div#leftbar {
+	position: absolute;
+	left: 0px;
+	top: 136px;
+	
+	border-right: 1px solid black;
+	width: 240px;
+}
+
+div#leftbar div.inner {
+	border-right: 5px solid black;
+	border-top: 5px solid black;
+	border-bottom: 5px solid black;
+	margin-right: 3px;
+	margin-top: 0px;
+	background-color: #94b1c5;
+	
+	padding: .5em;
+}
+
+div#main {
+	position: relative;
+	left: 260px;
+	margin-right: 320px;
+	top: 80px;
+}
+
+td, span, body {
+	font-size: 11px;
+	font-family: Verdana, Arial, sans-serif;
+}
+
+hr {
+	color: #555;
+}
+
+/* Error Message Style */
+div.error {
+	font-weight: bold;
+	color: #F00;
+	padding-bottom: 1em;
+}
+
+/** Exponent-internals stylings **/
+
+div.moduletitle {
+	font-weight: bold;
+	font-size: 1.25em;
+}
+
+a {
+	color: #244360;
+	text-decoration: none;
+}
+
+td.header {
+	background-color: #aaa;
+	color: #fff;
+	font-weight: bold;
+	font-size: 15px;
+	padding: 2px;
+}
+
+/* Container Styles */
+div.container_box {
+	padding: 6px;
+	margin: 2px;
+}
+
+div.container_editbox {
+	border: 2px dashed #CCC;
+	margin: 2px;
+}
+
+div.container_editheader {
+	padding: 3px;
+	background-color: #ccc;
+}
+
+div.container_editheader table tr td.info {
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+
+div.itemtitle {
+	font-weight: bold;
+}
+
+/* Themable Forms */
+div.form_title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.form_header {
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	margin-bottom: 1em;
+}
+
+tr.even_row {
+	background-color: #DDD;
+}
+
+tr.row:hover td, tr.row:hover td a {
+	background-color: #666;
+	color: #fff;
+}
+
+tr.odd_row {
+	
+}
+
+/** Administration Module Manager form **/
+.administration_modmgrheader {
+	background-color: lightgrey;
+}
+
+.administration_modmgrheader span.active {
+	color: green;
+	font-weight: bold;
+}
+
+.administration_modmgrheader span.inactive {
+	color: red;
+	font-weight: bold;
+}
+
+.administration_modmgrbody {
+	padding-left: 10px;
+	border: 1px solid lightgrey;
+}
+
+/** Debugger Styles **/
+table.debug_null,table.debug_null tr td, div.debug_null {
+	background-color: #000;
+	color: #fff;
+	font-weight: bold;
+}
+
+table.debug_object, table.debug_object tr td {
+	background-color: #a00;
+	color: #fff;
+}
+
+table.debug_array, table.debug_array tr td {
+	background-color: #0a0;
+	color: #fff;
+}
+
+table.debug_scalar, table.debug_scalar tr td, div.debug_scalar {
+	background-color: #00a;
+	color: #fff;
+}
+
+td.debug_attribute {
+	font-family: monospace;
+	font-size: 10px;
+}
+
+td.debug_varname {
+	font-weight: bold;
+}
+
+td.debug_type {
+	background-color: #aaa;
+	color: #fff;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+td.debug_value {
+	font-family: monospace;
+	font-size: 11px;
+	color: #fff;
+}
+
+
+/** Custom **/
+tr.bb_threadrow td {
+	background-color: #ddd;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding-left: 1.25em;
+	padding-right: 5px;
+}
+
+tr.bb_threadrow td.bb_posttitle {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+td.bb_postbody, td.bb_replybody, td.bb_boarddesc {
+	padding: 1em;
+	padding-left: 2em;
+}
+
+td.bb_postcredit, td.bb_replycredit {
+	text-align: right;
+	font-style: italic;
+	font-size: 9px;
+}
+
+td.bb_boardtitle, td.bb_boardlastpost {
+	background-color: #ddd;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding-left: 1.25em;
+	padding-right: 5px;
+}

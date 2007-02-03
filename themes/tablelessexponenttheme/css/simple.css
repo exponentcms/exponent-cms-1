@@ -1,0 +1,26 @@
+/* CSS Document */
+
+.cmsmadesimple {
+	background: url(../images/cmsmadesimple.gif) ;
+	float:left;
+	width:100%;
+}
+
+.cmsmadesimple .spacer {
+	background:url(../images/bodyrep.jpg) 0 -100px;
+	float:right;
+	width:5px;
+	height:140px;
+}
+
+.cmsmadesimple .lightbulb {
+	float:right;
+	background:url(../images/lightbulb.jpg) no-repeat ;
+	height:140px;
+	width:342px;
+}
+.cmsmadesimple .lightbulb:hover {
+	background:url(../images/lightbulb_hover.jpg) no-repeat ;
+	height:140px;
+	width:342px;
+}

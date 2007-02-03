@@ -1,0 +1,30 @@
+.login {
+/* the main <div> for the navigation */
+	width:350px;
+	float:right;
+	text-align:right;
+		
+}
+
+.login form {
+	padding:10px 0 0 0;
+	margin:0 0 5px 0;
+	width:100%;
+	display:table;
+}
+
+.login input {
+	float:right;
+}
+
+
+.login form input.typetext {
+	border:1px solid #CCCCCC;
+	background:#ffffff;
+	height:19px;
+	margin:0 5px 0 0;
+}
+
+.login form input.loginbutton {
+	height:23px;
+}

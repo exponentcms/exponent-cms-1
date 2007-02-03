@@ -1,0 +1,14 @@
+.fullbody {
+	color:#330066;
+	display:table;
+	width:100%;
+	float:left;
+	clear:both;
+}
+
+.fullbody .border {
+	float:left;
+	border-left:1px solid #999999;
+	
+}
+
