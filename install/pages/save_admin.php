@@ -20,6 +20,7 @@
 if (!defined('EXPONENT')) exit('');
 
 $user = $db->selectObject('user','is_admin=1');
+
 $user->username = $_POST['username'];
 if ($user->username == '') {
 	$i18n = exponent_lang_loadFile('install/pages/save_admin.php');
@@ -32,11 +33,14 @@ if ($user->username == '') {
 	$user->is_acting_admin = 1;
 	$user->email = $_POST['email'];
 	$user->created_on = time();
-	
-	$db->updateObject($user,'user');
+	if (isset($user->id)){
+		$db->updateObject($user,'user');
+	}else{
+		$db->insertObject($user,'user');
+	}
 	
 	//create anonymous user
-	include(BASE . "install/upgrades/0.95.6/create_anonymous_user.php");
+	//include(BASE . "install/upgrades/0.95.6/create_anonymous_user.php");
 	
 	header('Location: '.'index.php?page=final');
 }
