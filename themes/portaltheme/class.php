@@ -17,10 +17,10 @@
 #
 ##################################################
 
-if (class_exists('portaltheme')) return;
+if (class_exists('exponenttheme')) return;
 
-class portaltheme {
-	function name() { return "Exponent Theme v1"; }
+class exponenttheme {
+	function name() { return "ExponentCMS.org Theme"; }
 	function author() { return "Exponent Designing Crew"; }
 	function description() { return "ExponentCMS.org Theme."; }
 }

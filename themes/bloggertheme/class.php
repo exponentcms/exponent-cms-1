@@ -16,6 +16,6 @@ if (class_exists('bloggertheme')) return;
 class bloggertheme {
 	function name() { return "Blogger Theme"; }
 	function author() { return "Ergin Altintas & Adam Kessler"; }
-	function description() { return "A cool CSS-driven theme for ExponentCMS.  This theme is a re-work of Ergin Altintas' Kubrick Theme."; }
+	function description() { return "A cool CSS-driven theme for ExponentCMS designed strictly with YUI Grids.  This theme is a re-work of Ergin Altintas' Kubrick Theme."; }
 }
 ?>

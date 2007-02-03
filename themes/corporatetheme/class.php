@@ -21,7 +21,7 @@ if (class_exists('corporatetheme')) return;
 
 class corporatetheme {
 	function name() { return "Corporate Theme"; }
-	function author() { return "James Hunt"; }
+	function author() { return "OIC Group, Inc."; }
 	function description() { return "A clean and commercial theme perfect for a company web site."; }
 }
 

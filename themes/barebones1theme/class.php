@@ -20,9 +20,9 @@
 if (class_exists('barebones1theme')) return;
 
 class barebones1theme {
-	function name() { return "Barebones Theme 1"; }
+	function name() { return "Barebones Theme - vrs. 1"; }
 	function author() { return "Adam Kessler"; }
-	function description() { return "A barebones theme with a header, a footer, a side navigation bar and a main content pane.  The width of the theme is 750px"; }
+	function description() { return "A barebones theme designed strictly with YUI Grids. It includes a header, a footer, a side navigation bar and a main content pane.  The width of the theme is 750px"; }
 }
 
 ?>
