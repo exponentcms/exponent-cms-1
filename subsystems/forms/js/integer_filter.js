@@ -31,15 +31,15 @@ function integer_filter_class() {
 		return true;
 	}
 	
-	this.onBlur = function(ptObject) {
+	this.onblur = function(ptObject) {
 		//Do nothing for integer
 	}
 	
-	this.onFocus = function(ptObject) {
+	this.onfocus = function(ptObject) {
 		//Do nothing for integer
 	}
 	
-	this.onPaste = function(ptObject, evt) {
+	this.onpaste = function(ptObject, evt) {
 		var strNewVal = GetResultingValue(ptObject, String.fromCharCode(evt.charCode));
 		alert(strNewVal);
 		if (this.isValueIllegal(strNewVal)) {

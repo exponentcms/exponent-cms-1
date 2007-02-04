@@ -32,7 +32,7 @@ function decimal_filter_class() {
 		return true;
 	}
 	
-	this.onBlur = function(ptObject) {
+	this.onblur = function(ptObject) {
 		var iDPPos = ptObject.value.indexOf(".");
 		if (iDPPos == -1) return;
 		
@@ -52,11 +52,11 @@ function decimal_filter_class() {
 		if (bValueChanged) ptObject.fireEvent("onchange");
 	}
 	
-	this.onFocus = function(ptObject) {
+	this.onfocus = function(ptObject) {
 		//Do nothing for decimal
 	}
 	
-	this.onPaste = function(ptObject, evt) {
+	this.onpaste = function(ptObject, evt) {
 		var strNewVal = GetResultingValue(ptObject, String.fromCharCode(evt.charCode));
 		alert(strNewVal);
 		if (this.isValueIllegal(strNewVal)) {

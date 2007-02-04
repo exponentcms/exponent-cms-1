@@ -35,7 +35,7 @@ if (!defined('EXPONENT')) exit('');
 		</style>
 		<![endif]-->
 </head>
-<body onLoad="exponentJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
+<body onload="exponentJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
 <?php exponent_theme_sourceSelectorInfo(); ?>
 <div id="shell" align="center">
   <table style="margin-left:auto; margin-right:auto;" width="780" border="0" cellspacing="0" cellpadding="0">
@@ -56,18 +56,18 @@ if (!defined('EXPONENT')) exit('');
           <tr>
             <td style=" padding:0 2px 0 0" nowrap="nowrap">
 				<div id="lightbulb" style="width:100%">
-				
+
 				<div id="bluepaneldown" style="float:right">
 			</div>
-			
+
 			<div class="headerimage" style="background:url(<?php echo THEME_RELATIVE;?>images/headerImageRep.gif);">
-			<a style="float:right" class="imagebutton" href="index.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a><div style="background:url(<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg) no-repeat ; height:138px">&nbsp;</div>
+			<a style="float:right" class="imagebutton" href="index.php" onMouseOut="MM_swapImgRestore()" onmouseover="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a><div style="background:url(<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg) no-repeat ; height:138px">&nbsp;</div>
 			</div>
 			</div>
-			
 
 
-			
+
+
 			<!-- <a class="imagebutton" href="http://sourceforge.net/project/showfiles.php?group_id=118524&package_id=136680&release_id=406474"><img src="<?php // echo THEME_RELATIVE;?>images/download-stable.jpg" alt="download exponent" width="195" height="138" border="0"></a>
 			-->
 			</td>
@@ -96,7 +96,7 @@ if (!defined('EXPONENT')) exit('');
                   <td><div align="right"><img src="<?php echo THEME_RELATIVE;?>images/body-bottom-nd_full.gif" alt="bottom" width="780" height="41"></div></td>
                 </tr>
               </table></td>
-            
+
           </tr>
         </table></td>
     </tr>

@@ -46,7 +46,7 @@ class countryregioncontrol extends formcontrol {
 	var $maxlength = "";
 
 	function name() { return "Country / Region Selector"; }
-	
+
 	function parseData($name, $values, $for_db = false) {
 		return;
 	}
@@ -60,19 +60,19 @@ class countryregioncontrol extends formcontrol {
 
 	function controlToHTML($name) {
 		$html = "";
-		
+
 		if (!defined("SYS_GEO")) require_once(BASE."subsystems/geo.php");
 		$countries = exponent_geo_listCountriesOnly();
 		$c_dd = new dropdowncontrol($this->country_default,$countries);
-		$c_dd->jsHooks["onChange"] = "geo_rebuildRegions(this,'".$name."_region_id'," . (($this->allow_entire_country)?'true':'false') . ");";
-		
-		
+		$c_dd->jsHooks["onchange"] = "geo_rebuildRegions(this,'".$name."_region_id'," . (($this->allow_entire_country)?'true':'false') . ");";
+
+
 		if (!defined("GEO_JS_INCLUDED")) {
 			define("GEO_JS_INCLUDED",1);
 			$html .= "<script language='JavaScript'>function geo_rebuildRegions(c_select,r_id,allow_all) {";
 			$html .= "	var r_select = document.getElementById(r_id);";
 			$html .= "	while (r_select.childNodes.length) r_select.removeChild(r_select.firstChild);";
-			
+
 			$html .= "	var country = c_select.options[c_select.selectedIndex].value;";
 			//alert(country);
 			$html .= "   if (allow_all) {";
@@ -117,9 +117,9 @@ class countryregioncontrol extends formcontrol {
 				}
 			}
 			$html .= "</script>\n";
-		
+
 		}
-		
+
 		$regions = exponent_geo_listRegions($this->country_default);
 		if ($this->allow_entire_country) {
 			array_unshift($regions,"[ Entire Country ]");
@@ -128,11 +128,11 @@ class countryregioncontrol extends formcontrol {
 			array_unshift($regions,"[ None Specified ]");
 		}
 		$r_dd = new dropdowncontrol($this->region_default,$regions);
-		
+
 		$html .= $c_dd->controlToHTML($name."_country_id");
 		$html .="<br>";
 		$html .= $r_dd->controlToHTML($name."_region_id");
-		
+
 		return $html;
 	}
 }

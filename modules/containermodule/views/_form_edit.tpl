@@ -51,7 +51,7 @@ if (!document.body.appendChild) {
 			<tr>
 				<td valign="top">{$_TR.module}</td>
 				<td style='padding-left: 5px;' valign="top">
-					<select id="i_mod" name="i_mod" size="1" onChange="writeViews()" {if $is_edit == 1}disabled {/if}>
+					<select id="i_mod" name="i_mod" size="1" onchange="writeViews()" {if $is_edit == 1}disabled {/if}>
 						{html_options options=$modules selected=$container->internal->mod}
 					</select>
 				</td>
@@ -59,13 +59,13 @@ if (!document.body.appendChild) {
 			<tr>
 				<td valign="top">{$_TR.view}</td>
 				<td style='padding-left: 5px;' valign="top">
-					<select id="view" name="view" size="1" onChange="showPreviewCall()"></select>
+					<select id="view" name="view" size="1" onchange="showPreviewCall()"></select>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top">{$_TR.title}</td>
 				<td style='padding-left: 5px;' valign="top">
-					<input type="text" name="title" id="title" value="{$container->title}" onChange="showPreviewCall()" />
+					<input type="text" name="title" id="title" value="{$container->title}" onchange="showPreviewCall()" />
 				</td>
 			</tr>
 			{if $is_edit == 0}

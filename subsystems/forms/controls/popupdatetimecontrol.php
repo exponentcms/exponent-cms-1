@@ -57,7 +57,7 @@ class popupdatetimecontrol extends formcontrol {
 		$this->disable_text = $disable_text;
 		$this->default = $default;
 		$this->showtime = $showtime;
-		
+
 		if ($this->default == null) {
 			if ($this->disable_text == "") $this->default = time();
 			else $this->disabled = true;
@@ -73,7 +73,7 @@ class popupdatetimecontrol extends formcontrol {
 		$form->addScript("jscal-calendar-setup",PATH_RELATIVE."external/jscalendar/calendar-setup.js");
 		$form->addScript("popupdatetimecontrol",PATH_RELATIVE."js/PopupDateTimeControl.js");
 	}
-	
+
 	function controlToHTML($name) {
 		$html = "";
 		if ($this->default == 0) {
@@ -83,16 +83,16 @@ class popupdatetimecontrol extends formcontrol {
 		if (is_readable(THEME_ABSOLUTE."icons/calendar_trigger.gif")) {
 			$imgsrc = THEME_RELATIVE."icons/calendar_trigger.gif";
 		}
-		
+
 		if (is_readable(THEME_ABSOLUTE."popupdatetimecontrol.css")) {
 			$html .= '<style type="text/css"> @import url('.THEME_RELATIVE.'popupdatetimecontrol.css);</style>';
 		} else {
 			$html .= '<style type="text/css"> @import url('.PATH_RELATIVE.'external/jscalendar/default.css);</style>';
 		}
-		
+
 		$default = "";
 		if ($this->default != null) $default = strftime("%m/%d/%Y %H:%M",$this->default);
-		
+
 		$html .= '<input type="hidden" name="'.$name.'_hidden" id="'.$name.'_hidden" value="'.($default).'" />';
 		$html .= "\n";
 		$html .= '<span class="';
@@ -118,7 +118,7 @@ class popupdatetimecontrol extends formcontrol {
 		$html .= 'title="Date selector" onclick="return true;" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
 		$html .= "\n";
 		if ($this->disable_text != "") {// popupdatetimecontrol_enable(this.form,\''.$name.'\');
-			$html .= '<input align="texttop" style="margin-top: -2px;" type="checkbox" name="'.$name.'_disabled" onChange="popupdatetimecontrol_enable(this.form,\''.$name.'\');" onClick="popupdatetimecontrol_enable(this.form,\''.$name.'\');" ';
+			$html .= '<input align="texttop" style="margin-top: -2px;" type="checkbox" name="'.$name.'_disabled" onchange="popupdatetimecontrol_enable(this.form,\''.$name.'\');" onClick="popupdatetimecontrol_enable(this.form,\''.$name.'\');" ';
 			if ($this->disabled) $html .= ' checked="checked"';
 			$html .= '/>'.$this->disable_text;
 		} else {
@@ -170,45 +170,45 @@ class popupdatetimecontrol extends formcontrol {
 		$html .= "\n";
 		return $html;
 	}
-	
+
 	function parseData($original_name,$formvalues) {
 		if (!isset($formvalues[$original_name.'_disabled'])) {
 			return strtotime($formvalues[$original_name.'_hidden']);
 			//return $formvalues[$original_name.'_hidden'];
 		} else return 0;
 	}
-	
+
 	function templateFormat($db_data, $ctl) {
 		if ($ctl->showtime) {
 			return strftime(DISPLAY_DATETIME_FORMAT,$db_data);
-		} 
+		}
 		else {
 			return strftime(DISPLAY_DATE_FORMAT, $db_data);
 		}
 	}
-	
-	
+
+
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		exponent_forms_initialize();
-	
+
 		$form = new form();
 		if (!isset($object->identifier)) {
 			$object->identifier = "";
 			$object->caption = "";
 			$object->showtime = true;
-		} 
-		
+		}
+
 		$i18n = exponent_lang_loadFile('subsystems/forms/controls/popupdatetimecontrol.php');
-		
+
 		$form->register("identifier",$i18n['identifier'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
 		$form->register("showtime",$i18n['showtime'], new checkboxcontrol($object->showtime,false));
-		
+
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],"",$i18n['cancel']));
 		return $form;
 	}
-	
+
 	function update($values, $object) {
 		if ($object == null) {
 			$object = new popupdatetimecontrol();
@@ -226,7 +226,7 @@ class popupdatetimecontrol extends formcontrol {
 		$object->showtime = isset($values['showtime']);
 		return $object;
 	}
-	
+
 }
 
 ?>

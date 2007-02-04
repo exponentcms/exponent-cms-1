@@ -143,7 +143,7 @@ function validate(frm) {
 }
 {/literal}
 </script>
-<form method="get" onSubmit="return validate(this)">
+<form method="get" onsubmit="return validate(this)">
 <input type="hidden" name="module" value="imagegallerymodule" />
 <input type="hidden" name="src" value="{$__loc->src}" />
 <input type="hidden" name="gid" value="{$gallery->id}" />

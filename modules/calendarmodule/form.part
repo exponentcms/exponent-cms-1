@@ -24,7 +24,7 @@
 		}
 		
 </script>
-		<select id="recur" name="recur" onChange="showSubform(this)">
+		<select id="recur" name="recur" onchange="showSubform(this)">
 	<option value="recur_none">None</option>
 	<option value="recur_daily">Daily</option>
 	<option value="recur_weekly">Weekly</option>

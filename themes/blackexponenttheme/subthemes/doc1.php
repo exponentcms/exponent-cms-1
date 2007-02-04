@@ -36,7 +36,7 @@ if (!defined('EXPONENT')) exit('');
 		</style>
 		<![endif]-->
 </head>
-<body onLoad="exponentJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
+<body onload="exponentJSinitialize();MM_preloadImages('images/lightbulb-h.jpg')">
 <?php exponent_theme_sourceSelectorInfo(); ?>
 <div id="shell" align="center">
   <table style="margin-left:auto; margin-right:auto;" width="780" border="0" cellspacing="0" cellpadding="0">
@@ -62,7 +62,7 @@ if (!defined('EXPONENT')) exit('');
 				</div>
 
 			<div class="headerimage" style="background:url(<?php echo THEME_RELATIVE;?>images/headerImageRep.gif);">
-			<a style="float:right" class="imagebutton" href="index.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="330" height="138" border="0"></a><div style="background:url(<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg) no-repeat ; height:138px">&nbsp;</div>
+			<a style="float:right" class="imagebutton" href="index.php" onMouseOut="MM_swapImgRestore()" onmouseover="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="330" height="138" border="0"></a><div style="background:url(<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg) no-repeat ; height:138px">&nbsp;</div>
 			</div>
 			</div>
 

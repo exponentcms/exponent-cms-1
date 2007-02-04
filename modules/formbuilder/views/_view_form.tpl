@@ -31,7 +31,7 @@
 	<input type="hidden" name="module" value="formbuilder" />
 	<input type="hidden" name="action" value="edit_control" />
 	<input type="hidden" name="form_id" value="{$form->id}" />
-	{$_TR.add_a} <select name="control_type" onChange="this.form.submit()">
+	{$_TR.add_a} <select name="control_type" onchange="this.form.submit()">
 	{foreach from=$types key=value item=caption}
 		<option value="{$value}">{$caption}</option>
 	{/foreach}
