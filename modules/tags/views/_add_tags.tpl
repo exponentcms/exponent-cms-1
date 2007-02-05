@@ -28,7 +28,7 @@
 		<input type="text" name="name" value="" size="20" maxsize="30">
 		{literal}
 		<input type="submit" value="Save" onClick="if (checkRequired(this.form)) { return true; } else { return false; }" style="margin-bottom:-3px;"/>
-		<input type="button" value="Cancel" onClick="document.location.href='http://adam/sf_trunk/index.php?module=tags&action=manage'" style="margin-bottom:-3px;"/>
+		<input type="button" value="Cancel" onClick="document.location.href='index.php?module=tags&action=manage'" style="margin-bottom:-3px;"/>
 		{/literal}
 	</td>
 </tr>
