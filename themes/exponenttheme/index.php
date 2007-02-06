@@ -31,7 +31,7 @@ if (!defined('EXPONENT')) exit('');
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>css-dropmenu-style.css" />
 <!--[if IE]>
 		<style type="text/css" media="screen">
-		body {behavior: url(csshover.htc); font-size:100%;}
+		body {behavior: url(external/csshover.htc); font-size:100%;}
 		#menu ul li a {height: 1%;}
 		</style>
 		<![endif]-->
@@ -69,7 +69,7 @@ if (!defined('EXPONENT')) exit('');
         </table></td>
     </tr>
     <tr>
-      <td height="38" id="toplevelnav"><?php exponent_theme_showModule("navigationmodule","CSS Menu"); ?>
+      <td nowrap height="38" id="toplevelnav"><?php exponent_theme_showModule("navigationmodule","CSS Menu"); ?>
       </td>
     </tr>
     <tr>
