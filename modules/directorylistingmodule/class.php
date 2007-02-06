@@ -1,7 +1,7 @@
 <?php 
 class directorylistingmodule { 
 	function name() { return 'Directory Listing Module'; } 
-	function description() { return 'Recursively lists the content of a specified directory'; } 
+	function description() { return 'Recursively lists the content of a specified directory<br><br><span style="color:red">Warning!  Use this module at your own risk.  It is not very well tested and could be a major security hole!</span>'; } 
 	function author() { return 'Fred Dirkse, OIC Group, Inc.'; } 
 	function hasContent() { return true; } 
 	function hasSources() { return true; } 

@@ -19,8 +19,8 @@
 
 class imagemanagermodule {
 	function name() { return exponent_lang_loadKey('modules/imagemanagermodule/class.php','module_name'); }
-	function author() { return 'James Hunt'; }
-	function description()  { return exponent_lang_loadKey('modules/imagemanagermodule/class.php','module_description'); }
+	function author() { return 'OIC Group, Inc'; }
+	function description()  { return '<span style="color:red">This module has been deprecated.  It will be removed completely from future versions of Exponent.</span>'; }
 	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
