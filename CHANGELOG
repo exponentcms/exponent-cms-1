@@ -1,5 +1,73 @@
-Added / Fixed in 0.96.5
+...Coming in 0.96.7
+----------------
+# Subscription based permissions.  Permissions based on an expiring time period.
+# Anonymous user permissions.  Grant permissions to "non-logged in" users.
 
+Added / Fixed in 0.96.6
+-----------------------
+# New editors!  The single most requested feature is now  implemented.  Not only do we have a new and better editor, but we have three new and better editors to choose from - FCKEditor, Xinha, and TinyMCE.  As of the alpha release, we are only shipping FCK for file size reasons, and TinyMCE needs a bit more work.  When 0.96.6 hits stable, we will offer all three editors either packaged with the core, or as add-ons.
+# New image management interface.  Image management has taken a step forward.  Existing image managers are still supported, but you can now upload your image via the editor image selection interface, which saves quite a few clicks.  Future: We have some sketches completed for the full Media Manager, which will centralise all resource upload, download, and manipulation into a very kick-butt, AJAXed interface.
+# Tags.  Our initial implementation of technorati style tags have been added to the calendar, news, and weblog modules.
+# User signup notification.  Added configuration to send email notification to site admin when new user signsup. Also email the user signing up if configured to do so.
+# Various underlying code changes to speed things up and/or make long-term development easier.
+# New Guestbook module integrated (contribution)
+# New RSS Feed displayer module integrated (contribution)
+# Many weblog module enhancements.
+# Added 'Can Download' permissions to the resource managers (authenticated downloads).
+# YUI (Yahoo's AJAX and CSS library) integrated.
+# Several new themes, including a base Barebones theme using YUI Grids for pure CSS driven templates
+# "Featured Items" field and views for Calendar & News mods.
+# Added Codemap Module (aka Roadmap module)
+# Added the Article module to the base install - It was an add-on module
+# Added the Wizard Module to Exponent.
+# Added in RSS support as default instead of addon patch
+# Replaced missing i18n strings all around.
+# Added two views to the Textmodule. The new views are "With Header" and "Without Header".
+# Added the Tasklist module to the base install (aka Todo Module).
+# Added the Slideshow Module to the base install.
+# Added the Simple Poll Module to the base install.
+# Added a new action, View All, to the Content Rotator module
+# Added the Page module to the base install.
+# RSSified the newsmodule
+# Many new navigation Module views Added
+    * Children Only 2
+    * Children Only 3
+    * CSS Menu
+    * Full CSS Menu
+    * Site Map
+    * Expanding Heirarchy - Children Only (check this one out if you get a chance!)
+    * Enhanced version of the Breadcrumb.tpl
+# Misc login Module changes.
+# Added action "showuserprofile".
+# Added Listing Module to the base install - It was an add-on module.
+# Added Link List Module (allows users to easily create a list of web links).
+# Added Imageworkshop module: this module is still in development. 
+# Added Greeking Module.
+# Form Module changes:
+    * Added form.validate.js into core (or back in).
+# Added FAQ module to the base install.
+    * Added table of contents view (as seen on this www.ExponentCMS.org).
+# Calendar Module
+    * Added RSS.
+    * Added Search action.
+# Added Directory Listing Module.
+# Added the new BBmodule (a.k.a. Forum) as seen on www.ExponentCMS.org
+# Added the Image Gallery module along with the "View All" view and the "View All with Popups"
+# Added Smarty plugin for function.currency_symbol.php for Currency Symbol.
+# Added Smarty plugin function.makecase.php for case modification of strings.
+# Added Smarty plugin function.rsslink.php for making an RSS link.
+# Container Module changes
+    * Added infopopup functionality & view
+    * New views
+          o Two Column Homepage
+          o Home
+          o Rightcolumn
+# Replaced default view for the search module with one that is more Googlish.
+# Added Danish language pack.
+# Many other minor improvements (too many to list) on a varitey of modules and views.
+
+Added / Fixed in 0.96.5
+-----------------------
 0.96.5	Added _mainteanance.tpl language file. [FD]
 0.96.5  A php injection problem is fixed in the bannermodule [HW]
 0.96.5  Added a final confirmation message to the Contact Form module (which is NOT being deprecated, contrary to popular belief)
