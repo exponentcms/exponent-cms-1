@@ -102,9 +102,10 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 				$emaillist = array_flip(array_flip($emaillist));
 				
 				if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+				$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 				$headers = array(
 					"MIME-Version"=>"1.0",
-					"Content-type"=>"text/html; charset=iso-8859-1"
+					"Content-type"=>"text/html; charset=".$langinfo['charset']
 				);
 				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
 					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submit_form.php');
