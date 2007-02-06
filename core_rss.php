@@ -363,7 +363,8 @@ class FeedCreator extends HtmlDescribable {
 	 * This feed's character encoding.
 	 * @since 1.6.1
 	 **/
-	var $encoding = "ISO-8859-1";
+	//var $encoding = "ISO-8859-1";
+	var $encoding = "UTF-8";
 	
 	
 	/**
@@ -386,8 +387,7 @@ class FeedCreator extends HtmlDescribable {
 	function addItem($item) {
 		$this->items[] = $item;
 	}
-	
-	
+
 	/**
 	 * Truncates a string to a certain length at the most sensible point.
 	 * First, if there's a '.' character near the end of the string, the string is truncated after this character.
