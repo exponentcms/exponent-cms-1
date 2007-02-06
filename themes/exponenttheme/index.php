@@ -110,7 +110,7 @@ if (!defined('EXPONENT')) exit('');
 <?php //exponent_theme_showModule("textmodule","Footer","","footer"); ?>
 </span-->
 <map name="Map">
-  <area shape="rect" coords="45,101,137,116" href="http://sourceforge.net/forum/?group_id=118524">
+  <area shape="rect" coords="1,1,190,130" href="http://www.exponentcms.org">
 </map>
 </body>
 </html>
