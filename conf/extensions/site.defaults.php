@@ -19,8 +19,8 @@
 ##################################################
 
 if (!defined('SITE_TITLE')) define('SITE_TITLE','My New Exponent Site');
-if (!defined('SITE_ALLOW_REGISTRATION')) define('SITE_ALLOW_REGISTRATION',1);
-if (!defined('SITE_USE_CAPTCHA')) define('SITE_USE_CAPTCHA',1);
+//if (!defined('SITE_ALLOW_REGISTRATION')) define('SITE_ALLOW_REGISTRATION',1);
+//if (!defined('SITE_USE_CAPTCHA')) define('SITE_USE_CAPTCHA',1);
 
 if (!defined('SITE_404_HTML')) define('SITE_404_HTML',exponent_unhtmlentities('<h3>Resource Not Found</h3>The resource you were looking for wasn&apos;t found.  It may have been deleted, or moved.'));
 // SITE_403_HTML will be set by sessions, to be either the timeout html, or forbidden
