@@ -127,7 +127,7 @@ class imagegallerymodule {
 		if (!defined('SYS_IMAGE')) require(BASE.'subsystems/image.php');
 		if ($file != null && $height != 0) {
 			$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));
-			$pos = strpos($file->filename, ".");
+			$pos = strrpos($file->filename, ".");
 			if ($pos != false) {
 				$filename = substr($file->filename, 0, $pos);
 				$extension = substr($file->filename, $pos);
