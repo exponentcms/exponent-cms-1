@@ -109,7 +109,7 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.create_thread == 1}
 <div align="right">
-<a class="bb_icon_link" href="{link module="bbmodule" action="edit_post" bb=$board->id}"><img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/bb_newtopic.gif" title="{$_TR.alt_bb_newtopic}" alt="{$_TR.alt_bb_newtopic}" /></a>
+<a class="bb_icon_link" href="{link module="bbmodule" action="edit_post" bb=$board->id}"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}bb_newtopic.gif" title="{$_TR.alt_bb_newtopic}" alt="{$_TR.alt_bb_newtopic}" /></a>
 </div>
 {/if}
 {/permissions}
