@@ -176,12 +176,14 @@ function exponent_core_makeLink($params,$type='',$sef_name='') {
 			$key = chop($key);
 			if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
 		}
-		$link = substr($link,0,-1);
 		
-		if ($type=='')
+		$link = substr($link,0,-1);
+	
+		if ($type=='') {
 		  return htmlspecialchars($link,ENT_QUOTES);
-		else 
+		} else { 
 		  return $link;
+		}
 	}
 }
 
