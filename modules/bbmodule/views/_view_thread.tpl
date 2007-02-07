@@ -89,7 +89,7 @@
 	</div>	
 	<div>
 		{if $permissions.reply == 1}
-			<a href="{link action=edit_post parent=$thread->id }" style="border:none;"><img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+			<a href="{link action=edit_post parent=$thread->id }" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
 			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{else}
 			<a href="{link module=loginmodule action=loginredirect redirecturl=$__redirect}">Login to reply to this topic.</a>
@@ -161,7 +161,7 @@
 {/foreach}
 
 {if $permissions.reply == 1}
-<br /><a href="{link action=edit_post parent=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.THEME_RELATIVE}images/btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+<br /><a href="{link action=edit_post parent=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
 {else}
   {if $loggedin == 1}
     You are not allowed to post to this topic
