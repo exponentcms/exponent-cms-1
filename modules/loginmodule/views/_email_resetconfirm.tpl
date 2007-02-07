@@ -15,4 +15,4 @@
  *}
 {$_TR.message}
 
-http://{$smarty.server.SERVER_NAME}{link module=loginmodule action=resetpass_confirm token=$token->token uid=$token->uid}
+{*link module=loginmodule action=resetpass_confirm token=$token->token uid=$token->uid*}
