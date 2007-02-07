@@ -35,7 +35,11 @@ if ($u != null && $u->is_acting_admin == 0 && $u->is_admin == 0 && $u->email != 
 	$e_template = new template('loginmodule','_email_resetconfirm',$loc);
 	$e_template->assign('token',$tok);
 	$msg = $e_template->render();
-	
+
+	//ADK - I had to hard code this link because the template->render() function was causing the '&' characters
+	//      to come thru as '&amp' in the emails sent to the users making the URLs useless. 	
+	$msg .= "\r\n".URL_BASE.SCRIPT_RELATIVE . SCRIPT_FILENAME . "?module=loginmodule&action=resetpass_confirm&token=".$tok->token."&uid=".$tok->uid;
+
 	// FIXME: smtp call prototype / usage has changed.
 	if (!exponent_smtp_mail($u->email,$i18n['from_name'].' <'.$i18n['from_email'].'@'.HOSTNAME.'>',$i18n['title'],$msg)) {
 		echo $i18n['smtp_error'];
