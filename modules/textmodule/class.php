@@ -19,7 +19,7 @@
 
 class textmodule {
 	function name()		{ return exponent_lang_loadKey('modules/textmodule/class.php','module_name'); }
-	function author()		{ return 'James Hunt'; }
+	function author()		{ return 'OIC Group, Inc'; }
 	function description()	{ return exponent_lang_loadKey('modules/textmodule/class.php','module_description'); }
 
 	function hasContent() { return true; }
