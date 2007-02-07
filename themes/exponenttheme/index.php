@@ -58,7 +58,7 @@ if (!defined('EXPONENT')) exit('');
 
 			<div id="bluepanel">
 				<div id="latestexponent"><?php exponent_theme_showModule("textmodule","Bluepanel","","bluepanel"); ?></div>
-				<div id="getexponent"><a href="http://sourceforge.net/project/showfiles.php?group_id=118524">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>
+				<div id="getexponent"><a href="http://www.exponentcms.org/index.php?section=116">Get Exponent <img src="<?php echo THEME_RELATIVE;?>images/get.jpg" align="absmiddle" alt="Get Exponent" name="Get icon" border="0"></a></div>
 			</div>
 
 			<!-- <a class="imagebutton" href="http://sourceforge.net/project/showfiles.php?group_id=118524&package_id=136680&release_id=406474"><img src="<?php // echo THEME_RELATIVE;?>images/download-stable.jpg" alt="download exponent" width="195" height="138" border="0"></a>
