@@ -30,7 +30,7 @@ if (!$collection) {
 }
 $loc = exponent_core_makeLocation('filemanagermodule');
 
-exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+//exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 $template = new template('filemanagermodule','_picker');
 

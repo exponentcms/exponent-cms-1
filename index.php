@@ -68,7 +68,7 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	);
 	
 	$base_i18n = exponent_lang_loadFile('index.php');
-	
+
 	if (is_readable($page)) {
 		 if (IN_AJAX_ACTION == 0) {
                         include_once($page);
