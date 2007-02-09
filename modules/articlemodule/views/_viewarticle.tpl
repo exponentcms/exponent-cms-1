@@ -32,7 +32,7 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.manage == 1}
 	<a href="{link action=edit_article id=$article->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
-	<a href="{link action=delete_article id=$article->id}" onClick="return confirm('Are you sure you want to delete this article?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+	<a href="{link action=delete_article id=$article->id}" onclick="return confirm('Are you sure you want to delete this article?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 {/if}
 {/permissions}
 <br><br>

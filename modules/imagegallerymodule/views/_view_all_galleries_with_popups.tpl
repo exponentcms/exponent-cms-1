@@ -89,7 +89,7 @@
 				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 				</td>
 				<td width="16">
-				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onClick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+				<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onclick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 				</td>
 				{if $smarty.foreach.a.last == false}
 				{math equation="x+1" x=$image->rank assign=nextrank}

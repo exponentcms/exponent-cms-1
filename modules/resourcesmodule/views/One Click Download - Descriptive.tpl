@@ -46,7 +46,7 @@
 <a class="mngmntlink resources_mngmntlink" href="{link action=edit id=$resource->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 {/if}
 {if $permissions.delete == 1 || $resource->permissions.delete == 1}
-<a class="mngmntlink resources_mngmntlink" href="{link action=delete id=$resource->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+<a class="mngmntlink resources_mngmntlink" href="{link action=delete id=$resource->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}

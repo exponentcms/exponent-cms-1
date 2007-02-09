@@ -19,7 +19,7 @@
 	<a href="{link action=edit id=$link->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 	{/if}
 	{if $permissions.delete == 1}
-	<a href="{link action=delet id=$link->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" onClick="return confirm('{$_TR.delete_link_confirm}');" /></a>
+	<a href="{link action=delet id=$link->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_link_confirm}');" /></a>
 	{/if}
 	{/permissions}
 	{if $link->description != ''}<div style="margin-left: 20px;">{$link->description}</div>{/if}

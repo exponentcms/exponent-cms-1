@@ -20,7 +20,7 @@
 		{else}
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 		{/if}
-		<a href="{link action=delete id=$image->id}" onClick="return confirm('Are you sure you want to delete this image and any changes you have made to it?');">
+		<a href="{link action=delete id=$image->id}" onclick="return confirm('Are you sure you want to delete this image and any changes you have made to it?');">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		{* Down *}
@@ -94,7 +94,7 @@
 			&nbsp;|&nbsp;
 			<a href="{link action=revert_changes id=$current->id}">Revert to Original</a>
 		{else}
-			<a href="#" onClick="openSelector('imagemanagermodule','?module=imageworkshopmodule&action=imgmgr_move&file_id={$current->file_id}','containermodule','_sourcePicker'); return false;">Copy to an Image Manager</a>
+			<a href="#" onclick="openSelector('imagemanagermodule','?module=imageworkshopmodule&action=imgmgr_move&file_id={$current->file_id}','containermodule','_sourcePicker'); return false;">Copy to an Image Manager</a>
 		{/if}
 		</div>
 		<hr size="1" />

@@ -48,7 +48,7 @@
 		{if $permissions.delete == 1 || $event->permissions.delete == 1}
 			{if $event->approved == 1}
 				{if $event->is_recurring == 0}
-				<a href="{link action=delete id=$event->id}" onClick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete}" alt="{$_TR.delete}" /></a>
+				<a href="{link action=delete id=$event->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete}" alt="{$_TR.delete}" /></a>
 				{else}
 				<a href="{link action=delete_form date_id=$event->eventdate->id id=$event->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete}" alt="{$_TR.delete}" /></a>
 				{/if}

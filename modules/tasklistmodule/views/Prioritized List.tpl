@@ -21,7 +21,7 @@
 {assign var=last_priority value=$task->priority}
 {/if}
 <tr>
-	<td width="16"><input type="checkbox" onClick="return false;" {if $task->completion == 100}checked {/if}/></td>
+	<td width="16"><input type="checkbox" onclick="return false;" {if $task->completion == 100}checked {/if}/></td>
 	<td>{$task->name}</td>
 	<td width="40">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
@@ -31,7 +31,7 @@
 		</a>
 		{/if}
 		{if $permissions.delete == 1}
-		<a href="{link action=delete_task id=$task->id}" onClick="return confirm('Are you sure you want to delete this task?');">
+		<a href="{link action=delete_task id=$task->id}" onclick="return confirm('Are you sure you want to delete this task?');">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		{/if}

@@ -28,7 +28,7 @@
 		</a>
 		{/if}
 		{if $permissions.delete == 1}
-		<a href="{link action=delete_task id=$task->id}" onClick="return confirm('Are you sure you want to delete this task?');">
+		<a href="{link action=delete_task id=$task->id}" onclick="return confirm('Are you sure you want to delete this task?');">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		{/if}

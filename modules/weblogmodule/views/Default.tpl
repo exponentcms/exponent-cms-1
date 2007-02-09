@@ -52,7 +52,7 @@
 </a>
 {/if}
 {if $permissions.delete == 1 || $post->permissions.delete == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}

@@ -159,7 +159,7 @@ if (!defined("EXPONENT")) exit("");
 
 	$arsize = sizeof($dirs);
 	for($i=0;$i<$arsize;$i++) {
-	  echo "\t<tr class=\"row\" onmouseover=\"this.style.backgroundColor='$highlightcolor'; this.style.cursor='hand';\" onMouseOut=\"this.style.backgroundColor='$normalcolor';\" onClick=\"window.location.href='" . $dirs[$i] . "';\">";
+	  echo "\t<tr class=\"row\" onmouseover=\"this.style.backgroundColor='$highlightcolor'; this.style.cursor='hand';\" onmouseout=\"this.style.backgroundColor='$normalcolor';\" onclick=\"window.location.href='" . $dirs[$i] . "';\">";
 	  echo "\t\t<td width=\"16\"><img src=\"" . IMAGEROOT . "folder.gif\" width=\"16\" height=\"16\" alt=\"Directory\"></td>";
 	  echo "\t\t<td><a href=\"?action=list&module=directorylistingmodule&traverse=" . substr($dirs[$i], 0, strlen($dirs[$i]) -1 ) . "\">" . $dirs[$i] . "</a></td>";
 	  echo "\t\t<td width=\"50\" align=\"left\">-</td>";
@@ -193,7 +193,7 @@ if (!defined("EXPONENT")) exit("");
 	      break;
 	  }
 
-	  echo "\t<tr class=\"row\" onmouseover=\"this.style.backgroundColor='$highlightcolor'; this.style.cursor='hand';\" onMouseOut=\"this.style.backgroundColor='$normalcolor';\" onClick=\"window.location.href='" . $files[$i] . "';\">\r\n";
+	  echo "\t<tr class=\"row\" onmouseover=\"this.style.backgroundColor='$highlightcolor'; this.style.cursor='hand';\" onmouseout=\"this.style.backgroundColor='$normalcolor';\" onclick=\"window.location.href='" . $files[$i] . "';\">\r\n";
 	  echo "\t\t<td width=\"16\"><img src=\"" . IMAGEROOT . "$img\" width=\"16\" height=\"16\" alt=\"Directory\"></td>\r\n";
 	  echo "\t\t<td><a href=\"" . $files[$i] . "\">" . $files[$i] . "</a></td>\r\n";
 	  echo "\t\t<td width=\"50\" align=\"left\">" . round(filesize($files[$i])/1024) . "KB</td>\r\n";

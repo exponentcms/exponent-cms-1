@@ -18,7 +18,7 @@
 function links(object) {literal}{{/literal}
 	out = '<a href="{link action=view_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}view.png" title="{$_TR.alt_view}" alt="{$_TR.alt_view}" /></a>'; 
 	out += '{if $permissions.editdata == 1}<a href="{link action=edit_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>{/if}'; 
-	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}" onClick="return confirm(\'{$_TR.delete_confirm}\');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>{/if}'; 
+	out += '{if $permissions.deletedata == 1}<a href="{link action=delete_record module=formbuilder}&id=' + object.var_id + '&form_id={$f->id}" onclick="return confirm(\'{$_TR.delete_confirm}\');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>{/if}'; 
 	
 	return out;
 {literal}}{/literal}

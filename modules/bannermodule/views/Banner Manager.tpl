@@ -32,7 +32,7 @@
 		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_edit id=$banner->id}">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
-		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_delete id=$banner->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+		<a class="mngmntlink banner_mngmntlink" href="{link action=ad_delete id=$banner->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 	</td>

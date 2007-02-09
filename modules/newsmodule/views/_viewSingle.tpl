@@ -34,7 +34,7 @@
 	{if $n->approved == 2} {* in ap *}
 	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 	{else}
-	<a class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}" onClick="return confirm('{$_TR.delete_confirm}');">
+	<a class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 		<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 	</a>
 	{/if}

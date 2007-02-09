@@ -20,7 +20,7 @@
 		{else}
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.disabled.png" title="{$_TR.alt_previous_disabled}" alt="{$_TR.alt_previous_disabled}" />
 		{/if}
-		<a href="{link action=delete id=$image->id}" onClick="return confirm('Are you sure you want to delete this image and any changes you have made to it?');">
+		<a href="{link action=delete id=$image->id}" onclick="return confirm('Are you sure you want to delete this image and any changes you have made to it?');">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>
 		{* Right *}

@@ -83,11 +83,11 @@ Page {$currentpage} of {$totalpages}<br />
 				<br />
 				<a href="{link action=view_image id=$image->id}">{$image->name}</a>
 				{else}
-				<a href="#" onClick="window.open('{$image->file->directory}/{$image->file->filename}','image','title=no,status=no,scrollbars=yes'); return false;">
+				<a href="#" onclick="window.open('{$image->file->directory}/{$image->file->filename}','image','title=no,status=no,scrollbars=yes'); return false;">
 					<img style="border:none;" src="thumb.php?base={$smarty.const.BASE}&amp;file={$image->file->directory}/{$image->file->filename}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" title="{$image->name}" alt="{$image->name}" />
 				</a>
 				<br />
-				<a href="#" onClick="window.open('{$image->file->directory}/{$image->file->filename}','image','title=no,status=no,scrollbars=yes'); return false;">{$image->name}</a>
+				<a href="#" onclick="window.open('{$image->file->directory}/{$image->file->filename}','image','title=no,status=no,scrollbars=yes'); return false;">{$image->name}</a>
 				{/if}
 				<br />
 				{permissions level=$smarty.const.UI_LEVEL_NORMAL}
@@ -101,7 +101,7 @@ Page {$currentpage} of {$totalpages}<br />
 					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}">
 						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onClick="return confirm('Are you sure you want to delete this image?');">
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onclick="return confirm('Are you sure you want to delete this image?');">
 						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 					{if $smarty.foreach.i.last == false}
