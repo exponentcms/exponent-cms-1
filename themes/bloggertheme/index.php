@@ -19,32 +19,32 @@ if (!defined('EXPONENT')) exit('');
 <html> 
 <head> 
    <?php echo exponent_theme_headerInfo($section); ?>
-   <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
    <link rel="stylesheet" href="<? echo PATH_RELATIVE?>external/yui/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+   <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 </head> 
 <body onload="eXp.initialize();"> 
 <?php exponent_theme_sourceSelectorInfo(); ?>
-<div id="doc" class="yui-t3" style="background: url(<?php echo THEME_RELATIVE; ?>images/kubricksides.png);"> 
-   	<div id="hd" style="background: url(<?php echo THEME_RELATIVE; ?>images/kubrickheader.png);height: 195px;padding: 0px 40px 0px 40px;text-align:center">
+<div id="doc" class="yui-t3" style="background: url(<?php echo THEME_RELATIVE; ?>images/kubricksides.png); width:750px"> 
+   	<div id="hd" style="background: url(<?php echo THEME_RELATIVE; ?>images/kubrickheader.png);height: 195px;padding: 0px 40px 0px 40px;text-align:center;">
                         <h1><?php exponent_theme_showModule("navigationmodule","You Are Here"); ?></h1>
                             <?php exponent_theme_showModule("navigationmodule","Top Nav"); ?>
                          <p><?php exponent_theme_showModule("navigationmodule","Children Only"); ?></p>
 	</div> 
-   <div id="bd" style="padding-left: 15px;padding-right: 10px;">
-	 <?php exponent_theme_showModule("navigationmodule","Breadcrumb"); ?> 
-    <div id="yui-main"> 
-    <div class="yui-b">
-	<div class="yui-g" style="padding-left: 10px;padding-right: 10px;"> 
-		<?php exponent_theme_main(); ?>
+    	<div id="bd"  style="padding-left: 15px;padding-right: 10px">
+	 	<?php exponent_theme_showModule("navigationmodule","Breadcrumb"); ?> 
+    		<div id="yui-main"> 
+    			<div class="yui-b">
+				<div class="yui-g" style="padding-left: 10px;padding-right: 10px;"> 
+					<?php exponent_theme_main(); ?>
+    				</div> 
+    			</div> 
+    		</div> 
+    		<div class="yui-b"  style="padding-left: 10px;">
+			<?php exponent_theme_showSectionalModule("containermodule","Default","","@left"); ?>
+                	<?php exponent_theme_showSectionalModule("containermodule","Default","","@right"); ?>
+		</div> 
     	</div> 
-    </div> 
-    </div> 
-    	<div class="yui-b" style="padding-left: 10px;">
-		<?php exponent_theme_showSectionalModule("containermodule","Default","","@left"); ?>
-                <?php exponent_theme_showSectionalModule("containermodule","Default","","@right"); ?>
-	</div> 
-    </div> 
-   <div id="ft" style="margin-left: -15px; background: url(<?php echo THEME_RELATIVE; ?>images/kubrickfooter.png);width: 750px; height: 62px;"></div> 
+   <div id="ft" style="background: url(<?php echo THEME_RELATIVE; ?>images/kubrickfooter.png) no-repeat;height: 75px;border; width:750px; margin: -15px;">&nbsp;</div> 
 </div> 
 </body> 
 </html> 

@@ -11,73 +11,9 @@ body {
 	padding: 0;
 	background: #e7e7e7 url("images/kubrickbg.png");
 	color: #333;
-	font-size: 62.5%; /* Resets 1em to 10px */
-	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; 
+	font-size: 77%; /* Resets 1em to 10px */
 	text-align: center;
 	}
-html > body {
-	margin-bottom: 0px; /* Workaround for IE - ignored by IE but no firefox */
-}
-div#main {
-	position: relative;
-	width: 760px;
-	margin: 0 auto 0 auto;
-	padding: 0;
-	background: #fff url("images/kubricksides.png") repeat-y top;
-	}
-#header {
-	margin: 0 auto 0 auto;
-	padding: 0;
-	width: 760px;
-	background: #48b url("images/kubrickheader.png") no-repeat bottom center;
-	height: 200px;
-	}
-div#nav_holder {
-	padding: 3px;
-	text-align: center;
-}
-div#header_bottom {
-	border-width: 0px;
-	position: relative;
-	left: 20px;
-	text-align: left;
-}
-#footer {
-	margin: 0 auto 0 auto;
-	padding: 0;
-	width: 760px;
-	clear: both;
-	background: #eee url("images/kubrickfooter.png") no-repeat bottom;
-	height: 63px;
-	}
-#footer p { margin: 0; padding: 20px 0 0 0; text-align: center; }
-
-#content {
-	margin: 0;
-	padding: 30px 60px 20px 60px;
-	font-size: 1.2em;
-	line-height: 1.4em;
-	text-align: left;
-	}
-#content.withsidebar {
-	margin-left: 250px;
-	padding: 0px 0px 0px 0px;
-	width: 480px;
-	}
-#content.withoutsidebar { width: 640px; }
-a.downloadlink:before{
-	content: url("images/download.png");
-}
-#sidebar {
-	float:left;
-	margin-left:20px;
-	width: 200px;
-	background: #f9f9f9;
-	font: 1em 'Lucida Grande', Verdana, Arial, Sans-Serif;
-	text-align: left;
-	}
-#sidebar form { margin: 0; }
-/* End Structure */
 
 navlink {
 	text-decoration: none;
