@@ -297,7 +297,7 @@ function smarty_block_paginate($params,$content,&$smarty) {
 				}
 				cell_content = this.columns[data].headerText;
 				if (this.columns[data].attribute != "" || this.columns[data].sortFunc != null) {
-					cell_content = "<a href='#' onClick='paginate.sort(\""+data+"\"); return false;'>"+this.columns[data].headerText+"</a>";
+					cell_content = "<a href='#' onclick='paginate.sort(\""+data+"\"); return false;'>"+this.columns[data].headerText+"</a>";
 					if (this.columns[data].ascending != -1) {
 						cell_content += "&nbsp;<img id='sortCol_"+data+"' src='<?php echo ICON_RELATIVE; ?>sort"+(this.columns[data].ascending ? "de" : "a")+"scending.png' border='0' />";
 					} else {
@@ -334,7 +334,7 @@ function smarty_block_paginate($params,$content,&$smarty) {
 								sText = this.columns[data].overrideFunc(this.filteredData[dataObject]);
 							}
 							if (this.columns[data].sLink != "") {
-								cell.innerHTML = "<a href='#' onClick='" + this.columns[data].sLink + this.filteredData[dataObject]['id'] + "' class='mngmntlink " + this.modulePrefix + "_mngmntlink'>" + sText + "</a>";
+								cell.innerHTML = "<a href='#' onclick='" + this.columns[data].sLink + this.filteredData[dataObject]['id'] + "' class='mngmntlink " + this.modulePrefix + "_mngmntlink'>" + sText + "</a>";
 							} else {
 								cell.innerHTML = sText;
 							}
@@ -532,7 +532,7 @@ function smarty_block_paginate($params,$content,&$smarty) {
 				var btn = document.createElement("input");
 				btn.setAttribute("type","button");
 				btn.setAttribute("value","Filter");
-				btn.setAttribute("onClick","paginate.applyFilter('" + sID + "'); return false;");
+				btn.setAttribute("onclick","paginate.applyFilter('" + sID + "'); return false;");
 				cell.appendChild(btn);
 				return cell.innerHTML;
 			}

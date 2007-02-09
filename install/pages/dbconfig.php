@@ -48,7 +48,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 	}
 	function showOptions(engine) {
 		hideAllOptions();
-		
+
 		myOptions = document.getElementById(engine + "_options");
 		if(myOptions) {
 			myOptions.style.display = "block";
@@ -86,7 +86,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 			<?php echo $i18n['in_doubt']; ?>
 		</div>
 	</div>
-	
+
 
 	<div class="control" id="mysql_options">
 		&#0149; <span class="control_caption"><?php echo $i18n['DB_ENCODING']; ?>: </span>
@@ -99,7 +99,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 	foreach(exponent_config_dropdownData("DB_ENCODING") as $key=>$value){
 		echo '			<option value="' . $key . '">' . $value . '</option>';
 	}
-?>			
+?>
 		</select>
 		<div class="control_help">
 			<?php echo $i18n['DB_ENCODING_desc']; ?>
@@ -117,7 +117,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 			<?php echo $i18n['in_doubt']; ?>
 		</div>
 	</div>
-	
+
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['port'];?>: </span>
 		<input class="text" type="text" name="c[db_port]" value="<?php echo $config['db_port']; ?>" size="5" />
@@ -138,14 +138,14 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 			<?php echo $i18n['dbname']; ?>
 		</div>
 	</div>
-	
+
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['username']; ?>: </span>
 		<input class="text" type="text" name="c[db_user]" value="<?php echo $config['db_user']; ?>" />
 		<div class="control_help">
 			<?php echo $i18n['username_desc']; ?>
 			<br /><br />
-			<?php echo $i18n['username_desc2']; ?>  (<a href="" onClick="return pop('db_priv');"><?php echo $i18n['more_info']; ?></a>)
+			<?php echo $i18n['username_desc2']; ?>  (<a href="" onclick="return pop('db_priv');"><?php echo $i18n['more_info']; ?></a>)
 		</div>
 	</div>
 	<div class="control">
@@ -155,7 +155,7 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 			<?php echo $i18n['password_desc']; ?>
 		</div>
 	</div>
-	
+
 	<div class="control">
 		&#0149; <span class="control_caption"><?php echo $i18n['prefix']; ?>: </span>
 		<input class="text" type="text" name="c[db_table_prefix]" value="<?php echo $config['db_table_prefix']; ?>" />

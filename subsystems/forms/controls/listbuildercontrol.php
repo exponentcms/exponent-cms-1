@@ -46,15 +46,15 @@ class listbuildercontrol extends formcontrol {
 	var $source = null;
 	var $size = 8;
 	var $newList = false;
-	
+
 	function name() { return "List Builder"; }
 
 	function listbuildercontrol($default,$source,$size=8) {
 		if (is_array($default)) $this->default = $default;
 		else $this->default = array($default);
-		
+
 		$this->size = $size;
-	
+
 		if ($source !== null) {
 			if (is_array($source)) $this->source = $source;
 			else $this->source = array($source);
@@ -65,7 +65,7 @@ class listbuildercontrol extends formcontrol {
 
 	function controlToHTML($name) {
 		$this->_normalize();
-	
+
 		$html = '<input type="hidden" name="'.$name.'" id="'.$name.'" value="'.implode("|!|",array_keys($this->default)).'" />';
 		$html .= '<table cellpadding="9" border="0" width="30"><tr><td width="10">';
 		if (!$this->newList) {
@@ -79,9 +79,9 @@ class listbuildercontrol extends formcontrol {
 		}
 		$html .= "</td>";
 		$html .= "<td valign='middle' width='10'>";
-		$html .= "<input type='image' onClick='addSelectedItem(&quot;$name&quot;); return false' src='".ICON_RELATIVE."right.png' />";
+		$html .= "<input type='image' onclick='addSelectedItem(&quot;$name&quot;); return false' src='".ICON_RELATIVE."right.png' />";
 		$html .= "<br />";
-		$html .= "<input type='image' onClick='removeSelectedItem(&quot;$name&quot;); return false;' src='".ICON_RELATIVE."left.png' />";
+		$html .= "<input type='image' onclick='removeSelectedItem(&quot;$name&quot;); return false;' src='".ICON_RELATIVE."left.png' />";
 		$html .= "</td>";
 		$html .= "<td width='10' valign='top'><select id='dest_$name' size='".$this->size."'>";
 		foreach ($this->default as $key=>$value) {
@@ -93,7 +93,7 @@ class listbuildercontrol extends formcontrol {
 		$html .= "<script>newList.$name = ".($this->newList?"true":"false").";</script>";
 		return $html;
 	}
-	
+
 	// Normalizes the $this->source and $this->defaults array
 	// This allows us to gracefully recover from _formErrors and programmer error
 	function _normalize() {
@@ -114,11 +114,11 @@ class listbuildercontrol extends formcontrol {
 			}
 		}
 	}
-	
+
 	function onRegister(&$form) {
 		$form->addScript("listbuilder",PATH_RELATIVE."subsystems/forms/controls/listbuildercontrol.js");
 	}
-	
+
 	function parseData($formvalues, $name, $forceindex = false) {
 		$values = array();
 		if ($formvalues[$name] == "") return array();
@@ -134,26 +134,26 @@ class listbuildercontrol extends formcontrol {
 		}
 		return $values;
 	}
-	
+
 	function form($object) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		exponent_forms_initialize();
-	
+
 		$form = new form();
 		if (!isset($object->identifier)) {
 			$object->identifier = "";
 			$object->caption = "";
 		}
-		
+
 		$i18n = exponent_lang_loadFile('subsystems/forms/controls/listbuildercontrol.php');
-		
+
 		$form->register("identifier",$i18n['identifer'],new textcontrol($object->identifier));
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
-		
+
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
-	
+
 	function update($values, $object) {
 		if ($values['identifier'] == "") {
 			$i18n = exponent_lang_loadFile('subsystems/forms/controls/listbuildercontrol.php');
@@ -166,8 +166,8 @@ class listbuildercontrol extends formcontrol {
 		$object->caption = $values['caption'];
 		return $object;
 	}
-	
-	
+
+
 }
 
 ?>

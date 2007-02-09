@@ -118,7 +118,7 @@ class popupdatetimecontrol extends formcontrol {
 		$html .= 'title="Date selector" onclick="return true;" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
 		$html .= "\n";
 		if ($this->disable_text != "") {// popupdatetimecontrol_enable(this.form,\''.$name.'\');
-			$html .= '<input align="texttop" style="margin-top: -2px;" type="checkbox" name="'.$name.'_disabled" onchange="popupdatetimecontrol_enable(this.form,\''.$name.'\');" onClick="popupdatetimecontrol_enable(this.form,\''.$name.'\');" ';
+			$html .= '<input align="texttop" style="margin-top: -2px;" type="checkbox" name="'.$name.'_disabled" onchange="popupdatetimecontrol_enable(this.form,\''.$name.'\');" onclick="popupdatetimecontrol_enable(this.form,\''.$name.'\');" ';
 			if ($this->disabled) $html .= ' checked="checked"';
 			$html .= '/>'.$this->disable_text;
 		} else {

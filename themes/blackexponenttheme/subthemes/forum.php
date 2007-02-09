@@ -60,7 +60,7 @@ if (!defined('EXPONENT')) exit('');
 				<div id="bluepanelforum" style="float:right">
 			</div>
 			<div class="headerimage" style="background:url(<?php echo THEME_RELATIVE;?>images/headerImageRep.gif);">
-			<a style="float:right" class="imagebutton" href="index.php" onMouseOut="MM_swapImgRestore()" onmouseover="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a><div style="background:url(<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg) no-repeat ; height:138px">&nbsp;</div>
+			<a style="float:right" class="imagebutton" href="index.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('lightbulb','','<?php echo THEME_RELATIVE;?>images/lightbulb-h.jpg',1)"><img src="<?php echo THEME_RELATIVE;?>images/lightbulb.jpg" alt="simple!" name="lightbulb" width="329" height="138" border="0"></a><div style="background:url(<?php echo THEME_RELATIVE;?>images/cmsmadesimple.jpg) no-repeat ; height:138px">&nbsp;</div>
 			</div>
 			</div>
 

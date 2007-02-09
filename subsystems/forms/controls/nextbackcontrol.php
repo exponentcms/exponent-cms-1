@@ -50,15 +50,15 @@ class nextbackcontrol extends formcontrol {
 	var $next = "Next >";
 	var $back = "< Back";
 	var $cancel = "";
-	
+
 	var $validateJS = "";
-	
+
 	function name() { return "Next/Back Button Group"; }
-	
+
 	function parseData($name, $values, $for_db = false) {
 		return;
 	}
-	
+
 	function nextbackcontrol($next = "Next >", $back = "< Back", $cancel = "") {
 		$this->next = $next;
 		$this->back = $back;
@@ -69,14 +69,14 @@ class nextbackcontrol extends formcontrol {
 		if ($this->next . $this->back . $this->cancel == "") return "";
 		return parent::toHTML($label,$name);
 	}
-	
+
 	function controlToHTML($name) {
 		if ($this->next . $this->back . $this->cancel == "") return "";
 		$html = "";
 		if ($this->back != "") {
 			$html .= '<input type="submit" name="nextback" value="' . $this->back . '"';
 			//if ($this->disabled) $html .= " disabled";
-			$html .= ' onClick="if (checkRequired(this.form)) ';
+			$html .= ' onclick="if (checkRequired(this.form)) ';
 			if ($this->validateJS != "") {
 				$html .= '{ if (' . $this->validateJS . ') { return true; } else { return false; } }';
 			} else {
@@ -84,12 +84,12 @@ class nextbackcontrol extends formcontrol {
 			}
 			$html .= ' else { return false; }"';
 			$html .= ' />';
-			
+
 		}
 		if ($this->next != "") {
 			$html .= '<input type="submit" name="nextback" value="' . $this->next . '"';
 			if ($this->disabled) $html .= " disabled";
-			$html .= ' onClick="if (checkRequired(this.form)) ';
+			$html .= ' onclick="if (checkRequired(this.form)) ';
 			if ($this->validateJS != "") {
 				$html .= '{ if (' . $this->validateJS . ') { return true; } else { return false; } }';
 			} else {
@@ -97,16 +97,16 @@ class nextbackcontrol extends formcontrol {
 			}
 			$html .= ' else { return false; }"';
 			$html .= ' />';
-			
+
 		}
 		if ($this->cancel != "") {
 			$html .= '<input type="button" value="' . $this->cancel . '"';
-			$html .= ' onClick="document.location.href=\''.exponent_flow_get().'\'"';
+			$html .= ' onclick="document.location.href=\''.exponent_flow_get().'\'"';
 			$html .= ' />';
 		}
 		return $html;
 	}
-	
+
 }
 
 ?>

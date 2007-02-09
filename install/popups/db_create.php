@@ -31,15 +31,15 @@ function buildHelp(dbname,username,password,target) {
 	for (var i = 0; i < ids.length; i++) {
 		var elem = document.getElementById(ids[i]);
 		elem.removeChild(elem.firstChild);
-		
+
 		str = tpls[i];
 		str = str.replace("__DBNAME__",dbname);
 		str = str.replace("__USERNAME__",username);
 		str = str.replace("__PASSWORD__",password);
-		
+
 		elem.appendChild(document.createTextNode(str));
 	}
-	
+
 	document.location.href = base_url + "#" + target;
 }
 
@@ -73,7 +73,7 @@ function buildHelp(dbname,username,password,target) {
 	<td><input class="text" type="text" name="password" value="" /></td>
 </tr><tr>
 	<td></td>
-	<td><input class="text" type="button" value="<?php echo $i18n['for_mysql']; ?>" onClick="buildHelp(this.form.dbname.value,this.form.username.value,this.form.password.value,'mysql'); return false" /></td>
+	<td><input class="text" type="button" value="<?php echo $i18n['for_mysql']; ?>" onclick="buildHelp(this.form.dbname.value,this.form.username.value,this.form.password.value,'mysql'); return false" /></td>
 </tr>
 </form>
 </table>

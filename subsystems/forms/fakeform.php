@@ -84,10 +84,10 @@ class fakeform extends form {
 
 			$html .= '&nbsp;';
 			if (!$this->controls[$name]->_readonly && $this->controls[$name]->_controltype != 'htmlcontrol' ) {
-				$html .= '<a href="?module='.$module.'&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
+				$html .= '<a href="?module='.$module.'&action=delete_control&id='.$this->controls[$name]->_id.'" onclick="return confirm(\'Are you sure you want to delete this control? All data associated with it will be removed from the database!\');">';
 			}
 			else {
-				$html .= '<a href="?module='.$module.'&action=delete_control&id='.$this->controls[$name]->_id.'" onClick="return confirm(\'Are you sure you want to delete this?\');">';
+				$html .= '<a href="?module='.$module.'&action=delete_control&id='.$this->controls[$name]->_id.'" onclick="return confirm(\'Are you sure you want to delete this?\');">';
 			}
 			$html .= '<img style="border:none;" src="'.ICON_RELATIVE.'delete.png" />';
 			$html .= '</a>';

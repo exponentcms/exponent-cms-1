@@ -59,16 +59,16 @@ if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {
 }
 
 if ($passed) {
-	//set connection encoding, works only on mySQL > 4.1 
+	//set connection encoding, works only on mySQL > 4.1
 	if($config["db_engine"] == "mysql") {
 		if (!defined("DB_ENCODING")) define("DB_ENCODING", $config["DB_ENCODING"]);
 	}
 	$db = exponent_database_connect($config['db_user'],$config['db_pass'],$config['db_host'],$config['db_name'],$config['db_engine'],1);
 
 	$db->prefix = $config['db_table_prefix'] . '_';
-	
+
 	$status = array();
-	
+
 	echoStart($i18n['connecting'].':');
 
 	if ($db->connection == null) {
@@ -102,7 +102,7 @@ $dd = array(
 
 if ($passed) {
 	$db->createTable($tablename,$dd,array());
-	
+
 	echoStart($i18n['check_create'].':');
 	if ($db->tableExists($tablename)) {
 		echoSuccess();
@@ -166,15 +166,15 @@ if ($passed) {
 	$dd["exponent"] = array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>8);
-	
+
 	echoStart($i18n['check_alter'].':');
 	$db->alterTable($tablename,$dd,array());
 	$error = $db->error();
-	
+
 	$obj = null;
 	$obj->installer_test = "Exponent Installer ALTER test";
 	$obj->exponent = "Exponent";
-	
+
 	if (!$db->insertObject($obj,$tablename)) {
 		$passed = false;
 		echoFailure($error);
@@ -198,7 +198,7 @@ if ($passed) {
 
 if ($passed) {
 	echoStart($i18n['installing_tables'].':');
-	
+
 	$dir = BASE."datatypes/definitions";
 	if (is_readable($dir)) {
 		$dh = opendir($dir);
@@ -216,7 +216,7 @@ if ($passed) {
 			}
 		}
 	}
-	
+
 	if ($db->tableIsEmpty('user')) {
 		$user = null;
 		$user->username = 'admin';
@@ -225,14 +225,14 @@ if ($passed) {
 		$user->is_acting_admin = 1;
 		$db->insertObject($user,'user');
 	}
-	
+
 	if ($db->tableIsEmpty('modstate')) {
 		$modstate = null;
 		$modstate->module = 'administrationmodule';
 		$modstate->active = 1;
 		$db->insertObject($modstate,'modstate');
 	}
-	
+
 	if ($db->tableIsEmpty('section')) {
 		$section = null;
 		$section->name = 'Home';
@@ -242,20 +242,20 @@ if ($passed) {
 		$section->parent = 0;
 		$sid = $db->insertObject($section,'section');
 	}
-	
+
 	echoSuccess();
 }
 
 if ($passed) {
 	echoStart($i18n['saving_config']);
-	
+
 	$values = array(
 		'c'=>$config,
 		'opts'=>array(),
 		'configname'=>'Default',
 		'activate'=>1
 	);
-	
+
 	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
 	exponent_config_saveConfiguration($values);
 	// ERROR CHECKING
@@ -275,9 +275,9 @@ if ($passed) {
 		}
 	}
 	echo '<br /><br />';
-	echo $i18n['passed']; 
+	echo $i18n['passed'];
 	echo '<br /><br />';
-	
+
 	if (isset($_POST['install_default'])) {
 		if (!defined('SYS_BACKUP')) include_once(BASE.'subsystems/backup.php');
 
@@ -296,7 +296,7 @@ if ($passed) {
 	<?php
 } else {
 	?>
-	<br /><br /><a href="?page=dbconfig" onClick="history.go(-1); return false;"><?php echo $i18n['back']; ?></a>
+	<br /><br /><a href="?page=dbconfig" onclick="history.go(-1); return false;"><?php echo $i18n['back']; ?></a>
 	<?php
 }
 ?>
