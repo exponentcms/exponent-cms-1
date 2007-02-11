@@ -75,13 +75,8 @@
 
 			//redirect Image&Link browsers to E's connector
 			eXp.WYSIWYG.config.URIs = {
-				"blank": "blank.html",
 				"link": "../../external/editors/connector/link.php",
-				"insert_image": "../../external/editors/connector/insert_image.php",
-				"insert_table": "insert_table.html",
-				"select_color": "select_color.html",
-				"about": "about.html",
-				"help": "editor_help.html"
+				"insert_image": "../../external/editors/connector/insert_image.php"
 			};
 
 			editor_ids = new Array();
