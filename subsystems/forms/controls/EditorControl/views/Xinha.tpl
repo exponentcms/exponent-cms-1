@@ -41,23 +41,27 @@
 {literal}				
 		// get the plugins used in this toolbar
 		eXp.WYSIWYG.getPlugins = function (myToolbar) {
+			
+			//is there a toolbar ?
+			if (myToolbar) {			
 
-			plugins = new Array();
+				plugins = new Array();
 				
-			for(currRow = 0; currRow < myToolbar.length; currRow++) {
-				for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
-					currItem = myToolbar[currRow][currButton];
-					// plugin required ?
-					if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
-						// goes into per xinha editor plugin list
-						plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+				for(currRow = 0; currRow < myToolbar.length; currRow++) {
+					for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
+						currItem = myToolbar[currRow][currButton];
+						// plugin required ?
+						if(eXp.WYSIWYG.toolbox[currItem][2] != "") {
+							// goes into per xinha editor plugin list
+							plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
 						
-						//goes into global plugin list
-						eXp.WYSIWYG.plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+							//goes into global plugin list
+							eXp.WYSIWYG.plugins.push(eXp.WYSIWYG.toolbox[currItem][2]);
+						}
 					}
+					//FJD - added to force a linebreak for our defined rows
+					eXp.WYSIWYG.toolbar[currRow][myToolbar[currRow].length] = "linebreak";
 				}
-				//FJD - added to force a linebreak for our defined rows
-				eXp.WYSIWYG.toolbar[currRow][myToolbar[currRow].length] = "linebreak";
 			}
 			return plugins;	
 		}
