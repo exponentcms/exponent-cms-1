@@ -29,7 +29,7 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 require_once('exponent.php');
 
 // set the output header
-Header("Content-Type: text/html; charset=LANG_CHARSET");
+Header('Content-Type: text/html; charset=<?PHP echo LANG_CHARSET; ?>');
 
 // Check to see if we are in maintenance mode.
 if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admin == 0)) {
@@ -44,29 +44,29 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	if (!exponent_sessions_loggedIn()) {
 		// Initialize the users subsystem
 		require_once(BASE.'subsystems/users.php');
-		
-		//TODO: Maxims initial anonymous user implementation		
+
+		//TODO: Maxims initial anonymous user implementation
 		//exponent_users_login("anonymous", "anonymous");
 	}
 	// Initialize the theme subsystem
 	if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
-	
+
 	if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
 		header('Location: install/index.php?page=setlang');
 		exit('Redirecting to the Exponent Install Wizard');
-	}	
-	
+	}
+
 	// Setting $page  to an empty value, we do not want to get out
 	// side params to be used when handling subsystems fail.
-	
+
 	$page = '';
-	
+
 	// Handle sub themes
 	$page = ($sectionObj && $sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php') ?
 		BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php' :
 		BASE.'themes/'.DISPLAY_THEME.'/index.php'
 	);
-	
+
 	$base_i18n = exponent_lang_loadFile('index.php');
 
 	if (is_readable($page)) {
