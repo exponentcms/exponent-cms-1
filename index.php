@@ -29,7 +29,7 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 require_once('exponent.php');
 
 // set the output header
-Header('Content-Type: text/html; charset=<?PHP echo LANG_CHARSET; ?>');
+Header("Content-Type: text/html; charset=".LANG_CHARSET);
 
 // Check to see if we are in maintenance mode.
 if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admin == 0)) {
