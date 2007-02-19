@@ -79,8 +79,13 @@
 
 			//redirect Image&Link browsers to E's connector
 			eXp.WYSIWYG.config.URIs = {
+				"blank": "../external/editors/Xinha/popups/blank.html",
 				"link": "../../external/editors/connector/link.php",
-				"insert_image": "../../external/editors/connector/insert_image.php"
+				"insert_image": "../../external/editors/connector/insert_image.php",
+				"insert_table": "../external/editors/Xinha/popups/insert_table.html",
+				"select_color": "../external/editors/Xinha/popups/select_color.html",
+				"about": "../external/editors/Xinha/popups/about.html",
+				"help": "../external/editors/Xinha/popups/editor_help.html"
 			};
 
 			editor_ids = new Array();
