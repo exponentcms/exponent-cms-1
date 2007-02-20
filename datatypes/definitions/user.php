@@ -48,6 +48,8 @@ return array(
 	'recv_html'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	"created_on"=>array(
+                DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
+	"last_login"=>array(
                 DB_FIELD_TYPE=>DB_DEF_TIMESTAMP)
 );
 

@@ -221,6 +221,10 @@ function exponent_users_login($username, $password) {
 			// and that the account is either not locked, or an admin account (account locking doesn't
 			// apply to administrators.
 			if (($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
+				//Update the last login timestamp for this user.
+                $user->last_login = time();
+                $db->updateObject($user, 'user');
+
 				// Retrieve the full profile, complete with all Extension data.
 				$user = exponent_users_getFullProfile($user);
 				
