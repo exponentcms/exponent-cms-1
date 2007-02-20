@@ -202,7 +202,7 @@ class faqmodule {
 			$search->location_data = $item->location_data;
 			$db->insertObject($search,'search');
 		} else {
-			$db->delete('search',"ref_module='articlemodule' AND ref_type='article'");
+			$db->delete('search',"ref_module='faqmodule' AND ref_type='faq'");
 			foreach ($db->selectObjects('faq') as $item) {
 				$search->original_id = $item->id;
 				$search->title = ' ' . $item->question . ' ';
