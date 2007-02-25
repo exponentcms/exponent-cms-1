@@ -52,8 +52,13 @@
 <br />
 {$gallery->description}
 <hr size="1" />
-Page {$currentpage} of {$totalpages}<br />
-{$totalimages} image{if $totalimages != 1}s{/if} in gallery.
+{$_TR.page_of|sprintf:$currentpage:$totalpages}<br />
+{if $totalimages != 1}
+{assign var=image_word value=$_TR.image_plural}
+{else}
+{assign var=image_word value=$_TR.image_singular}
+{/if}
+{$totalimages} {$_TR.image_in_gallery|sprintf:$image_word}
 <br />
 {permissions level=$smarty.const.UI_LEVEL_NORMAL}
 {if $permissions.manage == 1}
@@ -62,12 +67,12 @@ Page {$currentpage} of {$totalpages}<br />
 <input type="hidden" name="action" value="sort_images" />
 <input type="hidden" name="gid" value="{$gallery->id}" />
 <select name="sorting">
-	<option value="exponent_sorting_byNameAscending">By Name (Ascending)</option>
-	<option value="exponent_sorting_byNameDescending">By Name (Descending)</option>
-	<option value="exponent_sorting_byPostedAscending">By Creation Date (Ascending)</option>
-	<option value="exponent_sorting_byPostedDescending">By Creation Date (Descending)</option>
+	<option value="exponent_sorting_byNameAscending">{$_TR.by_name} ({$_TR.ascending})</option>
+	<option value="exponent_sorting_byNameDescending">{$_TR.by_name} ({$_TR.descending})</option>
+	<option value="exponent_sorting_byPostedAscending">{$_TR.by_creation_date} ({$_TR.ascending})</option>
+	<option value="exponent_sorting_byPostedDescending">{$_TR.by_creation_date} ({$_TR.descending})</option>
 </select>
-<input type="submit" value="Sort Images" />
+<input type="submit" value="{$_TR.sort_images}" />
 </form>
 {/if}
 {/permissions}
@@ -101,7 +106,7 @@ Page {$currentpage} of {$totalpages}<br />
 					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}">
 						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onclick="return confirm('Are you sure you want to delete this image?');">
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onclick="return confirm('{$_TR.delete_confirm}');">
 						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 					{if $smarty.foreach.i.last == false}
@@ -119,9 +124,9 @@ Page {$currentpage} of {$totalpages}<br />
 {/foreach}
 </table>
 <div style="clear: both; border-top: 2px dashed lightgrey">
-{if $currentpage != 1}<a href="{link action=view_gallery id=$gallery->id page=$prevpage view=$__view}">&lt; Previous</a>{/if}
+{if $currentpage != 1}<a href="{link action=view_gallery id=$gallery->id page=$prevpage view=$__view}">&lt; {$_TR.previous}</a>{/if}
 {if $currentpage != 1 && $currentpage != $totalpages}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
-{if $currentpage != $totalpages}<a href="{link action=view_gallery id=$gallery->id page=$nextpage view=$__view}">Next &gt;</a>{/if}
+{if $currentpage != $totalpages}<a href="{link action=view_gallery id=$gallery->id page=$nextpage view=$__view}">{$_TR.next} &gt;</a>{/if}
 {permissions level=$smarty.const.UI_LEVEL_NORMAL}
 {if $permissions.manage == 1}
 <br />
@@ -132,7 +137,7 @@ function validate(frm) {
 	var num = parseInt(frm.count.value);
 	
 	if (num <= 0 || isNaN(num)) {
-		alert("Please enter only positive, whole numbers.");
+		alert({/literal}{$_TR.whole_number}{literal});
 		return false;
 	}
 	
@@ -148,7 +153,7 @@ function validate(frm) {
 <input type="hidden" name="src" value="{$__loc->src}" />
 <input type="hidden" name="gid" value="{$gallery->id}" />
 <input type="hidden" name="action" value="upload_multiple" />
-Upload Multiple files: <input type="text" size="3" name="count" value="3" /><input type="submit" value="Upload" />
+{$_TR.upload_files} <input type="text" size="3" name="count" value="3" /><input type="submit" value="{$_TR.upload}" />
 </form>
 {/if}
 {/permissions}
