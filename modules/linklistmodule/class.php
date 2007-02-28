@@ -35,13 +35,13 @@ class linklistmodule {
 	function name() { return "Link List"; }
 	function description() { return "Manage a set of links."; }
 	function author() { return "OIC Group, Inc."; }
-	
+
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = "") {
 		return array(
 			'administrate'=>'Administrate',
@@ -51,20 +51,20 @@ class linklistmodule {
 			'delete'=>'Delete Links'
 		);
 	}
-	
+
 	function show($view,$loc = null, $title = "") {
 		global $db;
-		
+
 		$config = $db->selectObject('linklistmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
 			$config->orderby = 'name';
 			$config->orderhow = 0; // Ascending
 		}
-		
+
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-		
+
 		$links = $db->selectObjects('linklist_link',"location_data='".serialize($loc)."'");
-		
+
 		switch ($config->orderhow) {
 			case 0:
 				usort($links,'exponent_sorting_byNameAscending');
@@ -76,19 +76,20 @@ class linklistmodule {
 				shuffle($links);
 				break;
 		}
-		
+
 		$template = new template('linklistmodule',$view,$loc);
 		$template->assign('links',$links);
 		$template->register_permissions(
 			array('administrate','configure','create','edit','delete'),$loc);
-		
+
 		$template->output();
 	}
-	
+
 	function deleteIn($loc) {
+		global $db;
 		$db->delete('linklist_link',"location_data='".serialize($loc)."'");
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 		foreach ($db->selectObjects('linklist_link',"location_data='".serialize($oloc)."'") as $l) {
 			$l->location_data = serialize($nloc);
@@ -99,18 +100,18 @@ class linklistmodule {
 	function searchName() {
 		return 'Web Links';
 	}
-	
+
 	function spiderContent($item = null) {
 		global $db;
-		
+
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
-		
+
 		$search = null;
 		$search->category = 'Links';
 		$search->ref_module = 'linklistmodule';
 		$search->ref_type = 'linklist_link';
 		$search->view_link = '';
-		
+
 		if ($item) {
 			$db->delete('search',"ref_module='linklistmodule' AND ref_type='linklist_link' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
@@ -128,7 +129,7 @@ class linklistmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-		
+
 		return true;
 	}
 }
