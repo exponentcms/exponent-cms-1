@@ -16,7 +16,7 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
- 
+
 if (!defined('BASE')) {
 	define('BASE',dirname(__FILE__).'/');
 }
@@ -62,7 +62,7 @@ for ($i = 0; $i < count($iconfiles); $i++) {
 	for ($j = 0; $j < count($iconfiles[$i]); $j++) {
 		echo '<td>';
 		$imgsrc = $_GET['icodir'] . $iconfiles[$i][$j];
-		echo "<a href='' onClick='setIcon(\"$imgsrc\"); return false'><img src='$imgsrc' border='0' /></a>";
+		echo "<a href='' onclick='setIcon(\"$imgsrc\"); return false'><img src='$imgsrc' border='0' /></a>";
 		echo '</td>';
 	}
 	echo '</tr>';
