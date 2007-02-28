@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined('SEFL_URLS')) define('SEF_URLS',0);
+if (!defined('SEF_URLS')) define('SEF_URLS',0);
 //if (!defined('MEANINGFUL_NAV_URLS')) define('MEANINGFUL_NAV_URLS',0);
 
 ?>
