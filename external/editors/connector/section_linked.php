@@ -32,10 +32,14 @@
 ##################################################
 
 #  Thanks to Daniel Grabert for this patch. - 1/12/05
+	define("SCRIPT_EXP_RELATIVE","external/editors/connector/");
+	define("SCRIPT_FILENAME","section_linked.php");
+	require_once("../../../exponent.php");
 
 	if (isset($_REQUEST['section'])) {
 		$section_id = $_REQUEST['section'];
 		$section_name = isset($_REQUEST['section_name']) ? $_REQUEST['section_name'] : '';
+		$sef_name = isset($_REQUEST['sef_name']) ? $_REQUEST['sef_name'] : '';
 	} else {
 		// bad request - no section found
 
@@ -58,8 +62,16 @@
 	var f_title = window.opener.document.getElementById("f_title");
 	
 	// set value for url form element in opener
-	f_url.value = "?section=<?php echo $section_id; ?>";
-	
+	<?php
+	if (defined('SEF_URLS') && SEF_URLS == 1 && $sef_name != '') {
+		?>f_url.value = "<?php echo $sef_name; ?>";
+	<?php
+	} else {
+	?>
+		f_url.value = "index.php?section=<?php echo $section_id; ?>";
+	<?php
+	}
+	?>
 	// uncheck external link box in parent window
 	f_extern.checked = false;
 
