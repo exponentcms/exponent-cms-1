@@ -134,7 +134,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System" />' . "\n";
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
-		$str .= "\t".'<style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style>'."\n";
+		$str .= "\t".'<!--[if IE]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
 		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
     		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
