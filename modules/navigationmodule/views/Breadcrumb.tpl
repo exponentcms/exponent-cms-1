@@ -30,3 +30,4 @@
 		{if $section->id != $current->id}&gt;{/if}
 	{/if}
 {/foreach}
+</div>
