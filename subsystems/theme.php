@@ -361,7 +361,9 @@ function exponent_theme_runAction() {
 		$actfile = "/" . $_REQUEST['module'] . "/actions/" . $_REQUEST['action'] . ".php";
 		if (isset($_REQUEST['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
 
-		if (is_readable(BASE.'modules/'.$actfile)) {
+		if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
+			include_once(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
+		} elseif (is_readable(BASE.'modules/'.$actfile)) {
 			include_once(BASE.'modules/'.$actfile);
 		} else {
 			$i18n = exponent_lang_loadFile('subsystems/theme.php');
