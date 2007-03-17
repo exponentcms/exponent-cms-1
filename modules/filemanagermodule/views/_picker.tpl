@@ -117,8 +117,7 @@
 			function FCKeditor_pickedFile(id, pickedFile) {
 				window.opener.SetUrl(eXp.PATH_RELATIVE + pickedFile);
 			}
-
-			if (typeof window.opener.efm_pickedFile != "function") {
+			if (typeof window.opener.FCK == "object" && typeof window.opener.oEditor == "object") {
 				//attach this to the window that opened the filemanager(=FCKeditor`s image insert)
 				window.opener.efm_pickedFile = FCKeditor_pickedFile;
 			}
@@ -169,18 +168,19 @@
 					{/if}
 					<td width="110" height="110" valign="top" align="center"{if $highlight_file == $file->id} id="highlight"{/if}>
 						{if $file->is_image}
+						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
+							{$file->name}
+						</a>
+						<br />
 						<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">
 
-							<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" border="0"/>
+							<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" title="Click to select" alt="Click to select" border="0"/>
 						</a>
 						<br />
 						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
 							{$_TR.show_full}
 						</a>
 						<br />
-						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
-							{$file->name}
-						</a>
 						{else}
 						{getfileicon id=$file->id}
 						<br />
@@ -192,7 +192,7 @@
 							<br />
 							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">Use</a>
 						{/if}
-						<a href="{link action=delete id=$file->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
+						<a href="{link action=delete id=$file->id module=filemanager}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
 					</td>
 					{foreachelse}
 					<td><i>{$_TR.no_files}</i></td>
