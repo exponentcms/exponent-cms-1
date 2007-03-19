@@ -209,7 +209,7 @@ function exponent_users_login($username, $password) {
 	//eDebug($user);
 	if(isset($user) && $user != null) {
 		//DEPRECATED: scheduled for removal
-		if ($user->is_admin == 1) {
+		if ($user->is_admin == 1 || $user->is_acting_admin == 1) {
 			// User is an admin.  Update is_acting_admin, just in case.
 			// This can be removed as soon as 0.95 is deprecated.
 			$user->is_acting_admin = 1;
