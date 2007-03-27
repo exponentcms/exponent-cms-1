@@ -30,12 +30,13 @@ $user_profile = exponent_users_getFullProfile($user_profile);
 $exts = exponent_users_listExtensions();
 
 
-$user = $db->selectObject("user", "id=".$_GET['id']);
+$user_temp = $db->selectObject("user", "id=".$_GET['id']);
 $profile = null;
-$profile->firstname = $user->firstname;
-$profile->lastname = $user->lastname;
-$profile->username = $user->username;
-
+if($profile != null) {
+	$profile->firstname = $user_temp->firstname;
+	$profile->lastname = $user_temp->lastname;
+	$profile->username = $user_temp->username;
+}
 foreach ($user_profile as $key=>$value) {
   if (gettype($value) == "object") {
     foreach ($value as $key2=>$value2) {
@@ -45,7 +46,7 @@ foreach ($user_profile as $key=>$value) {
 }
 
 if (isset($profile->show_email_addy) && $profile->show_email_addy == 1) {
-  $profile->email = $user->email;
+  $profile->email = $user_temp->email;
 }
 
 if (isset($profile->file_id) && $profile->file_id != "" && $profile->file_id != 0) {
