@@ -82,7 +82,7 @@ function exponent_javascript_object($object, $name="Array") {
 	foreach ($object as $var=>$val) {
 		switch (gettype($val)){
 			case "string":
-				$js .= "'" . str_replace("'", "&apos;", $val) . "'";
+				$js .= "'" . str_replace( array("'", "\r\n", "\n"),	array("&apos;", "\\r\\n", "\\n"), $val) . "'";
 				break;
 			case "array":
 				$js .= exponent_javascript_object($val);
