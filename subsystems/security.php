@@ -48,7 +48,7 @@ function exponent_security_checkUsername($username) {
 	$i18n = exponent_lang_loadFile('subsystems/security.php');
 // Return blank string on success, error message on failure.
 // The error message should let the user know why their username is wrong.
-	if (strlen($username) < 4) {
+	if (strlen($username) < 3) {
 		return $i18n['username_length'];
 	}
 	//echo "<xmp>";
