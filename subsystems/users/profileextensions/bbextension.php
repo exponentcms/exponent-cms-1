@@ -134,7 +134,7 @@ class bbextension {
 		if($is_new)
 			$db->insertObject($bb_user,"bb_user");
 		else
-			$db->updateObject($bb_user,"bb_user");
+			$db->updateObject($bb_user,"bb_user","uid=".$user->id);
 		$user->bb_user = $bb_user;
 		unset($user->bb_user->uid);
 		return $user;
