@@ -25,8 +25,8 @@ if (!defined('EXPONENT')) exit('');
 <html>
 <head>
 	<?php echo exponent_theme_headerInfo($section); ?>
-   	<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 	<link rel="stylesheet" href="<? echo PATH_RELATIVE?>external/yui/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+   	<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 </head>
 <body onload="eXp.initialize();">
 <?php exponent_theme_sourceSelectorInfo(); ?>
