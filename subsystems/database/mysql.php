@@ -509,7 +509,11 @@ class mysql_database {
 
         if ($res == null) return null;
 		$obj = mysql_fetch_object($res);
-		return $obj->$col;
+		 if (is_object($obj)) {
+                        return $obj->$col;
+                } else {
+                        return null;
+                }
         }
 
 	/*
