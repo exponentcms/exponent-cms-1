@@ -50,7 +50,7 @@
 	<i>{$_TR.you_locked}</i>
 	<br />
 	{/if}
-	<a class="mngmntlink resources_mngmntlink" href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}">{$_TR.download}</a>
+	<a class="mngmntlink resources_mngmntlink" href="{link action=download_resource id=$resource->id}">{$_TR.download}</a>
 	{if $permissions.edit == 1 || $resource->permissions.edit == 1}
 	{if $resource->locked == 0}
 	&nbsp;|&nbsp;

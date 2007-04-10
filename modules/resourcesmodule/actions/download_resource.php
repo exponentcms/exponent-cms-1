@@ -27,17 +27,21 @@ if ($resource != null) {
 	$loc = unserialize($resource->location_data);
 	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$resource->id);
 	
-	$resource->permissions = array(
+	/*$resource->permissions = array(
 		'administrate'=>exponent_permissions_check('administrate',$iloc),
 		'edit'=>exponent_permissions_check('edit',$iloc),
 		'delete'=>exponent_permissions_check('delete',$iloc),
 		'can_download'=>exponent_permissions_check('delete',$iloc),
-	);
+	);*/
 
-    if (!exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
-      echo '<div class="error">You do not have permissions to download this file.</div>';
-      exit();
-    }
+	$config = $db->selectObject('resourcesmodule_config', "location_data='".serialize($loc)."'");
+
+	if ($config->allow_anon_downloads != true) {
+    		if ( !exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
+      			echo '<div class="error">You do not have permissions to download this file.</div>';
+      			exit();
+    		}
+	}
   
 	if ($resource->flock_owner != 0) {
 		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
