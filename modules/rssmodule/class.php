@@ -32,7 +32,7 @@
 ##################################################
 
 class rssmodule {
-	function name() { return "Module syndication RSS"; }
+	function name() { return "RSS Syndication Module"; }
 	function author() { return "croby / geronimo / with MagpieRSS"; }
 	function description() { return "manage rss syndication"; }
 	
