@@ -28,9 +28,9 @@
 {assign var=commonParent value=0}
 {assign var=isParent value=0}
 {foreach from=$current->parents item=parentId}
-  {if $parentId == $section->id}
-    {assign var=isParent value=1}
-  {/if}
+  	{if $parentId == $section->id}
+    		{assign var=isParent value=1}
+  	{/if}
 	{if $parentId == $section->id || $parentId == $section->parent}
 		{assign var=commonParent value=1}
 	{/if}
