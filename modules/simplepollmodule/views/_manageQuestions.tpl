@@ -18,7 +18,11 @@
 </td><td>
 {if $question->open_voting}yes{else}no{/if}
 </td><td>
-<a href="{link action=activate_question id=$question->id}">Activate</a>
+{if $question->is_active}
+	<a href="{link action=activate_question id=$question->id activate=0}">Deactivate</a>
+{else}
+	<a href="{link action=activate_question id=$question->id activate=1}">Activate</a>
+{/if}
 <a href="{link action=edit_question id=$question->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 <a href="{link action=delete_question id=$question->id}" onclick="return confirm('Are you sure you want to delete this question and all associated answers / responses?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 </td></tr>

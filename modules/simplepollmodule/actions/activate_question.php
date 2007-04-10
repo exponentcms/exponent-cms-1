@@ -45,7 +45,8 @@ if ($question) {
 		$update_obj->is_active = 0;
 		$db->updateObject($update_obj,'poll_question',"location_data='".$question->location_data."'");
 		
-		$question->is_active = 1;
+		//$question->is_active = 1;
+		$question->is_active = $_GET['activate'];
 		$db->updateObject($question,'poll_question');
 		exponent_flow_redirect();
 	} else {
