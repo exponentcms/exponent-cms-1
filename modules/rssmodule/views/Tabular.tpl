@@ -27,7 +27,7 @@
 	  <a href="{$item.link}">{$item.title}</a>
   	  </td>
 	  <td>
-	   {$item.dc.date|rss_date_parse|date_format:"%A, %B %e, %Y"}
+	   {$item.dc.date|format_date:$smarty.const.DISPLAY_DATETIME_FORMAT}
 	  </td>
 	  </tr>
 	  
