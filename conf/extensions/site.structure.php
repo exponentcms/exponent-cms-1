@@ -43,7 +43,7 @@ $stuff = array(
 			'description'=>$i18n['use_lang_desc'],
 			'control'=>new dropdowncontrol(0,exponent_lang_list())
 		),
-		'SITE_ALLOW_REGISTRATION'=>array(
+		/*'SITE_ALLOW_REGISTRATION'=>array(
 			'title'=>$i18n['allow_registration'],
 			'description'=>$i18n['allow_registration_desc'],
 			'control'=>new checkboxcontrol()
@@ -52,7 +52,7 @@ $stuff = array(
 			'title'=>$i18n['use_captcha'],
 			'description'=>$i18n['use_captcha_desc'],
 			'control'=>new checkboxcontrol()
-		),
+		),*/
 		'SITE_KEYWORDS'=>array(
 			'title'=>$i18n['site_keywords'],
 			'description'=>$i18n['site_keywords_desc'],
@@ -83,6 +83,11 @@ $stuff = array(
 			'description'=>$i18n['wysiwyg_editor_desc'],
 			'control'=>new dropdowncontrol(null, $installed_editors)
 		),
+		'SESSION_TIMEOUT_ENABLE'=>array(
+                        'title'=>$i18n['enable_session_timeout'],
+                        'description'=>$i18n['enable_session_timeout_desc'],
+                        'control'=>new checkboxcontrol()
+                ),
 		'SESSION_TIMEOUT'=>array(
 			'title'=>$i18n['session_timeout'],
 			'description'=>$i18n['session_timeout_desc'],

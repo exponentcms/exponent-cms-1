@@ -32,6 +32,7 @@ if (!defined('SITE_DEFAULT_SECTION')) define('SITE_DEFAULT_SECTION',1);
 
 if (!defined('SITE_WYSIWYG_EDITOR')) define('SITE_WYSIWYG_EDITOR','FCKeditor');
 
+if (!defined('SESSION_TIMEOUT_ENABLE')) define('SESSION_TIMEOUT_ENABLE',false);
 if (!defined('SESSION_TIMEOUT')) define('SESSION_TIMEOUT',3600*5);
 if (!defined('SESSION_TIMEOUT_HTML')) define('SESSION_TIMEOUT_HTML',exponent_unhtmlentities('<h3>Expired Login Session</h3>Your session has expired, because you were idle too long.  You will have to log back into the system to continue what you were doing.'));
 

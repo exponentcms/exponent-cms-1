@@ -56,7 +56,7 @@ function exponent_sessions_initialize() {
 	session_name(SYS_SESSION_COOKIE);
 	session_id($sessid);
 	$_COOKIE['PHPSESSID'] = $sessid;
-	//session_set_cookie_params(SESSION_TIMEOUT*2); // Full cookie lasts twice as long as the login session.
+	session_set_cookie_params(60*60*24*100); // This sets the cookie to expire in 100 days - ||seconds*minutes*hours*days||
 	
 	session_start();
 	if (!isset($_SESSION[SYS_SESSION_KEY])) $_SESSION[SYS_SESSION_KEY] = array();
@@ -79,13 +79,15 @@ function exponent_sessions_validate() {
 	}else{
 		$ticket = $db->selectObject('sessionticket',"ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
 	}	
-	
-	$timeoutval = SESSION_TIMEOUT;
-	if ($timeoutval < 300) $timeoutval = 300;
-	if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
-		exponent_sessions_logout();
-		define('SITE_403_HTML',SESSION_TIMEOUT_HTML);
-		return;
+
+	if(SESSION_TIMEOUT_ENABLE == 'true'){	
+		$timeoutval = SESSION_TIMEOUT;
+		if ($timeoutval < 300) $timeoutval = 300;
+		if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
+			exponent_sessions_logout();
+			define('SITE_403_HTML',SESSION_TIMEOUT_HTML);
+			return;
+		}
 	}
 		
 	
