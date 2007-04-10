@@ -39,13 +39,15 @@ class navigationmodule {
 	
 	function show($view,$loc = null,$title = '') {
 		global $db;
-		$id = exponent_sessions_get('last_section');
+		//$id = exponent_sessions_get('last_section');
+		global $sectionObj;
+		$id = $sectionObj->id;
 		$current = null;
 		
 		switch( $view )
 		{
   			case "Breadcrumb":
-				//Show not only the location of a page in the hyarchie but also the location of a standalone page
+				//Show not only the location of a page in the hierarchy but also the location of a standalone page
 				$current = $db->selectObject('section',' id= '.$id);
 				
 				if( $current->parent == -1 )
