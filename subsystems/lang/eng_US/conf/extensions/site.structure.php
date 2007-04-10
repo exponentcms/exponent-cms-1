@@ -30,6 +30,9 @@ return array(
 	
 	'default_section'=>'Default Section',
 	'default_section_desc'=>'The default section.',
+
+	'enable_session_timeout'=>'Enable Session Timeout',
+	'enable_session_timeout_desc'=>'This will turn on and off the timeout value for users.',
 	
 	'session_timeout'=>'Session Timeout',
 	'session_timeout_desc'=>'How long a user can be idle (in seconds) before they are automatically logged out.',
