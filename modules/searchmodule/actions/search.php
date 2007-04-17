@@ -19,6 +19,7 @@
 
 //GREP:VIEWIFY
 if (!defined("EXPONENT")) exit("");
+if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 
 // First, check our module config
 $config = $db->selectObject('searchmodule_config',"location_data='".serialize($loc)."'");
@@ -30,12 +31,12 @@ if ($config == null) {
 if (isset($_REQUEST['modules'])) {
 	$modules = $_REQUEST['modules'];
 } elseif (!isset($config->modules) && !isset($_REQUEST['modules'])) {
-	$modules = array();
+	//$modules = array();
+	$modules=array_keys(getModuleNames(null));
 } else {
 	$modules = unserialize($config->modules);
 }
 
-if (!defined("SYS_SEARCH")) include_once(BASE."subsystems/search.php");
 $search_string = trim(strtolower(strip_tags($_GET['search_string'])));
 
 if ($search_string == "") {
