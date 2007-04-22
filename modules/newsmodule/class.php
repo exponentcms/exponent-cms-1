@@ -54,10 +54,21 @@ class newsmodule {
 	function getRSSContent($loc) {
 		global $db;
 	
+		//Get this modules configuration data
+		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
+
+		//If this module was configured as an aggregant, then turn off check for the location_data
+                if (isset($config->aggregate) && $config->aggregate == true) {
+                        $ifloc = '';
+                } else {
+                        $ifloc = "location_data='" . serialize($loc) . "' AND ";
+                }
+
 		//Get this modules items
 		$items = array();
-		$items = $db->selectObjects("newsitem", "location_data='".serialize($loc)."'");
-
+		//$items = $db->selectObjects("newsitem", "location_data='".serialize($loc)."'");
+		$items = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder);
+		
 		//Convert the newsitems to rss items
 		$rssitems = array();
 		foreach ($items as $key => $item) {	
@@ -150,12 +161,21 @@ class newsmodule {
 		
 		//Get the tags that have been selected to be shown in the grouped by tag views
 		if (isset($config->show_tags)) {
-        	$available_tags = unserialize($config->show_tags);
-        } else {
-        	$available_tags = array();
-        }
+        		$available_tags = unserialize($config->show_tags);
+        	} else {
+        		$available_tags = array();
+        	}
 
-		$news = $db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
+		//If this module was configured as an aggregant, then turn off check for the location_data
+		if (isset($config->aggregate) && $config->aggregate == true) {
+			$ifloc = '';
+		} else {
+			$ifloc = "location_data='" . serialize($loc) . "' AND ";
+		}			
+		
+		//Get the news items.
+		$news = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
+
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
 			$nloc = exponent_core_makeLocation($loc->mod,$loc->src,$news[$i]->id);
