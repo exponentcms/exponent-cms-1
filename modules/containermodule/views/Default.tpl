@@ -109,7 +109,6 @@
 						</tr>
 					</table>
 					</div>
-					</div>
 				</div>
 			{/permissions}
 				<div class="container_box">
