@@ -113,22 +113,22 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 				}
 			}
 		}
-		//If is a new post show response, otherwise redirect to the flow.
-		if (!isset($_POST['data_id'])) {
-			$template = new template("formbuilder","_view_response");
-			global $SYS_FLOW_REDIRECTIONPATH;
-			$SYS_FLOW_REDIRECTIONPATH = "editfallback";
-			$template->assign("backlink",exponent_flow_get());
-			$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
-			$template->assign("response_html",$f->response);
-			$template->output();
-		}
-		else {
-			exponent_flow_redirect();
-		}
-	} else {
-		echo SITE_403_HTML;
 	}
+
+	//If is a new post show response, otherwise redirect to the flow.
+	if (!isset($_POST['data_id'])) {
+		$template = new template("formbuilder","_view_response");
+		global $SYS_FLOW_REDIRECTIONPATH;
+		$SYS_FLOW_REDIRECTIONPATH = "editfallback";
+		$template->assign("backlink",exponent_flow_get());
+		$SYS_FLOW_REDIRECTIONPATH = "exponent_default";
+		$template->assign("response_html",$f->response);
+		$template->output();
+	} else {
+		exponent_flow_redirect();
+	}
+} else {
+	echo SITE_403_HTML;
 }
 
 ?>
