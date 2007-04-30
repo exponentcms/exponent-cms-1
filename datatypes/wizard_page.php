@@ -19,7 +19,7 @@
 
 class wizard_page {
 	function form($object) {
-		$i18n = exponent_lang_loadFile('datatypes/wizard_pages.php');
+		$i18n = exponent_lang_loadFile('datatypes/wizard_page.php');
 		
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
