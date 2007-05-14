@@ -504,7 +504,8 @@ class mysql_database {
                 return $resarray;
         }
 
-	function selectValue($table,$col,$where) {
+	function selectValue($table,$col,$where=null) {
+	if ($where == null) $where = "1";
     	$res = @mysql_query("SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
 
         if ($res == null) return null;
