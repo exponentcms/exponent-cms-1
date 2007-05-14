@@ -44,7 +44,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 	debug('Current revision of file is $Id$');
 
 	// Ugly kluge
-	$from = SMTP_FROMADDRESS; // For shared hosters
+	if (!isset($from) || $from == "") $from = SMTP_FROMADDRESS; // For shared hosters
 
 	if (!is_array($to_r)) $to_r = array($to_r);
 	if (!is_array($headers)) {
@@ -108,6 +108,8 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 		$i = 0;
 		foreach ($to_r as $key=>$to) {
 			$i++;
+			//sleep for 1/2 second between each email.
+			usleep(500000);
 			//first check to see if we're still alive:
 			exponent_smtp_sendServerMessage($socket,"NOOP");
 			if (exponent_smtp_checkResponse($socket,"250")) {											
@@ -116,7 +118,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 				$debugMsg = '';
 				
 				//do presend callback
-				$precallback($i,$message,$subject,$headers,$preUdata);
+				$precallback($key,$message,$subject,$headers,$preUdata[$key]);
 				
 				exponent_smtp_sendServerMessage($socket,"MAIL FROM: $from");
 				if (!exponent_smtp_checkResponse($socket,"250")) {
