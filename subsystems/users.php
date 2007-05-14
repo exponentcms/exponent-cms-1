@@ -591,6 +591,19 @@ function exponent_users_getUserById($uid) {
 	return $SYS_USERS_CACHE[$uid];
 }
 
+function exponent_users_getUsersByEmail($email) {
+    global $db;
+    $tmpus = $db->selectObjects('user',"email='$email'");
+    foreach ($tmpus as $key=>$tmpu) {
+	    if ($tmpu && $tmpu->is_admin == 1) {
+           	// User is an admin.  Update is_acting_admin, just in case.
+                // This can be removed as soon as 0.95 is deprecated.
+                $tmpus[$key]->is_acting_admin = 1;
+            }
+    }
+    return $tmpus;
+}
+
 /* exdoc
  * Gets a list of all user accounts in the system.  By giving different
  * combinations of the two boolean arguments. threee different lists
