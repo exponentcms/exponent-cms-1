@@ -382,6 +382,34 @@ function exponent_template_getViewConfigOptions($module,$view) {
 	return $options;
 }
 
+function exponent_template_getFormTemplates($type) {
+    $forms = array();
+
+    //Get the forms from the base form diretory
+    if (is_dir(BASE.'forms/'.$type)) {
+        if ($dh = opendir(BASE.'forms/'.$type)) {
+             while (false !== ($file = readdir($dh))) {
+                if ( (substr($file,-4,4) == ".tpl") && ($file{0} != '_')) {
+                    $forms[substr($file,0,-4)] = substr($file,0,-4);
+                }
+            }
+        }
+    }
+    //Get the forms from the themes form directory.  If the theme has forms of the same
+    //name as the base form dir, then they will overwrite the ones already  in the array $forms.
+    if (is_dir(THEME_ABSOLUTE.'forms/'.$type)) {
+        if ($dh = opendir(THEME_ABSOLUTE.'forms/'.$type)) {
+             while (false !== ($file = readdir($dh))) {
+                if ( (substr($file,-4,4) == ".tpl") && ($file{0} != '_')) {
+                    $forms[substr($file,0,-4)] = substr($file,0,-4);
+                }
+            }
+        }
+    }
+
+    return $forms;
+}
+
 function exponent_template_listFormTemplates($type) {
 	return exponent_core_buildNameList("forms", $type, "tpl", "[!_]*");
 }
