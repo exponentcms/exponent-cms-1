@@ -211,7 +211,7 @@ function exponent_core_makeRSSLink($params) {
  */
 function exponent_core_makeSecureLink($params) {
 	if (!ENABLE_SSL) return exponent_core_makeLink($params);
-	$link = SSL_URL . SCRIPT_FILENAME . "?";
+	$link = SSL_URL .  SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
 	foreach ($params as $key=>$value) {
 		$value = chop($value);
 		$key = chop($key);
