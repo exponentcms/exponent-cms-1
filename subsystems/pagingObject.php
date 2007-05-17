@@ -84,12 +84,12 @@ class PagingObject {
   
   function GetUpperLimit()
   {
-    return $this->pageCurrent + 2;  
+  	return $this->pageCurrent + 10;  
   }
   
   function GetLowerLimit()
   {
-    return (($this->pageCurrent-2) < 1) ? 1 : ($this->pageCurrent-2);
+    return (($this->pageCurrent-10) < 1) ? 1 : ($this->pageCurrent-10);
   }    
 }
 
