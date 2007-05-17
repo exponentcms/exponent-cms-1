@@ -112,10 +112,9 @@ $stuff = array(
 	)
 );
 global $user;
-if (!$user || (isset($user->is_admin) && $user->is_admin == 0)) {
-	unset($stuff[$i18n['database']]['import']);
+if (!isset($user) || (isset($user->is_admin) && $user->is_admin == 0) ) {
+ unset($stuff[$i18n['database']]['import']);
 }
-
 return $stuff;
 
 ?>
