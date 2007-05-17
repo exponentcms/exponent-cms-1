@@ -149,7 +149,11 @@ $template->register_permissions(
 );
 
 $template->assign("monitoring",($user && $db->selectObject("bb_boardmonitor","user_id=".$user->id." AND board_id=".$bb->id) != null ? 1 : 0));
-$template->assign("loggedin",($user!= null ? 1 : 0));
+if (isset($user) &&  $user->id != 0) {
+    $template->assign("loggedin", true);
+} else {
+    $template->assign("loggedin", false);
+}
 $template->output();
 
 ?>
