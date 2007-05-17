@@ -33,6 +33,11 @@ foreach (glob(BASE . "subsystems/forms/controls/EditorControl/views/*.tpl") as $
 $stuff = array(
 	$i18n['title'],
 	array(
+		'ORGANIZATION_NAME'=>array(
+                        'title'=>$i18n['org_name'],
+                        'description'=>$i18n['org_name_desc'],
+                        'control'=>new textcontrol()
+                ),
 		'SITE_TITLE'=>array(
 			'title'=>$i18n['site_title'],
 			'description'=>$i18n['site_title_desc'],

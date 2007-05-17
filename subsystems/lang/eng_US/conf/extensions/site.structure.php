@@ -2,6 +2,9 @@
 
 return array(
 	'title'=>'General Site Configuration',
+
+	'org_name'=>'Organization Name',
+        'org_name_desc'=>'The name of your company or organization.  This is used in several places in the system.',
 	
 	'site_title'=>'Site Title',
 	'site_title_desc'=>'The title of the website.',
