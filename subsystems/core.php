@@ -445,9 +445,11 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	if ($type == "modules") {
 		$relpath .= "modules/";
 	} elseif($type == "forms") {
-		$relpath .= "subsystems/forms/";
-	} elseif($type == "forms/email") {
-		$relpath .= "forms/";
+		if ($name == "forms/email") {
+			$relpath .= "/";
+		} else {
+			$relpath .= "subsystems/forms/";
+		}
 	} elseif($type == "themes") {
 		$relpath .= "themes/";
 	} elseif($type == "datatypes") {
@@ -478,7 +480,11 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	} elseif($subtype == "js") {
 		$relpath2 .= "js/";
 	} elseif($subtype == "tpl") {
-		$relpath2 .= "views/";
+		if ($name == "forms/email") {
+			$relpath2 .= "/";
+		} else {
+			$relpath2 .= "views/";
+		}
 	} elseif($subtype == "form") {
 		$relpath2 .= "views/";
 	} elseif($subtype == "action") {
