@@ -36,7 +36,7 @@ if ($resource != null) {
 
 	$config = $db->selectObject('resourcesmodule_config', "location_data='".serialize($loc)."'");
 
-	if ($config->allow_anon_downloads != true) {
+	if (!isset($config) || $config == null || $config->allow_anon_downloads != true) {
     		if ( !exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
       			echo '<div class="error">You do not have permissions to download this file.</div>';
       			exit();
@@ -61,6 +61,9 @@ if ($resource != null) {
         $filenametest = $file->directory . "/" . $file->filename;
 	
     if (file_exists($filenametest)) {			
+	//increment the download counter
+      $db->increment("resourceitem","num_downloads",1,'id='.$resource->id);
+
       ob_end_clean();
       ob_start("ob_gzhandler");
       

@@ -50,6 +50,8 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'rank'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'num_downloads'=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 );
 
 ?>
