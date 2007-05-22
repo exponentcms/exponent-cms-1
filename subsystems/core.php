@@ -445,9 +445,7 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	if ($type == "modules") {
 		$relpath .= "modules/";
 	} elseif($type == "forms") {
-		if ($name == "forms/email") {
-			$relpath .= "/";
-		} else {
+		if ($name != "forms/email") {
 			$relpath .= "subsystems/forms/";
 		}
 	} elseif($type == "themes") {
