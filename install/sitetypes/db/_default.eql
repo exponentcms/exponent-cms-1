@@ -219,10 +219,6 @@ TABLE:groupmembership
 
 TABLE:grouppermission
 
-TABLE:htmltemplate
-
-TABLE:htmltemplateassociation
-
 TABLE:locationref
 RECORD:O:8:"stdClass":5:{s:6:"module";s:16:"navigationmodule";s:6:"source";s:0:"";s:8:"internal";s:0:"";s:8:"refcount";s:4:"1000";s:11:"description";s:0:"";}
 RECORD:O:8:"stdClass":5:{s:6:"module";s:11:"loginmodule";s:6:"source";s:0:"";s:8:"internal";s:0:"";s:8:"refcount";s:4:"1000";s:11:"description";s:0:"";}
@@ -446,4 +442,3 @@ RECORD:O:8:"stdClass":11:{s:2:"id";s:1:"1";s:5:"title";s:15:"First Blog Post";s:
 
 TABLE:weblogmodule_config
 RECORD:O:8:"stdClass":7:{s:2:"id";s:1:"1";s:13:"location_data";s:104:"O:8:"stdClass":3:{s:3:"mod";s:12:"weblogmodule";s:3:"src";s:20:"@random41940a4020842";s:3:"int";s:0:"";}";s:14:"allow_comments";s:1:"1";s:14:"items_per_page";s:2:"10";s:10:"enable_rss";s:1:"1";s:10:"feed_title";s:25:"Example Exponent CMS Blog";s:9:"feed_desc";s:1:"0";}
-
