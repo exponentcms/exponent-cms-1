@@ -110,7 +110,8 @@ if (($item == null && exponent_permissions_check('post',$loc)) ||
 		$form->registerBefore('submit', null,'', new htmlcontrol('<hr size="1" />'));
 		$allforms = array();
 		$allforms[''] = $i18n['no_feedback'];
-		$allforms = array_merge($allforms, exponent_template_getFormTemplates('email'));
+		//$allforms = array_merge($allforms, exponent_template_getFormTemplates('email'));
+		$allforms = array_merge($allforms, exponent_template_listFormTemplates("forms/email"));
 		$form->registerAfter('eventend', 'feedback_form', $i18n['feedback_form'], new dropdowncontrol($item->feedback_form, $allforms));
 		$form->registerAfter('feedback_form', 'feedback_email', $i18n['feedback_email'], new textcontrol($item->feedback_email, 20));
 		$form->registerBefore('feedback_form', null, '', new htmlcontrol('<br />'));
