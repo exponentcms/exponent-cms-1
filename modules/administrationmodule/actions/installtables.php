@@ -20,6 +20,10 @@
 if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('configuration',exponent_core_makeLocation('administrationmodule'))) {
+	
+	/* This code is copied in the install system without permissions in order to upgrade the database during 
+	* install.  Be sure to copy any changes there if modifying this code */
+	
 	define("TMP_TABLE_EXISTED",		1);
 	define("TMP_TABLE_INSTALLED",	2);
 	define("TMP_TABLE_FAILED",		3);
