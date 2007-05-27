@@ -16,7 +16,7 @@
 	<div style="border: 1px solid black; margin: 25%; padding: 3em;">
 	{$smarty.const.MAINTENANCE_MSG_HTML}
 		<p>
-			<a href="login.php">Administrator Login{$_TR.login}</a>
+			<a href="login.php">{$_TR.login}</a>
 		</p>
 	</div>
 	</body>
