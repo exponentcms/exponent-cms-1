@@ -401,10 +401,10 @@ function exponent_image_flip($filename,$is_horizontal) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_image_output($img,$sizeinfo,$filename = null) {
+function exponent_image_output($img, $sizeinfo, $filename=null,  $quality=75) {
 	header('Content-type: ' . $sizeinfo['mime']);
 	if ($sizeinfo['mime'] == 'image/jpeg') {
-		($filename != null) ? imagejpeg($img,$filename) : imagejpeg($img);
+		($filename != null) ? imagejpeg($img, $filename, $quality) : imagejpeg($img, null, $quality);
 	} else if ($sizeinfo['mime'] == 'image/png') {
 		($filename != null) ? imagepng($img,$filename) : imagepng($img);
 	} else if ($sizeinfo['mime'] == 'image/gif') {

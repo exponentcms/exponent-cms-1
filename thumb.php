@@ -34,6 +34,7 @@ if (isset($_GET['id'])) {
     $_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
 }
 
+$quality = isset($_GET['quality']) ? intval($_GET['quality']) : 75;
 
 $file = BASE.$_GET['file'];
 $thumb = null;
@@ -53,9 +54,9 @@ $mythumb = getimagesize($file);
 if ($mythumb[0] > 0 && $mythumb[1] > 0)
 {
     if (is_resource($thumb)) {
-        exponent_image_output($thumb,exponent_image_sizeinfo($file));
+        exponent_image_output($thumb, exponent_image_sizeinfo($file), null, $quality);
     } else {
-        exponent_image_showFallbackPreviewImage(BASE,$thumb);
+        exponent_image_showFallbackPreviewImage(BASE, $thumb);
     }
 }
 ?>
