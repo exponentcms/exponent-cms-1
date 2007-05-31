@@ -90,7 +90,6 @@
 {/if}
 <div class="weblog_itemtitle">Leave a comment</div>
 {$form_html}
-</div>
 <br /><br />
 {if $prev_post != 0 || $next_post != 0}
 <table border="0" cellpadding="3" cellspacing="0" align="left" width="100%">
