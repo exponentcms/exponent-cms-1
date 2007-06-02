@@ -80,7 +80,7 @@ function exponent_sessions_validate() {
 		$ticket = $db->selectObject('sessionticket',"ticket='".$_SESSION[SYS_SESSION_KEY]['ticket']."'");
 	}	
 
-	if(SESSION_TIMEOUT_ENABLE == 'true'){	
+	if(SESSION_TIMEOUT_ENABLE == true){	
 		$timeoutval = SESSION_TIMEOUT;
 		if ($timeoutval < 300) $timeoutval = 300;
 		if ($ticket == null || $ticket->last_active < time() - $timeoutval) {
