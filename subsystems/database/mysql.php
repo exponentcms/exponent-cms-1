@@ -147,10 +147,17 @@ class mysql_database {
 			$sql .= ", INDEX (`" . $key . "`" . (($value > 0)?"(".$value.")":"") . ")";
 		}
 		$sql .= ")";
+		if (defined(DB_ENCODING)) {
+			$sql .= " ENGINE = MYISAM CHARACTER SET " . DB_ENCODING;		
+		}else{
+			$sql .= " ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci";		
+		}	
+		
 		if (isset($info[DB_TABLE_COMMENT])) {
 			$sql .= " COMMENT = '" . $info[DB_TABLE_COMMENT] . "'";
-		}
-		@mysql_query($sql,$this->connection);
+		}			
+		
+		@mysql_query($sql,$this->connection);		
 
 		$return = array(
 			$tablename=>($this->tableExists($tablename) ? DATABASE_TABLE_INSTALLED : DATABASE_TABLE_FAILED)
