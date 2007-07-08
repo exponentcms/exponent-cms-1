@@ -21,11 +21,11 @@ class weblogmodule {
 	function name() { return exponent_lang_loadKey('modules/weblogmodule/class.php','module_name'); }
 	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/weblogmodule/class.php','module_description'); }
-	
+
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
 
 	function getRSSContent($loc) {
@@ -47,10 +47,10 @@ class weblogmodule {
                 }
                 return $rssitems;
         }
-	
+
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/weblogmodule/class.php');
-		
+
 		if ($internal == '') {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
@@ -75,7 +75,7 @@ class weblogmodule {
 			);
 		}
 	}
-	
+
 	function getLocationHierarchy($loc) {
 		if ($loc->int == '') {
 			return array($loc);
@@ -83,13 +83,13 @@ class weblogmodule {
 			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
-	
+
 	function show($view,$loc = null, $title = '') {
 		$template = new template('weblogmodule',$view,$loc);
-		
+
 		global $db;
 		global $user;
-		
+
 		$user_id = ($user ? $user->id : -1);
 
 		$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
@@ -98,7 +98,7 @@ class weblogmodule {
 			$config->items_per_page = 10;
 			$config->enable_rss = false;
 		}
-		
+
 		//If rss is enabled tell the view to show the RSS button
                 if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
 		$template->assign('enable_rss', $config->enable_rss);
@@ -107,16 +107,16 @@ class weblogmodule {
 		if (is_readable($template->viewdir."/$view.config")) {
 			$viewconfig = include($template->viewdir."/$view.config");
 		}
-		
+
 		$where = '(is_draft = 0 OR poster = '.$user_id.") AND location_data='".serialize($loc)."'";
 		if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
-			
+
 		if ($viewconfig['type'] == 'monthlist') {
 			$months = array();
-			
+
 			$min_date = $db->min('weblog_post','posted','location_data',$where);
 			$max_date = $db->max('weblog_post','posted','location_data',$where);
-			
+
 			$months = array();
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 			$start_month = exponent_datetime_startOfMonthTimestamp($min_date);
@@ -144,7 +144,7 @@ class weblogmodule {
 					}
 				}
 			}
-			
+
 			$template->assign('days',$month_days);
 			$template->assign('now',time());
 		} else {
@@ -153,7 +153,7 @@ class weblogmodule {
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			for ($i = 0; $i < count($posts); $i++) {
 				$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
-				
+
 				$posts[$i]->permissions = array(
 					'administrate'=>exponent_permissions_check('administrate',$ploc),
 					'edit'=>exponent_permissions_check('edit',$ploc),
@@ -172,7 +172,7 @@ class weblogmodule {
 			$template->assign('posts',$posts);
 			$template->assign('total_posts',$total);
 		}
-		
+
 		$template->register_permissions(
 			array('administrate','configure','post','edit','delete','comment','edit_comments','delete_comments','view_private'),
 			$loc);
@@ -180,7 +180,7 @@ class weblogmodule {
 		$template->assign('moduletitle',$title);
 		$template->output();
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
 		foreach ($db->selectObjects('weblog_post',"location_data='".serialize($loc)."'") as $post) {
@@ -189,7 +189,7 @@ class weblogmodule {
 		$db->delete('weblog_post',"location_data='".serialize($loc)."'");
 		$db->delete('weblogmodule_config',"location_data='".serialize($loc)."'");
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 		global $db;
 		foreach ($db->selectObjects('weblog_post',"location_data='".serialize($oloc)."'") as $post) {
@@ -197,7 +197,7 @@ class weblogmodule {
 			unset($post->id);
 			$post->location_data = serialize($nloc);
 			$newid = $db->insertObject($post,'weblog_post');
-			
+
 			foreach ($db->selectObjects('weblog_comment','parent_id='.$oldid) as $comment) {
 				$comment->parent_id = $newid;
 				unset($comment->id);
@@ -213,33 +213,33 @@ class weblogmodule {
 	function searchName() {
                 return "Weblogs";
         }
-	
+
 	function spiderContent($item = null) {
 		global $db;
-		
+
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
-		
+
 		$search = null;
 		$search->category = exponent_lang_loadKey('modules/weblogmodule/class.php','search_category');
 		$search->view_link = ""; // FIXME : need a view action
 		$search->ref_module = 'weblogmodule';
 		$search->ref_type = 'weblog_post';
-		
+
 		$view_link = array(
 			'module'=>'weblogmodule',
 			'action'=>'view',
 			'id'=>0
 		);
-		
+
 		if ($item && $item->is_draft == 0) {
 			$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
 			$search->body = " " . exponent_search_removeHTML($item->body) . " ";
 			$search->title = " " . $item->title . " ";
 			$search->location_data = $item->location_data;
-			
-			$view_link['id'] = $item->id;
-			$search->view_link = exponent_core_makeLink($view_link,true);
+
+			$view_link = 'index.php?module=weblogmodule&amp;action=view&amp;id='.$item->id;
+			// $search->view_link = exponent_core_makeLink($view_link,true);
 			$db->insertObject($search,'search');
 		} else {
 			$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post'");
@@ -248,14 +248,14 @@ class weblogmodule {
 				$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 				$search->title = ' ' . $item->title . ' ';
 				$search->location_data = $item->location_data;
-				
-				$view_link['id'] = $item->id;
-				$search->view_link = exponent_core_makeLink($view_link,true);
-				
+
+				$view_link = 'index.php?module=weblogmodule&amp;action=view&amp;id='.$item->id;
+				// $search->view_link = exponent_core_makeLink($view_link,true);
+
 				$db->insertObject($search,'search');
 			}
 		}
-		
+
 		return true;
 	}
 }
