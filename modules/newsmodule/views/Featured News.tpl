@@ -87,16 +87,16 @@
 	</tr>
 {foreachelse}
 <table cellspacing="0" cellpadding="4" border="1" width="100%">
-	<tr><td align="center"><i>{$_TR.no_event}</i></td></tr>
+	<tr><td align="center"><i>{$_TR.no_news}</i></td></tr>
 </table>
 {/foreach}
 </table>
 {if $morenews == 1}
-<a href="{link action=view_all_news}">View All News{$_TR.view_all}</a>
+<a href="{link action=view_all_news}">{$_TR.view_all}</a>
 {/if}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.add_item == true}
-        <br /><a class="mngmntlink news_mngmntlink" href="{link action=edit}">Create News{$_TR.create_news}</a>
+        <br /><a class="mngmntlink news_mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>
 {/if}
 {if $in_approval > 0 && $canview_approval_link == 1}
         <br /><a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>
