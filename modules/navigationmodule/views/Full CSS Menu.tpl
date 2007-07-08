@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *{math equation="x*20" x=$section->depth}
  *}
-<div id="meu">
+<div id="menu">
 {assign var=sectiondepth value=-1}
 {foreach from=$sections item=section}
 {if $section->depth > $sectiondepth}
