@@ -66,4 +66,4 @@
 {/if}
 {/permissions}
 </ul>
-
+</div>
