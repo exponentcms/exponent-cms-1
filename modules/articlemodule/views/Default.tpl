@@ -51,7 +51,7 @@
 	{if $catid != 0}
 	<td colspan="2" class="category_title">{$categories[$catid]->name}</td>
 	{else}
-	<td colspan="2" class="category_title">Not Categorized</td>
+	<td colspan="2" class="category_title">{$_TR.no_category}</td>
 	{/if}
 </tr>
 <tr><td>&nbsp;</td></tr>
@@ -69,10 +69,10 @@
 	</td>
 	{if $permissions.manage == 1}
 	<td align="right">
-		<a href="{link action=edit_article id=$article->id}" title="Edit this entry">
+		<a href="{link action=edit_article id=$article->id}" title="{$_TR.alt_edit}">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
-		<a href="{link action=delete_article id=$article->id}" title="Delete this entry" onclick="return confirm('Are you sure you want to delete this article?');">
+		<a href="{link action=delete_article id=$article->id}" title="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_confirm}');">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 		</a>	
 		{if $smarty.foreach.a.first == 0}
@@ -115,9 +115,9 @@
 
 {if $permissions.manage == 1}
 <br>
-<a href="{link action=edit_article}">New Article</a>
+<a href="{link action=edit_article}">{$_TR.new_entry}</a>
 <br>
 {if $config->enable_categories == 1}
-<a href="{link module=categories action=manage orig_module=articlemodule}">Manage Categories</a>
+<a href="{link module=categories action=manage orig_module=articlemodule}">{$_TR.manage_categories}</a>
 {/if}
 {/if}
