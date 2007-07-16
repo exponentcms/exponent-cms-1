@@ -41,7 +41,7 @@
 {/if}
 {/permissions}
 <div class="moduletitle article_moduletitle">{$moduletitle}</div>
-<br>
+<br />
 <table cellspacing="0" cellpadding="0" style="border:none;" width="100%">
 {foreach name=c from=$data key=catid item=articles}
 
@@ -65,7 +65,7 @@
 	<td colspan="2"><hr size="1"></td></tr-->
 <tr>
 	<td style="padding-left:1.5em" class="question">
-		<a href="{link action=view_article id=$article->id}" class="article_title_link">{$article->title}<br>
+		<a href="{link action=view_article id=$article->id}" class="article_title_link">{$article->title}<br />
 	</td>
 	{if $permissions.manage == 1}
 	<td align="right">
@@ -105,7 +105,7 @@
 {foreachelse}
 { if ($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)}
 <tr>
-	<td align="center"><i>No articles were found.</i></td>
+	<td align="center"><i>{$_TR.no_article}</i></td>
 </tr>
 {/if}
 {/foreach}
@@ -114,9 +114,9 @@
 </table>
 
 {if $permissions.manage == 1}
-<br>
+<br />
 <a href="{link action=edit_article}">{$_TR.new_entry}</a>
-<br>
+<br />
 {if $config->enable_categories == 1}
 <a href="{link module=categories action=manage orig_module=articlemodule}">{$_TR.manage_categories}</a>
 {/if}

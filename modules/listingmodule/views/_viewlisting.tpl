@@ -31,7 +31,7 @@
  
  {*
 <div class="listing_name">{$listing->name}</div>
-<br><br>
+<br /><br />
 <div class="listing_body">
 {$listing->body}
 </div>
@@ -43,6 +43,6 @@
 	<td align="left" style="font-size:16"><b>&nbsp;&nbsp;{$listing->name}</b></td>
 </tr>
 <tr>
-	<td colspan="2"><br><br>{$listing->body}</td>
+	<td colspan="2"><br /><br />{$listing->body}</td>
 </tr>
 </table>

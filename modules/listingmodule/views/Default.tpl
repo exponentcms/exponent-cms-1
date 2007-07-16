@@ -41,7 +41,7 @@
 {/if}
 {/permissions}
 <div class="moduletitle listing_moduletitle">{$moduletitle}</div>
-<br>
+<br />
 <table cellspacing="0" cellpadding="0" style="border:none;" width="100%">
 <tr>
 {foreach name=a from=$listings item=listing}
@@ -55,9 +55,9 @@
 			<img style="border:none;" src="{$listing->picpath}"/>
 		</a>
 		{/if}
-		<br>
+		<br />
 		{$listing->name}
-		<br>
+		<br />
 		
 		{if $permissions.configure == 1 or $permissions.administrate == 1}
 		
@@ -92,7 +92,7 @@
 </table>
 
 {if $permissions.administrate == 1}
-<br>
+<br />
 <a href="{link action=edit_listing}">New Listing</a>
-<br>
+<br />
 {/if}

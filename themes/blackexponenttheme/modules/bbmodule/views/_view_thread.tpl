@@ -65,7 +65,7 @@
 			</div>
 			<strong>{$thread->poster->username}</strong><br />
        {foreach from=$thread->poster->ranks item=rank}
-        <strong>{$rank->title}</strong><br>
+        <strong>{$rank->title}</strong><br />
       {/foreach}
 			Posted on {$thread->posted|format_date:"%D %T"}<br />
 			Number of posts: {$thread->poster->bb_user->num_posts}
@@ -123,7 +123,7 @@
 			</div>
 			<strong>{$reply->poster->username}</strong><br />
       {foreach from=$reply->poster->ranks item=rank}
-        <strong>{$rank->title}</strong><br>
+        <strong>{$rank->title}</strong><br />
       {/foreach}
 			Posted on {$reply->posted|format_date:"%D %T"}<br />
 			Number of posts: {$reply->poster->bb_user->num_posts}

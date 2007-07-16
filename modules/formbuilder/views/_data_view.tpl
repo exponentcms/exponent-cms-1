@@ -32,7 +32,7 @@ function links(object) {literal}{{/literal}
 	<tbody id="dataTable">
 	</tbody>
 </table>
-<br>
+<br />
 <table width="100%">
 <tr><td align="left" valign="bottom">
 <script language="JavaScript">document.write(paginate.drawPageStats(""));</script>

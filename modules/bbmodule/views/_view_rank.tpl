@@ -52,7 +52,7 @@
 		</td>
 	</tr>
 {/foreach}
-<tr><td align="left"><br><br><a href="{link module=bbmodule action=edit_rank}">Create a new rank</a></td></tr>
+<tr><td align="left"><br /><br /><a href="{link module=bbmodule action=edit_rank}">Create a new rank</a></td></tr>
 </table>
 </div>
 {/if}

@@ -59,7 +59,7 @@
 		</table>
 		</td>
 
-		<td align="left" style="border:none;" valign="top"><br><br>
+		<td align="left" style="border:none;" valign="top"><br /><br />
 				{$thread->body}
 		</td>
 	</tr>
@@ -70,5 +70,5 @@
 </table>
 
 {$form_html}
-<br>
+<br />
 *Use shift-enter to insert a single line.

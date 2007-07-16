@@ -14,7 +14,7 @@
  *
  *}
  
- <div align="center"><center><b>{$_TR.form_title}</b><br>{$_TR.form_header}</center></div>
+ <div align="center"><center><b>{$_TR.form_title}</b><br />{$_TR.form_header}</center></div>
  <div style="border: 2px dashed lightgrey; padding: 1em;">
 {$form_html}
 </div>

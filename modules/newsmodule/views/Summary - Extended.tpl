@@ -29,7 +29,7 @@
 {if $moduletitle != ""}<div class="moduletitle news_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$news item=newsitem}
 	<div>
-		{$newsitem->real_posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}<br>
+		{$newsitem->real_posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}<br />
                 <div class="itemtitle news_itemtitle"><a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}" title="{$newsitem->body|summarize:"html":"para"}">{$newsitem->title}</a></div>
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == true || $newsitem->permissions.administrate == true}

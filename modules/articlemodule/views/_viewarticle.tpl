@@ -35,7 +35,7 @@
 	<a href="{link action=delete_article id=$article->id}" onclick="return confirm('Are you sure you want to delete this article?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 {/if}
 {/permissions}
-<br><br>
+<br /><br />
 <div class="article_body">
 {$article->body}
 </div>

@@ -41,7 +41,7 @@
 {/if}
 {/permissions}
 <div class="moduletitle listing_moduletitle">{$moduletitle}</div>
-<br>
+<br />
 {literal}
 <SCRIPT LANGUAGE="JavaScript">
 function ViewImage(ifile,ix,iy,ititle) { 
@@ -88,9 +88,9 @@ function ViewImage(ifile,ix,iy,ititle) {
 		</a>
 		{/if}
 	</td><td align="center" valign="top">
-		<br>
-		{$listing->name}<br>{$listing->body}
-		<br>
+		<br />
+		{$listing->name}<br />{$listing->body}
+		<br />
 		
 		{if $permissions.configure == 1 or $permissions.administrate == 1}
 		
@@ -125,7 +125,7 @@ function ViewImage(ifile,ix,iy,ititle) {
 </table>
 
 {if $permissions.administrate == 1}
-<br>
+<br />
 <a href="{link action=edit_listing}">New Listing</a>
-<br>
+<br />
 {/if}

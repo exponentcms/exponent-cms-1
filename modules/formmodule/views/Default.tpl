@@ -30,7 +30,7 @@
 {if $permissions.editreport == 1}<br /><a href="{link action=edit_report module=formbuilder}&id={$form->id}">{$_TR.edit_report}</a>{/if}
 {/permissions}
 {if $formmsg != "" }
-<br><br>
+<br /><br />
 {$formmsg}
 {/if}
  <div style="border: padding: 1em;">

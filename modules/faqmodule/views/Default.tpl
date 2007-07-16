@@ -41,7 +41,7 @@
 {/if}
 {/permissions}
 <div class="moduletitle faq_moduletitle">{$moduletitle}</div>
-<br>
+<br />
 <table cellspacing="0" cellpadding="0" style="border:none;" width="100%">
 {foreach name=c from=$data key=catid item=qnas}
 
@@ -71,7 +71,7 @@
 	<td colspan="2"><hr size="1"></td></tr-->
 <tr>
 	<td style="padding-left:1.5em" class="question">
-		{$qna->question}<br>
+		{$qna->question}<br />
 	</td>
 	{if $permissions.configure == 1 or $permissions.administrate == 1}
 	<td align="right">
@@ -121,9 +121,9 @@ BLAH
 </table>
 
 {if $permissions.administrate == 1}
-<br>
+<br />
 <a href="{link action=edit_faq}">New FAQ Entry</a>
-<br>
+<br />
 {if $config->enable_categories == 1}
 <a href="{link module=categories action=manage orig_module=faqmodule}">Manage Categories</a>
 {/if}
