@@ -49,7 +49,7 @@
 <tr><td><hr size="1"></td></tr>
 <tr>
 	{if $categories[$catid]->name == ""}
-	<td colspan="2" class="category_title">Not Categorized</td>
+	<td colspan="2" class="category_title">{$_TR.no_category}</td>
 	{else}
 	<td colspan="2" class="category_title">{$categories[$catid]->name}</td>
 	{/if}
@@ -75,7 +75,7 @@
 	</td>
 	{if $permissions.configure == 1 or $permissions.administrate == 1}
 	<td align="right">
-		<a href="{link action=edit_faq id=$qna->id}" title="Edit this entry">
+		<a href="{link action=edit_faq id=$qna->id}" title="{$_TR.alt_edit}">
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 		</a>
 		<a href="{link action=delete_faq id=$qna->id}" title="Delete this entry">
@@ -111,20 +111,19 @@
 {foreachelse}
 { if ($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)}
 <tr>
-	<td align="center"><i>No Questions or Answers were found for this FAQ.</i></td>
+	<td align="center"><i>{$_TR.no_entry}</i></td>
 </tr>
 {/if}
 {/foreach}
 {foreachelse}
-BLAH
 {/foreach}
 </table>
 
 {if $permissions.administrate == 1}
 <br />
-<a href="{link action=edit_faq}">New FAQ Entry</a>
+<a href="{link action=edit_faq}">{$_TR.new_entry}</a>
 <br />
 {if $config->enable_categories == 1}
-<a href="{link module=categories action=manage orig_module=faqmodule}">Manage Categories</a>
+<a href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
 {/if}
 {/if}
