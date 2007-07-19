@@ -21,7 +21,7 @@ if (!defined('EXPONENT')) exit('');
 
 $post = null;
 $iloc = null;
-$newpoast = 0;
+$newpost = 0;
 
 if (isset($_POST['id'])) {
 	$post = $db->selectObject('weblog_post','id='.intval($_POST['id']));
@@ -33,17 +33,17 @@ else
     $newpost = 1;
 }
 
-if (($post != null && exponent_permissions_check('edit',$loc)) || 
+if (($post != null && exponent_permissions_check('edit',$loc)) ||
 	($post == null && exponent_permissions_check('post',$loc)) ||
 	($post != null && exponent_permissions_check('edit',$iloc))
 ) {
 	// Need to be able to update the posted date if switching from draft to non-draft.
 	$was_draft = 0;
 	if ($post) $was_draft = $post->is_draft;
-	
+
 	$post = weblog_post::update($_POST,$post);
 	$post->location_data = serialize($loc);
-	
+
 	if (isset($post->id)) {
 		if ($was_draft && $post->is_draft == 0) {
 			// No longer a draft.
@@ -67,9 +67,9 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		$post->poster = $user->id;
 		$post->posted = time();
 		$post->id = $db->insertObject($post,'weblog_post');
-		
+
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
-		
+
 		// New, so asign full perms.
 		exponent_permissions_grant($user,'edit',$iloc);
 		exponent_permissions_grant($user,'delete',$iloc);
@@ -79,7 +79,7 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		exponent_permissions_grant($user,'view_private',$iloc);
 		exponent_permissions_triggerSingleRefresh($user);
 	}
-	
+
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
