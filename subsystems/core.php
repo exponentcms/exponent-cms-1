@@ -161,7 +161,7 @@ function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
 function exponent_core_makeLink($params,$type='',$sef_name='') {
 	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 	
-	if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
+	if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION && !defined('SOURCE_SELECTOR')) {
 		$link .= SCRIPT_RELATIVE;
 		return $link;
 	}
