@@ -511,6 +511,21 @@ class mysql_database {
                 return $resarray;
         }
 
+	function selectDropdown($table,$col,$where = null,$orderby = null) {
+                if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+                else $orderby = "ORDER BY " . $orderby;
+
+                $res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
+                if ($res == null) return array();
+                $resarray = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++){
+                        $row = mysql_fetch_object($res);
+                        $resarray[$row->id] = $row->$col;
+                }
+                return $resarray;
+        }
+
 	function selectValue($table,$col,$where=null) {
 	if ($where == null) $where = "1";
     	$res = @mysql_query("SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1",$this->connection);
