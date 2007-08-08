@@ -304,3 +304,22 @@ function print_r(input, _indent)
 	}
 	return output;
 }
+
+// This converts a javascript array to a string in PHP serialized format.
+// This is useful for passing arrays to PHP. On the PHP side you can 
+// unserialize this string from a cookie or request variable. 
+
+function js_array_to_php_array (a)
+{
+    var a_php = "";
+    var total = 0;
+    for (var key in a)
+    {
+        ++ total;
+        a_php = a_php + "s:" +
+                String(key).length + ":\"" + String(key) + "\";s:" +
+                String(a[key]).length + ":\"" + String(a[key]) + "\";";
+    }
+    a_php = "a:" + total + ":{" + a_php + "}";
+    return a_php;
+}
