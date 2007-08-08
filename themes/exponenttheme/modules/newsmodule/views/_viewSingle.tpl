@@ -22,7 +22,7 @@
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $newsitem->permissions.edit_item == 1}
-	{if $n->approved == 2} {* in ap *}
+	{if $newsitem->approved == 2} {* in ap *}
 	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 	{else}
 	<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$newsitem->id}">
@@ -31,7 +31,7 @@
 	{/if}
 {/if}
 {if $newsitem->permissions.delete_item == 1}
-	{if $n->approved == 2} {* in ap *}
+	{if $newsitem->approved == 2} {* in ap *}
 	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 	{else}
 	<a class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}" onclick="return confirm('{$_TR.delete_confirm}');">
