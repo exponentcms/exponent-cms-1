@@ -38,39 +38,34 @@ if ($post && $post->is_draft == 0) {
 	$loc = unserialize($post->location_data);
 	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 
-	/*if ((!$comment && exponent_permissions_check('comment',$loc)) ||
-		(!$comment && exponent_permissions_check('comment',$iloc)) ||
-		($comment && exponent_permissions_check('edit_comments',$loc)) ||
-		($comment && exponent_permissions_check('edit_comments',$iloc))
-	) {*/
-		$comment = null;
-		if (isset($_POST['id'])) {
-			$comment = $db->selectObject('weblog_comment','id='.intval($_POST['id']));
-		}
+	$comment = null;
+	if (isset($_POST['id'])) {
+		$comment = $db->selectObject('weblog_comment','id='.intval($_POST['id']));
+	}
 		
-		$comment = weblog_comment::update($_POST,$comment);
+	$comment = weblog_comment::update($_POST,$comment);
 
-		if (isset($comment->id)) {
-			$comment->editor = $user->id;
-			$comment->edited = time();
-			$db->updateObject($comment,'weblog_comment');
-		} else {
-			$comment->posted = time();
+	if (isset($comment->id)) {
+		$comment->editor = $user->id;
+		$comment->edited = time();
+		$db->updateObject($comment,'weblog_comment');
+	} else {
+		$comment->posted = time();
       
-      if (isset($user)) {
-			  $comment->poster = $user->id;
-        $comment->name = $user->username;
-      } elseif (isset($_POST['name'])) {
-        $comment->name = $_POST['name'];
-      } else {
-        $comment->name = 'Anonymous';
-      }
+      		if (isset($user) && $user->id != 0) {
+			$comment->poster = $user->id;
+        		$comment->name = $user->username;
+	      	} elseif (isset($_POST['name'])) {
+        		$comment->name = $_POST['name'];
+      		} else {
+        		$comment->name = 'Anonymous';
+      		}
 
-			$comment->parent_id = intval($_POST['parent_id']);
-			$db->insertObject($comment,'weblog_comment');
-		}
+		$comment->parent_id = intval($_POST['parent_id']);
+		$db->insertObject($comment,'weblog_comment');
+	}
 		
-		exponent_flow_redirect();
+	exponent_flow_redirect();
 } else {
 	echo SITE_404_HTML;
 }
