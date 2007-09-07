@@ -63,34 +63,33 @@ if ($resource != null) {
     if (file_exists($filenametest)) {			
 	//increment the download counter
       $db->increment("resourceitem","num_downloads",1,'id='.$resource->id);
-
       ob_end_clean();
-      ob_start("ob_gzhandler");
+      
+      // NO buffering from here on out or things break unexpectedly. - RAM
       
       // This code was lifted from phpMyAdmin, but this is Open Source, right?
       // 'application/octet-stream' is the registered IANA type but
       //        MSIE and Opera seems to prefer 'application/octetstream'
-      $mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octetstream' : $file->mimetype;
+     // It seems that other headers I've added make IE prefer octet-stream again. - RAM
+
+      $mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octet-stream;' : $file->mimetype;
 
       header('Content-Type: ' . $mime_type);
       header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+      header("Content-length: ".filesize($filenametest));
+      header('Content-Transfer-Encoding: binary');
+      header('Content-Encoding:');
+      header('Content-Disposition: attachment; filename="' . $file->filename . '"');
       // IE need specific headers
       if (EXPONENT_USER_BROWSER == 'IE') {
-        header('Content-Disposition: inline; filename="' . $file->filename . '"');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
+		header('Vary: User-Agent');
       } else {
-        header('Content-Disposition: attachment; filename="' . $file->filename . '"');
         header('Pragma: no-cache');
       }
-
-      $handle = fopen($filenametest, "r");
-      $contents = null;
-      $contents = fread($handle, filesize($filenametest));
-      fclose($handle);
-      if (isset($contents) && $contents != '') {
-        echo $contents;
-      }
+      //Read the file out directly
+      readfile($filenametest);
       exit();
     } else {
             echo SITE_404_HTML;

@@ -20,6 +20,11 @@
 
 if (!defined('EXPONENT')) exit('');
 
+// Added to prevent "White screen of death"
+if (version_compare(phpversion(),'5.0.0','>=') > 0) {
+require_once(BASE."subsystems/forms/controls/formcontrol.php");
+
+
 /*
  * WYSIWYG Editor Control Class
  * Controller Part of the Editor View Item
@@ -66,5 +71,6 @@ class EditorControl extends formcontrol {
 		return $html;
 	}
 }
-
+// End if only allowing this to execute on PHP5
+}
 ?>

@@ -323,3 +323,16 @@ function js_array_to_php_array (a)
     a_php = "a:" + total + ":{" + a_php + "}";
     return a_php;
 }
+
+function page(page) {
+        var uri = 'index.php?module=travelmodule&_common=1&action=page&ajax_action=1' + '&page=' + page;
+        YAHOO.util.Connect.asyncRequest('POST', uri, {
+                success : function(o) {
+                        document.getElementById('page-objects').innerHTML= o.responseText;
+                },
+                failure : function(o) {
+                        alert('An error was encountered while processing your request. ' + o.statusText);
+                },
+                timeout : 5000
+        });
+}

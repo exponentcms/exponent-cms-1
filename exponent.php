@@ -35,6 +35,10 @@ include_once(dirname(__realpath(__FILE__)).'/exponent_bootstrap.php');
 // After config config setup:
 // Put session stuff first.
 $user = null;
+
+// Initialize the AutoLoader Subsystem
+require_once(BASE.'subsystems/autoloader.php');
+
 // Initialize the Sessions Subsystem
 require_once(BASE.'subsystems/sessions.php');
 // Initializes the session.  This will populate the $user variable
@@ -111,8 +115,7 @@ if (!defined('MIMEICON_RELATIVE')) {
 require_once(BASE.'subsystems/lang.php');
 exponent_lang_initialize();
 
-// Initialize the AutoLoader Subsystem
-require_once(BASE.'subsystems/autoloader.php');
+
 // Initialize the Core Subsystem
 require_once(BASE.'subsystems/core.php');
 

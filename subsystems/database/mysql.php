@@ -476,7 +476,7 @@ class mysql_database {
 	 *   is specified as null, then no criteria is applied, and all objects are
 	 *   returned
 	 */
-	function selectObjects($table,$where = null,$orderby = null) {
+	function selectObjects($table, $where = null,$orderby = null) {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
@@ -487,6 +487,50 @@ class mysql_database {
 		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
 		return $objects;
 	}
+
+	function selectAndJoinObjects($colsA=null, $colsB=null, $tableA, $tableB, $keyA, $keyB=null, $where = null,$orderby = null) {
+		$sql = 'SELECT ';
+		if ($colsA != null) {
+			if (!is_array($colsA)) {
+				$sql .= 'a.'.$colsA.', ';
+			} else {
+				foreach ($colsA as $colA) {
+					$sql .= 'a.'.$colA.', ';
+				}
+			}
+		} else {
+			$sql .= ' a.*, ';
+		}
+
+		if ($colsB != null) {
+                        if (!is_array($colsB)) {
+                                $sql .= 'b.'.$colsB.' ';
+                        } else {
+				$i = 1;
+                                foreach ($colsB as $colB) {
+                                        $sql .= 'b.'.$colB;
+					if ($i < count($colsB)) $sql .= ', ';
+					$i++;
+                                }
+                        }
+                } else {
+                        $sql .= ' b.* ';
+                }
+	
+		$sql .= ' FROM '.$this->prefix.$tableA.' a JOIN '.$this->prefix.$tableB.' b ';
+		$sql .= is_null($keyB) ? 'USING('.$keyA.')' : 'ON a.'.$keyA.' = b.'.$keyB; 
+                
+		if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+                else $orderby = "ORDER BY " . $orderby;
+	
+                $res = @mysql_query($sql." WHERE $where $orderby",$this->connection);
+                if ($res == null) return array();
+                $objects = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
+                return $objects;
+        }
+	
 
 	function selectObjectsBySql($sql) {
                 $res = @mysql_query($sql, $this->connection);
@@ -509,6 +553,19 @@ class mysql_database {
                         $resarray[$i] = $row[0];
                 }
                 return $resarray;
+        }
+
+	function selectSum($table,$col,$where = null) {
+                if ($where == null) $where = "1";
+
+                $res = mysql_query("SELECT SUM(".$col.") FROM `" . $this->prefix . "$table` WHERE $where",$this->connection);
+                if ($res == null) return 0;
+                $resarray = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++){
+                        $row = mysql_fetch_array($res, MYSQL_NUM);
+                        $resarray[$i] = $row[0];
+                }
+                return $resarray[0];
         }
 
 	function selectDropdown($table,$col,$where = null,$orderby = null) {
@@ -599,6 +656,13 @@ class mysql_database {
 		$obj = mysql_fetch_object($res);
 		return $obj->c;
 	}
+
+	function countObjectsBySql($sql) {
+                $res = @mysql_query($sql,$this->connection);
+                if ($res == null) return 0;
+                $obj = mysql_fetch_object($res);
+                return $obj->c;
+        }
 
 	/* exdoc
 	 * Select a single object.
@@ -873,6 +937,24 @@ class mysql_database {
 		$data->data_total = $status->Data_length;
 
 		return $data;
+	}
+
+	function describeTable($table) {
+		if (!$this->tableExists($table)) return array();
+                $res = @mysql_query("DESCRIBE `".$this->prefix."$table`",$this->connection);
+                $dd = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++) {
+                        $fieldObj = mysql_fetch_object($res);
+
+                        $fieldObj->ExpFieldType = $this->getDDFieldType($fieldObj);
+                        if ($fieldObj->ExpFieldType == DB_DEF_STRING) {
+                                $fieldObj->ExpFieldLength = $this->getDDStringLen($fieldObj);
+                        }
+
+                        $dd[$fieldObj->Field] = $fieldObj;
+                }
+
+                return $dd;
 	}
 
 	/* exdoc

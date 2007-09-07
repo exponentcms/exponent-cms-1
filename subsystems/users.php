@@ -177,6 +177,9 @@ function exponent_users_getFullProfile($user) {
 		// Update this part of the User's profile.
 		$user = call_user_func(array($ext->extension,'getProfile'),$user);
 	}
+	// let's also return what groups they are in as well so we don't have to hunt for them later <- Phillip Ball : sept 3 2007
+	$user->groups = exponent_users_getGroupsForUser($user);
+	
 	// At this point, the $user object has been augmented with new attributes defined
 	// by whatever Profile Extensions have been enabled.
 	return $user;

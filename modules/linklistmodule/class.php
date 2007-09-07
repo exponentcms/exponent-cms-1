@@ -79,6 +79,7 @@ class linklistmodule {
 
 		$template = new template('linklistmodule',$view,$loc);
 		$template->assign('links',$links);
+		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','configure','create','edit','delete'),$loc);
 

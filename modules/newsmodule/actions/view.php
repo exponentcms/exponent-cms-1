@@ -37,7 +37,7 @@ if ($news != null) {
 	
 	$view = (isset($_GET['view']) ? $_GET['view'] : "_viewSingle");
 	$template = new template("newsmodule",$view,$loc);
-
+	
 	$template->assign("newsitem",$news);
 	$template->assign("loc",$loc);
 	

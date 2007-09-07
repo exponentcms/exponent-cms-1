@@ -24,19 +24,18 @@ if (!defined('EXPONENT')) exit('');
  *
  * Contains information about the MySQL Database Engine implementation
  *
- * @author James Hunt
- * @copyright 2004-2006 OIC Group, Inc.
- * @version 0.95
+ * @author Ron Miller
+ * @copyright 2004-2007 OIC Group, Inc.
+ * @version 0.96.6
  *
  * @package Subsystems
  * @subpackage Database
  */
- //TODO: investigate/fix PHP5 MySql function issues
 return array(
-	'name'=>'MySQL Database Backend',
-	'author'=>'James Hunt',
-	'description'=>'MySQL Database Backend.',
-	'is_valid'=>(function_exists('mysql_connect') ? 1 : 0),
+	'name'=>'MySQLi Database Backend',
+	'author'=>'Ron Miller',
+	'description'=>'MySQLi Database Backend available in PHP5+. Offers greatly improved database performance.',
+	'is_valid'=>(function_exists('mysqli_connect') ? 1 : 0),
 	'version'=>exponent_core_version(true)
 );
 
