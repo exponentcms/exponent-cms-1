@@ -2,7 +2,8 @@
 
 return array(
 	'form_caption'=>'Message',
-	'email'=>'Your Email Address',
+	'name'=>'Name',
+	'email'=>'Email Address',
 	'subject'=>'Subject',
 	'message'=>'Message'
 );

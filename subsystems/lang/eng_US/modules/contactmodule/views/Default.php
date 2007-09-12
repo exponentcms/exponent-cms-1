@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'name'=>'Your Name',
 	'email'=>'Your Email Address',
 	'subject'=>'Subject',
 	'message'=>'Message',

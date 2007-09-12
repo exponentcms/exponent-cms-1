@@ -40,8 +40,14 @@ if ($config == null) {
 }
 
 $headers = array();
-$headers['From'] = $config->from_name . ' <'.$config->from_address.'>';
-if ($config->replyto_address != '') $headers['Reply-to'] = $config->replyto_address;
+if (isset($_POST['email']) && $_POST['email'] != '') {
+        $headers['From'] = isset($_POST['name']) ? $_POST['name'] . ' <'.$_POST['email'].'>' : $_POST['email'];
+        $headers['Reply-to'] = $_POST['email'];
+} else {
+        $headers['From'] = $config->from_name . ' <'.$config->from_address.'>';
+        $headers['Reply-to'] = $config->replyto_address;
+        
+}
 
 if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 

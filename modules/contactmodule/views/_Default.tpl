@@ -15,6 +15,7 @@
  *}
 {$_TR.form_caption}:
 
+{$_TR.name}:     {$post.name}
 {$_TR.email}:    {$post.email}
 {$_TR.subject}:  {$post.subject}
 {$_TR.message}:  {$post.message}

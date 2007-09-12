@@ -22,19 +22,25 @@
 <input type="hidden" name="msg" value="_Default" />
 <table cellpadding="2" cellspacing="0" border="0">
 <tr>
-	<td style="width: 125px;" valign="top">{$_TR.email}:</td>
+	<td style="width: 125px;" valign="top"><label>{$_TR.name}:</label></td>
+	<td>
+		<input type="text" name="name" />
+	</td>
+</tr>
+<tr>
+	<td style="width: 125px;" valign="top"><label>{$_TR.email}:</label></td>
 	<td>
 		<input type="text" name="email" />
 	</td>
 </tr>
 <tr>
-	<td valign="top">{$_TR.subject}:</td>
+	<td valign="top"><label>{$_TR.subject}:</label></td>
 	<td>
 		<input type="text" name="subject" />
 	</td>
 </tr>
 <tr>
-	<td valign="top">{$_TR.message}:</td>
+	<td valign="top"><label>{$_TR.message}:</label></td>
 	<td>
 		<textarea name="message" rows="8" cols="45" wrap=soft></textarea>
 	</td>
