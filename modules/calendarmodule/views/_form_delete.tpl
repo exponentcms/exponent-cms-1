@@ -25,3 +25,4 @@
 	<td colspan="2"><input type="submit" value="{$_TR.delete_selected}" /></td>
 </tr>
 </table>
+</form>
