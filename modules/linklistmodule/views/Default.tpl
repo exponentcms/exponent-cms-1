@@ -25,11 +25,11 @@
 	{if $link->description != ''}<div style="margin-left: 20px;">{$link->description}</div>{/if}
 </li>
 {foreachelse}
-<div align="center"><i>No links were found.</i></div>
+<div align="center"><i>{$_TR.no_link}</i></div>
 {/foreach}
 </ul>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.create == 1}
-<a href="{link action=edit}">New Link</a>
+<a href="{link action=edit}">{$_TR.new_link}</a>
 {/if}
 {/permissions}
