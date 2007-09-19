@@ -43,7 +43,7 @@ if (isset($_GET['id'])) {
 
 if ($link) {
 	if (exponent_permissions_check('delete',$loc)) {
-		$db->delete('listlink_link','id='.$link->id);
+		$db->delete('linklist_link','id='.$link->id);
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
