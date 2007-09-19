@@ -568,8 +568,8 @@ function exponent_permissions_getUserIDsWithPermission($permission,$location) {
 
 	$groupperms = $db->selectObjects("grouppermission","module='" . $location->mod . "' AND source='" . $location->src . "' AND internal='" . $location->int . "' AND permission='$permission'");
 	foreach ($groupperms as $gperm) {
-		foreach ($db->selectObjects("groupmember","group_id=".$gperm->gid) as $member) {
-			if (!in_array($users,$member->member_id)) $users[] = $member->member_id;
+		foreach ($db->selectObjects("groupmembership","group_id=".$gperm->gid) as $member) {
+			if (!in_array($member->member_id, $users)) $users[] = $member->member_id;
 		}
 
 	}
