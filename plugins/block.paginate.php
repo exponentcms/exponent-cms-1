@@ -388,7 +388,7 @@ function smarty_block_paginate($params,$content,&$smarty) {
 							//Text based page picker
 							iPad = this.controls[key];
 
-							var totalPages = Math.floor(this.filteredData.length/this.rowsPerPage) + 1;
+							var totalPages = Math.ceil(this.filteredData.length/this.rowsPerPage);
 
 							var iLeftOverflow = iPad - (this.currentPage-1);
 							var iLeftStart = 1;
