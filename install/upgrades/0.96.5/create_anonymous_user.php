@@ -17,6 +17,7 @@
 
 global $db;
 
+/*
 // See if the anonymous user is already in the database
 $is_anon_user = null;
 $is_anon_user = $db->selectObject('user', 'username="anonymous"');
@@ -37,5 +38,6 @@ if (!is_object($is_anon_user)) {
 
 	$db->insertObject($myUser,'user');
 }
+*/
  
 ?>
