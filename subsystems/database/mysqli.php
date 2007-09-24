@@ -443,7 +443,7 @@ class mysqli_database {
 		if (mysqli_query($this->connection, $sql) != false) {
 			$id = mysqli_insert_id($this->connection);
 			return $id;
-		} else return $sql;
+		} else return 0;
 	}
 
 	function delete($table,$where = null) {
