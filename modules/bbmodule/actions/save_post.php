@@ -33,6 +33,8 @@
 
 if (!defined("EXPONENT")) exit("");
 
+global $user;
+global $db;
 $post = null;
 $bb = null;
 $ploc = null;
@@ -67,7 +69,7 @@ if (isset($_POST['id'])) {
   //$post->quote = $_POST['quote'];  
 //}
 
-if ($bb && $user) {
+if ( isset($bb) && (isset($user) && $user->id != 0) ) {
 	$bbloc = exponent_core_makeLocation($loc->mod,$loc->src,"b".$bb->id);
   $toneloc = exponent_core_makeLocation($loc->mod,$loc->src);
 	if (	($post == null && exponent_permissions_check("create_thread",$bbloc)) ||
