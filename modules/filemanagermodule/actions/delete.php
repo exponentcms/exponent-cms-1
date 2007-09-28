@@ -3,6 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2006 Maxim Mueller
+# Copyright (c) 2007 Ron Miller, OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -27,10 +28,9 @@ if ($item) {
 		exponent_permissions_check('delete', $iloc)
 	) {
 		$db->delete('file', 'id=' . $item->id);
-		unlink(BASE . "files/" . $item->filename);
-		
-		exponent_template_clear();
-		exponent_flow_redirect();
+		unlink(BASE . $item->directory . "/" . $item->filename);
+
+		header('Location: '.URL_FULL.'modules/filemanagermodule/actions/picker.php');
 	} else {
 		echo SITE_403_HTML;
 	}
