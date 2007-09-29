@@ -1,7 +1,14 @@
+Exponent Content Management System
+Copyright (c) 2004-2007 OIC Group, Inc.
+===============================================
+
 Release Notes for Exponent Content Management System
 
-For a complete list of the changes made from release to release, see the
-CHANGELOG
+For a complete list of the changes made from release to release, see the CHANGELOG
+
+0.96.6 - September 28 2006
+========================
+- This release includes many improvements, bug fixes, and speed enhancements.  Multiple editors are now available, Ajax has been integrated via the YUI libraries, new modules, RSS, tags, and much more.
 
 0.96.5 - August 09 2006
 ========================

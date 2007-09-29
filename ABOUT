@@ -1,10 +1,14 @@
+Exponent Content Management System
+Copyright (c) 2004-2007 OIC Group, Inc.
+===============================================
+
 Introduction
 ============
 
-The Exponent Team is pleased to announce Exponent Content Management System 
-version 0.96.5  Content Management Made Simple.   
+The Exponent Team is pleased to announce the GA release of Exponent Content Management System 
+version 0.96.6 - Content Management Made Simple.   
 
-The culmination of over 2.5 years of R&D and strong user community input, 
+The culmination of over 3 years of R&D and user community input, 
 Exponent offers many features found in other systems (both open source and 
 proprietary). 
 
@@ -60,24 +64,10 @@ Exponent is the next generation CMS for everyone
 
 
 
-New in Exponent 0.96.5
+New in Exponent 0.96.6
 ======================
 
-Version 0.96.5 includes various enhancements to the system, the largest being the 
-implementation of the system-level language subsystem.  This implementation 
-isolates all system-level strings (e.g.: error messages, administrative wording, etc) 
-into a language pack, which allows users to translate their core site into different 
-languages.  
-
-ExponentCMS.org will be releasing a variety of language packs shortly.
-
-Other changes in this release include performance enhancements and many security fixes.
-
-- Addition of the language subsystem.
-- Speed enhancements, including some database optimization and navigation caching.
-- Many security fixes, including typecasting of POST and QUERY vars.
-- Deprecation of the PATHOS prefix in favor of the EXPONENT prefix.
-- Deprecation of various unused components.
-- Many various bug fixes.
+Please refer to the CHANGELOG for a full list of new Exponent 0.96.6 features, and 
+a list of features coming up in future releases.
 
 Thank you for using Exponent!
