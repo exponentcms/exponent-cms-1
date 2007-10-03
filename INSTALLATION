@@ -16,10 +16,10 @@ The Exponent package is available in the following formats:
     * .tar.gz - A gzipped tarball containing the application files, for UNIX/Linux environments
     * .zip - A zip archive containing the application files, for Windows environments.
 
-The latest *stable* version of ExponentCMS is 0.96.3, available from the SourceForge project page.
-The latest version of ExponentCMS is 0.96.5 RC2, available from the SourceForge project page:
+The latest *stable* version of ExponentCMS is 0.96.6 GA, available from the SourceForge project page.
+http://www.sourceforge.net/projects/exponent/
 
-    http://www.sourceforge.net/projects/exponent/
+Please check http://www.exponentcms.org for the latest available development release. 
 
 2. Unpack the archive
 

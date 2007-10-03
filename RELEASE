@@ -6,7 +6,7 @@ Release Notes for Exponent Content Management System
 
 For a complete list of the changes made from release to release, see the CHANGELOG
 
-0.96.6 - September 28 2006
+0.96.6 - October 03 2007
 ========================
 - This release includes many improvements, bug fixes, and speed enhancements.  Multiple editors are now available, Ajax has been integrated via the YUI libraries, new modules, RSS, tags, and much more.
 
