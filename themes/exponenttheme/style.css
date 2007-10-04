@@ -1214,7 +1214,7 @@ a:hover.weblog_mngmntlink {
 }
 
 div.weblog_subheader {
-
+	font-weight: bold;
 }
 
 div.weblog_comment_odd {
