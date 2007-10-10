@@ -561,4 +561,26 @@ function exponent_core_buildNameList($type, $name, $subtype, $subname) {
 	return $nameList;
 }
 
+function exponent_core_getCurrencySymbol($currency_type) {
+	switch ($currency_type) {
+        	case "USD":
+                	return "$";
+                        break;
+                case "CAD":
+                case "AUD":
+                        return "$";
+                        break;
+                case "EUR":
+                        return "&euro;";
+                        break;
+                case "GBP":
+                        return "&#163;";
+                        break;
+                case "JPY":
+                        return "&#165;";
+                break;
+                default:
+                        return "$";
+       }
+}
 ?>
