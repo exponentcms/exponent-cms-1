@@ -149,6 +149,14 @@ if (isset($_REQUEST['ajax_action']) ) {
 	define('IN_AJAX_ACTION', 0);
 }
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// ACORN CODE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+////////////////////////////////////////////////////////////////////////////////
+// Initialize the Exp Framework Subsystem & Set the routing information
+//require_once(BASE.'framework/expFramework.php');
+//$template = null;
+require_once(BASE.'framework/router.php');
+
 #$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);

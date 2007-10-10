@@ -1,1 +1,5 @@
-ErrorDocument 404 /sourceforge_svn/index.php
+RewriteEngine On 
+RewriteRule ^$ index.html [QSA]
+RewriteRule ^([^.]+)$ $1.html [QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
