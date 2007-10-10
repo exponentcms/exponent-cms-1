@@ -159,32 +159,52 @@ function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @node Subsystems:Core
  */
 function exponent_core_makeLink($params,$type='',$sef_name='') {
-	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
-	
-	if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION && !defined('SOURCE_SELECTOR')) {
-		$link .= SCRIPT_RELATIVE;
-		return $link;
-	}
-	
-	if (SEF_URLS == 1 && $sef_name != '') {
-		$link .= SCRIPT_RELATIVE.$sef_name;
-		return $link;
-	} else {
-		$link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
-		foreach ($params as $key=>$value) {
-			$value = chop($value);
-			$key = chop($key);
-			if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
-		}
-		
-		$link = substr($link,0,-1);
-	
-		if ($type=='') {
-		  return htmlspecialchars($link,ENT_QUOTES);
-		} else { 
-		  return $link;
-		}
-	}
+        $link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
+
+        if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
+                $link .= SCRIPT_RELATIVE;
+                return $link;
+        }
+
+        // ALL THAT FOLLOWS IS EXPERIMENTAL CODE  /////////////////////////////////////////////////
+        //eDebug($params);
+        if (isset($params['section']) && $sef_name != '') {
+                $link .= SCRIPT_RELATIVE.$sef_name;
+                return $link;
+        } else {
+                $link .= SCRIPT_RELATIVE;
+                $link .= $params['module'].'/';
+                $link .= $params['action'].'/';
+                foreach ($params as $key=>$value) {
+                        $value = chop($value);
+                        $key = chop($key);
+                        if ($value != "") {
+                                if ($key != 'module' && $key != 'action' && $key != 'controller') {
+                                        $link .= urlencode($key)."/".urlencode($value)."/";
+                                }
+                        }
+                }
+                return $link;
+        }
+        /*if (SEF_URLS == 1 && $sef_name != '') {
+                $link .= SCRIPT_RELATIVE.$sef_name;
+                return $link;
+        } else {
+                $link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
+                foreach ($params as $key=>$value) {
+                        $value = chop($value);
+                        $key = chop($key);
+                        if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
+                }
+                
+                $link = substr($link,0,-1);
+        
+                if ($type=='') {
+                  return htmlspecialchars($link,ENT_QUOTES);
+                } else { 
+                  return $link;
+                }
+        }*/
 }
 
 function exponent_core_makeRSSLink($params) {
