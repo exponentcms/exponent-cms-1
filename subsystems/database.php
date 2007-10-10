@@ -219,6 +219,20 @@ define('DB_TABLE_WORKFLOW',	300);
  */
 define('DB_TABLE_COMMENT',	301);
 
+/**
+ * Form Meta Info : Form Field Type
+ * 
+ * This will specify what field type to use for a form.  Handy for scaffolding
+ * when you have special needs for the form's input elements.
+ */
+define('FORM_FIELD_TYPE', 400);
+define('FORM_FIELD_FILTER', 401);
+define('FORM_FIELD_ONCLICK', 402);
+define('FORM_FIELD_NAME', 403);
+define('FORM_FIELD_LABEL', 404);
+define('DECIMAL_MONEY', 402);
+
+
 if (!defined('DB_ENGINE')) {
 	$backends = array_keys(exponent_database_backends(1));
 	if (count($backends)) {
