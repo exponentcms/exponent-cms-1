@@ -106,13 +106,17 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 		
 		//eDebug(count($to_r));
 		$i = 0;
+		set_time_limit(count($to_r));
+		ob_start();
+		flush();
+		ob_flush();
 		foreach ($to_r as $key=>$to) {
 			$i++;
 			//sleep for 1/2 second between each email.
 			usleep(500000);
 			//first check to see if we're still alive:
 			exponent_smtp_sendServerMessage($socket,"NOOP");
-			if (exponent_smtp_checkResponse($socket,"250")) {											
+			if (exponent_smtp_checkResponse($socket,"250")) {
 				$message = $m.'';						
 				$headers["To"] = $to;
 				$debugMsg = '';
@@ -138,7 +142,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 							debug($debugMsg);							
 						}else{
 							exponent_smtp_sendHeadersPart($socket,$headers);
-							exponent_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
+						    exponent_smtp_sendMessagePart($socket,"\r\n".wordwrap($message)."\r\n");
 							// Xavier Basty - 2005/02/07 - Fix for Lotus Notes SMTP
 							exponent_smtp_sendServerMessage($socket,"\r\n.\r\n");
 							if (!exponent_smtp_checkResponse($socket,"250")) {
@@ -149,7 +153,6 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 						}
 					}
 				}
-								
 				//if we got this far and debugMsg is not set, then the message was sent succesfully 
 				//and we can update the maillog object/table
 				if ($postcallback != ''){
@@ -159,15 +162,27 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 						$postcallback($key, NL_NEWSLETTER_ERROR, $debugMsg);
 					}				
 				}
+                flush();
+                ob_flush();
+                ob_end_clean();
+
 			}else{			
 				exponent_smtp_sendExit($socket);
 				$debugMsg = 'NOOP failed on message: ' . $i . ', sent to: ' . $to . '<br/>';
 				eDebug($debugMsg);
+				flush();
+				ob_flush();
+				ob_end_clean();
+				set_time_limit(30);
 				return false;						
 			}
 		}
 		
 		exponent_smtp_sendExit($socket);
+	 	flush();
+        ob_flush();
+        ob_end_clean();
+		set_time_limit(30);
 		return true;
 	} else {
 		// If we are using PHP's mail() function, we need to set up to call mail
