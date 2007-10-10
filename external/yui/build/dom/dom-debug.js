@@ -1,8 +1,8 @@
 /*
-Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 0.12.2
+version: 2.2.2
 */
 /**
  * The dom module provides helper methods for manipulating Dom elements.
@@ -26,12 +26,10 @@ version: 0.12.2
     
     // regex cache
     var patterns = {
-        HYPHEN: /(-[a-z])/i
+        HYPHEN: /(-[a-z])/i, // to normalize get/setStyle
+        ROOT_TAG: /body|html/i // body for quirks mode, html for standards
     };
 
-    var logger = {};
-    logger.log = function() { YAHOO.log.apply(window, arguments); };
-    
     var toCamel = function(property) {
         if ( !patterns.HYPHEN.test(property) ) {
             return property; // no hyphens
@@ -40,14 +38,16 @@ version: 0.12.2
         if (propertyCache[property]) { // already converted
             return propertyCache[property];
         }
-        
-        while( patterns.HYPHEN.exec(property) ) {
-            property = property.replace(RegExp.$1,
+       
+        var converted = property;
+ 
+        while( patterns.HYPHEN.exec(converted) ) {
+            converted = converted.replace(RegExp.$1,
                     RegExp.$1.substr(1).toUpperCase());
         }
         
-        propertyCache[property] = property;
-        return property;
+        propertyCache[property] = converted;
+        return converted;
         //return property.replace(/-([a-z])/gi, function(m0, m1) {return m1.toUpperCase()}) // cant use function as 2nd arg yet due to safari bug
     };
     
@@ -56,6 +56,10 @@ version: 0.12.2
         getStyle = function(el, property) {
             var value = null;
             
+            if (property == 'float') { // fix reserved word
+                property = 'cssFloat';
+            }
+
             var computed = document.defaultView.getComputedStyle(el, '');
             if (computed) { // test computed before touching for safari
                 value = computed[toCamel(property)];
@@ -75,12 +79,14 @@ version: 0.12.2
                         try { // make sure its in the document
                             val = el.filters('alpha').opacity;
                         } catch(e) {
-                            logger.log('getStyle: IE filter failed',
+                            YAHOO.log('getStyle: IE filter failed',
                                     'error', 'Dom');
                         }
                     }
                     return val / 100;
                     break;
+                case 'float': // fix reserved word
+                    property = 'styleFloat'; // fall through
                 default: 
                     // test currentStyle before touching
                     var value = el.currentStyle ? el.currentStyle[property] : null;
@@ -95,7 +101,7 @@ version: 0.12.2
         setStyle = function(el, property, val) {
             switch (property) {
                 case 'opacity':
-                    if ( typeof el.style.filter == 'string' ) { // in case not appended
+                    if ( YAHOO.lang.isString(el.style.filter) ) { // in case not appended
                         el.style.filter = 'alpha(opacity=' + val * 100 + ')';
                         
                         if (!el.currentStyle || !el.currentStyle.hasLayout) {
@@ -103,12 +109,17 @@ version: 0.12.2
                         }
                     }
                     break;
+                case 'float':
+                    property = 'styleFloat';
                 default:
                 el.style[property] = val;
             }
         };
     } else {
         setStyle = function(el, property, val) {
+            if (property == 'float') {
+                property = 'cssFloat';
+            }
             el.style[property] = val;
         };
     }
@@ -126,29 +137,28 @@ version: 0.12.2
          * @return {HTMLElement | Array} A DOM reference to an HTML element or an array of HTMLElements.
          */
         get: function(el) {
-            if (!el) { return null; } // nothing to work with
-            
-            if (typeof el != 'string' && !(el instanceof Array) ) { // assuming HTMLElement or HTMLCollection, so pass back as is
-                logger.log('get(' + el + ') returning ' + el, 'info', 'Dom');
-                return el;
-            }
-            
-            if (typeof el == 'string') { // ID
-                logger.log('get("' + el + '") returning ' + document.getElementById(el), 'info', 'Dom');
+            if ( YAHOO.lang.isString(el) ) { // ID 
+                YAHOO.log('get(' + el + ') returning ' + document.getElementById(el), 'info', 'Dom');
                 return document.getElementById(el);
             }
-            else { // array of ID's and/or elements
-                var collection = [];
+            
+            if ( YAHOO.lang.isArray(el) ) { // Array of IDs and/or HTMLElements
+                var c = [];
                 for (var i = 0, len = el.length; i < len; ++i) {
-                    collection[collection.length] = Y.Dom.get(el[i]);
+                    c[c.length] = Y.Dom.get(el[i]);
                 }
                 
-                logger.log('get("' + el + '") returning ' + collection, 'info', 'Dom');
-                return collection;
+                YAHOO.log('get("' + el + '") returning ' + c, 'info', 'Dom');
+                return c;
             }
 
-            logger.log('element ' + el + ' not found', 'error', 'Dom');
-            return null; // safety, should never happen
+            if (el) { // assuming HTMLElement or HTMLCollection, just pass back 
+                YAHOO.log('get("' + el + '") returning ' + el, 'info', 'Dom');
+                return el;
+            }
+
+            YAHOO.log('element ' + el + ' not found', 'error', 'Dom');
+            return null; // el is likely null or undefined 
         },
     
         /**
@@ -180,7 +190,7 @@ version: 0.12.2
             
             var f = function(element) {
                 setStyle(element, property, val);
-                logger.log('setStyle setting ' + property + ' to ' + val, 'info', 'Dom');
+                YAHOO.log('setStyle setting ' + property + ' to ' + val, 'info', 'Dom');
                 
             };
             
@@ -197,9 +207,9 @@ version: 0.12.2
             var f = function(el) {
     
             // has to be part of document to have pageXY
-                if (el.parentNode === null || el.offsetParent === null ||
-                        this.getStyle(el, 'display') == 'none') {
-                    logger.log('getXY failed: element not available', 'error', 'Dom');
+                if ( (el.parentNode === null || el.offsetParent === null ||
+                        this.getStyle(el, 'display') == 'none') && el != document.body) {
+                    YAHOO.log('getXY failed: element not available', 'error', 'Dom');
                     return false;
                 }
                 
@@ -214,7 +224,7 @@ version: 0.12.2
                         doc = parent.document;
 
                         if ( !this.isAncestor(doc.documentElement, el) ) {
-                            logger.log('getXY failed: element not available', 'error', 'Dom');
+                            YAHOO.log('getXY failed: element not available', 'error', 'Dom');
                             return false;                      
                         }
 
@@ -228,35 +238,43 @@ version: 0.12.2
                 else { // safari, opera, & gecko
                     pos = [el.offsetLeft, el.offsetTop];
                     parentNode = el.offsetParent;
+
+                    // safari: if el is abs or any parent is abs, subtract body offsets
+                    var hasAbs = this.getStyle(el, 'position') == 'absolute';
+
                     if (parentNode != el) {
                         while (parentNode) {
                             pos[0] += parentNode.offsetLeft;
                             pos[1] += parentNode.offsetTop;
+                            if (isSafari && !hasAbs && 
+                                    this.getStyle(parentNode,'position') == 'absolute' ) {
+                                hasAbs = true; // we need to offset if any parent is absolutely positioned
+                            }
                             parentNode = parentNode.offsetParent;
                         }
                     }
-                    if (isSafari && this.getStyle(el, 'position') == 'absolute' ) { // safari doubles in some cases
+
+                    if (isSafari && hasAbs) { //safari doubles in this case
                         pos[0] -= document.body.offsetLeft;
                         pos[1] -= document.body.offsetTop;
                     } 
                 }
                 
-                if (el.parentNode) { parentNode = el.parentNode; }
-                else { parentNode = null; }
-        
-                while (parentNode && parentNode.tagName.toUpperCase() != 'BODY' && parentNode.tagName.toUpperCase() != 'HTML') 
-                { // account for any scrolled ancestors
-                    if (Y.Dom.getStyle(parentNode, 'display') != 'inline') { // work around opera inline scrollLeft/Top bug
+                parentNode = el.parentNode;
+
+                // account for any scrolled ancestors
+                while ( parentNode.tagName && !patterns.ROOT_TAG.test(parentNode.tagName) ) 
+                {
+                   // work around opera inline scrollLeft/Top bug
+                   if (Y.Dom.getStyle(parentNode, 'display') != 'inline') { 
                         pos[0] -= parentNode.scrollLeft;
                         pos[1] -= parentNode.scrollTop;
                     }
                     
-                    if (parentNode.parentNode) {
-                        parentNode = parentNode.parentNode; 
-                    } else { parentNode = null; }
+                    parentNode = parentNode.parentNode; 
                 }
         
-                logger.log('getXY returning ' + pos, 'info', 'Dom');
+                YAHOO.log('getXY returning ' + pos, 'info', 'Dom');
                 
                 return pos;
             };
@@ -310,7 +328,7 @@ version: 0.12.2
 
                 var pageXY = this.getXY(el);
                 if (pageXY === false) { // has to be part of doc to have pageXY
-                    logger.log('setXY failed: element not available', 'error', 'Dom');
+                    YAHOO.log('setXY failed: element not available', 'error', 'Dom');
                     return false; 
                 }
                 
@@ -339,7 +357,7 @@ version: 0.12.2
                    }
                 }        
         
-                logger.log('setXY setting position to ' + pos, 'info', 'Dom');
+                YAHOO.log('setXY setting position to ' + pos, 'info', 'Dom');
             };
             
             Y.Dom.batch(el, f, Y.Dom, true);
@@ -377,7 +395,7 @@ version: 0.12.2
         getRegion: function(el) {
             var f = function(el) {
                 var region = new Y.Region.getRegion(el);
-                logger.log('getRegion returning ' + region, 'info', 'Dom');
+                YAHOO.log('getRegion returning ' + region, 'info', 'Dom');
                 return region;
             };
             
@@ -429,8 +447,8 @@ version: 0.12.2
             var re = new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)');
             
             var f = function(el) {
-                logger.log('hasClass returning ' + re.test(el['className']), 'info', 'Dom');
-                return re.test(el['className']);
+                YAHOO.log('hasClass returning ' + re.test(el.className), 'info', 'Dom');
+                return re.test(el.className);
             };
             
             return Y.Dom.batch(el, f, Y.Dom, true);
@@ -446,9 +464,9 @@ version: 0.12.2
             var f = function(el) {
                 if (this.hasClass(el, className)) { return; } // already present
                 
-                logger.log('addClass adding ' + className, 'info', 'Dom');
+                YAHOO.log('addClass adding ' + className, 'info', 'Dom');
                 
-                el['className'] = [el['className'], className].join(' ');
+                el.className = [el.className, className].join(' ');
             };
             
             Y.Dom.batch(el, f, Y.Dom, true);
@@ -464,12 +482,14 @@ version: 0.12.2
             var re = new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)', 'g');
 
             var f = function(el) {
-                if (!this.hasClass(el, className)) { return; } // not present
+                if (!this.hasClass(el, className)) {
+                    return; // not present
+                }                 
+
+                YAHOO.log('removeClass removing ' + className, 'info', 'Dom');
                 
-                logger.log('removeClass removing ' + className, 'info', 'Dom');
-                
-                var c = el['className'];
-                el['className'] = c.replace(re, ' ');
+                var c = el.className;
+                el.className = c.replace(re, ' ');
                 if ( this.hasClass(el, className) ) { // in case of multiple adjacent
                     this.removeClass(el, className);
                 }
@@ -495,14 +515,14 @@ version: 0.12.2
             var re = new RegExp('(?:^|\\s+)' + oldClassName + '(?:\\s+|$)', 'g');
 
             var f = function(el) {
-                logger.log('replaceClass replacing ' + oldClassName + ' with ' + newClassName, 'info', 'Dom');
+                YAHOO.log('replaceClass replacing ' + oldClassName + ' with ' + newClassName, 'info', 'Dom');
             
                 if ( !this.hasClass(el, oldClassName) ) {
                     this.addClass(el, newClassName); // just add it if nothing to replace
                     return; // note return
                 }
             
-                el['className'] = el['className'].replace(re, ' ' + newClassName + ' ');
+                el.className = el.className.replace(re, ' ' + newClassName + ' ');
 
                 if ( this.hasClass(el, oldClassName) ) { // in case of multiple adjacent
                     this.replaceClass(el, oldClassName, newClassName);
@@ -532,10 +552,10 @@ version: 0.12.2
                 
                 if (!el.id) {
                     el.id = prefix + id_counter++; 
-                    logger.log('generateId generating ' + el.id, 'info', 'Dom');
+                    YAHOO.log('generateId generating ' + el.id, 'info', 'Dom');
                 } // dont override existing
                 
-                logger.log('generateId returning ' + el.id, 'info', 'Dom');
+                YAHOO.log('generateId returning ' + el.id, 'info', 'Dom');
                 
                 return el.id;
             };
@@ -556,11 +576,11 @@ version: 0.12.2
             
             var f = function(needle) {
                 if (haystack.contains && !isSafari) { // safari "contains" is broken
-                    logger.log('isAncestor returning ' + haystack.contains(needle), 'info', 'Dom');
+                    YAHOO.log('isAncestor returning ' + haystack.contains(needle), 'info', 'Dom');
                     return haystack.contains(needle);
                 }
                 else if ( haystack.compareDocumentPosition ) {
-                    logger.log('isAncestor returning ' + !!(haystack.compareDocumentPosition(needle) & 16), 'info', 'Dom');
+                    YAHOO.log('isAncestor returning ' + !!(haystack.compareDocumentPosition(needle) & 16), 'info', 'Dom');
                     return !!(haystack.compareDocumentPosition(needle) & 16);
                 }
                 else { // loop up and test each parent
@@ -568,17 +588,17 @@ version: 0.12.2
                     
                     while (parent) {
                         if (parent == haystack) {
-                            logger.log('isAncestor returning true', 'info', 'Dom');
+                            YAHOO.log('isAncestor returning true', 'info', 'Dom');
                             return true;
                         }
                         else if (!parent.tagName || parent.tagName.toUpperCase() == 'HTML') {
-                            logger.log('isAncestor returning false', 'info', 'Dom');
+                            YAHOO.log('isAncestor returning false', 'info', 'Dom');
                             return false;
                         }
                         
                         parent = parent.parentNode;
                     }
-                    logger.log('isAncestor returning false', 'info', 'Dom');
+                    YAHOO.log('isAncestor returning false', 'info', 'Dom');
                     return false;
                 }     
             };
@@ -608,6 +628,7 @@ version: 0.12.2
 
          * @param {String} tag (optional) The tag name of the elements being collected
          * @param {String | HTMLElement} root (optional) The HTMLElement or an ID to use as the starting point 
+         * @return {Array} Array of HTMLElements
          */
         getElementsBy: function(method, tag, root) {
             tag = tag || '*';
@@ -633,7 +654,7 @@ version: 0.12.2
                 if ( method(elements[i]) ) { nodes[nodes.length] = elements[i]; }
             }
 
-            logger.log('getElementsBy returning ' + nodes, 'info', 'Dom');
+            YAHOO.log('getElementsBy returning ' + nodes, 'info', 'Dom');
             
             return nodes;
         },
@@ -656,7 +677,7 @@ version: 0.12.2
             
             if (!el || el.tagName || !el.length) { // is null or not a collection (tagName for SELECT and others that can be both an element and a collection)
                 if (!el) {
-                    logger.log(id + ' not available', 'error', 'Dom');
+                    YAHOO.log(id + ' not available', 'error', 'Dom');
                     return false;
                 }
                 return method.call(scope, el, o);
@@ -667,7 +688,7 @@ version: 0.12.2
             for (var i = 0, len = el.length; i < len; ++i) {
                 if (!el[i]) {
                     id = el[i];
-                    logger.log(id + ' not available', 'error', 'Dom');
+                    YAHOO.log(id + ' not available', 'error', 'Dom');
                 }
                 collection[collection.length] = method.call(scope, el[i], o);
             }
@@ -684,7 +705,7 @@ version: 0.12.2
             var scrollHeight = (document.compatMode != 'CSS1Compat') ? document.body.scrollHeight : document.documentElement.scrollHeight;
 
             var h = Math.max(scrollHeight, Y.Dom.getViewportHeight());
-            logger.log('getDocumentHeight returning ' + h, 'info', 'Dom');
+            YAHOO.log('getDocumentHeight returning ' + h, 'info', 'Dom');
             return h;
         },
         
@@ -696,7 +717,7 @@ version: 0.12.2
         getDocumentWidth: function() {
             var scrollWidth = (document.compatMode != 'CSS1Compat') ? document.body.scrollWidth : document.documentElement.scrollWidth;
             var w = Math.max(scrollWidth, Y.Dom.getViewportWidth());
-            logger.log('getDocumentWidth returning ' + w, 'info', 'Dom');
+            YAHOO.log('getDocumentWidth returning ' + w, 'info', 'Dom');
             return w;
         },
 
@@ -715,7 +736,7 @@ version: 0.12.2
                         document.body.clientHeight; // Quirks
             }
         
-            logger.log('getViewportHeight returning ' + height, 'info', 'Dom');
+            YAHOO.log('getViewportHeight returning ' + height, 'info', 'Dom');
             return height;
         },
         
@@ -734,7 +755,7 @@ version: 0.12.2
                         document.documentElement.clientWidth : // Standards
                         document.body.clientWidth; // Quirks
             }
-            logger.log('getViewportWidth returning ' + width, 'info', 'Dom');
+            YAHOO.log('getViewportWidth returning ' + width, 'info', 'Dom');
             return width;
         }
     };
@@ -925,3 +946,4 @@ YAHOO.util.Point = function(x, y) {
 
 YAHOO.util.Point.prototype = new YAHOO.util.Region();
 
+YAHOO.register("dom", YAHOO.util.Dom, {version: "2.2.2", build: "204"});
