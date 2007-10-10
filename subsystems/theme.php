@@ -24,6 +24,8 @@
  */
 define("SYS_THEME",1);
 
+$css_files = array();  // This array keeps track of all the css files that need to be included via the minify script
+
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
@@ -72,20 +74,79 @@ function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEM
 }
 //End Pathos Compatibility
 
-function exponent_theme_includeCSS() {
-	$dh = opendir(BASE."modules");
-	while (($moddir = readdir($dh)) !== false) {
-		if (is_dir(BASE."modules/$moddir/css")) {
-			$cssdh = opendir(BASE."modules/$moddir/css");
-			while (($file = readdir($cssdh)) !== false) {
-				if (substr($file,-4,4) == ".css") {
-					echo "\t\t<link rel=\"stylesheet\" href=\"".PATH_RELATIVE."modules/$moddir/css/$file\" />\n";
+function exponent_theme_autoloadCSS() {
+	global $css_files;
+
+	$commondir = 'themes/common/css';
+
+        if (is_dir($commondir) && is_readable($commondir) ) {
+        	$dh = opendir($commondir);
+                while (($cssfile = readdir($dh)) !== false) {
+               		$filename = $commondir.'/'.$cssfile;
+                        if ( is_file($filename) && substr($filename,-4,4) == ".css") {
+				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
+			        	$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'css/'.$cssfile;
+			        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
+			                $css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
+			        } else {
+					$css_files[] = URL_FULL.$commondir.'/'.$cssfile;
 				}
-			}
-		}
+                        }
+                }
+        }
+}
+
+function exponent_theme_minifyCSS() {
+	if (css_file_needs_rebuilt()) {
+		global $css_files;
+
+		//eDebug($css_files);
+
+		// Load the Minify library if needed.                 
+		include_once(BASE.'external/minify/minify.php');                 
+		// Create new Minify objects.                 
+		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
+	
+		// Specify the files to be minified. Full URLs are allowed as long as they point                 
+		// to the same server running Minify. 
+        	$minifyCSS->addFile($css_files);
+        
+		// Establish the file where we will build the compiled CSS file
+        	$compiled_file = fopen(BASE.'tmp/css/exp-styles-min.css', 'w');
+
+		fwrite($compiled_file, $minifyCSS->combine());
+		fclose($compiled_file);
 	}
 }
 
+/* exdoc
+ * @function include_css()
+ * checks for a css document to include on your page.
+ * checks first in your theme/css/ folder, then in the 
+ * root of your theme, then in themes/common/css/
+ * @node Subsystems:Theme
+ */
+
+function includeCSSFiles($files = array()) {
+	global $css_files;
+	
+	foreach ($files as $file) {
+		if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
+			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'css/'.$file;
+		} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
+			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$file;
+		}
+	}
+	exponent_theme_minifyCSS();
+}
+
+function css_file_needs_rebuilt() {
+	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/css/exp-styles-min.css')) {
+		return true;
+	} else {
+		return false;
+	}
+}
 /* exdoc
  * Prints the HTML for the Source Selector header table.  This is required
  * of all themes, so that the source selector allows users to browse to Archived
@@ -129,6 +190,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
 	if ($sectionObj != null) {
+		if (css_file_needs_rebuilt()) exponent_theme_autoloadCSS();	
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
 		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
 		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" />' . "\n";
@@ -136,11 +198,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/yahoo/yahoo.js"></script>'."\r\n";
-    		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/dom/dom.js"></script>'."\r\n";
-    		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/event/event.js"></script>'."\r\n";
-    		//$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'external/yui/build/animation/animation.js"></script>'."\r\n";
-    		//$str .= "\t".'<link rel="stylesheet"  type="text/css" href="'.PATH_RELATIVE.'external/yui/build/reset/reset-fonts-grids.css" />'."\r\n";
+		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
 	}
 	return $str;
 }
@@ -372,6 +430,30 @@ function exponent_theme_runAction() {
 			echo '<br />';
 		}
 	}
+}
+
+function exponent_theme_showAction($module, $action, $src, $params="") {
+	
+	global $db, $user;
+
+        $loc = null;
+        $loc->mod = $module;
+        $loc->src = (isset($src) ? $src : "");
+        $loc->int = (isset($int) ? $int : "");
+
+        $actfile = "/" . $module . "/actions/" . $action . ".php";
+        //if (isset($['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
+
+        if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
+	        include_once(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
+        } elseif (is_readable(BASE.'modules/'.$actfile)) {
+                include_once(BASE.'modules/'.$actfile);
+        } else {
+                $i18n = exponent_lang_loadFile('subsystems/theme.php');
+                echo SITE_404_HTML . '<br /><br /><hr size="1" />';
+                echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
+                echo '<br />';
+        }
 }
 
 /* exdoc
