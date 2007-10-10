@@ -25,18 +25,32 @@ if (!defined('EXPONENT')) exit('');
 <head>
 <?php echo exponent_theme_headerInfo($section); ?>
 <script type="text/JavaScript" src="<?php echo THEME_RELATIVE; ?>swapimage.js"></script>
+<script type="text/javascript" src="<?php echo PATH_RELATIVE ?>external/yui/build/yahoo/yahoo-min.js"></script>
+<script type="text/javascript" src="<?php echo PATH_RELATIVE ?>external/yui/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="<?php echo THEME_RELATIVE; ?>js/scripts.js"></script>
 <link rel="shortcut icon" href="/themes/portaltheme/images/favicon.ico" type="image/x-icon" />
-<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
-<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>textmodule.css" />
-<link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>css-dropmenu-style.css" />
-<!--[if IE 6]>
-		<style type="text/css" media="screen">
-		body {behavior: url(external/csshover.htc); font-size:100%;}
-		#menu ul li a {height: 1%;}
-		</style>
-		<![endif]-->
+<?php includeCSSFiles(array('style.css','textmodule.css','css-dropmenu-style.css')); ?>
+
+<style type="text/css">
+#bugs table {
+	width: 100%;
+}
+#bugs table th {
+	text-align: left;
+	color: black;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+#bugs table td {
+	color: black;
+	font-size: 12px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+}
+</style>
 </head>
-<body onload="eXp.initialize();MM_preloadImages('images/lightbulb-h.jpg')">
+<body onload="eXp.initialize();MM_preloadImages('images/lightbulb-h.jpg');">
 <?php exponent_theme_sourceSelectorInfo(); ?>
 <div id="shell" align="center">
   <table style="margin-left:auto; margin-right:auto;" width="780" border="0" cellspacing="0" cellpadding="0">

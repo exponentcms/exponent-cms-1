@@ -1,0 +1,64 @@
+html,body {
+	font-family:"Trebuchet MS", Verdana, Arial, sans-serif
+}
+
+b {
+	font-weight: bold
+}
+
+i {
+	font-style: italic
+}
+
+h1{
+	font-size:249%
+}
+
+h2{
+	font-size:207%
+}
+
+h3{
+	font-size:173%
+}
+
+h4{
+	font-size:144%
+}
+
+h5{
+	font-size:120%
+}
+
+h6{
+	font-size:100%
+}
+
+p, h1, h2, h3 {
+	margin: 10px 15px
+}
+
+ul, ol {margin: 10px 30px; padding: 0 15px;}
+ul {list-style: circle}
+blockquote {
+        margin: 15px;
+        padding: 0 0 0 20px;
+        background: #FAFAFA;
+        border: 1px solid #f2f2f2;
+        border-left: 4px solid #4284B0;
+        color: #4284B0;
+        font: bold 1.2em/1.5em Georgia, 'Bookman Old Style', Serif;
+}
+
+code {
+  margin: 5px 0;
+  padding: 10px;
+  text-align: left;
+  display: block;
+  overflow: auto;
+  font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace;
+  /* white-space: pre; */
+  background: #FAFAFA;
+  border: 1px solid #f2f2f2;
+  border-left: 4px solid #4284B0;
+}

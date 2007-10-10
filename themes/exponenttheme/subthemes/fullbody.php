@@ -28,7 +28,7 @@ if (!defined('EXPONENT')) exit('');
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>style.css" />
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>textmodule.css" />
 <link rel="stylesheet" title="default" href="<?php echo THEME_RELATIVE; ?>css-dropmenu-style.css" />
-<!--[if IE 6]>
+<!--[if IE]>
 		<style type="text/css" media="screen">
 		body {behavior: url(csshover.htc); font-size:100%;}
 		#menu ul li a {height: 1%;}
