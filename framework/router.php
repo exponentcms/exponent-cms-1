@@ -27,8 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	global $db;
 	$section = $db->selectObject('section', 'sef_name="'.$url_parts[0].'"');
 	if (empty($section)) {
-		$name = str_ireplace('-', '&nbsp;', $url_parts[0]);
-		$section = $db->selectObject('section', 'name="'.$name.'"');
+		$name = str_ireplace('-', ' ', $url_parts[0]);
+		$name2 = str_ireplace('-', '&nbsp;', $url_parts[0]);
+		$section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
 	}
 	$_REQUEST['section'] = $section->id;
 } else {
