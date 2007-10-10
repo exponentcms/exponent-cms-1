@@ -50,6 +50,7 @@ class buttongroupcontrol extends formcontrol {
 	var $submit = "Submit";
 	var $reset = "";
 	var $cancel = "";
+	var $class = "";
 
 	var $validateJS = "";
 
@@ -59,10 +60,11 @@ class buttongroupcontrol extends formcontrol {
 		return;
 	}
 
-	function buttongroupcontrol($submit = "Submit", $reset = "", $cancel = "") {
+	function buttongroupcontrol($submit = "Submit", $reset = "", $cancel = "", $class="") {
 		$this->submit = $submit;
 		$this->reset = $reset;
 		$this->cancel = $cancel;
+		$this->class = $class;
 	}
 
 	function toHTML($label,$name) {
@@ -75,6 +77,7 @@ class buttongroupcontrol extends formcontrol {
 		$html = "";
 		if ($this->submit != "") {
 			$html .= '<input type="submit" value="' . $this->submit . '"';
+			if ($this->class != "") $html .= ' class="'.$this->class.'"';
 			if ($this->disabled) $html .= " disabled";
 			$html .= ' onclick="if (checkRequired(this.form)) ';
 			if ($this->validateJS != "") {

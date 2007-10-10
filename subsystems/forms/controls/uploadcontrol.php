@@ -56,6 +56,7 @@ class uploadcontrol extends formcontrol {
 
 	function controlToHTML($name) {
 		$html = "<input type=\"file\" name=\"$name\" ";
+		if(isset($this->class)) $html .=  'class="' . $this->class . '"';
 		$html .= ($this->disabled?"disabled ":"");
 		$html .= ($this->tabindex>=0?"tabindex=\"".$this->tabindex."\" ":"");
 		$html .= ($this->accesskey != ""?"accesskey=\"".$this->accesskey."\" ":"");
