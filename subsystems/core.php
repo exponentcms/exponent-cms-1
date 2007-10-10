@@ -168,7 +168,12 @@ function exponent_core_makeLink($params,$type='',$sef_name='') {
 
         // ALL THAT FOLLOWS IS EXPERIMENTAL CODE  /////////////////////////////////////////////////
         //eDebug($params);
-        if (isset($params['section']) && $sef_name != '') {
+        //if (isset($params['section']) && $sef_name != '') {
+        if (isset($params['section'])) {
+		if ($sef_name == '') {
+			global $db;
+			$sef_name = strtolower(str_ireplace('&nbsp;', '-', $db->selectValue('section', 'name', 'id='.$params['section'])));
+		}
                 $link .= SCRIPT_RELATIVE.$sef_name;
                 return $link;
         } else {

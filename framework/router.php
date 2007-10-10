@@ -16,36 +16,20 @@
 #
 ##################################################
 
-//$url = stristr($_SERVER['REQUEST_URI'], PATH_RELATIVE);
-//$url = stristr($_SERVER['REQUEST_URI'], 'acorn');
-
-//eDebug($_SERVER);
-//$url = substr_replace($_SERVER['REQUEST_URI'],'',0,strlen(PATH_RELATIVE));
 $url = substr_replace($_SERVER['REDIRECT_URL'],'',0,strlen(PATH_RELATIVE));
-//eDebug("URL: ".$url);
 $url_parts = explode('/', $url);
-//eDebug($url_parts);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	// Set the module or controller
-        /*$_REQUEST[$requestType] = $_POST['module'];
-        $_GET[$requestType] = $_POST['module'];
-        $_POST[$requestType] = $_POST['module'];
-
-	$_REQUEST['action'] = $_POST['action'];
-        $_GET['action'] = $_POST['action'];
-        $_POST['action'] = $_POST['action'];	
-
-	foreach ($_POST as $var=>$val) {
-		$_REQUEST[$var] = $val;
-	}*/
-
 	// DO NOTHING FOR A POST REQUEST?
 } elseif (count($url_parts) < 1 || $url_parts[0] == '' || $url_parts[0] == null) {
 	$_REQUEST['section'] = SITE_DEFAULT_SECTION;
 } elseif (count($url_parts) == 1) {
 	global $db;
 	$section = $db->selectObject('section', 'sef_name="'.$url_parts[0].'"');
+	if (empty($section)) {
+		$name = str_ireplace('-', '&nbsp;', $url_parts[0]);
+		$section = $db->selectObject('section', 'name="'.$name.'"');
+	}
 	$_REQUEST['section'] = $section->id;
 } else {
 	// If we have three url parts we assume they are controller->action->id, otherwise split them out into name<=>value pairs
@@ -85,18 +69,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_POST['action'] = $action;
 }
 
-//exit();
-//eDebug($_REQUEST);
-//eDebug("path relative: ".PATH_RELATIVE);
-//eDebug("hostname: ".HOSTNAME);
-//eDebug("url base: ".URL_BASE);
-//eDebug("url full: ".URL_FULL); 
-//eDebug($_SERVER);
-//eDebug(SCRIPT_EXP_RELATIVE);
-//eDebug(SCRIPT_RELATIVE);
-//eDebug(SCRIPT_ABSOLUTE);
-//eDebug(SCRIPT_FILENAME);
-
-//$url_parts = $_SERVER;
 ?>
 
