@@ -22,7 +22,7 @@ function smarty_function_link($params,&$smarty) {
 	if (!isset($params['module'])) $params['module'] = $loc->mod;
 	if (!isset($params['src'])) $params['src'] = $loc->src;
 	if (!isset($params['int'])) $params['int'] = $loc->int;
-	
+
 	echo exponent_core_makeLink($params);
 }
 

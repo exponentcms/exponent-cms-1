@@ -159,22 +159,21 @@ function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @node Subsystems:Core
  */
 function exponent_core_makeLink($params,$type='',$sef_name='') {
-        $link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
+	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 
-        if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
-                $link .= SCRIPT_RELATIVE;
-                return $link;
-        }
+	if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
+		$link .= SCRIPT_RELATIVE;
+		return $link;
+	}
 
-        // ALL THAT FOLLOWS IS EXPERIMENTAL CODE  /////////////////////////////////////////////////
-        //eDebug($params);
-        //if (isset($params['section']) && $sef_name != '') {
-        if (isset($params['section'])) {
+	// ALL THAT FOLLOWS IS EXPERIMENTAL CODE  /////////////////////////////////////////////////
+	//eDebug($params);
+	if (isset($params['section'])) {
 		if ($sef_name == '') {
-			global $db;
-			$spaces = array('&nbsp;', ' ');
-			$sef_name = strtolower(str_ireplace($spaces, '-', $db->selectValue('section', 'name', 'id='.$params['section'])));
-		}
+                        global $db;
+                        $spaces = array('&nbsp;', ' ');
+                        $sef_name = strtolower(str_ireplace($spaces, '-', $db->selectValue('section', 'name', 'id='.$params['section'])));
+                }
                 $link .= SCRIPT_RELATIVE.$sef_name;
                 return $link;
         } else {

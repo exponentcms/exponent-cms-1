@@ -77,7 +77,11 @@ function smarty_function_control($params,&$smarty) {
 		}
 		
 		//write out the control itself...and then we're done. 
-		echo $control->controlToHTML($params['name']);
+		if (isset($params['model'])) {
+			echo $control->controlToHTML($params['model'].'['.$params['name'].']');
+		} else {
+			echo $control->controlToHTML($params['name']);
+		}
 		
 		//Write out the label for this control if the user specified a label and position is set to right
 		if (isset($params['label']) && $params['labelpos'] == 'right') {

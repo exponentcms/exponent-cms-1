@@ -109,13 +109,13 @@ function exponent_forms_listControlTypes() {
 	return $list;
 }
 
-function exponent_forms_guessControlType($ddcol, $default_value=null) {
+function exponent_forms_guessControlType($ddcol, $default_value=null, $colname=null) {
 	$control = null;
-	
+
 	if (array_key_exists('FORM_FIELD_TYPE', $ddcol)) {
 		new $ddcol['FORM_FIELD_TYPE']($default_value);
 	} else {
-		if ($ddcol[DB_FIELD_TYPE] == DB_DEF_ID && $key != 'id') {
+		if ($ddcol[DB_FIELD_TYPE] == DB_DEF_ID && $colname != 'id') {
 		        //If the id field is a foreign key reference than we need to try to scaffold
 	        	/*$field_str = array();
 		        if (stristr($col->Field, '_')) $field_str = split("_id", $col->Field);
@@ -135,6 +135,8 @@ function exponent_forms_guessControlType($ddcol, $default_value=null) {
 	                	        $control = new dropdowncontrol("", $foreign_key, true);
 	                	}
 	        	}*/
+		} elseif ($ddcol[DB_FIELD_TYPE] == DB_DEF_ID && $colname == 'id' && $default_value != null) {
+		        $control = new htmlcontrol('<input type="hidden" name="id" value="'.$default_value.'" />');
 		} elseif ($ddcol[DB_FIELD_TYPE] == DB_DEF_INTEGER) {
 		        $control = new textcontrol($default_value);
 		} elseif ($ddcol[DB_FIELD_TYPE] == DB_DEF_BOOLEAN) {
@@ -144,7 +146,7 @@ function exponent_forms_guessControlType($ddcol, $default_value=null) {
 		} elseif ($ddcol[DB_FIELD_TYPE] == DB_DEF_DECIMAL) {
 	        	$control = new textcontrol($default_value);
 		} elseif ($ddcol[DB_FIELD_TYPE] == DB_DEF_STRING) {
-		        if ($ddcol[DB_FIELD_LEN] > 50) {
+		        if ($ddcol[DB_FIELD_LEN] > 255) {
 	        	        $control = new texteditorcontrol($default_value);
 		        } else {
 		                $control = new textcontrol($default_value);
