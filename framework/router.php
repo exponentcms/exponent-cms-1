@@ -16,8 +16,14 @@
 #
 ##################################################
 
-$url = substr_replace($_SERVER['REDIRECT_URL'],'',0,strlen(PATH_RELATIVE));
-$url_parts = explode('/', $url);
+//eDebug($_SERVER);
+$url_parts = array();
+if (isset($_SERVER['REDIRECT_URL'])) {
+	$url = substr_replace($_SERVER['REDIRECT_URL'],'',0,strlen(PATH_RELATIVE));
+	$url_parts = explode('/', $url);
+	//eDebug("URL: ".$url);
+	//eDebug($url_parts);
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// DO NOTHING FOR A POST REQUEST?
@@ -25,12 +31,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_REQUEST['section'] = SITE_DEFAULT_SECTION;
 } elseif (count($url_parts) == 1) {
 	global $db;
-	$section = $db->selectObject('section', 'sef_name="'.$url_parts[0].'"');
+
+	// Try to look up the page by sef_name first.  If that doesn't exist, strip out the dashes and 
+	// check the regular page names.  If that still doesn't work then we'll redirect them to the 
+	// search module using the page name as the seach string.
+        $section = $db->selectObject('section', 'sef_name="'.$url_parts[0].'"');
+        if (empty($section)) {
+                $name = str_ireplace('-', ' ', $url_parts[0]);
+                $name2 = str_ireplace('-', '&nbsp;', $url_parts[0]);
+                $section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
+        }
+
+	// if section is still empty then we should route the user to the search (cool new feature :-) )
+	// at some point we need to write a special action/view for the search module that lets the user
+	// know they were redirected to search since the page they tried to go to directly didn't exist.
 	if (empty($section)) {
-		$name = str_ireplace('-', ' ', $url_parts[0]);
-		$name2 = str_ireplace('-', '&nbsp;', $url_parts[0]);
-		$section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
+		redirect_to(array('controller'=>'searchmodule', 'action'=>'search', 'search_string'=>$url_parts[0]));
 	}
+
 	$_REQUEST['section'] = $section->id;
 } else {
 	// If we have three url parts we assume they are controller->action->id, otherwise split them out into name<=>value pairs
