@@ -66,7 +66,7 @@ class texteditorcontrol extends formcontrol {
 		$html = "<textarea name=\"$name\"";
 		$html .= " rows=\"" . $this->rows . "\" cols=\"" . $this->cols . "\"";
 		if ($this->accesskey != "") $html .= " accesskey=\"" . $this->accesskey . "\"";
-		if ($this->class != "") $html .= " class=\"" . $this->class . "\"";
+		if (!empty($this->class)) $html .= " class=\"" . $this->class . "\"";
 		if ($this->tabindex >= 0) $html .= " tabindex=\"" . $this->tabindex . "\"";
 		if ($this->maxchars != 0) {
 			$html .= " onkeydown=\"if (this.value.length > $this->maxchars ) {this.value = this.value.substr(0, $this->maxchars );}\"";

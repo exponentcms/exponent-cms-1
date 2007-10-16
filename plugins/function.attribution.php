@@ -31,7 +31,7 @@ function smarty_function_attribution($params,&$smarty) {
 				$str = $u->firstname . " " . $u->lastname;
 				break;
 			case "lastfirst":
-				$str = $u->lastname . ", " . $u->lastname;
+				$str = $u->lastname . ", " . $u->firstname;
 				break;
 			case "first":
 				$str = $u->firstname;
