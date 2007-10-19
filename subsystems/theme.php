@@ -74,7 +74,7 @@ function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEM
 }
 //End Pathos Compatibility
 
-function exponent_theme_autoloadCSS() {
+function exponent_theme_loadExpDefaults() {
 	global $css_files;
 
 	$commondir = 'themes/common/css';
@@ -95,7 +95,10 @@ function exponent_theme_autoloadCSS() {
                 }
         }
 }
-
+function exponent_theme_resetCSS() {
+	global $css_files;
+	$css_files[] = URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css";
+}
 function exponent_theme_minifyCSS() {
 	if (css_file_needs_rebuilt()) {
 		global $css_files;
@@ -113,6 +116,7 @@ function exponent_theme_minifyCSS() {
         
 		// Establish the file where we will build the compiled CSS file
         	$compiled_file = fopen(BASE.'tmp/css/exp-styles-min.css', 'w');
+		//	eDebug($minifyCSS->combine());
 
 		fwrite($compiled_file, $minifyCSS->combine());
 		fclose($compiled_file);
@@ -190,13 +194,12 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
 	if ($sectionObj != null) {
-		if (css_file_needs_rebuilt()) exponent_theme_autoloadCSS();	
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
 		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
 		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" />' . "\n";
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
-		$str .= "\t".'<!--[if IE]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
+		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
 	}

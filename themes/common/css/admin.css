@@ -1,89 +1,177 @@
-.mngmntlink {
-	font-size: 77%;
-	color: blue;
-	text-decoration: underline;
+
+
+/*
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.3.1
+*/
+/* Menu & MenuBar styles */
+
+.adminmenubar {
+	background:#333;
+	padding:3px;
 }
 
-/** New Tab style of interface for Nav manager **/
-td.tab_btn {
-        border: 1px solid black;
-        border-right: 0px solid black;
-        background-color: #DDD;
-        padding: .5em;
+
+.adminmenubar .yuimenubar .yuimenu {
+    position: absolute;
+    visibility: hidden;
+	display:block;
+    list-style-type: none;   
+	text-align:left;
+	border:1px solid #000;
+	background:#c9d4b9;
 }
 
-td.tab_btn_last {
+.adminmenubar .yuimenubar  .yuiadminmenubaritem {
+	display:inline;
+    list-style-type: none;    
+	margin:10px;
+}
+.adminmenubar .yuimenubar  .yuiadminmenubaritem .yuiadminmenubaritemlabel {
+	display:inline;
+    list-style-type: none;    
+	text-transform:uppercase;
+	text-decoration:none;
+	color:#ccc;
+}
+.adminmenubar .yuimenubar .yuimenu  .yuiadminmenuitem .yuiadminmenuitemlabel {
+	display:inline;
+    list-style-type: none;    
+	text-transform:uppercase;
+	text-decoration:none;
+	color:red;
+	padding:5px;
+	line-height:20px;
+}
+.adminmenubar .yuimenubar .yuimenu  .yuiadminmenuitem:hover .yuiadminmenuitemlabel {
+	color:black;
+}
+.adminmenubar .yuimenubar .yuimenu  li:hover {
+	background:white;
 }
 
-td.tab_spacer {
-        border-bottom: 1px solid black;
-        border-left: 1px solid black;
+.adminmenubar .yuimenubar .yuimenu  li {
+	display:block;
+    list-style-type: none;  
+	border:none;  
 }
 
-td.tab_btn_current {
-        background-color: inherit;
-        border-bottom: 0px solid black;
-}
+.adminmenubar .yuimenubar ul, 
+.adminmenubar .yuimenubar li, 
+.adminmenubar .yuimenubar h6 { 
 
-td.tab_main {
-        padding: .5em;
-        border: 1px solid black;
-        border-top: 0px solid black;
-}
-
-td.header, td.header a {
-        background-color: #aaa;
-        color: #fff;
-        font-weight: bold;
-        font-size: 15px;
-        padding: 2px;
-}
-
-/* Themable Forms */
-div.form_title {
-        font-size: 14px;
-        font-weight: bold;
-        padding-top: 5px;
-        padding-bottom: 5px;
-}
-
-div.form_header {
-        border-top: 1px solid #DDD;
-        border-bottom: 1px solid #DDD;
-        margin-bottom: 1em;
-        padding-top: 5px;
-        padding-bottom: 5px;
-}
-
-tr.even_row {
-        background-color: #DDD;
-}
-
-tr.row:hover td, tr.row:hover td a {
-        background-color: #666;
-        color: #fff;
-}
-
-tr.odd_row {
+    margin: 0;
+    padding: 0;
 
 }
 
-/** Administration Module Manager form **/
-.administration_modmgrheader {
-        background-color: lightgrey;
+
+.adminmenubar .yuimenubaritemlabel {
+
+    white-space: nowrap;
+
 }
 
-.administration_modmgrheader span.active {
-        color: green;
-        font-weight: bold;
+
+/*
+    PLEASE NOTE: The <DIV> element used for a menu's shadow is appended 
+    to its root element via JavaScript once it has been rendered.  The 
+    code that creates the shadow lives in the menu's public "onRender" 
+    event handler that is a prototype method of YAHOO.widget.Menu.  
+    Implementers wishing to remove a menu's shadow or add any other markup
+    required for a given skin for menu should override the "onRender" method.
+*/
+
+.adminmenubar .yui-menu-shadow {
+
+    position: absolute;
+    z-index: -1;
+
 }
 
-.administration_modmgrheader span.inactive {
-        color: red;
-        font-weight: bold;
+
+
+/*
+
+There are two known issues with YAHOO.widget.Overlay (the superclass class of 
+Menu) that manifest in Gecko-based browsers on Mac OS X:
+
+    1) Elements with scrollbars will poke through Overlay instances floating 
+       above them.
+    
+    2) An Overlay's scrollbars and the scrollbars of its child nodes remain  
+       visible when the Overlay is hidden.
+
+To fix these bugs in Menu (a subclass of YAHOO.widget.Overlay):
+
+    1) The "overflow" property of a Menu instance's shadow element and child 
+       nodes is toggled between "hidden" and "auto" (through the application  
+       and removal of the "hide-scrollbars" and "show-scrollbars" CSS classes)
+       as its "visibility" configuration property is toggled between 
+       "false" and "true."
+    
+    2) The "display" property of <SELECT> elements that are child nodes of the 
+       Menu instance's root element is set to "none" when it is hidden.
+
+PLEASE NOTE:  
+  
+    1) The "hide-scrollbars" and "show-scrollbars" CSS classes classes are 
+       applied only for Gecko on Mac OS X and are added/removed to/from the 
+       Overlay's root HTML element (DIV) via the "hideMacGeckoScrollbars" and 
+       "showMacGeckoScrollbars" methods of YAHOO.widget.Overlay.
+    
+    2) There may be instances where the CSS for a web page or application 
+       contains style rules whose specificity override the rules implemented by 
+       the Menu CSS files to fix this bug.  In such cases, is necessary to 
+       leverage the provided "hide-scrollbars" and "show-scrollbars" classes to 
+       write custom style rules to guard against this bug.
+
+** For more information on this issue, see:
+
+   + https://bugzilla.mozilla.org/show_bug.cgi?id=187435
+   + SourceForge bug #1723530
+
+*/
+
+.adminmenubar .hide-scrollbars * {
+
+	overflow: hidden;
+
 }
 
-.administration_modmgrbody {
-        padding-left: 10px;
-        border: 1px solid lightgrey;
+.adminmenubar .hide-scrollbars select {
+
+	display: none;
+
+}
+
+
+/*
+
+The following style rule (".yuimenu.show-scrollbars") overrides the 
+".show-scrollbars" rule defined in container-core.css which sets the 
+"overflow" property of a YAHOO.widget.Overlay instance's root HTML element to 
+"auto" when it is visible.  Without this override, a Menu would have scrollbars
+when one of its submenus is visible.
+
+*/
+
+.adminmenubar .yuimenu.show-scrollbars {
+
+	overflow: visible; 
+
+}
+
+.adminmenubar .yuimenu.hide-scrollbars .yui-menu-shadow {
+
+    overflow: hidden;
+
+}
+
+.adminmenubar .yuimenu.show-scrollbars .yui-menu-shadow {
+
+    overflow: auto;
+
 }

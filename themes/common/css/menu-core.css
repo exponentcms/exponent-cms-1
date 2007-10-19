@@ -1,0 +1,7 @@
+.yuimenuitemlabel .submenuindicator,
+.yuimenuitemlabel .checkedindicator, 
+.yuimenubaritemlabel .submenuindicator {
+    
+    display:none;
+
+}

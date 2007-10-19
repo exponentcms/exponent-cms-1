@@ -139,6 +139,18 @@ exponent_sessions_validate();
 // Initialize permissions variables
 exponent_permissions_initialize();
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// ACORN CODE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+////////////////////////////////////////////////////////////////////////////////
+// Initialize the Exp Framework Subsystem & Set the routing information
+//require_once(BASE.'framework/expFramework.php');
+//$template = null;
+// initialize the router
+$router = new router();
+// if the user has turned on sef_urls then we need to route the request, otherwise we can just 
+// skip it and default back to the old way of doing things.
+if (SEF_URLS == 1) $router->routeRequest();
+
 //Initialize the navigation heirarchy
 $sections = exponent_core_initializeNavigation();
 
@@ -148,14 +160,6 @@ if (isset($_REQUEST['ajax_action']) ) {
 } else {
 	define('IN_AJAX_ACTION', 0);
 }
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// ACORN CODE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-////////////////////////////////////////////////////////////////////////////////
-// Initialize the Exp Framework Subsystem & Set the routing information
-//require_once(BASE.'framework/expFramework.php');
-//$template = null;
-require_once(BASE.'framework/router.php');
 
 #$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {

@@ -159,57 +159,20 @@ function exponent_core_resolveDependencies($ext_name,$ext_type,$path=null) {
  * @node Subsystems:Core
  */
 function exponent_core_makeLink($params,$type='',$sef_name='') {
-	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//   Now that we have the router class, this function is here for compatability reasons only.
+	//   it will most likey be deprecated in newer releases of exponent.
+	//
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	global $router;
+	
+	// this is here for compatability with the navigation module and the old way make link used prior
+	// to having the router class
+	$params['sef_name'] = $sef_name;  
 
-	if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
-		$link .= SCRIPT_RELATIVE;
-		return $link;
-	}
-
-	// ALL THAT FOLLOWS IS EXPERIMENTAL CODE  /////////////////////////////////////////////////
-	//eDebug($params);
-	if (isset($params['section'])) {
-		if ($sef_name == '') {
-                        global $db;
-                        $spaces = array('&nbsp;', ' ');
-                        $sef_name = strtolower(str_ireplace($spaces, '-', $db->selectValue('section', 'name', 'id='.$params['section'])));
-                }
-                $link .= SCRIPT_RELATIVE.$sef_name;
-                return $link;
-        } else {
-                $link .= SCRIPT_RELATIVE;
-                $link .= $params['module'].'/';
-                $link .= $params['action'].'/';
-                foreach ($params as $key=>$value) {
-                        $value = chop($value);
-                        $key = chop($key);
-                        if ($value != "") {
-                                if ($key != 'module' && $key != 'action' && $key != 'controller') {
-                                        $link .= urlencode($key)."/".urlencode($value)."/";
-                                }
-                        }
-                }
-                return $link;
-        }
-        /*if (SEF_URLS == 1 && $sef_name != '') {
-                $link .= SCRIPT_RELATIVE.$sef_name;
-                return $link;
-        } else {
-                $link .= SCRIPT_RELATIVE . SCRIPT_FILENAME . "?";
-                foreach ($params as $key=>$value) {
-                        $value = chop($value);
-                        $key = chop($key);
-                        if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
-                }
-                
-                $link = substr($link,0,-1);
-        
-                if ($type=='') {
-                  return htmlspecialchars($link,ENT_QUOTES);
-                } else { 
-                  return $link;
-                }
-        }*/
+	// now that we have the router class we'll use it to build the link and then return it.
+	return $router->makeLink($params);
 }
 
 function exponent_core_makeRSSLink($params) {
