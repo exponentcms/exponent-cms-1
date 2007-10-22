@@ -85,7 +85,7 @@ function exponent_theme_loadExpDefaults() {
                		$filename = $commondir.'/'.$cssfile;
                         if ( is_file($filename) && substr($filename,-4,4) == ".css") {
 				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
-			        	$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'css/'.$cssfile;
+			        	$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
 			        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
 			                $css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
 			        } else {
@@ -136,7 +136,7 @@ function includeCSSFiles($files = array()) {
 	
 	foreach ($files as $file) {
 		if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
-			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'css/'.$file;
+			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$file;
 		} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
 			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$file;
 		}
