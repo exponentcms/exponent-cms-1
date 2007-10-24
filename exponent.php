@@ -143,7 +143,7 @@ exponent_permissions_initialize();
 // ACORN CODE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize the Exp Framework Subsystem & Set the routing information
-//require_once(BASE.'framework/expFramework.php');
+require_once(BASE.'framework/expFramework.php');
 //$template = null;
 // initialize the router
 $router = new router();
@@ -185,5 +185,24 @@ function eDebug($var){
 		print_r($var);
 		echo "</xmp>";
 	}
+}
+
+function eLog($var, $type='', $path='', $minlevel='0') {
+        if($type == '') { $type = "INFO"; }
+        if($path == '') { $path = BASE . 'tmp/exponent.log'; }
+        if (DEVELOPMENT >= $minlevel) {
+                if (is_writable ($path) || !file_exists($path)) {
+                        if (!$log = fopen ($path, "ab")) {
+                                eDebug("Error opening log file for writing.");
+                        } else {
+                                if (fwrite ($log, $type . ": " . $var . "\r\n") === FALSE) {
+                                        eDebug("Error writing to log file ($log).");
+                                }
+                                fclose ($log);
+                        }
+                } else {
+                        eDebug ("Log file ($log) not writable.");
+                }
+        }
 }
 ?>
