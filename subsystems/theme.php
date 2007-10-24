@@ -99,6 +99,14 @@ function exponent_theme_resetCSS() {
 	global $css_files;
 	$css_files[] = URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css";
 }
+
+function exponent_theme_loadYUICSS($files=array()) {
+	global $css_files;
+	foreach ($files as $file) {
+		$css_files[] = URL_FULL."external/yui/build/assets/skins/sam/".$file.'.css';
+	}
+}
+
 function exponent_theme_minifyCSS() {
 	if (css_file_needs_rebuilt()) {
 		global $css_files;
