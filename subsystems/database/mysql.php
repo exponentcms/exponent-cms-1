@@ -761,7 +761,6 @@ class mysql_database {
 		$sql = substr($sql,0,-1) . " WHERE ";
 		if ($where != null) $sql .= $where;
 		else $sql .= "`id`=" . $object->id;
-
 		$res = (@mysql_query($sql,$this->connection) != false);
 		return $res;
 	}
