@@ -79,7 +79,7 @@ function exponent_image_sizeinfo($filename) {
 			if (substr($lowerfile,-1*strlen($type),strlen($type)) == $type) $sizeinfo['mime'] = $mime;
 		}
 	}
-	
+
 	return $sizeinfo;
 }
 
@@ -114,7 +114,7 @@ function exponent_image_createFromFile($filename,$sizeinfo) {
 		// Either we have an unknown image type, or an unsupported image type.
 		return IMAGE_ERR_NOTSUPPORTED;
 	}
-	
+
 	if (function_exists('imagesavealpha')) {
 		imagealphablending($img, false);
 		imagesavealpha($img, true);
@@ -139,12 +139,12 @@ function exponent_image_create($w,$h) {
 	$info = gd_info();
 	if (strpos($info['GD Version'],'2.0') !== false) {
 		$img = imagecreatetruecolor($w,$h);
-		
+
 		if (function_exists('imagesavealpha')) {
 			imagealphablending($img, false);
 			imagesavealpha($img, true);
 		}
-		
+
 		return $img;
 	} else {
 		return imagecreate($w,$h);
@@ -168,7 +168,7 @@ function exponent_image_copyresized($dest,$src,$dst_x, $dst_y, $src_x, $src_y, $
  * This is a wrapper around various GD functions, to provide Exponent
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
- * 
+ *
  * @param string $filename The path/filename of the image to scale.
  * @param decimal $scale The scaling factor, as a decimal (i.e. 0.5 for 50%)
  * @node Subsystems:Image
@@ -178,23 +178,23 @@ function exponent_image_scaleByPercent($filename,$scale) {
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	
+
 	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
-	
+
 	if ($scale == 1) {
 		return $original;
 	}
-	
+
 	$w = $scale * $sizeinfo[0];
 	$h = $scale * $sizeinfo[1];
-	
+
 	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
 	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+
 	return $thumb;
 }
 
@@ -203,7 +203,7 @@ function exponent_image_scaleByPercent($filename,$scale) {
  * This is a wrapper around various GD functions, to provide Exponent
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
- * 
+ *
  * @param string $filename The path/filename of the image to scale.
  * @param integer $width The desired width of the scaled image, in pixels.
  * @node Subsystems:Image
@@ -217,18 +217,18 @@ function exponent_image_scaleToWidth($filename,$width) {
 	if (!is_resource($original)) {
 		return $sizeinfo;
 	}
-	
+
 	if ($width == $sizeinfo[0]) {
 		return $original;
 	}
-	
+
 	$w = $width;
 	$h = ($width / $sizeinfo[0]) * $sizeinfo[1];
-	
+
 	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
 	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+
 	return $thumb;
 }
 
@@ -237,7 +237,7 @@ function exponent_image_scaleToWidth($filename,$width) {
  * This is a wrapper around various GD functions, to provide Exponent
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
- * 
+ *
  * @param string $filename The path/filename of the image to scale.
  * @param integer $height The desired height of the scaled image, in pixels.
  * @node Subsystems:Image
@@ -246,23 +246,23 @@ function exponent_image_scaleToWidth($filename,$width) {
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	
+
 	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
-	
+
 	if ($height == $sizeinfo[1]) {
 		return $original;
 	}
-	
+
 	$w = ($height / $sizeinfo[1]) * $sizeinfo[0];
 	$h = $height;
-	
+
 	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
 	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+
 	return $thumb;
 }
 
@@ -271,7 +271,7 @@ function exponent_image_scaleToWidth($filename,$width) {
  * This is a wrapper around various GD functions, to provide Exponent
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
- * 
+ *
  * @param string $filename The path/filename of the image to scale.
  * @param integer $width The maximum width of the scaled image, in pixels.
  * @param integer $height The maximum height of the scaled image, in pixels.
@@ -282,28 +282,84 @@ function exponent_image_scaleToConstraint($filename,$width,$height) {
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	
+
 	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
-	
+
 	if ($width >= $sizeinfo[0] && $height >= $sizeinfo[1]) {
 		return $original;
 	}
-	
+
 	$w = $width;
 	$h = ($width / $sizeinfo[0]) * $sizeinfo[1];
-	
+
 	if ($h > $height) { // height is outside
 		$w = ($height / $sizeinfo[1]) * $sizeinfo[0];
 		$h = $height;
 	}
-	
+
 	$thumb = exponent_image_create($w,$h);
 	if (!$thumb) return null;
 	exponent_image_copyresized($thumb,$original,0,0,0,0,$w,$h,$sizeinfo[0],$sizeinfo[1]);
-	
+
+	return $thumb;
+}
+/* exdoc
+ * Scale an image to a square keeping the image aspect ratio.
+ * If the image is smaller in either dimension than request square side original is returned.
+ * Image is first cropped to a square of length smaller of width or height and then resized.
+ * This is a wrapper around various GD functions, to provide Exponent
+ * programmers a single point of entry.  It also handles situations where
+ * there is no GD support compiled into the server.  (In this case, null is returned).
+ *
+ * @param string $filename The path/filename of the image to scale.
+ * @param integer $size The desired side length of the scaled image, in pixels.
+ * @node Subsystems:Image
+ */
+function exponent_image_scaleToSquare($filename,$side) {
+	$sizeinfo = exponent_image_sizeinfo($filename);
+	if (!is_array($sizeinfo)) {
+		return $sizeinfo;
+	}
+
+	$original = exponent_image_createFromFile($filename,$sizeinfo);
+	if (!is_resource($original)) {
+		return $original;
+	}
+
+	if ($side >= $sizeinfo[0] || $side >= $sizeinfo[1]) {
+		return $original;
+	}
+
+	/* The defaults will serve in case the image is a square */
+	$src_x = 0;
+	$src_y = 0;
+	$width = $sizeinfo[0];
+	$height = $sizeinfo[1];
+
+	/*if width greater than height, we crop the image left and right */
+	if ($sizeinfo[0] > $sizeinfo[1]) {
+		$width=$sizeinfo[1];
+		$height=$sizeinfo[1];
+		$src_x=round(($sizeinfo[0]-$width)/2,0);
+	}
+	else
+	{
+	/*if height greater than width, we crop the image top and bottom */
+		$height=$sizeinfo[0];
+		$width=$sizeinfo[0];
+		$src_y=round(($sizeinfo[1]-$height)/2,0);
+	}
+
+	$w = $side;
+	$h = $side;
+
+	$thumb = exponent_image_create($w,$h);
+	if (!$thumb) return null;
+   exponent_image_copyresized($thumb,$original,0,0,$src_x,$src_y,$w,$h,$width,$height);
+
 	return $thumb;
 }
 
@@ -312,7 +368,7 @@ function exponent_image_scaleToConstraint($filename,$width,$height) {
  * This is a wrapper around various GD functions, to provide Exponent
  * programmers a single point of entry.  It also handles situations where
  * there is no GD support compiled into the server.  (In this case, null is returned).
- * 
+ *
  * @param string $filename The path/filename of the image to scale.
  * @param integer $width The desired width of the scaled image, in pixels.
  * @param integer $height The desired height of the scaled image, in pixels.
@@ -323,20 +379,20 @@ function exponent_image_scaleManually($filename,$width,$height) {
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	
+
 	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
-	
+
 	if ($width == $sizeinfo[0] && $height == $sizeinfo[1]) {
 		return $original;
 	}
-	
+
 	$thumb = exponent_image_create($width,$height);
 	if (!$thumb) return null;
 	exponent_image_copyresized($thumb,$original,0,0,0,0,$width,$height,$sizeinfo[0],$sizeinfo[1]);
-	
+
 	return $thumb;
 }
 
@@ -345,14 +401,14 @@ function exponent_image_rotate($filename,$degrees) {
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	
+
 	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
-	
+
 	$color = imagecolorclosesthwb($original,255,255,255);
-	
+
 	return imagerotate($original,$degrees,$color);
 }
 
@@ -361,19 +417,19 @@ function exponent_image_flip($filename,$is_horizontal) {
 	if (!is_array($sizeinfo)) {
 		return $sizeinfo;
 	}
-	
+
 	$original = exponent_image_createFromFile($filename,$sizeinfo);
 	if (!is_resource($original)) {
 		return $original;
 	}
-	
+
 	// Horizontal - invert y coords
 	// Vertical - invert x coords
-	
+
 	$w = $sizeinfo[0];
 	$h = $sizeinfo[1];
-	$new = exponent_image_create($w,$h);	
-	
+	$new = exponent_image_create($w,$h);
+
 	if ($is_horizontal) {
 		// Copy column by column
 		//$dest,$src,$dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) {
@@ -431,13 +487,13 @@ function exponent_image_captcha($w,$h,$string) {
 		for ($i = 0; $i < strlen($string); $i++) {
 			imagestring($img,rand(4,6),$px_per_char * ($i+1) + rand(-5,5),rand(0,$h / 2),$string{$i},$colors[($i % 10)]);
 		}
-		
+
 		// Need this to be 'configurable'
 		for ($i = 0; $i < strlen($string) / 2 && $i < 10; $i++) {
 			$c = imagecolorallocate($img,rand(150,250),rand(150,250),rand(150,250));
 			imageline($img,rand(0,$w / 4),rand(5, $h-5),rand(3*$w / 4,$w),rand(0,$h),$c);
 		}
-		
+
 		//imagestring($img,6,0,0,$string,$color);
 		return $img;
 	} else {

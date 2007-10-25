@@ -28,7 +28,7 @@ if (isset($_GET['id'])) {
 	// Initialize the Database Subsystem
 	include_once(BASE.'subsystems/database.php');
 	$db = exponent_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
-	
+
 	$file_obj = $db->selectObject('file','id='. intval($_GET['id']));
 
     $_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
@@ -47,6 +47,8 @@ if (isset($_GET['constraint'])) {
 	$thumb = exponent_image_scaleToHeight($file,intval($_GET['height']));
 } else if (isset($_GET['scale'])) {
 	$thumb = exponent_image_scaleByPercent($file,intval($_GET['scale']) / 100);
+} else if (isset($_GET['square'])) {
+ 	$thumb = exponent_image_scaleToSquare($file,intval($_GET['square']));
 }
 
 $mythumb = getimagesize($file);
