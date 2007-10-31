@@ -38,7 +38,7 @@ class router {
 	                	if (empty($params['sef_name'])) {
 	                        	global $db;
 		                        $spaces = array('&nbsp;', ' ');
-	        	                $params['sef_name'] = strtolower(str_ireplace($spaces, '-', $db->selectValue('section', 'name', 'id='.$params['section'])));
+	        	                $params['sef_name'] = strtolower(str_replace($spaces, '-', $db->selectValue('section', 'name', 'id='.intval($params['section']))));
 	                	}
 	        	        return $linkbase.$params['sef_name'];
 	        	} else {
@@ -96,7 +96,6 @@ class router {
 	}
 
 	public function routeRequest() {
-		//eDebug($_SERVER);
 		$url_parts = array();
 		if (isset($_SERVER['REDIRECT_URL'])) {
 			$url = substr_replace($_SERVER['REDIRECT_URL'],'',0,strlen(PATH_RELATIVE));
@@ -118,8 +117,8 @@ class router {
 			// search module using the page name as the seach string.
 		        $section = $db->selectObject('section', 'sef_name="'.$url_parts[0].'"');
 		        if (empty($section)) {
-		                $name = str_ireplace('-', ' ', $url_parts[0]);
-		                $name2 = str_ireplace('-', '&nbsp;', $url_parts[0]);
+		                $name = str_replace('-', ' ', $url_parts[0]);
+		                $name2 = str_replace('-', '&nbsp;', $url_parts[0]);
 		                $section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
 		        }
 
