@@ -168,6 +168,7 @@ if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
 }
 $sectionObj = $db->selectObject('section','id='. intval($section));
+
 if (!navigationmodule::canView($sectionObj)) {
 	define('AUTHORIZED_SECTION',0);
 } else {
@@ -188,21 +189,21 @@ function eDebug($var){
 }
 
 function eLog($var, $type='', $path='', $minlevel='0') {
-        if($type == '') { $type = "INFO"; }
-        if($path == '') { $path = BASE . 'tmp/exponent.log'; }
-        if (DEVELOPMENT >= $minlevel) {
-                if (is_writable ($path) || !file_exists($path)) {
-                        if (!$log = fopen ($path, "ab")) {
-                                eDebug("Error opening log file for writing.");
-                        } else {
-                                if (fwrite ($log, $type . ": " . $var . "\r\n") === FALSE) {
-                                        eDebug("Error writing to log file ($log).");
-                                }
-                                fclose ($log);
-                        }
-                } else {
-                        eDebug ("Log file ($log) not writable.");
-                }
-        }
+	if($type == '') { $type = "INFO"; }
+	if($path == '') { $path = BASE . 'tmp/exponent.log'; }
+	if (DEVELOPMENT >= $minlevel) {
+		if (is_writable ($log) || !file_exists($log)) {
+			if (!$log = fopen ($path, "ab")) {
+				eDebug("Error opening log file for writing.");
+			} else {
+				if (fwrite ($log, $type . ": " . $var . "\r\n") === FALSE) {
+					eDebug("Error writing to log file ($log).");
+				}
+				fclose ($log);
+			}
+		} else {
+			eDebug ("Log file ($log) not writable.");
+		}
+	}
 }
 ?>
