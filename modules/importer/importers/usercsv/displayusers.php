@@ -42,6 +42,7 @@ while ( ($filedata = fgetcsv($file, 2000, $_POST["delimiter"])) != false){
 if ($linenum >= $post["rowstart"]){
 	$i = 0;
 
+	$userinfo = null;
 	$userinfo->changed = "";
 
         foreach ($filedata as $field){

@@ -5,7 +5,7 @@ return array(
 	'filn_num'=>'First Initial / Last Name / Random Number',
 	'email'=>'Email Address',
 	'fnln'=>'First Name / Last Name',
-	'in_files'=>'Username Specified in CSV File',
+	'in_file'=>'Username Specified in CSV File',
 	
 	'rand_pass'=>'Generate Random Passwords',
 	'def_pass'=>'Use the Default Password Supplied Below',

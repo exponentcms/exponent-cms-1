@@ -20,6 +20,7 @@
 //Sanity Check
 if (!defined("EXPONENT")) exit("");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
+
 //Create a new form object
 exponent_forms_initialize();
 
