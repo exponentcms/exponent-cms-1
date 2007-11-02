@@ -1,6 +1,6 @@
 {*
  * Copyright (c) 2004-2006 OIC Group, Inc.
- * Written and Designed by James Hunt
+ * Written and Designed by Phillip Ball
  *
  * This file is part of Exponent
  *
@@ -13,6 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+
+<div class="loginmodule expanded">
 {if $smarty.const.PREVIEW_READONLY == 1}
 <i>{$logged_in_users}:</i><br />
 {/if}
@@ -42,3 +44,4 @@
 {/if}
 </form>
 {/if}
+</div>
