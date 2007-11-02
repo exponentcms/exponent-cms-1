@@ -91,7 +91,8 @@ class router {
                 	}
 
 	                $link = substr($link,0,-1);
-                	return htmlspecialchars($link,ENT_QUOTES);
+                	return $link; // phillip: removed htmlspecialchars so that links return without parsing & to &amp; in URL strings
+                	//return htmlspecialchars($link,ENT_QUOTES);
 		}
 	}
 
