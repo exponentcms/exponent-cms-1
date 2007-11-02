@@ -9,16 +9,16 @@
 	<?php 
 	echo exponent_theme_headerInfo($section); 
 	exponent_theme_resetCSS();
+	exponent_theme_loadYUICSS(array('menu'));
 	exponent_theme_loadExpDefaults();
 	includeCSSFiles();
 	?>
 	
 	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/yahoo/yahoo-min.js"></script>
-     <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/utilities/util.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/utilities/utilities.js"></script>
 	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-     <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/container/container_core.js"></script>
-
-     <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/menu/menu.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/container/container_core.js"></script>
+	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/menu/menu.js"></script>
 
     
 </head>
@@ -27,7 +27,9 @@
 <div id="doc" class="yui-t2">
 
 	<div id="hd">
+		<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
 		<h1>Exponent CMS</h1>
+		<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
 	</div>
 	<div id="bd">
 		<div class="yui-b">
