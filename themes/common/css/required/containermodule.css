@@ -17,7 +17,7 @@ div.containermodule{
 	padding: 2px;
 	font-size: 8pt;
 	color: #555;
-    background-image:url(../images/icons/exp1icons.png);  
+    	background-image:url(../../images/icons/exp1icons.png);  
 	background-position:0 -305px; 
 	min-height:20px;
 }
@@ -46,7 +46,7 @@ a.addmodule span.addtext{
 	
 	vertical-align:middle;
 	padding:0 0 0 20px;
-	background:url("../images/icons/add.png") no-repeat;
+	background:url("../../images/icons/add.png") no-repeat;
 }
 a.addmodule{
 	display:block;
@@ -154,7 +154,7 @@ a.addmodule:hover{
 
 .container_editheader .yuimenubar .yuimenubaritem .yuimenubaritemlabel,
 .container_editheader .yuimenu .yuimenuitem .yuimenuitemlabel {
-    background-image:url(../images/icons/exp1icons.png);  
+    background-image:url(../../images/icons/exp1icons.png);  
  	background-repeat:no-repeat;
 }
 .container_editheader .yuimenubar .yuimenubaritem{
@@ -375,7 +375,7 @@ when one of its submenus is visible.
 
 .container_moduleheader .yuimenubar .yuimenubaritem .yuimenubaritemlabel,
 .container_moduleheader .yuimenu .yuimenuitem .yuimenuitemlabel {
-    background-image:url(../images/icons/exp1icons.png);  
+    background-image:url(../../images/icons/exp1icons.png);  
  	background-repeat:no-repeat;
 }
 .container_moduleheader .yuimenubar .yuimenubaritem{

@@ -52,7 +52,7 @@
 <script>
 {literal}
 YAHOO.util.Event.onContentReady("admincontrolpanel",function(){
-var aMenuBar = new YAHOO.widget.MenuBar("admincontrolpanel", { visibility:true, autosubmenudisplay: false, hidedelay: 750, lazyload: true });
+var aMenuBar = new YAHOO.widget.MenuBar("admincontrolpanel", { visibility:true, autosubmenudisplay: true, hidedelay: 750, lazyload: true });
 
 aMenuBar.render();
 });

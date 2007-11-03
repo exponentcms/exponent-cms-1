@@ -84,12 +84,11 @@ function exponent_theme_loadExpDefaults() {
                 while (($cssfile = readdir($dh)) !== false) {
                		$filename = $commondir.'/'.$cssfile;
                         if ( is_file($filename) && substr($filename,-4,4) == ".css") {
+				$css_files[] = URL_FULL.$commondir.'/'.$cssfile;
 				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
 			        	$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
 			        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
 			                $css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
-			        } else {
-					$css_files[] = URL_FULL.$commondir.'/'.$cssfile;
 				}
                         }
                 }
@@ -97,7 +96,7 @@ function exponent_theme_loadExpDefaults() {
 }
 function exponent_theme_resetCSS() {
 	global $css_files;
-	$css_files[] = URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css";
+	$css_files = array_merge(array(URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"), $css_files);
 }
 
 function exponent_theme_loadYUICSS($files=array()) {
@@ -107,12 +106,35 @@ function exponent_theme_loadYUICSS($files=array()) {
 	}
 }
 
+function exponent_theme_loadRequiredCSS() {
+	global $css_files;
+
+        $requireddir = 'themes/common/css/required/';
+
+	if (is_dir($requireddir) && is_readable($requireddir) ) {
+		$dh = opendir($requireddir);
+                while (($cssfile = readdir($dh)) !== false) {
+			$filename = $requireddir.$cssfile;
+			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
+				$css_files[] = URL_FULL.$requireddir.$cssfile;
+			}
+		}
+	}
+}
+
+function exponent_theme_loadAll() {
+	exponent_theme_resetCSS();
+        exponent_theme_loadYUICSS(array('menu'));
+        exponent_theme_loadExpDefaults();
+	exponent_theme_includeCSSFiles();	
+}
+
 function exponent_theme_minifyCSS() {
 	if (css_file_needs_rebuilt()) {
 		global $css_files;
 
-		//eDebug($css_files);
-
+		eDebug($css_files);
+		exit();
 		// Load the Minify library if needed.                 
 		include_once(BASE.'external/minify/minify.php');                 
 		// Create new Minify objects.                 
@@ -139,14 +161,32 @@ function exponent_theme_minifyCSS() {
  * @node Subsystems:Theme
  */
 
-function includeCSSFiles($files = array()) {
+function exponent_theme_includeCSSFiles($files = array()) {
 	global $css_files;
-	
-	foreach ($files as $file) {
-		if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
-			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$file;
-		} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
-			$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$file;
+
+	if (empty($files)) {
+		global $css_files;
+
+		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
+		
+		foreach ($cssdirs as $cssdir) {
+		        if (is_dir($cssdir) && is_readable($cssdir) ) {
+        		        $dh = opendir($cssdir);
+                		while (($cssfile = readdir($dh)) !== false) {
+                        		$filename = $cssdir.$cssfile;
+	                        	if ( is_file($filename) && substr($filename,-4,4) == ".css") {
+        	                        	$css_files[] = URL_FULL.$cssdir.$cssfile;
+                	        	}
+                		}
+        		}
+		}
+	} else {	
+		foreach ($files as $file) {
+			if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
+				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$file;
+			} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
+				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$file;
+			}
 		}
 	}
 	exponent_theme_minifyCSS();
@@ -201,6 +241,10 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
+
+	// load all the required CSS files for the user.
+	exponent_theme_loadRequiredCSS();
+
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
 		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";

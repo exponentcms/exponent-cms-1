@@ -69,7 +69,7 @@
 					                }
 
 
-				 					var containerDrop{/literal}{$top->id}{literal} = new YAHOO.widget.MenuBar("{/literal}perms-containermod-{$top->id}{literal}", { autosubmenudisplay: true, showdelay: 250, hidedelay:  750, lazyload: true });
+				 					var containerDrop{/literal}{$top->id}{literal} = new YAHOO.widget.MenuBar("{/literal}perms-containermod-{$top->id}{literal}", { autosubmenudisplay: true, showdelay: 250, hidedelay:  750, lazyload: true, submenualignment: ["tl","br"] });
 
 
 					                // Subscribe to the "beforerender" event
