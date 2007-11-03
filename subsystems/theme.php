@@ -133,8 +133,6 @@ function exponent_theme_minifyCSS() {
 	if (css_file_needs_rebuilt()) {
 		global $css_files;
 
-		eDebug($css_files);
-		exit();
 		// Load the Minify library if needed.                 
 		include_once(BASE.'external/minify/minify.php');                 
 		// Create new Minify objects.                 
