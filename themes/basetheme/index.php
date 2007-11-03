@@ -23,7 +23,7 @@
     
 </head>
 <body>
-	<?php exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
+	<?php //exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
 <div id="doc" class="yui-t2">
 
 	<div id="hd">
