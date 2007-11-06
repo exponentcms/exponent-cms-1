@@ -25,6 +25,7 @@
 define("SYS_THEME",1);
 
 $css_files = array();  // This array keeps track of all the css files that need to be included via the minify script
+$jsfiles = array();
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
@@ -122,7 +123,7 @@ function exponent_theme_loadRequiredCSS() {
 	}
 }
 
-function exponent_theme_loadAll() {
+function exponent_theme_loadAllCSS() {
 	exponent_theme_resetCSS();
         exponent_theme_loadYUICSS(array('menu'));
         exponent_theme_loadExpDefaults();
@@ -151,6 +152,23 @@ function exponent_theme_minifyCSS() {
 	}
 }
 
+function exponent_theme_minifyJS($files) {
+	// Load the Minify library if needed.                 
+        include_once(BASE.'external/minify/minify.php');
+        // Create new Minify objects.                 
+        $minifyJS = new Minify(Minify::TYPE_JS);
+
+        // Specify the files to be minified. Full URLs are allowed as long as they point                 
+        // to the same server running Minify. 
+        $minifyJS->addFile($files);
+
+        // Establish the file where we will build the compiled CSS file
+        $compiled_file = fopen(BASE.'tmp/js/exp-js-min.js', 'w');
+
+        fwrite($compiled_file, $minifyJS->combine());
+        fclose($compiled_file);
+}
+
 /* exdoc
  * @function include_css()
  * checks for a css document to include on your page.
@@ -164,6 +182,10 @@ function exponent_theme_includeCSSFiles($files = array()) {
 
 	if (empty($files)) {
 		global $css_files;
+
+		exponent_theme_resetCSS();
+        	exponent_theme_loadYUICSS(array('menu'));
+        	exponent_theme_loadExpDefaults();
 
 		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
 		
@@ -197,6 +219,78 @@ function css_file_needs_rebuilt() {
 		return false;
 	}
 }
+
+function exponent_theme_buildYUIPaths() {
+	global $jsfiles;
+
+	$yuidir = 'external/yui/build/';
+
+	if (is_dir($yuidir) && is_readable($yuidir) ) {
+        	$dh = opendir($yuidir);
+                while (($file = readdir($dh)) !== false) {
+			if (is_dir($yuidir.$file) && is_readable($yuidir.$file) && substr($file,0,1) != ".") {
+				$jsdh = opendir($yuidir.$file);
+				while (($jsfile = readdir($jsdh)) !== false) {
+		                        if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
+                        			if (substr($jsfile,-3,3) == ".js" && !stristr($jsfile, '-min') && !stristr($jsfile, '-debug') ) {
+                        				$jsfiles[substr($jsfile,0,-3)] = URL_FULL.$yuidir.$file.'/'.$jsfile;
+                        			}
+					}
+				}
+			}
+              	}
+       }
+}
+
+function exponent_theme_loadYUIJS($files=array()) {
+	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/js/exp-js-min.js')) {
+		global $jsfiles;
+		//eDebug($jsfiles);
+		exponent_theme_buildYUIPaths();
+	
+		$files_to_load = array();
+		$files_to_load['yahoo-dom-event'] = $jsfiles['yahoo-dom-event'];
+		$files_to_load['container_core'] = $jsfiles['container_core'];
+		$files_to_load['menu'] = $jsfiles['menu'];
+	
+		foreach($files as $filename) {
+			if (!array_key_exists($filename, $files_to_load)) {	
+				$files_to_load[] = $jsfiles[$filename];
+			}
+		}	
+
+		exponent_theme_minifyJS($files_to_load);
+		//eDebug($files_to_load);
+		//exit();
+	}
+}
+
+/* exdoc
+ * @state <b>UNDOCUMENTED</b>
+ * @node Undocumented
+ */
+function exponent_theme_headerInfo($section /*this variable is now deprecated*/) {
+	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
+	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
+	$str = '';
+
+	// load all the required CSS files for the user.
+	exponent_theme_loadRequiredCSS();
+
+	if ($sectionObj != null) {
+		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
+		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
+		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" />' . "\n";
+		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
+		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
+		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
+		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
+		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'tmp/js/exp-js-min.js"></script>'."\r\n";
+		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
+	}
+	return $str;
+}
+
 /* exdoc
  * Prints the HTML for the Source Selector header table.  This is required
  * of all themes, so that the source selector allows users to browse to Archived
@@ -230,32 +324,6 @@ function exponent_theme_sourceSelectorInfo() {
 		<?php
 	}
 }
-
-/* exdoc
- * @state <b>UNDOCUMENTED</b>
- * @node Undocumented
- */
-function exponent_theme_headerInfo($section /*this variable is now deprecated*/) {
-	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
-	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
-	$str = '';
-
-	// load all the required CSS files for the user.
-	exponent_theme_loadRequiredCSS();
-
-	if ($sectionObj != null) {
-		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
-		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
-		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" />' . "\n";
-		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
-		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
-		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
-		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
-	}
-	return $str;
-}
-
 
 /* exdoc
  * Calls the necessary methods to show a specific module, in a section-sensitive way.

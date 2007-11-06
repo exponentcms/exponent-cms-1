@@ -1,26 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
-
-
-
-
 <html>
 <head>
 	<?php 
 	echo exponent_theme_headerInfo($section); 
-	exponent_theme_resetCSS();
-	exponent_theme_loadYUICSS(array('menu'));
-	exponent_theme_loadExpDefaults();
+	//exponent_theme_resetCSS();
+	//exponent_theme_loadYUICSS(array('menu'));
+	//exponent_theme_loadExpDefaults();
 	exponent_theme_includeCSSFiles();
+	exponent_theme_loadYUIJS();
 	?>
-	
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/yahoo/yahoo-min.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/utilities/utilities.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/container/container_core.js"></script>
-	<script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/yui/build/menu/menu.js"></script>
-
-    
 </head>
 <body>
 	<?php exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
