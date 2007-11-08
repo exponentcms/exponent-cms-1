@@ -80,44 +80,44 @@ function exponent_theme_loadExpDefaults() {
 
 	$commondir = 'themes/common/css';
 
-        if (is_dir($commondir) && is_readable($commondir) ) {
-        	$dh = opendir($commondir);
-                while (($cssfile = readdir($dh)) !== false) {
-               		$filename = $commondir.'/'.$cssfile;
-                        if ( is_file($filename) && substr($filename,-4,4) == ".css") {
-				$css_files[] = URL_FULL.$commondir.'/'.$cssfile;
+	if (is_dir($commondir) && is_readable($commondir) ) {
+		$dh = opendir($commondir);
+		while (($cssfile = readdir($dh)) !== false) {
+			$filename = $commondir.'/'.$cssfile;
+			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
+			$css_files["common-".substr($cssfile,0,-4)] = URL_FULL.$commondir.'/'.$cssfile;
 				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
-			        	$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
-			        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
-			                $css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
+					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
+		        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
+					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
 				}
-                        }
-                }
-        }
+			}
+		}
+ 	}
 }
 function exponent_theme_resetCSS() {
 	global $css_files;
-	$css_files = array_merge(array(URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"), $css_files);
+	$css_files = array_merge(array("reset-fonts-grids"=>URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"), $css_files);
 }
 
 function exponent_theme_loadYUICSS($files=array()) {
 	global $css_files;
 	foreach ($files as $file) {
-		$css_files[] = URL_FULL."external/yui/build/assets/skins/sam/".$file.'.css';
+		$css_files["yui-".$file] = URL_FULL."external/yui/build/assets/skins/sam/".$file.'.css';
 	}
 }
 
 function exponent_theme_loadRequiredCSS() {
 	global $css_files;
 
-        $requireddir = 'themes/common/css/required/';
+	$requireddir = 'themes/common/css/required/';
 
 	if (is_dir($requireddir) && is_readable($requireddir) ) {
 		$dh = opendir($requireddir);
-                while (($cssfile = readdir($dh)) !== false) {
+		while (($cssfile = readdir($dh)) !== false) {
 			$filename = $requireddir.$cssfile;
 			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
-				$css_files[] = URL_FULL.$requireddir.$cssfile;
+				$css_files[substr($cssfile,0,-4)] = URL_FULL.$requireddir.$cssfile;
 			}
 		}
 	}
@@ -125,8 +125,8 @@ function exponent_theme_loadRequiredCSS() {
 
 function exponent_theme_loadAllCSS() {
 	exponent_theme_resetCSS();
-        exponent_theme_loadYUICSS(array('menu'));
-        exponent_theme_loadExpDefaults();
+	exponent_theme_loadYUICSS(array('menu'));
+	exponent_theme_loadExpDefaults();
 	exponent_theme_includeCSSFiles();	
 }
 
@@ -184,8 +184,8 @@ function exponent_theme_includeCSSFiles($files = array()) {
 		global $css_files;
 
 		exponent_theme_resetCSS();
-        	exponent_theme_loadYUICSS(array('menu'));
-        	exponent_theme_loadExpDefaults();
+        exponent_theme_loadYUICSS(array('menu'));
+        exponent_theme_loadExpDefaults();
 
 		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
 		
@@ -194,8 +194,8 @@ function exponent_theme_includeCSSFiles($files = array()) {
         		        $dh = opendir($cssdir);
                 		while (($cssfile = readdir($dh)) !== false) {
                         		$filename = $cssdir.$cssfile;
-	                        	if ( is_file($filename) && substr($filename,-4,4) == ".css") {
-        	                        	$css_files[] = URL_FULL.$cssdir.$cssfile;
+	                        	if ( is_file($filename) && substr($filename,-4,4) == ".css" && !array_key_exists(substr("usertheme-".$cssfile,0,-4), $css_files)) {
+        	                        	$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.$cssdir.$cssfile;
                 	        	}
                 		}
         		}
@@ -238,31 +238,24 @@ function exponent_theme_buildYUIPaths() {
 					}
 				}
 			}
-              	}
-       }
+		}
+	}
 }
 
 function exponent_theme_loadYUIJS($files=array()) {
-	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/js/exp-js-min.js')) {
 		global $jsfiles;
-		//eDebug($jsfiles);
 		exponent_theme_buildYUIPaths();
+		//eDebug($jsfiles);
 	
 		$files_to_load = array();
-		$files_to_load['yahoo-dom-event'] = $jsfiles['yahoo-dom-event'];
-		$files_to_load['container_core'] = $jsfiles['container_core'];
-		$files_to_load['menu'] = $jsfiles['menu'];
-	
+		$files_to_string = "";
 		foreach($files as $filename) {
-			if (!array_key_exists($filename, $files_to_load)) {	
-				$files_to_load[] = $jsfiles[$filename];
+			if (array_key_exists($filename, $jsfiles)) {	
+				//$files_to_load[] = $jsfiles[$filename];
+				$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles[$filename].'"></script>'."\r\n";
 			}
 		}	
-
-		exponent_theme_minifyJS($files_to_load);
-		//eDebug($files_to_load);
-		//exit();
-	}
+		return $files_to_string;
 }
 
 /* exdoc
@@ -276,7 +269,9 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 
 	// load all the required CSS files for the user.
 	exponent_theme_loadRequiredCSS();
+	// load all the required YUI JS files for the user.
 
+	
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
 		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
@@ -285,7 +280,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'tmp/js/exp-js-min.js"></script>'."\r\n";
+		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','container_core','menu',));
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
 	}
 	return $str;
