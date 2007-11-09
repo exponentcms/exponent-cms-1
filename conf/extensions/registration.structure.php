@@ -68,6 +68,12 @@ $stuff = array(
 	)
 );
 
+$info = gd_info();
+if (!EXPONENT_HAS_GD) {
+	$stuff[1]['SITE_USE_CAPTCHA']['description'] = $i18n['use_captcha_desc'].'<br /><br />'.$i18n['no_gd_support'];
+	$stuff[1]['SITE_USE_CAPTCHA']['control']->disabled = true;
+}
+
 return $stuff;
 
 ?>

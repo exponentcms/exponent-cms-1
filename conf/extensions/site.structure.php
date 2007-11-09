@@ -25,7 +25,7 @@ $i18n = exponent_lang_loadFile('conf/extensions/site.structure.php');
 foreach (glob(BASE . "subsystems/forms/controls/EditorControl/views/*.tpl") as $installed_glue_file) {
    $installed_editor = basename($installed_glue_file, ".tpl");
    //also check if the editor is actually installed, not just its view file
-   if (file_exists("external/editors/" . $installed_editor)) { 
+   if (file_exists("external/editors/" . $installed_editor)) {
 		$installed_editors[$installed_editor] = $installed_editor;
    }
 }
@@ -140,12 +140,6 @@ $stuff = array(
 		),
 	)
 );
-
-$info = gd_info();
-if (!EXPONENT_HAS_GD) {
-	$stuff[1]['SITE_USE_CAPTCHA']['description'] = $i18n['use_captcha_desc'].'<br /><br />'.$i18n['no_gd_support'];
-	$stuff[1]['SITE_USE_CAPTCHA']['control']->disabled = true;
-}
 
 return $stuff;
 
