@@ -1,5 +1,10 @@
 RewriteEngine On 
 RewriteRule ^$ index.html [QSA]
 RewriteRule ^([^.]+)$ $1.html [QSA]
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.css$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.js$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.gif$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.jpg$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.png$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php [QSA,L]

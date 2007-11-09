@@ -70,12 +70,13 @@ $SYS_FLOW_REDIRECTIONPATH = 'exponent_default';
  */
 function exponent_flow_set($access_level,$url_type) {
 	global $SYS_FLOW_REDIRECTIONPATH;
+	global $router;
 	if ($access_level == SYS_FLOW_PUBLIC) {
-		exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . SYS_FLOW_PROTECTED . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
-		exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . SYS_FLOW_PROTECTED,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+		exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . SYS_FLOW_PROTECTED . '_' . $url_type, $router->current_url);
+		exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . SYS_FLOW_PROTECTED, $router->current_url);
 	}
-	exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
-	exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level,'http://' . HOSTNAME . $_SERVER['REQUEST_URI']);
+	exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_' . $access_level . '_' . $url_type, $router->current_url);
+	exponent_sessions_set($SYS_FLOW_REDIRECTIONPATH.'_flow_last_' . $access_level, $router->current_url);
 }
 
 /* exdoc
