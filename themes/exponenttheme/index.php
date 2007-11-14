@@ -29,7 +29,6 @@ if (!defined('EXPONENT')) exit('');
 <script type="text/javascript" src="<?php echo PATH_RELATIVE ?>external/yui/build/utilities/utilities.js"></script>
 <script type="text/javascript" src="<?php echo THEME_RELATIVE; ?>js/scripts.js"></script>
 <link rel="shortcut icon" href="/themes/portaltheme/images/favicon.ico" type="image/x-icon" />
-<?php includeCSSFiles(array('style.css','textmodule.css','css-dropmenu-style.css')); ?>
 
 <style type="text/css">
 #bugs table {
