@@ -19,3 +19,5 @@
 {if $previewMode == 1}
 <a class="mngmntlink preview_mngmntlink" href="{link action=normal}">{$_TR.edit_mode}</a>
 {/if}
+
+

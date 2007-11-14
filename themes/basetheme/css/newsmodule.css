@@ -1,0 +1,47 @@
+/*  STYLES FOR THE FEATURED NEWS WITH PICKER VIEW */
+#featured-news-img {
+	display: inline;
+	float: left;
+	width: 342px;
+	height: 230px;
+}
+
+#featured-news-img img {
+	border: 1px solid white;
+}
+
+#featured-news-picker {
+	display: inline;
+	float: left;
+	margin-left: 8px;
+	height: 230px;
+}
+
+.featured-news-picker-img {
+	display: block;
+	border: 1px solid gray;
+	margin-bottom: 3px;
+	width: 96px;
+	height: 44px;
+	overflow: hidden;
+}
+
+.featured-news-picker-img:hover {
+	border: 1px solid white;
+	cursor: pointer;
+}
+
+#featured-news-body {
+	margin-top: 6px;
+	display: block;
+	clear: both;
+	text-align: left;
+}
+
+.topbg {
+	padding: 4px;
+}
+
+.lowerbg {
+	padding: 8px;
+}

@@ -4,14 +4,13 @@
 <head>
 	<?php 
 	echo exponent_theme_headerInfo($section); 
-	//exponent_theme_resetCSS();
-	//exponent_theme_loadYUICSS(array('menu'));
-	//exponent_theme_loadExpDefaults();
-	exponent_theme_includeCSSFiles();
-	exponent_theme_loadYUIJS();
+	exponent_theme_resetCSS();
+	exponent_theme_includeCSSFiles("",1);
+	echo exponent_theme_loadYUIJS(array('animation','dragdrop'));
 	?>
+	
 </head>
-<body>
+<body class=" yui-skin-sam">
 	<?php exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
 	<div id="doc" class="yui-t2">
 		<div id="hd">
@@ -33,6 +32,7 @@
 		</div>
 		<div id="ft">
 			Exponent - Footer
+			<?php exponent_theme_showModule("previewmodule","Default");  ?>
 		</div>
 	</div>
 </body>

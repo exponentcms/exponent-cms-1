@@ -77,6 +77,15 @@ class administrationmodule {
 			}
 		}
 		$template = new template('administrationmodule',$view,$loc);
+		
+		$level = 99;
+		if (exponent_sessions_isset('uilevel')) {
+			$level = exponent_sessions_get('uilevel');
+		}
+		$template->assign('editMode',exponent_sessions_loggedIn() && $level != UILEVEL_PREVIEW);
+		$template->assign('title',$title);
+		$template->assign('previewMode',($level == UILEVEL_PREVIEW));
+		
 		$template->assign('menu',$menu);
 		$template->assign('moduletitle',$title);
 		$template->assign('user',$user);

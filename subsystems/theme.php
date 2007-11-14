@@ -75,7 +75,7 @@ function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEM
 }
 //End Pathos Compatibility
 
-function exponent_theme_loadExpDefaults() {
+function exponent_theme_loadCommonCSS() {
 	global $css_files;
 
 	$commondir = 'themes/common/css';
@@ -85,7 +85,7 @@ function exponent_theme_loadExpDefaults() {
 		while (($cssfile = readdir($dh)) !== false) {
 			$filename = $commondir.'/'.$cssfile;
 			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
-			$css_files["common-".substr($cssfile,0,-4)] = URL_FULL.$commondir.'/'.$cssfile;
+				$css_files["common-".substr($cssfile,0,-4)] = URL_FULL.$commondir.'/'.$cssfile;
 				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
 					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
 		        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
@@ -99,14 +99,14 @@ function exponent_theme_resetCSS() {
 	global $css_files;
 	$css_files = array_merge(array("reset-fonts-grids"=>URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"), $css_files);
 }
-
+/*
 function exponent_theme_loadYUICSS($files=array()) {
 	global $css_files;
 	foreach ($files as $file) {
 		$css_files["yui-".$file] = URL_FULL."external/yui/build/assets/skins/sam/".$file.'.css';
 	}
 }
-
+*/
 function exponent_theme_loadRequiredCSS() {
 	global $css_files;
 
@@ -121,15 +121,16 @@ function exponent_theme_loadRequiredCSS() {
 			}
 		}
 	}
+	//eDebug($css_files);
 }
 
 function exponent_theme_loadAllCSS() {
-	exponent_theme_resetCSS();
-	exponent_theme_loadYUICSS(array('menu'));
+	//exponent_theme_resetCSS();
+	//exponent_theme_loadYUICSS(array('menu'));
 	exponent_theme_loadExpDefaults();
 	exponent_theme_includeCSSFiles();	
 }
-
+/*
 function exponent_theme_minifyCSS() {
 	if (css_file_needs_rebuilt()) {
 		global $css_files;
@@ -151,6 +152,7 @@ function exponent_theme_minifyCSS() {
 		fclose($compiled_file);
 	}
 }
+*/
 
 function exponent_theme_minifyJS($files) {
 	// Load the Minify library if needed.                 
@@ -177,15 +179,15 @@ function exponent_theme_minifyJS($files) {
  * @node Subsystems:Theme
  */
 
-function exponent_theme_includeCSSFiles($files = array()) {
+function exponent_theme_includeCSSFiles($files = array(),$common = 0) {
 	global $css_files;
-
 	if (empty($files)) {
 		global $css_files;
+		//exponent_theme_resetCSS();
+        //exponent_theme_loadYUICSS(array('menu'));
+        //exponent_theme_loadExpDefaults();
+		if ($common == 1) exponent_theme_loadCommonCSS();
 
-		exponent_theme_resetCSS();
-        exponent_theme_loadYUICSS(array('menu'));
-        exponent_theme_loadExpDefaults();
 
 		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
 		
@@ -209,16 +211,11 @@ function exponent_theme_includeCSSFiles($files = array()) {
 			}
 		}
 	}
-	exponent_theme_minifyCSS();
+	return $css_files;
+	//eDebug($css_files);
 }
 
-function css_file_needs_rebuilt() {
-	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/css/exp-styles-min.css')) {
-		return true;
-	} else {
-		return false;
-	}
-}
+
 
 function exponent_theme_buildYUIPaths() {
 	global $jsfiles;
@@ -246,7 +243,6 @@ function exponent_theme_loadYUIJS($files=array()) {
 		global $jsfiles;
 		exponent_theme_buildYUIPaths();
 		//eDebug($jsfiles);
-	
 		$files_to_load = array();
 		$files_to_string = "";
 		foreach($files as $filename) {
