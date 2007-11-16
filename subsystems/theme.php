@@ -221,7 +221,6 @@ function exponent_theme_buildYUIPaths() {
 	global $jsfiles;
 
 	$yuidir = 'external/yui/build/';
-
 	if (is_dir($yuidir) && is_readable($yuidir) ) {
         	$dh = opendir($yuidir);
                 while (($file = readdir($dh)) !== false) {
@@ -229,7 +228,8 @@ function exponent_theme_buildYUIPaths() {
 				$jsdh = opendir($yuidir.$file);
 				while (($jsfile = readdir($jsdh)) !== false) {
 		                        if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
-                        			if (substr($jsfile,-3,3) == ".js" && !stristr($jsfile, '-min') && !stristr($jsfile, '-debug') ) {
+									//echo substr($jsfile,-7)."<br>";
+                        			if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
                         				$jsfiles[substr($jsfile,0,-3)] = URL_FULL.$yuidir.$file.'/'.$jsfile;
                         			}
 					}
@@ -245,9 +245,11 @@ function exponent_theme_loadYUIJS($files=array()) {
 		//eDebug($jsfiles);
 		$files_to_load = array();
 		$files_to_string = "";
+		//manually add yui-dom-event, since it doen't have a -min version'
+		$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles['yahoo-dom-event'].'"></script>'."\r\n";
 		foreach($files as $filename) {
+			$filename = $filename."-min"; 
 			if (array_key_exists($filename, $jsfiles)) {	
-				//$files_to_load[] = $jsfiles[$filename];
 				$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles[$filename].'"></script>'."\r\n";
 			}
 		}	
@@ -276,7 +278,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','container_core','menu',));
+		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','element-beta','container_core','menu','button-beta','editor-beta'));
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
 	}
 	return $str;
