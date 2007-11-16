@@ -5,13 +5,13 @@
 	<?php 
 	echo exponent_theme_headerInfo($section); 
 	exponent_theme_resetCSS();
-	exponent_theme_includeCSSFiles("",1);
+	exponent_theme_includeCSSFiles("",true);
 	echo exponent_theme_loadYUIJS(array('animation','dragdrop'));
 	?>
 	
 </head>
 <body class=" yui-skin-sam">
-	<?php exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
+	<?php //exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
 	<div id="doc" class="yui-t2">
 		<div id="hd">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
