@@ -9,6 +9,17 @@
 	echo exponent_theme_loadYUIJS(array('animation','dragdrop'));
 	?>
 	
+    <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_RELATIVE; ?>external/ext/IntroToExt2/ExtStart.js"></script>
+
+    <!-- Include Ext stylesheets here: -->
+    <link rel="stylesheet" type="text/css" href="<?php echo PATH_RELATIVE; ?>external/ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo PATH_RELATIVE; ?>external/ext/IntroToExt2/ExtStart.css">
+	
+	
+	
+	
 </head>
 <body class=" yui-skin-sam">
 	<?php //exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
@@ -25,6 +36,7 @@
 			<div id="yui-main">
 				<div class="yui-b">
 					<div class="yui-g">
+<div id="tree-div" style="overflow:auto; height:300px;width:250px;border:1px solid #c3daf9;"></div>						
 						<?php exponent_theme_main(); ?>
 					</div>
 				</div>
