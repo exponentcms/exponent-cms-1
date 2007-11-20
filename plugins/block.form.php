@@ -30,13 +30,13 @@ function smarty_block_form($params,$content,&$smarty, &$repeat) {
 		
 	$name = isset($params['name']) ? $params['name'] : 'form';
 	echo "<!-- Form Object 'form' -->\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/subsystems/forms/js/inputfilters.js.php"></script>'."\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/subsystems/forms/controls/listbuildercontrol.js"></script>'."\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/subsystems/forms/js/required.js"></script>'."\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/external/jscalendar/calendar.js"></script>'."\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/external/jscalendar/lang/calendar-en.js"></script>'."\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/external/jscalendar/calendar-setup.js"></script>'."\r\n";
-	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'/js/PopupDateTimeControl.js"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'subsystems/forms/js/inputfilters.js.php"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'subsystems/forms/controls/listbuildercontrol.js"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'subsystems/forms/js/required.js"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/calendar.js"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/lang/calendar-en.js"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/calendar-setup.js"></script>'."\r\n";
+	echo '<script type="text/javascript" src="'.PATH_RELATIVE.'js/PopupDateTimeControl.js"></script>'."\r\n";
 	echo '<form id="'.$name.'" name="'.$name.'" method="post" action="index.php" enctype="'.$params['enctype'].'">'."\r\n";
 	echo '<input type="hidden" name="module" id="module" value="'.$smarty->_tpl_vars['__loc']->mod.'" />'."\r\n";
 	echo '<input type="hidden" name="src" id="src" value="'.$smarty->_tpl_vars['__loc']->src.'" />'."\r\n";
