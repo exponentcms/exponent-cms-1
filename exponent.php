@@ -56,7 +56,7 @@ $_SERVER['REQUEST_URI'] = SCRIPT_RELATIVE.SCRIPT_FILENAME . '?' . $_SERVER['QUER
 if (isset($_REQUEST['section'])) {
 	exponent_sessions_set('last_section', intval($_REQUEST['section']));
 } else {
-        //exponent_sessions_unset('last_section');
+	if (!isset($_REQUEST['action']) && !isset($_REQUEST['module'])) exponent_sessions_set('last_section', SITE_DEFAULT_SECTION);
 }
 
 if (!defined('DISPLAY_THEME')) {
