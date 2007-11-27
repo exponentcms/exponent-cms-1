@@ -36,11 +36,7 @@
 	define("SCRIPT_FILENAME","section_linked.php");
 	require_once("../../../exponent.php");
 
-	if (isset($_REQUEST['section'])) {
-		$section_id = $_REQUEST['section'];
-		$section_name = isset($_REQUEST['section_name']) ? $_REQUEST['section_name'] : '';
-		$sef_name = isset($_REQUEST['sef_name']) ? $_REQUEST['sef_name'] : '';
-	} else {
+	if (empty($_REQUEST['section'])) {
 		// bad request - no section found
 
 		// go back to referring page, if available
@@ -62,21 +58,13 @@
 	var f_title = window.opener.document.getElementById("f_title");
 	
 	// set value for url form element in opener
-	<?php
-	if (defined('SEF_URLS') && SEF_URLS == 1 && $sef_name != '') {
-		?>f_url.value = "<?php echo $sef_name; ?>";
-	<?php
-	} else {
-	?>
-		f_url.value = "index.php?section=<?php echo $section_id; ?>";
-	<?php
-	}
-	?>
+	f_url.value = "<?php echo $router->buildUrlByPageId($_REQUEST['section']); ?>";
+
 	// uncheck external link box in parent window
 	f_extern.checked = false;
 
 	// set title
-	f_title.value = "<?php echo 'Link to section ' . $section_name; ?>";
+	f_title.value = "<?php echo 'Link to section ' .  $_REQUEST['section_name']; ?>";
 	
 	window.close();
 	</script>

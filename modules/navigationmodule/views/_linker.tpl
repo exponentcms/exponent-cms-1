@@ -30,7 +30,7 @@
 		<table cellpadding="1" cellspacing="0" border="0" width="100%">
 		{foreach from=$sections item=section}
 		<tr><td style="padding-left: {math equation="x*20" x=$section->depth}px">
-		{if $section->active}<a href="{$smarty.get.linkbase}&section={$section->id}&section_name={$section->name|escape:url}&sef_name={$section->sef_name|escape:url}" class="navlink">{$section->name|escape:"htmlall"}</a>&nbsp;
+		{if $section->active}<a href="{$smarty.get.linkbase}&section={$section->id}&section_name={$section->name|escape:url}" class="navlink">{$section->name|escape:"htmlall"}</a>&nbsp;
 		{else}{$section->name}
 		{/if}
 		</td></tr>

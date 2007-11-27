@@ -53,11 +53,13 @@ if (!isset($_SERVER['QUERY_STRING'])) {
 // FIXME:
 $_SERVER['REQUEST_URI'] = SCRIPT_RELATIVE.SCRIPT_FILENAME . '?' . $_SERVER['QUERY_STRING'];
 
+/*
 if (isset($_REQUEST['section'])) {
 	exponent_sessions_set('last_section', intval($_REQUEST['section']));
 } else {
 	if (!isset($_REQUEST['action']) && !isset($_REQUEST['module'])) exponent_sessions_set('last_section', SITE_DEFAULT_SECTION);
 }
+*/
 
 if (!defined('DISPLAY_THEME')) {
 	/* exdoc
@@ -133,6 +135,8 @@ require_once(BASE.'subsystems/template.php');
 require_once(BASE.'subsystems/permissions.php');
 // Initialize the Flow Subsystem.
 if (!defined('SYS_FLOW')) require_once(BASE.'subsystems/flow.php');
+// Initialize the User Subsystem.
+require_once(BASE.'subsystems/users.php');
 
 // Validate session
 exponent_sessions_validate();
@@ -149,8 +153,15 @@ require_once(BASE.'framework/expFramework.php');
 $router = new router();
 // if the user has turned on sef_urls then we need to route the request, otherwise we can just 
 // skip it and default back to the old way of doing things.
-
 $router->routeRequest();
+
+//eDebug($router);
+// MOVED FROM ABOVE FOR TESTING - WE NEED TO REMOVE ONE THESE
+if (isset($_REQUEST['section'])) {
+        exponent_sessions_set('last_section', intval($_REQUEST['section']));
+} else {
+        //exponent_sessions_unset('last_section');
+}
 
 //Initialize the navigation heirarchy
 $sections = exponent_core_initializeNavigation();

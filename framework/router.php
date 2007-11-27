@@ -37,7 +37,7 @@ class router {
         	}
 
 		// Check to see if SEF_URLS have been turned on in the site config
-		if (SEF_URLS == 1) {
+		if (SEF_URLS == 1 && (SCRIPT_FILENAME != 'content_selector.php' && SCRIPT_FILENAME != 'source_selector.php') ) {
 			if (isset($params['section'])) {
 	                	if (empty($params['sef_name'])) {
 	                        	global $db;
@@ -299,6 +299,33 @@ class router {
 		return str_replace('+', '-', $url);
 	}
 
+	public function getSefUrlByPageId($id=null) {
+		if (!empty($id)) {
+			global $db;
+			$section = $db->selectObject('section', 'id='.intval($id));
+			$url = URL_FULL;
+			$url .= !empty($section->sef_name) ? $section->sef_name : $section->name;
+		}
+	}
+
+	public function buildUrlByPageId($id=null) {
+		if (!empty($id)) {
+			global $db;
+			//$url = URL_FULL;
+			$url = '';
+			if (SEF_URLS == 1) {
+				$section = $db->selectObject('section', 'id='.intval($id));
+                        	$url .= !empty($section->sef_name) ? $section->sef_name : $section->name;
+			} else {
+				$url .= 'index.php?section='.$id;
+			}
+		}
+		
+		return $url;
+	}
+
 }
 ?>
+
+
 
