@@ -919,4 +919,14 @@ function exponent_users_changepass($pass, $user = null) {
 	$db->updateObject($u,'user');
 }
 
+function exponent_users_isLoggedIn() {
+        global $user;
+        if (!empty($user) && !empty($user->id) && $user->id != 0) {
+                return true;
+        } else {
+                return false;
+        }
+}
+
+
 ?>
