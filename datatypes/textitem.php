@@ -31,7 +31,9 @@ class textitem {
 		} else {
 			$form->meta('id',$textitem->id);
 		}
-		$form->register('text',$i18n['caption_text'],new yuieditorcontrol($textitem->text));
+		
+		$form->register('text',$i18n['caption_text'],new htmleditorcontrol($textitem->text));
+		//$form->register('text',$i18n['caption_text'],new yuieditorcontrol($textitem->text));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		exponent_forms_cleanup();
