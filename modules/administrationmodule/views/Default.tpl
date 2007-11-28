@@ -13,26 +13,28 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+
 {permissions level=$smarty.const.UILEVEL_NORMAL}
-<div class="moduletitle administration_moduletitle">{$moduletitle}</div>
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-{foreach name=cat from=$menu key=cat item=items}
-{assign var=perm_name value=$check_permissions[$cat]}
-{if $permissions[$perm_name] == 1}
-<div><b>{$cat}</b></div>
-<div style="padding-left: 20px">
-	{foreach name=links from=$items item=info}
-	<a class="mngmntlink administration_mngmntlink" href="{link module=$info.module action=$info.action}">{$info.title}</a><br />
+<div class="administrationmodule default">
+	<h1>{$moduletitle}</h1>
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
+
+	<div class="category-box">
+	{foreach name=cat from=$menu key=cat item=items}
+		{assign var=perm_name value=$check_permissions[$cat]}
+		{if $permissions[$perm_name] == 1}
+		<div class="category">
+			<h4><img src="{$items.icon}" />{$cat}</h4>
+			<ul class="task">
+			{foreach name=links from=$items item=info key=name}
+				{if $name != 'icon'}
+					<li style="list-style-image: url({$info.icon});"><a href="{link module=$info.module action=$info.action}">{$info.title}</a></li>
+				{/if}
+			{/foreach}
+			</ul>
+		</div>
+		{/if}
 	{/foreach}
+	</div>
 </div>
-{/if}
-{/foreach}
 {/permissions}
