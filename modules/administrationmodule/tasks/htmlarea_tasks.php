@@ -27,8 +27,10 @@ return array(
 		'htmlarea_configs'=>array(
 			'title'=>$i18n['toolbar_settings'],
 			'module'=>'administrationmodule',
-			'action'=>'htmlarea_configs'
-		)
+			'action'=>'htmlarea_configs',
+			'icon'=>ICON_RELATIVE."admin/toolbar.png",
+		),
+                'icon'=>ICON_RELATIVE."admin/editor.png"
 	)
 )
 

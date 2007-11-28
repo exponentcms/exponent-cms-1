@@ -17,3 +17,22 @@
         padding-left: 10px;
         border: 1px solid lightgrey;
 }
+
+/** Admin Control Panel Styles  **/
+.administrationmodule.default {
+	width: 100%;
+}
+
+.administrationmodule.default .category-box {
+	width: 100%;
+	/*text-align: center;*/
+}
+
+.administrationmodule.default .category {
+	width: 33%;
+	display: inline;
+	float: left;
+}
+
+.administrationmodule.default h4 {
+}

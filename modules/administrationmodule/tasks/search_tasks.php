@@ -27,7 +27,8 @@ return array(
 			'title'=>$i18n['spider_site'],
 			'module'=>'searchmodule',
 			'action'=>'spider'
-		)
+		),
+		'icon'=>ICON_RELATIVE.'admin/search.png'
 	)
 );
 
