@@ -1,0 +1,19 @@
+/** Administration Module Manager form **/
+.administration_modmgrheader {
+        background-color: lightgrey;
+}
+
+.administration_modmgrheader span.active {
+        color: green;
+        font-weight: bold;
+}
+
+.administration_modmgrheader span.inactive {
+        color: red;
+        font-weight: bold;
+}
+
+.administration_modmgrbody {
+        padding-left: 10px;
+        border: 1px solid lightgrey;
+}

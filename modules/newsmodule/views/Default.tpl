@@ -13,26 +13,16 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}" title="{$_TR.alt_configure}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
 
-{if $moduletitle != ""}<div class="moduletitle news_moduletitle">{$moduletitle}</div>{/if}
-{if $enable_rss == true}
-        <a href="{rsslink}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-{/if}
+{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
+<div class="newsmodule default">
+<h1>
+	{if $moduletitle != ""}{$moduletitle}{/if}
+	{if $enable_rss == true}<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
+</h1>
 {foreach from=$news item=newsitem}
-	<div>
-		<div class="itemtitle news_itemtitle">{$newsitem->title}</div>
+	<div class="item {cycle values='odd,even'}">
+		<h3>{$newsitem->title}</h3>
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
 			<a href="{link action=userperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
@@ -58,12 +48,9 @@
 			<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">{$_TR.revisions}</a>
 		{/if}
 		{/permissions}
-		<div style="padding-left: 15px;">
-		{$newsitem->body|summarize:"html":"para"}
-		</div>
+		 <div class="text">{$newsitem->body|summarize:"html":"para"}</div>
+		<a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}">{$_TR.read_more}</a>
 	</div>
-	<a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}">{$_TR.read_more}</a>
-	<br /><br />
 {/foreach}
 {if $morenews == 1}
 <a href="{link action=view_all_news}">{$_TR.view_all}</a>

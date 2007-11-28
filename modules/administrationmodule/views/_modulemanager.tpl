@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$_TR.form_title}</div>
+<h1>{$_TR.form_title}</h1>
 <div class="form_header">{$_TR.form_header}<br /><br />
 <a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension}">{$_TR.upload_module}</a></div>
 <hr size="1" />

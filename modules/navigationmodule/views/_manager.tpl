@@ -13,6 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+
+<div class="navigationmodule manager">
 <table cellpadding="0" cellspacing="0">
 <tr><td class="tab_btn tab_btn_current">
 <a href="{link action=manage}">{$_TR.hierarchy}</a>
@@ -25,7 +27,7 @@
 </td></tr>
 <tr><td colspan="4" class="tab_main">
 
-<div class="moduletitle navigation_moduletitle">{$_TR.form_title}</div>
+<h1>{$_TR.form_title}</h1>
 <div class="form_header">
 {$_TR.form_header}
 <br />
@@ -92,3 +94,4 @@
 
 </td></tr>
 </table>
+</div>

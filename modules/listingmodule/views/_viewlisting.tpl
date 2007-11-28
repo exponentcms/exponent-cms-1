@@ -36,13 +36,11 @@
 {$listing->body}
 </div>
 *}
+<div class="listingmodule viewlisting">
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-<tr>
-	<td width="100" align="left" valign="top"><img style="border:none" src="{$listing->picpath}" alt="" /></td>
-	<td align="left" style="font-size:16"><b>&nbsp;&nbsp;{$listing->name}</b></td>
-</tr>
-<tr>
-	<td colspan="2"><br /><br />{$listing->body}</td>
-</tr>
-</table>
+	<h1>{$listing->name}</h1>
+	<div class="text">
+		<p>{$listing->body}</p>
+	</div>
+
+</div>

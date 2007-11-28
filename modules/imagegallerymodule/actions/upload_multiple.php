@@ -41,7 +41,7 @@ if (isset($_GET['gid'])) {
 	}
 }
 
-if ($gallery) {
+if (!empty($gallery)) {
 	if (exponent_permissions_check('manage',$loc)) {
 		if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 		exponent_forms_initialize();

@@ -13,6 +13,9 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+
+<div class="newsmodule summary-extended">
+	
  {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
@@ -26,11 +29,11 @@
 {/if}
 {/permissions}
 
-{if $moduletitle != ""}<div class="moduletitle news_moduletitle">{$moduletitle}</div>{/if}
+{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 {foreach from=$news item=newsitem}
-	<div>
-		{$newsitem->real_posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}<br />
-                <div class="itemtitle news_itemtitle"><a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}" title="{$newsitem->body|summarize:"html":"para"}">{$newsitem->title}</a></div>
+	<div class="item">
+		
+                <h2><a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}" title="{$newsitem->body|summarize:"html":"para"}">{$newsitem->title}</a></h2>
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
 			<a href="{link action=userperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
@@ -56,6 +59,9 @@
 			<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">{$_TR.revisions}</a>
 		{/if}
 		{/permissions}
+		<div class="text">
+			{$newsitem->body|summarize:"html":"para"}  <a href="{link action=view id=$newsitem->id}">Full article here</a>
+		</div>
 	</div>
 {/foreach}
 {if $morenews == 1}
@@ -73,3 +79,5 @@
 {/if}
 {/permissions}
 
+
+</div>

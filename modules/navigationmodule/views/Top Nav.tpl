@@ -1,6 +1,6 @@
 {*
  * Copyright (c) 2004-2006 OIC Group, Inc.
- * Written and Designed by James Hunt
+ * Written and Designed by Phillip Ball
  *
  * This file is part of Exponent
  *
@@ -13,39 +13,36 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- {assign var=bar value=0}
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tnav">
-	<tr>
-		<td align="left" valign="middle" class="tnav">
-		&nbsp;&nbsp;|&nbsp;
-		{foreach from=$sections item=section}
-		{if $section->parent == 0}
-		{if $section->name == "Break" && $section->active == 0}
-		</td>
-	</tr>
-	<tr>
-		<td height="3">
-		</td>
-	</tr>
-	<tr>
-		<td align="left" valign="middle" class="tnav">
-		&nbsp;&nbsp;|&nbsp;
-		{else}		
-			{if $section->active == 1}
 
-				<a class="navlink" href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>
-			{else}
-				<span class="navlink">{$section->name}</span>
-			{/if}
-			&nbsp;|&nbsp;
-			{/if}
+<div class="navigationmodule top-nav">
+	<ul>
+		
+	{assign var=isparent value=0}	
+	{foreach from=$sections item=section}
+	{if $section->parent == 0}
+		
+		{if $current->parents[0]!=""}
+			{foreach from=$current->parents item=parent}
+				{if $parent==$section->id}
+					{assign var=isparent value=1}				
+				{/if}
+			{/foreach}
 		{/if}
-		{/foreach}
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $canManage == 1}
-			&nbsp;[&nbsp;<a class="navlink" href="{link action=manage}">{$_TR.manage}</a>&nbsp;]&nbsp;
+		
+		
+		
+		{if $section->active == 1}
+			<li><a class="navlink {if $section->id==$current->id || $isparent==1}current{/if}" href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$section->name}</a></li>
+		{else}
+			<li><span class="navlink">{$section->name}</span></li>
 		{/if}
-		{/permissions}
-		</td>
-	</tr>
-</table>
+		{/if}
+		{assign var=isparent value=0}
+	{/foreach}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $canManage == 1}
+		<li><a class="navlink" href="{link action=manage}">{$_TR.manage}</a></li>
+	{/if}
+	{/permissions}
+	</ul>
+</div>

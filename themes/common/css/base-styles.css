@@ -35,7 +35,7 @@ h6{
 }
 
 p, h1, h2, h3 {
-	margin: 10px 15px
+	margin-top: 10px;
 }
 
 ul, ol {margin: 10px 30px; padding: 0 15px;}
@@ -61,4 +61,16 @@ code {
   background: #FAFAFA;
   border: 1px solid #f2f2f2;
   border-left: 4px solid #4284B0;
+}
+
+strong {
+	font-weight: bold;
+}
+
+.odd {
+	background:#f0f8f6;
+}
+
+.even {
+	background: #e9f5f2;
 }
