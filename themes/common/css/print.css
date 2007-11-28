@@ -1,0 +1,11 @@
+@media screen {
+	.printer-button-bar {
+                visibility: visible;
+        }
+}
+
+@media print {
+	.printer-button-bar {
+		visibility: hidden;
+	}
+}

@@ -22,13 +22,14 @@ class router {
 	public  $current_url = '';
 	public  $url_type = '';
 	public  $url_style = '';
+	public  $params = array();
 	
 	function __construct() {
 		include_once('router_maps.php');
 		$this->maps = $maps;
 	}
 
-	public function makeLink($params) {
+	public function makeLink($params, $force_old_school=false) {
 		$linkbase = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 		$linkbase .= SCRIPT_RELATIVE;
 
@@ -37,7 +38,7 @@ class router {
         	}
 
 		// Check to see if SEF_URLS have been turned on in the site config
-		if (SEF_URLS == 1 && (SCRIPT_FILENAME != 'content_selector.php' && SCRIPT_FILENAME != 'source_selector.php') ) {
+		if (SEF_URLS == 1 && (SCRIPT_FILENAME != 'content_selector.php' && SCRIPT_FILENAME != 'source_selector.php') && $force_old_school == false) {
 			if (isset($params['section'])) {
 	                	if (empty($params['sef_name'])) {
 	                        	global $db;
@@ -154,6 +155,8 @@ class router {
 			} else {
 				$this->url_type = 'action';
 			}
+
+			$this->params = $this->convertPartsToParams();
 		} elseif (isset($_SERVER['REQUEST_URI'])) {
 			// if we hit here, we don't really need to do much.  All the pertinent info will come thru in the POST/GET vars
 			// so we don't really need to worry about what the URL looks like.
@@ -171,12 +174,7 @@ class router {
 			// Try to look up the page by sef_name first.  If that doesn't exist, strip out the dashes and 
 			// check the regular page names.  If that still doesn't work then we'll redirect them to the 
 			// search module using the page name as the seach string.
-			$section = $db->selectObject('section', 'sef_name="'.$this->url_parts[0].'"');
-			if (empty($section)) {
-				$name = str_replace('-', ' ', $this->url_parts[0]);
-				$name2 = str_replace('-', '&nbsp;', $this->url_parts[0]);
-				$section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
-			}
+			$section = $this->getPageByName($this->url_parts[0]);
 
 			// if section is still empty then we should route the user to the search (cool new feature :-) )
 			// at some point we need to write a special action/view for the search module that lets the user
@@ -324,6 +322,58 @@ class router {
 		return $url;
 	}
 
+	public function printerFriendlyLink($link_text="Printer Friendly", $width=800, $height=600) {
+		$url =  '<a href="javascript:void(0)" onclick="window.open(\'';
+		if ($this->url_style == 'sef') {
+			$url .= $this->convertToOldSchoolUrl();
+		} else {
+			$url .= $this->current_url;
+		}
+
+		$url .= '&printerfriendly=1\' , \'mywindow\',\'menubar=1,resizable=1,width='.$width.',height='.$height.'\');"';
+		$url .= '>'.$link_text.'</a>';
+		return $url; 
+	}
+
+	public function convertToOldSchoolUrl() {
+		return $this->makeLink($this->params, true);
+	}
+
+	public function convertPartsToParams() {
+		if ($this->url_type == 'base') {
+			$params['section'] = SITE_DEFAULT_SECTION;
+		} elseif ($this->url_type == 'page') {
+			$section = $this->getPageByName($this->url_parts[0]);
+			$params['section'] = $section->id;
+		} elseif ($this->url_type = 'action') {
+                        $params['module'] = $this->url_parts[0];
+                        $params['action'] = $this->url_parts[1];
+                        for($i=2; $i < count($this->url_parts); $i++ ) {
+                                if ($i % 2 == 0) {
+                                        $params[$this->url_parts[$i]] = isset($this->url_parts[$i+1]) ? $this->url_parts[$i+1] : '';
+                                }
+                        }
+                }
+
+		return $params;
+	}
+
+	public function getPageByName($url_name) {
+		global $db;
+		if ($this->url_type == 'base') {
+                        // if we made it in here this is a request for http://www.baseurl.com
+                        $section = $db->selectObject('section', 'id='.SITE_DEFAULT_SECTION);
+		} else {
+			$section = $db->selectObject('section', 'sef_name="'.$url_name.'"');
+			if (empty($section)) {
+		        	$name = str_replace('-', ' ', $url_name);
+		        	$name2 = str_replace('-', '&nbsp;', $url_name);
+		        	$section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
+			}
+		}
+		return $section;
+	}
+	
 }
 ?>
 

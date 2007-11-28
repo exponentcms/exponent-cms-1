@@ -648,4 +648,18 @@ function exponent_theme_getSubthemes($include_default = true,$theme = DISPLAY_TH
 	return $subs;
 }
 
+function exponent_theme_getPrinterFriendlyTheme() {
+	$common = 'themes/common/printer-friendly/index.php';
+	$theme = 'themes/'.DISPLAY_THEME.'/printer-friendly/index.php';
+
+	if (is_readable($theme)) {
+		return $theme;
+        } elseif (is_readable($common)) {
+		return $common;
+	} else {
+		return null;
+	}
+
+}
+
 ?>

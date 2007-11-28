@@ -67,10 +67,17 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 		BASE.'themes/'.DISPLAY_THEME.'/index.php'
 	);
 
+	// If we are in a printer friendly request then we need to change to our printer friendly subtheme
+	if (PRINTER_FRIENDLY == 1) {
+		exponent_sessions_set("uilevel",0);
+		$pftheme = exponent_theme_getPrinterFriendlyTheme();  	// get the printer friendly theme 
+		$page = $pftheme == null ? $page : $pftheme;		// if there was no theme found then just use the current subtheme
+	}
+ 
 	$base_i18n = exponent_lang_loadFile('index.php');
 
 	if (is_readable($page)) {
-		 if (IN_AJAX_ACTION == 0) {
+		if (IN_AJAX_ACTION == 0) {
                         include_once($page);
                 } else {
                         exponent_theme_runAction();
@@ -78,7 +85,13 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	} else {
 		echo sprintf($base_i18n['not_readable'], $page);
 	}
+
+	if (PRINTER_FRIENDLY == 1) {
+		$levels = exponent_sessions_get('uilevels');
+		exponent_sessions_set('uilevel',max(array_keys($levels)));
+	}
 }
+
 function css_file_needs_rebuilt() {
 	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/css/exp-styles-min.css')) {
 		return true;

@@ -173,6 +173,9 @@ if (isset($_REQUEST['ajax_action']) ) {
 	define('IN_AJAX_ACTION', 0);
 }
 
+// Check if this was a printer friendly link request
+define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
+
 #$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
 if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);

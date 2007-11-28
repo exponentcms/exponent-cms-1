@@ -20,6 +20,7 @@
 		<div id="bd">
 			<div class="yui-b">
 				<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>
+				<?php echo $router->printerFriendlyLink('Printer Friendly') ?>
 			</div>
 			<div id="yui-main">
 				<div class="yui-b">
