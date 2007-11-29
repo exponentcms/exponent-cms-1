@@ -19,10 +19,25 @@
 
 if (!defined('EXPONENT')) exit('');
 
+$i18n = exponent_lang_loadFile('modules/weblogmodule/actions/comment_save.php');
+
 //check to see if the user is logged in.  If not make sure they entered an email addy
 //eDebug($user);eDebug($_POST);exit();
 if (!isset($user) && (!isset($_POST['email']) || $_POST['email'] == '') ){
   echo '<br /><span class="error">Users who are not logged in must supply an email address.  <br /><br />Please go back and enter an email address.'; exit();
+}
+
+// check for capcha...freaking spammers!!
+$capcha_real = exponent_sessions_get('capcha_string');
+
+echo "capcha: ".$capcha_real;
+echo "<br>string: ".$_POST['captcha_string'];
+if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
+        $post = $_POST;
+        unset($post['captcha_string']);
+        $post['_formError'] = $i18n['bad_captcha'];
+        exponent_sessions_set('last_POST',$post);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 $post = null;

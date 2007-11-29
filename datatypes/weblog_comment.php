@@ -41,6 +41,10 @@ class weblog_comment {
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		$form->register('email',$i18n['email'],new textcontrol($object->email));
 		$form->register('body',$i18n['body'], new texteditorcontrol($object->body,8,60));
+		if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
+                	$form->register(null,'',new htmlcontrol(sprintf($i18n['captcha_description'],'<img src="'.PATH_RELATIVE.'captcha.php" />'),false));
+                	$form->register('captcha_string','',new textcontrol('',6));
+        	}
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',''));
 		
 		return $form;

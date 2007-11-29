@@ -74,3 +74,8 @@ strong {
 .even {
 	background: #e9f5f2;
 }
+
+.error {
+	font-weight: bold;
+	color: #ff0000;
+}
