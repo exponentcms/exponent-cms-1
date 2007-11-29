@@ -30,8 +30,6 @@ if (!isset($user) && (!isset($_POST['email']) || $_POST['email'] == '') ){
 // check for capcha...freaking spammers!!
 $capcha_real = exponent_sessions_get('capcha_string');
 
-echo "capcha: ".$capcha_real;
-echo "<br>string: ".$_POST['captcha_string'];
 if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
         $post = $_POST;
         unset($post['captcha_string']);

@@ -228,6 +228,7 @@ class form extends baseform {
                 $html .= "</form>\r\n";
                 return $html;	
 	}
+	
 	/*
 	function mergeFormBefore($before_name,$form) {
 		

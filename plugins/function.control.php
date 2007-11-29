@@ -18,7 +18,9 @@
 ##################################################
 
 function smarty_function_control($params,&$smarty) { 
-	if ( (isset($params['type']) && isset($params['name'])) || $params['type'] == 'buttongroup') {
+	if ( (isset($params['type']) && isset($params['name'])) || $params['type'] == 'buttongroup' || $params['type'] == 'capcha') {
+		$i18n = exponent_lang_loadFile('plugins/function_control.php');
+
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
         	exponent_forms_initialize();
 
@@ -47,10 +49,20 @@ function smarty_function_control($params,&$smarty) {
 			if (isset($params['rows'])) $control->rows = $params['rows'];
 			if (isset($params['cols'])) $control->cols = $params['cols'];
 			if (isset($params['toolbar'])) $control->toolbar = $params['toolbar'];
+		} elseif ($params['type'] == 'capcha') {
+			if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
+				echo '<div class="capcha">'.sprintf($i18n['captcha_description'],'<img class="capcha-img" src="'.PATH_RELATIVE.'captcha.php" />');
+				echo '<a href="#" class="capcha-why">'.$i18n['why_do_this'].'</a></div';
+				$params['name'] = 'captcha_string';
+				$control = new textcontrol('',6);
+			} else {
+				return false;
+			}
 		} else {
 			$control = new genericcontrol($params['type']);
 		}
-		
+	
+		//eDebug($smarty->_tpl_vars['formError']);	
 		//Add the optional params in specified
 		if (isset($params['class'])) $control->class = $params['class'];
 		if (isset($params['$required'])) $control->required = $required;;
@@ -63,6 +75,19 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['accesskey'])) $control->accesskey = $params['accesskey'];
 		if (isset($params['filter'])) $control->filter = $params['filter'];
 		if (isset($params['readonly']) && $params['readonly'] != false) $control->readonly = true;
+
+		// check to see if we are returning to the form via errors...if so use the post data instead.
+		if (isset($smarty->_tpl_vars['formError'])) {
+			if ($params['type'] == 'checkbox') {
+				$realname = str_replace('[]', '', $params['name']);
+				if (!empty($smarty->_tpl_vars['formError'][$realname])) {
+					if (in_array($params['value'], $smarty->_tpl_vars['formError'][$realname])) $control->checked = true;
+				}
+			} else {
+				$control->default = $smarty->_tpl_vars['formError'][$params['name']];
+			}
+		}
+
 		$control->id = isset($params['id']) && $params['id'] != "" ? $params['id'] : $params['name'];
 		
 		$labelclass = isset($params['labelclass']) ? ' '.$params['labelclass'] : '';

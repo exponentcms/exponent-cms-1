@@ -23,8 +23,13 @@ function smarty_block_form($params,$content,&$smarty, &$repeat) {
 		
 		if (exponent_sessions_isset("last_POST")) {
 			$formError  = exponent_sessions_get("last_POST");
-			$smarty->assign($params['last_POST'],$formError);
+			$smarty->assign('formError', $formError);
 			exponent_sessions_unset("last_POST");
+			echo '<ul class="error">';
+				foreach($formError['_formError'] as $err) {
+					echo '<li>'.$err."</li>";
+				}
+			echo '</ul>';
 		}
 		
 		

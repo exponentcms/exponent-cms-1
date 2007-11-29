@@ -79,3 +79,25 @@ strong {
 	font-weight: bold;
 	color: #ff0000;
 }
+
+/* Exponent Table Styles */
+td.header, td.header a {
+        background-color: #aaa;
+        color: #fff;
+        font-weight: bold;
+        font-size: 15px;
+        padding: 2px;
+}
+
+tr.even_row {
+        background-color: #DDD;
+}
+
+tr.row:hover td, tr.row:hover td a {
+        background-color: #666;
+        color: #fff;
+}
+
+tr.odd_row {
+
+}
