@@ -40,13 +40,11 @@
 		
 {literal}				
 		// get the plugins used in this toolbar
-		eXp.WYSIWYG.getPlugins = function (myToolbar) {
-			
+		eXp.WYSIWYG.getPlugins = function (myToolbar) {			
+			plugins = new Array();
+
 			//is there a toolbar ?
 			if (myToolbar) {			
-
-				plugins = new Array();
-				
 				for(currRow = 0; currRow < myToolbar.length; currRow++) {
 					for(currButton = 0; currButton < myToolbar[currRow].length; currButton++) {
 						currItem = myToolbar[currRow][currButton];
