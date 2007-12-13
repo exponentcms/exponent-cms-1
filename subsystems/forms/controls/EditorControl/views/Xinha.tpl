@@ -77,13 +77,15 @@
 
 			//redirect Image&Link browsers to E's connector
 			eXp.WYSIWYG.config.URIs = {
-				"blank": "../external/editors/Xinha/popups/blank.html",
-				"link": "../../external/editors/connector/link.php",
-				"insert_image": "../../external/editors/connector/insert_image.php",
-				"insert_table": "../external/editors/Xinha/popups/insert_table.html",
-				"select_color": "../external/editors/Xinha/popups/select_color.html",
-				"about": "../external/editors/Xinha/popups/about.html",
-				"help": "../external/editors/Xinha/popups/editor_help.html"
+{/literal}
+				"blank": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/Xinha/popups/blank.html",
+				"link": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/connector/link.php",
+				"insert_image": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/connector/insert_image.php",
+				"insert_table": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/Xinha/popups/insert_table.html",
+				"select_color": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/Xinha/popups/select_color.html",
+				"about": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/Xinha/popups/about.html",
+				"help": "{if $smarty.const.PATH_RELATIVE != ""}{$smarty.const.PATH_RELATIVE}{/if}external/editors/Xinha/popups/editor_help.html"
+{literal}
 			};
 
 			editor_ids = new Array();
