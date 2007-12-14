@@ -472,6 +472,29 @@ class section {
 		
 		return $section;
 	}
+
+	public static function isValidName($name=null) {
+		if (empty($name)) return false;
+
+		$match = array();
+		$pattern = "/[^0-9a-zA-Z_\-\ ]/";
+		if (preg_match($pattern, $name, $match, PREG_OFFSET_CAPTURE)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public static function isDuplicateName($section=null) {
+		if (empty($section)) return false;
+		global $db;
+		if (!empty($section->id)) {
+			$res = $db->selectValue('section', 'id', 'id != '.$section->id.' AND sef_name="'.$section->sef_name.'"');
+		} else {
+			$res = $db->selectValue('section', 'id', 'sef_name="'.$section->sef_name.'"');
+		}
+		return empty($res) ? false : true;
+	}
 }
 
 ?>
