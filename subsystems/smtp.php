@@ -51,7 +51,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 	}
 	$mail->subject($subject);
 	$mail->addHeaders($headers);
-	$mail->addRaw($message);
+	$mail->addHTML($message);
 	try {
 		if ($mail->send() > 0) {
 			return true;

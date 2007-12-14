@@ -140,7 +140,25 @@ class exponentMail extends Swift {
 
 	}
 	// End Constructor
-	
+
+	// quick send method
+	public function quickSend($params=array()) {
+		if (empty($params['to'])) return false;
+
+        	$this->addTo($params['to']);
+        	if ( !empty($params['from'])) {
+                	if (ereg('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$', $params['from'])) {
+                        	$this->from = $params['from'];
+                	}
+        	}
+        	
+		if (!empty($params['subject'])) $this->subject($params['subject']);
+	        if (!empty($params['headers'])) $this->addHeaders($params['headers']);
+        	if (!empty($params['html_message'])) $this->addHTML($params['html_message']);
+        	if (!empty($params['text_message'])) $this->addText($params['text_message']);
+               	return $this->send();
+	}	
+
 	//Override the parent send function so we can set up the send to be cleaner.
 	public function send () {
 		return parent::send($this->message, $this->to, $this->from);
