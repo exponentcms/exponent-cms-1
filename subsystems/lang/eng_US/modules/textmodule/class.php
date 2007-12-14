@@ -9,7 +9,7 @@ return array(
 	'perm_approve'=>'Approve',
 	'perm_manage_approval'=>'Manage Workflow',
 	
-	'search_post_type'=>'Text',
+	'search_post_type'=>'Webpages',
 );
 
 ?>
