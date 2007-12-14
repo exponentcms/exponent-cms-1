@@ -60,7 +60,7 @@
 	{foreach name=a from=$gallery->images item=image}
 		<td valign="bottom" align="center" class="imagegallery_picbox">
 				<a href="{link action=view_image id=$image->id}">
-					<img style="border:none;" src="{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />
+					<img style="border:none;" src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->name}" />
 				</a>
 				<div>
 					<a href="{link action=view_image id=$image->id}">{$image->name}</a>
@@ -117,7 +117,7 @@
 			}
 			{/literal}
 			</script>
-			<form method="get" onsubmit="return validate(this)">
+			<form method="get" onsubmit="return validate(this)" action="{$smarty.const.URL_FULL}index.php">
 			<input type="hidden" name="module" value="imagegallerymodule" />
 			<input type="hidden" name="src" value="{$__loc->src}" />
 			<input type="hidden" name="gid" value="{$gallery->id}" />

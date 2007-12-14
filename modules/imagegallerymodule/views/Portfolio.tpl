@@ -41,7 +41,7 @@
 			<p>{$gallery->description}</p>
 			{foreach from=$gallery->images item=file}
 				<div class="image">
-					<img src="thumb.php?file={$file->file->directory}/{$file->file->filename}&constraint=1&width=400&height=270" />
+					<img alt="{$file->alt}" src="thumb.php?file={$file->file->directory}/{$file->file->filename}&constraint=1&width=400&height=270" />
 					<br />
 					<div class="text">{$file->description}</div>
 				</div>

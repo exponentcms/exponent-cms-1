@@ -148,7 +148,7 @@ function validate(frm) {
 }
 {/literal}
 </script>
-<form method="get" onsubmit="return validate(this)">
+<form method="POST" onsubmit="return validate(this)" action="{$smarty.const.URL_FULL}index.php">
 <input type="hidden" name="module" value="imagegallerymodule" />
 <input type="hidden" name="src" value="{$__loc->src}" />
 <input type="hidden" name="gid" value="{$gallery->id}" />

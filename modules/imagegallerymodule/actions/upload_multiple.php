@@ -55,6 +55,7 @@ if (!empty($gallery)) {
 		for ($i = 0; $i < $_GET['count']; $i++) {
 			if ($i) $form->register($i,"",new htmlcontrol("<hr size='1' />"));
 			$form->register("name$i","Name",new textcontrol());
+			$form->register("alt$i","Alt Tag",new textcontrol());
 			$form->register("file$i","File",new uploadcontrol());
 		}
 		$form->register("submit","",new buttongroupcontrol("Upload","","Cancel"));

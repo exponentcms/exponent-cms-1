@@ -59,6 +59,7 @@ if ($gallery) {
 			$firstrank++;
 			$image->rank = $firstrank;
 			$image->name = $_POST["name$i"];
+			$image->alt = $_POST["alt$i"];
 			
 			if ($_FILES["file$i"]['tmp_name'] != "") {
 				$file = file::update("file$i",$directory,null);
