@@ -37,10 +37,9 @@
 </div>
 *}
 <div class="listingmodule viewlisting">
-
 	<h1>{$listing->name}</h1>
 	<div class="text">
+		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$listing->file_id}&constraint=1&width=225&height=275" alt="{$listing->name}" />
 		<p>{$listing->body}</p>
 	</div>
-
 </div>
