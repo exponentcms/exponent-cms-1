@@ -39,9 +39,10 @@
 	
 	
 	<div class="text">
-	{if $textitem->approved != 0}
-		{$textitem->text}
-	{/if}
+		{if $textitem->approved != 0}
+			{$textitem->text}
+		{/if}
+		<div style="clear:both"></div>
 	</div>
 </div>
 
