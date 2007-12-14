@@ -40,6 +40,7 @@ class imagegallery_image {
 		if (!isset($object->id)) {
 			$form->meta('parent',$object->gallery_id);
 			$object->name = '';
+			$object->alt = '';
 			$object->description = '';
 			$object->newwindow = 1;
 		} else {
@@ -47,6 +48,7 @@ class imagegallery_image {
 		}
 		
 		$form->register('name','Name',new textcontrol($object->name));
+		$form->register('alt','Alt Tag',new textcontrol($object->alt));
 		
 		global $db;
 		$imagenames = array();
@@ -67,6 +69,7 @@ class imagegallery_image {
 	
 	function update($values,$object) {
 		$object->name = $values['name'];
+		$object->alt = $values['alt'];
 		$object->description = $values['description'];
 		$object->newwindow = (isset($values['newwindow']) ? 1 : 0);
 		return $object;
