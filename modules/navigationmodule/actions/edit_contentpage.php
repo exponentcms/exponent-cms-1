@@ -32,10 +32,10 @@ if ($user->is_acting_admin == 1 /*TODO: section admin*/) {
 		// the database, and perform an edit on it.
 		$section = $db->selectObject('section','id='.intval($_GET['id']));
 		$check_id = $section->id;
-	} else if (isset($_GET['parent'])) {
+	} elseif (isset($_GET['parent'])) {
 		// The isset check is merely a precaution.  This action should
 		// ALWAYS be invoked with a parent or id value in the GET.
-		$section->parent = intval($_GET['parent']);
+		$section->parent = $_GET['parent'];
 		$check_id = $section->parent;
 		//$section->parent = $db->selectObject('section','parent='.intval($_GET['parent']));
 	}
