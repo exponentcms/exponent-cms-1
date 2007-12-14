@@ -48,26 +48,26 @@ class navigationmodule {
 		{
   			case "Breadcrumb":
 				//Show not only the location of a page in the hierarchy but also the location of a standalone page
+				global $sections;
 				$current = $db->selectObject('section',' id= '.$id);
-				
+			
 				if( $current->parent == -1 )
 				{
 					$sections = navigationmodule::levelTemplate(-1,0);
-					foreach ($sections as $section) {
+					/*foreach ($sections as $section) {
 						if ($section->id == $id) {
 							$current = $section;
 							break;
 						}
-					}
+					}*/
 				} else {
 					//$sections = navigationmodule::levelTemplate(0,0);
-					global $sections;
-					foreach ($sections as $section) {
+					/*foreach ($sections as $section) {
 						if ($section->id == $id) {
 							$current = $section;
 							break;
 						}
-					}
+					}*/
 				}
 			break;
 			default:
@@ -81,7 +81,7 @@ class navigationmodule {
 				}
 			break;
 		}
-	
+
 		$template = new template('navigationmodule',$view,$loc);
 		$template->assign('sections',$sections);
 		$template->assign('current',$current);
@@ -100,10 +100,106 @@ class navigationmodule {
 		// Do nothing, no content
 	}
 	
-	function spiderContent($item = null) {
-		// Do nothing, no content
-		return false;
+	function navtojson(){
+		global $sections;
+		function getChildren(&$i) {
+			global $sections;
+
+			//echo "i=".$i."<br>";
+			if ($sections[$i]->depth == $sections[$i+1]->depth) {
+				return array();
+			} else {
+				$ret_depth = $sections[$i]->depth;
+				$i++;
+				$ret_array = array();
+				for($i; $i<count($sections); $i++) {
+					// start setting up the objects to return
+					$obj = null;
+					$obj->text = $sections[$i]->name;
+					$obj->url = $sections[$i]->link;
+
+					//echo "i=".$i."<br>";
+					if (hasChildren($i)) {
+						$obj->submenu = null;
+						$obj->submenu->id = $sections[$i]->name.$sections[$i]->id;
+						//echo "getting children of ".$sections[$i]->name;
+						$obj->submenu->itemdata = getChildren($i);
+						$ret_array[] = $obj;
+					} else {
+						$ret_array[] = $obj;	
+					}
+
+					if (($i+1) >= count($sections) || $sections[$i+1]->depth <= $ret_depth) {
+						return $ret_array;		
+					}
+				}
+			}
+		}
+
+		function hasChildren($i) {
+			global $sections;
+			if ( ($i+1) >= count($sections)) return false;
+			return ($sections[$i]->depth < $sections[$i+1]->depth) ? true : false;
+		}
+
+
+		$json_array = array();
+
+		for($i=0; $i<count($sections); $i++) {
+			if ($sections[$i]->depth == 0) {
+				$obj = null;
+				$obj->id = $sections[$i]->name.$sections[$i]->id;
+				$obj->itemdata = getChildren($i);
+			} 
+			$json_array[] = $obj;
+		}
+		
+		return json_encode($json_array);
 	}
+	
+	function spiderContent($item = null) {
+		global $db;
+		global $sections;
+		global $router;
+		
+                if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
+		$search = null;
+                $search->category = 'Webpages';
+                $search->ref_module = 'navigationmodule';
+                $search->ref_type = 'section';
+
+	 	$db->delete('search',"ref_module='navigationmodule' AND ref_type='section'");
+                foreach ($sections as $section) {
+	        	$search->original_id = $section->id;
+                	$search->title = $section->name;
+	                $search->view_link = $router->buildUrlByPageId($section->id);
+			$search->body = $section->description;
+			$search->keywords = $section->keywords;
+			// now we're going to grab all the textmodules on this page and build the body for the page based off the content
+			// of all the text module added together.
+			$loc->mod = 'textmodule';
+			foreach($db->selectObjects('sectionref', "module='textmodule' AND section=".$section->id) as $textmodule) {
+				$loc->src = $textmodule->source;
+				$loc->int = '';
+				$textitem = $db->selectObject('textitem', "location_data='".serialize($loc)."'");
+				if (!empty($textitem)) {
+					$search->body .= ' ' . exponent_search_removeHTML($textitem->text) . ' ';
+					$search->keywords .= " ".$db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+				}
+			}
+                        //$search->body = ' ' . exponent_search_removeHTML($item->text) . ' ';
+                        //$search->location_data = $item->location_data;
+
+			//eDebug($search);
+                        $db->insertObject($search,'search');
+                }
+
+		return true;
+	}
+
+	function searchName() {
+                return "Page names and meta tags";
+        }
 	
 	/*
 	 * Retrieve either the entire hierarchy, or a subset of the hierarchy, as an array suitable for use
