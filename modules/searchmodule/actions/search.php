@@ -52,12 +52,17 @@ $terms = $term_status['valid'];
 
 $results = array();
 
-foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,$modules, SEARCH_TYPE_ANY)) as $r) {
+//foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,$modules, SEARCH_TYPE_ANY)) as $r) {
+foreach ($db->selectSearch($search_string) as $r) {
 	$result = null;
-	
-	$rloc = unserialize($r->location_data);
-	$sectionref = $db->selectObject("sectionref","module='".$rloc->mod."' AND source='".$rloc->src."'");
-	$section = $db->selectObject("section","id=".$sectionref->section);
+
+	if ($r->ref_type != 'section') {	
+		$rloc = unserialize($r->location_data);
+		$sectionref = $db->selectObject("sectionref","module='".$rloc->mod."' AND source='".$rloc->src."'");
+		$section = $db->selectObject("section","id=".$sectionref->section);
+	} else {
+		$section = $db->selectObject('section', 'id='.$r->original_id);
+	}
 	
 	$canview = navigationmodule::canView($section);
 	if ($canview && $r->view_perm != '') {
@@ -72,20 +77,20 @@ foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","
 	}
 	
 	if ($canview) {
-		$weight = 0;
+		//$weight = 0;
 		$body_l = strtolower($r->body);
 		$title_l = strtolower($r->title);
-		foreach ($terms as $term) {
-			$weight += preg_match("/(\s+".$term."[\s\.,:;]+)/",$body_l);
-			$weight += preg_match("/(\s+".$term."[\s\.,:;]+)/",$title_l);
-		}
+		//foreach ($terms as $term) {
+		//	$weight += preg_match("/(\s+".$term."[\s\.,:;]+)/",$body_l);
+		//	$weight += preg_match("/(\s+".$term."[\s\.,:;]+)/",$title_l);
+		//}
 		
-		if ($weight) {
+		//if ($weight) {
 			// find view link
+		if ($r->category != 'Webpages') {
             		if ($r->view_link == "") {
 				// No viewlink - go to the page
-				$result->view_link = exponent_core_makeLink(
-					array("section"=>$sectionref->section));
+				$result->view_link = exponent_core_makeLink(array("section"=>$sectionref->section));
 			} else {
 				$result->view_link = URL_FULL.$r->view_link;
 			}
@@ -96,6 +101,11 @@ foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","
 				$section = $db->selectObject("section","id=".$sectionref->section);
 				$result->title = $section->name . " :: " . SITE_TITLE;
 			} else $result->title = $r->title;
+		} else {
+			global $router;
+			$result->view_link = $router->makeLink(array('section'=>$r->original_id));
+			$result->title = $r->title;
+		}
 			
 			$lastpos = 0;
 			$first = 0;
@@ -146,7 +156,7 @@ foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","
 			} else {
 				$results[] = $result;
 			}
-		}
+		//}
 	}
 }
 
@@ -156,7 +166,7 @@ $template->assign('query',join(' ',$terms));
 $template->assign('good_terms',$terms);
 $template->assign('excluded_terms',$term_status['excluded']);
 $template->assign('have_excluded_terms',count($term_status['excluded']));
-$template->assign('num_results',count($results));
+$template->assign('num_results',count($results, COUNT_RECURSIVE));
 $template->assign('results',$results);
 $template->output();
 
