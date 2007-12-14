@@ -30,6 +30,5 @@
  *}
 <div class="form_title">{if $is_edit == 1}Edit Link{else}New Link{/if}</div>
 <div class="form_header">
-CHANGEME
 </div>
 {$form_html}
