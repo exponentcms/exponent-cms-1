@@ -52,7 +52,7 @@ function smarty_function_control($params,&$smarty) {
 		} elseif ($params['type'] == 'capcha') {
 			if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
 				echo '<div class="capcha">'.sprintf($i18n['captcha_description'],'<img class="capcha-img" src="'.PATH_RELATIVE.'captcha.php" />');
-				echo '<a href="#" class="capcha-why">'.$i18n['why_do_this'].'</a></div';
+				echo '<a href="javascript:void(0)" class="capcha-why" onclick="window.open(\''.URL_FULL.'/captcha_why.php\',\'mywindow\',\'width=450,height=300\')">'.$i18n['why_do_this'].'</a></div>';
 				$params['name'] = 'captcha_string';
 				$control = new textcontrol('',6);
 			} else {
