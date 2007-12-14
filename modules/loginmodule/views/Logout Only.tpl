@@ -14,5 +14,7 @@
  *
  *}
 {if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
-	<a href="{link action=logout}"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}logout.png" title="{$_TR.logout}" alt="{$_TR.logout}" />&nbsp;<strong>{$_TR.logout}</strong></a>
-{/if}
+	<div class="loginmodule logout-only">
+		<a href="{link action=logout}">{$_TR.logout}</a>
+	</div>
+{/if}	
