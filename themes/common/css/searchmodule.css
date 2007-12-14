@@ -1,0 +1,71 @@
+.searchmodule-default {
+	margin-top:50px;
+}
+.searchmodule-default input {
+	border:none;
+	float:left;
+	background:none;
+}
+.searchmodule-default input.bx {
+	height:20px;
+	width:150px;
+	margin:2px 0 0 2px;
+	padding:2px;
+	font-weight:bold;
+}
+.searchmodule-default input.btn {
+	height:22px;
+	width:20px;
+	margin:2px 0 0 0;
+}
+
+.searchmodule-default .thesearch {
+	background:url(../images/searchback.gif) no-repeat;
+	float:left;
+	width:180px;
+}
+ 
+.searchmodule-default .askus a {
+	background:url(../images/askusback.jpg) no-repeat;
+	float:left;
+	width:176px;
+	height:24px;
+	text-align:center;
+	font-size:12px;
+	font-weight:bold;
+	color:#fff;
+	text-decoration:none;
+	padding:10px 0 0 0;
+}
+.searchmodule-default .askus a:hover {
+	background:url(../images/askusback-h.jpg) no-repeat;
+	color:#111;
+}
+
+.searchmodule.results {
+	
+}
+.searchmodule.results .searched_for{
+	display:block;
+	padding:5px;
+	border-top:1px dotted #999;
+	border-bottom:1px dotted #999;
+	margin:0 0 15px 0;
+}
+.searchmodule.results .item {
+	padding:5px;
+	margin: 0 0 10px 0;
+	border:1px dotted #999;
+}
+
+.searchmodule.results .item .summary {
+	color:#888;
+}
+.searchmodule.results .item .summary b {
+	background:#ffe39c;
+	border:1px dotted #fdb827 ;
+	color:#444;
+}
+
+
+

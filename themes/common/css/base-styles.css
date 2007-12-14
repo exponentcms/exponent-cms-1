@@ -1,11 +1,11 @@
 html,body {
 	font-family:"Trebuchet MS", Verdana, Arial, sans-serif
 }
-
+strong,
 b {
 	font-weight: bold
 }
-
+em,
 i {
 	font-style: italic
 }
@@ -75,11 +75,6 @@ strong {
 	background: #e9f5f2;
 }
 
-.error {
-	font-weight: bold;
-	color: #ff0000;
-}
-
 /* Exponent Table Styles */
 td.header, td.header a {
         background-color: #aaa;
@@ -100,4 +95,68 @@ tr.row:hover td, tr.row:hover td a {
 
 tr.odd_row {
 
+}
+
+
+/*  This a usually a wrapper div around forms */
+.form-body {
+        margin-top: 25px;
+}
+
+/* CAPCHA form control */
+div.capcha {
+
+}
+
+div.capcha p {
+	clear:both; 
+}
+
+div.capcha img.capcha-img {
+}
+
+a.capcha-why {
+	font-size: 77%;
+}
+
+.error {
+	font-weight: bold;
+	color: #ff0000;
+}
+
+ul.queue {
+	width: 85%;
+    padding: 10px 10px 10px 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background: #f1a5a5;
+    background-image: none;
+    border: 2px solid #ff0000;
+    color: #ff0000;
+	font-weight: bold;
+}
+
+ul.queue.error {
+}
+
+ul.queue.message {
+	
+	background: #c6f6c6;
+	border: 2px solid #2e6b2e;
+	color: #2e6b2e;
+}
+
+div.attribution {
+	margin: 3px 0px 3px 0px;
+}
+
+span.post-by, span.author, span.posted-on {
+	font-weight: bold;
+}
+
+a.printer-friendly-link {
+	padding:3px 0 3px 20px;
+	text-decoration: none;
+	background-image: url('../images/icons/printer-icon.jpg');
+	background-repeat: no-repeat
 }

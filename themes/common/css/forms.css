@@ -1,0 +1,81 @@
+.form_header h1 {
+	margin:0;
+}
+.form_header p {
+	font-style:italic;
+	border-left:3px solid #53708e;
+	padding:0 0 0 10px;
+	margin:10px 0 10px 10px;
+}
+.form_header p .managemodules {
+	font-family:Trebuchet MS;
+	padding:0 0 0 15px;
+	background:url(../images/icons/admin/managemodules.png) no-repeat;
+}
+#moduleControl {
+	width:43%;
+	float:left;
+	margin-right:20px;
+}
+
+.control {
+	border:1px dotted #cccccc;
+	display:block;
+	margin:0 0 5px 0;
+	padding:5px;
+}
+.control legend {
+	color:#53708e;
+	font-family:Trebuchet MS;
+	font-size:1.1em;
+	font-weight:bold;
+}
+.label {
+	font-family:Trebuchet MS;
+	color:#333333;
+}
+.label a {
+	font-family:Trebuchet MS;
+	color:#883333;
+}
+
+.textareacontrol, .textcontrol{
+	width:400px;
+}
+
+#contentsourcecontrol label{
+	margin-bottom:5px;
+	display:block;
+}
+
+.radiobuttoncontrol {
+	float:left;
+	margin-right:5px;
+}
+
+span.label {
+	display: block;
+	color: #263647;
+	font-size: 85%;
+	font-weight: bold;
+}
+
+input, textarea, select {
+	border: 1px solid #777777;
+	background: #fff;
+	font-size: 85%;
+	margin:0;
+	color:#724e4e;
+	font-family:Trebuchet MS;
+}
+input{
+	height:15px;
+}
+
+.checkboxcontrol {
+	border-width:0px;
+	float:left;
+}
+
+
+
