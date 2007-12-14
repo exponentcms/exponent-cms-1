@@ -79,6 +79,7 @@ eXp.WYSIWYG.toolbox =	{
 "JustifyCenter" : ["Center Justify", "external/editors/images/FCKeditor/toolbar/justifycenter.gif", ""],
 "JustifyRight" : ["Right Justify", "external/editors/images/FCKeditor/toolbar/justifyright.gif", ""],
 "JustifyFull" : ["Block Justify", "external/editors/images/FCKeditor/toolbar/justifyfull.gif", ""],
+"Blockquote" : ["Blockquote", "external/editors/images/FCKeditor/toolbar/blockquote.gif", ""],
 
 //STYLE
 //FONTNAME

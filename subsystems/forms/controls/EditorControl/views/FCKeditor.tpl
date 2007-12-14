@@ -34,21 +34,23 @@
 			for (i = 0; i < myArray.length; i++) {
 				// do we have more than one dimension ?
 				//HACK: hoping there will never be plugins or commands that just have one character 
-				if(myArray[i][0].length > 1) {
-					myStr += "['";
-					for (j = 0; j < myArray[i].length; j++) {
-						myStr += myArray[i][j];
-						if (j != myArray[i].length-1) {
-							myStr+="', '";
+				if (myArray[i][0] != undefined){
+					if(myArray[i][0].length > 1) {
+						myStr += "['";
+						for (j = 0; j < myArray[i].length; j++) {
+							myStr += myArray[i][j];
+							if (j != myArray[i].length-1) {
+								myStr+="', '";
+							}
 						}
+						myStr += "']";
+					} else {
+						myStr += "'" + myArray[i] + "'";
 					}
-					myStr += "']";
-				} else {
-					myStr += "'" + myArray[i] + "'";
-				}
 				
-				if (i != myArray.length - 1) {
-					myStr += ", ";
+					if (i != myArray.length - 1) {
+						myStr += ", ";
+					}
 				}
 			}
 			myStr += "]";
@@ -87,7 +89,7 @@
 		oFCKeditor.BasePath = "{$view->path_to_editor}";
 		oFCKeditor.Value = "{$content->value}";
 		
-		oFCKeditor.Height= '300';
+		oFCKeditor.Height= '600';
 
 		oFCKeditor.Config['LinkUpload'] = "false";
 		oFCKeditor.Config['ImageUpload'] = "false";
@@ -100,7 +102,13 @@
 		//HACK: god, i do hate this editor ! Why can't i simply configure the toolbars and plugins from here ? There ARE other reasons to hate it ...
 		oFCKeditor.Config["CustomConfigurationsPath"] = "{$smarty.const.PATH_RELATIVE}external/editors/fcktoolbarconfig.js.php?plugins=" + encodeURI(eXp.WYSIWYG.setupPlugins(eXp.WYSIWYG.toolbar)) + "&toolbar=" + encodeURI(eXp.WYSIWYG.setupToolbar(eXp.WYSIWYG.toolbar));
 {/if}
-		
+		oFCKeditor.Config["EditorAreaCSS"] = '{$smarty.const.THEME_RELATIVE}../common/editors/wysiwyg-styles.css';
+		oFCKeditor.Config["StylesXmlPath"] = '{$smarty.const.THEME_RELATIVE}../common/editors/fckstyles.xml';	
+		oFCKeditor.Config["TemplatesXmlPath"] = '{$smarty.const.THEME_RELATIVE}../common/editors/fcktemplates.xml';	
+		oFCKeditor.Config["ForcePasteAsPlainText"] = "true";	
+		//oFCKeditor.Config["SkinPath"] = "{$view->path_to_editor}skins/office2003/";
+		//oFCKeditor.Config["SkinPath"] = "{$view->path_to_editor}skins/default/";
+		oFCKeditor.Config["FontFormats"]='p;h1;h2;h3;h4;h5;h6';
 		oFCKeditor.Create();
 	/* ]]> */
 	</script>
