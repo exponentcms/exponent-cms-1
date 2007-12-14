@@ -13,8 +13,11 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$form_title}</div>
-<div class="form_header">
-{$form_header}
+
+<div class="tags edit-collection">
+	<div class="form_header">
+		<h1>{$form_title}</h1>
+		<p>{$form_header}</p>
+	</div>
+	{$form_html}
 </div>
-{$form_html}
