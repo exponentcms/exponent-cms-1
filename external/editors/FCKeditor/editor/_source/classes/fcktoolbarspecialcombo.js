@@ -1,44 +1,42 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fcktoolbarspecialcombo.js
- * 	FCKToolbarSpecialCombo Class: This is a "abstract" base class to be used
- * 	by the special combo toolbar elements like font name, font size, paragraph format, etc...
- * 	
- * 	The following properties and methods must be implemented when inheriting from
- * 	this class:
- * 		- Property:	CommandName							[ The command name to be executed ]
- * 		- Method:	GetLabel()							[ Returns the label ]
- * 		-			CreateItems( targetSpecialCombo )	[ Add all items in the special combo ]
- * 
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
+ *
+ * FCKToolbarSpecialCombo Class: This is a "abstract" base class to be used
+ * by the special combo toolbar elements like font name, font size, paragraph format, etc...
+ *
+ * The following properties and methods must be implemented when inheriting from
+ * this class:
+ * 	- Property:	CommandName							[ The command name to be executed ]
+ * 	- Method:	GetLabel()							[ Returns the label ]
+ * 	-			CreateItems( targetSpecialCombo )	[ Add all items in the special combo ]
  */
 
 var FCKToolbarSpecialCombo = function()
 {
 	this.SourceView			= false ;
 	this.ContextSensitive	= true ;
-	this._LastValue			= null ;
+	//this._LastValue			= null ;
 }
 
+
+FCKToolbarSpecialCombo.prototype.DefaultLabel = '' ;
 
 function FCKToolbarSpecialCombo_OnSelect( itemId, item )
 {
@@ -48,24 +46,24 @@ function FCKToolbarSpecialCombo_OnSelect( itemId, item )
 FCKToolbarSpecialCombo.prototype.Create = function( targetElement )
 {
 	this._Combo = new FCKSpecialCombo( this.GetLabel(), this.FieldWidth, this.PanelWidth, this.PanelMaxHeight, FCKBrowserInfo.IsIE ? window : FCKTools.GetElementWindow( targetElement ).parent ) ;
-	
+
 	/*
 	this._Combo.FieldWidth		= this.FieldWidth		!= null ? this.FieldWidth		: 100 ;
 	this._Combo.PanelWidth		= this.PanelWidth		!= null ? this.PanelWidth		: 150 ;
 	this._Combo.PanelMaxHeight	= this.PanelMaxHeight	!= null ? this.PanelMaxHeight	: 150 ;
 	*/
-	
+
 	//this._Combo.Command.Name = this.Command.Name;
 //	this._Combo.Label	= this.Label ;
 	this._Combo.Tooltip	= this.Tooltip ;
 	this._Combo.Style	= this.Style ;
-	
+
 	this.CreateItems( this._Combo ) ;
 
 	this._Combo.Create( targetElement ) ;
 
 	this._Combo.CommandName = this.CommandName ;
-	
+
 	this._Combo.OnSelect = FCKToolbarSpecialCombo_OnSelect ;
 }
 
@@ -80,7 +78,7 @@ FCKToolbarSpecialCombo.prototype.RefreshState = function()
 {
 	// Gets the actual state.
 	var eState ;
-	
+
 //	if ( FCK.EditMode == FCK_EDITMODE_SOURCE && ! this.SourceView )
 //		eState = FCK_TRISTATE_DISABLED ;
 //	else
@@ -92,25 +90,32 @@ FCKToolbarSpecialCombo.prototype.RefreshState = function()
 		if ( sValue != FCK_TRISTATE_DISABLED )
 		{
 			eState = FCK_TRISTATE_ON ;
-			
+
 			if ( this.RefreshActiveItems )
 				this.RefreshActiveItems( this._Combo, sValue ) ;
 			else
 			{
-				if ( this._LastValue != sValue )
+				if ( this._LastValue !== sValue)
 				{
 					this._LastValue = sValue ;
-					FCKToolbarSpecialCombo_RefreshActiveItems( this._Combo, sValue ) ;
+					
+					if ( !sValue || sValue.length == 0 )
+					{
+						this._Combo.DeselectAll() ;
+						this._Combo.SetLabel( this.DefaultLabel ) ;
+					}
+					else
+						FCKToolbarSpecialCombo_RefreshActiveItems( this._Combo, sValue ) ;
 				}
 			}
 		}
 		else
 			eState = FCK_TRISTATE_DISABLED ;
 //	}
-	
+
 	// If there are no state changes then do nothing and return.
 	if ( eState == this.State ) return ;
-	
+
 	if ( eState == FCK_TRISTATE_DISABLED )
 	{
 		this._Combo.DeselectAll() ;

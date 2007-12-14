@@ -1,28 +1,24 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fcktools_ie.js
- * 	Utility functions. (IE version).
- * 
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
+ *
+ * Utility functions. (IE version).
  */
 
 FCKTools.CancelEvent = function( e )
@@ -34,6 +30,14 @@ FCKTools.CancelEvent = function( e )
 FCKTools._AppendStyleSheet = function( documentElement, cssFileUrl )
 {
 	return documentElement.createStyleSheet( cssFileUrl ).owningElement ;
+}
+
+// Appends a CSS style string to a document.
+FCKTools._AppendStyleString = function( documentElement, cssStyles )
+{
+	var s = documentElement.createStyleSheet( "" ) ;
+	s.cssText = cssStyles ;
+	return s ;
 }
 
 // Removes all attributes and values from the element.
@@ -63,13 +67,13 @@ FCKTools.RemoveOuterTags = function( e )
 FCKTools.CreateXmlObject = function( object )
 {
 	var aObjs ;
-	
+
 	switch ( object )
 	{
 		case 'XmlHttp' :
 			aObjs = [ 'MSXML2.XmlHttp', 'Microsoft.XmlHttp' ] ;
 			break ;
-				
+
 		case 'DOMDocument' :
 			aObjs = [ 'MSXML2.DOMDocument', 'Microsoft.XmlDom' ] ;
 			break ;
@@ -78,10 +82,10 @@ FCKTools.CreateXmlObject = function( object )
 	for ( var i = 0 ; i < 2 ; i++ )
 	{
 		try { return new ActiveXObject( aObjs[i] ) ; }
-		catch (e) 
+		catch (e)
 		{}
 	}
-	
+
 	if ( FCKLang.NoActiveX )
 	{
 		alert( FCKLang.NoActiveX ) ;
@@ -118,7 +122,7 @@ FCKTools.GetScrollPosition = function( relativeWindow )
 
 	// Try with the doc element.
 	var oPos = { X : oDoc.documentElement.scrollLeft, Y : oDoc.documentElement.scrollTop } ;
-	
+
 	if ( oPos.X > 0 || oPos.Y > 0 )
 		return oPos ;
 
@@ -147,10 +151,10 @@ FCKTools.AddEventListenerEx = function( sourceObject, eventName, listener, param
 	{
 		return listener.apply( o.Source, [ ev ].concat( o.Params ) ) ;
 	}
-	
+
 	if ( FCK.IECleanup )
 		FCK.IECleanup.AddItem( null, function() { o.Source = null ; o.Params = null ; } ) ;
-	
+
 	sourceObject.attachEvent( 'on' + eventName, o.Listener ) ;
 
 	sourceObject = null ;	// Memory leak cleaner (because of the above closure).
@@ -161,13 +165,13 @@ FCKTools.AddEventListenerEx = function( sourceObject, eventName, listener, param
 FCKTools.GetViewPaneSize = function( win )
 {
 	var oSizeSource ;
-	
+
 	var oDoc = win.document.documentElement ;
 	if ( oDoc && oDoc.clientWidth )				// IE6 Strict Mode
 		oSizeSource = oDoc ;
 	else
-		oSizeSource = top.document.body ;		// Other IEs
-	
+		oSizeSource = win.document.body ;		// Other IEs
+
 	if ( oSizeSource )
 		return { Width : oSizeSource.clientWidth, Height : oSizeSource.clientHeight } ;
 	else
@@ -176,8 +180,10 @@ FCKTools.GetViewPaneSize = function( win )
 
 FCKTools.SaveStyles = function( element )
 {
+	var data = FCKTools.ProtectFormStyles( element ) ;
+
 	var oSavedStyles = new Object() ;
-	
+
 	if ( element.className.length > 0 )
 	{
 		oSavedStyles.Class = element.className ;
@@ -191,14 +197,17 @@ FCKTools.SaveStyles = function( element )
 		oSavedStyles.Inline = sInlineStyle ;
 		element.style.cssText = '' ;
 	}
-	
+
+	FCKTools.RestoreFormStyles( element, data ) ;
 	return oSavedStyles ;
 }
 
 FCKTools.RestoreStyles = function( element, savedStyles )
 {
+	var data = FCKTools.ProtectFormStyles( element ) ;
 	element.className		= savedStyles.Class || '' ;
 	element.style.cssText	= savedStyles.Inline || '' ;
+	FCKTools.RestoreFormStyles( element, data ) ;
 }
 
 FCKTools.RegisterDollarFunction = function( targetWindow )

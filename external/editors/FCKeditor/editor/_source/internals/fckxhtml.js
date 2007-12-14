@@ -1,29 +1,24 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fckxhtml.js
- * 	Defines the FCKXHtml object, responsible for the XHTML operations.
- * 
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
- * 		Alfonso Martinez de Lizarrondo - Uritec (alfonso at uritec dot net)
+ *
+ * Defines the FCKXHtml object, responsible for the XHTML operations.
  */
 
 var FCKXHtml = new Object() ;
@@ -32,13 +27,15 @@ FCKXHtml.CurrentJobNum = 0 ;
 
 FCKXHtml.GetXHTML = function( node, includeNode, format )
 {
+	FCKDomTools.CheckAndRemovePaddingNode( node.ownerDocument, FCKConfig.EnterMode ) ;
 	FCKXHtmlEntities.Initialize() ;
-	
+
+	// Set the correct entity to use for empty blocks.
+	this._NbspEntity = ( FCKConfig.ProcessHTMLEntities? 'nbsp' : '#160' ) ;
+
 	// Save the current IsDirty state. The XHTML processor may change the
 	// original HTML, dirtying it.
 	var bIsDirty = FCK.IsDirty() ;
-	
-	this._CreateNode = FCKConfig.ForceStrongEm ? FCKXHtml_CreateNode_StrongEm : FCKXHtml_CreateNode_Normal ;
 
 	// Special blocks are blocks of content that remain untouched during the
 	// process. It is used for SCRIPTs and STYLEs.
@@ -52,6 +49,8 @@ FCKXHtml.GetXHTML = function( node, includeNode, format )
 
 	FCKXHtml.CurrentJobNum++ ;
 
+//	var dTimer = new Date() ;
+
 	if ( includeNode )
 		this._AppendNode( this.MainNode, node ) ;
 	else
@@ -60,16 +59,16 @@ FCKXHtml.GetXHTML = function( node, includeNode, format )
 	// Get the resulting XHTML as a string.
 	var sXHTML = this._GetMainXmlString() ;
 
+//	alert( 'Time: ' + ( ( ( new Date() ) - dTimer ) ) + ' ms' ) ;
+
 	this.XML = null ;
-	
+
+	// Safari adds xmlns="http://www.w3.org/1999/xhtml" to the root node (#963)
+	if ( FCKBrowserInfo.IsSafari )
+		sXHTML = sXHTML.replace( /^<xhtml.*?>/, '<xhtml>' ) ;
+
 	// Strip the "XHTML" root node.
 	sXHTML = sXHTML.substr( 7, sXHTML.length - 15 ).Trim() ;
-	
-	// Remove the trailing <br> added by Gecko.
-	// REMOVE: Maybe the following is not anymore necessary because a similar
-	// check is made on _AppendNode
-	if ( FCKBrowserInfo.IsGecko )
-		sXHTML = sXHTML.replace( /<br\/>$/, '' ) ;
 
 	// Add a space in the tags with no closing tags, like <br/> -> <br />
 	sXHTML = sXHTML.replace( FCKRegexLib.SpaceNoClose, ' />');
@@ -86,7 +85,7 @@ FCKXHtml.GetXHTML = function( node, includeNode, format )
 		var oRegex = new RegExp( '___FCKsi___' + i ) ;
 		sXHTML = sXHTML.replace( oRegex, FCKXHtml.SpecialBlocks[i] ) ;
 	}
-	
+
 	// Replace entities marker with the ampersand.
 	sXHTML = sXHTML.replace( FCKRegexLib.GeckoEntitiesMarker, '&' ) ;
 
@@ -94,6 +93,7 @@ FCKXHtml.GetXHTML = function( node, includeNode, format )
 	if ( !bIsDirty )
 		FCK.ResetIsDirty() ;
 
+	FCKDomTools.EnforcePaddingNode( FCKTools.GetElementDocument( node ), FCKConfig.EnterMode ) ;
 	return sXHTML ;
 }
 
@@ -107,11 +107,11 @@ FCKXHtml._AppendAttribute = function( xmlNode, attributeName, attributeValue )
 		{
 			if ( FCKConfig.ForceSimpleAmpersand )
 				attributeValue = attributeValue.replace( /&/g, '___FCKAmp___' ) ;
-			
+
 			// Entities must be replaced in the attribute values.
 			attributeValue = attributeValue.replace( FCKXHtmlEntities.EntitiesRegex, FCKXHtml_GetEntity ) ;
 		}
-		
+
 		// Create the attribute.
 		var oXmlAtt = this.XML.createAttribute( attributeName ) ;
 		oXmlAtt.value = attributeValue ;
@@ -125,33 +125,39 @@ FCKXHtml._AppendAttribute = function( xmlNode, attributeName, attributeValue )
 
 FCKXHtml._AppendChildNodes = function( xmlNode, htmlNode, isBlockElement )
 {
-	// Trim block elements. This is also needed to avoid Firefox leaving extra
-	// BRs at the end of them (check made inside _AppendNode).
-	if ( isBlockElement )
-		FCKDomTools.TrimNode( htmlNode ) ;
-
-	var iCount = 0 ;
-	
 	var oNode = htmlNode.firstChild ;
 
 	while ( oNode )
 	{
-		if ( this._AppendNode( xmlNode, oNode ) )
-			iCount++ ;
-
+		this._AppendNode( xmlNode, oNode ) ;
 		oNode = oNode.nextSibling ;
 	}
+
+	// Trim block elements. This is also needed to avoid Firefox leaving extra
+	// BRs at the end of them.
+	if ( isBlockElement && htmlNode.tagName && htmlNode.tagName.toLowerCase() != 'pre' )
+	{
+		FCKDomTools.TrimNode( xmlNode ) ;
+
+		if ( FCKConfig.FillEmptyBlocks )
+		{
+			var lastChild = xmlNode.lastChild ;
+			if ( lastChild && lastChild.nodeType == 1 && lastChild.nodeName == 'br' )
+				this._AppendEntity( xmlNode, this._NbspEntity ) ;
+		}
+	}
 	
-	if ( iCount == 0 )
+	// If the resulting node is empty.
+	if ( xmlNode.childNodes.length == 0 )
 	{
 		if ( isBlockElement && FCKConfig.FillEmptyBlocks )
 		{
-			this._AppendEntity( xmlNode, 'nbsp' ) ;
+			this._AppendEntity( xmlNode, this._NbspEntity ) ;
 			return xmlNode ;
 		}
-		
+
 		var sNodeName = xmlNode.nodeName ;
-		
+
 		// Some inline elements are required to have something inside (span, strong, etc...).
 		if ( FCKListsLib.InlineChildReqElements[ sNodeName ] )
 			return null ;
@@ -161,7 +167,7 @@ FCKXHtml._AppendChildNodes = function( xmlNode, htmlNode, isBlockElement )
 		if ( !FCKListsLib.EmptyElements[ sNodeName ] )
 			xmlNode.appendChild( this.XML.createTextNode('') ) ;
 	}
-	
+
 	return xmlNode ;
 }
 
@@ -174,24 +180,37 @@ FCKXHtml._AppendNode = function( xmlNode, htmlNode )
 	{
 		// Element Node.
 		case 1 :
+			// If we detect a <br> inside a <pre> in Gecko, turn it into a line break instead.
+			// This is a workaround for the Gecko bug here: https://bugzilla.mozilla.org/show_bug.cgi?id=92921
+			if ( FCKBrowserInfo.IsGecko 
+					&& htmlNode.tagName.toLowerCase() == 'br' 
+					&& htmlNode.parentNode.tagName.toLowerCase() == 'pre' )
+			{
+				var val = '\r' ;
+				if ( htmlNode == htmlNode.parentNode.firstChild )
+					val += '\r' ;
+				return FCKXHtml._AppendNode( xmlNode, this.XML.createTextNode( val ) ) ;
+			}
 
-			// Here we found an element that is not the real element, but a 
+			// Here we found an element that is not the real element, but a
 			// fake one (like the Flash placeholder image), so we must get the real one.
 			if ( htmlNode.getAttribute('_fckfakelement') )
 				return FCKXHtml._AppendNode( xmlNode, FCK.GetRealElement( htmlNode ) ) ;
-		
-			// Mozilla insert custom nodes in the DOM.
-			if ( FCKBrowserInfo.IsGecko && htmlNode.hasAttribute('_moz_editor_bogus_node') )
+
+			// Ignore bogus BR nodes in the DOM.
+			if ( FCKBrowserInfo.IsGecko &&
+					htmlNode.nextSibling &&
+					( htmlNode.hasAttribute('_moz_editor_bogus_node') || htmlNode.getAttribute( 'type' ) == '_moz' ) )
 				return false ;
-			
-			// This is for elements that are instrumental to FCKeditor and 
+
+			// This is for elements that are instrumental to FCKeditor and
 			// must be removed from the final HTML.
 			if ( htmlNode.getAttribute('_fcktemp') )
 				return false ;
 
 			// Get the element name.
 			var sNodeName = htmlNode.tagName.toLowerCase()  ;
-			
+
 			if ( FCKBrowserInfo.IsIE )
 			{
 				// IE doens't include the scope name in the nodeName. So, add the namespace.
@@ -210,20 +229,16 @@ FCKXHtml._AppendNode = function( xmlNode, htmlNode )
 			if ( !FCKRegexLib.ElementName.test( sNodeName ) )
 				return false ;
 
-			// Remove the <br> if it is a bogus node or is the last child.
-			if ( sNodeName == 'br' && ( htmlNode.getAttribute( 'type', 2 ) == '_moz' || !htmlNode.nextSibling ) )
-				return false ;
-
 			// The already processed nodes must be marked to avoid then to be duplicated (bad formatted HTML).
 			// So here, the "mark" is checked... if the element is Ok, then mark it.
 			if ( htmlNode._fckxhtmljob && htmlNode._fckxhtmljob == FCKXHtml.CurrentJobNum )
 				return false ;
 
-			var oNode = this._CreateNode( sNodeName ) ;
+			var oNode = this.XML.createElement( sNodeName ) ;
 			
 			// Add all attributes.
 			FCKXHtml._AppendAttributes( xmlNode, htmlNode, oNode, sNodeName ) ;
-			
+
 			htmlNode._fckxhtmljob = FCKXHtml.CurrentJobNum ;
 
 			// Tag specific processing.
@@ -234,8 +249,8 @@ FCKXHtml._AppendNode = function( xmlNode, htmlNode )
 			else
 				oNode = this._AppendChildNodes( oNode, htmlNode, Boolean( FCKListsLib.NonEmptyBlockElements[ sNodeName ] ) ) ;
 
-			if ( !oNode ) 
-				break ;
+			if ( !oNode )
+				return false ;
 
 			xmlNode.appendChild( oNode ) ;
 
@@ -243,6 +258,8 @@ FCKXHtml._AppendNode = function( xmlNode, htmlNode )
 
 		// Text Node.
 		case 3 :
+			if ( htmlNode.parentNode && htmlNode.parentNode.nodeName.IEquals( 'pre' ) )
+				return this._AppendTextNode( xmlNode, htmlNode.nodeValue ) ;
 			return this._AppendTextNode( xmlNode, htmlNode.nodeValue.ReplaceNewLineChars(' ') ) ;
 
 		// Comment
@@ -262,25 +279,6 @@ FCKXHtml._AppendNode = function( xmlNode, htmlNode )
 			break ;
 	}
 	return true ;
-}
-
-function FCKXHtml_CreateNode_StrongEm( nodeName )
-{
-	switch ( nodeName )
-	{
-		case 'b' :
-			nodeName = 'strong' ;
-			break ;
-		case 'i' :
-			nodeName = 'em' ;
-			break ;
-	}
-	return this.XML.createElement( nodeName ) ;
-}
-
-function FCKXHtml_CreateNode_Normal( nodeName )
-{
-	return this.XML.createElement( nodeName ) ;
 }
 
 // Append an item to the SpecialBlocks array and returns the tag to be used.
@@ -312,38 +310,9 @@ function FCKXHtml_GetEntity( character )
 	return '#?-:' + sEntity + ';' ;
 }
 
-// Remove part of an attribute from a node according to a regExp
-FCKXHtml._RemoveAttribute = function( xmlNode, regX, sAttribute )
-{
-	var oAtt = xmlNode.attributes.getNamedItem( sAttribute ) ;
-
-	if ( oAtt && regX.test( oAtt.nodeValue ) )
-	{
-		var sValue = oAtt.nodeValue.replace( regX, '' ) ;
-
-		if ( sValue.length == 0 )
-			xmlNode.attributes.removeNamedItem( sAttribute ) ;
-		else
-			oAtt.nodeValue = sValue ;
-	}
-}
-
 // An object that hold tag specific operations.
 FCKXHtml.TagProcessors =
 {
-	img : function( node, htmlNode )
-	{
-		// The "ALT" attribute is required in XHTML.
-		if ( ! node.attributes.getNamedItem( 'alt' ) )
-			FCKXHtml._AppendAttribute( node, 'alt', '' ) ;
-
-		var sSavedUrl = htmlNode.getAttribute( '_fcksavedurl' ) ;
-		if ( sSavedUrl != null )
-			FCKXHtml._AppendAttribute( node, 'src', sSavedUrl ) ;
-
-		return node ;
-	},
-
 	a : function( node, htmlNode )
 	{
 		// Firefox may create empty tags when deleting the selection in some special cases (SF-BUG 1556878).
@@ -358,14 +327,113 @@ FCKXHtml.TagProcessors =
 		// Anchors with content has been marked with an additional class, now we must remove it.
 		if ( FCKBrowserInfo.IsIE )
 		{
-			FCKXHtml._RemoveAttribute( node, FCKRegexLib.FCK_Class, 'class' ) ;
-
 			// Buggy IE, doesn't copy the name of changed anchors.
 			if ( htmlNode.name )
 				FCKXHtml._AppendAttribute( node, 'name', htmlNode.name ) ;
 		}
 
-		FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
+		node = FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
+
+		return node ;
+	},
+
+	area : function( node, htmlNode )
+	{
+		var sSavedUrl = htmlNode.getAttribute( '_fcksavedurl' ) ;
+		if ( sSavedUrl != null )
+			FCKXHtml._AppendAttribute( node, 'href', sSavedUrl ) ;
+
+		// IE ignores the "COORDS" and "SHAPE" attribute so we must add it manually.
+		if ( FCKBrowserInfo.IsIE )
+		{
+			if ( ! node.attributes.getNamedItem( 'coords' ) )
+			{
+				var sCoords = htmlNode.getAttribute( 'coords', 2 ) ;
+				if ( sCoords && sCoords != '0,0,0' )
+					FCKXHtml._AppendAttribute( node, 'coords', sCoords ) ;
+			}
+
+			if ( ! node.attributes.getNamedItem( 'shape' ) )
+			{
+				var sShape = htmlNode.getAttribute( 'shape', 2 ) ;
+				if ( sShape && sShape.length > 0 )
+					FCKXHtml._AppendAttribute( node, 'shape', sShape.toLowerCase() ) ;
+			}
+		}
+
+		return node ;
+	},
+
+	body : function( node, htmlNode )
+	{
+		node = FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
+		// Remove spellchecker attributes added for Firefox when converting to HTML code (Bug #1351).
+		node.removeAttribute( 'spellcheck' ) ;
+		return node ;
+	},
+
+	// IE loses contents of iframes, and Gecko does give it back HtmlEncoded
+	// Note: Opera does lose the content and doesn't provide it in the innerHTML string
+	iframe : function( node, htmlNode )
+	{
+		var sHtml = htmlNode.innerHTML ;
+
+		// Gecko does give back the encoded html
+		if ( FCKBrowserInfo.IsGecko )
+			sHtml = FCKTools.HTMLDecode( sHtml );
+
+		// Remove the saved urls here as the data won't be processed as nodes
+		sHtml = sHtml.replace( /\s_fcksavedurl="[^"]*"/g, '' ) ;
+
+		node.appendChild( FCKXHtml.XML.createTextNode( FCKXHtml._AppendSpecialItem( sHtml ) ) ) ;
+
+		return node ;
+	},
+
+	img : function( node, htmlNode )
+	{
+		// The "ALT" attribute is required in XHTML.
+		if ( ! node.attributes.getNamedItem( 'alt' ) )
+			FCKXHtml._AppendAttribute( node, 'alt', '' ) ;
+
+		var sSavedUrl = htmlNode.getAttribute( '_fcksavedurl' ) ;
+		if ( sSavedUrl != null )
+			FCKXHtml._AppendAttribute( node, 'src', sSavedUrl ) ;
+
+		return node ;
+	},
+
+	// Fix nested <ul> and <ol>.
+	ol : function( node, htmlNode, targetNode )
+	{
+		if ( htmlNode.innerHTML.Trim().length == 0 )
+			return false ;
+
+		var ePSibling = targetNode.lastChild ;
+
+		if ( ePSibling && ePSibling.nodeType == 3 )
+			ePSibling = ePSibling.previousSibling ;
+
+		if ( ePSibling && ePSibling.nodeName.toUpperCase() == 'LI' )
+		{
+			htmlNode._fckxhtmljob = null ;
+			FCKXHtml._AppendNode( ePSibling, htmlNode ) ;
+			return false ;
+		}
+
+		node = FCKXHtml._AppendChildNodes( node, htmlNode ) ;
+
+		return node ;
+	},
+
+	pre : function ( node, htmlNode )
+	{
+		var firstChild = htmlNode.firstChild ;
+
+		if ( firstChild && firstChild.nodeType == 3 )
+			node.appendChild( FCKXHtml.XML.createTextNode( FCKXHtml._AppendSpecialItem( '\r\n' ) ) ) ;
+
+		FCKXHtml._AppendChildNodes( node, htmlNode, true ) ;
 
 		return node ;
 	},
@@ -381,13 +449,28 @@ FCKXHtml.TagProcessors =
 		return node ;
 	},
 
+	span : function( node, htmlNode )
+	{
+		// Firefox may create empty tags when deleting the selection in some special cases (SF-BUG 1084404).
+		if ( htmlNode.innerHTML.length == 0 )
+			return false ;
+
+		node = FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
+
+		return node ;
+	},
+
 	style : function( node, htmlNode )
 	{
 		// The "TYPE" attribute is required in XHTML.
 		if ( ! node.attributes.getNamedItem( 'type' ) )
 			FCKXHtml._AppendAttribute( node, 'type', 'text/css' ) ;
 
-		node.appendChild( FCKXHtml.XML.createTextNode( FCKXHtml._AppendSpecialItem( htmlNode.innerHTML ) ) ) ;
+		var cssText = htmlNode.innerHTML ;
+		if ( FCKBrowserInfo.IsIE )	// Bug #403 : IE always appends a \r\n to the beginning of StyleNode.innerHTML
+			cssText = cssText.replace( /^(\r\n|\n|\r)/, '' ) ;
+
+		node.appendChild( FCKXHtml.XML.createTextNode( FCKXHtml._AppendSpecialItem( cssText ) ) ) ;
 
 		return node ;
 	},
@@ -395,53 +478,6 @@ FCKXHtml.TagProcessors =
 	title : function( node, htmlNode )
 	{
 		node.appendChild( FCKXHtml.XML.createTextNode( FCK.EditorDocument.title ) ) ;
-
-		return node ;
-	},
-
-	table : function( node, htmlNode )
-	{
-		// There is a trick to show table borders when border=0. We add to the
-		// table class the FCK__ShowTableBorders rule. So now we must remove it.
-
-		if ( FCKBrowserInfo.IsIE )
-			FCKXHtml._RemoveAttribute( node, FCKRegexLib.FCK_Class, 'class' ) ;
-
-		FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
-
-		return node ;
-	},
-
-	// Fix nested <ul> and <ol>.
-	ol : function( node, htmlNode, targetNode )
-	{
-		if ( htmlNode.innerHTML.Trim().length == 0 )
-			return false ;
-
-		var ePSibling = targetNode.lastChild ;
-		
-		if ( ePSibling && ePSibling.nodeType == 3 )
-			ePSibling = ePSibling.previousSibling ;
-		
-		if ( ePSibling && ePSibling.nodeName.toUpperCase() == 'LI' )
-		{
-			htmlNode._fckxhtmljob = null ;
-			FCKXHtml._AppendNode( ePSibling, htmlNode ) ;
-			return false ;
-		}
-
-		FCKXHtml._AppendChildNodes( node, htmlNode ) ;
-
-		return node ;
-	},
-
-	span : function( node, htmlNode )
-	{
-		// Firefox may create empty tags when deleting the selection in some special cases (SF-BUG 1084404).
-		if ( htmlNode.innerHTML.length == 0 )
-			return false ;
-			
-		FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
 
 		return node ;
 	}

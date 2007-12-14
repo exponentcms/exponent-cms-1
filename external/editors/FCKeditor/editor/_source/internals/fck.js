@@ -1,39 +1,41 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fck.js
- * 	Creation and initialization of the "FCK" object. This is the main object
- * 	that represents an editor instance.
- * 
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
+ *
+ * Creation and initialization of the "FCK" object. This is the main object
+ * that represents an editor instance.
  */
 
 // FCK represents the active editor instance.
-var FCK = 
+var FCK =
 {
-	Name		: FCKURLParams[ 'InstanceName' ],
-	Status		: FCK_STATUS_NOTLOADED,
-	EditMode	: FCK_EDITMODE_WYSIWYG,
-	Toolbar		: null,
-	HasFocus	: false,
+	Name			: FCKURLParams[ 'InstanceName' ],
+	Status			: FCK_STATUS_NOTLOADED,
+	EditMode		: FCK_EDITMODE_WYSIWYG,
+	Toolbar			: null,
+	HasFocus		: false,
+	DataProcessor	: new FCKDataProcessor(),
+
+	AttachToOnSelectionChange : function( functionPointer )
+	{
+		this.Events.AttachEvent( 'OnSelectionChange', functionPointer ) ;
+	},
 
 	GetLinkedFieldValue : function()
 	{
@@ -45,22 +47,33 @@ var FCK =
 		return this.LinkedField.form ;
 	} ,
 
-	// # START : IsDirty implementation 
-	
+	// # START : IsDirty implementation
+
 	StartupValue : '',
 
 	IsDirty : function()
 	{
-		return ( this.StartupValue != this.EditorDocument.body.innerHTML ) ;
+		if ( this.EditMode == FCK_EDITMODE_SOURCE )
+			return ( this.StartupValue != this.EditingArea.Textarea.value ) ;
+		else
+		{
+			// It can happen switching between design and source mode in Gecko
+			if ( ! this.EditorDocument )
+				return false ;
+
+			return ( this.StartupValue != this.EditorDocument.body.innerHTML ) ;
+		}
 	},
 
 	ResetIsDirty : function()
 	{
-		if ( this.EditorDocument.body )
+		if ( this.EditMode == FCK_EDITMODE_SOURCE )
+			this.StartupValue = this.EditingArea.Textarea.value ;
+		else if ( this.EditorDocument.body )
 			this.StartupValue = this.EditorDocument.body.innerHTML ;
 	},
 
-	// # END : IsDirty implementation 
+	// # END : IsDirty implementation
 
 	StartEditor : function()
 	{
@@ -70,11 +83,12 @@ var FCK =
 		var oKeystrokeHandler = FCK.KeystrokeHandler = new FCKKeystrokeHandler() ;
 		oKeystrokeHandler.OnKeystroke = _FCK_KeystrokeHandler_OnKeystroke ;
 
+		// Set the config keystrokes.
 		oKeystrokeHandler.SetKeystrokes( FCKConfig.Keystrokes ) ;
 
 		// In IE7, if the editor tries to access the clipboard by code, a dialog is
 		// shown to the user asking if the application is allowed to access or not.
-		// Due to the IE implementation of it, the KeystrokeHandler will not work 
+		// Due to the IE implementation of it, the KeystrokeHandler will not work
 		//well in this case, so we must leave the pasting keys to have their default behavior.
 		if ( FCKBrowserInfo.IsIE7 )
 		{
@@ -85,11 +99,23 @@ var FCK =
 				oKeystrokeHandler.SetKeystrokes( [ SHIFT + 45, true ] ) ;
 		}
 
-		this.EditingArea = new FCKEditingArea( document.getElementById( 'xEditingArea' ) ) ;
-		this.EditingArea.FFSpellChecker = false ;
+		// Retain default behavior for Ctrl-Backspace. (Bug #362)
+		oKeystrokeHandler.SetKeystrokes( [ CTRL + 8, true ] ) ;
 
-		// Set the editor's startup contents
-		this.SetHTML( this.GetLinkedFieldValue() ) ;
+		this.EditingArea = new FCKEditingArea( document.getElementById( 'xEditingArea' ) ) ;
+		this.EditingArea.FFSpellChecker = FCKConfig.FirefoxSpellChecker ;
+
+		// Set the editor's startup contents.
+		this.SetData( this.GetLinkedFieldValue(), true ) ;
+
+		// Tab key handling for source mode.
+		FCKTools.AddEventListener( document, "keydown", this._TabKeyHandler ) ;
+
+		// Add selection change listeners. They must be attached only once.
+		this.AttachToOnSelectionChange( _FCK_PaddingNodeListener ) ;
+		if ( FCKBrowserInfo.IsGecko )
+			this.AttachToOnSelectionChange( this._ExecCheckEmptyBlock ) ;
+
 	},
 
 	Focus : function()
@@ -104,7 +130,7 @@ var FCK =
 		if ( newStatus == FCK_STATUS_ACTIVE )
 		{
 			FCKFocusManager.AddWindow( window, true ) ;
-			
+
 			if ( FCKBrowserInfo.IsIE )
 				FCKFocusManager.AddWindow( window.frameElement, true ) ;
 
@@ -114,33 +140,34 @@ var FCK =
 		}
 
 		this.Events.FireEvent( 'OnStatusChange', newStatus ) ;
+
 	},
-	
+
 	// Fixes the body by moving all inline and text nodes to appropriate block
 	// elements.
 	FixBody : function()
 	{
 		var sBlockTag = FCKConfig.EnterMode ;
-		
+
 		// In 'br' mode, no fix must be done.
 		if ( sBlockTag != 'p' && sBlockTag != 'div' )
 			return ;
 
 		var oDocument = this.EditorDocument ;
-		
+
 		if ( !oDocument )
 			return ;
-		
+
 		var oBody = oDocument.body ;
-		
+
 		if ( !oBody )
 			return ;
-		
+
 		FCKDomTools.TrimNode( oBody ) ;
-		
+
 		var oNode = oBody.firstChild ;
 		var oNewBlock ;
-		
+
 		while ( oNode )
 		{
 			var bMoveNode = false ;
@@ -149,7 +176,9 @@ var FCK =
 			{
 				// Element Node.
 				case 1 :
-					if ( !FCKListsLib.BlockElements[ oNode.nodeName.toLowerCase() ] )
+					if ( !FCKListsLib.BlockElements[ oNode.nodeName.toLowerCase() ] && 
+							!oNode.getAttribute('_fckfakelement') &&
+							oNode.getAttribute('_moz_dirty') == null )
 						bMoveNode = true ;
 					break ;
 
@@ -159,19 +188,19 @@ var FCK =
 					if ( oNewBlock || oNode.nodeValue.Trim().length > 0 )
 						bMoveNode = true ;
 			}
-			
+
 			if ( bMoveNode )
 			{
 				var oParent = oNode.parentNode ;
 
 				if ( !oNewBlock )
 					oNewBlock = oParent.insertBefore( oDocument.createElement( sBlockTag ), oNode ) ;
-				
+
 				oNewBlock.appendChild( oParent.removeChild( oNode ) ) ;
-				
+
 				oNode = oNewBlock.nextSibling ;
 			}
-			else 
+			else
 			{
 				if ( oNewBlock )
 				{
@@ -186,7 +215,7 @@ var FCK =
 			FCKDomTools.TrimNode( oNewBlock ) ;
 	},
 
-	GetXHTML : function( format )
+	GetData : function( format )
 	{
 		// We assume that if the user is in source editing, the editor value must
 		// represent the exact contents of the source, as the user wanted it to be.
@@ -195,40 +224,45 @@ var FCK =
 
 		this.FixBody() ;
 
-		var sXHTML ;
 		var oDoc = FCK.EditorDocument ;
-		
 		if ( !oDoc )
 			return null ;
 
-		if ( FCKConfig.FullPage )
-			sXHTML = FCKXHtml.GetXHTML( oDoc.getElementsByTagName( 'html' )[0], true, format ) ;
-		else
-		{
-			if ( FCKConfig.IgnoreEmptyParagraphValue && oDoc.body.innerHTML == '<P>&nbsp;</P>' )
-				sXHTML = '' ;
-			else
-				sXHTML = FCKXHtml.GetXHTML( oDoc.body, false, format ) ;
-		}
-		
+		var isFullPage = FCKConfig.FullPage ;
+
+		// Call the Data Processor to generate the output data.
+		var data = FCK.DataProcessor.ConvertToDataFormat(
+			isFullPage ? oDoc.documentElement : oDoc.body,
+			!isFullPage,
+			FCKConfig.IgnoreEmptyParagraphValue,
+			format ) ;
+
 		// Restore protected attributes.
-		sXHTML = FCK.ProtectEventsRestore( sXHTML ) ;
+		data = FCK.ProtectEventsRestore( data ) ;
 
 		if ( FCKBrowserInfo.IsIE )
-			sXHTML = sXHTML.replace( FCKRegexLib.ToReplace, '$1' ) ;
+			data = data.replace( FCKRegexLib.ToReplace, '$1' ) ;
 
-		if ( FCK.DocTypeDeclaration && FCK.DocTypeDeclaration.length > 0 )
-			sXHTML = FCK.DocTypeDeclaration + '\n' + sXHTML ;
+		if ( isFullPage )
+		{
+			if ( FCK.DocTypeDeclaration && FCK.DocTypeDeclaration.length > 0 )
+				data = FCK.DocTypeDeclaration + '\n' + data ;
 
-		if ( FCK.XmlDeclaration && FCK.XmlDeclaration.length > 0 )
-			sXHTML = FCK.XmlDeclaration + '\n' + sXHTML ;
+			if ( FCK.XmlDeclaration && FCK.XmlDeclaration.length > 0 )
+				data = FCK.XmlDeclaration + '\n' + data ;
+		}
 
-		return FCKConfig.ProtectedSource.Revert( sXHTML ) ;
+		return FCKConfig.ProtectedSource.Revert( data ) ;
 	},
 
 	UpdateLinkedField : function()
 	{
-		FCK.LinkedField.value = FCK.GetXHTML( FCKConfig.FormatOutput ) ;
+		var value = FCK.GetXHTML( FCKConfig.FormatOutput ) ;
+
+		if ( FCKConfig.HtmlEncodeOutput )
+			value = FCKTools.HTMLEncode( value ) ;
+
+		FCK.LinkedField.value = value ;
 		FCK.Events.FireEvent( 'OnAfterLinkedFieldUpdate' ) ;
 	},
 
@@ -249,23 +283,26 @@ var FCK =
 
 	OnAfterSetHTML : function()
 	{
-		FCKDocumentProcessor.Process( FCK.EditorDocument ) ;	
+		FCKDocumentProcessor.Process( FCK.EditorDocument ) ;
 		FCKUndo.SaveUndoStep() ;
 
 		FCK.Events.FireEvent( 'OnSelectionChange' ) ;
 		FCK.Events.FireEvent( 'OnAfterSetHTML' ) ;
 	},
 
-	// Saves URLs on links and images on special attributes, so they don't change when 
+	// Saves URLs on links and images on special attributes, so they don't change when
 	// moving around.
 	ProtectUrls : function( html )
 	{
 		// <A> href
-		html = html.replace( FCKRegexLib.ProtectUrlsA	, '$1$4$2$3$5$2 _fcksavedurl=$2$3$5$2' ) ;
+		html = html.replace( FCKRegexLib.ProtectUrlsA	, '$& _fcksavedurl=$1' ) ;
 
 		// <IMG> src
-		html = html.replace( FCKRegexLib.ProtectUrlsImg	, '$1$4$2$3$5$2 _fcksavedurl=$2$3$5$2' ) ;
-		
+		html = html.replace( FCKRegexLib.ProtectUrlsImg	, '$& _fcksavedurl=$1' ) ;
+
+		// <AREA> href
+		html = html.replace( FCKRegexLib.ProtectUrlsArea	, '$& _fcksavedurl=$1' ) ;
+
 		return html ;
 	},
 
@@ -283,146 +320,123 @@ var FCK =
 
 	ProtectTags : function( html )
 	{
-		// <meta> tags get executed, so if you have a redirect meta, the content
-		// will move to the target page.
-		var sTags = 'META' ;
-		
-		if ( FCKConfig.ProtectedTags.length > 0 )
-			sTags += '|' + FCKConfig.ProtectedTags ;
+		var sTags = FCKConfig.ProtectedTags ;
 
 		// IE doesn't support <abbr> and it breaks it. Let's protect it.
 		if ( FCKBrowserInfo.IsIE )
-			sTags += '|ABBR' ;
-		
-		var oRegex = new RegExp( '<(' + sTags + ')([ \>])', 'gi' ) ;
-		html = html.replace( oRegex, '<FCK:$1$2' ) ;
-			
-		oRegex = new RegExp( '<\/(' + sTags + ')>', 'gi' ) ;
-		html = html.replace( oRegex, '<\/FCK:$1>' ) ;
-		
+			sTags += sTags.length > 0 ? '|ABBR|XML|EMBED' : 'ABBR|XML|EMBED' ;
+
+		var oRegex ;
+		if ( sTags.length > 0 )
+		{
+			oRegex = new RegExp( '<(' + sTags + ')(?!\w|:)', 'gi' ) ;
+			html = html.replace( oRegex, '<FCK:$1' ) ;
+
+			oRegex = new RegExp( '<\/(' + sTags + ')>', 'gi' ) ;
+			html = html.replace( oRegex, '<\/FCK:$1>' ) ;
+		}
+
+		// Protect some empty elements. We must do it separately because the
+		// original tag may not contain the closing slash, like <hr>:
+		//		- <meta> tags get executed, so if you have a redirect meta, the
+		//		  content will move to the target page.
+		//		- <hr> may destroy the document structure if not well
+		//		  positioned. The trick is protect it here and restore them in
+		//		  the FCKDocumentProcessor.
+		sTags = 'META' ;
+		if ( FCKBrowserInfo.IsIE )
+			sTags += '|HR' ;
+
+		oRegex = new RegExp( '<((' + sTags + ')(?=\\s|>|/)[\\s\\S]*?)/?>', 'gi' ) ;
+		html = html.replace( oRegex, '<FCK:$1 />' ) ;
+
 		return html ;
 	},
 
-	SetHTML : function( html )
+	SetData : function( data, resetIsDirty )
 	{
 		this.EditingArea.Mode = FCK.EditMode ;
 
+		// If there was an onSelectionChange listener in IE we must remove it to avoid crashes #1498
+		if ( FCKBrowserInfo.IsIE && FCK.EditorDocument )
+		{
+				FCK.EditorDocument.detachEvent("onselectionchange", Doc_OnSelectionChange ) ;
+		}
+
 		if ( FCK.EditMode == FCK_EDITMODE_WYSIWYG )
-		{	
-			html = FCKConfig.ProtectedSource.Protect( html ) ;
-			html = FCK.ProtectEvents( html ) ;
-			html = FCK.ProtectUrls( html ) ;
-			html = FCK.ProtectTags( html ) ;
+		{
+			// Save the resetIsDirty for later use (async)
+			this._ForceResetIsDirty = ( resetIsDirty === true ) ;
 
-			// Firefox can't handle correctly the editing of the STRONG and EM tags. 
-			// We must replace them with B and I.
-			if ( FCKBrowserInfo.IsGecko )
-			{
-				html = html.replace( FCKRegexLib.StrongOpener, '<b$1' ) ;
-				html = html.replace( FCKRegexLib.StrongCloser, '<\/b>' ) ;
-				html = html.replace( FCKRegexLib.EmOpener, '<i$1' ) ;
-				html = html.replace( FCKRegexLib.EmCloser, '<\/i>' ) ;
-			}
+			// Protect parts of the code that must remain untouched (and invisible)
+			// during editing.
+			data = FCKConfig.ProtectedSource.Protect( data ) ;
 
-			var sHtml = '' ;
+			// Call the Data Processor to transform the data.
+			data = FCK.DataProcessor.ConvertToHtml( data ) ;
 
-			if ( FCKConfig.FullPage )
-			{
-				// The HTML must be fixed if the <head> is not available.
-				if ( !FCKRegexLib.HeadOpener.test( html ) )
-				{
-					// Check if the <html> is available.
-					if ( !FCKRegexLib.HtmlOpener.test( html ) )
-						html = '<html dir="' + FCKConfig.ContentLangDirection + '">' + html + '</html>' ;
-					
-					// Add the <head>.
-					html = html.replace( FCKRegexLib.HtmlOpener, '$&<head></head>' ) ;
-				}
-				
-				// Save the DOCTYPE.
-				FCK.DocTypeDeclaration = html.match( FCKRegexLib.DocTypeTag ) ;
-				
-				if ( FCKBrowserInfo.IsIE )
-					sHtml = FCK._GetBehaviorsStyle() ;
-				else if ( FCKConfig.ShowBorders ) 
-					sHtml = '<link href="' + FCKConfig.FullBasePath + 'css/fck_showtableborders_gecko.css" rel="stylesheet" type="text/css" _fcktemp="true" />' ;
+			// Fix for invalid self-closing tags (see #152).
+			data = data.replace( FCKRegexLib.InvalidSelfCloseTags, '$1></$2>' ) ;
 
-				sHtml += '<link href="' + FCKConfig.FullBasePath + 'css/fck_internal.css' + '" rel="stylesheet" type="text/css" _fcktemp="true" />' ;
+			// Protect event attributes (they could get fired in the editing area).
+			data = FCK.ProtectEvents( data ) ;
 
-				// Attention: do not change it before testing it well (sample07)!
-				// This is tricky... if the head ends with <meta ... content type>,
-				// Firefox will break. But, it works if we include the temporary
-				// links as the last elements in the HEAD.
-				sHtml = html.replace( FCKRegexLib.HeadCloser, sHtml + '$&' ) ;
+			// Protect some things from the browser itself.
+			data = FCK.ProtectUrls( data ) ;
+			data = FCK.ProtectTags( data ) ;
 
-				// Insert the base tag (FCKConfig.BaseHref), if not exists in the source.
-				// The base must be the first tag in the HEAD, to get relative
-				// links on styles, for example.
-				if ( FCK.TempBaseTag.length > 0 && !FCKRegexLib.HasBaseTag.test( html ) )
-					sHtml = sHtml.replace( FCKRegexLib.HeadOpener, '$&' + FCK.TempBaseTag ) ;
-			}
-			else
-			{
-				sHtml =
-					FCKConfig.DocType +
-					'<html dir="' + FCKConfig.ContentLangDirection + '"' ;
-				
-				// On IE, if you are use a DOCTYPE differenft of HTML 4 (like
-				// XHTML), you must force the vertical scroll to show, otherwise
-				// the horizontal one may appear when the page needs vertical scrolling.
-				if ( FCKBrowserInfo.IsIE && !FCKRegexLib.Html4DocType.test( FCKConfig.DocType ) )
-					sHtml += ' style="overflow-y: scroll"' ;
-				
-				sHtml +=
-					'><head><title></title>' +
-					_FCK_GetEditorAreaStyleTags() +
-					'<link href="' + FCKConfig.FullBasePath + 'css/fck_internal.css' + '" rel="stylesheet" type="text/css" _fcktemp="true" />' ;
+			// Insert the base tag (FCKConfig.BaseHref), if not exists in the source.
+			// The base must be the first tag in the HEAD, to get relative
+			// links on styles, for example.
+			if ( FCK.TempBaseTag.length > 0 && !FCKRegexLib.HasBaseTag.test( data ) )
+				data = data.replace( FCKRegexLib.HeadOpener, '$&' + FCK.TempBaseTag ) ;
 
-				if ( FCKBrowserInfo.IsIE )
-					sHtml += FCK._GetBehaviorsStyle() ;
-				else if ( FCKConfig.ShowBorders ) 
-					sHtml += '<link href="' + FCKConfig.FullBasePath + 'css/fck_showtableborders_gecko.css" rel="stylesheet" type="text/css" _fcktemp="true" />' ;
+			// Build the HTML for the additional things we need on <head>.
+			var sHeadExtra = '' ;
 
-				sHtml += FCK.TempBaseTag ;
+			if ( !FCKConfig.FullPage )
+				sHeadExtra += _FCK_GetEditorAreaStyleTags() ;
 
-				// Add ID and Class to the body
-				var sBodyTag = '<body' ;
-				if ( FCKConfig.BodyId && FCKConfig.BodyId.length > 0 )
-					sBodyTag += ' id="' + FCKConfig.BodyId + '"' ;
-				if ( FCKConfig.BodyClass && FCKConfig.BodyClass.length > 0 )
-					sBodyTag += ' class="' + FCKConfig.BodyClass + '"' ;
-				sHtml += '</head>' + sBodyTag + '>' ;
+			if ( FCKBrowserInfo.IsIE )
+				sHeadExtra += FCK._GetBehaviorsStyle() ;
+			else if ( FCKConfig.ShowBorders )
+				sHeadExtra += '<link href="' + FCKConfig.FullBasePath + 'css/fck_showtableborders_gecko.css" rel="stylesheet" type="text/css" _fcktemp="true" />' ;
 
-				if ( FCKBrowserInfo.IsGecko && ( html.length == 0 || FCKRegexLib.EmptyParagraph.test( html ) ) )
-					sHtml += GECKO_BOGUS ;
-				else
-					sHtml += html ;
-				
-				sHtml += '</body></html>' ;
-			}
+			sHeadExtra += '<link href="' + FCKConfig.FullBasePath + 'css/fck_internal.css" rel="stylesheet" type="text/css" _fcktemp="true" />' ;
 
+			// Attention: do not change it before testing it well (sample07)!
+			// This is tricky... if the head ends with <meta ... content type>,
+			// Firefox will break. But, it works if we place our extra stuff as
+			// the last elements in the HEAD.
+			data = data.replace( FCKRegexLib.HeadCloser, sHeadExtra + '$&' ) ;
+
+			// Load the HTML in the editing area.
 			this.EditingArea.OnLoad = _FCK_EditingArea_OnLoad ;
-			this.EditingArea.Start( sHtml ) ;
+			this.EditingArea.Start( data ) ;
 		}
 		else
 		{
 			// Remove the references to the following elements, as the editing area
 			// IFRAME will be removed.
 			FCK.EditorWindow	= null ;
-			FCK.EditorDocument	= null ; 
-		
+			FCK.EditorDocument	= null ;
+			FCKDomTools.PaddingNode = null ;
+
 			this.EditingArea.OnLoad = null ;
-			this.EditingArea.Start( html ) ;
-			
+			this.EditingArea.Start( data ) ;
+
 			// Enables the context menu in the textarea.
 			this.EditingArea.Textarea._FCKShowContextMenu = true ;
 
 			// Removes the enter key handler.
 			FCK.EnterKeyHandler = null ;
 
+			if ( resetIsDirty )
+				this.ResetIsDirty() ;
+
 			// Listen for keystroke events.
 			FCK.KeystrokeHandler.AttachToElement( this.EditingArea.Textarea ) ;
-			
+
 			this.EditingArea.Textarea.focus() ;
 
 			FCK.Events.FireEvent( 'OnAfterSetHTML' ) ;
@@ -433,26 +447,28 @@ var FCK =
 	},
 
 	// For the FocusManager
-	HasFocus : false, 
+	HasFocus : false,
 
 
 	// This collection is used by the browser specific implementations to tell
-	// wich named commands must be handled separately.
+	// which named commands must be handled separately.
 	RedirectNamedCommands : new Object(),
 
-	ExecuteNamedCommand : function( commandName, commandParameter, noRedirect )
+	ExecuteNamedCommand : function( commandName, commandParameter, noRedirect, noSaveUndo )
 	{
-		FCKUndo.SaveUndoStep() ;
+		if ( !noSaveUndo )
+			FCKUndo.SaveUndoStep() ;
 
 		if ( !noRedirect && FCK.RedirectNamedCommands[ commandName ] != null )
 			FCK.ExecuteRedirectedNamedCommand( commandName, commandParameter ) ;
 		else
 		{
 			FCK.Focus() ;
-			FCK.EditorDocument.execCommand( commandName, false, commandParameter ) ; 
+			FCK.EditorDocument.execCommand( commandName, false, commandParameter ) ;
 			FCK.Events.FireEvent( 'OnSelectionChange' ) ;
 		}
-		
+
+		if ( !noSaveUndo )
 		FCKUndo.SaveUndoStep() ;
 	},
 
@@ -461,10 +477,16 @@ var FCK =
 		try
 		{
 
+			// Bug #50 : Safari never returns positive state for the Paste command, override that.
+			if ( FCKBrowserInfo.IsSafari && FCK.EditorWindow && commandName.IEquals( 'Paste' ) )
+				return FCK_TRISTATE_OFF ;
+
 			if ( !FCK.EditorDocument.queryCommandEnabled( commandName ) )
 				return FCK_TRISTATE_DISABLED ;
 			else
+			{
 				return FCK.EditorDocument.queryCommandState( commandName ) ? FCK_TRISTATE_ON : FCK_TRISTATE_OFF ;
+			}
 		}
 		catch ( e )
 		{
@@ -476,17 +498,27 @@ var FCK =
 	{
 		var sValue = '' ;
 		var eState = FCK.GetNamedCommandState( commandName ) ;
-		
-		if ( eState == FCK_TRISTATE_DISABLED ) 
+
+		if ( eState == FCK_TRISTATE_DISABLED )
 			return null ;
-		
+
 		try
 		{
 			sValue = this.EditorDocument.queryCommandValue( commandName ) ;
 		}
 		catch(e) {}
-		
+
 		return sValue ? sValue : '' ;
+	},
+
+	Paste : function( _callListenersOnly )
+	{
+		// First call 'OnPaste' listeners.
+		if ( FCK.Status != FCK_STATUS_COMPLETE || !FCK.Events.FireEvent( 'OnPaste' ) )
+			return false ;
+
+		// Then call the default implementation.
+		return _callListenersOnly || FCK._ExecPaste() ;
 	},
 
 	PasteFromWord : function()
@@ -500,9 +532,9 @@ var FCK =
 		var iHeight	= FCKConfig.ScreenHeight * 0.7 ;
 		var iLeft	= ( FCKConfig.ScreenWidth - iWidth ) / 2 ;
 		var oWindow = window.open( '', null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' + iWidth + ',height=' + iHeight + ',left=' + iLeft ) ;
-		
+
 		var sHTML ;
-		
+
 		if ( FCKConfig.FullPage )
 		{
 			if ( FCK.TempBaseTag.length > 0 )
@@ -512,18 +544,18 @@ var FCK =
 		}
 		else
 		{
-			sHTML = 
+			sHTML =
 				FCKConfig.DocType +
 				'<html dir="' + FCKConfig.ContentLangDirection + '">' +
 				'<head>' +
 				FCK.TempBaseTag +
 				'<title>' + FCKLang.Preview + '</title>' +
 				_FCK_GetEditorAreaStyleTags() +
-				'</head><body>' + 
-				FCK.GetXHTML() + 
+				'</head><body' + FCKConfig.GetBodyAttributes() + '>' +
+				FCK.GetXHTML() +
 				'</body></html>' ;
 		}
-		
+
 		oWindow.document.write( sHTML );
 		oWindow.document.close();
 	},
@@ -531,16 +563,21 @@ var FCK =
 	SwitchEditMode : function( noUndo )
 	{
 		var bIsWysiwyg = ( FCK.EditMode == FCK_EDITMODE_WYSIWYG ) ;
+
+		// Save the current IsDirty state, so we may restore it after the switch.
+		var bIsDirty = FCK.IsDirty() ;
+
 		var sHtml ;
-		
+
 		// Update the HTML in the view output to show.
 		if ( bIsWysiwyg )
 		{
+			FCKCommands.GetCommand( 'ShowBlocks' ).SaveState() ;
 			if ( !noUndo && FCKBrowserInfo.IsIE )
 				FCKUndo.SaveUndoStep() ;
 
 			sHtml = FCK.GetXHTML( FCKConfig.FormatSource ) ;
-			
+
 			if ( sHtml == null )
 				return false ;
 		}
@@ -549,47 +586,186 @@ var FCK =
 
 		FCK.EditMode = bIsWysiwyg ? FCK_EDITMODE_SOURCE : FCK_EDITMODE_WYSIWYG ;
 
-		FCK.SetHTML( sHtml ) ;
+		FCK.SetData( sHtml, !bIsDirty ) ;
 
 		// Set the Focus.
 		FCK.Focus() ;
 
 		// Update the toolbar (Running it directly causes IE to fail).
 		FCKTools.RunFunction( FCK.ToolbarSet.RefreshModeState, FCK.ToolbarSet ) ;
-		
+
 		return true ;
 	},
 
-	CreateElement : function( tag )
+	InsertElement : function( element )
 	{
-		var e = FCK.EditorDocument.createElement( tag ) ;
-		return FCK.InsertElementAndGetIt( e ) ;
-	},
+		// The parameter may be a string (element name), so transform it in an element.
+		if ( typeof element == 'string' )
+			element = this.EditorDocument.createElement( element ) ;
 
-	InsertElementAndGetIt : function( e )
-	{
-		e.setAttribute( 'FCKTempLabel', 'true' ) ;
-		
-		this.InsertElement( e ) ;
-		
-		var aEls = FCK.EditorDocument.getElementsByTagName( e.tagName ) ;
-		
-		for ( var i = 0 ; i < aEls.length ; i++ )
+		var elementName = element.nodeName.toLowerCase() ;
+
+		// Create a range for the selection. V3 will have a new selection
+		// object that may internally supply this feature.
+		var range = new FCKDomRange( this.EditorWindow ) ;
+
+		if ( FCKListsLib.BlockElements[ elementName ] != null )
 		{
-			if ( aEls[i].getAttribute( 'FCKTempLabel' ) )
+			range.SplitBlock() ;
+			range.InsertNode( element ) ;
+
+			var next = FCKDomTools.GetNextSourceElement( element, false, null, [ 'hr','br','param','img','area','input' ] ) ;
+
+			// Be sure that we have something after the new element, so we can move the cursor there.
+			if ( !next && FCKConfig.EnterMode != 'br')
 			{
-				aEls[i].removeAttribute( 'FCKTempLabel' ) ;
-				return aEls[i] ;
+				next = this.EditorDocument.body.appendChild( this.EditorDocument.createElement( FCKConfig.EnterMode ) ) ;
+
+				if ( FCKBrowserInfo.IsGeckoLike )
+					FCKTools.AppendBogusBr( next ) ;
+			}
+
+			if ( FCKListsLib.EmptyElements[ elementName ] == null )
+				range.MoveToElementEditStart( element ) ;
+			else if ( next )
+				range.MoveToElementEditStart( next ) ;
+			else
+				range.MoveToPosition( element, 4 ) ;
+
+			if ( FCKBrowserInfo.IsGecko )
+			{
+				if ( next )
+					next.scrollIntoView( false ) ;
+				element.scrollIntoView( false ) ;
 			}
 		}
-		return null ;
-	}
+		else
+		{
+			// Delete the current selection and insert the node.
+			range.MoveToSelection() ;
+			range.DeleteContents() ;
+			range.InsertNode( element ) ;
 
+			// Move the selection right after the new element.
+			// DISCUSSION: Should we select the element instead?
+			range.SetStart( element, 4 ) ;
+			range.SetEnd( element, 4 ) ;
+		}
+
+		range.Select() ;
+		range.Release() ;
+
+		// REMOVE IT: The focus should not really be set here. It is up to the
+		// calling code to reset the focus if needed.
+		this.Focus() ;
+
+		return element ;
+	},
+
+	_InsertBlockElement : function( blockElement )
+	{
+	},
+
+	_IsFunctionKey : function( keyCode )
+	{
+		// keys that are captured but do not change editor contents
+		if ( keyCode >= 16 && keyCode <= 20 )
+			// shift, ctrl, alt, pause, capslock
+			return true ;
+		if ( keyCode == 27 || ( keyCode >= 33 && keyCode <= 40 ) )
+			// esc, page up, page down, end, home, left, up, right, down
+			return true ;
+		if ( keyCode == 45 )
+			// insert, no effect on FCKeditor, yet
+			return true ;
+		return false ;
+	},
+
+	_KeyDownListener : function( evt )
+	{
+		if (! evt)
+			evt = FCK.EditorWindow.event ;
+		if ( FCK.EditorWindow )
+		{
+			if ( !FCK._IsFunctionKey(evt.keyCode) // do not capture function key presses, like arrow keys or shift/alt/ctrl
+					&& !(evt.ctrlKey || evt.metaKey) // do not capture Ctrl hotkeys, as they have their snapshot capture logic
+					&& !(evt.keyCode == 46) ) // do not capture Del, it has its own capture logic in fckenterkey.js
+				FCK._KeyDownUndo() ;
+		}
+		return true ;
+	},
+
+	_KeyDownUndo : function()
+	{
+		if ( !FCKUndo.Typing )
+		{
+			FCKUndo.SaveUndoStep() ;
+			FCKUndo.Typing = true ;
+			FCK.Events.FireEvent( "OnSelectionChange" ) ;
+		}
+
+		FCKUndo.TypesCount++ ;
+		FCKUndo.Changed = 1 ;
+
+		if ( FCKUndo.TypesCount > FCKUndo.MaxTypes )
+		{
+			FCKUndo.TypesCount = 0 ;
+			FCKUndo.SaveUndoStep() ;
+		}
+	},
+
+	_TabKeyHandler : function( evt )
+	{
+		if ( ! evt )
+			evt = window.event ;
+
+		var keystrokeValue = evt.keyCode ;
+
+		// Pressing <Tab> in source mode should produce a tab space in the text area, not
+		// changing the focus to something else.
+		if ( keystrokeValue == 9 && FCK.EditMode != FCK_EDITMODE_WYSIWYG )
+		{
+			if ( FCKBrowserInfo.IsIE )
+			{
+				var range = document.selection.createRange() ;
+				if ( range.parentElement() != FCK.EditingArea.Textarea )
+					return true ;
+				range.text = '\t' ;
+				range.select() ;
+			}
+			else
+			{
+				var a = [] ;
+				var el = FCK.EditingArea.Textarea ;
+				var selStart = el.selectionStart ;
+				var selEnd = el.selectionEnd ;
+				a.push( el.value.substr(0, selStart ) ) ;
+				a.push( '\t' ) ;
+				a.push( el.value.substr( selEnd ) ) ;
+				el.value = a.join( '' ) ;
+				el.setSelectionRange( selStart + 1, selStart + 1 ) ;
+			}
+
+			if ( evt.preventDefault )
+				return evt.preventDefault() ;
+
+			return evt.returnValue = false ;
+		}
+
+		return true ;
+	}
 } ;
 
-FCK.Events	= new FCKEvents( FCK ) ;
-// GetHTML is Deprecated : returns the same value as GetXHTML.
-FCK.GetHTML	= FCK.GetXHTML ;
+FCK.Events = new FCKEvents( FCK ) ;
+
+// DEPRECATED in favor or "GetData".
+FCK.GetHTML	= FCK.GetXHTML = FCK.GetData ;
+
+// DEPRECATED in favor of "SetData".
+FCK.SetHTML = FCK.SetData ;
+
+// InsertElementAndGetIt and CreateElement are Deprecated : returns the same value as InsertElement.
+FCK.InsertElementAndGetIt = FCK.CreateElement = FCK.InsertElement ;
 
 // Replace all events attributes (like onclick).
 function _FCK_ProtectEvents_ReplaceTags( tagMatch )
@@ -602,12 +778,74 @@ function _FCK_ProtectEvents_ReplaceTags( tagMatch )
 // attribute.
 function _FCK_ProtectEvents_ReplaceEvents( eventMatch, attName )
 {
-	return ' ' + attName + '_fckprotectedatt="' + eventMatch.ReplaceAll( [/&/g,/'/g,/"/g,/=/g,/</g,/>/g,/\r/g,/\n/g], ['&apos;','&#39;','&quot;','&#61;','&lt;','&gt;','&#10;','&#13;'] ) + '"' ;
+	return ' ' + attName + '_fckprotectedatt="' + encodeURIComponent( eventMatch ) + '"' ;
 }
 
 function _FCK_ProtectEvents_RestoreEvents( match, encodedOriginal )
 {
-	return encodedOriginal.ReplaceAll( [/&#39;/g,/&quot;/g,/&#61;/g,/&lt;/g,/&gt;/g,/&#10;/g,/&#13;/g,/&apos;/g], ["'",'"','=','<','>','\r','\n','&'] ) ;
+	return decodeURIComponent( encodedOriginal ) ;
+}
+
+function _FCK_MouseEventsListener( evt )
+{
+	if ( ! evt )
+		evt = window.event ;
+	if ( evt.type == 'mousedown' )
+		FCK.MouseDownFlag = true ;
+	else if ( evt.type == 'mouseup' )
+		FCK.MouseDownFlag = false ;
+	else if ( evt.type == 'mousemove' )
+		FCK.Events.FireEvent( 'OnMouseMove', evt ) ;
+}
+
+function _FCK_PaddingNodeListener()
+{
+	if ( FCKConfig.EnterMode.IEquals( 'br' ) )
+		return ;
+	FCKDomTools.EnforcePaddingNode( FCK.EditorDocument, FCKConfig.EnterMode ) ;
+
+	if ( ! FCKBrowserInfo.IsIE && FCKDomTools.PaddingNode )
+	{
+		// Prevent the caret from going between the body and the padding node in Firefox.
+		// i.e. <body>|<p></p></body>
+		var sel = FCK.EditorWindow.getSelection() ;
+		if ( sel && sel.rangeCount == 1 )
+		{
+			var range = sel.getRangeAt( 0 ) ;
+			if ( range.collapsed && range.startContainer == FCK.EditorDocument.body && range.startOffset == 0 )
+			{
+				range.selectNodeContents( FCKDomTools.PaddingNode ) ;
+				range.collapse( true ) ;
+				sel.removeAllRanges() ;
+				sel.addRange( range ) ;
+			}
+		}
+	}
+	else if ( FCKDomTools.PaddingNode )
+	{
+		// Prevent the caret from going into an empty body but not into the padding node in IE.
+		// i.e. <body><p></p>|</body>
+		var parentElement = FCKSelection.GetParentElement() ;
+		var paddingNode = FCKDomTools.PaddingNode ;
+		if ( parentElement && parentElement.nodeName.IEquals( 'body' ) )
+		{
+			if ( FCK.EditorDocument.body.childNodes.length == 1 
+					&& FCK.EditorDocument.body.firstChild == paddingNode )
+			{
+				var range = FCK.EditorDocument.body.createTextRange() ;
+				var clearContents = false ;
+				if ( !paddingNode.childNodes.firstChild )
+				{
+					paddingNode.appendChild( paddingNode.ownerDocument.createTextNode( '\ufeff' ) ) ;
+					clearContents = true ;
+				}
+				range.moveToElementText( paddingNode ) ;
+				range.select() ;
+				if ( clearContents )
+					range.pasteHTML( '' ) ;
+			}
+		}
+	}
 }
 
 function _FCK_EditingArea_OnLoad()
@@ -618,22 +856,63 @@ function _FCK_EditingArea_OnLoad()
 
 	FCK.InitializeBehaviors() ;
 
+	// Listen for mousedown and mouseup events for tracking drag and drops.
+	FCK.MouseDownFlag = false ;
+	FCKTools.AddEventListener( FCK.EditorDocument, 'mousemove', _FCK_MouseEventsListener ) ;
+	FCKTools.AddEventListener( FCK.EditorDocument, 'mousedown', _FCK_MouseEventsListener ) ;
+	FCKTools.AddEventListener( FCK.EditorDocument, 'mouseup', _FCK_MouseEventsListener ) ;
+
+	// Most of the CTRL key combos do not work under Safari for onkeydown and onkeypress (See #1119)
+	// But we can use the keyup event to override some of these...
+	if ( FCKBrowserInfo.IsSafari )
+	{
+		var undoFunc = function( evt )
+		{
+			if ( ! ( evt.ctrlKey || evt.metaKey ) )
+				return ;
+			if ( FCK.EditMode != FCK_EDITMODE_WYSIWYG )
+				return ;
+			switch ( evt.keyCode )
+			{
+				case 89:
+					FCKUndo.Redo() ;
+					break ;
+				case 90:
+					FCKUndo.Undo() ;
+					break ;
+			}
+		}
+
+		FCKTools.AddEventListener( FCK.EditorDocument, 'keyup', undoFunc ) ;
+	}
+
 	// Create the enter key handler
-	if ( !FCKConfig.DisableEnterKeyHandler )
-		FCK.EnterKeyHandler = new FCKEnterKey( FCK.EditorWindow, FCKConfig.EnterMode, FCKConfig.ShiftEnterMode ) ;
+	FCK.EnterKeyHandler = new FCKEnterKey( FCK.EditorWindow, FCKConfig.EnterMode, FCKConfig.ShiftEnterMode, FCKConfig.TabSpaces ) ;
 
 	// Listen for keystroke events.
 	FCK.KeystrokeHandler.AttachToElement( FCK.EditorDocument ) ;
 
+	if ( FCK._ForceResetIsDirty )
+		FCK.ResetIsDirty() ;
+
+	// This is a tricky thing for IE. In some cases, even if the cursor is
+	// blinking in the editing, the keystroke handler doesn't catch keyboard
+	// events. We must activate the editing area to make it work. (#142).
+	if ( FCKBrowserInfo.IsIE && FCK.HasFocus )
+		FCK.EditorDocument.body.setActive() ;
+
 	FCK.OnAfterSetHTML() ;
+
+	// Restore show blocks status.
+	FCKCommands.GetCommand( 'ShowBlocks' ).RestoreState() ;
 
 	// Check if it is not a startup call, otherwise complete the startup.
 	if ( FCK.Status != FCK_STATUS_NOTLOADED )
 		return ;
 
-	// Save the startup value for the "IsDirty()" check.
-	FCK.ResetIsDirty() ;
-	
+	if ( FCKConfig.Debug )
+		FCKDebug._GetWindow() ;
+
 	FCK.SetStatus( FCK_STATUS_ACTIVE ) ;
 }
 
@@ -641,10 +920,14 @@ function _FCK_GetEditorAreaStyleTags()
 {
 	var sTags = '' ;
 	var aCSSs = FCKConfig.EditorAreaCSS ;
-	
+	var sStyles = FCKConfig.EditorAreaStyles ;
+
 	for ( var i = 0 ; i < aCSSs.length ; i++ )
 		sTags += '<link href="' + aCSSs[i] + '" rel="stylesheet" type="text/css" />' ;
-	
+
+	if ( sStyles && sStyles.length > 0 )
+		sTags += "<style>" + sStyles + "</style>" ;
+
 	return sTags ;
 }
 
@@ -655,18 +938,25 @@ function _FCK_KeystrokeHandler_OnKeystroke( keystroke, keystrokeValue )
 
 	if ( FCK.EditMode == FCK_EDITMODE_WYSIWYG )
 	{
-		if ( keystrokeValue == 'Paste' )
-			return !FCK.Events.FireEvent( 'OnPaste' ) ;
+		switch ( keystrokeValue )
+		{
+			case 'Paste' :
+				return !FCK.Paste() ;
+
+			case 'Cut' :
+				FCKUndo.SaveUndoStep() ;
+				return false ;
+		}
 	}
 	else
 	{
 		// In source mode, some actions must have their default behavior.
-		if ( keystrokeValue.Equals( 'Paste', 'Undo', 'Redo', 'SelectAll' ) )
+		if ( keystrokeValue.Equals( 'Paste', 'Undo', 'Redo', 'SelectAll', 'Cut' ) )
 			return false ;
 	}
 
 	// The return value indicates if the default behavior of the keystroke must
-	// be cancelled. Let's do that only if the Execute() call explicitelly returns "false".
+	// be cancelled. Let's do that only if the Execute() call explicitly returns "false".
 	var oCommand = FCK.Commands.GetCommand( keystrokeValue ) ;
 	return ( oCommand.Execute.apply( oCommand, FCKTools.ArgumentsToArray( arguments, 2 ) ) !== false ) ;
 }
@@ -680,7 +970,7 @@ function _FCK_KeystrokeHandler_OnKeystroke( keystroke, keystrokeValue )
 	// by names and look for the correct one.
 	// As ASP.Net generates a ID that is different from the Name, we must also
 	// look for the field based on the ID (the first one is the ID).
-	
+
 	var oDocument = window.parent.document ;
 
 	// Try to get the field using the ID.
@@ -699,7 +989,7 @@ function _FCK_KeystrokeHandler_OnKeystroke( keystroke, keystrokeValue )
 	}
 })() ;
 
-var FCKTempBin = 
+var FCKTempBin =
 {
 	Elements : new Array(),
 
@@ -721,7 +1011,7 @@ var FCKTempBin =
 	{
 		var i = 0 ;
 		while ( i < this.Elements.length )
-			this.Elements[ i++ ] == null ;
+			this.Elements[ i++ ] = null ;
 		this.Elements.length = 0 ;
 	}
 } ;
@@ -729,19 +1019,21 @@ var FCKTempBin =
 
 
 // # Focus Manager: Manages the focus in the editor.
-var FCKFocusManager = FCK.FocusManager = 
+var FCKFocusManager = FCK.FocusManager =
 {
 	IsLocked : false,
 
 	AddWindow : function( win, sendToEditingArea )
 	{
 		var oTarget ;
-		
+
 		if ( FCKBrowserInfo.IsIE )
 			oTarget = win.nodeType == 1 ? win : win.frameElement ? win.frameElement : win.document ;
+		else if ( FCKBrowserInfo.IsSafari )
+			oTarget = win ;
 		else
 			oTarget = win.document ;
-		
+
 		FCKTools.AddEventListener( oTarget, 'blur', FCKFocusManager_Win_OnBlur ) ;
 		FCKTools.AddEventListener( oTarget, 'focus', sendToEditingArea ? FCKFocusManager_Win_OnFocus_Area : FCKFocusManager_Win_OnFocus ) ;
 	},
@@ -767,7 +1059,7 @@ var FCKFocusManager = FCK.FocusManager =
 	{
 		if ( this._HasPendingBlur )
 			FCKFocusManager._Timer = window.setTimeout( FCKFocusManager_FireOnBlur, 100 ) ;
-			
+
 		this.IsLocked = false ;
 	},
 
@@ -778,7 +1070,7 @@ var FCKFocusManager = FCK.FocusManager =
 		if ( this._Timer )
 		{
 			window.clearTimeout( this._Timer ) ;
-			delete this._Timer ; 
+			delete this._Timer ;
 		}
 	}
 } ;
@@ -819,3 +1111,4 @@ function FCKFocusManager_Win_OnFocus()
 		FCK.Events.FireEvent( "OnFocus" ) ;
 	}
 }
+

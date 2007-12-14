@@ -1,30 +1,25 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fck_othercommands.js
- * 	Definition of other commands that are not available internaly in the
- * 	browser (see FCKNamedCommand).
- * 
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
- * 		Alfonso Martinez de Lizarrondo - Uritec (alfonso at uritec dot net)
+ *
+ * Definition of other commands that are not available internaly in the
+ * browser (see FCKNamedCommand).
  */
 
 // ### General Dialog Box Commands.
@@ -38,7 +33,7 @@ var FCKDialogCommand = function( name, title, url, width, height, getStateFuncti
 
 	this.GetStateFunction	= getStateFunction ;
 	this.GetStateParam		= getStateParam ;
-	
+
 	this.Resizable = false ;
 }
 
@@ -71,71 +66,45 @@ FCKUndefinedCommand.prototype.GetState = function()
 	return FCK_TRISTATE_OFF ;
 }
 
-// ### FontName
-var FCKFontNameCommand = function()
-{
-	this.Name = 'FontName' ;
-}
-
-FCKFontNameCommand.prototype.Execute = function( fontName )
-{
-	if (fontName == null || fontName == "")
-	{
-		// TODO: Remove font name attribute.
-	}
-	else
-		FCK.ExecuteNamedCommand( 'FontName', fontName ) ;
-}
-
-FCKFontNameCommand.prototype.GetState = function()
-{
-	return FCK.GetNamedCommandValue( 'FontName' ) ;
-}
-
-// ### FontSize
-var FCKFontSizeCommand = function()
-{
-	this.Name = 'FontSize' ;
-}
-
-FCKFontSizeCommand.prototype.Execute = function( fontSize )
-{
-	if ( typeof( fontSize ) == 'string' ) fontSize = parseInt(fontSize, 10) ;
-
-	if ( fontSize == null || fontSize == '' )
-	{
-		// TODO: Remove font size attribute (Now it works with size 3. Will it work forever?)
-		FCK.ExecuteNamedCommand( 'FontSize', 3 ) ;
-	}
-	else
-		FCK.ExecuteNamedCommand( 'FontSize', fontSize ) ;
-}
-
-FCKFontSizeCommand.prototype.GetState = function()
-{
-	return FCK.GetNamedCommandValue( 'FontSize' ) ;
-}
 
 // ### FormatBlock
 var FCKFormatBlockCommand = function()
-{
-	this.Name = 'FormatBlock' ;
-}
+{}
 
-FCKFormatBlockCommand.prototype.Execute = function( formatName )
+FCKFormatBlockCommand.prototype = 
 {
-	if ( formatName == null || formatName == '' )
-		FCK.ExecuteNamedCommand( 'FormatBlock', '<P>' ) ;
-	else if ( formatName == 'div' && FCKBrowserInfo.IsGecko )
-		FCK.ExecuteNamedCommand( 'FormatBlock', 'div' ) ;
-	else
-		FCK.ExecuteNamedCommand( 'FormatBlock', '<' + formatName + '>' ) ;
-}
+	Name : 'FormatBlock',
+	
+	Execute : FCKStyleCommand.prototype.Execute,
+	
+	GetState : function()
+	{
+		return FCK.EditorDocument ? FCK_TRISTATE_OFF : FCK_TRISTATE_DISABLED ;
+	}
+};
 
-FCKFormatBlockCommand.prototype.GetState = function()
+// ### FontName
+
+var FCKFontNameCommand = function()
+{}
+
+FCKFontNameCommand.prototype = 
 {
-	return FCK.GetNamedCommandValue( 'FormatBlock' ) ;
-}
+	Name		: 'FontName',
+	Execute		: FCKStyleCommand.prototype.Execute,
+	GetState	: FCKFormatBlockCommand.prototype.GetState
+};
+
+// ### FontSize
+var FCKFontSizeCommand = function()
+{}
+
+FCKFontSizeCommand.prototype = 
+{
+	Name		: 'FontSize',
+	Execute		: FCKStyleCommand.prototype.Execute,
+	GetState	: FCKFormatBlockCommand.prototype.GetState
+};
 
 // ### Preview
 var FCKPreviewCommand = function()
@@ -172,7 +141,12 @@ FCKSaveCommand.prototype.Execute = function()
 	}
 
 	// Submit the form.
-	oForm.submit() ;
+	// If there's a button named "submit" then the form.submit() function is masked and
+	// can't be called in Mozilla, so we call the click() method of that button.
+	if ( typeof( oForm.submit ) == 'function' )
+		oForm.submit() ;
+	else
+		oForm.submit.click() ;
 }
 
 FCKSaveCommand.prototype.GetState = function()
@@ -189,8 +163,9 @@ var FCKNewPageCommand = function()
 FCKNewPageCommand.prototype.Execute = function()
 {
 	FCKUndo.SaveUndoStep() ;
-	FCK.SetHTML( '' ) ;
+	FCK.SetData( '' ) ;
 	FCKUndo.Typing = true ;
+	FCK.Focus() ;
 }
 
 FCKNewPageCommand.prototype.GetState = function()
@@ -229,18 +204,12 @@ var FCKUndoCommand = function()
 
 FCKUndoCommand.prototype.Execute = function()
 {
-	if ( FCKBrowserInfo.IsIE )
-		FCKUndo.Undo() ;
-	else
-		FCK.ExecuteNamedCommand( 'Undo' ) ;
+	FCKUndo.Undo() ;
 }
 
 FCKUndoCommand.prototype.GetState = function()
 {
-	if ( FCKBrowserInfo.IsIE )
-		return ( FCKUndo.CheckUndoState() ? FCK_TRISTATE_OFF : FCK_TRISTATE_DISABLED ) ;
-	else
-		return FCK.GetNamedCommandState( 'Undo' ) ;
+	return ( FCKUndo.CheckUndoState() ? FCK_TRISTATE_OFF : FCK_TRISTATE_DISABLED ) ;
 }
 
 // ### Redo
@@ -251,18 +220,12 @@ var FCKRedoCommand = function()
 
 FCKRedoCommand.prototype.Execute = function()
 {
-	if ( FCKBrowserInfo.IsIE )
-		FCKUndo.Redo() ;
-	else
-		FCK.ExecuteNamedCommand( 'Redo' ) ;
+	FCKUndo.Redo() ;
 }
 
 FCKRedoCommand.prototype.GetState = function()
 {
-	if ( FCKBrowserInfo.IsIE )
-		return ( FCKUndo.CheckRedoState() ? FCK_TRISTATE_OFF : FCK_TRISTATE_DISABLED ) ;
-	else
-		return FCK.GetNamedCommandState( 'Redo' ) ;
+	return ( FCKUndo.CheckRedoState() ? FCK_TRISTATE_OFF : FCK_TRISTATE_DISABLED ) ;
 }
 
 // ### Page Break
@@ -273,17 +236,28 @@ var FCKPageBreakCommand = function()
 
 FCKPageBreakCommand.prototype.Execute = function()
 {
+	// Take an undo snapshot before changing the document
+	FCKUndo.SaveUndoStep() ;
+
 //	var e = FCK.EditorDocument.createElement( 'CENTER' ) ;
 //	e.style.pageBreakAfter = 'always' ;
 
-	// Tidy was removing the empty CENTER tags, so the following solution has 
+	// Tidy was removing the empty CENTER tags, so the following solution has
 	// been found. It also validates correctly as XHTML 1.0 Strict.
 	var e = FCK.EditorDocument.createElement( 'DIV' ) ;
 	e.style.pageBreakAfter = 'always' ;
 	e.innerHTML = '<span style="DISPLAY:none">&nbsp;</span>' ;
-	
+
 	var oFakeImage = FCKDocumentProcessor_CreateFakeImage( 'FCK__PageBreak', e ) ;
-	oFakeImage	= FCK.InsertElement( oFakeImage ) ;
+	var oRange = new FCKDomRange( FCK.EditorWindow ) ;
+	oRange.MoveToSelection() ;
+	var oSplitInfo = oRange.SplitBlock() ;
+	if ( oSplitInfo.NextBlock )
+		oSplitInfo.NextBlock.parentNode.insertBefore( oFakeImage, oSplitInfo.NextBlock ) ;
+	else
+		oSplitInfo.PreviousBlock.parentNode.insertBefore( oFakeImage, oSplitInfo.PreviousBlock.nextSibling ) ;
+
+	FCK.Events.FireEvent( 'OnSelectionChange' ) ;
 }
 
 FCKPageBreakCommand.prototype.GetState = function()
@@ -299,17 +273,20 @@ var FCKUnlinkCommand = function()
 
 FCKUnlinkCommand.prototype.Execute = function()
 {
-	if ( FCKBrowserInfo.IsGecko )
+	// Take an undo snapshot before changing the document
+	FCKUndo.SaveUndoStep() ;
+
+	if ( FCKBrowserInfo.IsGeckoLike )
 	{
 		var oLink = FCK.Selection.MoveToAncestorNode( 'A' ) ;
-		if ( oLink ) 
-			FCK.Selection.SelectNode( oLink ) ;
+		// The unlink command can generate a span in Firefox, so let's do it our way. See #430
+		if ( oLink )
+			FCKTools.RemoveOuterTags( oLink ) ;
+
+		return ;
 	}
 	
 	FCK.ExecuteNamedCommand( this.Name ) ;
-
-	if ( FCKBrowserInfo.IsGecko )
-		FCK.Selection.Collapse( true ) ;
 }
 
 FCKUnlinkCommand.prototype.GetState = function()
@@ -319,7 +296,7 @@ FCKUnlinkCommand.prototype.GetState = function()
 	// Check that it isn't an anchor
 	if ( state == FCK_TRISTATE_OFF && FCK.EditMode == FCK_EDITMODE_WYSIWYG )
 	{
-		var oLink = FCKSelection.MoveToAncestorNode( 'A' ) ; 
+		var oLink = FCKSelection.MoveToAncestorNode( 'A' ) ;
 		var bIsAnchor = ( oLink && oLink.name.length > 0 && oLink.href.length == 0 ) ;
 		if ( bIsAnchor )
 			state = FCK_TRISTATE_DISABLED ;
@@ -334,9 +311,160 @@ var FCKSelectAllCommand = function()
 	this.Name = 'SelectAll' ;
 }
 
-FCKSelectAllCommand.prototype = new FCKNamedCommand( 'SelectAll' ) ;
+FCKSelectAllCommand.prototype.Execute = function()
+{
+	if ( FCK.EditMode == FCK_EDITMODE_WYSIWYG )
+	{
+		FCK.ExecuteNamedCommand( 'SelectAll' ) ;
+	}
+	else
+	{
+		// Select the contents of the textarea
+		var textarea = FCK.EditingArea.Textarea ;
+		if ( FCKBrowserInfo.IsIE )
+		{
+			textarea.createTextRange().execCommand( 'SelectAll' ) ;
+		}
+		else
+		{
+			textarea.selectionStart = 0 ;
+			textarea.selectionEnd = textarea.value.length ;
+		}
+		textarea.focus() ;
+	}
+}
 
 FCKSelectAllCommand.prototype.GetState = function()
 {
 	return FCK_TRISTATE_OFF ;
 }
+
+// FCKPasteCommand
+var FCKPasteCommand = function()
+{
+	this.Name = 'Paste' ;
+}
+
+FCKPasteCommand.prototype =
+{
+	Execute : function()
+	{
+		if ( FCKBrowserInfo.IsIE )
+			FCK.Paste() ;
+		else
+			FCK.ExecuteNamedCommand( 'Paste' ) ;
+	},
+
+	GetState : function()
+	{
+		return FCK.GetNamedCommandState( 'Paste' ) ;
+	}
+} ;
+
+// FCKRuleCommand
+var FCKRuleCommand = function()
+{
+	this.Name = 'Rule' ;
+}
+
+FCKRuleCommand.prototype =
+{
+	Execute : function()
+	{
+		FCKUndo.SaveUndoStep() ;
+		FCK.InsertElement( 'hr' ) ;
+	},
+
+	GetState : function()
+	{
+		return FCK.GetNamedCommandState( 'InsertHorizontalRule' ) ;
+	}
+} ;
+
+// FCKCopyCommand
+var FCKCopyCommand = function()
+{
+	this.Name = 'Copy' ;
+}
+
+FCKCopyCommand.prototype = 
+{
+	Execute : function()
+	{
+		FCK.ExecuteNamedCommand( this.Name ) ;
+	},
+
+	GetState : function()
+	{
+		// Strangely, the cut command happens to have the correct states for both Copy and Cut in all browsers.
+		return FCK.GetNamedCommandState( 'Cut' ) ;
+	}
+};
+
+var FCKAnchorDeleteCommand = function()
+{
+	this.Name = 'AnchorDelete' ;
+}
+
+FCKAnchorDeleteCommand.prototype = 
+{
+	Execute : function()
+	{
+		if (FCK.Selection.GetType() == 'Control')
+		{
+			FCK.Selection.Delete();
+		}
+		else
+		{
+			var oFakeImage = FCK.Selection.GetSelectedElement() ;
+			if ( oFakeImage )
+			{
+				if ( oFakeImage.tagName == 'IMG' && oFakeImage.getAttribute('_fckanchor') )
+					oAnchor = FCK.GetRealElement( oFakeImage ) ;
+				else
+					oFakeImage = null ;
+			}
+
+			//Search for a real anchor
+			if ( !oFakeImage )
+			{
+				oAnchor = FCK.Selection.MoveToAncestorNode( 'A' ) ;
+				if ( oAnchor )
+					FCK.Selection.SelectNode( oAnchor ) ;
+			}
+
+			// If it's also a link, then just remove the name and exit
+			if ( oAnchor.href.length != 0 )
+			{
+				oAnchor.removeAttribute( 'name' ) ;
+				// Remove temporary class for IE
+				if ( FCKBrowserInfo.IsIE )
+					oAnchor.className = oAnchor.className.replace( FCKRegexLib.FCK_Class, '' ) ;
+				return ;
+			}
+
+			// We need to remove the anchor
+			// If we got a fake image, then just remove it and we're done
+			if ( oFakeImage )
+			{
+				oFakeImage.parentNode.removeChild( oFakeImage ) ;
+				return ;
+			}
+			// Empty anchor, so just remove it
+			if ( oAnchor.innerHTML.length == 0 )
+			{
+				oAnchor.parentNode.removeChild( oAnchor ) ;
+				return ;
+			}
+			// Anchor with content, leave the content
+			FCKTools.RemoveOuterTags( oAnchor ) ;
+		}
+		if ( FCKBrowserInfo.IsGecko )
+			FCK.Selection.Collapse( true ) ;
+	},
+
+	GetState : function()
+	{
+		return FCK.GetNamedCommandState( 'Unlink') ;
+	}
+};

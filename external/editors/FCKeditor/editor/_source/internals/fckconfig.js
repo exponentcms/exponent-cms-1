@@ -1,28 +1,24 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fckconfig.js
- * 	Creates and initializes the FCKConfig object.
- * 
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
+ *
+ * Creates and initializes the FCKConfig object.
  */
 
 var FCKConfig = FCK.Config = new Object() ;
@@ -37,31 +33,39 @@ if ( document.location.protocol == 'file:' )
 {
 	FCKConfig.BasePath = decodeURIComponent( document.location.pathname.substr(1) ) ;
 	FCKConfig.BasePath = FCKConfig.BasePath.replace( /\\/gi, '/' ) ;
-	FCKConfig.BasePath = 'file://' + FCKConfig.BasePath.substring(0,FCKConfig.BasePath.lastIndexOf('/')+1) ;
+
+	// The way to address local files is different according to the OS.
+	// In Windows it is file:// but in MacOs it is file:/// so let's get it automatically
+	var sFullProtocol = document.location.href.match( /^(file\:\/{2,3})/ )[1] ;
+	// #945 Opera does strange things with files loaded from the disk, and it fails in Mac to load xml files
+	if ( FCKBrowserInfo.IsOpera )
+		sFullProtocol += 'localhost/' ;
+
+	FCKConfig.BasePath = sFullProtocol + FCKConfig.BasePath.substring( 0, FCKConfig.BasePath.lastIndexOf( '/' ) + 1) ;
 	FCKConfig.FullBasePath = FCKConfig.BasePath ;
 }
 else
 {
-	FCKConfig.BasePath = document.location.pathname.substring(0,document.location.pathname.lastIndexOf('/')+1) ;
+	FCKConfig.BasePath = document.location.pathname.substring( 0, document.location.pathname.lastIndexOf( '/' ) + 1) ;
 	FCKConfig.FullBasePath = document.location.protocol + '//' + document.location.host + FCKConfig.BasePath ;
 }
 
 FCKConfig.EditorPath = FCKConfig.BasePath.replace( /editor\/$/, '' ) ;
 
-// There is a bug in Gecko. If the editor is hidden on startup, an error is 
-// thrown when trying to get the screen dimentions.
+// There is a bug in Gecko. If the editor is hidden on startup, an error is
+// thrown when trying to get the screen dimensions.
 try
 {
 	FCKConfig.ScreenWidth	= screen.width ;
 	FCKConfig.ScreenHeight	= screen.height ;
 }
-catch (e) 
+catch (e)
 {
 	FCKConfig.ScreenWidth	= 800 ;
 	FCKConfig.ScreenHeight	= 600 ;
 }
 
-// Override the actual configuration values with the values passed throw the 
+// Override the actual configuration values with the values passed throw the
 // hidden field "<InstanceName>___Config".
 FCKConfig.ProcessHiddenField = function()
 {
@@ -69,7 +73,7 @@ FCKConfig.ProcessHiddenField = function()
 
 	// Get the hidden field.
 	var oConfigField = window.parent.document.getElementById( FCK.Name + '___Config' ) ;
-	
+
 	// Do nothing if the config field was not defined.
 	if ( ! oConfigField ) return ;
 
@@ -111,7 +115,7 @@ function FCKConfig_LoadPageConfig()
 function FCKConfig_PreProcess()
 {
 	var oConfig = FCKConfig ;
-	
+
 	// Force debug mode if fckdebug=true in the QueryString (main page).
 	if ( oConfig.AllowQueryStringDebug )
 	{
@@ -127,10 +131,11 @@ function FCKConfig_PreProcess()
 	if ( !oConfig.PluginsPath.EndsWith('/') )
 		oConfig.PluginsPath += '/' ;
 
-	// EditorAreaCSS accepts an array of paths or a single path (as string).
-	// In the last case, transform it in an array.
+	// EditorAreaCSS accepts a single path string, a list of paths separated by
+	// a comma or and array of paths.
+	// In the string cases, transform it in an array.
 	if ( typeof( oConfig.EditorAreaCSS ) == 'string' )
-		oConfig.EditorAreaCSS = [ oConfig.EditorAreaCSS ] ;
+		oConfig.EditorAreaCSS = oConfig.EditorAreaCSS.split(',') ;
 
 	var sComboPreviewCSS = oConfig.ToolbarComboPreviewCSS ;
 	if ( !sComboPreviewCSS || sComboPreviewCSS.length == 0 )
@@ -151,22 +156,28 @@ FCKConfig.Plugins.Add = function( name, langs, path )
 	FCKConfig.Plugins.Items.AddItem( [name, langs, path] ) ;
 }
 
-// FCKConfig.ProtectedSource: object that holds a collection of Regular 
+// FCKConfig.ProtectedSource: object that holds a collection of Regular
 // Expressions that defined parts of the raw HTML that must remain untouched
 // like custom tags, scripts, server side code, etc...
 FCKConfig.ProtectedSource = new Object() ;
 
+// Generates a string used to identify and locate the Protected Tags comments.
+FCKConfig.ProtectedSource._CodeTag = (new Date()).valueOf() ;
+
 // Initialize the regex array with the default ones.
 FCKConfig.ProtectedSource.RegexEntries = [
-	// First of any other protection, we must protect all comments to avoid 
+	// First of any other protection, we must protect all comments to avoid
 	// loosing them (of course, IE related).
 	/<!--[\s\S]*?-->/g ,
 
 	// Script tags will also be forced to be protected, otherwise IE will execute them.
 	/<script[\s\S]*?<\/script>/gi,
-	
+
 	// <noscript> tags (get lost in IE and messed up in FF).
-	/<noscript[\s\S]*?<\/noscript>/gi
+	/<noscript[\s\S]*?<\/noscript>/gi,
+
+	// Protect <object> tags. See #359.
+	/<object[\s\S]+?<\/object>/gi
 ] ;
 
 FCKConfig.ProtectedSource.Add = function( regexPattern )
@@ -176,17 +187,18 @@ FCKConfig.ProtectedSource.Add = function( regexPattern )
 
 FCKConfig.ProtectedSource.Protect = function( html )
 {
+	var codeTag = this._CodeTag ;
 	function _Replace( protectedSource )
 	{
 		var index = FCKTempBin.AddElement( protectedSource ) ;
-		return '<!--{PS..' + index + '}-->' ;
+		return '<!--{' + codeTag + index + '}-->' ;
 	}
-	
+
 	for ( var i = 0 ; i < this.RegexEntries.length ; i++ )
 	{
 		html = html.replace( this.RegexEntries[i], _Replace ) ;
 	}
-	
+
 	return html ;
 }
 
@@ -199,5 +211,29 @@ FCKConfig.ProtectedSource.Revert = function( html, clearBin )
 		return FCKConfig.ProtectedSource.Revert( protectedValue, clearBin ) ;
 	}
 
-	return html.replace( /(<|&lt;)!--\{PS..(\d+)\}--(>|&gt;)/g, _Replace ) ;
+	var regex = new RegExp( "(<|&lt;)!--\\{" + this._CodeTag + "(\\d+)\\}--(>|&gt;)", "g" ) ;
+	return html.replace( regex, _Replace ) ;
+}
+
+// Returns a string with the attributes that must be appended to the body
+FCKConfig.GetBodyAttributes = function()
+{
+	var bodyAttributes = '' ;
+	// Add id and class to the body.
+	if ( this.BodyId && this.BodyId.length > 0 )
+		bodyAttributes += ' id="' + this.BodyId + '"' ;
+	if ( this.BodyClass && this.BodyClass.length > 0 )
+		bodyAttributes += ' class="' + this.BodyClass + '"' ;
+
+	return bodyAttributes ;
+}
+
+// Sets the body attributes directly on the node
+FCKConfig.ApplyBodyAttributes = function( oBody )
+{
+	// Add ID and Class to the body
+	if ( this.BodyId && this.BodyId.length > 0 )
+		oBody.id = FCKConfig.BodyId ;
+	if ( this.BodyClass && this.BodyClass.length > 0 )
+		oBody.className += ' ' + FCKConfig.BodyClass ;
 }
