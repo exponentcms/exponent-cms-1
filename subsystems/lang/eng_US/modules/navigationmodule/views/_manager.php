@@ -8,7 +8,7 @@ return array(
 	'form_title'=>'Manage Site Navigation',
 	'form_header'=>'Manage the pages and site structure here.',
 	
-	'new_top_level'=>'New Top Level Page',
+	'new_top_level'=>'Create a New Top Level Page',
 	'new_sub_page'=>'Add Subpage',
 	
 	'delete_page_confirm'=>'Are you sure you want to move this page and all of its subpages out of the site hiearchy? \n (They will not be deleted, but will instead become standalone pages)',
