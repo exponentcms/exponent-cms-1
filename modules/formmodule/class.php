@@ -125,6 +125,7 @@ class formmodule {
 				$formmsg .= $i18n['no_actions']; 
 			}
 			$template = new template("formmodule",$view,$loc);
+			$template->assign("moduletitle",$f->name);
 			$template->assign("formmsg",$formmsg);
 			$template->assign("form_html",$form->toHTML($f->id));
 			$template->assign("form",$f);
