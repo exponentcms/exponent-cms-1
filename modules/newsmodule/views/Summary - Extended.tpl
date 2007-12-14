@@ -29,55 +29,77 @@
 {/if}
 {/permissions}
 
-{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-{foreach from=$news item=newsitem}
-	<div class="item">
-		
-                <h2><a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}" title="{$newsitem->body|summarize:"html":"para"}">{$newsitem->title}</a></h2>
-		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-		{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
-			<a href="{link action=userperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
-			<a href="{link action=groupperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" /></a>
+{selectObjects table="newsitem" where="is_featured=1 and location_data='`$news[0]->location_data`'" orderby="posted limit 0,1" item=nofeatured}
+
+{if $moduletitle != ""}
+<h1>
+{if $enable_rss == true && $nofeatured[0]->id==""}<a class="rss" href="{rsslink}"><img src="{$smarty.const.THEME_RELATIVE}images/rsshome.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
+{$moduletitle}
+</h1>
+{/if}
+{foreach from=$news item=item}
+{if $item->is_featured==0}
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+		{if $permissions.administrate == 1 || $item->permissions.administrate == 1}
+			<a class="mngmntlink news_mngmntlink" href="{link action=userperms int=$item->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>
+			<a class="mngmntlink news_mngmntlink" href="{link action=groupperms int=$item->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" /></a>
 		{/if}
-		{/permissions}
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.edit_item == true || $newsitem->permissions.edit_item == true}
-			{if $newsitem->approved == 2} {* in ap *}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+	{/permissions}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.edit_item == 1 || $item->permissions.edit_item == 1}
+			{if $item->approved == 1}
+			<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$item->id date_id=$item->eventdate->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 			{else}
-			<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$newsitem->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 			{/if}
 		{/if}
-		{if $permissions.delete_item == true || $newsitem->permissions.delete_item == true}
-			{if $newsitem->approved == 2} {* in ap *}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+		{if $permissions.delete_item == 1 || $item->permissions.delete_item == 1}
+			{if $item->approved == 1}
+			{if $item->is_recurring == 0}
+			<a class="mngmntlink news_mngmntlink" href="{link action=delete id=$item->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 			{else}
-			<a onclick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+			<a class="mngmntlink news_mngmntlink" href="{link action=delete_form id=$item->id date_id=$item->eventdate->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+			{/if}
+			{else}
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 			{/if}
 		{/if}
 		{if $permissions.manage_approval == 1}
-			<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">{$_TR.revisions}</a>
+			<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
+			</a>
 		{/if}
-		{/permissions}
-		<div class="text">
-			{$newsitem->body|summarize:"html":"para"}  <a href="{link action=view id=$newsitem->id}">Full article here</a>
-		</div>
+	{/permissions}<div class="item" onclick="window.location='{link action=view id=$item->id date_id=$item->eventdate->id}'">
+	{*if $item->image_path}
+		<img src="{$item->image_path}" border="0" width="80" height="80"/>
+	{/if*}
+	<div class="attributions">
+		<span class="date">{$item->real_posted|format_date:"%B %e"}</span>
+		<h2>{$item->title}</h2>
 	</div>
+	<div class="text">
+		{$item->body|summarize:html:para}
+	</div>
+</div>
+
+{/if}
 {/foreach}
-{if $morenews == 1}
-<a href="{link action=view_all_news}">{$_TR.all_news}</a>
-{/if}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.add_item == true}
-	<br /><a class="mngmntlink news_mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>
-{/if}
-{if $in_approval > 0 && $canview_approval_link == 1}
-	<br /><a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>
-{/if}
-{if $permissions.view_unpublished == 1}
-	<br /><a class="mngmntlink news_mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
-{/if}
-{/permissions}
+<div class="moduleactions">
+	{if $morenews == 1}
+	<a class="viewallhome" href="{link action=view_all_news}">View all News</a>
+	{/if}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.add_item == true}
+		<a class="addnews" href="{link action=edit}">{$_TR.create_news}</a>
+	{/if}
+	{if $in_approval > 0 && $canview_approval_link == 1}
+		<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>
+	{/if}
+	{if $permissions.view_unpublished == 1}
+		<a class="expired" href="{link action=view_expired}">{$_TR.view_expired}</a>
+	{/if}
+	{/permissions}
+</div>
 
 
 </div>

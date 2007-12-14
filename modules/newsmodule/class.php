@@ -208,6 +208,14 @@ class newsmodule {
 				}
 			}	
 		}
+
+		foreach ($news as $item){
+			$file = $db->selectObject("file","id=".$item->file_id);
+			if(!empty($file)){
+				$item->image = $file->directory.'/'.$file->filename;
+				//$item->image = URL_FULL.$file->directory.'/'.$file->filename;
+			}
+		}
 			
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");

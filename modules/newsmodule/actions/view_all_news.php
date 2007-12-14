@@ -44,6 +44,14 @@ $template->register_permissions(
 );
 
 $news = $db->selectObjects("newsitem","location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0 ORDER BY publish ".$config->sortorder);
+foreach ($news as $item){
+	$file = $db->selectObject("file","id=".$item->file_id);
+	if(!empty($file)){
+		$item->image = $file->directory.'/'.$file->filename;
+		//$item->image = URL_FULL.$file->directory.'/'.$file->filename;
+	}
+}
+
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 usort($news,($config->sortorder == "DESC" ? "exponent_sorting_byPostedDescending" : "exponent_sorting_byPostedAscending"));
 for ($i = 0; $i < count($news); $i++) {
