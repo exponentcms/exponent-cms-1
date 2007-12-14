@@ -28,51 +28,49 @@
  *
  * $Id: Manager.tpl,v 1.4 2005/02/23 23:30:27 filetreefrog Exp $
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{if $permissions.configure == 1}
-        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-{if $moduletitle != ''}<div class="moduletitle">{$moduletitle}</div>{/if}
-<table cellpadding="0" cellspacing="0" style="border:none;" width="100%">
+
+<div class="slideshowmodule manage">
+
+
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
+{if $moduletitle != ''}<h1>{$moduletitle}</h1>{/if}
+
 {foreach from=$slides item=slide}
-<tr>
-	<td>
-		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?base={$smarty.const.BASE}&amp;file={$slide->file->directory}/{$slide->file->filename}&amp;scale={$slide->scale}" />
+<div class="item {cycle values="odd,even"}">
+		<div class="description">
+			{$slide->description}
+		</div>
+		<img src="{$smarty.const.PATH_RELATIVE}thumb.php?base={$smarty.const.BASE}&amp;file={$slide->file->directory}/{$slide->file->filename}&amp;constraint=1&amp;width=150px&amp;height=200" />
 		<br />{$slide->name}
-	</td>
-	<td>
+		
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.edit_slide == 1}
-		<a class="mngmntlink slideshow_mngmntlink" href="{link action=edit_slide id=$slide->id}">
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-		</a>
-		{/if}
-		{if $permissions.delete_slide == 1}
-		<a class="mngmntlink slideshow_mngmntlink" href="{link action=delete_slide id=$slide->id}">
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-		</a>
-		{/if}
+			<div class="itemactions">
+				{if $permissions.edit_slide == 1}
+				<a class="mngmntlink slideshow_mngmntlink" href="{link action=edit_slide id=$slide->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+				</a>
+				{/if}
+				{if $permissions.delete_slide == 1}
+				<a class="mngmntlink slideshow_mngmntlink" href="{link action=delete_slide id=$slide->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+				</a>
+				{/if}
+			</div>		
 		{/permissions}
-	</td>
-</tr>
+	
+</div>
 {foreachelse}
-<tr>
-	<td><i>No slides were found</i></td>
-</tr>
+<i>No slides were found</i>
 {/foreach}
-</table>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.create_slide == 1}
-<a class="mngmntlink slideshow_mngmntlink" href="{link action=edit_slide}">
-	Create Slide
-</a>
+<div class="moduleactions">
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.create_slide == 1}
+	<a class="mngmntlink slideshow_mngmntlink" href="{link action=edit_slide}">
+		Create Slide
+	</a>
+</div>
 {/if}
-{/permissions}
+{/permissions}	
+
+
+</div>

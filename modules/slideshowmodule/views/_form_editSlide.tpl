@@ -28,12 +28,12 @@
  *
  * $Id: _form_editSlide.tpl,v 1.3 2005/02/19 16:53:36 filetreefrog Exp $
  *}
-<div class="form_title">{if $is_edit == 1}Edit Slide Data{else}Upload new Slide{/if}</div>
-<div class="form_header">
-{if $is_edit == 1}
-You can change only the name, description and scaling percentage of this slide.
-{else}
-Upload a new slide.
-{/if}
+<h1>{if $is_edit == 1}Edit Slide Data{else}Upload new Slide{/if}</h1>
+<div class="text">	
+	{if $is_edit == 1}
+	You can change only the name, description and scaling percentage of this slide.
+	{else}
+	Upload a new slide.
+	{/if}
 </div>
 {$form_html}

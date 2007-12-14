@@ -47,24 +47,26 @@ if (($slide == null && exponent_permissions_check('create_slide',$loc)) ||
 	$slide = slideshow_slide::update($_POST,$slide);
 	$slide->location_data = serialize($loc);
 	
-	$directory = 'files/slideshowmodule/'.$loc->src;
-	$file = file::update('file',$directory,null);
-	if (is_object($file)) {
-		if (isset($slide->id)) {
-			// We have a slide already.  Delete the old one
-			$oldfile = $db->selectObject('file','id='.$slide->file_id);
-			file::delete($oldfile);
+	if ($_FILES['file']['name'] != '') {
+		$directory = 'files/slideshowmodule/'.$loc->src;
+		$file = file::update("file",$directory,null,time()."_".$_FILES['file']['name']);
+		//$file = file::update('file',$directory,null);
+		if (is_object($file)) {
+			if (isset($slide->id)) {
+				// We have a slide already.  Delete the old one
+				$oldfile = $db->selectObject('file','id='.$slide->file_id);
+				file::delete($oldfile);
+			}
+			$slide->file_id = $db->insertObject($file,'file');
+		} else {
+			// If file::update() returns a non-object, it should be a string.  That string is the error message.
+			$post = $_POST;
+			$post['_formError'] = $file;
+			exponent_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			exit();
 		}
-		$slide->file_id = $db->insertObject($file,'file');
-	} else {
-		// If file::update() returns a non-object, it should be a string.  That string is the error message.
-		$post = $_POST;
-		$post['_formError'] = $file;
-		exponent_sessions_set('last_POST',$post);
-		header('Location: ' . $_SERVER['HTTP_REFERER']);
-		exit();
 	}
-	
 	if (isset($slide->id)) {
 		$db->updateObject($slide,'slideshow_slide');
 	} else {
