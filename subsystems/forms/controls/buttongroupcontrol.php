@@ -76,7 +76,7 @@ class buttongroupcontrol extends formcontrol {
 		if ($this->submit . $this->reset . $this->cancel == "") return "";
 		$html = "";
 		if ($this->submit != "") {
-			$html .= '<input type="submit" value="' . $this->submit . '"';
+			$html .= '<input class="buttongroupcontrol" type="submit" value="' . $this->submit . '"';
 			if ($this->class != "") $html .= ' class="'.$this->class.'"';
 			if ($this->disabled) $html .= " disabled";
 			$html .= ' onclick="if (checkRequired(this.form)) ';
@@ -89,9 +89,9 @@ class buttongroupcontrol extends formcontrol {
 			$html .= ' />';
 
 		}
-		if ($this->reset != "") $html .= '<input type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
+		if ($this->reset != "") $html .= '<input class="buttongroupcontrol" type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
 		if ($this->cancel != "") {
-			$html .= '<input type="button" value="' . $this->cancel . '"';
+			$html .= '<input class="buttongroupcontrol" type="button" value="' . $this->cancel . '"';
 			$html .= ' onclick="document.location.href=\''.exponent_flow_get().'\'"';
 			$html .= ' />';
 		}

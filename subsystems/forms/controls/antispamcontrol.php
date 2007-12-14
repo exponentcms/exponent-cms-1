@@ -52,12 +52,12 @@ class antispamcontrol extends formcontrol {
 			a bot in an effort to reduce spam. Please choose the obvious answer below or your inquiry will not be successfully submitted.<br /><br />';
 		switch ( rand(1,2) ) {
 			case 1:
-				$html .= '<label>I am not human: <input type="checkbox" id="checker" name="checker" value="1" checked="checked">(true)</label>';
+				$html .= '<label>I am not human: <input class="antispamcontrol" type="checkbox" id="checker" name="checker" value="1" checked="checked">(true)</label>';
 			break;
 			case 2:
-				$html .= '<label>I am a robot: <input type="radio" id="checker" name="checker" value="1" checked="checked"></label><br />';
-				$html .= '<label>I am a cat: <input type="radio" id="checker" name="checker" value="2"></label><br />';
-				$html .= '<label>I am a human: <input type="radio" id="checker" name="checker" value="0"></label>';
+				$html .= '<label>I am a robot: <input class="antispamcontrol" type="radio" id="checker" name="checker" value="1" checked="checked"></label><br />';
+				$html .= '<label>I am a cat: <input class="antispamcontrol" type="radio" id="checker" name="checker" value="2"></label><br />';
+				$html .= '<label>I am a human: <input class="antispamcontrol" type="radio" id="checker" name="checker" value="0"></label>';
 			break;
 		}
 		$html .= '</div>';

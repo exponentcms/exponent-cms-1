@@ -45,7 +45,7 @@ class genericcontrol extends formcontrol {
 	var $jsHooks = array();
 	
 	function name() { return "generic"; }
-	function isSimpleControl() { return true; }
+	function isSimpleControl() { return false; }
 	
 	function getFieldDefinition() { 
 		return array();
@@ -92,6 +92,9 @@ class genericcontrol extends formcontrol {
 		foreach ($this->jsHooks as $type=>$val) {
 			$html .= ' '.$type.'="'.$val.'"';
 		}
+
+		if (!empty($this->readonly)) $html .= ' readonly="readonly"';
+
 		if (@$this->required) {
                         $html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
                 }

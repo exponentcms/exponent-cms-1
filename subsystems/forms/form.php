@@ -88,7 +88,13 @@ class form extends baseform {
 			if (!$replace) return false;
 		} else $this->controlIdx[] = $name;
 		$this->controls[$name] = $control;
-		$this->controlLbl[$name] = str_replace(" ","&nbsp;",$label);
+
+		// set up the label to be a bit more styleable
+		$label = str_replace(" ","&nbsp;",$label);
+		$label_span  = '<span class="label';
+		$label_span .= (!empty($control->required)) ? ' required">*'.$label : '">'.$label;
+		$label_span .= '</span>';
+		$this->controlLbl[$name] = $label_span;
 		$control->onRegister($this);
 		return true;
 	}

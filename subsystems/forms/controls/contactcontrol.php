@@ -69,7 +69,7 @@ class contactcontrol extends formcontrol {
 
 		$html = "<script type='text/javascript' src='".PATH_RELATIVE."js/ContactControl.js'></script>";
 		$html .= "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-		$html .= '<input type="radio" id="r_'.$name.'_users" name="'.$name.'_type" value="0" onclick="activateContactControl(0,\''.$name.'\');" />User:';
+		$html .= '<input class="contactcontrol" type="radio" id="r_'.$name.'_users" name="'.$name.'_type" value="0" onclick="activateContactControl(0,\''.$name.'\');" />User:';
 		$html .= '<select name="'.$name.'[0]" id="'.$name.'_users">';
 		foreach ($users as $id=>$uname) {
 			$html .= '<option ';
@@ -78,8 +78,8 @@ class contactcontrol extends formcontrol {
 		}
 		$html .= '</select>';
 		$html .= '</td></tr><tr><td>';
-		$html .= '<input type="radio" id="r_'.$name.'_email" name="'.$name.'_type" value="1" onclick="activateContactControl(1,\''.$name.'\');" />Email:';
-		$html .= '<input type="text" name="'.$name.'[1]" id="'.$name.'_email" ';
+		$html .= '<input class="contactcontrol" type="radio" id="r_'.$name.'_email" name="'.$name.'_type" value="1" onclick="activateContactControl(1,\''.$name.'\');" />Email:';
+		$html .= '<input class="contactcontrol" type="text" name="'.$name.'[1]" id="'.$name.'_email" ';
 		if ($this->type == 1) $html .= 'value="'.$this->default.'" ';
 		$html .= '/>';
 		$html .= '</td></tr></table>';

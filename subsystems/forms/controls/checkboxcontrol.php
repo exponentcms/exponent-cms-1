@@ -3,7 +3,7 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
-# Written and Designed by James Hunt
+# Written and Designed by Phillip Ball
 #
 # This file is part of Exponent
 #
@@ -24,9 +24,9 @@ if (!defined('EXPONENT')) exit('');
  *
  * An HTML checkbox
  *
- * @author James Hunt, Greg Otte
- * @copyright 2004-2006 OIC Group, Inc.
- * @version 0.95
+ * @author Phillip Ball
+ * @copyright 2004-2008 OIC Group, Inc.
+ * @version 0.96.7
  *
  * @package Subsystems
  * @subpackage Forms
@@ -77,7 +77,7 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	function controlToHTML($name) {
-		$html = '<input type="checkbox" name="' . $name . '" value="1"';
+		$html = '<input class="checkboxcontrol" type="checkbox" name="' . $name . '" value="1"';
 		if ($this->default) $html .= ' checked="checked"';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
