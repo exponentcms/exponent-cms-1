@@ -488,6 +488,17 @@ class mysql_database {
 		return $objects;
 	}
 
+	function selectSearch($terms, $where = null) {
+		if ($where == null) $where = "1";
+
+		$sql = "SELECT *, MATCH (title,body) AGAINST ('".$terms."') from ".$this->prefix."search WHERE MATCH(title,body) against ('".$terms."')";
+		$res = @mysql_query($sql, $this->connection);
+		if ($res == null) return array();
+		$objects = array();
+		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
+		return $objects;
+	}
+
 	function selectAndJoinObjects($colsA=null, $colsB=null, $tableA, $tableB, $keyA, $keyB=null, $where = null,$orderby = null) {
 		$sql = 'SELECT ';
 		if ($colsA != null) {
@@ -747,7 +758,7 @@ class mysql_database {
 	 * @param string $where Optional criteria used to narrow the result set.
 	 */
 	function updateObject($object,$table,$where=null) {
-		$sql = "UPDATE " . $this->prefix . "$table SET ";
+		$sql = "UPDATE `" . $this->prefix . "$table` SET ";
 		foreach (get_object_vars($object) as $var=>$val) {
 			//We do not want to save any fields that start with an '_'
 			if ($var{0} != '_') {
