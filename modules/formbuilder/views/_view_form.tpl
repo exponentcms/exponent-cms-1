@@ -27,7 +27,7 @@
 <table cellpadding="5" cellspacing="0" border="0">
 <tr>
 <td>
-	<form method="post" action="?">
+	<form method="post" action="{$smarty.const.URL_FULL}index.php">
 	<input type="hidden" name="module" value="formbuilder" />
 	<input type="hidden" name="action" value="edit_control" />
 	<input type="hidden" name="form_id" value="{$form->id}" />
