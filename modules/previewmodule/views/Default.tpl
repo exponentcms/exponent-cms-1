@@ -13,9 +13,13 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+
 {if $editMode == 1}
-<a class="mngmntlink preview_mngmntlink" href="{link action=preview}">{$_TR.preview}</a>
+	<a class="preview" href="{link action=preview}">{$_TR.preview}</a>
 {/if}
 {if $previewMode == 1}
-<a class="mngmntlink preview_mngmntlink" href="{link action=normal}">{$_TR.edit_mode}</a>
-{/if}
+	<a class="edit" href="{link action=normal}">{$_TR.edit_mode}</a>
+{/if}	
+
+
+
