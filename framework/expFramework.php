@@ -72,26 +72,9 @@ function hotspot($source = null) {
 
 function redirect_to(array $parms=array()) {
 	if (count($parms) == 0) return false;
-
-	$url = '';
-	if (isset($parms['url'])) {
-		$url = $parms['url'];
-	} else {
-		$url  = URL_FULL;
-		$url .= isset($parms['controller']) ? $parms['controller'] : $_REQUEST['controller'];  // Get or guess which controller to redirect to
-		$url .= '/';
-		$url .= isset($parms['action']) ? $parms['action'] : 'index';  //get or guess the action to redirect to
-		$url .= '/';
-		eDebug($parms);
-		foreach ($parms as $var=>$val) {
-			if ($var != 'controller' && $var != 'action') $url .= $var.'/'.$val.'/';
-		}
-		
-	}
-	
-	//echo $url;
-	//exit();
-	header("Location: " . urldecode($url));
+	global $router;
+	header("Location: " . $router->makeLink($parms));
+	exit();
 }	
 
 function flash($name="", $msg) {
@@ -103,6 +86,13 @@ function flash($name="", $msg) {
 
 function flushFlash() {
 	exponent_sessions_set('flash', array());
+}
+
+function show_msg_queue() {
+	$template = new template('common','_msg_queue');
+	$template->assign('queues', exponent_sessions_get('flash'));
+	flushFlash();
+	return $template->render();
 }
 
 function assign_to_template(array $vars=array()) {

@@ -38,12 +38,14 @@ class router {
         	}
 
 		// Check to see if SEF_URLS have been turned on in the site config
-		if (SEF_URLS == 1 && (SCRIPT_FILENAME != 'content_selector.php' && SCRIPT_FILENAME != 'source_selector.php') && $force_old_school == false) {
+		if (SEF_URLS == 1 && (SCRIPT_FILENAME != 'content_selector.php' && SCRIPT_FILENAME != 'source_selector.php' && SCRIPT_FILENAME != 'orphan_source_selector.php') && $force_old_school == false) {
 			if (isset($params['section'])) {
 	                	if (empty($params['sef_name'])) {
 	                        	global $db;
-		                        $spaces = array('&nbsp;', ' ');
-	        	                $params['sef_name'] = strtolower(str_replace($spaces, '-', $db->selectValue('section', 'name', 'id='.intval($params['section']))));
+		                        //$spaces = array('&nbsp;', ' ');
+	        	                //$params['sef_name'] = strtolower(str_replace($spaces, '-', $db->selectValue('section', 'name', 'id='.intval($params['section']))));
+					//$params['sef_name'] = router::encode($db->selectValue('section', 'sef_name', 'id='.intval($params['section'])));
+					$params['sef_name'] = $db->selectValue('section', 'sef_name', 'id='.intval($params['section']));
 	                	}
 	        	        return $linkbase.$params['sef_name'];
 	        	} else {
@@ -270,8 +272,9 @@ class router {
 
 		// pass off the name<=>value pairs
 		foreach($return_params['url_parts'] as $key=>$value) {
-			$_REQUEST[$key] = $value;
-		        $_GET[$key] = $value;
+			$save_value = is_numeric($value) ? $value: router::decode($value);
+			$_REQUEST[$key] = $save_value;
+		        $_GET[$key] = $save_value;
 		}
 
 		return true;
@@ -288,6 +291,8 @@ class router {
 	public static function encode($url) {
 		$spaces = array('&nbsp;', ' ');
 		$url = str_replace('-', '+', $url);
+		$url = str_replace('&', 'and', $url);
+		$url = str_replace(' - ', '-', $url);
                 //return urlencode(strtolower(str_replace($spaces, '-', $url)));	
                 return strtolower(str_replace($spaces, '-', $url));	
 	}
@@ -322,16 +327,21 @@ class router {
 		return $url;
 	}
 
-	public function printerFriendlyLink($link_text="Printer Friendly", $width=800, $height=600) {
-		$url =  '<a href="javascript:void(0)" onclick="window.open(\'';
-		if ($this->url_style == 'sef') {
-			$url .= $this->convertToOldSchoolUrl();
-		} else {
-			$url .= $this->current_url;
-		}
+	public function printerFriendlyLink($link_text="Printer Friendly", $class=null, $width=800, $height=600) {
+		$url = '';
+		if (PRINTER_FRIENDLY != 1) {
+			$class = !empty($class) ? $class : 'printer-friendly-link';
+			$url =  '<a class="'.$class.'" href="javascript:void(0)" onclick="window.open(\'';
+			if ($this->url_style == 'sef') {
+				$url .= $this->convertToOldSchoolUrl();
+			} else {
+				$url .= $this->current_url;
+			}
 
-		$url .= '&printerfriendly=1\' , \'mywindow\',\'menubar=1,resizable=1,width='.$width.',height='.$height.'\');"';
-		$url .= '>'.$link_text.'</a>';
+			$url .= '&printerfriendly=1\' , \'mywindow\',\'menubar=1,resizable=1,width='.$width.',height='.$height.'\');"';
+			$url .= '>'.$link_text.'</a>';
+		}
+			
 		return $url; 
 	}
 
@@ -365,17 +375,15 @@ class router {
                         $section = $db->selectObject('section', 'id='.SITE_DEFAULT_SECTION);
 		} else {
 			$section = $db->selectObject('section', 'sef_name="'.$url_name.'"');
-			if (empty($section)) {
-		        	$name = str_replace('-', ' ', $url_name);
-		        	$name2 = str_replace('-', '&nbsp;', $url_name);
-		        	$section = $db->selectObject('section', 'name="'.$name.'" OR name="'.$name2.'"');
-			}
+			/*if (empty($section)) {
+					$url_name = router::decode($url_name);
+		        	//$name = str_replace('-', ' ', $url_name);
+		        	$name2 = str_replace(' ', '&nbsp;', $url_name);
+		        	$section = $db->selectObject('section', 'name="'.$url_name.'" OR name="'.$name2.'"');
+			}*/
 		}
 		return $section;
 	}
 	
 }
 ?>
-
-
-
