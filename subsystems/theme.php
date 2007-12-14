@@ -246,9 +246,9 @@ function exponent_theme_loadYUIJS($files=array()) {
 		$files_to_load = array();
 		$files_to_string = "";
 		//manually add yui-dom-event, since it doen't have a -min version'
-		$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles['yahoo-dom-event'].'"></script>'."\r\n";
+	//		$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles['yahoo-dom-event'].'"></script>'."\r\n";
 		foreach($files as $filename) {
-			$filename = $filename."-min"; 
+			if ($filename!="yahoo-dom-event") $filename = $filename."-min"; 
 			if (array_key_exists($filename, $jsfiles)) {	
 				$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles[$filename].'"></script>'."\r\n";
 			}
@@ -277,9 +277,9 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/)
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
-		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','element-beta','container_core','menu','button-beta','editor-beta'));
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
+		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
+		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','animation','dragdrop','container','container_core','menu','element-beta','tabview'));//,'button-beta','editor-beta'
 	}
 	return $str;
 }
@@ -521,6 +521,14 @@ function exponent_theme_runAction() {
 		if (exponent_sessions_isset("themeopt_override")) {
 			$config = exponent_sessions_get("themeopt_override");
 			echo "<a class='mngmntlink sitetemplate_mngmntlink' href='".$config['mainpage']."'>".$config['backlinktext']."</a><br /><br />";
+		}
+
+		if ($_REQUEST['action'] == 'index') {
+			$view = empty($_REQUEST['view']) ? 'Default' : $_REQUEST['view'];			
+			$title = empty($_REQUEST['title']) ? '' : $_REQUEST['title'];	
+			$src = empty($_REQUEST['src']) ? null : $_REQUEST['src'];		
+			exponent_theme_showModule($_REQUEST['module'], $view, $title, $src);
+			return true;
 		}
 
 		global $db, $user;
