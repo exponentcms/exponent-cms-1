@@ -88,7 +88,7 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 
 	if (PRINTER_FRIENDLY == 1) {
 		$levels = exponent_sessions_get('uilevels');
-		exponent_sessions_set('uilevel',max(array_keys($levels)));
+		if (!empty($levels)) exponent_sessions_set('uilevel',max(array_keys($levels)));
 	}
 }
 
@@ -124,7 +124,7 @@ if (css_file_needs_rebuilt()) {
 $microtime_str = explode(' ',microtime());
 $i_end = $microtime_str[0] + $microtime_str[1];
 
-echo "\r\n<!--".sprintf($base_i18n['exec_time'],round($i_end - $i_start,4)).'-->';
+//echo "\r\n<!--".sprintf($base_i18n['exec_time'],round($i_end - $i_start,4)).'-->';
 
 while (ob_get_level() > 0) {
            ob_end_flush();
