@@ -9,7 +9,7 @@
 	echo exponent_theme_loadYUIJS(array('animation','dragdrop'));
 	?>
 </head>
-<body onload="eXp.initialize();" class=" yui-skin-sam">
+<body id="body" class=" yui-skin-sam" onload="eXp.initialize();">
 	<?php //exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
 	<div id="doc" class="yui-t2">
 		<div id="hd">
