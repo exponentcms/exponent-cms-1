@@ -13,6 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+
+<div class="resourcesmodule one-click-download">
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
@@ -25,7 +27,7 @@
 	<br />
 {/if}
 {/permissions}
-{if $moduletitle != ""}<div class="moduletitle resource_moduletitle">{$moduletitle}</div>{/if}
+{if $moduletitle != ""}<h1 class="moduletitle resource_moduletitle">{$moduletitle}</h1>{/if}
 <table cellspacing="0" cellpadding="4" border="0" width="100%" rules="rows" frame="hsides" style="border: 1px solid lightgrey">
 {foreach name=loop from=$resources item=resource}
 {assign var=id value=$resource->id}
@@ -34,7 +36,7 @@
 {if $files[$fid]->mimetype->icon != ""}
 <img src="{$smarty.const.MIMEICON_RELATIVE}/{$files[$fid]->mimetype->icon}"/>
 {/if}
-<a class="mngmntlink resources_mngmntlink" href="{link action=download_resource id=$resource->id}">{$resource->name}</a>
+<a class="mngmntlink resources_mngmntlink" href="{link action=download_resource id=$resource->id}" title="{$resource->name}">{$resource->name}</a>
 </td><td align="left" valign="top">
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
@@ -57,7 +59,9 @@
 </table>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1 && $noupload != 1}
-<a class="mngmntlink resources_mngmntlink" href="{link action=edit}">{$_TR.upload}</a>
+<a class="mngmntlink resources_mngmntlink" href="{link action=edit}">{$_TR.upload}</a><br/>
+<a class="mngmntlink resources_mngmntlink" href="{link action=edit_multiple}">Import Zip File</a><br/>
+
 {/if}
 {/permissions}
 {if $noupload == 1}
@@ -69,3 +73,4 @@
 {/if}
 </div>
 {/if}
+</div>

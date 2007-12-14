@@ -34,7 +34,7 @@
 {if $files[$fid]->mimetype->icon != ""}
 <img src="{$smarty.const.MIMEICON_RELATIVE}{$files[$fid]->mimetype->icon}"/>
 {/if}
-<a class="mngmntlink resources_mngmntlink" href="{link action=view id=$resource->id}">{$resource->name}</a>
+<a class="mngmntlink resources_mngmntlink" href="{link action=view id=$resource->id}" title="{$resource->name}">{$resource->name}</a>
 </td><td align="left" valign="top">
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $resource->permissions.administrate == 1}

@@ -28,7 +28,7 @@
 
 </td>
 <td align="left" valign="top">
-<a class="mngmntlink resources_mngmntlink" href="{link action=download_resource id=$resource->id}">{$resource->name}</a>
+<a class="mngmntlink resources_mngmntlink" href="{link action=download_resource id=$resource->id}" title="{$resource->name}">{$resource->name}</a>
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
 <a class="mngmntlink resources_mngmntlink" href="{link action=userperms int=$resource->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>
