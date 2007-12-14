@@ -118,15 +118,15 @@ a.addmodule:hover{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	background-position:5px -418px; 
-	height:18px;
+	height:22px;
 	padding:0;
 	margin:2px 0 0 0;
 }
 #body .containermenu .yuimenuitem-hassubmenu-selected{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
-	background-position:5px -445px; 
-	height:18px;
+	background-position:5px -447px; 
+	height:22px;
 	padding:0;
 	margin:2px 0 0 0;
 }
