@@ -13,12 +13,15 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+
+<div class="form_header">
+	<h1>{$_TR.form_title}</h1>
+	<p>{$_TR.form_header}</p>
+</div>
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
 <tr>
-	<td class="Header administration_header">{$_TR.table_name}</td>
-	<td class="Header administration_header">{$_TR.status}</td>
+	<td class="header administration_header">{$_TR.table_name}</td>
+	<td class="header administration_header">{$_TR.status}</td>
 </tr>
 {foreach from=$status key=table item=statusnum}
 <tr class="row {cycle values='odd,even'}_row"><td>

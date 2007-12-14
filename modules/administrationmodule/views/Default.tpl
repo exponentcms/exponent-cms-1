@@ -24,11 +24,11 @@
 		{assign var=perm_name value=$check_permissions[$cat]}
 		{if $permissions[$perm_name] == 1}
 		<div class="category">
-			<h4><img src="{$items.icon}" />{$cat}</h4>
+			<h4 style="background-image: url({$items.icon})">{$cat}</h4>
 			<ul class="task">
 			{foreach name=links from=$items item=info key=name}
 				{if $name != 'icon'}
-					<li style="list-style-image: url({$info.icon});"><a href="{link module=$info.module action=$info.action}">{$info.title}</a></li>
+					<li><a href="{link module=$info.module action=$info.action}">{$info.title}</a></li>
 				{/if}
 			{/foreach}
 			</ul>
