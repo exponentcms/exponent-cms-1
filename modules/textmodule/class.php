@@ -89,6 +89,7 @@ class textmodule {
 	}
 	
 	function spiderContent($item=null) {
+		/*	
 		global $db;
 		
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
@@ -117,6 +118,7 @@ class textmodule {
 		}
 		
 		return true;
+		*/
 	}
 	
 	function searchName() {
