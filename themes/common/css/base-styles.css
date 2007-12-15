@@ -1,45 +1,74 @@
 html,body {
-	font-family:"Trebuchet MS", Verdana, Arial, sans-serif
+	font-family:Trebuchet MS, Verdana, Arial;
+	color:#333333;
+	padding:0;
+	margin:0;
+	min-height:100%;
+	*height:100%;
+	background:url(../images/sitebg.jpg) repeat-x;
 }
-strong,
-b {
-	font-weight: bold
+
+
+a {
+	color:#2f4154;
+	text-decoration:none;
 }
-em,
-i {
-	font-style: italic
+
+a:hover {
+	color:#4c6784;
+	text-decoration:underline;
+}
+
+b, strong {
+	font-weight: bold;
+}
+
+i,em {
+	font-style: italic;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color:#777777;
+	padding:0;
+	margin:0;
 }
 
 h1{
-	font-size:249%
+	font-size:180%;
 }
 
 h2{
-	font-size:207%
+	font-size:152%;
 }
 
 h3{
-	font-size:173%
+	font-size:152%;
 }
 
 h4{
-	font-size:144%
+	font-size:138%;
 }
 
 h5{
-	font-size:120%
+	font-size:115%;
 }
 
 h6{
-	font-size:100%
+	font-size:90%;
 }
 
-p, h1, h2, h3 {
-	margin-top: 10px;
+.text img {
+	margin:0 10px 5px 0;
+}
+.text p, .text {
+	margin:0 0 10px 0;
+	padding:0;
+}
+p {
+	margin-bottom:10px;
 }
 
-ul, ol {margin: 10px 30px; padding: 0 15px;}
-ul {list-style: circle}
+
 blockquote {
         margin: 15px;
         padding: 0 0 0 20px;
@@ -47,7 +76,7 @@ blockquote {
         border: 1px solid #f2f2f2;
         border-left: 4px solid #4284B0;
         color: #4284B0;
-        font: bold 1.2em/1.5em Georgia, 'Bookman Old Style', Serif;
+        font: normal 1.0em/1.3em Georgia, 'Bookman Old Style', Serif;
 }
 
 code {
@@ -75,6 +104,21 @@ strong {
 	background: #e9f5f2;
 }
 
+.readmore{
+	padding-right:15px;
+	background:url(../images/bullet-red.gif) 100% 50% no-repeat;
+	color:#642d2d;
+	font-family:Trebuchet MS;
+	font-size:1em;
+	margin-left:8px;
+}
+
+body {
+	background:url(../images/sitebg.png) repeat-x;
+}
+
+
+
 /* Exponent Table Styles */
 td.header, td.header a {
         background-color: #aaa;
@@ -97,66 +141,17 @@ tr.odd_row {
 
 }
 
-
-/*  This a usually a wrapper div around forms */
-.form-body {
-        margin-top: 25px;
+.navigationmodule.you-are-here .printer {
+	margin-top: -30px;
+	margin-bottom: 10px;
 }
 
-/* CAPCHA form control */
-div.capcha {
-
+#leftcol h1 {
+	font-family: times,serif;
+        color: #ffffff;
+        border-bottom: 2px groove #cccccc;
+        padding: 0 0 0 10px;
+        background-image: none;
+        font-size: 136%;
 }
 
-div.capcha p {
-	clear:both; 
-}
-
-div.capcha img.capcha-img {
-}
-
-a.capcha-why {
-	font-size: 77%;
-}
-
-.error {
-	font-weight: bold;
-	color: #ff0000;
-}
-
-ul.queue {
-	width: 85%;
-    padding: 10px 10px 10px 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    background: #f1a5a5;
-    background-image: none;
-    border: 2px solid #ff0000;
-    color: #ff0000;
-	font-weight: bold;
-}
-
-ul.queue.error {
-}
-
-ul.queue.message {
-	
-	background: #c6f6c6;
-	border: 2px solid #2e6b2e;
-	color: #2e6b2e;
-}
-
-div.attribution {
-	margin: 3px 0px 3px 0px;
-}
-
-span.post-by, span.author, span.posted-on {
-	font-weight: bold;
-}
-
-a.printer-friendly-link {
-	padding:3px 0 3px 20px;
-	text-decoration: none;
-	background-image: url('../images/icons/printer-icon.jpg');
-	background-repeat: no-repeat
-}

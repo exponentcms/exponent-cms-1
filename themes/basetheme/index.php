@@ -6,33 +6,31 @@
 	echo exponent_theme_headerInfo($section); 
 	exponent_theme_resetCSS();
 	exponent_theme_includeCSSFiles("",true);
-	echo exponent_theme_loadYUIJS(array('animation','dragdrop'));
 	?>
 </head>
-<body id="body" class=" yui-skin-sam" onload="eXp.initialize();">
-	<?php //exponent_theme_showModule("administrationmodule","Toolbar","","@left"); ?>
+<body id="body" class="yui-skin-exponent" onload="eXp.initialize();">
 	<div id="doc" class="yui-t2">
 		<div id="hd">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
-			<h1>Exponent CMS</h1>
+			<h1 class="logo">Exponent CMS</h1>
 			<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
 		</div>
 		<div id="bd">
 			<div class="yui-b">
 				<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>
-				<?php echo $router->printerFriendlyLink('Printer Friendly') ?>
+				
 			</div>
 			<div id="yui-main">
 				<div class="yui-b">
 					<div class="yui-g">
+						<?php echo $router->printerFriendlyLink('Printer Friendly') ?>
 						<?php exponent_theme_main(); ?>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div id="ft">
-			Exponent - Footer
-			<?php exponent_theme_showModule("previewmodule","Default");  ?>
+			<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>
 		</div>
 	</div>
 </body>
