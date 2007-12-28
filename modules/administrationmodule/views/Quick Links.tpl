@@ -14,24 +14,23 @@
  *
  *}
 
+<div class="administrationmodule quick-links">
 {if $permissions.administrate == 1}
-	<div class="administrationmodule quick-links">
 	<h1>{$moduletitle}</h1>
-{/if}
-
-
-{chain module=previewmodule view=Default}
-
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.administrate == 1}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>
-		<a class="files" href="/modules/filemanagermodule/actions/picker.php">Manage Files</a>
-		<a class="admin" href="/admin">Site Administration</a>
-		{*<a class="trash" href="{link module=containermodule action=view-recycle-bin}">View Recycle Bin</a>
-		<a class="clipboard" href="{link module=containermodule action=view-clipboard}">View Clipboard</a>*}
-		<a class="logout" href="{link module=loginmodule action=logout}">Log Out</a>
-	{/if}
-{/permissions}
-{if $permissions.administrate == 1}
-	</div>
+		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">Manage Files</a>
+		<a class="admin" href="{$smarty.const.URL_FULL}admin">Site Administration</a>
+	{/permissions}
 {/if}
+
+{get_user assign=user}
+{if $user->id != '' && $user->id != 0} 
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	<a class="changepassword" href="{link module=loginmodule action=changepass}">Change Password</a>
+	<a class="editprofile" href="{link module=loginmodule action=editprofile}">Edit Profile</a>
+	<a class="logout" href="{link module=loginmodule action=logout}">Log Out</a>
+	{/permissions}
+	{chain module=previewmodule view=Default}
+{/if}
+</div>
