@@ -36,7 +36,14 @@ function smarty_function_control($params,&$smarty) {
 			$control = new uploadcontrol();
 		} elseif ($params['type'] == 'dropdown') {
 			$control = new dropdowncontrol();
-			if (isset($params['items'])) $control->items = $params['items'];
+			$control->include_blank = isset($params['includeblank']) ? $params['includeblank'] : false;
+			if (isset($params['from']) && isset($params['to'])) {
+                                for($i=$params['from']; $i <= $params['to']; $i++) {
+                                        $control->items[$i] = $i;
+                                }
+                        } else {
+                                $control->items = isset($params['items']) ? $params['items'] : array();
+                        }
 		} elseif ($params['type'] == 'textarea') {
 			$control = new texteditorcontrol();
 			if (isset($params['module'])) $control->module = $params['module'];
