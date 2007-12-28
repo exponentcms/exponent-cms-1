@@ -72,7 +72,7 @@ class newsmodule_config {
 
 		}
 		$opts  = array('ASC'=>$i18n['ascending'],'DESC'=>$i18n['descending']);
-		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate']);
+		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate'],'edited'=>'Date of Last Edit');
 		$form->register(null,'',new htmlcontrol('<div class="moduletitle">General Configuration</div><hr size="1" />'));
 		$form->register('aggregate',$i18n['aggregate'], new checkboxcontrol($object->aggregate,true));
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
