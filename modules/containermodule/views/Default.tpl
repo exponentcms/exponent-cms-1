@@ -91,7 +91,6 @@
 
 
 
-
 {foreach key=key name=c from=$containers item=container}
 	{assign var=i value=$smarty.foreach.c.iteration}
 	{if $smarty.const.SELECTOR == 1}
@@ -152,19 +151,19 @@
 											{/if}
 										
 											{if $container->permissions.administrate == 1}{literal}
-				                            { text: "User Permissions", classname: "userperms" , url: "{/literal}{link module=$container->info.class action=userperms _common=1 int=$container->id}{literal}" },
-				                            { text: "Group Permissions", classname: "groupperms" , url: "{/literal}{link module=$container->info.class action=groupperms _common=1 int=$container->id}{literal}" },
+				                            { text: "User Permissions", classname: "userperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=userperms _common=1}{literal}" },
+				                            { text: "Group Permissions", classname: "groupperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=groupperms _common=1}{literal}" },
 			                       			{/literal}{/if}
 										
 											{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 											{literal}
-				                            { text: "Configure View", classname: "configview" , url: "{/literal}{link action=edit id=$container->id}{literal}" },
+				                            { text: "Configure View", classname: "configview" , url: "{/literal}{link src=$container->info.source action=edit id=$container->id}{literal}" },
 											{/literal}
 											{/if}
 										
 											{if $container->permissions.configure == 1}
 											{literal}
-				                            { text: "Configure Settings", classname: "configsettings" , url: "{/literal}{link module=$container->info.class source=$container->info.source action=configure _common=1}{literal}" },
+				                            { text: "Configure Settings", classname: "configsettings" , url: "{/literal}{link module=$container->info.class src=$container->info.source action=configure _common=1}{literal}" },
 											{/literal}
 											{/if}
 										
