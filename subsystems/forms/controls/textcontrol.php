@@ -77,6 +77,7 @@ class textcontrol extends formcontrol {
 			$html .= "onfocus=\"".$this->filter."_filter.onfocus(this);\" ";
 			$html .= "onpaste=\"return ".$this->filter."_filter.onpaste(this, event);\" ";
 		}
+
 		if (@$this->required) {
 			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
