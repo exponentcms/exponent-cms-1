@@ -33,7 +33,7 @@
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 	</div>	
 	{if $moduletitle!=""}<h1>{$moduletitle}</h1>{/if}
-	{if $permissions.administrate == 1}
+	{if $permissions.manage == 1}
 		<br /><a class="addfaq" href="{link action=edit_faq}">New FAQ Entry</a><br />
 	{/if}
 	<a name="top"></a>
@@ -60,7 +60,8 @@
 	{math equation="x+1" x=$qna->rank assign=next}
 	<div class="item">
 		<div class="itemactions">
-		{if $permissions.configure == 1 or $permissions.administrate == 1}
+		{*if $permissions.configure == 1 or $permissions.administrate == 1*}
+		{if $permissions.manage == 1}
 			<a href="{link action=edit_faq id=$qna->id}" title="Edit this entry">
 				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
@@ -105,7 +106,7 @@ BLAH
 {/foreach}
 
 
-{if $permissions.administrate == 1}
+{if $permissions.manage == 1}
 <br />
 <a class="addfaq" href="{link action=edit_faq}">New FAQ Entry</a>
 <br />
