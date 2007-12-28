@@ -24,13 +24,14 @@ function smarty_function_yuimenu($params,&$smarty) {
 	echo'<script type="text/javascript">
         function buildmenu () {
             var oMenuBar = new YAHOO.widget.MenuBar("flyoutmenujs", { 
-														effect: { 
-																effect: YAHOO.widget.ContainerEffect.FADE,
-																duration: 0.35
-															},
-                                                        autosubmenudisplay: true, 
-                                                        hidedelay: 750, 
-                                                        lazyload: true });
+													
+														constraintoviewport:false,
+														postion:"dynamic",
+														visible:true,
+														zindex:250,
+ 														autosubmenudisplay: true, 
+														hidedelay: 750, 
+														lazyload: true });
 
             var aSubmenuData = ';
 				echo navigationmodule::navtojson();
