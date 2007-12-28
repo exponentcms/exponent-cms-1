@@ -138,6 +138,27 @@ class router {
 		if ($this->url_type != 'malformed') {		
 			$this->current_url = $this->buildCurrentUrl();
 		}
+		
+		// this will track the browse history - helps keep track of flow and will be the start of the user behavior tracking
+		//$this->updateHistory();
+
+	}
+
+	private function updateHistory() {
+		// if we don't have everything we need then just return now
+		if (empty($this->url_type)) $this->url_type = "unknown/malformed url";
+		if (empty($this->current_url)) $this->current_url = "";
+		// get this user's browsing history from the session
+		$history = exponent_sessions_get('history');
+		// make sure it's been initialize...if not do so now.
+		if (empty($history[$this->url_type])) $history[$this->url_type] = array();
+		// only keep the last 10 of each type of page.
+		if (count($history[$this->url_type]) >= 10) array_shift($history[$this->url_type]);
+		// update the history with the current URL
+		$history[$this->url_type][] = $this->current_url;
+		//eDebug($history);
+		// put the updated history back into the session.
+		exponent_sessions_set('history', $history);
 	}
 
 	public function splitURL() {
@@ -334,6 +355,7 @@ class router {
 			$url =  '<a class="'.$class.'" href="javascript:void(0)" onclick="window.open(\'';
 			if ($this->url_style == 'sef') {
 				$url .= $this->convertToOldSchoolUrl();
+				if ($this->url_type=='base') $url .= 'index.php?section='.SITE_DEFAULT_SECTION;
 			} else {
 				$url .= $this->current_url;
 			}
@@ -341,7 +363,7 @@ class router {
 			$url .= '&printerfriendly=1\' , \'mywindow\',\'menubar=1,resizable=1,width='.$width.',height='.$height.'\');"';
 			$url .= '>'.$link_text.'</a>';
 		}
-			
+		
 		return $url; 
 	}
 
