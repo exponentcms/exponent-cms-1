@@ -69,15 +69,21 @@
     background-image:url(../../common/images/icons/sitetree.png);
     background-repeat:no-repeat;
 }
-
+.administrationmodule.quick-links a.editprofile {
+    background-image:url(../../common/images/icons/edit-profile.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.changepassword {
+    background-image:url(../../common/images/icons/lock.png);
+    background-repeat:no-repeat;
+}
 .administrationmodule.quick-links a.files {
 	background-image:url(../../common/images/icons/mimetypes/pdf.png);
     background-repeat:no-repeat;
 }
-
 .administrationmodule.quick-links a.admin {
-	background-image:url(../../common/images/icons/lock.png);
-    background-repeat:no-repeat;
+	background-image:url(../../common/images/icons/site-admin.png);
+    	background-repeat:no-repeat;
 }
 .administrationmodule.quick-links a.logout  {
 	background-image:url(../../common/images/icons/logout.png);
