@@ -70,7 +70,7 @@ if (!document.body.appendChild) {
 			</label>
 			<label id="sourceControl">
 				<input type='radio' class="radiobuttoncontrol" name='i_src' value='existing_source' id='r_existing_source' onclick='activate("Existing");' />
-				<span class="label"><a id="existing_source_link" class='mngmntlink container_mngmntlink' href='' onclick="pickSource(); return false;">{$_TR.existing_content}</a></span>
+				<span class="label"><a id="existing_source_link" href="javascript:pickSource()" >{$_TR.existing_content}</a></span>
 				<input type="hidden" id="existing_source" name="existing_source" value="" />
 			</label>
 		<span id='noSourceMessageTD'></span><!-- do we need this? -->
