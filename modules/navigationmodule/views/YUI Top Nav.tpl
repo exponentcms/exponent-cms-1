@@ -19,7 +19,6 @@
 		<ul class="first-of-type">
 		{assign var=startdepth value=0}
 		{foreach name="children" key=key from=$sections item=section}
-
 		{assign var=nextkey value=`$key+1`}
 		{assign var=previouskey value=`$key-1`}
 		{assign var="iehack" value=""}
@@ -39,7 +38,7 @@
 
 		{if $section->active == 1}
 			<li class="{if $section->depth == 0}yuimenubaritem first-of-type{else}yuimenuitem{/if}">
-			<a class="{if $section->depth == 0}yuimenubaritemlabel{else}yuimenuitemlabel{/if}" href="{link section=$section->id}">{$section->name}</a>
+			<a class="{if $section->depth == 0}yuimenubaritemlabel{else}yuimenuitemlabel{/if}" href="{$section->link}">{$section->name}</a>
 			{if $sections[$nextkey]->depth == $section->depth}</li>{/if}
 		{else }
 			<li class="yuimenuitem">
