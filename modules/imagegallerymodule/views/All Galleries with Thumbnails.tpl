@@ -75,7 +75,6 @@
 		myPanel.setHeader(imgname);
 		myPanel.setBody('<img src="thumb.php?file=' + imgfile + '&constraint=1&width=380&height=400" />');
 		myPanel.show();
-		console.debug(myPanel);
 	}	
 </script>
 {/literal}
