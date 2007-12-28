@@ -28,20 +28,16 @@
  *
  * $Id: Default.tpl,v 1.4 2005/02/23 23:30:27 filetreefrog Exp $
  *}
+
 {*eDebug var=$slides*}
 <div class="slideshowmodule yui-based">
-
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{if $permissions.configure == 1}
-        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
+{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	<div class="moduleactions">
+		{if $permissions.create_slide == 1 || $permissions.edit_slide == 1 || $permissions.delete_slide == 1}
+			<a class="manageslides" href="{link action=manage_slides}">Manage Slides</a>
+		{/if}
+	</div>
 {/permissions}
 
 <script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}modules/slideshowmodule/slideshow.js"></script>
@@ -65,7 +61,7 @@ YAHOO.myProject.myModule = function () {
 		}
 	};
 
-}(); // the parens here cause the anonymous function to execute and return
+}(); 
 </script>
 {/literal}
 
@@ -80,8 +76,6 @@ YAHOO.myProject.myModule = function () {
 YAHOO.myProject.myModule.addtitle("{$key}","{$slide->name}");
 YAHOO.myProject.myModule.addimage("{$key}","{$smarty.const.URL_FULL}{$slide->file->directory}/{$slide->file->filename}");
 YAHOO.myProject.myModule.adddescription("{$key}","{$slide->description}");
-//YAHOO.popinfo.addtitle("{$key}","{$slide->description}");
-//YAHOO.popinfo.popupinfoname[{$key}] = "{$slide->description}";
 </script>
 
 {/foreach}
@@ -92,36 +86,34 @@ YAHOO.myProject.myModule.adddescription("{$key}","{$slide->description}");
 </div>
 
 
-
 {literal}
 <script type="text/javascript">
-YAHOO.util.Event.onDOMReady(function() { slideshow = new YAHOO.myowndb.slideshow("yui-sldshw-displayer", {effect:  YAHOO.myowndb.slideshow.effects.fadeOut});
-slideshow.loop();
-slideshow.handlepause("slideshowmask");
+YAHOO.util.Event.onDOMReady(function() { 
+	slideshow = new YAHOO.myowndb.slideshow("yui-sldshw-displayer", {effect:  YAHOO.myowndb.slideshow.effects.fadeOut, interval:{/literal}{$config->delay}{literal}});
+	slideshow.loop();
+	slideshow.handlepause("slideshowmask");
 
 
-var slideshowpop = new YAHOO.widget.Panel("slideshowbaloon", { visible:false, draggable:false, close:false, zIndex:15, xy:[0,0] } );
-slideshowpop.setHeader("");
-slideshowpop.setBody("");
-slideshowpop.setFooter("");
-slideshowpop.render("body");
+	var slideshowpop = new YAHOO.widget.Panel("slideshowbaloon", { underlay:"none", visible:false, draggable:false, close:false, zIndex:16, xy:[0,0] } );
+	slideshowpop.setHeader("");
+	slideshowpop.setBody("");
+	slideshowpop.setFooter("");
+	slideshowpop.render("body");
 
-function swapinfo(){
-	//alert(YAHOO.util.Region.getRegion('doc').left);
-	YAHOO.util.Dom.setStyle("slideshowbaloon","margin-top",YAHOO.util.Region.getRegion('slideshowmask').top-300+'px');
-	var activeframe = slideshow.get_frame_index(slideshow.get_active_frame());
-	slideshowpop.setHeader(YAHOO.myProject.myModule.title[activeframe]);
-	var picture = '<div class="theimage" style="background:url('+YAHOO.myProject.myModule.imagepath[activeframe]+')"><div class="popframe">&nbsp; </div> </div>';
-	//alert(picture);
-	slideshowpop.setBody(picture);
-	var desc = YAHOO.myProject.myModule.description[activeframe];
-	//alert(activeframe);
-	slideshowpop.setFooter(desc ? desc : "");
-	slideshowpop.show();
-}
+	function swapinfo(){
+		YAHOO.util.Dom.setStyle("slideshowbaloon","margin-top",YAHOO.util.Region.getRegion('slideshowmask').top-300+'px');
+		//var activeframe = slideshow.get_frame_index_transition(slideshow.get_active_frame());
+		var activeframe = slideshow.get_frame_index(slideshow.get_active_frame());
+		slideshowpop.setHeader(YAHOO.myProject.myModule.title[activeframe]);
+		var picture = '<div class="theimage" style="background:url('+YAHOO.myProject.myModule.imagepath[activeframe]+')"><div class="popframe">&nbsp; </div> </div>';
+		slideshowpop.setBody(picture);
+		var desc = YAHOO.myProject.myModule.description[activeframe];
+		slideshowpop.setFooter(desc ? desc : "");
+		slideshowpop.show();
+	}
 
-YAHOO.util.Event.addListener("slideshowmask", "mouseover", swapinfo, slideshowpop, true);
-YAHOO.util.Event.addListener("slideshowmask", "mouseout", slideshowpop.hide, slideshowpop, true);
+	YAHOO.util.Event.addListener("slideshowmask", "mouseover", swapinfo, slideshowpop, true);
+	YAHOO.util.Event.addListener("slideshowmask", "mouseout", slideshowpop.hide, slideshowpop, true);
 
 });
 
@@ -137,30 +129,6 @@ There are no slides in the slideshow.<br />
 {/if}
 
 
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.create_slide == 1 || $permissions.edit_slide == 1 || $permissions.delete_slide == 1}
-<a class="mngmntlink slideshow_mngmntlink" href="{link action=manage_slides}">Manage Slides</a>
-{/if}
-{/permissions}
-
-{*
-<script type="text/javascript" charset="utf-8">
-YAHOO.util.Event.onDOMReady(function(){ldelim}
-
-	slideshow = new YAHOO.myowndb.slideshow("yui-sldshw-displayer",
-				{ldelim} frames: [ 
-					{foreach key=key name=s from=$slides item=slide}
-					{ldelim} type: 'image_url', value: '{$slide->file->directory}/{$slide->file->filename}', id: "img{$key}"{rdelim}{if $smarty.foreach.s.last!=true},{/if}
-					{/foreach}
-					],
-				  effect: YAHOO.myowndb.slideshow.effects.fadeIn,
-
-				);
-				
-	slideshow.loop();
-{rdelim});			
-</script>
-*}
 </div>
 
 

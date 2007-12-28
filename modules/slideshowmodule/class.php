@@ -81,9 +81,10 @@ class slideshowmodule {
 			$config->delay = 1000;
 			$config->random = 0;
 		}
-		
+	
 		$slides = array();
-		foreach ($db->selectObjects("slideshow_slide","location_data='".serialize($loc)."'") as $s) {
+		$order = $config->random == 1 ? 'RAND()' : null;  // if this slideshow module is setup to be random then set the ORDERBY clause to rand()
+		foreach ($db->selectObjects("slideshow_slide","location_data='".serialize($loc)."'", $order) as $s) {
 			$s->file = $db->selectObject("file","id=".$s->file_id);
 			$slides[] = $s;
 		}

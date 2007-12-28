@@ -11,12 +11,13 @@ YAHOO.namespace("myowndb");
 YAHOO.myowndb.slideshow = function (container, o) {
 	this.container = YAHOO.util.Dom.get(container);
 	this.effect = o.effect;
+	this.intransition = false;
 	this.paused = false;
 	var frames = o.frames;
 	this.frames = [];
 	//add cached frames
 	var cached_frames = YAHOO.util.Dom.getElementsByClassName("yui-sldshw-frame", null, this.container);
-	
+
 	for (var i=0; i<cached_frames.length; i++)
 	{
 		this.frames[i] = { id: i, type: 'cached', value: cached_frames[i]};
@@ -38,7 +39,6 @@ YAHOO.myowndb.slideshow = function (container, o) {
 				//return Math.floor( Math.random()*number_of_slides);
 				return (current_index+1)%number_of_slides;
 			}
-
 	}
 	else
 	{
@@ -79,13 +79,38 @@ YAHOO.myowndb.slideshow.prototype = {
 			YAHOO.util.Event.on(puaser,"mouseout",function(){self.paused = false});
 		},
 	get_frame_index: function(frame)
-		{
+		{	
 			for(var i=0; i<this.frames.length;i++)
 			{
-				if (this.frames[i].value==frame)
+				if (this.frames[i].value==frame){
 					return i;
+					/*if (this.intransition==false){
+							return i;
+						}else{
+							if(i+1==this.frames.length){
+								return 0;
+							}else{
+								//return i+1;
+								return i;
+							}
+					}*/
+				}
 			}
 			return -1;
+		},
+	get_frame_index_transition: function(frame)
+		{
+			var retval = this.get_frame_index(frame);
+			if (this.intransition==false){
+                                  return i;
+                        }else{
+                                  if(i+1==this.frames.length){
+	               	                return 0;
+                                  }else{
+                                        return i+1;
+                                  }
+                       } 
+
 		},
 	choose_next_frame : function()
 		{
@@ -152,13 +177,17 @@ YAHOO.myowndb.slideshow.prototype = {
 			YAHOO.util.Dom.replaceClass(this.next_frame, "yui-sldshw-next", "yui-sldshw-active");
 			this.active_frame = this.next_frame; 
 		    this.choose_next_frame();
+			this.intransition = false;
+			//console.debug('transition end');
 		},
 	transition: function()
-		{
+		{	
+			//console.debug('transition start');
+			this.intransition = true;
 			if(this.paused!=true){
-	            var hide = this.effect.get_animation(this.active_frame);
+	            	var hide = this.effect.get_animation(this.active_frame);
 				hide.onComplete.subscribe(this.clean_up_transition, this, true);
-			    hide.animate();
+			    	hide.animate();
 			}
 		}
 	,
