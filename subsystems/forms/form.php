@@ -91,10 +91,10 @@ class form extends baseform {
 
 		// set up the label to be a bit more styleable
 		$label = str_replace(" ","&nbsp;",$label);
-		$label_span  = '<span class="label';
-		$label_span .= (!empty($control->required)) ? ' required">*'.$label : '">'.$label;
-		$label_span .= '</span>';
-		$this->controlLbl[$name] = $label_span;
+		//$label_span  = '<span class="label';
+		//$label_span .= (!empty($control->required)) ? ' required">*'.$label : '">'.$label;
+		//$label_span .= '</span>';
+		$this->controlLbl[$name] = $label;
 		$control->onRegister($this);
 		return true;
 	}
@@ -210,8 +210,8 @@ class form extends baseform {
 			exponent_sessions_unset("last_POST");
 		}
 		
-		$html = "<!-- Form Object '" . $this->name . "' -->\r\n";
-		$html .= '<script type="text/javascript" src="'.PATH_RELATIVE.'subsystems/forms/js/required.js"></script>'."\r\n";
+				$html = "<!-- Form Object '" . $this->name . "' -->\r\n";
+				$html .= '<script type="text/javascript" src="'.PATH_RELATIVE.'subsystems/forms/js/required.js"></script>'."\r\n";
                 $html .= "<script type=\"text/javascript\" src=\"" .PATH_RELATIVE."subsystems/forms/js/inputfilters.js.php\"></script>\r\n";
                 foreach ($this->scripts as $name=>$script) $html .= "<script type=\"text/javascript\" src=\"$script\"></script>\r\n";
                 $html .= '<div class="error">'.$formError.'</div>';
@@ -225,12 +225,11 @@ class form extends baseform {
                 }
                 //$html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
                 foreach ($this->meta as $name=>$value) $html .= "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />\r\n";
-                $html .= "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\r\n";
+                $html .= "<div class=\"form_wrapper\">\r\n";
                 foreach ($this->controlIdx as $name) {
                         $html .= $this->controls[$name]->toHTML($this->controlLbl[$name],$name) . "\r\n";
                 }
-                $html .= "<tr><td width='5%'></td><td width='95%'></td></tr>\r\n";
-                $html .= "</table>\r\n";
+                $html .= "</div>\r\n";
                 $html .= "</form>\r\n";
                 return $html;	
 	}
