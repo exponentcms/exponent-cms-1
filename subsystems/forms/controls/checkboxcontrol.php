@@ -66,16 +66,22 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	function toHTML($label,$name) {
-		if (!$this->flip) return parent::toHTML($label,$name);
-		else {
-			$html = "<tr><td valign=\"top\" align=\"left\" colspan=\"2\">".$this->controlToHTML($name)."&nbsp;&nbsp;&nbsp;".$label."</td>";
-			//$html .= "<td style='padding-left: 5px;' valign=\"top\">".$label."</td></tr>";
-			//$html .= $this->controlToHTML($name);
-			//$html .= "&nbsp;$label</td></tr>";
-			return $html;
+		//eDebug($this);
+		if(empty($this->flip)){
+			$html = "<div id=\"".$name."Control\" class=\"control";
+			$html .= (!empty($this->required)) ? ' required">' : '">';
+			$html .= "<span class=\"checkboxlabel\">".$label."</span>";
+			$html .= $this->controlToHTML($name);
+			$html .= "</div>";			
+		}else{
+			$html = "<div id=\"".$name."Control\" class=\"control";
+			$html .= (!empty($this->required)) ? ' required">' : '">';
+			$html .= $this->controlToHTML($name);
+			$html .= "<span class=\"checkboxlabel fliped\">".$label."</span>";
+			$html .= "</div>";						
 		}
+		return $html;
 	}
-	
 	function controlToHTML($name) {
 		$html = '<input class="checkboxcontrol" type="checkbox" name="' . $name . '" value="1"';
 		if ($this->default) $html .= ' checked="checked"';
@@ -120,8 +126,8 @@ class checkboxcontrol extends formcontrol {
 		$form->register("default",$i18n['default'], new checkboxcontrol($object->default,false));
 		$form->register("flip",$i18n['caption_right'], new checkboxcontrol($object->flip,false));
 	 	$form->register(null, null, new htmlcontrol('<br />'));
-                $form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));
-                $form->register(null, null, new htmlcontrol('<br />'));	
+		$form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));
+		$form->register(null, null, new htmlcontrol('<br />'));	
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
