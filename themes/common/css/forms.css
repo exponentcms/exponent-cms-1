@@ -25,22 +25,37 @@
 	padding:5px;
 }
 .control legend {
+	background:#ffffff;
 	color:#53708e;
 	font-family:Trebuchet MS;
 	font-size:1.1em;
 	font-weight:bold;
+	padding:0px 3px;
 }
-.label {
+.control .label {
+	font-size:14px;
 	font-family:Trebuchet MS;
-	color:#333333;
+	color:#724e4e;
+	font-weight:bold;
+	text-transform:uppercase;
+	display:block;
 }
-.label a {
+.control .checkboxlabel {
+	font-size:12px;
+	font-family:Trebuchet MS;
+	color:#444444;
+	font-weight:bold;
+}
+.control .label a {
 	font-family:Trebuchet MS;
 	color:#883333;
 }
 
-.textareacontrol, .textcontrol{
+.textareacontrol {
 	width:400px;
+}
+.textareacontrol, .textcontrol, .dropdowncontrol{
+	border:1px solid #7777aa;
 }
 
 #contentsourcecontrol label{
@@ -53,29 +68,11 @@
 	margin-right:5px;
 }
 
-span.label {
-	display: block;
-	color: #263647;
-	font-size: 85%;
-	font-weight: bold;
-}
 
-input, textarea, select {
-	border: 1px solid #777777;
-	background: #fff;
-	font-size: 85%;
-	margin:0;
-	color:#724e4e;
-	font-family:Trebuchet MS;
-}
-input{
-	height:15px;
-}
 
-.checkboxcontrol {
-	border-width:0px;
-	float:left;
-}
+
+
+
 
 
 
