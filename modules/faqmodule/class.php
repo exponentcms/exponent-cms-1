@@ -133,9 +133,7 @@ class faqmodule {
 
     	$template->assign("qnalist", $data[0]);  
 		$template->assign("data",$data);
-		$template->register_permissions(
-			array("administrate","configure"),
-			$loc);
+		$template->register_permissions(array("administrate","configure", "manage"),$loc);
 		$template->assign("moduletitle", $title);
 		//echo "<xmp>";
 		//print_r ($data);
