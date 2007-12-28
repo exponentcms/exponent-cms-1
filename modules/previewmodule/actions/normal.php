@@ -19,8 +19,10 @@
 
 if (!defined("EXPONENT")) exit("");
 
-$levels = exponent_sessions_get('uilevels');
-exponent_sessions_set('uilevel',max(array_keys($levels)));
+//$levels = exponent_sessions_get('uilevels');
+//exponent_sessions_set('uilevel',max(array_keys($levels)));
+//unsetting to fix weirdness by setting to 'normal'. FJD
+exponent_sessions_unset('uilevel');
 exponent_flow_redirect();
 
 ?>
