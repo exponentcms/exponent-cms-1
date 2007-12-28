@@ -73,12 +73,17 @@ class navigationmodule {
 			default:
 				//$sections = navigationmodule::levelTemplate(0,0);
 				global $sections;
-				foreach ($sections as $section) {
-					if ($section->id == $id) {
-						$current = $section;
-						break;
+				if ($sectionObj->parent == -1) {
+					$current = $sectionObj;
+				} else {
+					foreach ($sections as $section) {
+						if ($section->id == $id) {
+							$current = $section;
+							break;
+						}
 					}
 				}
+
 			break;
 		}
 
