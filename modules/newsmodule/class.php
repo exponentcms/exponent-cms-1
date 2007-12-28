@@ -123,8 +123,9 @@ class newsmodule {
 		
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
-			$config->sortorder = 'ASC';
-			$config->sortfield = 'posted';
+			$config->sortorder = 'DESC';
+			//FJD - changed from posted to edited:
+			$config->sortfield = 'edited';
 			$config->item_limit = 10;
 			$config->enable_rss = false;
 			$config->group_by_tags = false;
@@ -174,7 +175,7 @@ class newsmodule {
 		}			
 		
 		//Get the news items.
-		$news = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
+		$news = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
 
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);

@@ -37,8 +37,10 @@
 {$moduletitle}
 </h1>
 {/if}
+{assign var='newscount' value=0}
 {foreach from=$news item=item}
-{if $item->is_featured==0}
+{if $item->is_featured==0 && $newscount < 3}
+	{counter assign='newscount'}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1 || $item->permissions.administrate == 1}
 			<a class="mngmntlink news_mngmntlink" href="{link action=userperms int=$item->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>
@@ -74,7 +76,12 @@
 		<img src="{$item->image_path}" border="0" width="80" height="80"/>
 	{/if*}
 	<div class="attributions">
-		<span class="date">{$item->real_posted|format_date:"%B %e"}</span>
+		{if $item->edited eq 0}
+			{assign var='sortdate' value=$item->real_posted}
+		{else}
+			{assign var='sortdate' value=$item->edited}
+		{/if}	
+		<span class="date">{$sortdate|format_date:"%B %e"}</span>
 		<h2>{$item->title}</h2>
 	</div>
 	<div class="text">
@@ -85,9 +92,9 @@
 {/if}
 {/foreach}
 <div class="moduleactions">
-	{if $morenews == 1}
+	{*if $morenews == 1*}
 	<a class="viewallhome" href="{link action=view_all_news}">View all News</a>
-	{/if}
+	{*/if*}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.add_item == true}
 		<a class="addnews" href="{link action=edit}">{$_TR.create_news}</a>

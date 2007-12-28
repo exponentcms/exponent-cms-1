@@ -53,7 +53,7 @@
 
 			<div class="text">
 				{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
-				<span class="date">{$item->real_posted|format_date:"%B %e"}</span>
+				<span class="date">{$newsitem->edited|format_date:"%B %e"}</span>
 				{$newsitem->body|summarize:"html":"para"}
 				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
 			</div>
@@ -93,7 +93,13 @@
 
 			<div class="text">
 				{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
-				<span class="date">{$item->real_posted|format_date:"%B %e"}</span>
+				{if $newsitem->edited eq 0}
+		                        {assign var='sortdate' value=$newsitem->real_posted}
+		                {else}
+                		        {assign var='sortdate' value=$newsitem->edited}
+		                {/if}
+
+				<span class="date">{$sortdate|format_date:"%B %e"}</span>
 				{$newsitem->body|summarize:"html":"para"}
 				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
 			</div>

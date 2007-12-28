@@ -31,7 +31,6 @@ if ($news != null) {
 		"delete_item"=>((exponent_permissions_check("delete_item",$loc) || exponent_permissions_check("delete_item",$iloc)) ? 1 : 0),
 		"administrate"=>((exponent_permissions_check("administrate",$loc) || exponent_permissions_check("administrate",$iloc)) ? 1 : 0)
 	);
-
 	$file = $db->selectObject("file","id=".$news->file_id);
 	if(!empty($file)){
 		$news->image = $file->directory.'/'.$file->filename;

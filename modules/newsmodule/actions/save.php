@@ -34,6 +34,7 @@ if (isset($_POST['id'])) {
 } else {
 	$news->posted = time();
 	$news->poster = ($user?$user->id:0);
+	$news->edited = time();
 }
 
 if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) || 

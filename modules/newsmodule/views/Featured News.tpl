@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{selectObjects table="newsitem" where="is_featured=1 and location_data='`$news[0]->location_data`'" orderby="posted" item=featured_items}
+{selectObjects table="newsitem" where="is_featured=1 and location_data='`$news[0]->location_data`'" orderby="edited" item=featured_items}
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 {if $featured_items[0]->id!=""}
 <div id="newsmodule featured">	
@@ -61,7 +61,12 @@
 		<img src="{$item->image_path}" border="0" width="80" height="80"/>
 	{/if*}
 	<div class="attributions">
-		<span class="date">{$item->real_posted|format_date:"%B %e"}</span>
+	 	{if $item->edited eq 0}
+                        {assign var='sortdate' value=$item->real_posted}
+                {else}
+                        {assign var='sortdate' value=$item->edited}
+                {/if}
+		<span class="date">{$sortdate|format_date:"%B %e"}</span>
 		<h2>{$item->title}</h2>
 	</div>
 	<div class="text">
