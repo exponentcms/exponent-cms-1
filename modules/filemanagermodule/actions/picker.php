@@ -19,38 +19,42 @@
 
 include_once('../../../exponent.php');
 
-$collection = null;
-if (isset($_GET['id'])) {
-	$collection = $db->selectObject('file_collection','id='.intval($_GET['id']));
-}
-if (!$collection) {
-	$collection->id = 0;
-	$collection->name = 'Uncategorized Files';
-	$collection->description = 'Theses files have not been categorized yet,';
-}
-$loc = exponent_core_makeLocation('filemanagermodule');
+if (exponent_users_isLoggedIn()) {
+	$collection = null;
+	if (isset($_GET['id'])) {
+		$collection = $db->selectObject('file_collection','id='.intval($_GET['id']));
+	}
+	if (!$collection) {
+		$collection->id = 0;
+		$collection->name = 'Uncategorized Files';
+		$collection->description = 'Theses files have not been categorized yet,';
+	}
+	$loc = exponent_core_makeLocation('filemanagermodule');
 
-//exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+	//exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-$template = new template('filemanagermodule','_picker');
+	$template = new template('filemanagermodule','_picker');
 
-$template->assign('collection',$collection);
+	$template->assign('collection',$collection);
 
-$collections = $db->selectObjects('file_collection');
-$template->assign('collections',$collections);
+	$collections = $db->selectObjects('file_collection');
+	$template->assign('collections',$collections);
 
-$files = $db->selectObjects('file','collection_id='.$collection->id);
-if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-usort($files,'exponent_sorting_byPostedDescending');
-$template->assign('files',$files);
-$template->assign('numfiles',count($files));
+	$files = $db->selectObjects('file','collection_id='.$collection->id);
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+	usort($files,'exponent_sorting_byPostedDescending');
+	$template->assign('files',$files);
+	$template->assign('numfiles',count($files));
 
-if (isset($_GET['highlight_file'])) {
-	$template->assign('highlight_file',$_GET['highlight_file']);
+	if (isset($_GET['highlight_file'])) {
+		$template->assign('highlight_file',$_GET['highlight_file']);
+	} else {
+		$template->assign('highlight_file',0);
+	}
+
+	$template->output();
 } else {
-	$template->assign('highlight_file',0);
+	echo "<p>Action not allowed</p>";
 }
-
-$template->output();
 
 ?>
