@@ -1,0 +1,156 @@
+#container.yui-skin-sam {
+	border: 1px solid red;
+	background-color: #999999;
+}
+
+#left-col {
+	float: left;
+}
+
+#tree-view {
+	width: 205px;
+	height: 460px;
+	background: #ffffff;
+	margin: 5px 10px 20px 5px;
+	border: 1px solid #000000;
+	font-size: 11px;
+}
+
+#upload {
+	text-align: left;
+	margin: 0px 0px 0px 5px;
+}
+
+#upload form#uploadFrm input#file-name {
+	font-size: 10px;
+	width: 75px;
+}
+
+#submit-btn {
+	float:left;
+	font-size: 10px;
+	margin-top: 3px;
+}
+
+#main-pane {
+	float: left;
+	margin: 5px 0px 5px 0px;
+}
+
+#scroller {
+        width: 600px;
+        height: 400px;
+	margin: 0px 5px 0px 5px;
+        overflow: none;
+	background: #ffffff;
+	border: 1px solid #000000;
+	overflow: auto;
+}
+
+#file-cart {
+	width: 600px;
+	height: 100px;
+	border: 1px solid #000000;
+	background-color: #ffffff;
+	margin: 5px 5px 0px 5px;
+	overflow: auto;
+	font-size: 10px;
+}
+
+div.selected {
+	float: left;
+}
+
+div.file-preview {	
+	float: left;	
+	margin: 5px 3px 5px 3px;
+	width: 75px;
+	min-height: 75px;
+	padding: 4px;
+	text-align: center;
+	border: 3px solid #cccccc;
+	/*border: 1px solid red;*/
+}
+
+.preview-wrapper {
+	float: left;
+	font-size: 10px;
+}
+
+.preview-wrapper img {
+	border: none;
+}
+span.file-name {
+	display: block;
+	width: 75px;
+	clear:left;
+	float: left;
+	padding-left: 2px;
+	text-align: center;
+}
+div.scroller span {
+	color: #008C00;
+	font-weight: bold;
+}
+
+.selected {
+	padding: 5px;
+	border: 3px solid #008C00;
+	background: #CDEB8B;
+}
+
+#mycontextmenu {
+	display: table;
+	border: 1px solid black;
+}
+
+#mycontextmenu ul {
+	list-style: none;
+	background: none;
+}
+
+#mycontextmenu ul li {
+	list-style: none;
+	background: none;
+}
+
+#mycontextmenu ul li:hover {
+	list-style: none;
+	background: none;
+	border: none;
+}
+
+#mycontextmenu a {
+
+}
+
+#mycontextmenu a:hover {
+	background: none;
+	border: none;
+	text-decoration: none;
+	color: #000000;
+}
+
+/*        draggable div styles         */
+#dd-panel {
+        position: relative; 
+        height: 200px; 
+        width: 150px;
+        top: 0px; 
+        left: 20px; 
+        border: 1px solid #333333;
+	background-color: #f7f7f7;
+}
+
+#dd-resize-handle {
+        cursor: se-resize;
+        position: absolute; 
+        bottom: 0px; 
+        right: 0px; 
+        width: 10px; 
+        height: 10px;
+        background-color: blue;
+        font-size: 1px;
+}
+
+

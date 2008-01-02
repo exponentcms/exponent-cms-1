@@ -2,8 +2,8 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
-# Written and Designed by James Hunt
+# Copyright (c) 2004-2007 OIC Group, Inc.
+# Written and Designed by Adam Kessler
 #
 # This file is part of Exponent
 #
@@ -17,16 +17,8 @@
 #
 ##################################################
 
-function smarty_function_getfileicon($params,&$smarty) {
-	global $db;
-	$file = $db->selectObject("file","id=".$params['id']);
-	
-	$mimetype = $db->selectObject("mimetype","mimetype='".$file->mimetype."'");
-	if ($mimetype->icon != "") {
-		echo '<img src="'.MIMEICON_RELATIVE .$mimetype->icon.'"/>';
-	} else {
-		echo '<img src="'.MIMEICON_RELATIVE .'unknown.png"/>';
-	}
+function smarty_modifier_kilobytes($bytes) {
+	return round($bytes/1024, 2);
 }
 
 ?>

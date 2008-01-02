@@ -17,16 +17,21 @@
 #
 ##################################################
 
-function smarty_function_getfileicon($params,&$smarty) {
-	global $db;
-	$file = $db->selectObject("file","id=".$params['id']);
-	
-	$mimetype = $db->selectObject("mimetype","mimetype='".$file->mimetype."'");
-	if ($mimetype->icon != "") {
-		echo '<img src="'.MIMEICON_RELATIVE .$mimetype->icon.'"/>';
+include_once('../../../exponent.php');
+
+$loc = exponent_core_makeLocation('cermi');
+
+// PERM CHECK
+	$file = file::update('file','files',null);
+	if (is_object($file)) {
+		$file->name = $_POST['name'];
+		$file->item_type = $_POST['item_type'];
+		$file->item_id = $_POST['item_id'];
+		$file_id = $db->insertObject($file,'file');
+		header('Location: '.URL_FULL.'modules/cermi/actions/fileuploadcontrol.php?id='.$file_id);
 	} else {
-		echo '<img src="'.MIMEICON_RELATIVE .'unknown.png"/>';
+		echo $file;
 	}
-}
+// END PERM CHECK
 
 ?>
