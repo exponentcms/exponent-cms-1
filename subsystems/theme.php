@@ -567,9 +567,9 @@ function exponent_theme_showAction($module, $action, $src, $params="") {
         //if (isset($['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
 
         if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
-	        include_once(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
+	        include(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
         } elseif (is_readable(BASE.'modules/'.$actfile)) {
-                include_once(BASE.'modules/'.$actfile);
+                include(BASE.'modules/'.$actfile);
         } else {
                 $i18n = exponent_lang_loadFile('subsystems/theme.php');
                 echo SITE_404_HTML . '<br /><br /><hr size="1" />';
