@@ -20,9 +20,9 @@
 if (class_exists('basetheme')) return;
 
 class basetheme {
-	function name() { return "ExponentCMS.org Theme[Base Theme]"; }
-	function author() { return "Exponent Designing Crew"; }
-	function description() { return "ExponentCMS.org Theme."; }
+	function name() { return "Base Theme"; }
+	function author() { return "Phillip Ball"; }
+	function description() { return "A good base theme to get Themers started"; }
 }
 
 ?>
