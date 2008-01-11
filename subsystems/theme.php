@@ -95,30 +95,28 @@ function exponent_theme_loadCommonCSS() {
 		}
  	}
 }
+
 function exponent_theme_resetCSS() {
 	global $css_files;
 	$css_files = array_merge(array("reset-fonts-grids"=>URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"), $css_files);
 }
-/*
-function exponent_theme_loadYUICSS($files=array()) {
-	global $css_files;
-	foreach ($files as $file) {
-		$css_files["yui-".$file] = URL_FULL."external/yui/build/assets/skins/sam/".$file.'.css';
-	}
-}
-*/
+
 function exponent_theme_loadRequiredCSS() {
 	global $css_files;
 
 	$requireddir = 'themes/common/css/required/';
-
+	$requiredthemedir = 'themes/'.DISPLAY_THEME_REAL.'/css/required/';
 	if (is_dir($requireddir) && is_readable($requireddir) ) {
 		$dh = opendir($requireddir);
 		while (($cssfile = readdir($dh)) !== false) {
 			$filename = $requireddir.$cssfile;
+			$themefilename = $requiredthemedir.$cssfile;
 			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
-				$css_files[substr($cssfile,0,-4)] = URL_FULL.$requireddir.$cssfile;
+				$css_files["common-required-".substr($cssfile,0,-4)] = URL_FULL.$requireddir.$cssfile;
 			}
+			if (is_file($themefilename) && substr($themefilename,-4,4) == ".css") {
+				$css_files["theme-required-".substr($cssfile,0,-4)] = URL_FULL.$requiredthemedir.$cssfile;
+	        }
 		}
 	}
 	//eDebug($css_files);
@@ -130,46 +128,7 @@ function exponent_theme_loadAllCSS() {
 	exponent_theme_loadExpDefaults();
 	exponent_theme_includeCSSFiles();	
 }
-/*
-function exponent_theme_minifyCSS() {
-	if (css_file_needs_rebuilt()) {
-		global $css_files;
 
-		// Load the Minify library if needed.                 
-		include_once(BASE.'external/minify/minify.php');                 
-		// Create new Minify objects.                 
-		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
-	
-		// Specify the files to be minified. Full URLs are allowed as long as they point                 
-		// to the same server running Minify. 
-        	$minifyCSS->addFile($css_files);
-        
-		// Establish the file where we will build the compiled CSS file
-        	$compiled_file = fopen(BASE.'tmp/css/exp-styles-min.css', 'w');
-		//	eDebug($minifyCSS->combine());
-
-		fwrite($compiled_file, $minifyCSS->combine());
-		fclose($compiled_file);
-	}
-}
-*/
-
-function exponent_theme_minifyJS($files) {
-	// Load the Minify library if needed.                 
-        include_once(BASE.'external/minify/minify.php');
-        // Create new Minify objects.                 
-        $minifyJS = new Minify(Minify::TYPE_JS);
-
-        // Specify the files to be minified. Full URLs are allowed as long as they point                 
-        // to the same server running Minify. 
-        $minifyJS->addFile($files);
-
-        // Establish the file where we will build the compiled CSS file
-        $compiled_file = fopen(BASE.'tmp/js/exp-js-min.js', 'w');
-
-        fwrite($compiled_file, $minifyJS->combine());
-        fclose($compiled_file);
-}
 
 /* exdoc
  * @function include_css()
@@ -179,15 +138,13 @@ function exponent_theme_minifyJS($files) {
  * @node Subsystems:Theme
  */
 
-function exponent_theme_includeCSSFiles($files = array(),$common = 0) {
+function exponent_theme_includeThemeCSS($files = array()) {
 	global $css_files;
 	if (empty($files)) {
 		global $css_files;
 		//exponent_theme_resetCSS();
         //exponent_theme_loadYUICSS(array('menu'));
         //exponent_theme_loadExpDefaults();
-		if ($common == 1) exponent_theme_loadCommonCSS();
-
 
 		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
 		
@@ -260,15 +217,19 @@ function exponent_theme_loadYUIJS($files=array()) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_theme_headerInfo($section /*this variable is now deprecated*/) {
+function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config) {
 	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
 
+	if(!isset($config['include-common-css'])) $config['include-common-css']==true;
+	if(!isset($config['include-theme-css'])) $config['include-theme-css']==true;
 	// load all the required CSS files for the user.
 	exponent_theme_loadRequiredCSS();
-	// load all the required YUI JS files for the user.
-
+	//load all configs from user's theme
+	if(!empty($config['reset-fonts-grids'])) exponent_theme_resetCSS();
+	if($config['include-common-css']!=false) exponent_theme_loadCommonCSS();
+	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS();
 	
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";

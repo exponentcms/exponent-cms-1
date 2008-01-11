@@ -3,9 +3,12 @@
 <html>
 <head>
 	<?php 
-	echo exponent_theme_headerInfo($section); 
-	exponent_theme_resetCSS();
-	exponent_theme_includeCSSFiles("",true);
+	$config = array(
+	"reset-fonts-grids"=>true,
+	"include-common-css"=>true,
+	"include-theme-css"=>true
+	);
+	echo exponent_theme_headerInfo($section,$config); 
 	?>
 </head>
 <body id="body" class="yui-skin-exponent" onload="eXp.initialize();">
