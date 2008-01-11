@@ -43,7 +43,7 @@ define("USER_REGISTRATION_WELCOME_SUBJECT",'Welcome to our website!');
 define("USER_REGISTRATION_WELCOME_MSG",'');
 define("MAINTENANCE_MODE",'0');
 define("MAINTENANCE_MSG_HTML",exponent_unhtmlentities('This site is currently down for maintenance.'));
-define("DISPLAY_THEME_REAL",'exponenttheme');
+define("DISPLAY_THEME_REAL",'basetheme');
 define("DISPLAY_ATTRIBUTION",'username');
 define("DISPLAY_DATETIME_FORMAT",'%D -- %T');
 define("DISPLAY_DATE_FORMAT",'%D');
