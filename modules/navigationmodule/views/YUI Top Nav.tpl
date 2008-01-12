@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *{math equation="x*20" x=$section->depth}
  *}
-<div class="navigationmodule navigationmodule-yui-top-nav yui-skin-sam">
+<div class="navigationmodule navigationmodule-yui-top-nav">
 <div id="flyoutmenu" class="yuimenubar yuimenubarnav">
 	<div class="bd">
 		<ul class="first-of-type">
@@ -64,11 +64,6 @@
 		{/if}
 
 		{/foreach}
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $canManage == 1}
-		<li class="yuimenuitem"><a class="yuimenulabel" href="{link action="manage"}">Manage Links</a></li>
-		{/if}
-		{/permissions}
 		</ul>
 	</div>
 </div>
