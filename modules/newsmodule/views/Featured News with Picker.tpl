@@ -37,7 +37,6 @@
         {/literal}
 
         {if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-
 	<div class="topbg bgcolor1">
 		<div id="featured-news-img">
 		        <a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$item->id date_id=$item->eventdate->id}">
@@ -59,9 +58,7 @@
 		        <p id="featured-news-summary">{$news[0]->body|summarize:html:para}</p>
 		</div>
 	</div>
-	{if $morenews == 1}
 	<a href="{link action=view_all_news}">{$_TR.view_all}</a>
-	{/if}
 	{if $permissions.add_item == true}
 		<br /><a class="mngmntlink news_mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>
 	{/if}
