@@ -142,7 +142,6 @@ class newsmodule {
 				}
 			}
 		}
-		
 
 		if ($config->group_by_tags == true) {	
 			$view = "_group_by_tags";	
@@ -223,7 +222,8 @@ class newsmodule {
 		$template->assign('canview_approval_link',$canviewapproval);
 		$template->assign('in_approval',$in_approval);
 		if($config->group_by_tags == true) {$template->assign('news',$grouped_news);} else {$template->assign('news',$news);}
-		
+
+		$template->assign('config', $config);		
 		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
 		
 		$template->output();

@@ -55,11 +55,11 @@ if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
                         $post['_formError'] = $file;
                         exponent_sessions_set('last_POST',$post);
                         header('Location: ' . $_SERVER['HTTP_REFERER']);
+			exit();
                 }
         }
 	
 	$news = newsitem::update($_POST,$news);
-
 	//Get and add the tags selected by the user
 	$news->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
 		
@@ -74,7 +74,7 @@ if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
 	*/
 	
 	$news->location_data = serialize($loc);
-	
+
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 	exponent_workflow_post($news,"newsitem",$loc);
 } else {

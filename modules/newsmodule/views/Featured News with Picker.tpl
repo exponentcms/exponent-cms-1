@@ -45,9 +45,11 @@
 		</div>
 		<div id="featured-news-picker">
 		        {foreach from=$news item=item name="news"}
+				{if $smarty.foreach.news.iteration <= $config->item_limit}
 		                <div class="featured-news-picker-img" onclick="setPicture('{$item->image_path}'); setTitle('{$item->title}'); setSummary('{$item->body|summarize:html:para}');">
 		                        <img src="{$smarty.const.PATH_RELATIVE}thumb.php?file={$item->image_path}&width=96&height=43" />
 		                </div>
+				{/if}
 		        {/foreach}
 		</div>
 		{clear}
