@@ -134,9 +134,8 @@ body .containermenu.yuimenu .bd.trigger {
 }
 
 body .containermenu.yuimenu .bd.trigger .yuimenu li a.yuimenuitemlabel {
-	font-family:Trebuchet MS, Verdana;
+	font-family:Arial;
 	font-size:14px;
-	font-weight:bold;
 }
 
 body .containermenu .yuimenuitem-hassubmenu{
