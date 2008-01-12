@@ -97,37 +97,49 @@ a.addmodule:hover{
 	color:white;
 }
 
-#body .containermenu {
+body .containermenu {
 	width:30px;
 	float:right;
 	position:relative;
 	z-index:50;
 }
 
-#body .containermenu .yuimenuitem{margin:0 0 0 0;_border:0px solid #f5eacd;}
+body .containermenu .yuimenuitem{margin:0 0 0 0;_border:0px solid #f5eacd;}
 
-#body .containermenu ul li{
+body .containermenu ul li{
 	padding:0;
 	background-image:none;
 }
-#body .containermenu ul li a{
+body .containermenu ul li a{
 	padding:0;
 	background-image:none;
 }
 
-
-
-#body .containermenu .yuimenuitem-selected{
+body .containermenu .yuimenuitem-selected{
 	background-color:#2c4055;
 }
-#body .containermenu .trigger{
+
+body .containermenu .trigger{
 	background-color:transparent;
 	border:none;
 }
-#body .containermenu a {
+
+body .containermenu a {
 	text-decoration:none;
 }
-#body .containermenu .yuimenuitem-hassubmenu{
+
+body .containermenu.yuimenu .bd.trigger {
+	border:none;
+	background:none;`
+}
+
+body .containermenu.yuimenu .bd.trigger .yuimenu li a.yuimenuitemlabel {
+	font-family:Trebuchet MS, Verdana;
+	font-size:14px;
+	font-weight:bold;
+}
+
+body .containermenu .yuimenuitem-hassubmenu{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
@@ -137,7 +149,7 @@ a.addmodule:hover{
 	padding:0;
 	margin:2px 0 0 0;
 }
-#body .containermenu .yuimenuitem-hassubmenu-selected{
+body .containermenu .yuimenuitem-hassubmenu-selected{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
@@ -146,30 +158,30 @@ a.addmodule:hover{
 	padding:0;
 	margin:2px 0 0 0;
 }
-#body .containermenu .yuimenuitemlabel{
+body .containermenu .yuimenuitemlabel{
 	color:#333333;
 }
-#body .containermenu .yuimenuitemlabel-selected{
+body .containermenu .yuimenuitemlabel-selected{
 	color:#ffffff;
 }
-#body .containermenu .trigger .yuimenu .bd{
+body .containermenu .trigger .yuimenu .bd{
 	background-color:#b8d3d4;
 	width:150px;
 	border:1px solid #333333;
 }
-#body .containermenu .trigger .yuimenu .bd .yuimenu .yuimenuitem{
+body .containermenu .trigger .yuimenu .bd .yuimenu .yuimenuitem{
 	background-image:none;
 }
-#body .containermenu .trigger .yuimenu .bd .yuimenu .yuimenuitem a{
+body .containermenu .trigger .yuimenu .bd .yuimenu .yuimenuitem a{
 	background-image:none;
 }
-#body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel {
+body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel {
     background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
  	background-repeat:no-repeat;
 	padding:3px 0 3px 20px;
 }
-#body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel-selected {
+body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel-selected {
     color:#ffffff;
 }
 
