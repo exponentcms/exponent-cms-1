@@ -87,30 +87,6 @@ class addressbookmodule {
 				return -1*strnatcmp($a->lastname ,$b->lastname);
 			}
 		}
-		//Pathos Compatibility::this is deprecated
-		if (@defined(PATHOS)){
-			if(!function_exists('pathos_sorting_byFirstNameAscending')){
-				function pathos_sorting_byFirstNameAscending($a,$b){
-					return exponent_sorting_byFirstNameAscending($a,$b);
-				}
-			}
-			if(!function_exists('pathos_sorting_byFirstNameDescending')){
-				function pathos_sorting_byFirstNameDescending($a,$b){
-					return exponent_sorting_byFirstNameDescending($a,$b);
-				}
-			}
-			if(!function_exists('pathos_sorting_byLastNameAscending')){
-				function pathos_sorting_byLastNameAscending($a,$b){
-					return exponent_sorting_byFirstNameAscending($a,$b);
-				}
-			}
-			if(!function_exists('pathos_sorting_byLastNameDescending')){
-				function pathos_sorting_byLastNameDescending($a,$b){
-					return exponent_sorting_byLastNameDescending($a,$b);
-				}
-			}
-		}
-		//End Pathos Compatibility
 		
 		switch ($config->sort_type) {
 			case 'lastname_asc':

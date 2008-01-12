@@ -74,15 +74,6 @@ class calendar {
 					return ($a->date > $b->date ? 1 : -1);
 				}
 			}
-			//Pathos Compatibility::this is deprecated
-			if (@defined(PATHOS)){
-				if (!function_exists('pathos_sorting_byDateAscending')) {
-					function pathos_sorting_byDateAscending($a,$b) {
-						return exponent_sorting_byDateAscending($a,$b);
-					}
-				}
-			}
-			//End Pathos Compatibility
 			usort($eventdates,'exponent_sorting_byDateAscending');
 			if (isset($object->eventdate)) $template->assign('checked_date',$object->eventdate);
 			$template->assign('dates',$eventdates);

@@ -31,50 +31,6 @@ $jsfiles = array();
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function pathos_theme_includeCSS() {
-	return exponent_theme_includeCSS();
-}
-function pathos_theme_sourceSelectorInfo() {
-	return exponent_theme_sourceSelectorInfo();
-}
-function pathos_theme_headerInfo($section) {
-	return exponent_theme_headerInfo($section);
-}
-function pathos_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
-	return exponent_theme_showSectionalModule($module,$view,$title,$prefix, $pickable);
-}
-function pathos_theme_showTopSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
-	return exponent_theme_showTopSectionalModule($module,$view,$title,$prefix, $pickable);
-}
-function pathos_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
-	return exponent_theme_showModule($module,$view,$title,$source,$pickable,$section);
-}
-function pathos_theme_inAction() {
-	return exponent_theme_inAction();
-}
-function pathos_theme_canViewPage() {
-	return exponent_theme_canViewPage();
-}
-function pathos_theme_setFlow() {
-	return exponent_theme_setFlow();
-}
-function pathos_theme_main() {
-	return exponent_theme_main();
-}
-function pathos_theme_runAction() {
-	return exponent_theme_runAction();
-}
-function pathos_theme_goDefaultSection() {
-	return exponent_theme_goDefaultSection();
-}
-function pathos_theme_mainContainer() {
-	return exponent_theme_mainContainer();
-}
-function pathos_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
-	return exponent_theme_getSubthemes($include_default,$theme);
-}
-//End Pathos Compatibility
-
 function exponent_theme_loadCommonCSS() {
 	global $css_files;
 

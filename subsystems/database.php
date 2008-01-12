@@ -254,15 +254,6 @@ if (!defined('DB_ENGINE')) {
  *	The internal engine name is the key, and the external
  *	descriptive name is the value.
  */
-//Pathos Compatibility::these functions are deprecated
-function pathos_database_backends($valid_only = 1) {
-	return exponent_database_backends($valid_only);
-}
-function pathos_database_connect($username,$password,$hostname,$database,$dbclass = '',$new=false) {
-	return exponent_database_connect($username,$password,$hostname,$database,$dbclass,$new);
-}
-
-//End Pathos Compatibility
 function exponent_database_backends($valid_only = 1) {
 	$options = array();
 	$dh = opendir(BASE.'subsystems/database');

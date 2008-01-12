@@ -60,39 +60,6 @@ define("CORE_EXT_SYSTEM",4);
  * @param		$int	The internal component of the location.
  * @node Subsystems:Core
  */
-//Pathos Compatibility::these functions are deprecated
-function pathos_core_makeLocation($mod=null,$src=null,$int=null) {
-	return exponent_core_makeLocation($mod,$src,$int);
-}
-function pathos_core_resolveDependencies($ext_name,$ext_type,$path=null) {
-	return exponent_core_resolveDependencies($ext_name,$ext_type,$path);	
-}
-function pathos_core_makeLink($params) {
-	return exponent_core_makeLink($params);
-}
-function pathos_core_makeSecureLink($params) {
-	return exponent_core_makeSecureLink($params);
-}
-function pathos_core_copyObject($o) {
-	return exponent_core_copyObject($o);
-}
-function pathos_core_decrementLocationReference($loc,$section) {
-	return exponent_core_decrementLocationReference($loc,$section);
-}
-function pathos_core_incrementLocationReference($loc,$section) {
-	return exponent_core_incrementLocationReference($loc,$section);
-}
-function pathos_core_version($full = false, $build = false) {
-	return  exponent_core_version($full, $build);
-}
-function pathos_core_URLisValid($url) {
-	return exponent_core_URLisValid($url);
-}
-function pathos_core_maxUploadSizeMessage() {
-	return exponent_core_maxUploadSizeMessage();
-}
-//End Pathos Compatibility
-
 function exponent_core_initializeNavigation () {
 	$sections = array();
 	$sections = navigationmodule::levelTemplate(0,0);

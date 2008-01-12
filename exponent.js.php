@@ -23,68 +23,6 @@ include_once("exponent.php");
 ?>
 // exponent Javascript Support Systems
 
-//DEPRECATED: Compatibility layer
-function pathosJSinitialize() {
-	eXp.initialize();
-}
-function pathosJSregister(func) {
-	eXp.register(func);
-}
-function pathosGetCookie(name) {
-	eXp.getCookie(name);
-}
-//End compatibility layer
-
-//DEPRECATED: functional wrapper around OO API
-function exponentJSinitialize() {
-	eXp.initialize();	
-}
-
-//DEPRECATED: functional wrapper around OO API
-function exponentJSregister(func) {
-	eXp.register(func);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function exponentGetCookie(name) {
-	eXp.getCookie(name);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function makeLink() {
-	return eXp.makeLink(makeLink.arguments);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function openWindow(url, name, options) {
-	eXp.openWindow(url, name, options);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function openSelector(mod, dest, vmod, vview) {
-	eXp.openSelector(mod, dest, vmod, vview);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function openContentSelector(mod, dest, view) {
-	eXp.openContentSelector(mod, dest, view);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function sourceSelected(hidden, showPreview, src, desc) {
-	eXp.sourceSelected(hidden, showPreview, src, desc);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function selectAll(prefix,checked) {
-	eXp.selectAll(prefix, checked);
-}
-
-//DEPRECATED: functional wrapper around OO API
-function isOneSelected(prefix, enabledOnly) {
-	eXp.isOneSelected(prefix, enabledOnly);
-}
-
 // Patch the String object, to make string parsing a little easier in exponent
 String.prototype.isValid = function (alpha,numeric,others) {
 	for (var i = 0; i < this.length; i++) {

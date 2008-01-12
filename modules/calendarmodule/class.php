@@ -113,16 +113,6 @@ class calendarmodule {
 			}
 		}
 		
-		//Pathos Compatibility::this is deprecated
-		if (@defined(PATHOS)){
-			if (!function_exists('pathos_sorting_byEventStartAscending')) {
-				function pathos_sorting_byDateAscending($a,$b) {
-					return exponent_sorting_byEventStartAscending($a,$b) ;
-				}
-			}
-		}
-		//End Pathos Compatibility
-		
 		if ($viewconfig['type'] == "minical") {
 			$monthly = array();
 			$info = getdate(time());
@@ -479,20 +469,6 @@ class calendarmodule {
 				return ($a->eventstart < $b->eventstart ? 1 : -1);
 			}
 		}
-		//Pathos Compatibility::this is deprecated
-		if (@defined(PATHOS)){
-			if (!function_exists('pathos_sorting_byEventStartAscending')) {
-				function pathos_sorting_byEventStartAscending($a,$b) {
-					return exponent_sorting_byEventStartAscending($a,$b) ;
-				}
-			}
-			if (!function_exists('pathos_sorting_byEventStartDescending')) {
-				function pathos_sorting_byEventStartDescending($a,$b) {
-					return exponent_sorting_byEventStartDescending($a,$b) ;
-				}
-			}
-		}
-		//End Pathos Compatibility
 		
 		global $db;
 		$events = array();
