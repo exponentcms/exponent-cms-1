@@ -105,7 +105,7 @@ YAHOO.exp = function () {
 			}()
 			
 		},
-		registerpanel: function(height,width,ajax){
+		registerpanel: function(width,height){
 			if (height==undefined) {height=""}
 			if (width==undefined) {width="300px"}
 			YAHOO.exp.panel = new YAHOO.widget.Panel(Dom.generateId(), {fixedcenter:true,height:height,width:width,constraintoviewport: true, modal:false,underlay:"shadow",close:true,visible:false,draggable:true} );
