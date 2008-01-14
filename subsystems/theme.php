@@ -173,7 +173,9 @@ function exponent_theme_loadYUIJS($files=array()) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config) {
+
+
+function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>true,"include-theme-css"=>true)) {
 	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
@@ -195,8 +197,9 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/,
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
-		$str .= "\t".'<script type="text/javascript" src="'.PATH_RELATIVE.'exponent.js.php"></script>'."\r\n";
-		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','animation','dragdrop','container','container_core','menu','element-beta','tabview'));//,'button-beta','editor-beta'
+		$str .= "\t".'<script type="text/javascript" src="exponent.js.php"></script>'."\r\n";
+		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','animation','dragdrop','container','container_core','menu','element-beta','tabview','connection'));//,'button-beta','editor-beta'
+		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'js/exponent.js"></script>'."\r\n"; //Phillip - start of exp js object
 	}
 	return $str;
 }
