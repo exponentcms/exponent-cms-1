@@ -19,4 +19,5 @@
 
 if (!defined('EXPONENT')) exit('');
 echo json_encode(exponent_sessions_set($_REQUEST['var'], $_REQUEST['value']));
+	eDebug($_SESSION);
 ?>

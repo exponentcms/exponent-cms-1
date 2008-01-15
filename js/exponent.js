@@ -88,6 +88,37 @@ YAHOO.exp = function () {
 	
 	var ajaxloded = new YAHOO.util.CustomEvent("Ajax Loaded");
 	return  {
+		sessionget: function(variable){
+			var sUrl = "index.php?ajax_action=1&action=ajax_session_get&module=common&var="+variable;
+			var connect = function(){
+				YAHOO.util.Connect.asyncRequest('GET', sUrl, {
+		    	success : function(o){
+					alert(o.responseText);
+					YAHOO.exp.session = o.responseText;
+				},
+					failure : function(o){
+			        console.debug('Error handling request: '+o.responseText);
+				},
+					timeout : 5000
+			    });
+			}()
+			
+		},
+		sessionset: function(variable,value){
+			var sUrl = "index.php?ajax_action=1&action=ajax_session_set&module=common&var="+variable+"&value="+variable;
+			var connect = function(){
+				YAHOO.util.Connect.asyncRequest('GET', sUrl, {
+				success : function(o){
+					//YAHOO.exp.ajaxcontent.session = o.responseText;
+				},
+					failure : function(o){
+			        console.debug('Error handling request: '+o.responseText);
+				},
+					timeout : 5000
+			    });
+			}()
+			
+		},
 		ajaxcontent: function(module, action, id, source){
 			var sUrl = "index.php?ajax_action=1&action="+action+"&module="+module+"&id="+id+"&src="+source;
 			var response;
