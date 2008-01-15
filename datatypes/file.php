@@ -112,6 +112,16 @@ class file {
 		}
 		return false;
 	}
+	
+	function findByType($item_type) {
+                global $db;
+                return $db->selectObjects('file', 'id IN (SELECT file_id FROM '.DB_TABLE_PREFIX.'_file_details WHERE item_type="'.$item_type.'")');
+        }
+
+        function findFilesForItem($item_type, $item_id) {
+                global $db;
+                return $db->selectObjects('file', 'id IN (SELECT file_id FROM '.DB_TABLE_PREFIX.'_file_details WHERE item_type="'.$item_type.'" AND item_id='.$item_id.')');
+        }
 }
 
 ?>

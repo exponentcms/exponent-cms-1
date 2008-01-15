@@ -18,5 +18,6 @@
 ##################################################
 
 if (!defined('EXPONENT')) exit('');
-echo json_encode(exponent_session_get($_REQUEST['var']));
+	
+	echo json_encode(exponent_sessions_get($_REQUEST['var']));
 ?>
