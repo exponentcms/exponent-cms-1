@@ -82,7 +82,7 @@ YAHOO.exp = function () {
 	var gallerypopups = function (){
 		YAHOO.exp.myPanel = new YAHOO.widget.Panel("imagepanel", {constraintoviewport: true, modal:false,underlay:"shadow",close:true,visible:false,draggable:true} );
 		YAHOO.exp.myPanel.setHeader('');
-	    YAHOO.exp.myPanel.setBody('');
+	    	YAHOO.exp.myPanel.setBody('');
 		YAHOO.exp.myPanel.render(document.body);
 	}
 	
@@ -105,7 +105,7 @@ YAHOO.exp = function () {
 			
 		},
 		sessionset: function(variable,value){
-			var sUrl = "index.php?ajax_action=1&action=ajax_session_set&module=common&var="+variable+"&value="+variable;
+			var sUrl = "index.php?ajax_action=1&action=ajax_session_set&module=common&var="+variable+"&value="+value;
 			var connect = function(){
 				YAHOO.util.Connect.asyncRequest('GET', sUrl, {
 				success : function(o){
