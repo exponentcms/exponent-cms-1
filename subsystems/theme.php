@@ -133,7 +133,7 @@ function exponent_theme_includeThemeCSS($files = array()) {
 function exponent_theme_buildYUIPaths() {
 	global $jsfiles;
 
-	$yuidir = 'external/yui/build/';
+	$yuidir = BASE . 'external/yui/build/';
 	if (is_dir($yuidir) && is_readable($yuidir) ) {
         	$dh = opendir($yuidir);
                 while (($file = readdir($dh)) !== false) {
@@ -143,7 +143,7 @@ function exponent_theme_buildYUIPaths() {
 		                        if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
 									//echo substr($jsfile,-7)."<br>";
                         			if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
-                        				$jsfiles[substr($jsfile,0,-3)] = URL_FULL.$yuidir.$file.'/'.$jsfile;
+                        				$jsfiles[substr($jsfile,0,-3)] = URL_FULL.'external/yui/build/'.$file.'/'.$jsfile;
                         			}
 					}
 				}
