@@ -88,7 +88,7 @@ if (!document.body.appendChild) {
 	<input type="submit" value="{$_TR.save}" onclick="return validateNew()" />
 	<input type="button" value="{$_TR.cancel}" onclick="document.location.href = '{$back}'" />
 </label>
-
+</form>
 <script type='text/javascript' src='{$smarty.const.PATH_RELATIVE}js/ContainerSourceControl.js'></script>
 <script type="text/javascript" defer='1'>
 var sourceInit = false;
