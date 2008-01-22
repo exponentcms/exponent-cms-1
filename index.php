@@ -122,9 +122,8 @@ if (css_file_needs_rebuilt()) {
 	fclose($compiled_file);
 }
 
-$microtime_str = explode(' ',microtime());
-$i_end = $microtime_str[0] + $microtime_str[1];
-
+//$microtime_str = explode(' ',microtime());
+//$i_end = $microtime_str[0] + $microtime_str[1];
 //echo "\r\n<!--".sprintf($base_i18n['exec_time'],round($i_end - $i_start,4)).'-->';
 
 while (ob_get_level() > 0) {
