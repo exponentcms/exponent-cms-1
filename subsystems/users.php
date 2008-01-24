@@ -607,6 +607,11 @@ function exponent_users_getUsersByEmail($email) {
     return $tmpus;
 }
 
+function exponent_users_getEmailById($id) {
+	global $db;
+	return $db->selectValue('user','email','id='.$id);
+}
+
 /* exdoc
  * Gets a list of all user accounts in the system.  By giving different
  * combinations of the two boolean arguments. threee different lists

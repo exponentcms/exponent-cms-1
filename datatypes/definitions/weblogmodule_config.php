@@ -30,6 +30,9 @@ return array(
         	DB_INDEX=>10),
 	'allow_comments'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'comments_notify'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),
 	'items_per_page'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
     	'enable_rss'=>array(

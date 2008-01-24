@@ -18,41 +18,73 @@
 ##################################################
 
 class weblogmodule_config {
+
 	function form($object) {
+		global $db;
 		$i18n = exponent_lang_loadFile('datatypes/weblogmodule_config.php');
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
 		
+		$list = array();
+		$list = exponent_users_getAllUsers();
+		//eDebug($list);
+			
+		$userlist = array();
+		
+
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->allow_comments = 1;
 			$object->items_per_page = 10;
 			$object->enable_rss = false;
-            $object->feed_title = "";
-            $object->feed_desc = "";
+            		$object->feed_title = "";
+            		$object->feed_desc = "";
+			$object->comments_notify = array();
+			print "test1";
 		} else {
-			$form->meta('id',$object->id);
+			$form->meta('id',$object->id);				
+			$selected_users = array();
+			foreach(unserialize($object->comments_notify) as $i) {
+				$selected_users[$i] = $db->selectValue('user', 'username', 'id='.$i);
+			}	
+			$object->comments_notify = $selected_users;
 		}
-	
+		eDebug($object);
+		
+		foreach ($list as $i) {
+		//	echo "Test";
+			if(!array_key_exists($i->id, $object->comments_notify))
+			{
+				$userlist[$i->id] = $i->username;
+			}
+		}
+
+		eDebug($object->comments_notify);
+		eDebug($userlist);
+
 		$form->register(null,'',new htmlcontrol('<div class="moduletitle">General Configuration</div><hr size="1" />'));	
 		$form->register('allow_comments',$i18n['allow_comments'],new checkboxcontrol($object->allow_comments));
+		$form->register('comments_notify',$i18n['comments_notify'],new listbuildercontrol($object->comments_notify,$userlist));
 		$form->register('items_per_page',$i18n['items_per_page'],new textcontrol($object->items_per_page));
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
-        $form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
-        $form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
-        $form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
+       	 	$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
+        	$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
+        	$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
-		
 		return $form;
 	}
 	
 	function update($values,$object) {
+		print "Update function";
+		eDebug(listbuildercontrol::parseData($values,'comments_notify'));
 		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
-		$object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
+		$object->comments_notify = serialize(listbuildercontrol::parseData($values,'comments_notify'));
+        	$object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
-        $object->feed_title = $values['feed_title'];
-        $object->feed_desc = $values['feed_desc'];
+        	$object->feed_title = $values['feed_title'];
+        	$object->feed_desc = $values['feed_desc'];
+		//eDebug($object); exit();		
 		return $object;
 	}
 }
