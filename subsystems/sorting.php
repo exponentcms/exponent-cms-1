@@ -97,6 +97,12 @@ function exponent_sorting_byPostedDescending($a,$b) {
 	return ($a->posted > $b->posted ? -1 : 1);
 }
 
+function exponent_sorting_byEditedAscending($a,$b) {
+	return ($a->edited < $b->edited ? -1 : 1);
+}
+function exponent_sorting_byEditedDescending($a,$b) {
+    return ($a->edited > $b->edited ? -1 : 1);
+}
 /* exdoc
  * Object sorting comparison function -- sorts by updated attribute in ascending order.
  * @node Subsystems:Sorting

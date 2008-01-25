@@ -129,8 +129,9 @@ class newsmodule {
 			$config->item_limit = 10;
 			$config->enable_rss = false;
 			$config->group_by_tags = false;
+			$config->pull_rss = 0;
 		}
-	
+		
 		// Check permissions for AP link
 		$canviewapproval = false;
 		if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
@@ -216,7 +217,55 @@ class newsmodule {
 				//$item->image = URL_FULL.$file->directory.'/'.$file->filename;
 			}
 		}
-			
+
+// Pull in RSS feeds. -RAM
+        if ($config->pull_rss == 1) {	
+            if ($config->rss_cachetime != 3600) {
+                define('MAGPIE_CACHE_AGE', $config->rss_cachetime);
+            }
+            $rssFeeds = array();
+	    	$RSS = new rssfeed();
+            foreach(unserialize($config->rss_feed) as $key=>$val) {
+                $RSS->setURL($val);
+                $rssFeeds[] = $RSS->fetch();
+            }
+            foreach ($rssFeeds as $feed) {
+                foreach ($feed->items as $rssItem) {
+                    $rssObject = new stdClass();
+                    $rssObject->title = $rssItem['title'];
+                    $rssObject->body = $rssItem['description'];
+                    $rssObject->approved = 1;
+                    $rssObject->rss_link = $rssItem['link'];
+                    $rssObject->posted = $rssItem['date_timestamp'];
+                    $rssObject->edited = $rssItem['date_timestamp'];
+                    $rssObject->published = $rssItem['date_timestamp'];
+                    $news[] = $rssObject;
+                }
+            }
+            switch($config->sortfield) {
+                case "posted":
+                    $field = "Posted";
+                break;
+                case "publish":
+                    $field = "Posted";
+                break;
+                case "edited":
+                    $field = "Edited";
+                break;
+                default:
+                    $field = "Posted";
+                break;
+            }
+            if ($config->sortorder == "ASC") {
+                $order = "Ascending";
+            } else {
+                $order = "Descending";
+            }
+            $sortFunc = 'exponent_sorting_by'.$field.$order;
+        }
+        if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+        usort($news,$sortFunc);
+        $news = array_slice($news, 0, $config->item_limit);
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");
 		$template->assign('canview_approval_link',$canviewapproval);

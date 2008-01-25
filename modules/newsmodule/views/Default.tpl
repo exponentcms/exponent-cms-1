@@ -101,7 +101,11 @@
 
 				<span class="date">{$sortdate|format_date:"%B %e"}</span>
 				{$newsitem->body|summarize:"html":"para"}
-				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
+				{if $newsitem->rss_link == ""}
+    				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
+    			{else}
+    			    <a class="readmore" target="_blank" href="{$newsitem->rss_link}">Read More <sub>(Opens in new browser window)</sub></a>
+    			{/if}
 			</div>
 			<div style="clear:both"></div>
 		</div>

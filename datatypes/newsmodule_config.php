@@ -44,6 +44,9 @@ class newsmodule_config {
 			$object->feed_desc = "";
 			$object->collections = array();
 			$object->show_tags = array();
+			$object->pull_rss = 0;
+			$object->rss_feed = array();
+			$object->rss_cachetime = 3600;
 		} else {
 			$cols = unserialize($object->collections);
 			$object->collections = array();
@@ -58,7 +61,11 @@ class newsmodule_config {
 					$available_tags[$tag->id] = $tag->name;
 				}
 			}
-
+			$feeds = array();
+			foreach(unserialize($object->rss_feed) as $key=>$val) {
+			    $feeds[$val] = $val;
+			}
+			$object->rss_feed = $feeds;
 			//Get the tags the user chose to show in the group by views
 			$stags = unserialize($object->show_tags);
 			$object->show_tags = array();
@@ -90,6 +97,9 @@ class newsmodule_config {
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
 		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
 		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
+		$form->register('pull_rss',$i18n['pull_rss'], new checkboxcontrol($object->pull_rss));
+		$form->register('rss_feed',$i18n['rss_feed'], new listbuildercontrol($object->rss_feed,null));
+		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
 		$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
@@ -113,6 +123,14 @@ class newsmodule_config {
 		} else {
 			$object->item_limit = 10;
 		}
+		if ( $values['pull_rss'] == 1 ) {
+		    $object->pull_rss = 1;
+		    $object->rss_feed = serialize(listbuildercontrol::parseData($values,'rss_feed'));
+		} else {
+		    $object->pull_rss = 0;
+		    $object->rss_feed = array();
+		}
+		$object->rss_cachetime = $values['rss_cachetime'];
 		
 		return $object;
 	}

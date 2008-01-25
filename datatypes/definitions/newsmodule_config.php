@@ -58,6 +58,13 @@ return array(
 	'feed_desc'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	'pull_rss'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'rss_feed'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_STRING,
+	    DB_FIELD_LEN=>1000),
+	'rss_cachetime'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER)
 );
 
 ?>
