@@ -282,7 +282,9 @@ class router {
 	
 		// Set the action for this module or controller
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$action = $_POST['action'];
+			// most of the time we can just grab the action outta the POST array since this is passed as a hidden field, 
+                        // but sometimes it is actually set as the action on the form itself...then we get it from the params array instead.
+                        $action = !empty($_POST['action']) ? $_POST['action'] : $this->params['action'];
 		} else {
 			$action = $return_params['action'];
 		}
