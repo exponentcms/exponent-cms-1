@@ -23,11 +23,11 @@
 
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header">&nbsp;</td>
-		<td class="header"></td>
-		<td class="header"></td>
-		<td class="header"></td>
-		<td class="header"></td>
+		<th><strong>Page Title</strong></td>
+		<th><strong>Add Supages</strong></td>
+		<th><strong>Actions</strong></td>
+		<th><strong>Permissions</strong></td>
+		<th><strong>Arrange</strong></td>
 	</tr>
 {foreach from=$sections item=section}
 {math equation="x+1" x=$section->rank assign=nextrank}
