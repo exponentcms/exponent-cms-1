@@ -20,6 +20,8 @@
 
 if (!defined('EXPONENT')) exit('');
 
+$userjsfiles = array();
+
 /* exdoc
  * The definition of this constant lets other parts of the system know 
  * that the subsystem has been included for use.
@@ -34,6 +36,9 @@ include_once(BASE.'external/Smarty/libs/Smarty.class.php');
 class BaseTemplate {
 	// Smarty template object.
 	var $tpl;
+	
+	// This is the directory of the particular module, used to identify the moduel
+	var $module = "";
 	
 	// The full server-side filename of the .tpl file being used.
 	// This will be used by modules on the outside, for retrieving view configs.
@@ -67,6 +72,8 @@ class BaseTemplate {
 		
 		$this->viewfile = exponent_template_getViewFile($item_type, $item_dir, $view);
 		$this->viewdir = realpath(dirname($this->viewfile));
+
+		$this->module = $item_dir;
 				
 		$this->view = substr(basename($this->viewfile),0,-4);
 		
@@ -94,6 +101,9 @@ class BaseTemplate {
 		
 		// Load language constants
 		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir . $this->view . '.php'));
+		
+		if (!defined('SYS_JAVASCRIPT')) include_once(BASE.'subsystems/javascript.php');
+		exponent_javascript_harvestJS($this->module,$this->view);
 	}
 	
 	//PHP4: compatibility wrapper
@@ -116,8 +126,8 @@ class BaseTemplate {
 	 * Render the template and echo it to the screen.
 	 */
 	function output() {
-		// Load language constants
-		//$this->tpl->assign('_TR',exponent_lang_loadFile($this->viewdir.'/'.$this->view.'.php')); //fix lamp issue
+		// javascript registration
+		
 		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir."".$this->view.'.php')); //fix lamp issue
 		$this->tpl->display($this->view.'.tpl');
 	}
