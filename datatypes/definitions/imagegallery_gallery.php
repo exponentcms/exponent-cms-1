@@ -46,6 +46,8 @@ return array(
 		DB_FIELD_LEN=>10000),
 	"box_size"=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	"pop_size"=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	"perpage"=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	"perrow"=>array(

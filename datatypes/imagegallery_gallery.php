@@ -46,6 +46,8 @@ class imagegallery_gallery {
 		} else {
 			$form->meta('id',$object->id);
 		}
+		//depricated for form controls
+		
 		
 		$form->register('name','Name',new textcontrol($object->name));
 		$form->register('description','Description',new htmleditorcontrol($object->description));
@@ -60,6 +62,7 @@ class imagegallery_gallery {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
 		$object->box_size = $values['box_size'];
+		$object->pop_size = $values['pop_size'];
 		$object->perpage = $values['perpage'];
 		$object->perrow = $values['perrow'];
 		return $object;

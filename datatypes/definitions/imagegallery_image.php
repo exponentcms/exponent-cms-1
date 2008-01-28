@@ -52,6 +52,9 @@ return array(
 	"thumbnail"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	"enlarged"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),
 	"gallery_id"=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	"posted"=>array(
