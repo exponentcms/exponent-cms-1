@@ -44,6 +44,12 @@ if (isset($_POST['id'])) {
 
 if (exponent_permissions_check('edit',$loc)) {
 	
+	if($_POST['box_size']!=$gallery->box_size || $_POST['pop_size']!=$gallery->pop_size){
+		$resizeimages = 1;
+	}else{
+		$resizeimages = 0;
+	}
+	
 	$gallery = imagegallery_gallery::update($_POST,$gallery);
 	
 	if (isset($gallery->id)) {
@@ -76,6 +82,19 @@ if (exponent_permissions_check('edit',$loc)) {
 			exponent_permissions_grant($user,$perm,$iloc);
 		}
 		exponent_permissions_triggerSingleRefresh($user);
+	}
+
+	
+	if (IN_AJAX_ACTION == 0) {
+		exponent_flow_redirect();
+	} else {
+		if($resizeimages == 1){
+			$gallery->images = $db->selectObjects('imagegallery_image','gallery_id='.$gallery->id);
+			echo json_encode($gallery);			
+		}else{
+			echo "no-resize";
+		}	
+		exit;
 	}
 	exponent_flow_redirect();
 } else {

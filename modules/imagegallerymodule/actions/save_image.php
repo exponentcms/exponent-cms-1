@@ -73,6 +73,12 @@ if (exponent_permissions_check('manage',$loc)) {
 		$dir = 'files/imagegallerymodule/'.$loc->src.'/gallery'.$gallery->id;
 		$file = file::update('file',$dir,null);
 		if (is_object($file)) {
+			
+			$thumbname = imagegallerymodule::createThumbnailFile($file, $gallery->box_size); 
+			$image->thumbnail = $thumbname; 
+			$popname = imagegallerymodule::createEnlargedFile($file, $gallery->pop_size); 
+			$image->enlarged = $popname;
+			 
 			$image->file_id = $db->insertObject($file,'file');
 		} else {
 			// If file::update() returns a non-object, it should be a string.  That string is the error message.

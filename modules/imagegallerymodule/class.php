@@ -107,8 +107,16 @@ class imagegallerymodule {
 				$galleries[$i]->images = array();
 				$galleries[$i]->images = $db->selectObjects('imagegallery_image', 'gallery_id='.$galleries[$i]->id,'rank');
 				for ($y = 0; $y < count($galleries[$i]->images); $y++) {
-                			$galleries[$i]->images[$y]->file = $db->selectObject("file","id=".$galleries[$i]->images[$y]->file_id);
-        			}
+					$galleries[$i]->images[$y]->file = $db->selectObject("file","id=".$galleries[$i]->images[$y]->file_id);
+					//eDebug($galleries[$i]->images[$y]->file);
+					if(is_object($galleries[$i]->images[$y]->file)){
+						$popsize = getimagesize(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->enlarged);
+						echo $galleries[$i]->images[$y]->file->filename."<br>";
+						//eDebug($galleries[$i]->images[$y]);
+						$galleries[$i]->images[$y]->popwidth = $popsize[0];
+						$galleries[$i]->images[$y]->popheight = $popsize[1];
+					}
+				}
 			}
 		}
 		
@@ -126,7 +134,13 @@ class imagegallerymodule {
 	function createThumbnailFile($file = null, $height = 0) {
 		if (!defined('SYS_IMAGE')) require(BASE.'subsystems/image.php');
 		if ($file != null && $height != 0) {
-			$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));
+			$size = getimagesize($file->directory."/".$file->filename);
+			if($size[1]<=$height) $height = $size[1];
+				if($size[1]<=$size[0]){
+					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));				
+				}else{
+					$thumb = exponent_image_scaleToWidth($file->directory."/".$file->filename,intval($height));				
+				}
 			$pos = strrpos($file->filename, ".");
 			if ($pos != false) {
 				$filename = substr($file->filename, 0, $pos);
@@ -148,6 +162,37 @@ class imagegallerymodule {
 		} 
 		
 		return $thumbname;
+	}
+	function createEnlargedFile($file = null, $height = 0) {
+		if (!defined('SYS_IMAGE')) require(BASE.'subsystems/image.php');
+		if ($file != null && $height != 0) {
+			$size = getimagesize($file->directory."/".$file->filename);
+			if($size[1]<=$height) $height = $size[1];
+				if($size[1]<=$size[0]){
+					$thumb = exponent_image_scaleToWidth($file->directory."/".$file->filename,intval($height));				
+				}else{
+					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));				
+				}
+			$pos = strrpos($file->filename, ".");
+			if ($pos != false) {
+				$filename = substr($file->filename, 0, $pos);
+				$extension = substr($file->filename, $pos);
+				$popname = $filename."_popup".$extension;
+			}else{
+				$popname = $file->filename."_popup";
+			}
+		}
+		$info = exponent_image_sizeinfo($file->directory."/".$file->filename);
+		switch ($info['mime']) {
+			case 'image/jpeg':
+			case 'image/jpg':
+				imagejpeg($thumb, $file->directory."/".$popname, 100);
+			case 'image/png':
+				imagepng($thumb, $file->directory."/".$popname);
+			case 'image/gif':
+				imagegif($thumb, $file->directory."/".$popname);
+		} 
+		return $popname;
 	}
 	
 	function deleteIn($loc) {

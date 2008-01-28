@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: edit_gallery.php,v 1.4 2005/02/24 20:14:14 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
@@ -41,12 +40,14 @@ if (isset($_GET['id'])) {
 }
 
 if (exponent_permissions_check("edit",$loc)) {
+	//deprecated for Form controls
 	$form = imagegallery_gallery::form($gallery);
 	$form->location($loc);
 	$form->meta("action","save_gallery");
 	
 	$template = new template("imagegallerymodule","_form_editgallery",$loc);
 	$template->assign("is_edit",(isset($gallery->id) ? 1 : 0));
+	if($gallery) $template->assign("gallery",$gallery);
 	$template->assign("form_html",$form->toHTML());
 	$template->output();
 }

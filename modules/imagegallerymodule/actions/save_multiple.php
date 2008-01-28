@@ -54,7 +54,6 @@ if ($gallery) {
 		if ($firstrank == null) $firstrank = -1; // It will be incremented
 		
 		$success = true;
-		
 		for ($i = 0; $i < $_POST['count']; $i++) {
 			$firstrank++;
 			$image->rank = $firstrank;
@@ -71,8 +70,11 @@ if ($gallery) {
 				
 				$image->file_id = $db->insertObject($file,"file");
 				
-				$thumbname = imagegallerymodule::createThumbnailFile($file, 100); 
+				$thumbname = imagegallerymodule::createThumbnailFile($file, $gallery->box_size); 
 				$image->thumbnail = $thumbname; 
+				$popname = imagegallerymodule::createEnlargedFile($file, $gallery->pop_size); 
+				$image->enlarged = $popname; 
+				
 				$db->insertObject($image,"imagegallery_image");
 			}
 		}

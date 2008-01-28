@@ -28,53 +28,56 @@
  *
  * $Id: Default.tpl,v 1.4 2005/02/24 20:14:35 filetreefrog Exp $
  *}
-<div id="gallery-images" class="imagegallerymodule all-galleries-with-thumbnails">
-	{include file="_permissions.tpl"}
+{literal}
+<script type="text/javascript" charset="utf-8">
+	YAHOO.namespace("exp");
+</script>
+{/literal}
+
+<div class="imagegallerymodule all-galleries-with-thumbnails">
+	<div class="modulepermissions">
+		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
+	</div>
 
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+	
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.create == 1}
+	<div class="moduleactions">
+		<a href="{link action=edit_gallery}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" /> New Gallery</a><br />
+	</div>
+	{/if}
+	{/permissions}
+
 	{foreach from=$galleries item=gallery}
 		<div class="item">
 			<h2>{$gallery->name}</h2>
-			{include file="_edit_delete.tpl"}
+			{permissions level=$smarty.const.UILEVEL_NORMAL}
+			<div class="itemactions">
+				{include file="_edit_delete.tpl"}
+			</div>
+			{/permissions}
 			<p>{$gallery->description}</p>
 			<div class="thumbbox">
-				{foreach from=$gallery->images item=file}
-					<a href="javascript:void(0);" onclick="popImage('{$file->name}', '{$file->file->directory}/{$file->file->filename}')">
-						<img alt="{$file->alt}" src="{$smarty.const.URL_FULL}thumb.php?file={$file->file->directory}/{$file->file->filename}&square=75" />
+				{foreach key="key" from=$gallery->images item=file}
+					<a 	href="#" 
+						onclick="YAHOO.exp.popImage('{$file->name}', '{$file->file->directory}/{$file->enlarged}',{$file->popwidth},{$file->popheight}); return false" 
+						style="background:url({$file->file->directory}/{$file->thumbnail}) no-repeat; 
+						display:block; 
+						width:{$gallery->box_size}px;
+						height:{$gallery->box_size}px;
+						float:left;
+						">
+						&nbsp;
 					</a>
 				{/foreach}
 			</div>
 		</div>
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-			{if $permissions.edit == 1}
-                        	<a href="{link action=view_gallery id=$gallery->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" /> Edit {$gallery->name}</a><br />
-                	{/if}
-		{/permissions}
 	{foreachelse}
-		<div align="center"><i>No Galleries Found</i></div>
+		<div align="center">
+			<i>No Galleries Found</i>
+		</div>
 	{/foreach}
 
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.create == 1}
-			<a href="{link action=edit_gallery}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" /> New Gallery</a><br />
-		{/if}
-	{/permissions}
 </div>
 
-{literal}
-<script type="text/javascript">
-	YAHOO.util.Event.onAvailable("gallery-images", function () {
-			myPanel = new YAHOO.widget.Panel("myPanel", {width:"400px",fixedcenter: true,constraintoviewport: true, modal:true,underlay:"shadow",close:true,visible:false,draggable:true, xy:["50%","40%"]} );
-			myPanel.setHeader('asdfasdf');
-            myPanel.setBody('asdfas');
-			myPanel.render(document.body);
-		}
-	);
-
-	function popImage(imgname, imgfile) {
-		myPanel.setHeader(imgname);
-		myPanel.setBody('<img src="thumb.php?file=' + imgfile + '&constraint=1&width=380&height=400" />');
-		myPanel.show();
-	}	
-</script>
-{/literal}
