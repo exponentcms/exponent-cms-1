@@ -25,7 +25,7 @@ if (!defined('EXPONENT')) exit('');
  * An HTML checkbox
  *
  * @author Phillip Ball
- * @copyright 2004-2008 OIC Group, Inc.
+ * @copyright 2004-2051 OIC Group, Inc.
  * @version 0.96.7
  *
  * @package Subsystems
