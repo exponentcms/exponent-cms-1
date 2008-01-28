@@ -44,12 +44,12 @@ function exponent_theme_loadCommonCSS() {
 				$css_files["common-".substr($cssfile,0,-4)] = URL_FULL.$commondir.'/'.$cssfile;
 				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
 					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
-		        } elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
+				} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
 					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
 				}
 			}
 		}
- 	}
+	}
 }
 
 function exponent_theme_resetCSS() {
@@ -72,7 +72,7 @@ function exponent_theme_loadRequiredCSS() {
 			}
 			if (is_file($themefilename) && substr($themefilename,-4,4) == ".css") {
 				$css_files["theme-required-".substr($cssfile,0,-4)] = URL_FULL.$requiredthemedir.$cssfile;
-	        }
+			}
 		}
 	}
 	//eDebug($css_files);
@@ -99,21 +99,21 @@ function exponent_theme_includeThemeCSS($files = array()) {
 	if (empty($files)) {
 		global $css_files;
 		//exponent_theme_resetCSS();
-        //exponent_theme_loadYUICSS(array('menu'));
-        //exponent_theme_loadExpDefaults();
+		//exponent_theme_loadYUICSS(array('menu'));
+		//exponent_theme_loadExpDefaults();
 
 		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
 		
 		foreach ($cssdirs as $cssdir) {
-		        if (is_dir($cssdir) && is_readable($cssdir) ) {
-        		        $dh = opendir($cssdir);
-                		while (($cssfile = readdir($dh)) !== false) {
-                        		$filename = $cssdir.$cssfile;
-	                        	if ( is_file($filename) && substr($filename,-4,4) == ".css" && !array_key_exists(substr("usertheme-".$cssfile,0,-4), $css_files)) {
-        	                        	$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.$cssdir.$cssfile;
-                	        	}
-                		}
-        		}
+				if (is_dir($cssdir) && is_readable($cssdir) ) {
+						$dh = opendir($cssdir);
+						while (($cssfile = readdir($dh)) !== false) {
+								$filename = $cssdir.$cssfile;
+								if ( is_file($filename) && substr($filename,-4,4) == ".css" && !array_key_exists(substr("usertheme-".$cssfile,0,-4), $css_files)) {
+										$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.$cssdir.$cssfile;
+								}
+						}
+				}
 		}
 	} else {	
 		foreach ($files as $file) {
@@ -133,18 +133,18 @@ function exponent_theme_includeThemeCSS($files = array()) {
 function exponent_theme_buildYUIPaths() {
 	global $jsfiles;
 
-	$yuidir = BASE . 'external/yui/build/';
+	$yuidir = 'external/yui/build/';
 	if (is_dir($yuidir) && is_readable($yuidir) ) {
-        	$dh = opendir($yuidir);
-                while (($file = readdir($dh)) !== false) {
+			$dh = opendir($yuidir);
+				while (($file = readdir($dh)) !== false) {
 			if (is_dir($yuidir.$file) && is_readable($yuidir.$file) && substr($file,0,1) != ".") {
 				$jsdh = opendir($yuidir.$file);
 				while (($jsfile = readdir($jsdh)) !== false) {
-		                        if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
+								if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
 									//echo substr($jsfile,-7)."<br>";
-                        			if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
-                        				$jsfiles[substr($jsfile,0,-3)] = URL_FULL.'external/yui/build/'.$file.'/'.$jsfile;
-                        			}
+									if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
+										$jsfiles[substr($jsfile,0,-3)] = $yuidir.$file.'/'.$jsfile;
+									}
 					}
 				}
 			}
@@ -173,14 +173,12 @@ function exponent_theme_loadYUIJS($files=array()) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-
-
-function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>true,"include-theme-css"=>true)) {
+function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true)) {
 	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
 
-	if(!isset($config['include-common-css'])) $config['include-common-css']==true;
+	if(!isset($config['include-common-css'])) $config['include-common-css']==false;
 	if(!isset($config['include-theme-css'])) $config['include-theme-css']==true;
 	// load all the required CSS files for the user.
 	exponent_theme_loadRequiredCSS();
@@ -244,7 +242,7 @@ function exponent_theme_sourceSelectorInfo() {
  * @param string $module The classname of the module to display
  * @param string $view The name of the view to display the module with
  * @param string $title The title of the module (support is view-dependent)
- * @param string $prefix The prefix of the module's source.  The current section id will be appended to this
+ * @param string $prefix The prefix of the module's source.	 The current section id will be appended to this
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
@@ -279,7 +277,7 @@ function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null,
  * @param string $module The classname of the module to display
  * @param string $view The name of the view to display the module with
  * @param string $title The title of the module (support is view-dependent)
- * @param string $prefix The prefix of the module's source.  The current section id will be appended to this
+ * @param string $prefix The prefix of the module's source.	 The current section id will be appended to this
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
@@ -355,7 +353,7 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 }
 
 /* exdoc
- * Checks to see if the page is currently in an action.  Useful only if the theme does not use the exponent_theme_main() function
+ * Checks to see if the page is currently in an action.	 Useful only if the theme does not use the exponent_theme_main() function
  * Returns whether or not an action should be run.
  * @node Subsystems:Theme
  */
@@ -381,7 +379,7 @@ function exponent_theme_canViewPage() {
 	*/
 }
 
-/*  exdoc
+/*	exdoc
  * Looks at the attributes of the current section and properly calls exponent_flow_set
  * @node Subsystems:Theme
  */
@@ -478,24 +476,24 @@ function exponent_theme_showAction($module, $action, $src, $params="") {
 	
 	global $db, $user;
 
-        $loc = null;
-        $loc->mod = $module;
-        $loc->src = (isset($src) ? $src : "");
-        $loc->int = (isset($int) ? $int : "");
+		$loc = null;
+		$loc->mod = $module;
+		$loc->src = (isset($src) ? $src : "");
+		$loc->int = (isset($int) ? $int : "");
 
-        $actfile = "/" . $module . "/actions/" . $action . ".php";
-        //if (isset($['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
+		$actfile = "/" . $module . "/actions/" . $action . ".php";
+		//if (isset($['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
 
-        if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
-	        include(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
-        } elseif (is_readable(BASE.'modules/'.$actfile)) {
-                include(BASE.'modules/'.$actfile);
-        } else {
-                $i18n = exponent_lang_loadFile('subsystems/theme.php');
-                echo SITE_404_HTML . '<br /><br /><hr size="1" />';
-                echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
-                echo '<br />';
-        }
+		if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
+			include(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
+		} elseif (is_readable(BASE.'modules/'.$actfile)) {
+				include(BASE.'modules/'.$actfile);
+		} else {
+				$i18n = exponent_lang_loadFile('subsystems/theme.php');
+				echo SITE_404_HTML . '<br /><br /><hr size="1" />';
+				echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
+				echo '<br />';
+		}
 }
 
 /* exdoc
@@ -550,7 +548,7 @@ function exponent_theme_mainContainer() {
  */
 function exponent_theme_getSubthemes($include_default = true,$theme = DISPLAY_THEME) {
 	$base = BASE."themes/$theme/subthemes";
-	// The array of subthemes.  If the theme has no subthemes directory,
+	// The array of subthemes.	If the theme has no subthemes directory,
 	// or the directory is not readable by the web server, this empty array
 	// will be returned (Unless the caller wanted us to include the default layout)
 	$subs = array();
@@ -582,7 +580,7 @@ function exponent_theme_getPrinterFriendlyTheme() {
 
 	if (is_readable($theme)) {
 		return $theme;
-        } elseif (is_readable($common)) {
+		} elseif (is_readable($common)) {
 		return $common;
 	} else {
 		return null;
