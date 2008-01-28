@@ -82,6 +82,7 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
                 } else {
                         exponent_theme_runAction();
                 }
+		exponent_javascript_outputJStoDOMfoot();				
 	} else {
 		echo sprintf($base_i18n['not_readable'], $page);
 	}
