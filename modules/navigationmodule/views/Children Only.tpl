@@ -13,8 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-
 <div class="navigationmodule children-only">
+	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
 	<ul>
 		{foreach from=$sections item=section}
 			{if $section->numParents != 0 && ($section->parents[0] == $current->id || $section->parents[0] == $current->parents[0])}
@@ -28,10 +28,4 @@
 			{/if}
 		{/foreach}
 	</ul>
-
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $canManage == 1}
-			[ <a class="navlink" href="{link action=manage}">{$_TR.manage}</a> ]
-		{/if}
-	{/permissions}
 </div>
