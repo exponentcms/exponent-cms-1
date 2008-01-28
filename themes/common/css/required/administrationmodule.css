@@ -1,0 +1,116 @@
+/** Administration Module Manager form **/
+.administration_modmgrheader {
+        background-color: lightgrey;
+}
+
+.administration_modmgrheader span.active {
+        color: green;
+        font-weight: bold;
+}
+
+.administration_modmgrheader span.inactive {
+        color: red;
+        font-weight: bold;
+}
+
+.administration_modmgrbody {
+        padding-left: 10px;
+        border: 1px solid lightgrey;
+}
+
+/** Admin Control Panel Styles  **/
+.administrationmodule.default {
+	width: 100%;
+}
+
+.administrationmodule.default .category-box {
+	width: 100%;
+	/*text-align: center;*/
+}
+
+.administrationmodule.default .category {
+	width: 33%;
+	display: inline;
+	float: left;
+}
+
+.administrationmodule.default h4 {
+}
+
+
+.administrationmodule.quick-links a {
+	display: block;
+	font-size: 95%;
+	padding:3px 0 0 25px;
+	font-family:Trebuchet MS;
+	border:1px dotted #999999;
+	text-decoration: none;
+	min-height:18px;
+	*height:18px;
+	margin:2px 10px 0 10px;
+	background-position:3px 50%;
+}
+
+.administrationmodule.quick-links a:hover {
+	text-decoration: none;
+	background-color:#dedede;
+	color: #333333;
+	
+}
+.administrationmodule.quick-links a.preview {
+	background-image:url(../../images/icons/view.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.edit {
+	background-image:url(../../images/icons/edit.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.sitetree {
+    background-image:url(../../images/icons/sitetree.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.editprofile {
+    background-image:url(../../images/icons/edit-profile.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.changepassword {
+    background-image:url(../../images/icons/lock.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.files {
+	background-image:url(../../images/icons/mimetypes/pdf.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.admin {
+	background-image:url(../../images/icons/site-admin.png);
+    	background-repeat:no-repeat;
+}
+.administrationmodule.quick-links a.logout  {
+	background-image:url(../../images/icons/logout.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quick-links h1 {
+	font-size: 136%;
+	padding:0;
+}
+
+.administrationmodule.default h4 {
+	font-size: 107%;
+	padding: 17px 0px 17px 48px;
+	background-repeat: no-repeat;
+}
+
+.administrationmodule.default ul.task {
+	font-size: 9px;
+	margin-left: 15px;
+	margin-bottom: 20px;
+	padding: 0;
+}
+
+#yui-main .administrationmodule.default ul.task li { 
+}
+
+.administrationmodule.default ul li a {
+} 
+
+
