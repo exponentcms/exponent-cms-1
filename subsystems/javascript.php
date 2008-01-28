@@ -120,4 +120,35 @@ function exponent_javascript_array($array) {
 	return exponent_javascript_object($array);
 }
 
+function exponent_javascript_harvestJS($module,$view){
+	
+	global $userjsfiles;
+
+	$commondir = BASE.'themes/common/javascript/'.$module.'/'.$view.'.js';
+	$themedir = BASE.'themes/'.DISPLAY_THEME_REAL.'/javascript/'.$module.'/'.$view.'.js';
+
+//	echo $commondir;
+	if (is_readable($themedir)) {
+		$userjsfiles[$module][$view] = file_get_contents($themedir);
+	} elseif (is_readable($commondir)) {
+		$userjsfiles[$module][$view] = file_get_contents($commondir);
+	}
+	//eDebug($userjsfiles);
+}
+
+function exponent_javascript_outputJStoDOMfoot(){
+	
+	global $userjsfiles;
+	if (!empty($userjsfiles)){
+		echo '<script type="text/javascript" charset="utf-8">';
+		//eDebug($userjsfiles);
+		foreach($userjsfiles as $top){
+			foreach($top as $contents){
+				echo $contents;
+			}
+		}
+		echo '</script>';
+	}
+}
+
 ?>
