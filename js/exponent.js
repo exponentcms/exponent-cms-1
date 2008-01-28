@@ -1,5 +1,3 @@
-// define namespace
-
 YAHOO.namespace("exp");
 YAHOO.exp = function () {
 
@@ -80,24 +78,26 @@ YAHOO.exp = function () {
 
 	}
 	var gallerypopups = function (){
-		YAHOO.exp.myPanel = new YAHOO.widget.Panel("imagepanel", {constraintoviewport: true, modal:false,underlay:"shadow",close:true,visible:false,draggable:true} );
+		YAHOO.exp.myPanel = new YAHOO.widget.Panel("imagepanel", {fixedcenter:true,constraintoviewport:true, modal:true,underlay:"none",close:true,visible:false,draggable:true} );
 		YAHOO.exp.myPanel.setHeader('');
-	    	YAHOO.exp.myPanel.setBody('');
+	    YAHOO.exp.myPanel.setBody('');
 		YAHOO.exp.myPanel.render(document.body);
 	}
 	
 	var ajaxloded = new YAHOO.util.CustomEvent("Ajax Loaded");
 	return  {
+		flowredirect: function(){
+			window.location = eXp.URL_FULL+"index.php?ajax_action=1&action=ajax_flow_redirect&module=common";	
+		},
 		sessionget: function(variable){
 			var sUrl = "index.php?ajax_action=1&action=ajax_session_get&module=common&var="+variable;
 			var connect = function(){
 				YAHOO.util.Connect.asyncRequest('GET', sUrl, {
-		    	success : function(o){
-					alert(o.responseText);
-					YAHOO.exp.session = o.responseText;
+		    		success : function(o){
+					YAHOO.exp.session = YAHOO.lang.JSON.parse(o.responseText);
 				},
-					failure : function(o){
-			        console.debug('Error handling request: '+o.responseText);
+				failure : function(o){
+			        	console.debug('Error handling request: '+o.responseText);
 				},
 					timeout : 5000
 			    });
@@ -111,7 +111,7 @@ YAHOO.exp = function () {
 				success : function(o){
 					//YAHOO.exp.ajaxcontent.session = o.responseText;
 				},
-					failure : function(o){
+				failure : function(o){
 			        console.debug('Error handling request: '+o.responseText);
 				},
 					timeout : 5000
@@ -124,12 +124,12 @@ YAHOO.exp = function () {
 			var response;
 			var connect = function(){
 				YAHOO.util.Connect.asyncRequest('GET', sUrl, {
-		    	success : function(o){
+		    		success : function(o){
 					YAHOO.exp.ajaxcontent.response = o.responseText;
 					ajaxloded.fire();
 				},
-					failure : function(o){
-			        console.debug('Error handling request: '+o.responseText);
+				failure : function(o){
+			        	console.debug('Error handling request: '+o.responseText);
 				},
 					timeout : 5000
 			    });
@@ -143,34 +143,27 @@ YAHOO.exp = function () {
 			YAHOO.exp.panel.setHeader('Header');
 			YAHOO.exp.panel.setBody("Body");
 			function setajaxbody(){
-				console.debug(YAHOO.exp.ajaxcontent.response);
+				//alert(YAHOO.exp.ajaxcontent.response);
+				//console.debug(YAHOO.exp.ajaxcontent.response);
 				YAHOO.exp.panel.setBody(YAHOO.exp.ajaxcontent.response);
 			}
 			ajaxloded.subscribe(setajaxbody);
 			YAHOO.exp.panel.setFooter('Footer');
 			YAHOO.exp.panel.render(document.body);
 		},
-		init: function () {
-			gallerypopups();
-			buildmenus();
-			expandablenav();
-		},
-		popImage : function (imgname, imgfile) {
-			YAHOO.exp.myPanel.setHeader(imgname);
-			YAHOO.exp.myPanel.setBody('<img src="thumb.php?file=' + imgfile + '&constraint=1&width=380&height=400" />');
+		popImage : function (imgname,imgfile,width,height) {
+			//alert(width+" - "+height);
+			YAHOO.exp.myPanel.setHeader("&nbsp;"+imgname);
+			YAHOO.exp.myPanel.cfg.setProperty("width",width+20+"px");
+			YAHOO.exp.myPanel.cfg.setProperty("height",height+20+"px");
+			YAHOO.exp.myPanel.setBody('<img class="popupimage" src="'+imgfile+'" />');
+			YAHOO.exp.myPanel.render(document.body);
 			YAHOO.exp.myPanel.show();
-			//alert(Dom.getStyle("imagepanel","width"));
-			YAHOO.exp.myPanel.cfg.setProperty("xy",[(Dom.getViewportWidth()/2)-(Dom.getStyle("imagepanel")/2),"200px"]); 
-			//YAHOO.exp.myPanel.cfg.setProperty("fixedcenter",true); 
-			//var mask = Dom.getElementsByClassName("mask");
-			//Dom.setStyle(mask,"height",Dom.getDocumentHeight()+"px");
-			//alert(Dom.getDocumentHeight()+"px");
 		}
+		init: function () {
+			
+		},
 	};
-}(); // the parens here cause the anonymous function to execute and return
-
-//The above code has already executed, so we can access the init
-//method immediately:
+}(); 
 
 YAHOO.util.Event.onDOMReady(YAHOO.exp.init);
-
