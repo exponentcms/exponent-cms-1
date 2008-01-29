@@ -122,7 +122,7 @@ class newsmodule {
 		global $db, $user;
 		
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
-		if ($config == null) {
+		if (empty($config)) {
 			$config->sortorder = 'DESC';
 			//FJD - changed from posted to edited:
 			$config->sortfield = 'edited';
@@ -130,8 +130,22 @@ class newsmodule {
 			$config->enable_rss = false;
 			$config->group_by_tags = false;
 			$config->pull_rss = 0;
+			$config->aggregate = array();
 		}
-		
+	
+		$locsql = "(location_data='".serialize($loc)."'";
+                if (!empty($config->aggregate)) {
+                        $locations = unserialize($config->aggregate);
+                        foreach ($locations as $source) {
+                                $tmploc = null;
+                                $tmploc->mod = 'newsmodule';
+                                $tmploc->src = $source;
+                                $tmploc->int = '';
+                                $locsql .= " OR location_data='".serialize($tmploc)."'";
+                        }
+                }
+                $locsql .= ')';
+	
 		// Check permissions for AP link
 		$canviewapproval = false;
 		if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
@@ -168,14 +182,15 @@ class newsmodule {
         	}
 
 		//If this module was configured as an aggregant, then turn off check for the location_data
-		if (isset($config->aggregate) && $config->aggregate == true) {
+		/*if (isset($config->aggregate) && $config->aggregate == true) {
 			$ifloc = '';
 		} else {
 			$ifloc = "location_data='" . serialize($loc) . "' AND ";
-		}			
+		}*/			
 		
 		//Get the news items.
-		$news = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
+		$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
+		$featured = $db->selectObjects('newsitem',$locsql." AND is_featured AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
 
 		for ($i = 0; $i < count($news); $i++) {
 			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
@@ -269,6 +284,7 @@ class newsmodule {
         
 	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
         usort($news,$sortFunc);
+        usort($featured,$sortFunc);
         $news = array_slice($news, 0, $config->item_limit);
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");
@@ -276,6 +292,7 @@ class newsmodule {
 		$template->assign('in_approval',$in_approval);
 		if($config->group_by_tags == true) {$template->assign('news',$grouped_news);} else {$template->assign('news',$news);}
 
+		$template->assign('featured', $featured);
 		$template->assign('config', $config);		
 		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
 		
