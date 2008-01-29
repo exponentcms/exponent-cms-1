@@ -159,10 +159,10 @@ YAHOO.exp = function () {
 			YAHOO.exp.myPanel.setBody('<img class="popupimage" src="'+imgfile+'" />');
 			YAHOO.exp.myPanel.render(document.body);
 			YAHOO.exp.myPanel.show();
-		}
+		},
 		init: function () {
 			
-		},
+		}
 	};
 }(); 
 
