@@ -2,27 +2,14 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>My New Exponent Site</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="Generator" content="Exponent Content Management System - %%MAJOR%%.%%MINOR%%.%%REVISION%%.%%TYPE%%" />
-	<meta name="Keywords" content="" />
-	<meta name="Description" content="" />
-	<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->
-
-	<link rel="stylesheet" type="text/css" href="http://localhost/trunk/exponent/tmp/css/exp-styles-min.css">
-	<script type="text/javascript" src="http://localhost/trunk/exponent/exponent.js.php"></script>
-	<script type="text/javascript" src="external/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-	<script type="text/javascript" src="external/yui/build/animation/animation-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/dragdrop/dragdrop-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/container/container-min.js"></script>
-
-	<script type="text/javascript" src="external/yui/build/container/container_core-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/menu/menu-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/element/element-beta-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/tabview/tabview-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/connection/connection-min.js"></script>
-	<script type="text/javascript" src="external/yui/build/json/json-beta-min.js"></script>
-	<script type="text/javascript" src="http://localhost/trunk/exponent/js/exponent.js"></script>
+	<?php 
+	$config = array(
+	"reset-fonts-grids"=>false,
+	"include-common-css"=>false,
+	"include-theme-css"=>true
+	);
+	echo exponent_theme_headerInfo($section,$config); 
+	?>
 </head>
 <body>
 <!-- wrap starts here -->
