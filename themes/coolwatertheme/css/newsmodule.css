@@ -1,0 +1,31 @@
+
+
+#sidebar .newsmodule h2 {
+	margin: 0px 5px 0px 5px;
+}
+.date {
+	font-size:90%;
+	color:#cccccc;
+	font-style:italic;
+}
+#sidebar .date {
+	font-size:90%;
+	color:#cccccc;
+	font-style:italic;
+	margin: 0px 5px 0px 5px;
+}
+#sidebar .navigationmodule.children-only ul li {
+	list-style: none;
+	padding: 4px 0 4px 5px;
+	margin: 0 2px;	
+	color: #777;	
+}
+#sidebar .text {
+	border-bottom: 1px solid #D2E8F7; 
+	margin: 0px 5px 10px 5px;
+}
+#sidebar .moduleactions {
+	border-bottom: 1px solid #D2E8F7; 
+	margin: 0px 5px 10px 5px;
+}
+

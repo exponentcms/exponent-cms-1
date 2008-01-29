@@ -1,0 +1,17 @@
+
+
+.textmodule.top-links {
+	text-align:right;
+	margin:0!important;
+}
+.textmodule.top-links .text,
+.textmodule.top-links .text p {
+	margin:0px;
+	padding:0;
+}
+
+.textmodule.top-links .itemactions,
+.textmodule.top-links .modulepermissions {
+	float:left;
+}
+

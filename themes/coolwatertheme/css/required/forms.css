@@ -1,0 +1,123 @@
+/* form elements */
+form {
+	margin:10px 15px; 
+	padding: 10px 0;
+}
+fieldset {
+	margin: 0;	padding: 0;
+	border: none;
+}
+legend {
+	display: none;
+}
+label {
+	display:block;
+	font-weight:bold;
+	margin: 7px 0;
+}
+input {
+	padding:3px;
+	border: 1px solid #E5F0FB; 
+	font: normal 1em Verdana, sans-serif;
+	color:#777;	
+}
+textarea {
+	width:400px;
+	padding:3px;
+	font: normal 1em Verdana, sans-serif;
+	border: 1px solid #E5F0FB; 
+	height:100px;
+	display:block;
+	color:#777;
+}
+input.button { 
+	font: bold 12px Arial, Sans-serif; 
+	height: 28px;
+	margin: 0;
+	padding: 2px 3px; 
+	color: #fff;
+	background: #306bc1 url(../images/button-bg.jpg) repeat-x 0 0; 
+	border: 1px solid #306bc1;
+}
+
+
+
+
+.form_header h1 {
+	margin:0;
+}
+.form_header p {
+	font-style:italic;
+	border-left:3px solid #53708e;
+	padding:0 0 0 10px;
+	margin:10px 0 10px 10px;
+}
+.form_header p .managemodules {
+	font-family:Trebuchet MS;
+	padding:0 0 0 15px;
+	background:url(../images/icons/admin/managemodules.png) no-repeat;
+}
+#moduleControl {
+	width:43%;
+	float:left;
+	margin-right:20px;
+}
+
+.control {
+	border:1px dotted #cccccc;
+	display:block;
+	margin:0 0 5px 0;
+	padding:5px;
+}
+.control legend {
+	background:#ffffff;
+	color:#53708e;
+	font-family:Trebuchet MS;
+	font-size:1.1em;
+	font-weight:bold;
+	padding:0px 3px;
+}
+.control .label {
+	font-size:14px;
+	font-family:Trebuchet MS;
+	color:#724e4e;
+	font-weight:bold;
+	text-transform:uppercase;
+	display:block;
+}
+.control .checkboxlabel {
+	font-size:12px;
+	font-family:Trebuchet MS;
+	color:#444444;
+	font-weight:bold;
+}
+.control .label a {
+	font-family:Trebuchet MS;
+	color:#883333;
+}
+
+.textareacontrol {
+	width:400px;
+}
+.textareacontrol, .textcontrol, .dropdowncontrol{
+	border:1px solid #7777aa;
+}
+
+#contentsourcecontrol label{
+	margin-bottom:5px;
+	display:block;
+}
+
+.radiobuttoncontrol {
+	float:left;
+	margin-right:5px;
+}
+
+
+
+
+
+
+
+
+

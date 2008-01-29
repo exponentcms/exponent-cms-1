@@ -1,0 +1,95 @@
+/********************************************
+   AUTHOR:  			Erwin Aligam 
+   WEBSITE:   			http://www.styleshout.com/
+	TEMPLATE NAME:		CoolWater
+   TEMPLATE CODE: 	S-0019
+   VERSION:          1.0     
+	DATE:					November-07-2007     	
+ *******************************************/
+ 
+/********************************************
+   HTML ELEMENTS
+********************************************/ 
+
+/* top elements */
+html{
+	padding:0;
+	margin:0;
+}
+
+body {
+	background: #caced1;
+	font: 70%/1.5em Verdana, Tahoma, arial, sans-serif;
+	color: #777;
+	text-align: center;
+	margin: 0;
+	padding:0;
+}
+
+/* links */
+a, a:visited {
+	text-decoration: none;
+	background: inherit;
+	color: #FB9233; 
+}
+a:hover {
+	text-decoration: underline;
+	background: inherit;
+	color: #93C600;
+}
+
+/* headers */
+h1, h2, h3 { font-family: 'Trebuchet MS', Tahoma, Sans-serif;  }
+h1 {
+	font-size: 180%;	
+	font-weight: normal;	
+	color: #555;
+}
+h2 {
+	font-size: 160%;
+	color: #88ac0b;
+	font-weight: normal;
+}
+h3 {
+	font-size: 135%;	 
+	color: #666666;
+}
+
+
+h1, h2, h3, h4, h5, h6{
+	margin:15px 0 10px 0;
+}
+
+
+
+#main .text{
+	font-size:110%;
+	line-height:20px;
+	margin-left: 0px;
+	margin-right: 25px;
+	margin-bottom: 25px;
+}
+
+#main .text p{
+
+	margin-bottom: 15px;
+}
+
+
+.text ul li {
+	list-style-image: url(../images/bullet.gif); 
+}
+
+.text ul, ol {
+	margin: 5px 15px;
+	padding: 0 25px;
+}
+
+.text img {
+	margin:0 10px;
+}
+
+
+.green {
+	color:#bad645;
+}
