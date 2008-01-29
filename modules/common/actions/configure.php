@@ -34,6 +34,7 @@ if (exponent_permissions_check('configure',$loc)) {
 	
 	if ($db->tableExists($_GET['module'].'_config') && class_exists($_GET['module'].'_config')) {
 		$config = $db->selectObject($_GET['module'].'_config',"location_data='".serialize($loc)."'");	
+		if (empty($config->location_data)) $config->location_data = serialize($loc);
 		$form = call_user_func(array($_GET['module'].'_config','form'),$config);
 			
 		if (isset($form->controls['submit'])) {

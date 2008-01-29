@@ -160,4 +160,22 @@ function exponent_modules_moduleExists($name) {
 	return (file_exists(BASE."modules/$name") && is_dir(BASE."modules/$name") && is_readable(BASE."modules/$name/class.php"));
 }
 
+function exponent_modules_getModuleInstancesByType($type=null) {
+	if (empty($type)) return array();
+	global $db;
+	$refs = $db->selectObjects('sectionref', 'module="'.$type.'"');
+	$modules = array();
+	foreach ($refs as $ref) {
+		$container_refs = $db->selectObjects('container', 'internal like "%'.$ref->source.'%"');
+		foreach ($container_refs as $instance) {
+			$mod = null;
+			$mod->title = $instance->title;
+			$mod->section = $db->selectvalue('section', 'name', 'id='.$ref->section);
+			$modules[$ref->source][] = $mod;
+		}
+	}
+
+	return $modules;
+}
+
 ?>

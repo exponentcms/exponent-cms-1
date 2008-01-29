@@ -80,7 +80,21 @@ class calendarmodule {
 		global $db;
 		
 		$i18n = exponent_lang_loadFile('modules/calendarmodule/class.php');
-		
+	
+		$locsql = "(location_data='".serialize($loc)."'";
+		$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'calendarmodule';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
+		}
+		$locsql .= ')';
+
 		$template = new template('calendarmodule',$view,$loc);
 		$template->assign('moduletitle',$title);
 		
@@ -232,7 +246,9 @@ class calendarmodule {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				if ($i == $nowinfo['mday']) $currentweek = $week;
 				#$monthly[$week][$i] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
-				$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
+				
+				//$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
+				$dates = $db->selectObjects("eventdate",$locsql." AND date = $start");
 				$monthly[$week][$i] = calendarmodule::_getEventsForDates($dates);
 				
 				$counts[$week][$i] = count($monthly[$week][$i]);
@@ -363,9 +379,7 @@ class calendarmodule {
 		$cats[0]->name = '<i>'.$i18n['no_category'].'</i>';
 		$cats[0]->color = "#000000";
 		$template->assign("categories",$cats);
-		
-		$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
-		
+			
 		if (!$config) {
 			$config->enable_categories = 0;
 			$config->enable_rss = 0;

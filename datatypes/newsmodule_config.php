@@ -39,7 +39,7 @@ class newsmodule_config {
 			$object->enable_rss = false;
 			$object->enable_tags = false;
 			$object->group_by_tags = false;
-			$object->aggregate = false;
+			$object->aggregate = array();
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->collections = array();
@@ -78,22 +78,42 @@ class newsmodule_config {
 			}
 
 		}
+
+		// setup the listbuilder arrays for calendar aggregation.       
+                $loc = unserialize($object->location_data);
+                $news = exponent_modules_getModuleInstancesByType('newsmodule');
+                $saved_aggregates = empty($object->aggregate) ? array() : unserialize($object->aggregate);
+                $all_news = array();
+                $selected_news = array();
+                foreach ($news as $src => $cal) {
+                        $news_name = (empty($cal[0]->title) ? 'Untitled' : $cal[0]->title).' on page '.$cal[0]->section;
+                        if ($src != $loc->src) {
+                                if (in_array($src, $saved_aggregates)) {
+                                        $selected_news[$src] = $news_name;
+                                } else {
+                                        $all_news[$src] =  $news_name;
+                                }
+                        }
+                }
+
 		$opts  = array('ASC'=>$i18n['ascending'],'DESC'=>$i18n['descending']);
 		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate'],'edited'=>'Date of Last Edit');
-		$form->register(null,'',new htmlcontrol('<div class="moduletitle">General Configuration</div><hr size="1" />'));
-		$form->register('aggregate',$i18n['aggregate'], new checkboxcontrol($object->aggregate,true));
+		$form->register(null,'',new htmlcontrol('<h1>General Configuration</h1><hr size="1" />'));
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
 		$form->register('sortorder',$i18n['sortorder'], new dropdowncontrol($object->sortorder,$opts));
 		$form->register('sortfield',$i18n['sortfield'], new dropdowncontrol($object->sortfield,$fields));
-		
-		$form->register(null,'',new htmlcontrol('<div class="moduletitle">Tagging</div><hr size="1" />'));
+	
+	 	$form->register(null,'',new htmlcontrol('<h1>Merge News</h1><hr size="1" />'));
+                $form->register('aggregate','Pull Events from These Other News Module',new listbuildercontrol($selected_news,$all_news));
+	
+		$form->register(null,'',new htmlcontrol('<h1>Tagging</h1><hr size="1" />'));
 		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
 		$form->register('collections',$i18n['tag_collections'],new listbuildercontrol($object->collections,$tc_list));
 		//$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
 		//$form->register(null,'',new htmlcontrol($i18n['show_tags_desc']));
 		//$form->register('show_tags','',new listbuildercontrol($object->show_tags,$available_tags));
 		
-		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
+		$form->register(null,'',new htmlcontrol('<h1>RSS Configuration</h1><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
 		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
 		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
@@ -116,6 +136,7 @@ class newsmodule_config {
 		$object->aggregate = (isset($values['aggregate']) ? 1 : 0);
 		$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
 		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
+		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
 		if ($values['item_limit'] > 0) {

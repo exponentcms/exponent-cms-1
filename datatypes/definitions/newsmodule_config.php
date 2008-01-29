@@ -41,7 +41,8 @@ return array(
 	'enable_tags'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'aggregate'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+                DB_FIELD_TYPE=>DB_DEF_STRING,
+                DB_FIELD_LEN=>1000),
 	'collections'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1000,
