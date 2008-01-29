@@ -133,18 +133,19 @@ function exponent_theme_includeThemeCSS($files = array()) {
 function exponent_theme_buildYUIPaths() {
 	global $jsfiles;
 
-	$yuidir = 'external/yui/build/';
+	$yuidir = BASE.'external/yui/build/';
+	$yuidir_url  = URL_FULL.'external/yui/build/'; 
 	if (is_dir($yuidir) && is_readable($yuidir) ) {
-			$dh = opendir($yuidir);
-				while (($file = readdir($dh)) !== false) {
+		$dh = opendir($yuidir);
+		while (($file = readdir($dh)) !== false) {
 			if (is_dir($yuidir.$file) && is_readable($yuidir.$file) && substr($file,0,1) != ".") {
 				$jsdh = opendir($yuidir.$file);
 				while (($jsfile = readdir($jsdh)) !== false) {
-								if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
-									//echo substr($jsfile,-7)."<br>";
-									if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
-										$jsfiles[substr($jsfile,0,-3)] = $yuidir.$file.'/'.$jsfile;
-									}
+					if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
+						//echo substr($jsfile,-7)."<br>";
+						if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
+							$jsfiles[substr($jsfile,0,-3)] = $yuidir_url.$file.'/'.$jsfile;
+						}
 					}
 				}
 			}
