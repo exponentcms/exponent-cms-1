@@ -242,8 +242,10 @@ class newsmodule {
                     $news[] = $rssObject;
                 }
             }
-            switch($config->sortfield) {
-                case "posted":
+        }
+       
+	switch($config->sortfield) {
+        	case "posted":
                     $field = "Posted";
                 break;
                 case "publish":
@@ -255,15 +257,17 @@ class newsmodule {
                 default:
                     $field = "Posted";
                 break;
-            }
-            if ($config->sortorder == "ASC") {
-                $order = "Ascending";
-            } else {
-                $order = "Descending";
-            }
-            $sortFunc = 'exponent_sorting_by'.$field.$order;
         }
-        if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+        
+	if ($config->sortorder == "ASC") {
+        	$order = "Ascending";
+        } else {
+        	$order = "Descending";
+        }
+        
+	$sortFunc = 'exponent_sorting_by'.$field.$order;
+        
+	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
         usort($news,$sortFunc);
         $news = array_slice($news, 0, $config->item_limit);
 		// EVIL WORKFLOW
