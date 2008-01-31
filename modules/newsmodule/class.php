@@ -131,6 +131,7 @@ class newsmodule {
 			$config->group_by_tags = false;
 			$config->pull_rss = 0;
 			$config->aggregate = array();
+			$config->collections = '';
 		}
 	
 		$locsql = "(location_data='".serialize($loc)."'";
@@ -292,6 +293,7 @@ class newsmodule {
 		$template->assign('in_approval',$in_approval);
 		if($config->group_by_tags == true) {$template->assign('news',$grouped_news);} else {$template->assign('news',$news);}
 
+		$template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 		$template->assign('featured', $featured);
 		$template->assign('config', $config);		
 		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
