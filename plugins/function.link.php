@@ -20,7 +20,7 @@
 function smarty_function_link($params,&$smarty) {
 	$loc = $smarty->_tpl_vars['__loc'];
 	if (!isset($params['module'])) $params['module'] = $loc->mod;
-	if (!isset($params['src'])) $params['src'] = $loc->src;
+	if (!isset($params['src']) && call_user_func(array($loc->mod,'hasSources'))) $params['src'] = $loc->src;
 	if (!isset($params['int'])) $params['int'] = $loc->int;
 
 	echo exponent_core_makeLink($params);
