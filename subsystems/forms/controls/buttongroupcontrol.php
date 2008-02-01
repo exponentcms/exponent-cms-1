@@ -69,15 +69,18 @@ class buttongroupcontrol extends formcontrol {
 
 	function toHTML($label,$name) {
 		if ($this->submit . $this->reset . $this->cancel == "") return "";
-		return parent::toHTML($label,$name);
+		$html = "<div id=\"".$name."Control\" class=\"control\">";
+		$html .= $this->controlToHTML($name);
+		$html .= "</div>";			
+		return $html;
 	}
 
 	function controlToHTML($name) {
 		if ($this->submit . $this->reset . $this->cancel == "") return "";
+		if (empty($this->id)) $this->id = $name;
 		$html = "";
 		if ($this->submit != "") {
-			$html .= '<input class="buttongroupcontrol" type="submit" value="' . $this->submit . '"';
-			if ($this->class != "") $html .= ' class="'.$this->class.'"';
+			$html .= '<input id="'.$this->id.'Submit" class="button" type="submit" value="' . $this->submit . '"';
 			if ($this->disabled) $html .= " disabled";
 			$html .= ' onclick="if (checkRequired(this.form)) ';
 			if ($this->validateJS != "") {
@@ -89,9 +92,9 @@ class buttongroupcontrol extends formcontrol {
 			$html .= ' />';
 
 		}
-		if ($this->reset != "") $html .= '<input class="buttongroupcontrol" type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
+		if ($this->reset != "") $html .= '<input class="button" type="reset" value="' . $this->reset . '"' . ($this->disabled?" disabled":"") . ' />';
 		if ($this->cancel != "") {
-			$html .= '<input class="buttongroupcontrol" type="button" value="' . $this->cancel . '"';
+			$html .= '<input class="button" type="button" value="' . $this->cancel . '"';
 			$html .= ' onclick="document.location.href=\''.exponent_flow_get().'\'"';
 			$html .= ' />';
 		}
