@@ -57,17 +57,22 @@ class radiocontrol extends formcontrol {
 	
 	
 	function toHTML($label,$name) {
-		if (!$this->flip) return parent::toHTML($label,$name);
-		else {
-			$html = "<tr><td valign=\"top\">&nbsp;</td><td style='padding-left: 5px;' valign=\"top\">";
+		if($this->flipped == true){
+			$html = '<label>';
 			$html .= $this->controlToHTML($name);
-			$html .= "&nbsp;$label</td></tr>";
-			return $html;
+			$html .= "<span class=\"radiobuttonlabel\">".$label."</span>";
+			$html .= "</label>";				
+		}else{
+			$html = '<label>';
+			$html .= "<span class=\"radiobuttonlabel\">".$label."</span>";
+			$html .= $this->controlToHTML($name);
+			$html .= "</label>";				
 		}
+		return $html;
 	}
 	
 	function controlToHTML($name) {
-		$html = '<input class="radiocontrol" type="radio" value="'.$this->value .'" name="' . $this->groupname . '"';
+		$html = '<input class="radiobutton" type="radio" value="'.$this->value .'" name="' . $this->groupname . '"';
 		if ($this->default) $html .= ' checked="checked"';
 		if ($this->onclick != "") {
 			$html .= ' onclick="'.$this->onclick.'"';
