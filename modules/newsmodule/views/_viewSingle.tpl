@@ -38,7 +38,7 @@
 		{/if}
 		{/permissions}
 	</div>
-	<h1><a class="readmore" href="{link action=view_all_news int=''}">Back to all News</a>{$newsitem->title}</h1>
+	<h1>{$newsitem->title}</h1>
 	<div class="text"> 
 		{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=250&height=300" alt="{$newsitem->title}">{/if}
 		{if $newsitem->edited eq 0}
