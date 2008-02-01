@@ -16,8 +16,8 @@ return array(
 	'txt_visit_site1'=>'Visit website of ',
 	'txt_visit_site2'=>'',
 	'alt_reply'=>'Reply to this Guestbook Post.',
-	'txt_reply'=>'Reply.',
-	'txt_replys'=>'Replys.',
+	'txt_reply'=>'Post a reply to this comment',
+	'txt_replys'=>'Replies',
 	'txt_on_date'=>'on',
 
 	'alt_edit_comment'=>'Edit this Reply',
