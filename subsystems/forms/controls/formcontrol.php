@@ -48,20 +48,13 @@ class formcontrol {
 	function getFieldDefinition() { return array(); }
 
 	function toHTML($label,$name) {
-		//eDebug($this);
-		//if(empty($this->flip)){
-			$html = "<div id=\"".$name."Control\" class=\"control";
-			$html .= (!empty($this->required)) ? ' required">' : '">';
-			$html .= "<span class=\"label\">".$label."</span>";
-			$html .= $this->controlToHTML($name);
-			$html .= "</div>";			
-	//	}else{
-			//$html = "<div id=\"".$name."Control\" class=\"control";
-			//$html .= (!empty($this->required)) ? ' required">' : '">';
-			//$html .= $this->controlToHTML($name);
-			//$html .= "<span class=\"label fliped\">".$label."</span>";
-			//$html .= "</div>";						
-	//	}
+		$html = "<div id=\"".$name."Control\" class=\"control";
+		$html .= (!empty($this->required)) ? ' required">' : '">';
+		$html .= "<label>";
+		$html .= "<span class=\"label\">".$label."</span>";
+		$html .= $this->controlToHTML($name);
+		$html .= "</label>";
+		$html .= "</div>";			
 		return $html;
 	}
 	
