@@ -215,7 +215,7 @@ eXp.openWindow = function(url, name, options) {
 
 eXp.openSelector = function(mod, dest, vmod, vview) {
 	var url = eXp.PATH_RELATIVE+"source_selector.php?showmodules="+mod+"&dest="+escape(dest)+"&vmod="+vmod+"&vview="+vview;
-	openWindow(url,'sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
+	openWindow(url,'sourcePicker','title=no,resizable=yes,toolbar=no,width=900,height=750,scrollbars=yes');
 }
 
 eXp.openContentSelector = function(mod, dest, view) {
