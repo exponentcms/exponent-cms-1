@@ -64,30 +64,21 @@ class genericcontrol extends formcontrol {
 		$this->size = '';
 	}
 	
-	function toHTML($label,$name) {
-		if (!$this->flip) return parent::toHTML($label,$name);
-		else {
-			$html = "<tr><td valign=\"top\" align=\"left\" colspan=\"2\">".$this->controlToHTML($name)."&nbsp;&nbsp;&nbsp;".$label."</td>";
-			//$html .= "<td style='padding-left: 5px;' valign=\"top\">".$label."</td></tr>";
-			//$html .= $this->controlToHTML($name);
-			//$html .= "&nbsp;$label</td></tr>";
-			return $html;
-		}
-	}
+
 	
-	function controlToHTML($name) {
-		$html = '<input type="'.$this->type.'" id="' . $name . '" name="' . $name . '" value="'.$this->default.'"';
+	function controlToHTML() {
+		$html = '<input type="'.$this->type.'" id="' . $this->id . '" name="' . $this->name . '" value="'.$this->default.'"';
 		if ($this->size) $html .= ' size="' . $this->size . '"';
 		if ($this->checked) $html .= ' checked="checked"';
 		if ($this->class != '') $html .= ' class="' . $this->class . '"';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
 		if ($this->filter != "") {
-                        $html .= " onkeypress=\"return ".$this->filter."_filter.on_key_press(this, event);\" ";
-                        $html .= "onblur=\"".$this->filter."_filter.onblur(this);\" ";
-                        $html .= "onfocus=\"".$this->filter."_filter.onfocus(this);\" ";
-                        $html .= "onpaste=\"return ".$this->filter."_filter.onpaste(this, event);\" ";
-                }
+			$html .= " onkeypress=\"return ".$this->filter."_filter.on_key_press(this, event);\" ";
+			$html .= "onblur=\"".$this->filter."_filter.onblur(this);\" ";
+			$html .= "onfocus=\"".$this->filter."_filter.onfocus(this);\" ";
+			$html .= "onpaste=\"return ".$this->filter."_filter.onpaste(this, event);\" ";
+		}
 		if ($this->disabled) $html .= ' disabled';
 		foreach ($this->jsHooks as $type=>$val) {
 			$html .= ' '.$type.'="'.$val.'"';
@@ -96,8 +87,8 @@ class genericcontrol extends formcontrol {
 		if (!empty($this->readonly)) $html .= ' readonly="readonly"';
 
 		if (@$this->required) {
-                        $html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
-                }
+						$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
+				}
 		if ($this->onclick != "") {
 			$html .= 'onclick="'.$this->onclick.'" ';
 		}
@@ -132,9 +123,9 @@ class genericcontrol extends formcontrol {
 		$form->register("caption",$i18n['caption'], new textcontrol($object->caption));
 		$form->register("default",$i18n['default'], new checkboxcontrol($object->default,false));
 		$form->register("flip",$i18n['caption_right'], new checkboxcontrol($object->flip,false));
-	 	$form->register(null, null, new htmlcontrol('<br />'));
-                $form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));
-                $form->register(null, null, new htmlcontrol('<br />'));	
+		$form->register(null, null, new htmlcontrol('<br />'));
+				$form->register("required", $i18n['required'], new checkboxcontrol($object->required,true));
+				$form->register(null, null, new htmlcontrol('<br />')); 
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
