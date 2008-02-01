@@ -18,12 +18,12 @@
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 	</div>
 
-	{if $moduletitle!=""}<h1>{$moduletitle}</h1>{/if}
+	{if $moduletitle!=""}<h2>{$moduletitle}</h2>{/if}
 	{form method="GET" module="searchmodule" action="search"}
-	<input type="submit" class="btn" value="" />
-	{control type="text" name="search_string"}
+	<input name="search_string" class="textbox" type="text" />
+	<input name="search" class="button" value="Search" type="submit" />
+
 	{/form}
 	
 </div>
-
 
