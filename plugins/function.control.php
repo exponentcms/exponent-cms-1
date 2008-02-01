@@ -22,9 +22,9 @@ function smarty_function_control($params,&$smarty) {
 		$i18n = exponent_lang_loadFile('plugins/function_control.php');
 
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-        	exponent_forms_initialize();
+			exponent_forms_initialize();
 
-		//Figure out which type of control to use. Also, some controls need some special setup.  We handle that here.
+		//Figure out which type of control to use. Also, some controls need some special setup.	 We handle that here.
 		if ($params['type'] == 'popupdatetimecontrol') {
 			$control = new popupdatetimecontrol(null, "",false);
 		} elseif ($params['type'] == 'buttongroup') {
@@ -38,12 +38,12 @@ function smarty_function_control($params,&$smarty) {
 			$control = new dropdowncontrol();
 			$control->include_blank = isset($params['includeblank']) ? $params['includeblank'] : false;
 			if (isset($params['from']) && isset($params['to'])) {
-                                for($i=$params['from']; $i <= $params['to']; $i++) {
-                                        $control->items[$i] = $i;
-                                }
-                        } else {
-                                $control->items = isset($params['items']) ? $params['items'] : array();
-                        }
+				for($i=$params['from']; $i <= $params['to']; $i++) {
+					$control->items[$i] = $i;
+				}
+			} else {
+				$control->items = isset($params['items']) ? $params['items'] : array();
+			}
 		} elseif ($params['type'] == 'textarea') {
 			$control = new texteditorcontrol();
 			if (isset($params['module'])) $control->module = $params['module'];
@@ -65,6 +65,11 @@ function smarty_function_control($params,&$smarty) {
 			} else {
 				return false;
 			}
+		} elseif ($params['type'] == 'hidden') {
+			$control = new hiddenfieldcontrol();			
+	// 	}elseif ($params['type'] == 'radio') {
+		//	$control = new radiocontrol();			
+		//	if (isset($params['flipped'])) $control->flipped = $params['flipped'];
 		} else {
 			$control = new genericcontrol($params['type']);
 		}
@@ -95,9 +100,10 @@ function smarty_function_control($params,&$smarty) {
 			}
 		}
 
+		$control->name = $params['name'];
 		$control->id = isset($params['id']) && $params['id'] != "" ? $params['id'] : $params['name'];
-		
-		$labelclass = isset($params['labelclass']) ? ' '.$params['labelclass'] : '';
+
+		/*$labelclass = isset($params['labelclass']) ? ' '.$params['labelclass'] : '';
 		
 		//container for the controll set, including labelSpan and input
 		if($params['type']!='hidden') echo '<label id="'.$control->id.'Control" class="control">'; 
@@ -107,14 +113,14 @@ function smarty_function_control($params,&$smarty) {
 		if ( (isset($params['label'])) && (!isset($params['labelpos']) || $params['labelpos'] == 'left') ) {
 			echo '<span class="label'.$labelclass.'">'.$params['label'].'</span>';
 		}
-		
+		*/
 		//write out the control itself...and then we're done. 
 		if (isset($params['model'])) {
-			echo $control->controlToHTML($params['model'].'['.$params['name'].']');
+			echo $control->toHTML($params['model'].'['.$params['name'].']');
 		} else {
-			echo $control->controlToHTML($params['name']);
+			echo $control->toHTML($params['label'],$params['name']);
 		}
-		
+		/*
 		//Write out the label for this control if the user specified a label and position is set to right
 		if (isset($params['label']) && $params['labelpos'] == 'right') {
 			echo '<span class="label'.$labelclass.'">'.$params['label'].'</span>';
@@ -122,6 +128,7 @@ function smarty_function_control($params,&$smarty) {
 		
 		//close the control container div
 		if($params['type']!='hidden'){ echo '</label>'; }
+		*/
 	}
 }
 
