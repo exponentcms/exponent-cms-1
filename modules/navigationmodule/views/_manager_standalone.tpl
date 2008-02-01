@@ -23,14 +23,15 @@
 
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header navigation_header"></td>
-		<td class="header navigation_header"><!-- Edit/Delete Links --></td>
-		<td class="header navigation_header"><!-- Permission Links --></td>
+		<th><strong>Page Title</strong></td>
+		<th><strong>Actions</strong></td>
+		<th><strong>Permissions</strong></td>
 	</tr>
 	{foreach from=$sections item=section}
 	{math equation="x+1" x=$section->rank assign=nextrank}
 	{math equation="x-1" x=$section->rank assign=prevrank}
-	<tr class="row {cycle values=odd_row,even_row}"><td style="padding-left: {math equation="x*20" x=$section->depth}px">
+	<tr class="{cycle values=odd,even}">
+	<td>
 		{if $section->active}
 			<a href="{link section=$section->id}" class="navlink">{$section->name}</a>&nbsp;
 		{else}
