@@ -1,0 +1,11 @@
+.navigationmodule .newpage{
+	padding:8px 0 5px 25px;
+	background:url(../../images/icons/admin/newpage.png) no-repeat 0 50%;
+	color:#333;
+	font-size:130%;
+	display:block;
+}
+.navigationmodule .newpage:hover{
+	color:#0079f4;
+}
+
