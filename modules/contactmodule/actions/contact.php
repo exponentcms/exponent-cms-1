@@ -60,9 +60,16 @@ foreach ($db->selectObjects('contact_contact',"location_data='".serialize($loc).
 		$emails[] = $c->email;
 	}
 }
-
-if (!defined('SYS_SMTP')) include_once(BASE.'subsystems/smtp.php');
-if (exponent_smtp_mail($emails,$config->from_address,$config->subject,$msg,$headers)) {
+require_once(BASE.'subsystems/mail.php');
+$mail = new exponentMail();
+$mail->addTo($emails);
+$mail->subject($config->subject);
+$mail->addText($msg);
+if (isset($_POST['email']) && $_POST['email'] != '') {
+	$mail->from = $_POST['email'];
+}
+// Send the message
+if ($mail->send() > 0) {
 	$template = new template('contactmodule','_final_message');
 	$template->assign('message',$config->final_message);
 	$template->output();
