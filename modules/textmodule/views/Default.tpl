@@ -17,9 +17,9 @@
 
 <div class="textmodule default">
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-	<div class="modulepermissions">
-		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-	</div>
+
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
+
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1}
 		{if $textitem->approved != 1}

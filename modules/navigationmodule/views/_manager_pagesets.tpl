@@ -23,8 +23,8 @@
 
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td class="header navigation_header"></td>
-		<td class="header navigation_header"></td>
+		<th><strong>Pageset Title</strong></td>
+		<th><strong>Actions</strong></td>
 	</tr>
 	{foreach from=$templates item=t}
 	<tr class="row {cycle values='odd,even'}_row">

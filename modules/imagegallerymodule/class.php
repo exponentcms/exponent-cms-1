@@ -111,7 +111,6 @@ class imagegallerymodule {
 					//eDebug($galleries[$i]->images[$y]->file);
 					if(is_object($galleries[$i]->images[$y]->file)){
 						$popsize = getimagesize(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->enlarged);
-						echo $galleries[$i]->images[$y]->file->filename."<br>";
 						//eDebug($galleries[$i]->images[$y]);
 						$galleries[$i]->images[$y]->popwidth = $popsize[0];
 						$galleries[$i]->images[$y]->popheight = $popsize[1];

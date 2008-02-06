@@ -40,31 +40,35 @@ if ($gallery) {
 	exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 	$loc = unserialize($gallery->location_data);
-	
+
 	$totalimages = $db->countObjects("imagegallery_image","gallery_id=".$gallery->id);
 	$currentpage = (isset($_GET['page']) ? $_GET['page'] : 0);
-	$perpage = $gallery->perpage;
+
+	$perrow = $gallery->perrow != 0 ? $gallery->perrow : 3;
+	$perpage = $gallery->perpage != 0 ? $gallery->perpage : 12;
 	$totalpages = ceil($totalimages/$perpage);
-	if ($totalpages == 0) $totalpages = 1;
 	
+	
+	if ($totalpages == 0) $totalpages = 1;
 	if ($currentpage >= $totalpages || $currentpage < 0) $currentpage = 0;
+
 	
 	$images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id . ' ORDER BY rank ASC '.$db->limit($perpage,($currentpage*$perpage)));
 	for ($i = 0; $i < count($images); $i++) {
 		$images[$i]->file = $db->selectObject("file","id=".$images[$i]->file_id);
 	}
-
+	
 	$gallery->images = $images;
 	
 	$table = array();
-	for ($i = 0; $i < count($images);) {
+	for ($i = 0; $i < count($images);$i++) {
 		$tmp = array();
-		for ($j = 0; $j < $gallery->perrow && $i < count($images); $j++, $i++) {
+		for ($j = 0; $j < $perrow && $i < count($images); $j++, $i++) {
 			$tmp[] = $images[$i];
 		}
 		$table[] = $tmp;
 	}
-	
+
 	$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 	$iloc->int = $gallery->id;
 	$gallery->permissions = array(
@@ -73,7 +77,6 @@ if ($gallery) {
 		"delete"=>exponent_permissions_check("delete",$iloc),
 		"manage"=>exponent_permissions_check("manage",$iloc)
 	);
-	
 	//$template = new template("imagegallerymodule","_view_gallery",$iloc);
 	$template = new template("imagegallerymodule","_view_all_galleries",$iloc);
 	$template->register_permissions(

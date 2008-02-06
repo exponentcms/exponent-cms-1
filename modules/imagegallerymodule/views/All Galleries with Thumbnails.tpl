@@ -28,23 +28,18 @@
  *
  * $Id: Default.tpl,v 1.4 2005/02/24 20:14:35 filetreefrog Exp $
  *}
-{literal}
-<script type="text/javascript" charset="utf-8">
-	YAHOO.namespace("exp");
-</script>
-{/literal}
+
 
 <div class="imagegallerymodule all-galleries-with-thumbnails">
-	<div class="modulepermissions">
-		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
-	</div>
+
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.create == 1}
 	<div class="moduleactions">
-		<a href="{link action=edit_gallery}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" /> New Gallery</a><br />
+		<a class="newgallery" href="{link action=edit_gallery}">New Gallery</a><br />
 	</div>
 	{/if}
 	{/permissions}
@@ -60,7 +55,7 @@
 			<p>{$gallery->description}</p>
 			<div class="thumbbox">
 				{foreach key="key" from=$gallery->images item=file}
-					<a 	href="#" 
+					<a 	href="javascript:function () {ldelim}return false;{rdelim}" 
 						onclick="YAHOO.exp.popImage('{$file->name}', '{$file->file->directory}/{$file->enlarged}',{$file->popwidth},{$file->popheight}); return false" 
 						style="background:url({$file->file->directory}/{$file->thumbnail}) no-repeat; 
 						display:block; 
@@ -68,7 +63,6 @@
 						height:{$gallery->box_size}px;
 						float:left;
 						">
-						&nbsp;
 					</a>
 				{/foreach}
 			</div>

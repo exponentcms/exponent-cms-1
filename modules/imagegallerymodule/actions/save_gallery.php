@@ -34,7 +34,7 @@
 if (!defined('EXPONENT')) exit('');
 
 $gallery = null;
-if (isset($_POST['id'])) {
+if (!empty($_POST['id'])) {
 	$gallery = $db->selectObject('imagegallery_gallery','id='.$_POST['id']);
 	$loc = unserialize($gallery->location_data);
 	$loc->int = $gallery->id;
@@ -43,20 +43,21 @@ if (isset($_POST['id'])) {
 }
 
 if (exponent_permissions_check('edit',$loc)) {
-	
-	if($_POST['box_size']!=$gallery->box_size || $_POST['pop_size']!=$gallery->pop_size){
-		$resizeimages = 1;
-	}else{
-		$resizeimages = 0;
+	if (!empty($gallery->id)) {
+		if($_POST['box_size']!=$gallery->box_size || $_POST['pop_size']!=$gallery->pop_size){
+			$resizeimages = 1;
+		}else{
+			$resizeimages = 0;
+		}
 	}
-	
 	$gallery = imagegallery_gallery::update($_POST,$gallery);
 	
-	if (isset($gallery->id)) {
+	if (!empty($gallery->id)) {
 		$db->updateObject($gallery,'imagegallery_gallery');
 	} else {
 		$id = $db->insertObject($gallery,'imagegallery_gallery');
 	
+		$resizeimages = 0;
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		
 		$directory = 'files/imagegallerymodule/' . $loc->src . '/gallery'. $id;#.'/.thumbs';
