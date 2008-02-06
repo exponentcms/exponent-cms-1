@@ -77,12 +77,6 @@ YAHOO.exp = function () {
 		}
 
 	}
-	var gallerypopups = function (){
-		YAHOO.exp.myPanel = new YAHOO.widget.Panel("imagepanel", {fixedcenter:true,constraintoviewport:true, modal:true,underlay:"none",close:true,visible:false,draggable:true} );
-		YAHOO.exp.myPanel.setHeader('');
-	    YAHOO.exp.myPanel.setBody('');
-		YAHOO.exp.myPanel.render(document.body);
-	}
 	
 	var ajaxloded = new YAHOO.util.CustomEvent("Ajax Loaded");
 	return  {
@@ -139,7 +133,7 @@ YAHOO.exp = function () {
 		registerpanel: function(width,height){
 			if (height==undefined) {height=""}
 			if (width==undefined) {width="300px"}
-			YAHOO.exp.panel = new YAHOO.widget.Panel(Dom.generateId(), {fixedcenter:true,height:height,width:width,constraintoviewport: true, modal:false,underlay:"shadow",close:true,visible:false,draggable:true} );
+			YAHOO.exp.panel = new YAHOO.widget.Panel(Dom.generateId(), {zIndex:5000,fixedcenter:true,height:height,width:width,constraintoviewport: true, modal:false,underlay:"shadow",close:true,visible:false,draggable:true} );
 			YAHOO.exp.panel.setHeader('Header');
 			YAHOO.exp.panel.setBody("Body");
 			function setajaxbody(){
@@ -150,6 +144,12 @@ YAHOO.exp = function () {
 			ajaxloded.subscribe(setajaxbody);
 			YAHOO.exp.panel.setFooter('Footer');
 			YAHOO.exp.panel.render(document.body);
+		},
+		gallerypopups : function (){
+			YAHOO.exp.myPanel = new YAHOO.widget.Panel("imagepanel", {fixedcenter:true,constraintoviewport:true, modal:true,underlay:"none",close:true,visible:false,draggable:true} );
+			YAHOO.exp.myPanel.setHeader('');
+		    YAHOO.exp.myPanel.setBody('');
+			YAHOO.exp.myPanel.render(document.body);
 		},
 		popImage : function (imgname,imgfile,width,height) {
 			//alert(width+" - "+height);
