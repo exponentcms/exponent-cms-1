@@ -63,7 +63,7 @@ class texteditorcontrol extends formcontrol {
 	}
 
 	function controlToHTML($name) {
-		$html = "<textarea class=\"texteditorcontrol\" name=\"$name\"";
+		$html = "<textarea class=\"textarea\" name=\"$name\"";
 		$html .= " rows=\"" . $this->rows . "\" cols=\"" . $this->cols . "\"";
 		if ($this->accesskey != "") $html .= " accesskey=\"" . $this->accesskey . "\"";
 		if (!empty($this->class)) $html .= " class=\"" . $this->class . "\"";
