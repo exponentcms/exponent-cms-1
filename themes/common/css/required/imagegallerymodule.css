@@ -1,0 +1,4 @@
+/* temp fix for image gallery module wait screen where the containing div expands to the width of the screen.  This is a brute force method */
+#wait_c {
+	width:300px;
+}

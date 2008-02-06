@@ -1,0 +1,11 @@
+.imagegallerymodule .newgallery{
+	padding:5px 0 5px 20px;
+	background:url(../images/icons/manage_images.png) no-repeat 0 50%;
+}
+
+.imagegallerymodule .thumbbox a{
+	border:1px solid #333344;
+	margin:0 3px 3px 0;
+}
+
+
