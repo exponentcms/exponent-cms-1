@@ -68,8 +68,13 @@ $stuff = array(
 		'upload_extension'=>array(
 			'title'=>$i18n['upload_extension'],
 			'module'=>'administrationmodule',
-			'action'=>'upload_extension'),
-		'icon'=>ICON_RELATIVE."admin/extensions.png"
+			'action'=>'upload_extension',
+			'icon'=>ICON_RELATIVE."admin/extensions.png"),
+		'manage_bots'=>array(
+			'title'=>"Manage Bots",
+			'module'=>'bots',
+			'action'=>'manage_bots'),
+		   
 	),
 	$i18n['database']=>array(
 		'orphanedcontent'=>array(
