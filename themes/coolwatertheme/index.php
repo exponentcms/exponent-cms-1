@@ -5,13 +5,13 @@
 	<?php 
 	$config = array(
 	"reset-fonts-grids"=>false,
-	"include-common-css"=>false,
+	"include-common-css"=>true,
 	"include-theme-css"=>true
 	);
 	echo exponent_theme_headerInfo($section,$config); 
 	?>
 </head>
-<body>
+<body class="yui-skin-sam">
 <!-- wrap starts here -->
 <div id="wrap">
 	<!--header -->

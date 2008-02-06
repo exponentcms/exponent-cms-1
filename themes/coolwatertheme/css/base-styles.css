@@ -74,6 +74,14 @@ h1, h2, h3, h4, h5, h6{
 
 	margin-bottom: 15px;
 }
+#sidebar .text {
+	border-bottom: 1px solid #D2E8F7; 
+	margin: 0px 5px 10px 5px;
+}
+#sidebar .moduleactions {
+	border-bottom: 1px solid #D2E8F7; 
+	margin: 0px 5px 10px 5px;
+}
 
 
 .text ul li {

@@ -1,5 +1,11 @@
 /* navigation */
 
+#sidebar .navigationmodule.children-only ul li {
+	list-style: none;
+	padding: 4px 0 4px 5px;
+	margin: 0 2px;	
+	color: #777;	
+}
 
 #sidebar .navigationmodule.children-only ul {
 	list-style: none;
@@ -42,7 +48,7 @@
 	height: 40px;
 	width: 790px;
 	position:relative;
-	z-index:20;
+
 }
 .yuimenubar{visibility:visible;position:static;}
 .yuimenu .yuimenu,.yuimenubar .yuimenu{visibility:hidden;position:absolute;top:-10000px;left:-10000px;}

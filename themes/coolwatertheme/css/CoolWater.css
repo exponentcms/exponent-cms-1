@@ -48,7 +48,8 @@ td {
 	height: 131px;
 	background: #caced1 url(../images/header.jpg) no-repeat center top;
 	padding: 0;	
-	color: #fff;	
+	color: #fff;
+	z-index:1;	
 }
 #header h1#logo-text a {
 	position: absolute;
