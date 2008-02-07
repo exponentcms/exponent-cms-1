@@ -131,7 +131,7 @@ class newsmodule {
 			$config->group_by_tags = false;
 			$config->pull_rss = 0;
 			$config->aggregate = array();
-			$config->collections = '';
+			$config->collections = serialize(array());
 		}
 	
 		$locsql = "(location_data='".serialize($loc)."'";
