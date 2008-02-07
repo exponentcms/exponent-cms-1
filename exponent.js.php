@@ -126,6 +126,7 @@ eXp = new Object();
 
 eXp.LANG = "<?php echo LANG; ?>";
 eXp.PATH_RELATIVE = "<?php echo PATH_RELATIVE; ?>";
+eXp.URL_FULL = "<?php echo URL_FULL; ?>";
 eXp.THEME_RELATIVE = "<?php echo THEME_RELATIVE; ?>";
 eXp.ICON_RELATIVE = "<?php echo ICON_RELATIVE; ?>";
 eXp.onLoadInits = new Array(); // array of functions
