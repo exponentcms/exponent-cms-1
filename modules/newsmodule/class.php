@@ -57,7 +57,7 @@ class newsmodule {
 		//Get this modules configuration data
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 
-		//If this module was configured as an aggregant, then turn off check for the location_data
+		//If this module was configured as an aggregator, then turn off check for the location_data
                 if (isset($config->aggregate) && $config->aggregate == true) {
                         $ifloc = '';
                 } else {
