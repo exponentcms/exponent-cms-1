@@ -156,7 +156,7 @@ class mysql_database {
 		if (isset($info[DB_TABLE_COMMENT])) {
 			$sql .= " COMMENT = '" . $info[DB_TABLE_COMMENT] . "'";
 		}			
-		
+	
 		@mysql_query($sql,$this->connection);		
 
 		$return = array(
@@ -414,6 +414,11 @@ class mysql_database {
                         $sql .= ", UNIQUE `".$key."` ( `" . implode("`,`",$value) . "`)";
                 }*/
                 foreach ($index as $key=>$value) {
+			// drop the index first so we don't get dupes
+			$drop = "DROP INDEX ".$key." ON ".$this->prefix.$tablename;
+                        @mysql_query($drop,$this->connection);
+
+			// readd the index.
                         $sql .= "ADD INDEX (" . $key . ")";
                         @mysql_query($sql,$this->connection);
                 }
