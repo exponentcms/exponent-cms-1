@@ -20,7 +20,7 @@
 if (class_exists('coolwatertheme')) return;
 
 class coolwatertheme {
-	function name() { return "Base Theme"; }
+	function name() { return "Coolwater Theme"; }
 	function author() { return "Erwin Aligam - ealigam@gmail.com"; }
 	function description() { return "A simple, clean design from the kids at Style Shout"; }
 }
