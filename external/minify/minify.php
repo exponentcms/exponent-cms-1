@@ -193,10 +193,11 @@ class Minify {
     http://www.w3.org/TR/REC-CSS1#url
     */
     $relativePath = preg_replace('/([\(\),\s\'"])/', '\\\$1',
-        str_replace(MINIFY_BASE_DIR, '', $path));
+    str_replace(MINIFY_BASE_DIR, '', $path));  
+    $newPath = str_replace("\\","/",$relativePath);
 
-    return preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.
-        $relativePath.'/$1)', $css);
+	return preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.
+        $newPath.'/$1)', $css);
   }
 
   // -- Public Instance Methods ------------------------------------------------
