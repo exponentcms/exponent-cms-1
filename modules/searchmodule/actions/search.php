@@ -52,8 +52,10 @@ $terms = $term_status['valid'];
 
 $results = array();
 
-//foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,$modules, SEARCH_TYPE_ANY)) as $r) {
-foreach ($db->selectSearch($search_string) as $r) {
+// this is the old school searching...once we implement FullText index in the DB subsystem we can use it instead.
+// to turn on FT seaching uncomment the foreach line below.
+foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","body"),$terms,$modules, SEARCH_TYPE_ANY)) as $r) {
+//foreach ($db->selectSearch($search_string) as $r) { 
 	$result = null;
 
 	if ($r->ref_type != 'section') {	
