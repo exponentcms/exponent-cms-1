@@ -55,7 +55,7 @@
 			<p>{$gallery->description}</p>
 			<div class="thumbbox">
 				{foreach key="key" from=$gallery->images item=file}
-					<a 	href="javascript:function () {ldelim}return false;{rdelim}" 
+					<a href="javascript:function () {ldelim}return false;{rdelim}" 
 						onclick="YAHOO.exp.popImage('{$file->name}', '{$file->file->directory}/{$file->enlarged}',{$file->popwidth},{$file->popheight}); return false" 
 						style="background:url({$file->file->directory}/{$file->thumbnail}) no-repeat; 
 						display:block; 
