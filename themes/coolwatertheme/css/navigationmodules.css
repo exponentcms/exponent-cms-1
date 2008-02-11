@@ -73,6 +73,7 @@
 #menu .yuimenubaritemlabel{font: bold 16px/40px "trebuchet MS", Arial, Tahoma, Sans-serif;padding:0 10px;color:#fff;text-decoration:none;cursor:default;*position:relative;margin:-1px 0;height:40px;}
 #menu .yuimenubarnav .yuimenubaritemlabel{padding-right:20px;*display:inline-block;}
 #menu .yuimenubarnav .yuimenubaritemlabel-hassubmenu{background:url(../images/menubaritem_submenuindicator.png) right center no-repeat;}
+#menu .yuimenubarnav .yuimenubaritemlabel-hassubmenu-selected{background:url(../images/menubaritem_submenuindicator_h.png) right center no-repeat;}
 #menu .yuimenubaritem-selected{background:url(../images/sprite.png) repeat-x 0 -1700px;color:#3b5e0b;}
 #menu .yuimenubaritemlabel-selected{border-color:#3b5e0b;}
 #menu .yuimenubarnav .yuimenubaritemlabel-selected{border-left-width:1px;color:#3b5e0b;}

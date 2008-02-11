@@ -2,12 +2,10 @@
 
 #sidebar .newsmodule h2 {
 	margin: 0px 5px 0px 5px;
+	padding-left:15px;
+	background:url(../images/arrow-grey.gif) no-repeat 0 50%;
 }
-.date {
-	font-size:90%;
-	color:#cccccc;
-	font-style:italic;
-}
+
 #sidebar .date {
 	font-size:90%;
 	color:#cccccc;

@@ -4,15 +4,34 @@
 	margin:0;
 	list-style:none;
 }
+
+.moduleactions a img,
+.itemactions a img {
+	border:none;
+}
+
 .modulepermissions {
-	border:1px dotted #999999;
 	padding:2px;
 	margin-bottom:5px;
+	margin-right:2px;
 }
+
 .modulepermissions img {
 	padding:0;
 	margin:0;
 	border:none;
 }
 
+a.readmore {
+	padding-left: 15px;
+    background-image: url(../images/icons/readmore.gif);
+    background-repeat: no-repeat;
+}
+a.readmore:hover {
+background-image: url(../images/icons/readmore.gif);
+background-repeat: no-repeat;
+}
 
+a.rsslink img {
+	border: 0;
+}

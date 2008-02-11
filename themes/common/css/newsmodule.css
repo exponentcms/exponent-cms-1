@@ -7,3 +7,9 @@
 	padding:2px 0 2px 20px;
 	background:url(../images/icons/expirednews.png) no-repeat 0 50%;
 }
+
+.newsmodule .moduleactions .viewmorenews{
+	padding:2px 0 2px 20px;
+	background:url(../images/icons/viewallnews.png) no-repeat 0 50%;
+	_background:url(../images/icons/viewallnews.gif) no-repeat 0 50%;
+}
