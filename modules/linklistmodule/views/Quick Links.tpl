@@ -1,9 +1,9 @@
 
 <div class="linklistmodule quick-links">
-	<div class="permissions">
-		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}		
-	</div>
-	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
+
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}		
+
+	{if $moduletitle}<h1>{$moduletitle}</h1>{/if}
 	<ul>
 	{foreach from=$links item=link}
 		<li>
@@ -17,17 +17,17 @@
 				{/if}
 				{/permissions}
 			</div>
-			<a title="{$link->description}" href="{$link->url}"{if $link->opennew == 1} target="_blank"{/if} class="link">{$link->name}</a>
+			<a title="{$link->description}" href="{$link->url}"{if $link->opennew == 1} target="_blank"{/if} >{$link->name}</a>
 		</li>
 	{foreachelse}
-	<li align="center"><i>No Links Available</i></li>
+		<li align="center"><i>No Links Available</i></li>
 	{/foreach}
 	</ul>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.create == 1}
 	<div class="moduleactions">
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.create == 1}
-			<a href="{link action=edit}">Create New Link</a>
-		{/if}
-		{/permissions}
+	<a href="{link action=edit}">Create New Link</a>
 	</div>	
+	{/if}
+	{/permissions}
 </div>
