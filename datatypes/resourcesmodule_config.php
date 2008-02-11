@@ -38,7 +38,7 @@ class resourcesmodule_config {
 		
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->allow_anon_downloads = 0;
+			$object->allow_anon_downloads = 1;
 		} else {
 			$form->meta('id',$object->id);
 		}
