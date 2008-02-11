@@ -16,7 +16,7 @@
 
 <div class="calendarmodule default">
 {if $enable_rss == true}
-        <a href="{rsslink}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
 {$_TR.calendar_view}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a><br /><br />
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
