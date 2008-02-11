@@ -183,11 +183,14 @@ class weblogmodule {
 
 	function deleteIn($loc) {
 		global $db;
-		foreach ($db->selectObjects('weblog_post',"location_data='".serialize($loc)."'") as $post) {
-			$db->delete('weblog_comment','parent_id='.$post->id);
+		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
+                if ($refcount <= 0) {
+			foreach ($db->selectObjects('weblog_post',"location_data='".serialize($loc)."'") as $post) {
+				$db->delete('weblog_comment','parent_id='.$post->id);
+			}
+			$db->delete('weblog_post',"location_data='".serialize($loc)."'");
+			$db->delete('weblogmodule_config',"location_data='".serialize($loc)."'");
 		}
-		$db->delete('weblog_post',"location_data='".serialize($loc)."'");
-		$db->delete('weblogmodule_config',"location_data='".serialize($loc)."'");
 	}
 
 	function copyContent($oloc,$nloc) {
