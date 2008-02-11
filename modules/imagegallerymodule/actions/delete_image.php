@@ -46,6 +46,8 @@ if ($image) {
 		file::delete($file);
 		$file->filename = $image->thumbnail;
 		file::delete($file);
+		$file->filename = $image->enlarged;
+		file::delete($file);
 		$db->delete('file','id='.$image->file_id);
 		$db->delete("imagegallery_image","id=".$image->id);
 		$db->decrement('imagegallery_image','rank',1,'gallery_id='.$image->gallery_id.' AND rank > ' . $image->rank);
