@@ -11,7 +11,7 @@
 	echo exponent_theme_headerInfo($section,$config); 
 	?>
 </head>
-<body class="yui-skin-sam">
+<body>
 <!-- wrap starts here -->
 <div id="wrap">
 	<!--header -->
@@ -20,19 +20,19 @@
 		<p id="slogan">The "coolwater" theme from Styleshout.com</p>		
 		<div id="header-links">
 			<?php exponent_theme_showModule("textmodule","Top Links"); ?>
-		</div>		
+		</div>
 		<div id="header-login">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
-		</div>		
+		</div>
 	</div>
-	<!-- navigation -->	
+	<!-- navigation -->
 	<div  id="menu">
 		<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
 	</div>
 	<!-- content-wrap starts here -->
 	<div id="content-wrap">
 		
-		<div id="main">				
+		<div id="main">
 			<?php exponent_theme_main(); ?>
 		</div>
 		<div id="sidebar">
