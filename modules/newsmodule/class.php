@@ -92,12 +92,15 @@ class newsmodule {
 	
 	function deleteIn($location) {
 		global $db;
-		$items = $db->selectObjects('newsitem',"location_data='".serialize($location)."'");
-		foreach ($items as $i) {
-			$db->delete('newsitem_wf_revision','wf_original='.$i->id);
-			$db->delete('newsitem_wf_info','real_id='.$i->id);
+		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
+                if ($refcount <= 0) {
+			$items = $db->selectObjects('newsitem',"location_data='".serialize($location)."'");
+			foreach ($items as $i) {
+				$db->delete('newsitem_wf_revision','wf_original='.$i->id);
+				$db->delete('newsitem_wf_info','real_id='.$i->id);
+			}
+			$db->delete('newsitem',"location_data='".serialize($location)."'");
 		}
-		$db->delete('newsitem',"location_data='".serialize($location)."'");
 	}
 	
 	function copyContent($oloc,$nloc) {
