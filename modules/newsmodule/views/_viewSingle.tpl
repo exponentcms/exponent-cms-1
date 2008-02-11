@@ -20,19 +20,19 @@
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $newsitem->permissions.edit_item == 1}
 			{if $newsitem->approved == 2} {* in ap *}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 			{else}
 			<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$newsitem->id}">
-				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
 			{/if}
 		{/if}
 		{if $newsitem->permissions.delete_item == 1}
 			{if $newsitem->approved == 2} {* in ap *}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 			{else}
 			<a class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}" onclick="return confirm('{$_TR.delete_confirm}');">
-				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 			</a>
 			{/if}
 		{/if}

@@ -16,18 +16,18 @@
 
 <div class="calendarmodule default">
 {if $enable_rss == true}
-        <a href="{rsslink}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+        <a href="{rsslink}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
 {$_TR.calendar_view}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a><br /><br />
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 <table cellspacing="0" cellpadding="0" width="100%" style="border: 1px solid #DDD; border-collapse: collapse" rules="all" class="calendar_monthly">
 <tbody>
 <tr><td align="left">
-<a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
+<a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
 </td>
 <td align="center" valign="top" colspan="5"><h1>{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B %Y"}</h1></td>
 <td align="right">
-<a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" /></a>
+<a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" /></a>
 </td></tr>
 <tr>
 	<td align="center" style="font-weight:bold">{$_TR.sunday}</td>

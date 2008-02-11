@@ -47,12 +47,12 @@
 			<div class="itemactions">
 				{if $permissions.edit_slide == 1}
 				<a class="mngmntlink slideshow_mngmntlink" href="{link action=edit_slide id=$slide->id}">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 				</a>
 				{/if}
 				{if $permissions.delete_slide == 1}
 				<a class="mngmntlink slideshow_mngmntlink" href="{link action=delete_slide id=$slide->id}">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 				</a>
 				{/if}
 			</div>		
