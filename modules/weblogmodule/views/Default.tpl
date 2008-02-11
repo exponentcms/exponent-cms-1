@@ -14,16 +14,18 @@
  *
  *}
 <div class="weblogmodule default">
+<h1>
 {if $enable_rss == true}
-        <a href="{rsslink}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
+{if $moduletitle != ""}{$moduletitle}{/if}
+</h1>
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 {foreach from=$posts item=post}
 	<div class="item {cycle values='odd,even'}">
 		<div>
-			<h1 class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
-			<div class="subheader weblog_subheader">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+			<h2 class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h2>
+			<div class="attribution">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 			<br />
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1 || $post->permissions.administrate == 1}
@@ -49,12 +51,12 @@
 			{/permissions}
 		</div>
 		<div class="text">{$post->body}</div>
-		<hr size="1" />
 		{if $config->allow_comments}
-			<div class="comments" style="padding-left: 35px;">
-    				<a href="{link action=view id=$post->id}">{$post->total_comments} Comment{if $post->total_comments != 1}s{/if} >></a>
-			</div>
+			<p class="comments post-footer">
+    				<a class="comments" href="{link action=view id=$post->id}">Comment{if $post->total_comments != 1}s{/if} ({$post->total_comments})</a>
+			</p>
 		{/if}
+		<hr size="1" />
 	</div>
 {/foreach}
 {if $total_posts > $config->items_per_page}

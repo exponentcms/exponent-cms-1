@@ -13,30 +13,25 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+<div class="weblogmodule summary">
+<h1>
+{if $enable_rss == true}
+        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-{if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
+{if $moduletitle != ""}{$moduletitle}{/if}
+</h1>
+{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 {foreach from=$posts item=post}
-<div>
-<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}
-<br />
+<div class="item">
+	<h2>{$post->title}</h2>{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}
+<div class="itemactions">
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $post->permissions.administrate == 1}
 <a href="{link action=userperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
+	<img src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
 </a>
 <a href="{link action=groupperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
+	<img src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
 </a>
 {/if}
 {/permissions}
@@ -53,13 +48,15 @@
 {/if}
 {/permissions}
 </div>
-<div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+<div class="attribution">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body|summarize:html:para}</div>
-{if $smarty.const.SEF_URLS == 1}
-<div><a href="{$smarty.const.URL_FULL}content/blog/{$post->internal_name}">{$_TR.read_more}</a></div>
-{else}
-<div><a href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}</a></div>
-{/if}
+<p class="post-footer align-left">
+	<a class="readmore" href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}</a> |
+	{if $config->allow_comments}
+		<a class="comments" href="{link action=view id=$post->id}">Comment{if $post->total_comments != 1}s{/if} ({$post->total_comments})</a> |
+	{/if}
+	<span class="date">{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</span>
+</p>
 <hr size="1" />
 </div>
 {/foreach}
@@ -72,3 +69,4 @@
 <a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a>
 {/if}
 {/permissions}
+</div>

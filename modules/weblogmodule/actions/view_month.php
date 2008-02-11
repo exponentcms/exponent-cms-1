@@ -57,7 +57,8 @@ for ($i = 0; $i < count($posts); $i++) {
 }
 usort($posts,'exponent_sorting_byPostedDescending');
 			
-$template = new template('weblogmodule','_view_month',$loc);
+$template = new template('weblogmodule','Default',$loc);
+//$template = new template('weblogmodule','_view_month',$loc);
 $template->assign('posts',$posts);
 $template->register_permissions(
 	array('administrate'/*,'configure'*/,'post','edit','delete','comment','edit_comments','delete_comments','view_private'),
