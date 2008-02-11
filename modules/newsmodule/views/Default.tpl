@@ -19,11 +19,16 @@
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 	</div>
 
-	<h1>{if $moduletitle != ""}{$moduletitle}{/if}</h1>
+	<h1>
+		{if $enable_rss == true}
+        		<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
+	</h1>
 	{foreach from=$news item=newsitem}
 	{if $newsitem->is_featured!=1}
 		<div class="item {cycle values='odd,even'}">
-			<h3>{$newsitem->title}</h3>
+			<h2>{$newsitem->title}</h2>
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
 				{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
@@ -50,40 +55,42 @@
 			</div>
 			{/permissions}
 
-			<div class="text">
-				{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
-				{if $newsitem->edited eq 0}
-								{assign var='sortdate' value=$newsitem->real_posted}
-						{else}
-								{assign var='sortdate' value=$newsitem->edited}
-						{/if}
+			{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
+			{if $newsitem->edited eq 0}
+							{assign var='sortdate' value=$newsitem->real_posted}
+					{else}
+							{assign var='sortdate' value=$newsitem->edited}
+					{/if}
 
-				<span class="date">{$sortdate|format_date:"%B %e"}</span>
+			<span class="date">{$sortdate|format_date:"%B %e"}</span>
+
+			<div class="text">
 				{$newsitem->body|summarize:"html":"para"}
-				{if $newsitem->rss_link == ""}
-					<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
-				{else}
-					<a class="readmore" target="_blank" href="{$newsitem->rss_link}">Read More <sub>(Opens in new browser window)</sub></a>
-				{/if}
+				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
 			</div>
-			<div style="clear:both"></div>
 		</div>
 	{/if}
 	{/foreach}
-	<div class="moduleactions">
-	{if $morenews == 1}
-	<a href="{link action=view_all_news}">{$_TR.view_all}</a>
-	{/if}
+	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.add_item == true}
-		<br /><a class="mngmntlink news_mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>
-	{/if}
-	{if $in_approval > 0 && $canview_approval_link == 1}
-		<br /><a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>
-	{/if}
-	{if $permissions.view_unpublished == 1}
-		<br /><a class="mngmntlink news_mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+	{if $morenews == 1 || $permissions.add_item == true || ($in_approval > 0 && $canview_approval_link == 1) || $permissions.view_unpublished == 1}
+	<div class="moduleactions">
+		<ul>
+		{if $morenews == 1}
+			<li><a class="viewmorenews" href="{link action=view_all_news}">{$_TR.view_all}</a></li>
+		{/if}
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.add_item == true}
+			<li><a class="addnews" href="{link action=edit}">{$_TR.create_news}</a></li>
+		{/if}
+		{if $in_approval > 0 && $canview_approval_link == 1}
+			<li><a class="approvenews" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a></li>
+		{/if}
+		{if $permissions.view_unpublished == 1 }
+			<li><a class="expirednews" href="{link action=view_expired}">{$_TR.view_expired}</a></li>
+		{/if}
+		{/permissions}
+	</div>
 	{/if}
 	{/permissions}
-	</div>
 </div>
