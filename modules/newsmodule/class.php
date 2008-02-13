@@ -251,13 +251,14 @@ class newsmodule {
             foreach ($rssFeeds as $feed) {
                 foreach ($feed->items as $rssItem) {
                     $rssObject = new stdClass();
-                    $rssObject->title = $rssItem['title'];
-                    $rssObject->body = $rssItem['description'];
+                    $rssObject->title = !empty($rssItem['title']) ? $rssItem['title'] : "";
+					echo $rssItem['description']; die();
+                    $rssObject->body = !empty($rssItem['description']) ? $rssItem['description'] : "";
                     $rssObject->approved = 1;
-                    $rssObject->rss_link = $rssItem['link'];
-                    $rssObject->posted = $rssItem['date_timestamp'];
-                    $rssObject->edited = $rssItem['date_timestamp'];
-                    $rssObject->published = $rssItem['date_timestamp'];
+                    $rssObject->rss_link = !empty($rssItem['link']) ? $rssItem['link'] : "";
+                    $rssObject->posted = !empty($rssItem['date_timestamp']) ? $rssItem['date_timestamp'] : "";
+                    $rssObject->edited = !empty($rssItem['date_timestamp']) ? $rssItem['date_timestamp'] : "";
+                    $rssObject->published = !empty($rssItem['date_timestamp']) ? $rssItem['date_timestamp'] : "";
                     $news[] = $rssObject;
                 }
             }
