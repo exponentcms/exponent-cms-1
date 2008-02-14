@@ -166,13 +166,11 @@ function exponent_modules_getModuleInstancesByType($type=null) {
 	$refs = $db->selectObjects('sectionref', 'module="'.$type.'"');
 	$modules = array();
 	foreach ($refs as $ref) {
-		$container_refs = $db->selectObjects('container', 'internal like "%'.$ref->source.'%"');
-		foreach ($container_refs as $instance) {
-			$mod = null;
-			$mod->title = $instance->title;
-			$mod->section = $db->selectvalue('section', 'name', 'id='.$ref->section);
-			$modules[$ref->source][] = $mod;
-		}
+		$instance = $db->selectObject('container', 'internal like "%'.$ref->source.'%"');
+		$mod = null;
+		$mod->title = !empty($instance->title) ? $instance->title : "Untitled";
+		$mod->section = $db->selectvalue('section', 'name', 'id='.$ref->section);
+		$modules[$ref->source][] = $mod;
 	}
 
 	return $modules;
