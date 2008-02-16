@@ -41,7 +41,7 @@
 	{control type="textbox" name="pop_size" value=$gallery->pop_size label="Enlarged Size (pixels)"}
 	{control type="textbox" name="perrow" value=$gallery->perrow label="Images per row"}
 	{control type="textbox" name="perpage" value=$gallery->perpage label="Images per page"}
-	{control type="buttongroup" submit="Save Gallery Settings"}
+	{control type="buttongroup" submit="Save Gallery Settings" cancel="Cancel"}
 	{/form}	
 
 </div>

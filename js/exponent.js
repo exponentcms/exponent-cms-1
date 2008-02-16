@@ -151,12 +151,13 @@ YAHOO.exp = function () {
 		    YAHOO.exp.myPanel.setBody('');
 			YAHOO.exp.myPanel.render(document.body);
 		},
-		popImage : function (imgname,imgfile,width,height) {
+		popImage : function (imgname,desc,imgfile,width,height) {
 			//alert(width+" - "+height);
 			YAHOO.exp.myPanel.setHeader("&nbsp;"+imgname);
 			YAHOO.exp.myPanel.cfg.setProperty("width",width+20+"px");
 			YAHOO.exp.myPanel.cfg.setProperty("height",height+20+"px");
 			YAHOO.exp.myPanel.setBody('<img class="popupimage" src="'+imgfile+'" />');
+			YAHOO.exp.myPanel.setFooter('<div id="gallerypopfooter">'+desc+'</div>');
 			YAHOO.exp.myPanel.render(document.body);
 			YAHOO.exp.myPanel.show();
 		},

@@ -52,6 +52,10 @@ if (exponent_permissions_check('edit',$loc)) {
 	}
 	$gallery = imagegallery_gallery::update($_POST,$gallery);
 	
+	
+	eDebug($gallery);
+	die();
+	
 	if (!empty($gallery->id)) {
 		$db->updateObject($gallery,'imagegallery_gallery');
 	} else {

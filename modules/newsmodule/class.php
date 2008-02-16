@@ -252,7 +252,6 @@ class newsmodule {
                 foreach ($feed->items as $rssItem) {
                     $rssObject = new stdClass();
                     $rssObject->title = !empty($rssItem['title']) ? $rssItem['title'] : "";
-					echo $rssItem['description']; die();
                     $rssObject->body = !empty($rssItem['description']) ? $rssItem['description'] : "";
                     $rssObject->approved = 1;
                     $rssObject->rss_link = !empty($rssItem['link']) ? $rssItem['link'] : "";
