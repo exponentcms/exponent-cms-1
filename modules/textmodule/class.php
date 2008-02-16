@@ -64,7 +64,6 @@ class textmodule {
 
 	function show($view,$loc,$title = '') {
 		global $db;
-		
 		$template = new template('textmodule',$view,$loc);
 		$location = serialize($loc);
 		$cache = exponent_sessions_getCacheValue('textmodule');

@@ -13,6 +13,15 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
-{$form_html}
+
+<div class="textmodule form-edit">
+	<div class="form_header">
+        	<h1>{$_TR.form_title}</h1>
+	        <p>{$_TR.form_header}</p>
+	</div>
+	{form action="save"}
+		{control type="hidden" name="id" value=$textitem->id}
+		{control type="editor" name="text" value=$textitem->text}
+		{control type=buttongroup submit="submit" cancel="cancel"}
+	{/form}
+</div>

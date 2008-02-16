@@ -29,12 +29,8 @@ if ($textitem != null) {
 }
 
 if (exponent_permissions_check('edit',$loc)) {
-	$form = textitem::form($textitem);
-	$form->location($loc);
-	$form->meta('action','save');
-	
 	$template = new template('textmodule','_form_edit',$loc);
-	$template->assign('form_html',$form->toHTML());
+	$template->assign('textitem', $textitem);
 	$template->output();
 } else {
 	echo SITE_403_HTML;
