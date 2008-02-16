@@ -45,7 +45,7 @@ class newsmodule_config {
 			$object->collections = array();
 			$object->show_tags = array();
 			$object->pull_rss = 0;
-			$object->rss_feed = array();
+			$object->rss_feed = serialize(array());
 			$object->rss_cachetime = 3600;
 		} else {
 			$cols = unserialize($object->collections);
@@ -149,7 +149,7 @@ class newsmodule_config {
 		    $object->rss_feed = serialize(listbuildercontrol::parseData($values,'rss_feed'));
 		} else {
 		    $object->pull_rss = 0;
-		    $object->rss_feed = array();
+		    $object->rss_feed = serialize(array());
 		}
 		$object->rss_cachetime = $values['rss_cachetime'];
 		
