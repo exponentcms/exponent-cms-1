@@ -29,12 +29,12 @@ body {
 /* links */
 a, a:visited {
 	text-decoration: none;
-	background: inherit;
+	background-color: transparent;
 	color: #FB9233; 
 }
 a:hover {
 	text-decoration: underline;
-	background: inherit;
+	background-color: transparent;
 	color: #93C600;
 }
 
