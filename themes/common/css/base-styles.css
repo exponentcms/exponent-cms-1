@@ -28,8 +28,8 @@ a.readmore {
     background-repeat: no-repeat;
 }
 a.readmore:hover {
-background-image: url(../images/icons/readmore.gif);
-background-repeat: no-repeat;
+	background-image: url(../images/icons/readmore.gif);
+	background-repeat: no-repeat;
 }
 
 a.rsslink img {
