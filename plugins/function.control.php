@@ -83,7 +83,6 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['value'])) $control->default = $params['value'];
 		if (isset($params['size'])) $control->size = $params['size'];
 		if (isset($params['flip'])) $control->flip = $params['flip'];
-		echo $control->flip;
 		if (isset($params['disabled']) && $params['disabled'] != false) $control->disabled = true;
 		if (isset($params['maxlength'])) $control->maxlength = $params['maxlength'];
 		if (isset($params['tabindex'])) $control->tabindex = $params['tabindex'];
