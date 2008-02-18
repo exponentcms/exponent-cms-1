@@ -65,20 +65,34 @@ class checkboxcontrol extends formcontrol {
 		$this->required = $required;
 	}
 	
+	// function toHTML($label,$name) {
+	// 	//eDebug($this);
+	// 	if(empty($this->flip)){
+	// 		$html = "<div id=\"".$name."Control\" class=\"control";
+	// 		$html .= (!empty($this->required)) ? ' required">' : '">';
+	// 		$html .= "<span class=\"checkboxlabel\">".$label."</span>";
+	// 		$html .= $this->controlToHTML($name);
+	// 		$html .= "</div>";			
+	// 	}else{
+	// 		$html = "<div id=\"".$name."Control\" class=\"control";
+	// 		$html .= (!empty($this->required)) ? ' required">' : '">';
+	// 		$html .= $this->controlToHTML($name);
+	// 		$html .= "<span class=\"checkboxlabel fliped\">".$label."</span>";
+	// 		$html .= "</div>";						
+	// 	}
+	// 	return $html;
+	// }
 	function toHTML($label,$name) {
-		//eDebug($this);
-		if(empty($this->flip)){
-			$html = "<div id=\"".$name."Control\" class=\"control";
-			$html .= (!empty($this->required)) ? ' required">' : '">';
+		if(empty($this->flipped)){
+			$html = '<label>';
+			$html .= $this->controlToHTML($name);
+			$html .= "<span class=\"checkboxlabel\">".$label."</span>";
+			$html .= "</label>";				
+		}else{
+			$html = '<label>';
 			$html .= "<span class=\"checkboxlabel\">".$label."</span>";
 			$html .= $this->controlToHTML($name);
-			$html .= "</div>";			
-		}else{
-			$html = "<div id=\"".$name."Control\" class=\"control";
-			$html .= (!empty($this->required)) ? ' required">' : '">';
-			$html .= $this->controlToHTML($name);
-			$html .= "<span class=\"checkboxlabel fliped\">".$label."</span>";
-			$html .= "</div>";						
+			$html .= "</label>";				
 		}
 		return $html;
 	}

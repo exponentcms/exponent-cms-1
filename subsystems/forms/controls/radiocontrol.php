@@ -57,7 +57,7 @@ class radiocontrol extends formcontrol {
 	
 	
 	function toHTML($label,$name) {
-		if($this->flipped == true){
+		if(empty($this->flipped)){
 			$html = '<label>';
 			$html .= $this->controlToHTML($name);
 			$html .= "<span class=\"radiobuttonlabel\">".$label."</span>";
