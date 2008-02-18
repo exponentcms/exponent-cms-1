@@ -81,6 +81,7 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['checked'])) $control->checked = $params['checked'];
 		if (isset($params['value'])) $control->default = $params['value'];
 		if (isset($params['size'])) $control->size = $params['size'];
+		if (isset($params['flip'])) $control->flipped = $params['flipped'];
 		if (isset($params['disabled']) && $params['disabled'] != false) $control->disabled = true;
 		if (isset($params['maxlength'])) $control->maxlength = $params['maxlength'];
 		if (isset($params['tabindex'])) $control->tabindex = $params['tabindex'];
