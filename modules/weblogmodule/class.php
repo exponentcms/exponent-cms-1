@@ -108,7 +108,22 @@ class weblogmodule {
 			$viewconfig = include($template->viewdir."/$view.config");
 		}
 
-		$where = '(is_draft = 0 OR poster = '.$user_id.") AND location_data='".serialize($loc)."'";
+		// If this module has been configured to aggregate then setup the where clause to pull
+		// posts from the proper blogs.
+		$locsql = "(location_data='".serialize($loc)."'";
+                if (!empty($config->aggregate)) {
+                        $locations = unserialize($config->aggregate);
+                        foreach ($locations as $source) {
+                                $tmploc = null;
+                                $tmploc->mod = 'weblogmodule';
+                                $tmploc->src = $source;
+                                $tmploc->int = '';
+                                $locsql .= " OR location_data='".serialize($tmploc)."'";
+                        }
+                }
+                $locsql .= ')';
+
+		$where = '(is_draft = 0 OR poster = '.$user_id.") AND ".$locsql;
 		if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 
 		if ($viewconfig['type'] == 'monthlist') {
@@ -130,6 +145,13 @@ class weblogmodule {
 				$end_month = exponent_datetime_endOfMonthTimestamp($start_month)+86399;
 			} while ($start_month < $max_date);
 			$template->assign('months',array_reverse($months,true));
+		} else if ($viewconfig['type'] == 'byauthor') {
+                        $users = $db->selectColumn('weblog_post', 'distinct(poster)', $where);
+                        $authors = $db->selectObjectsInArray('user', $users, 'username');
+                        for($i=0; $i < count($authors); $i++) {
+                                $authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
+                        }
+                        $template->assign('authors', $authors);
 		} else if ($viewconfig['type'] == 'calendar') {
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 			$month_days = exponent_datetime_monthlyDaysTimestamp(time());

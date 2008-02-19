@@ -25,13 +25,6 @@ class weblogmodule_config {
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
-		$list = array();
-		$list = exponent_users_getAllUsers();
-		//eDebug($list);
-			
-		$userlist = array();
-		
 
 		$form = new form();
 		if (!isset($object->id)) {
@@ -40,34 +33,51 @@ class weblogmodule_config {
 			$object->enable_rss = false;
             		$object->feed_title = "";
             		$object->feed_desc = "";
-			$object->comments_notify = array();
-			print "test1";
+			$object->comments_notify = serialize(array());
+			$object->aggregate = array();
 		} else {
 			$form->meta('id',$object->id);				
-			$selected_users = array();
-			foreach(unserialize($object->comments_notify) as $i) {
-				$selected_users[$i] = $db->selectValue('user', 'username', 'id='.$i);
-			}	
-			$object->comments_notify = $selected_users;
 		}
-		eDebug($object);
 		
+		$selected_users = array();
+		foreach(unserialize($object->comments_notify) as $i) {
+			$selected_users[$i] = $db->selectValue('user', 'username', 'id='.$i);
+		}
+	
+		$userlist = array();
+		$list = exponent_users_getAllUsers();
 		foreach ($list as $i) {
-		//	echo "Test";
-			if(!array_key_exists($i->id, $object->comments_notify))
-			{
+			if(!array_key_exists($i->id, $selected_users)) {
 				$userlist[$i->id] = $i->username;
 			}
 		}
 
-		eDebug($object->comments_notify);
-		eDebug($userlist);
+		// setup the listbuilder arrays for calendar aggregation.       
+                $loc = unserialize($object->location_data);
+                $blogs = exponent_modules_getModuleInstancesByType('weblogmodule');
+                $saved_aggregates = empty($object->aggregate) ? array() : unserialize($object->aggregate);
+                $all_blogs = array();
+                $selected_blogs = array();
+                foreach ($blogs as $src => $blog) {
+                        $blog_name = (empty($blog[0]->title) ? 'Untitled' : $blog[0]->title).' on page '.$blog[0]->section;
+                        if ($src != $loc->src) {
+                                if (in_array($src, $saved_aggregates)) {
+                                        $selected_blogs[$src] = $blog_name;
+                                } else {
+                                        $all_blogs[$src] =  $blog_name;
+                                }
+                        }
+                }
 
-		$form->register(null,'',new htmlcontrol('<div class="moduletitle">General Configuration</div><hr size="1" />'));	
+		$form->register(null,'',new htmlcontrol('<h1>General Configuration</h1><hr size="1" />'));	
 		$form->register('allow_comments',$i18n['allow_comments'],new checkboxcontrol($object->allow_comments));
-		$form->register('comments_notify',$i18n['comments_notify'],new listbuildercontrol($object->comments_notify,$userlist));
+		$form->register('comments_notify',$i18n['comments_notify'],new listbuildercontrol($selected_users, $userlist));
 		$form->register('items_per_page',$i18n['items_per_page'],new textcontrol($object->items_per_page));
-		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">RSS Configuration</div><hr size="1" />'));
+
+		$form->register(null,'',new htmlcontrol('<h1>Merge Blogs</h1><hr size="1" />'));
+                $form->register('aggregate','Pull Events from These Other Blog Module',new listbuildercontrol($selected_blogs,$all_blogs));
+
+		$form->register(null,'',new htmlcontrol('<h1>RSS Configuration</h1><hr size="1" />'));
        	 	$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
         	$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
         	$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
@@ -77,14 +87,13 @@ class weblogmodule_config {
 	
 	function update($values,$object) {
 		print "Update function";
-		eDebug(listbuildercontrol::parseData($values,'comments_notify'));
 		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
 		$object->comments_notify = serialize(listbuildercontrol::parseData($values,'comments_notify'));
+	  	$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
         	$object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
         	$object->feed_title = $values['feed_title'];
         	$object->feed_desc = $values['feed_desc'];
-		//eDebug($object); exit();		
 		return $object;
 	}
 }

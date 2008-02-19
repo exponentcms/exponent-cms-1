@@ -43,6 +43,9 @@ return array(
 	'feed_desc'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER,
 	        DB_FIELD_LEN=>200),
+	'aggregate'=>array(
+                DB_FIELD_TYPE=>DB_DEF_STRING,
+                DB_FIELD_LEN=>1000),
 );
 
 ?>
