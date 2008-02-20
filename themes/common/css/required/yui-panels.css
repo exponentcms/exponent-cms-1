@@ -45,7 +45,7 @@ body .yui-simple-dialog .bd span.hlpicon{background-position:0 -1150px;}
 body .yui-simple-dialog .bd span.infoicon{background-position:0 -1200px;}
 body .yui-simple-dialog .bd span.warnicon{background-position:0 -1900px;}
 body .yui-simple-dialog .bd span.tipicon{background-position:0 -1250px;}
-body .yui-tt .bd{position:relative;top:0;left:0;z-index:1;color:#000;padding:2px 5px;border-color:#D4C237 #A6982B #A6982B #A6982B;border-width:1px;border-style:solid;background-color:#FFEE69;}
+body .yui-tt .bd{position:relative;top:0;left:0;z-index:1;color:#295a9b;padding:2px 5px;border-color:#295a9b;border-width:1px;border-style:solid;background-color:#a9c6d9;}
 body .yui-tt.show-scrollbars .bd{overflow:auto;}
 body .yui-tt-shadow{top:2px;right:-3px;left:-3px;bottom:-3px;background-color:#000;}
 body .yui-tt-shadow-visible{opacity:.12;*filter:alpha(opacity=12);}

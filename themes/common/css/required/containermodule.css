@@ -16,14 +16,15 @@ div.containermodule span.modtype{
 	font-family:verdana;
 	color:#111111;
 	line-height:10px;
-	margin:4px 0 0 5px;
 	display:block;
-	position:absolute;
+	height:20px;
+	width:20px;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
-	background-position:0 -390px; 
+	background-position:3px -387px; 
 	background-repeat:no-repeat;
 	padding:0 0 5px 22px;
+	cursor:pointer;
 }
 
 div.containermodule.edit{
