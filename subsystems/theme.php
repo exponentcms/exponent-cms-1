@@ -169,12 +169,33 @@ function exponent_theme_loadYUIJS($files=array()) {
 		}	
 		return $files_to_string;
 }
+function exponent_theme_buildCSSFile($cssfile) {
+	if (DEVELOPMENT > 0 || !is_readable(BASE.$cssfile)) {
+		global $css_files;
+		//eDebug($css_files);
+		//exit;
+		// Load the Minify library if needed.                 
+		include_once(BASE.'external/minify/minify.php');                 
+		// Create new Minify objects.                 
+		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
 
+		// Specify the files to be minified. Full URLs are allowed as long as they point                 
+		// to the same server running Minify. 
+	       	$minifyCSS->addFile($css_files);
+
+		// Establish the file where we will build the compiled CSS file
+	       	$compiled_file = fopen(BASE . $cssfile, 'w');
+		//	eDebug($minifyCSS->combine());
+
+		fwrite($compiled_file, $minifyCSS->combine());
+		fclose($compiled_file);
+	}
+}
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true)) {
+function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true),$cssfile = 'tmp/css/exp-styles-min.css') {
 	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
@@ -187,7 +208,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/,
 	if(!empty($config['reset-fonts-grids'])) exponent_theme_resetCSS();
 	if($config['include-common-css']!=false) exponent_theme_loadCommonCSS();
 	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS();
-	
+	exponent_theme_buildCSSFile($cssfile);
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
 		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
@@ -195,8 +216,7 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/,
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
-		$str .= "\t".'<!--[if lt IE 7]><script type="text/javascript" src="'.URL_FULL.'js/ie7.js"></script><![endif]-->'."\n";
-		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.'tmp/css/exp-styles-min.css">'."\r\n";	
+		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'">'."\r\n";	
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'exponent.js.php"></script>'."\r\n";
 		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','animation','dragdrop','container','container_core','menu','element-beta','tabview','connection', 'json-beta'));//,'button-beta','editor-beta'
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'js/exponent.js"></script>'."\r\n"; //Phillip - start of exp js object
