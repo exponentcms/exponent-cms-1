@@ -151,10 +151,10 @@ function _sanity_checkGD() {
 
 function _sanity_checkPHPVersion() {
 	global $global_i18n;
-	if (version_compare(phpversion(),'4.0.6','>=')) {
+	if (version_compare(phpversion(),'5.2.0','>=')) {
 		return array(SANITY_FINE,phpversion());
 	} else {
-		return array(SANITY_ERROR,'PHP < 4.0.6 '.$global_i18n['not_supported']);
+		return array(SANITY_WARNING,'Warning! ExponentCMS will not be fully functional with PHP < 5.2.0'.$global_i18n['not_supported']);
 	}
 }
 
