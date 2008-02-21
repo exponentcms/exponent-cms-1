@@ -28,32 +28,21 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: save_multiple.php,v 1.7 2005/04/08 22:57:52 filetreefrog Exp $
+# $Id: view_image.php,v 1.4 2005/02/24 20:14:14 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
 
-
-		$image = json_decode($_POST['galobject']);
-		
-		$img = $db->selectObject("imagegallery_image","file_id=".$image->file_id);
-		
-		$file = $db->selectObject("file","id=".$image->file_id);
+$image = null;
+if (isset($_GET['id'])) {
+	$image = $db->selectObject("imagegallery_image","id=".$_GET['id']);
+}
 	
-		
-		$thumbname = imagegallerymodule::createThumbnailFile($file, $image->thumb); 
-		$img->thumbnail = $thumbname; 
-		$popname = imagegallerymodule::createEnlargedFile($file, $image->pop); 
-		$img->enlarged = $popname; 
-		
-		
-		
-		
-		$db->updateObject($img,"imagegallery_image");
-		
-
-		exit();
-		
-
+if ($image) {
+	$image->file = $db->selectObject("file","id=".$image->file_id);	
+	echo json_encode($image);
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>

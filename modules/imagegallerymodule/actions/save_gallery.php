@@ -91,7 +91,14 @@ if (exponent_permissions_check('edit',$loc)) {
 	} else {
 		if($resizeimages == 1){
 			$gallery->images = $db->selectObjects('imagegallery_image','gallery_id='.$gallery->id);
-			echo json_encode($gallery);			
+			//$gal->images = $db->selectColumn('imagegallery_image','id','gallery_id='.$gallery->id);
+			foreach ($gallery->images as $key=>$img){
+				$gal->images[$key]->gid = $gallery->id;
+				$gal->images[$key]->file_id = $img->file_id;
+				$gal->images[$key]->thumb = $gallery->box_size;
+				$gal->images[$key]->pop = $gallery->pop_size;
+			}
+			echo json_encode($gal);			
 		}else{
 			echo "no-resize";
 		}	
