@@ -78,11 +78,11 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 
 	if (is_readable($page)) {
 		if (IN_AJAX_ACTION == 0) {
-                        include_once($page);
-                } else {
-                        exponent_theme_runAction();
-                }
-		exponent_javascript_outputJStoDOMfoot();				
+			include_once($page);
+			exponent_javascript_outputJStoDOMfoot();				
+		} else {
+			exponent_theme_runAction();
+		}
 	} else {
 		echo sprintf($base_i18n['not_readable'], $page);
 	}
