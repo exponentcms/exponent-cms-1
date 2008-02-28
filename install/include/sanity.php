@@ -127,7 +127,7 @@ function sanity_checkServer() {
 	$status = array(
 		$global_i18n['check_db']=>_sanity_checkDB(),
 		$global_i18n['check_gd']=>_sanity_checkGD(),
-		'PHP 4.0.6+'=>_sanity_checkPHPVersion(),
+		'PHP 5.2.0++'=>_sanity_checkPHPVersion(),
 		$global_i18n['check_zlib']=>_sanity_checkZlib(),
 		$global_i18n['check_xml']=>_sanity_checkXML(),
 		$global_i18n['check_safemode']=>_sanity_CheckSafeMode(),
