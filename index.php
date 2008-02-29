@@ -52,7 +52,7 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 	if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
-		header('Location: install/index.php?page=setlang');
+		header('Location: '.URL_FULL.'install/index.php?page=setlang');
 		exit('Redirecting to the Exponent Install Wizard');
 	}
 
