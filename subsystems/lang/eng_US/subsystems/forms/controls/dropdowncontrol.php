@@ -6,6 +6,7 @@ return array(
 	'default'=>'Default',
 	'items'=>'Items',
 	'size'=>'Size',
+	'required'=>'Required?',
 	
 	'save'=>'Save',
 	'cancel'=>'Cancel',
