@@ -154,6 +154,17 @@ function exponent_core_makeRSSLink($params) {
                 return htmlspecialchars($link,ENT_QUOTES);
 }
 
+function exponent_core_makePodcastLink($params) {
+	$link = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
+	$link .= SCRIPT_RELATIVE . "podcast.php" . "?";
+	foreach ($params as $key=>$value) {
+                        $value = chop($value);
+                        $key = chop($key);
+                        if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
+                }
+                $link = substr($link,0,-1);
+                return htmlspecialchars($link,ENT_QUOTES);
+}
 /* exdoc
  * Return a full URL, given the desired querystring arguments as an associative array.
  *
