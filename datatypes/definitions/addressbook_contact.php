@@ -26,6 +26,12 @@ return array(
 		DB_INCREMENT=>true),
 	'user_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
+	'business'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>100),
+	'title'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>100),
 	'firstname'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
@@ -51,6 +57,9 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>50),
 	'email'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>150),
+	'email2'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>150),
 	'phone'=>array(

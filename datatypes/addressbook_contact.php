@@ -26,6 +26,8 @@ class addressbook_contact {
 	
 		$form = new form();
 		if (!isset($object->id)) {
+			$object->business = '';
+			$object->title = '';
 			$object->firstname = '';
 			$object->lastname = '';
 			$object->address1 = '';
@@ -35,6 +37,7 @@ class addressbook_contact {
 			$object->zip = '';
 			$object->country = '';
 			$object->email = '';
+			$object->email2 = '';
 			$object->phone = '';
 			$object->cell = '';
 			$object->fax = '';
@@ -45,35 +48,23 @@ class addressbook_contact {
 			$form->meta('id',$object->id);
 		}
 		
+		$form->register('business',$i18n['business'],new textcontrol($object->business));
+		$form->register('title',$i18n['title'],new textcontrol($object->title));
 		$form->register('firstname',$i18n['firstname'],new textcontrol($object->firstname));
 		$form->register('lastname',$i18n['lastname'],new textcontrol($object->lastname));
-		
-		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
-		
 		$form->register('address1',$i18n['address1'],new textcontrol($object->address1,30));
 		$form->register('address2',$i18n['address2'],new textcontrol($object->address2,30));
 		$form->register('city',$i18n['city'],new textcontrol($object->city));
 		$form->register('state',$i18n['state'],new textcontrol($object->state));
 		$form->register('zip',$i18n['zip'],new textcontrol($object->zip));
-		
-		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
-		
 		$form->register('email',$i18n['email'],new textcontrol($object->email));
-		$form->register('webpage',$i18n['webpage'],new textcontrol($object->webpage));
-		
-		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
-		
+		$form->register('email2',$i18n['email2'],new textcontrol($object->email2));
+		$form->register('webpage',$i18n['webpage'],new textcontrol($object->webpage));		
 		$form->register('phone',$i18n['phone'],new textcontrol($object->phone));
 		$form->register('cell',$i18n['cell'],new textcontrol($object->cell));
 		$form->register('fax',$i18n['fax'],new textcontrol($object->fax));
 		$form->register('pager',$i18n['pager'],new textcontrol($object->pager));
-		
-		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
-		
 		$form->register('notes',$i18n['notes'],new texteditorcontrol($object->notes,12,50));
-		
-		$form->register(null,'',new htmlcontrol('<hr size="1" />'));
-		
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		exponent_forms_cleanup();
@@ -81,6 +72,8 @@ class addressbook_contact {
 	}
 
 	function update($values,$object) {
+		$object->business = $values['business'];
+		$object->title = $values['title'];
 		$object->firstname = $values['firstname'];
 		$object->lastname = $values['lastname'];
 		$object->address1 = $values['address1'];
@@ -89,6 +82,7 @@ class addressbook_contact {
 		$object->state = $values['state'];
 		$object->zip = $values['zip'];
 		$object->email = $values['email'];
+		$object->email2 = $values['email2'];
 		$object->webpage = $values['webpage'];
 		if (!exponent_core_URLisValid($object->webpage)) {
 			$object->webpage = 'http://'.$object->webpage;

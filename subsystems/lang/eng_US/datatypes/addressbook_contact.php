@@ -1,6 +1,8 @@
 <?php
 
 return array(
+	'business'=>'Organization',
+	'title'=>'Title',
 	'firstname'=>'First Name',
 	'lastname'=>'Last Name',
 	
@@ -10,7 +12,8 @@ return array(
 	'state'=>'State/Province',
 	'zip'=>'Zip Code',
 	
-	'email'=>'Email Address',
+	'email'=>'Primary Email Address',
+	'email2'=>'Secondary Email Address',
 	'webpage'=>'Web Page',
 	
 	'phone'=>'Phone',
