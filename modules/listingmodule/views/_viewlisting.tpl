@@ -28,14 +28,7 @@
  *
  * $Id: _viewlisting.tpl,v 1.3 2005/02/19 16:53:36 filetreefrog Exp $
  *}
- 
- {*
-<div class="listing_name">{$listing->name}</div>
-<br /><br />
-<div class="listing_body">
-{$listing->body}
-</div>
-*}
+
 <div class="listingmodule viewlisting">
 	<h1>{$listing->name}</h1>
 	<div class="text">
