@@ -30,12 +30,10 @@
  *}
 
 
-<div style="padding:15px;">
-	<img class="mngmnt_icon" style="border:none; float:left;" src="{$smarty.const.ICON_RELATIVE}arrow_left.gif" title="{$_TR.previous}" alt="{$_TR.previous}" /><a href="{link module=bbmodule action=view_board id=$board_id}">Back to {$board_name}</a><br />
-<br />
+<div class="bbmodule view-thread">
 
-	<div class="bb_postdiv"  style="display:table; width:100%; padding:0 0 10px 0">
-		<div class="bb_editicons">
+	<div class="post" >
+		<div class="editicons">
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 				{if $permissions.administrate == 1}
 					{capture assign=int}p{$thread->id}{/capture}
@@ -56,41 +54,43 @@
 				{/if}
 			{/permissions}
 		</div>
-		<div class="bb_postsubject">{$thread->subject}</div>
-		<div class="bb_bio" >
-			<div class="bb_avitar" style="text-align:center">
+		<a class="backtoboard" href="{link module=bbmodule action=view_board id=$board_id}">Back to "{$board_name}"</a>
+		<h1>{$thread->subject}</h1>
+		<div class="bio" >
+			<h3>{$thread->poster->username}</h3>
+			<div class="avitar">
 				{if $thread->poster->avatar_path != ""}
-					<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile" style="border:none;"><img src="{$thread->poster->avatar_path}" style="border:none;" /></a>
+					<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile"><img src="{$thread->poster->avatar_path}" /></a>
 				{/if}
 				{if $thread->poster->bb_user->hide_online_status != 0}<br />
 					I'm Online
 				{/if}
 			</div>
-			<strong>{$thread->poster->username}</strong><br />
-       {foreach from=$thread->poster->ranks item=rank}
-        <strong>{$rank->title}</strong><br />
-      {/foreach}
-			Posted on {$thread->posted|format_date:"%D %T"}<br />
-			Number of posts: {$thread->poster->bb_user->num_posts}
+			{foreach from=$thread->poster->ranks item=rank}
+				<b>{$rank->title}</b>
+			{/foreach}
+			<div class="postcount">
+				{$thread->poster->bb_user->num_posts} Posts
+			</div>
 			{if $thread->poster->bb_user->signature}
-			<div class="bb_signature">{$thread->poster->bb_user->signature}</div>
+			<div class="signature">{$thread->poster->bb_user->signature}</div>
 			{/if}
 		</div>
-		<div class="bb_author">
+		<div class="author">
 			{attribution user=$thread->poster->username} 
 			{if $user != ""}
-				An anonymous user replies:
+				An anonymous user replies on {$thread->posted|format_date:"%D %T"}:
 			{else}
-				<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile">{$thread->poster->username}</a> posts:
+				<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile">{$thread->poster->username}</a> posts on {$thread->posted|format_date:"%D %T"} :
 			{/if}
 		</div>
 		<br />
-		<div class="bb_postbody">{$thread->body}</div>
+		<div class="postbody">{$thread->body}</div>
 	</div>	
-	<div>
+	<div class="quoteandreply">
 		{if $permissions.reply == 1}
-			<a href="{link action=edit_post parent=$thread->id }" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
+			<a href="{link action=edit_post parent=$thread->id }"><img src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}"><img src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{else}
 			<a href="{link module=loginmodule action=loginredirect redirecturl=$__redirect}">Login to reply to this topic.</a>
 		{/if}
@@ -98,70 +98,71 @@
 	
 	
 	<!-- replies  -->
-	<h3 class="bbreplies">Replies:</h3>
+	<h2 class="replies">Replies:</h2>
 	{foreach from=$replies item=reply}
-	<div class="bb_reply{cycle values="_light,_dark"}" style="display:table;">
-		<div class="bb_editicons" style="float:right">	
+	<div class="reply {cycle values="odd,even"}">
+		<div class="editicons">	
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_post == 1 || $reply->poster->id == $currentuser->id}
-					<a style="border:none;" href="{link action=edit_post id=$reply->id}">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+					<a href="{link action=edit_post id=$reply->id}">
+					<img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
 				{/if}
 				{if $permissions.delete_thread == 1 || $reply->poster->id == $currentuser->id}
-					<a style="border-bottom:none;" href="{link action=delete_post id=$reply->id}">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+					<a href="{link action=delete_post id=$reply->id}">
+					<img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 				{/if}
 			{/permissions}
 		</div>
-		{if $reply->subject}<div class="bb_replysubject">{$reply->subject}</div>{else}<div class="bb_replysubject">re: {$thread->subject}</div>{/if}
-		<div class="bb_bio" >
-			<div class="bb_avitar" style="text-align:center">
+		<div class="bio" >
+			<h3>{$reply->poster->username}</h3>
+			<div class="avitar">
 				{if $reply->poster->avatar_path != ""}
-					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" style="border:none;"><img src="{$reply->poster->avatar_path}" style="border:none;" /></a>
+					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" ><img src="{$reply->poster->avatar_path}" /></a>
 				{/if}
 				{if $reply->poster->bb_user->hide_online_status != 0}<br />
 					I'm Online
 				{/if}
 			</div>
-			<strong>{$reply->poster->username}</strong><br />
-      {foreach from=$reply->poster->ranks item=rank}
-        <strong>{$rank->title}</strong><br />
-      {/foreach}
-			Posted on {$reply->posted|format_date:"%D %T"}<br />
-			Number of posts: {$reply->poster->bb_user->num_posts}
+			{foreach from=$reply->poster->ranks item=rank}
+				<strong>{$rank->title}</strong><br />
+			{/foreach}
+			<div class="postcount">
+				{$reply->poster->bb_user->num_posts} Posts
+			</div>
 			{if $reply->poster->bb_user->signature}
-				<div class="bb_signature">{$reply->poster->bb_user->signature}</div>
+				<div class="signature">{$reply->poster->bb_user->signature}</div>
 			{/if}
 		</div>
-		<div class="bb_author">
+		{if $reply->subject}<h2>{$reply->subject}</h2>{else}<h2>re: {$thread->subject}</h2>{/if}
+		<div class="author">
 			{attribution user=$reply->poster->username} 
 			{if $user != ""}
 				An anonymous user replies:
 			{else}
-				<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile">{$reply->poster->username}</a> replies:
+				<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile">{$reply->poster->username}</a> replies on {$reply->posted|format_date:"%D %T"} :
 			{/if}
-		</div><br />
-		<div class="bb_postbody">
+		</div>
+		<div class="postbody">
 			{if $reply->quote}
-			<div class="bb_quote">
+			<div class="quote">
 				<span>quote:</span><br />
 				{$reply->quote}
 			</div>
 			{/if}
 			{$reply->body}
 		</div><br />
+		<div class="quoteandreply">
 		{if $permissions.reply == 1}
-		<div>
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
-		</div>		
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}"><img src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{/if}
-	</div><br />
+		</div>		
+	</div>
 {/foreach}
 
 {if $permissions.reply == 1}
-<br /><a href="{link action=edit_post parent=$thread->id}" style="border:none;"><img style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+<br /><a href="{link action=edit_post parent=$thread->id}"><img src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
 {else}
   {if $loggedin == 1}
     You are not allowed to post to this topic

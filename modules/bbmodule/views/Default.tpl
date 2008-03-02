@@ -14,7 +14,7 @@
  * will be useful, but WITHOUT ANY WARRANTY;
  * without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE.  See the GNU General Public License
+ * PURPOSE.	 See the GNU General Public License
  * for more details.
  *
  * You should have received a copy of the GNU
@@ -28,98 +28,83 @@
  *
  * $Id: Default.tpl,v 1.7 2005/04/08 15:45:48 filetreefrog Exp $
  *}
- <div class="pad" style="width:800px">
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{/permissions}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.configure == 1}
-        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
+<div class="bbmodule default">
 
-<div class="bb_boards">
-<div class="moduletitle bb_moduletitle">{$moduletitle}</div>
-<table cellspacing="1" cellpadding="0" style="border:none;" width="100%">
-<tr class="bb_boardlist_header" >
-  <!--td>NEW POSTS</td-->
-	<td>FORUM</td>
-	<td>TOPICS</td>
-	<!-- td class="bb_boardlist_header">POSTS</td -->
-	<td>LAST POST</td>
-</tr>
-{foreach from=$boards item=board}
-<tr class="bb_row">
-  <!--td align="center">{$board->num_posts_since_last_visit}</td-->
-	<td>
-		<b><a class="mngmntlink bb_mngmntlink" href="{link module="bbmodule" action="view_board" id=$board->id}">{$board->name}</a></b>
-		<br />		<span class="bb_boarddesc">{$board->description}</span> {permissions level=$smarty.const.UILEVEL_NORMAL}
-        	<div class="bb_editcontrolls">{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1} <a style="border: 0px" href="{link action=edit_board id=$board->id}" title="Edit the name or description for this board">
-                	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-        	</a> {/if}
-        	{if $permissions.delete_board == 1 || $board->permissions.delete_board == 1} <a style="border: 0px" href="{link action=delete_board id=$board->id}" title="Delete this board">
-                	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-        	</a>
-        	{/if}
-        	{/permissions}</div>	</td>
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
+
+	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+	<table cellspacing="0" cellpadding="0" border="1">
+	<tr>
+		<th>Forum</td>
+		<th>Topics</td>
+		<th>Last Post</td>
+	</tr>
+	{foreach from=$boards item=board}
+	<tr class="bbrow {cycle values='odd,even'}">
+		<td>
+			<b><a class="mngmntlink bb_mngmntlink" href="{link module="bbmodule" action="view_board" id=$board->id}">{$board->name}</a></b>
+			<br />		<span class="bb_boarddesc">{$board->description}</span> {permissions level=$smarty.const.UILEVEL_NORMAL}
+				<div class="bb_editcontrolls">{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1} <a style="border: 0px" href="{link action=edit_board id=$board->id}" title="Edit the name or description for this board">
+						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+				</a> {/if}
+				{if $permissions.delete_board == 1 || $board->permissions.delete_board == 1} <a style="border: 0px" href="{link action=delete_board id=$board->id}" title="Delete this board">
+						<img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+				</a>
+				{/if}
+				{/permissions}</div>	
+			</td>
+			<td align="center" class="">
+			{$board->num_topics}</td>
 		<td align="center" class="">
-		{$board->num_topics}</td>
-	<!-- td align="center" class="">stuff</td-->
-	<td align="center" class="">
-		{if $board->last_post == null}
-			No Posts
-		{else}
-			<span class="bb_date">{$board->last_post->posted|format_date:"%D %T"}</span> <br /> 
-			<a href="{link action=showuserprofile module=loginmodule id=$board->last_post->poster->id}" class="mngmntlink bb_mngmntlink">{attribution user=$board->last_post->poster}</a>
-			<a style="border: 0px solid black" href="{link action=view_thread id=$board->last_post->id}" title="View latest post"><img style="border:none" src="{$smarty.const.ICON_RELATIVE}expmode.png" title="{$_TR.alt_expmode}" alt="{$_TR.alt_expmode}" /></a>
-	  {/if}	</td>
-</tr>
-{foreachelse}
-<tr>
-	<td><i>No bulletin boards were found</i></td>
-</tr>
-{/foreach}
-</table>
+			{if $board->last_post == null}
+				No Posts
+			{else}
+				<span class="bb_date">{$board->last_post->posted|format_date:"%D %T"}</span> <br /> 
+				<a href="{link action=showuserprofile module=loginmodule id=$board->last_post->poster->id}">{attribution user=$board->last_post->poster}</a>
+				<a href="{link action=view_thread id=$board->last_post->id}" title="View latest post"><img src="{$smarty.const.ICON_RELATIVE}expmode.png" title="{$_TR.alt_expmode}" alt="{$_TR.alt_expmode}" /></a>
+			{/if} 
+		</td>
+	</tr>
+	{foreachelse}
+	<tr>
+		<td><i>No bulletin boards were found</i></td>
+	</tr>
+	{/foreach}
+	</table>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	<div class="moduleactions">
+	{if $permissions.create_board == 1}
+		<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">New Board</a>
+	{/if}
+	{if $loggedin == 1}
+	{if $monitoring == 1}
+	You are monitoring this thread for new replies.
+	<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_thread id=$thread->id monitor=0}">Click here</a> to stop monitoring it.
+	{else}
+	You are not monitoring this thread.
+	<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_thread id=$thread->id monitor=1}">Click here</a> to start monitoring it for new replies.
+	{/if}
+	{/if}
+	</div>
+	{/permissions}
+	
+	{if $show_users == true}
+	<div class="moduletitle bb_moduletitle" style="margin-top: 45px;">Who's Online</div>
+		<table cellspacing="1" cellpadding="5" style="border:none;" width="100%">
+			<tr class="bb_boardlist_header">
+				<td>{$total_users} visitors in the last 15 minutes: {$num_members} Members - {$anon_users} Guests</td>
+			</tr>
+			<tr>
+				<td>
+					<img class="mngmnt_icon" style="border:none; " src="{$smarty.const.ICON_RELATIVE}icon_world2.gif" title="{$_TR.alt_world2}" alt="{$_TR.alt_world2}" />
+					{foreach from=$users_online item=user}
+						<a href="{link module=loginmodule action=showuserprofile id=$user->id}" title="View user profile">{$user->username}</a>&nbsp;
+					{/foreach}
+				</td>
+			</tr>
+		</table>
+	</div>
+	{/if}
 </div>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.create_board == 1}
-<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">New Board</a>
-{/if}
-{/permissions}
 
-{if $loggedin == 1}
-{if $monitoring == 1}
-<br /><br /><i>
-You are monitoring one or more boards from this forum for new threads.</i>
-<br /><i><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=0}">Click here</a> to stop monitoring it.
-{else}
-You are not monitoring this board.
-<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=1}">Click here</a> to start monitoring it for new threads.</i>
-{/if}
-{/if}
 
-{if $show_users == true}
-<div class="moduletitle bb_moduletitle" style="margin-top: 45px;">Who's Online</div>
-<table cellspacing="1" cellpadding="5" style="border:none;" width="100%">
-<tr class="bb_boardlist_header">
-  <td>{$total_users} visitors in the last 15 minutes: {$num_members} Members - {$anon_users} Guests</td>
-</tr>
-<tr>
-  <td>
-    <!--span style="font-size:6px;-->
-	<img class="mngmnt_icon" style="border:none; " src="{$smarty.const.ICON_RELATIVE}icon_world2.gif" title="{$_TR.alt_world2}" alt="{$_TR.alt_world2}" />
-    {foreach from=$users_online item=user}
-      <a href="{link module=loginmodule action=showuserprofile id=$user->id}" title="View user profile">{$user->username}</a>&nbsp;
-    {/foreach}
-    <!--/span-->
-  </td>
-</tr>
-</table>
-{/if}
-</div>
