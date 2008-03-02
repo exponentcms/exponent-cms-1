@@ -39,17 +39,27 @@ class resourcesmodule_config {
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->allow_anon_downloads = 1;
+			$object->enable_podcasting = 0;
+			$object->feed_title = "";
+			$object->feed_desc = "";
 		} else {
 			$form->meta('id',$object->id);
 		}
 		
 		$form->register('allow_anon_downloads','Allow anonymous downloads?',new checkboxcontrol($object->allow_anon_downloads,true));
+		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Podcasting Configuration</div><hr size="1" />'));
+		$form->register('enable_podcasting','Enable Podcasting?', new checkboxcontrol($object->enable_podcasting,true));
+		$form->register('feed_title',"Podcast Title",new textcontrol($object->feed_title,35,false,75));
+		$form->register('feed_desc',"Podcast Description",new texteditorcontrol($object->feed_desc));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
 	
 	function update($values,$object) {
 		$object->allow_anon_downloads = isset($values['allow_anon_downloads']);
+		$object->enable_podcasting = isset($values['enable_podcasting']);
+		$object->feed_title = $values['feed_title'];
+		$object->feed_desc = $values['feed_desc'];
 		return $object;
 	}
 }

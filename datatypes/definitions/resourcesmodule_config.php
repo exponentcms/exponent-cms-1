@@ -42,6 +42,14 @@ return array(
 		DB_FIELD_LEN=>200),
 	"allow_anon_downloads"=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'feed_title'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>75),
+	'feed_desc'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),
+	'enable_podcasting'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 );
 
 ?>
