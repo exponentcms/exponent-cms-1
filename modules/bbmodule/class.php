@@ -189,8 +189,8 @@ class bbmodule {
 
   function total_anonymous_users() {
     	global $db;
-	$timeout = time() - 3600;  // look for the last hour
-	$anonymous = $db->countObjects("sessionticket", 'uid=0 and browser not like "%bot%" AND browser not like "%perl%" AND browser not like "%webmin%" and browser not like "%validator%" and browser not like "%Akregator%" and browser not like "%Slurp%" and browser not like "%google%" and browser not like "%wget%" and browser not like "%rss%" and browser not like "%newsgator%" and browser not like "%webmonitor%" and browser not like "%shelob%" and last_active >'.$timeout);
+		$timeout = time() - 3600;  // look for the last hour
+		$anonymous = $db->countObjects("sessionticket", 'uid=0 and browser not like "%bot%" AND browser not like "%perl%" AND browser not like "%webmin%" and browser not like "%validator%" and browser not like "%Akregator%" and browser not like "%Slurp%" and browser not like "%google%" and browser not like "%wget%" and browser not like "%rss%" and browser not like "%newsgator%" and browser not like "%webmonitor%" and browser not like "%shelob%" and last_active >'.$timeout);
     	return $anonymous;
   }
   
