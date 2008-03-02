@@ -33,5 +33,5 @@
 			</ul>
 		</div>
 	</div>
-{yuimenu buildon="flyoutmenujs"}
+{yuimenubar buildon="flyoutmenujs"}
 </div>

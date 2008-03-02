@@ -57,7 +57,7 @@
 
 /* input styles */
 
-.button { 
+input.button { 
 	font: bold 12px Arial, Sans-serif; 
 	height: 28px;
 	margin: 0;
@@ -68,18 +68,18 @@
 	margin-right:3px;
 }
 
-.radiobutton {
+input.radiobutton {
 	float:left;
 	margin-right:5px;
 }
 
-.textbox {
+input.text {
 	padding:3px;
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
 }
-.select {
+input.select {
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	

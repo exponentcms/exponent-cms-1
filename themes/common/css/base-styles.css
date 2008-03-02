@@ -22,6 +22,12 @@
 	border:none;
 }
 
+/* Gets rid of the border applied to management icons */
+/* If needed, add borders to images on a lower level */
+img {
+	border:none;
+}
+
 a.readmore {
 	padding-left: 15px;
     background-image: url(../images/icons/readmore.gif);
