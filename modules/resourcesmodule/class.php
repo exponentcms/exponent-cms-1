@@ -104,7 +104,7 @@ class resourcesmodule {
 		$template->assign('moduletitle',$title);
 		$template->assign('resources',$resources);
 		$template->assign('files',$rfiles);
-		
+		$template->assign('config',$db->selectObject('resourcesmodule_config', "location_data='".serialize($loc)."'"));
 		$template->register_permissions(
 			array('administrate','configure','post','edit','delete'),
 			$loc);
@@ -117,16 +117,16 @@ class resourcesmodule {
 		global $db;
 		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
 		if ($refcount <= 0) {
-			foreach($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $res) {
-				foreach ($db->selectObjects('resourceitem_wf_revision','wf_original='.$res->id) as $wf_res) {
-					$file = $db->selectObject('file','id='.$wf_res->file_id);
-					file::delete($file);
-					$db->delete('file','id='.$file->id);
-				}
-				$db->delete('resourceitem_wf_revision','wf_original='.$res->id);
+		foreach($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $res) {
+			foreach ($db->selectObjects('resourceitem_wf_revision','wf_original='.$res->id) as $wf_res) {
+				$file = $db->selectObject('file','id='.$wf_res->file_id);
+				file::delete($file);
+				$db->delete('file','id='.$file->id);
 			}
-			rmdir(BASE.'files/resourcesmodule/'.$loc->src);
-			$db->delete('resourceitem',"location_data='".serialize($loc)."'");
+			$db->delete('resourceitem_wf_revision','wf_original='.$res->id);
+		}
+		rmdir(BASE.'files/resourcesmodule/'.$loc->src);
+		$db->delete('resourceitem',"location_data='".serialize($loc)."'");
 		}
 	}
 	
@@ -190,6 +190,47 @@ class resourcesmodule {
 		}
 		
 		return true;
+	}
+	
+	function getRSSContent($loc) {
+		global $db;
+	
+		//Get this modules configuration data
+		$config = $db->selectObject('resourcesmodule_config',"location_data='".serialize($loc)."'");
+
+		//Get this modules items
+		$items = array();
+		$items = $db->selectObjects("resourceitem", "location_data='".serialize($loc)."' AND approved='1'", 'posted DESC');
+		
+		//Convert the newsitems to rss items
+		$rssitems = array();
+		foreach ($items as $key => $item) {	
+			$file = $db->selectObject('file', 'id='.$item->file_id);
+			$rss_item = new FeedItem();
+			$rss_item->title = $item->name;
+			$rss_item->description = $item->description;
+			$rss_item->date = date('r',$item->posted);
+			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=resourcesmodule&action=download_resource&id=".$item->id;			
+			//$rss_item->link = URL_FULL.$file->directory.'/'.$file->filename;
+			$rss_item->syndicationURL = "http://".HOSTNAME.PATH_RELATIVE."/".$_SERVER['PHP_SELF'];
+			$rss_item->guid = $rss_item->link;
+/*
+			$itunes = new iTunes();
+			$itunes->summary = $rss_item->description;
+			$itunes->author = SITE_TITLE;
+			$itunes->owner_email = SMTP_FROMADDRESS;
+			$rss_item->itunes = $itunes;
+*/
+			$rss_item->enclosure = new Enclosure();
+		   	//$rss_item->enclosure->url = URL_FULL.'index.php?module=resourcesmodule&action=download_resource&id='.$item->id;
+			$rss_item->enclosure->url = URL_FULL.$file->directory.'/'.$file->filename;
+		   	$rss_item->enclosure->length = filesize(BASE.$file->directory.'/'.$file->filename);
+			$rss_item->enclosure->type = $file->mimetype;
+			if ($rss_item->enclosure->type == 'audio/mpeg') $rss_item->enclosure->type = 'audio/mpg';
+		// Add the item to the array.
+			$rssitems[$key] = $rss_item;
+		}
+		return $rssitems;
 	}
 }
 
