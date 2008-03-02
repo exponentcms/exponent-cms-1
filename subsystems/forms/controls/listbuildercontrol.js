@@ -2,10 +2,12 @@ var newList = new Array();
 
 function addSelectedItem(name) {
 	var key;
-	if (!newList[name]) {
+	var srccontrol = document.getElementById("source_"+name);
+	
+	//if (!newList[name]) {
+	if (srccontrol.type == 'select-one') {
 		key = moveItem(name,"source_","dest_");
-	}
-	else {
+	} else {
 		var sText = document.getElementById("source_" + name).value;
 		var ptChoices = document.getElementById("dest_" + name);
 		if (sText != "") {
@@ -27,8 +29,9 @@ function removeSelectedItem(name) {
 	var key;
 	var ptChoices = document.getElementById("dest_" + name);
 	if (ptChoices.selectedIndex >= 0) {
-	
-		if (!newList[name]) {
+		var srccontrol = document.getElementById("source_"+name);
+		if (srccontrol.type == 'select-one') {		
+		//if (!newList[name]) {
 			key = moveItem(name,"dest_","source_");
 		} else {
 			key = ptChoices.options[ptChoices.selectedIndex].text;
