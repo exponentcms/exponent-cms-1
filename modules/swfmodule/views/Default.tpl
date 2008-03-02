@@ -15,17 +15,16 @@
  *}
  {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
 {/if}
 {if $permissions.configure == 1}
-	<a href="{link action=edit}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
+	<a href="{link action=edit}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}configure.png" /></a>
 {/if}
 {if $permissions.configure == 1 or $permissions.administrate == 1}
 	<br />
 {/if}
 {/permissions}
-
 <script language="javascript">
 {literal}
 function FlashInstalled()
@@ -56,8 +55,19 @@ function FlashInstalled()
 {/if}
 </div>
 {/if}
+<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}external/swfobject/swfobject.js"></script>
+<div id="flashcontent">
+        This text is replaced by Flash movie.
+</div>
+{literal}
+<script type="text/javascript">
+        var so = new SWFObject("{/literal}{$data->_flashurl}{literal}", "swf{/literal}{$data->id}{literal}", "{/literal}{$data->width}{literal}", "{/literal}{$data->height}{literal}", "6", "#ffffff");
+        so.addParam("wmode", "opaque");
+        so.write("flashcontent");
+</script>
+{/literal}
 
-<table cellpadding='0' cellspacing='0' width='100%'>
+<!--table cellpadding='0' cellspacing='0' width='100%'>
 	<tr>
 		<td align='{$data->_align}'>
 		{if $data->_noflash == 1}
@@ -71,8 +81,8 @@ function FlashInstalled()
 				temp+=' codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" ';
 				temp+='  WIDTH="{$data->width}" HEIGHT="{$data->height}">';
 				temp+=' <PARAM NAME="movie" VALUE="{$data->_flashurl}"> <PARAM NAME="quality" VALUE="high"> <PARAM NAME="wmode" VALUE="transparent">  '; 
-				temp+=' <PARAM NAME="loop" VALUE="{if $data->loop_movie == 1}true{else}false{/if}">';
-				temp+=' <EMBED src="{$data->_flashurl}" quality="high" bgcolor="{$data->bgcolor}" loop="{if $data->loop_movie == 1}true{else}false{/if}" ';
+				temp+=' <PARAM NAME="loop" VALUE="{if $data->loop == 1}true{else}false{/if}">';
+				temp+=' <EMBED src="{$data->_flashurl}" quality="high" bgcolor="{$data->bgcolor}" loop="{if $data->loop == 1}true{else}false{/if}" ';
 				temp+=' swLiveConnect="FALSE" WIDTH="{$data->width}" HEIGHT="{$data->height}"';
 				temp+=' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">';
 				temp+=' </EMBED></OBJECT>';
