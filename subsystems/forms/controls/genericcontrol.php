@@ -67,7 +67,7 @@ class genericcontrol extends formcontrol {
 	function toHTML($label,$name) {
 		if ($this->type != 'hidden') {
 			$class = empty($this->class) ? '' : ' '.$this->class;
-        	        $html = '<div id="'.$name.'Control" class="'.$this->type.' control'.$class;
+        	        $html = '<div id="'.$name.'Control" class="'.$this->type.' control'." ".$class;
                 	$html .= (!empty($this->required)) ? ' required">' : '">';
 	                $html .= "<label>";
         	        if(empty($this->flip)){
@@ -89,7 +89,7 @@ class genericcontrol extends formcontrol {
 		$html = '<input type="'.$this->type.'" id="' . $this->id . '" name="' . $this->name . '" value="'.$this->default.'"';
 		if ($this->size) $html .= ' size="' . $this->size . '"';
 		if ($this->checked) $html .= ' checked="checked"';
-		if ($this->class != '') $html .= ' class="'.$this->type. " " . $this->class . '"';
+		$html .= ' class="'.$this->type. " " . $this->class . '"';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
 		if ($this->filter != "") {
