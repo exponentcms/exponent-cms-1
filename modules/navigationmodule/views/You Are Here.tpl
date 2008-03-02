@@ -13,4 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{$current->name}
+<div class="navigationmodle you-are-here">
+
+<h1>{$current->name}</h1>
+
+</div>
