@@ -6,6 +6,13 @@ div.containermodule{
 	padding:0px;
 }
 
+.containermodule ul,
+.containermodule li {
+        padding:0 !important;
+        margin:0 !important;
+        list-style: none !important;
+}
+
 div.containermodule .container_editheader{
 	clear:both;
 }
