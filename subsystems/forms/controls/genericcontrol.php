@@ -65,19 +65,23 @@ class genericcontrol extends formcontrol {
 	}
 	
 	function toHTML($label,$name) {
-		$class = empty($this->class) ? '' : ' '.$this->class;
-                $html = '<div id="'.$name.'Control" class="'.$this->type.' control'.$class;
-                $html .= (!empty($this->required)) ? ' required">' : '">';
-                $html .= "<label>";
-                if(empty($this->flip)){
-                        $html .= "<span class=\"label\">".$label."</span>";
-                        $html .= $this->controlToHTML($name);
-                } else {
-                        $html .= $this->controlToHTML($name);
-                        $html .= "<span class=\"label\">".$label."</span>";
-                }
-                $html .= "</label>";
-                $html .= "</div>";
+		if ($this->type != 'hidden') {
+			$class = empty($this->class) ? '' : ' '.$this->class;
+        	        $html = '<div id="'.$name.'Control" class="'.$this->type.' control'.$class;
+                	$html .= (!empty($this->required)) ? ' required">' : '">';
+	                $html .= "<label>";
+        	        if(empty($this->flip)){
+                	        $html .= "<span class=\"label\">".$label."</span>";
+                        	$html .= $this->controlToHTML($name);
+	                } else {
+        	                $html .= $this->controlToHTML($name);
+                        	$html .= "<span class=\"label\">".$label."</span>";
+                	}
+	                $html .= "</label>";
+        	        $html .= "</div>";
+		} else {
+			$html .= $this->controlToHTML($name);
+		}
                 return $html;
         }
 	
