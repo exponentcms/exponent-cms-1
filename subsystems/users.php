@@ -185,6 +185,13 @@ function exponent_users_getFullProfile($user) {
 	return $user;
 }
 
+function exponent_users_authenticate($user, $password) {
+	if (MAINTENANCE_MODE && $user->is_acting_admin == 0 ) return false;  // if MAINTENANCE_MODE only allow admins
+	if (empty($user)) return false;  // if the user object is null then fail the login
+	// check password, if account is locked, or is admin(account locking doesn't to administrators)
+	return (($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) ? true : false;
+}
+
 /* exdoc
  * This function is in place as a login hook, so that future (more advanced and
  * 'unconventional') implementations of the Users Subsystem can run some
@@ -198,43 +205,34 @@ function exponent_users_getFullProfile($user) {
  * @node Subsystems:Users
  */
 function exponent_users_login($username, $password) {
-	// This specific implementation of the Users Subsystem stores user information in the
-	// same database as all other website content.  Therefore, we must pull in the database
-	// object from the global scope.
 	global $db;
-	
-	// Retrieve the user object from the database.  Note that this may be null, if the username is
-	// non-existent.
-	$user = $db->selectObject('user', "username='" . $username . "'");
-	//eDebug(debug_backtrace());
-	// Check to make sure that the username exists ($user is not null)
-	//echo "Here:";
-	//eDebug($user);
-	if(isset($user) && $user != null) {
-		//DEPRECATED: scheduled for removal
-		if ($user->is_admin == 1 || $user->is_acting_admin == 1) {
-			// User is an admin.  Update is_acting_admin, just in case.
-			// This can be removed as soon as 0.95 is deprecated.
-			$user->is_acting_admin = 1;
-		} else $user->is_acting_admin = 0;
-		
-		// Check MAINTENANCE_MODE, and only allow admins or acting admins in.
-		if (!MAINTENANCE_MODE || (MAINTENANCE_MODE && $user->is_acting_admin != 0 )){
-			// check whether the password is correct,
-			// and that the account is either not locked, or an admin account (account locking doesn't
-			// apply to administrators.
-			if (($user->is_admin == 1 || $user->is_locked == 0) && $user->password == md5($password)) {
-				//Update the last login timestamp for this user.
-                $user->last_login = time();
-                $db->updateObject($user, 'user');
 
-				// Retrieve the full profile, complete with all Extension data.
-				$user = exponent_users_getFullProfile($user);
-				
-				// Call on the Sessions subsystem to log the user into the site.
-				exponent_sessions_login($user);
-			}
-		}	
+	// Retrieve the user object from the database.  This may be null, if the username is non-existent.
+	$user = $db->selectObject('user', "username='" . $username . "'");
+
+	// try to authenticate the user - use the authentication type specified in the site config
+	if ( USE_LDAP == 1 && (empty($user) || $user->is_ldap ==1)) {
+		$ldap = new ldap();
+		$ldap->connect();
+		$authenticated = $ldap->authenticate($ldap->getLdapUserDN($username), $password);
+		if ($authenticated) {
+			if (empty($user)) $user = $ldap->addLdapUserToDatabase($username, $password);
+		}
+		$ldap->close();
+	} else {
+		$authenticated = exponent_users_authenticate($user, $password);
+	}
+
+	if($authenticated) {		
+		//Update the last login timestamp for this user.
+		$user->last_login = time();
+		$db->updateObject($user, 'user');
+
+		// Retrieve the full profile, complete with all Extension data.
+		$user = exponent_users_getFullProfile($user);
+	
+		// Call on the Sessions subsystem to log the user into the site.
+		exponent_sessions_login($user);
 	}
 }
 
@@ -321,7 +319,7 @@ function exponent_users_update($formvalues, $u = null) {
 	// If the admin is editing or creating a user, solely check if isset()
 	//If the user is editing themselves, don't set it.
 	// If the user is signing up, set it to 0.
-	if ($user->is_admin == 1) {
+	if (!empty($user->is_admin) && $user->is_admin == 1) {
 		$u->is_acting_admin = (isset($formvalues['is_acting_admin']) ? 1 : 0);
 	} else if (!isset($u->id)) {
 		$u->is_acting_admin = 0;
@@ -404,6 +402,7 @@ function exponent_users_create($formvalues) {
 	// Insert the user object into the database, and save the ID.
 	global $db;
 	$u->created_on = time();
+	$u->is_ldap = empty($formvalues['is_ldap']) ? 0 : $formvalues['is_ldap'];
 	$u->id = $db->insertObject($u,'user');
 
 	// Calculate Group Memeberships for newly created users.  Any groups that

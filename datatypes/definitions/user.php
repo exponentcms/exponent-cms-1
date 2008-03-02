@@ -50,7 +50,10 @@ return array(
 	"created_on"=>array(
                 DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
 	"last_login"=>array(
-                DB_FIELD_TYPE=>DB_DEF_TIMESTAMP)
+                DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
+	'is_ldap'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+
 );
 
 ?>
