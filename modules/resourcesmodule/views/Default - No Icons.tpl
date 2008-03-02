@@ -37,6 +37,9 @@
 	<br />
 {/if}
 {/permissions}
+{if $config->enable_podcasting == 1}
+        <a href="{podcastlink}">Podcast</a>
+{/if}
 {if $moduletitle != ""}<div class="moduletitle resource_moduletitle">{$moduletitle}</div>{/if}
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 {foreach from=$resources item=resource}

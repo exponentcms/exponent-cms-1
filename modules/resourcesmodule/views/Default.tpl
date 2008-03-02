@@ -25,6 +25,9 @@
 	<br />
 {/if}
 {/permissions}
+{if $config->enable_podcasting == 1}
+        <a href="{podcastlink}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}podcast_small.gif" height="20" width="20" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+{/if}
 {if $moduletitle != ""}<div class="moduletitle resource_moduletitle">{$moduletitle}</div>{/if}
 <table cellspacing="0" cellpadding="4" border="0" width="100%" rules="rows" frame="hsides" style="border: 1px solid lightgrey">
 {foreach name=loop from=$resources item=resource}
