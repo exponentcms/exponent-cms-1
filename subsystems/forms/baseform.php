@@ -46,7 +46,8 @@ class baseform {
 	var $enctype = "";
 
 	function baseform() {
-		$this->action = SCRIPT_RELATIVE.SCRIPT_FILENAME;
+		//$this->action = SCRIPT_RELATIVE.SCRIPT_FILENAME;
+		$this->action = URL_FULL.SCRIPT_FILENAME;
 	}
 
 	function meta($name,$value) {

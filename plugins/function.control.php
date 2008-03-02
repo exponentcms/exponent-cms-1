@@ -65,12 +65,6 @@ function smarty_function_control($params,&$smarty) {
 			} else {
 				return false;
 			}
-		} elseif ($params['type'] == 'hidden') {
-			$control = new hiddenfieldcontrol();			
-	 	}elseif ($params['type'] == 'checkbox') {
-			$control = new checkboxcontrol();			
-	 	}elseif ($params['type'] == 'radio') {
-			$control = new radiocontrol();			
 		} else {
 			$control = new genericcontrol($params['type']);
 		}
@@ -78,7 +72,7 @@ function smarty_function_control($params,&$smarty) {
 		//eDebug($smarty->_tpl_vars['formError']);	
 		//Add the optional params in specified
 		if (isset($params['class'])) $control->class = $params['class'];
-		if (isset($params['$required'])) $control->required = $required;;
+		if (isset($params['required'])) $control->required = $required;;
 		if (isset($params['checked'])) $control->checked = $params['checked'];
 		if (isset($params['value'])) $control->default = $params['value'];
 		if (isset($params['size'])) $control->size = $params['size'];
@@ -88,6 +82,8 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['tabindex'])) $control->tabindex = $params['tabindex'];
 		if (isset($params['accesskey'])) $control->accesskey = $params['accesskey'];
 		if (isset($params['filter'])) $control->filter = $params['filter'];
+		if (isset($params['onclick'])) $control->onclick = $params['onclick'];
+		if (isset($params['onchange'])) $control->onchange = $params['onchange'];
 		if (isset($params['readonly']) && $params['readonly'] != false) $control->readonly = true;
 
 		// check to see if we are returning to the form via errors...if so use the post data instead.

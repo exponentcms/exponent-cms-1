@@ -64,13 +64,28 @@ class genericcontrol extends formcontrol {
 		$this->size = '';
 	}
 	
-
+	function toHTML($label,$name) {
+		$class = empty($this->class) ? '' : ' '.$this->class;
+                $html = '<div id="'.$name.'Control" class="'.$this->type.' control'.$class;
+                $html .= (!empty($this->required)) ? ' required">' : '">';
+                $html .= "<label>";
+                if(empty($this->flip)){
+                        $html .= "<span class=\"label\">".$label."</span>";
+                        $html .= $this->controlToHTML($name);
+                } else {
+                        $html .= $this->controlToHTML($name);
+                        $html .= "<span class=\"label\">".$label."</span>";
+                }
+                $html .= "</label>";
+                $html .= "</div>";
+                return $html;
+        }
 	
 	function controlToHTML() {
 		$html = '<input type="'.$this->type.'" id="' . $this->id . '" name="' . $this->name . '" value="'.$this->default.'"';
 		if ($this->size) $html .= ' size="' . $this->size . '"';
 		if ($this->checked) $html .= ' checked="checked"';
-		if ($this->class != '') $html .= ' class="' . $this->class . '"';
+		if ($this->class != '') $html .= ' class="'.$this->type. " " . $this->class . '"';
 		if ($this->tabindex >= 0) $html .= ' tabindex="' . $this->tabindex . '"';
 		if ($this->accesskey != "") $html .= ' accesskey="' . $this->accesskey . '"';
 		if ($this->filter != "") {
@@ -86,12 +101,10 @@ class genericcontrol extends formcontrol {
 
 		if (!empty($this->readonly)) $html .= ' readonly="readonly"';
 
-		if (@$this->required) {
-						$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
-				}
-		if ($this->onclick != "") {
-			$html .= 'onclick="'.$this->onclick.'" ';
-		}
+		if (@$this->required) $html .= ' required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
+		if ($this->onclick != "") $html .= ' onclick="'.$this->onclick.'" ';
+		if ($this->onchange != "") $html .= ' onchange="'.$this->onchange.'" ';
+
 		$html .= ' />';
 		return $html;
 	}

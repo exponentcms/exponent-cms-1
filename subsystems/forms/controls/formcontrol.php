@@ -51,8 +51,13 @@ class formcontrol {
 		$html = "<div id=\"".$name."Control\" class=\"control";
 		$html .= (!empty($this->required)) ? ' required">' : '">';
 		$html .= "<label>";
-		$html .= "<span class=\"label\">".$label."</span>";
-		$html .= $this->controlToHTML($name);
+		if(empty($this->flip)){
+			$html .= "<span class=\"label\">".$label."</span>";
+			$html .= $this->controlToHTML($name);
+		} else {
+			$html .= $this->controlToHTML($name);
+			$html .= "<span class=\"label\">".$label."</span>";
+		}
 		$html .= "</label>";
 		$html .= "</div>";			
 		return $html;
