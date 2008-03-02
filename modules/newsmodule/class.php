@@ -238,7 +238,7 @@ class newsmodule {
 		}
 
 // Pull in RSS feeds. -RAM
-        if ($config->pull_rss == 1) {	
+        if (!empty($config->pull_rss)) {	
             if ($config->rss_cachetime != 3600) {
                 define('MAGPIE_CACHE_AGE', $config->rss_cachetime);
             }

@@ -121,8 +121,14 @@ class navigationmodule {
 					// start setting up the objects to return
 					$obj = null;
 					$obj->text = $sections[$i]->name;
-					$obj->url = $sections[$i]->link;
-
+					
+					if ($sections[$i]->active == 1) { 
+						$obj->url = $sections[$i]->link;
+					} else { 
+						$obj->url = "#";
+						$obj->onclick = "onclick: { fn: return false }";
+					}
+					
 					//echo "i=".$i."<br>";
 					if (hasChildren($i)) {
 						$obj->submenu = null;
@@ -154,6 +160,14 @@ class navigationmodule {
 			if ($sections[$i]->depth == 0) {
 				$obj = null;
 				$obj->id = $sections[$i]->name.$sections[$i]->id;
+				
+				/*if ($sections[$i]->active == 1) { 
+					$obj->disabled = false;
+				} else { 
+					$obj->disabled = true;
+				}*/
+				
+				//$obj->disabled = true;
 				$obj->itemdata = getChildren($i);
 			} 
 			$json_array[] = $obj;
@@ -371,8 +385,12 @@ class navigationmodule {
 			if (call_user_func(array($ref->module,'hasContent'))) {
 				$oloc = exponent_core_makeLocation($ref->module,$ref->source);
 				$nloc = exponent_core_makeLocation($ref->module,$src);
-				
-				call_user_func(array($ref->module,'copyContent'),$oloc,$nloc);
+		
+				if ($ref->module != "containermodule") {	
+					call_user_func(array($ref->module,'copyContent'),$oloc,$nloc);
+				} else {
+					call_user_func(array($ref->module,'copyContent'),$oloc,$nloc, $section->id);
+				}
 			}
 		}
 		

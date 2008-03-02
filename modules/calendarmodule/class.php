@@ -46,6 +46,10 @@ class calendarmodule {
                 }
                 return $rssitems;
         }
+
+	function copyContent($oloc,$nloc) {
+
+	}
 	
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/calendarmodule/class.php');

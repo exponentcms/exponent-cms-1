@@ -191,7 +191,7 @@ class containermodule {
 		$template->output();
 	}
 	
-	function copyContent($oloc,$nloc) {
+	function copyContent($oloc,$nloc, $section=0) {
 		global $db;
 		foreach ($db->selectObjects('container',"external='".serialize($oloc)."'") as $c) {
 			unset($c->id);
@@ -202,16 +202,16 @@ class containermodule {
 				$iloc = exponent_core_makeLocation($oldinternal->mod,'@random'.uniqid(''));
 				$c->internal = serialize($iloc);
 				$db->insertObject($c,'container');
-				
+			
 				// Now copy over content
 				if (call_user_func(array($oldinternal->mod,'hasContent')) == true) {
 					call_user_func(array($oldinternal->mod,'copyContent'),$oldinternal,$iloc);
 					// Incrementors!
-					exponent_core_incrementLocationReference($iloc,0); // SECTION
+					exponent_core_incrementLocationReference($iloc,$section); // SECTION
 				}
 			} else {
 				$db->insertObject($c,'container');
-				exponent_core_incrementLocationReference($iloc,0); // SECTION
+				exponent_core_incrementLocationReference($iloc,$section); // SECTION
 			}
 		}
 	}
