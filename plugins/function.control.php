@@ -61,7 +61,7 @@ function smarty_function_control($params,&$smarty) {
                         $source = isset($params['source']) ? $params['source'] : array();
                         $control = new listbuildercontrol($default, $source);
 			echo $control->controlToHTML($params['name']);
-                        exit();
+                        return;
 		} elseif ($params['type'] == 'capcha') {
 			if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
 				echo '<div class="capcha">'.sprintf($i18n['captcha_description'],'<img class="capcha-img" src="'.PATH_RELATIVE.'captcha.php" />');
