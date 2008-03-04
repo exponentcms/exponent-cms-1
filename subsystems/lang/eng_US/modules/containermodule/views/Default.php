@@ -26,7 +26,7 @@ return array(
 	'menu_movedown'=>'Move Module Down',
 	'menu_confview'=>'Configure View',
 	'menu_confsettings'=>'Configure Settings',
-	'menu_menu_deletemod'=>'Remove Module',
+	'menu_deletemod'=>'Remove Module',
 
 );
 
