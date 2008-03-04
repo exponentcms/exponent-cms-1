@@ -50,8 +50,8 @@
 					{
 						id:	 "{/literal}containerMenu-{$top->id}{literal}", 
 						itemdata: [ 
-						{ text: "{/literal}{$_TR.menu_userperm{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
-						{ text: "{/literal}{$_TR.menu_groupperm{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }
+						{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
+						{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }
 						]
 				   
 					}					 
@@ -135,7 +135,7 @@
 												{math equation='x - 2' x=$smarty.foreach.c.iteration assign=a}
 												{math equation='x - 1' x=$smarty.foreach.c.iteration assign=b}
 											{literal}
-											{ text: "{/literal}{$_TR.menu_moveup{literal}", classname: "rankup" , url: "{/literal}{link action=order a=$a b=$b}{literal}" },
+											{ text: "{/literal}{$_TR.menu_moveup}{literal}", classname: "rankup" , url: "{/literal}{link action=order a=$a b=$b}{literal}" },
 											{/literal}
 											
 												{/if}
@@ -145,31 +145,31 @@
 											{if $smarty.foreach.c.last == false}
 												{if $permissions.order_modules == 1}
 												{math equation='x - 1' x=$smarty.foreach.c.iteration assign=a}{literal}
-											{ text: "{/literal}{$_TR.menu_movedown{literal}", classname: "rankdown" , url: "{/literal}{link action=order a=$a b=$smarty.foreach.c.iteration}{literal}" },
+											{ text: "{/literal}{$_TR.menu_movedown}{literal}", classname: "rankdown" , url: "{/literal}{link action=order a=$a b=$smarty.foreach.c.iteration}{literal}" },
 										
 										
 												{/literal}{/if}
 											{/if}
 										
 											{if $container->permissions.administrate == 1}{literal}
-											{ text: "{/literal}{$_TR.menu_userperm{literal}", classname: "userperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=userperms _common=1}{literal}" },
-											{ text: "{/literal}{$_TR.menu_groupperm{literal}", classname: "groupperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=groupperms _common=1}{literal}" },
+											{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=userperms _common=1}{literal}" },
+											{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=groupperms _common=1}{literal}" },
 											{/literal}{/if}
 										
 											{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
 											{literal}
-											{ text: "{/literal}{$_TR.menu_confview{literal}", classname: "configview" , url: "{/literal}{link src=$container->info.source action=edit id=$container->id}{literal}" },
+											{ text: "{/literal}{$_TR.menu_confview}{literal}", classname: "configview" , url: "{/literal}{link src=$container->info.source action=edit id=$container->id}{literal}" },
 											{/literal}
 											{/if}
 										
 											{if $container->permissions.configure == 1}
 											{literal}
-											{ text: "{/literal}{$_TR.menu_confsettings{literal}", classname: "configsettings" , url: "{/literal}{link module=$container->info.class src=$container->info.source action=configure _common=1}{literal}" },
+											{ text: "{/literal}{$_TR.menu_confsettings}{literal}", classname: "configsettings" , url: "{/literal}{link module=$container->info.class src=$container->info.source action=configure _common=1}{literal}" },
 											{/literal}
 											{/if}
 										
 											{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}{literal}
-											{ text: "{/literal}{$_TR.menu_deletemod{literal}", classname: "deletemod" , url: "{/literal}{link action=delete rerank=1 id=$container->id}{literal}" }
+											{ text: "{/literal}{$_TR.menu_deletemod}{literal}", classname: "deletemod" , url: "{/literal}{link action=delete rerank=1 id=$container->id}{literal}" }
 										   
 											{/literal}{/if}{literal}									   
 											]
