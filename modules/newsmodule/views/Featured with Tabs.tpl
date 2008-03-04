@@ -72,7 +72,7 @@
 	</div>
 	<div class="body">
 		<div class="featured-news-body">
-				<h4 id="featured-news-title" class="featured-news-title">{$news[0]->title}</h4>
+				{if $news[0]->title !="" }<h4 id="featured-news-title" class="featured-news-title">{$news[0]->title}</h4>{/if}
 				<p id="featured-news-summary" class="featured-news-summary">{$news[0]->body|summarize:html:para}</p>
 		</div>
 	</div>

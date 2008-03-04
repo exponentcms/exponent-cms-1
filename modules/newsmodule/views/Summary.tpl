@@ -47,7 +47,7 @@
 			{/if}
 		</div>
 		{/permissions}
-		<h2>{$newsitem->title}</h2>
+		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
 		<span class="date">{$newsitem->real_posted|format_date:"%A, %B %e, %Y"}</span>
 		<div class="text">
 			{$newsitem->body|summarize:"html":"para"}
