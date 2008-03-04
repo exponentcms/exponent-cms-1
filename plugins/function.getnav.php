@@ -20,6 +20,19 @@
 function smarty_function_getnav($params,&$smarty) {
 	global $sections;
 
+	if($params['type']=="parent"){
+		
+		foreach($sections as $key=>$value){
+			$rekeyed[$value->id] = $value;
+		}
+		
+		$linkInQuestion = $rekeyed[$params['of']];
+		
+		$nav = $rekeyed[$linkInQuestion->parent];
+		
+		
+	}
+
 	if($params['type']=="siblingsandchildren"){
 
 		foreach($sections as $key=>$value){
@@ -46,8 +59,6 @@ function smarty_function_getnav($params,&$smarty) {
 
 		}
 	}
-	
-	
 	if($params['type']=="allsubchildren"){
 		
 		foreach($sections as $key=>$value){
@@ -68,6 +79,32 @@ function smarty_function_getnav($params,&$smarty) {
 		}
 	//	eDebug($nav);
 		
+	}
+	if($params['type']=="siblingsandchildren"){
+		
+		foreach($sections as $key=>$value){
+			$rekeyed[$value->id] = $value;
+		}
+		
+		
+		$linkInQuestion = $rekeyed[$params['of']];
+	//	echo $linkInQuestion->depth;
+		
+		foreach ($sections as $key=>$value) {
+			if ($value->depth < $linkInQuestion->depth){
+				if($value->parent == 0) {
+					$nav[] = $value;
+				}else{
+					foreach ($value->parents as $parent){
+						if($parent == $value->id){
+							$nav[] = $value ;
+						}
+					}
+				
+				}
+			}
+			
+		}
 	}
 	if($params['type']=="siblings"){
 		
@@ -123,7 +160,6 @@ function smarty_function_getnav($params,&$smarty) {
 	}
 	
 	//eDebug($nav);
-
 	if (isset($params['assign'])) $smarty->assign($params['assign'],$nav);
 }
 
