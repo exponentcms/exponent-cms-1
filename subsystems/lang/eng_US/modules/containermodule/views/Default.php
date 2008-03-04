@@ -19,6 +19,15 @@ return array(
 	'delete_confirm'=>'Are you sure you want to delete this %s?',
 
 	'use_this_content'=>' Use this Module\'s Content ',
+
+	'menu_userperm'=>'User Permissions',
+	'menu_groupperm'=>'Group Permissions',
+	'menu_moveup'=>'Move Module Up',
+	'menu_movedown'=>'Move Module Down',
+	'menu_confview'=>'Configure View',
+	'menu_confsettings'=>'Configure Settings',
+	'menu_menu_deletemod'=>'Remove Module',
+
 );
 
 ?>
