@@ -175,6 +175,8 @@ function exponent_theme_buildCSSFile($cssfile) {
 		//eDebug($css_files);
 		//exit;
 		// Load the Minify library if needed.                 
+		// Define the cache dir first.
+		define('MINIFY_CACHE_DIR',BASE.'tmp');
 		include_once(BASE.'external/minify/minify.php');                 
 		// Create new Minify objects.                 
 		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
