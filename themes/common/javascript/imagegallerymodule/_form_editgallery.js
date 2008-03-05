@@ -1,6 +1,7 @@
 // Initialize the temporary Panel to display while waiting for external content to load
 YAHOO.util.Event.on("gallery","submit",function(e){
 	YAHOO.util.Event.stopEvent(e);
+	YAHOO.util.Dom.get('description').value = FCKeditorAPI.GetInstance('description').GetXHTML();
 	var postvars = YAHOO.util.Connect.setForm("gallery");
 	var wait = 
 			new YAHOO.widget.Panel("wait",	
@@ -35,7 +36,7 @@ YAHOO.util.Event.on("gallery","submit",function(e){
 		failure : function(o){
 		},
 		timeout : 50000
-	},postvars);
+	});
 	
 	function updateImages (o) {
 		var gallery = YAHOO.lang.JSON.parse(o.responseText);
