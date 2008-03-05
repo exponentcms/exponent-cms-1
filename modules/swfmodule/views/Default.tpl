@@ -67,34 +67,3 @@ function FlashInstalled()
 </script>
 {/literal}
 
-<!--table cellpadding='0' cellspacing='0' width='100%'>
-	<tr>
-		<td align='{$data->_align}'>
-		{if $data->_noflash == 1}
-			{$_TR.no_flash}
-		{else}
-		<script language="javascript">
-			var flash_url = "{$data->_flashurl}";
-			if (FlashInstalled() && flash_url != "") {ldelim}
-				var temp;
-				temp='<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"';
-				temp+=' codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" ';
-				temp+='  WIDTH="{$data->width}" HEIGHT="{$data->height}">';
-				temp+=' <PARAM NAME="movie" VALUE="{$data->_flashurl}"> <PARAM NAME="quality" VALUE="high"> <PARAM NAME="wmode" VALUE="transparent">  '; 
-				temp+=' <PARAM NAME="loop" VALUE="{if $data->loop == 1}true{else}false{/if}">';
-				temp+=' <EMBED src="{$data->_flashurl}" quality="high" bgcolor="{$data->bgcolor}" loop="{if $data->loop == 1}true{else}false{/if}" ';
-				temp+=' swLiveConnect="FALSE" WIDTH="{$data->width}" HEIGHT="{$data->height}"';
-				temp+=' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">';
-				temp+=' </EMBED></OBJECT>';
-				document.write(temp);
-			 {rdelim}
-			 else {ldelim}
-				var temp;
-				temp='<img src="{$data->_noflashurl}" width="{$data->width}" height="{$data->height}">';
-				document.write(temp);
-			 {rdelim}
-		</script>
-		{/if}
-		</td>
-	<tr>
-</table>
