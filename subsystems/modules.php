@@ -100,15 +100,17 @@ function exponent_modules_moduleManagerFormTemplate($template) {
 	global $db;
 	$moduleInfo = array();
 	foreach ($modules as $module) {
-		$mod = new $module();
-		$modstate = $db->selectObject("modstate","module='$module'");
+		if (class_exists($module)) {
+			$mod = new $module();
+			$modstate = $db->selectObject("modstate","module='$module'");
 		
-		$moduleInfo[$module] = null;
-		$moduleInfo[$module]->class = $module;
-		$moduleInfo[$module]->name = $mod->name();
-		$moduleInfo[$module]->author = $mod->author();
-		$moduleInfo[$module]->description = $mod->description();
-		$moduleInfo[$module]->active = ($modstate != null ? $modstate->active : 0);
+			$moduleInfo[$module] = null;
+			$moduleInfo[$module]->class = $module;
+			$moduleInfo[$module]->name = $mod->name();
+			$moduleInfo[$module]->author = $mod->author();
+			$moduleInfo[$module]->description = $mod->description();
+			$moduleInfo[$module]->active = ($modstate != null ? $modstate->active : 0);
+		}
 	}
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	uasort($moduleInfo,"exponent_sorting_byNameAscending");
