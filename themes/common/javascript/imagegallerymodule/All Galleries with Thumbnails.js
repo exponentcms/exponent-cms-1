@@ -19,7 +19,7 @@ YAHOO.util.Event.onDOMReady(function () {
 function popImage(id,width,height) {
 	imagepanel.setBody('<strong>Loading Image...</strong>');
 	imagepanel.show();
-	YAHOO.util.Connect.asyncRequest('POST', 'index.php?ajax_action=1&module=imagegallerymodule&action=image_to_panel&id='+id, {
+	YAHOO.util.Connect.asyncRequest('GET', 'index.php?ajax_action=1&module=imagegallerymodule&action=image_to_panel&id='+id, {
 		success : function(o){
 			var img = YAHOO.lang.JSON.parse(o.responseText);
 			imagepanel.cfg.setProperty("width",width+20+"px");
