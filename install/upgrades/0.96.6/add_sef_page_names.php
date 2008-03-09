@@ -20,6 +20,4 @@ global $db;
 $sql = "UPDATE ".DB_TABLE_PREFIX."_section set sef_name = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER(REPLACE(name, ' - ', '-')), ' ', '-'), '?', ''), '\"', ''), '\'', ''), '(', ''), ')', ''), '&', '-and-'), '/', '-'), 'nbsp;', '') where sef_name = ''";
 $updateThese = $db->sql($sql);
 
-exit();
-
 ?>
