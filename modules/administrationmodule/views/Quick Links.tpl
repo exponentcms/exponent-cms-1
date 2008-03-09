@@ -21,6 +21,7 @@
 		<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>
 		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">Manage Files</a>
 		<a class="admin" href="{link module=administrationmodule action=index}">Site Administration</a>
+		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">Recycle Bin</a>
 	{/permissions}
 {/if}
 

@@ -85,6 +85,10 @@
 	background-image:url(../../images/icons/site-admin.png);
     	background-repeat:no-repeat;
 }
+.administrationmodule.quick-links a.recycle {
+	background-image:url(../../images/icons/recycle-bin-small.png);
+    	background-repeat:no-repeat;
+}
 .administrationmodule.quick-links a.logout  {
 	background-image:url(../../images/icons/logout.png);
     background-repeat:no-repeat;
@@ -113,4 +117,9 @@
 .administrationmodule.default ul li a {
 } 
 
-
+.administrationmodule.orphanedcontent h1 {
+	background-image: url(../../images/icons/recycle-bin.png);
+	background-repeat: no-repeat;
+	padding: 20px 0px 0px 60px;
+	height: 50px;
+}

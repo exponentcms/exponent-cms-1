@@ -15,12 +15,43 @@
  *}
 <script type="text/javascript">
 {literal}
-var message = "{/literal}{$_TR.confirm}";{literal} 
-if (confirm(message)) {
-	var textlink = {/literal}"{link m=$iloc->mod s=$iloc->src i=$iloc->int action=delete_content}";{literal}
-	document.location = textlink.replace(/&amp;/g,"&");
-} else {
-	document.location = {/literal}"{$redirect}";{literal}
+var message = "{/literal}{$_TR.confirm}";{literal}
+YAHOO.namespace("example.container");
+
+function init() {
+	
+	// Define various event handlers for Dialog
+	var handleYes = function() {
+		this.hide();
+		document.location = {/literal}"{$redirect}";{literal}
+	};
+	var handleNo = function() {
+		this.hide();
+		var textlink = {/literal}"{link m=$iloc->mod s=$iloc->src i=$iloc->int action=delete_content}";{literal}
+		document.location = textlink.replace(/&amp;/g,"&");
+	};
+
+	// Instantiate the Dialog
+	YAHOO.example.container.simpledialog1 = new YAHOO.widget.SimpleDialog("simpledialog1",
+									{ 	width: "300px",
+										fixedcenter: true,
+										visible: false,
+										draggable: false,
+										close: true,
+										text: message,
+										icon: YAHOO.widget.SimpleDialog.ICON_HELP,
+										constraintoviewport: true,
+										buttons: [ { text:"Send to Recycle Bin", handler:handleYes, isDefault:true },
+											{ text:"Delete Permanantly",  handler:handleNo } ]
+									} );
+	YAHOO.example.container.simpledialog1.setHeader("Send to Recycle Bin?");
+	
+	// Render the Dialog
+	YAHOO.example.container.simpledialog1.render("recycle-dlg");
+	YAHOO.example.container.simpledialog1.show();
 }
+
+YAHOO.util.Event.addListener(window, "load", init);
 {/literal}
 </script>
+<div id="recycle-dlg"></div>
