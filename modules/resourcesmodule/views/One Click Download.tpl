@@ -23,7 +23,7 @@
         <a class="podcastlink" href="{podcastlink}">Podcast</a>
 {/if}
 {if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-<div class="text">
+<div class="bodycopy">
 	
 <ul class="filelist">
 {foreach name=loop from=$resources item=resource}

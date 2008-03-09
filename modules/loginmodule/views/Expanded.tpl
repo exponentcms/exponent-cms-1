@@ -35,8 +35,8 @@
 <form method="post" action="">
 <input type="hidden" name="action" value="login" />
 <input type="hidden" name="module" value="loginmodule" />
-<input type="text" class="textbox" name="username" id="login_username" size="15" />
-<input type="password" class="textbox" name="password" id="login_password" size="15" />
+<input type="text" class="text" name="username" id="login_username" size="15" />
+<input type="password" class="text" name="password" id="login_password" size="15" />
 <input type="submit" class="button" value="{$_TR.login}" /><br />
 {if $smarty.const.SITE_ALLOW_REGISTRATION == 1}
 <a href="{link action=createuser}">{$_TR.create_account}</a>&nbsp;|&nbsp;

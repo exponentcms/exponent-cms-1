@@ -58,7 +58,7 @@
 			{/if}
 			{/permissions}			
 		</div>
-		<div class="text">
+		<div class="bodycopy">
 			{$resource->description}
 		</div>
 		</li>

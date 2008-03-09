@@ -38,7 +38,7 @@
 	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}external/swfobject/swfobject.js"></script>
 	{foreach from=$videos item=youtube}
 		<div class="item">
-			<div class="text">
+			<div class="bodycopy">
 				{if $youtube->id != 0}
 					{if $youtube->name != ''}<h2>{$youtube->name}</h2>{/if}
 					<div id="flashcontent{$youtube->id}">

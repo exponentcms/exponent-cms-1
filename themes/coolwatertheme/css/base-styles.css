@@ -60,16 +60,16 @@ h1, h2, h3, h4, h5, h6{
 	margin:15px 0 10px 0;
 }
 
-.text ul li {
+div.bodycopy ul li {
 	list-style-image: url(../images/bullet.gif); 
 }
 
-.text ul, ol {
+div.bodycopy ul, ol {
 	margin: 5px 15px;
 	padding: 0 25px;
 }
 
-.text img {
+div.bodycopy img {
 	margin:0 10px;
 }
 
@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6{
 	font-style:italic;
 }
 
-#main .text{
+#main div.bodycopy{
 	font-size:110%;
 	line-height:20px;
 	margin-left: 0px;
@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6{
 	background: url(../images/box-full.jpg) no-repeat; 	
 }
 
-#main .text p{
+#main div.text p{
 
 	margin-bottom: 15px;
 }

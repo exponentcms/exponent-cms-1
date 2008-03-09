@@ -39,7 +39,7 @@
 		{/permissions}
 	</div>
 	<h1>{$newsitem->title}</h1>
-	<div class="text"> 
+	<div class="bodycopy"> 
 		{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=250&height=300" alt="{$newsitem->title}">{/if}
 		{if $newsitem->edited eq 0}
                         {assign var='sortdate' value=$newsitem->real_posted}

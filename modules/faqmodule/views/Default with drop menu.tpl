@@ -105,7 +105,7 @@ if (destination) location.href = destination;
 		{/if}
 		</div>
 		{/permissions}
-		<div class="text">
+		<div class="bodycopy">
 			<a name="{$qna->rank}"></a>
 			<h2>{$qna->question}</h2>
 			<div class="answer">

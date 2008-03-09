@@ -40,7 +40,7 @@
 	</div>
 	{/permissions}
 	
-	<div class="text">
+	<div class="bodycopy">
 		{if $textitem->approved != 0}
 			{$textitem->text}
 		{/if}

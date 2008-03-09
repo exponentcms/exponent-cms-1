@@ -78,7 +78,7 @@
 		<span class="date">{$sortdate|format_date:"%B %e"}</span>
 		{if $item->title != ""}<h2>{$item->title}</h2>{/if}
 	</div>
-	<div class="text">
+	<div class="bodycopy">
 		{$item->body|summarize:html:para}
 	</div>
 </div>

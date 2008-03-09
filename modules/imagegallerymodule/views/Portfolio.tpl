@@ -43,7 +43,7 @@
 				<div class="image">
 					<img alt="{$file->alt}" src="thumb.php?file={$file->file->directory}/{$file->file->filename}&constraint=1&width=400&height=270" />
 					<br />
-					<div class="text">{$file->description}</div>
+					<div class="bodycopy">{$file->description}</div>
 				</div>
 			{/foreach}
 		</div>

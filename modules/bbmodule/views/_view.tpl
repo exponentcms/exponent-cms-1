@@ -33,7 +33,7 @@
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl" int=$int}
 	<a class="backtoboard" href="{link module=navigationmodule section=11}">Back to Discussion Boards</a>
 	<h1>{$board->name}</h1>
-	<div class="text">
+	<div class="bodycopy">
 			{$board->description}
 	</div>
 	<table cellpadding="0" cellspacing="1" border="0" width="100%">

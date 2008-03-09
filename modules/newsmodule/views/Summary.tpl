@@ -49,7 +49,7 @@
 		{/permissions}
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
 		<span class="date">{$newsitem->real_posted|format_date:"%A, %B %e, %Y"}</span>
-		<div class="text">
+		<div class="bodycopy">
 			{$newsitem->body|summarize:"html":"para"}
 			<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
 		</div>

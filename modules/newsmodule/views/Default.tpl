@@ -72,7 +72,7 @@
 
 			<span class="date">{$sortdate|format_date:"%B %e"}</span>
 
-			<div class="text">
+			<div class="bodycopy">
 				{$newsitem->body|summarize:"html":"para"}
 				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
 			</div>

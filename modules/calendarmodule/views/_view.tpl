@@ -64,7 +64,7 @@
 	{else}
 	{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} - {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 	{/if}
-	<div class="text">
+	<div class="bodycopy">
 		{$item->body}
 	</div>
 	<div class="moduleactions">
