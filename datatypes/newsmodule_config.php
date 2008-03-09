@@ -79,7 +79,7 @@ class newsmodule_config {
 
 		}
 
-		// setup the listbuilder arrays for calendar aggregation.       
+		// setup the listbuilder arrays for news aggregation.       
                 $loc = unserialize($object->location_data);
                 $news = exponent_modules_getModuleInstancesByType('newsmodule');
                 $saved_aggregates = empty($object->aggregate) ? array() : unserialize($object->aggregate);
