@@ -132,6 +132,12 @@ class router {
 				// no need to do anything for POST data.  All the module/controller/action info comes thru the POST vars..
 				// we can just let them trickle down to exponent.php && index.php
 			}
+		} elseif ($this->url_style == 'query' && SEF_URLS == 1 && !empty($_REQUEST['section'])) {
+			// if we hit this it's an old school url coming in and we're trying to use SEF's. 
+			// we will send a permanent redirect so the search engines don't freak out about 2 links pointing
+			// to the same page.
+			header("Location: ".$this->makeLink(array('section'=>intval($_REQUEST['section']))),TRUE,301);
+			
 		}
 
 		// if this is a valid URL then we build out the current_url var which is used by flow, and possibly other places too
@@ -203,6 +209,7 @@ class router {
 			// at some point we need to write a special action/view for the search module that lets the user
 			// know they were redirected to search since the page they tried to go to directly didn't exist.
 			if (empty($section)) {
+				header('Status: 404 Not Found');
 				redirect_to(array('controller'=>'searchmodule', 'action'=>'search', 'search_string'=>$this->url_parts[0]));
 			}
 
