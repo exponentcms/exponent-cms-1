@@ -13,14 +13,15 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}
-<br /><br />
-{if $smarty.const.SITE_ALLOW_REGISTRATION == 0}
-<i>{$_TR.no_registration}</i>
-<br /><br />
-{/if}
-<a class="mngmntlink administration_mngmntlink" href="{link action=umgr_editprofile id=0}">{$_TR.new_user}</a>
+
+<div class="administrationmodule usermanager"
+<div class="form_header">
+        <h1>{$_TR.form_title}</h1>
+        <p>{$_TR.form_header}</p>
+	{if $smarty.const.SITE_ALLOW_REGISTRATION == 0}
+		<blockquote class="error"><i>{$_TR.no_registration}</i></blockquote>
+	{/if}
+	<a href="{link action=umgr_editprofile id=0}">{$_TR.new_user}</a>
 </div>
 
  {paginate objects=$users paginateName="useradmin" modulePrefix="administration" rowsPerPage=20}{literal}
@@ -93,3 +94,4 @@
 	document.write( paginate.drawFilterForm());
 	paginate.drawTable();
 </script>
+</div>
