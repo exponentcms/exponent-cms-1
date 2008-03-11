@@ -97,6 +97,11 @@ return array(
 			'title'=>$i18n['start_of_week'],
 			'description'=>$i18n['start_of_week_desc'],
 			'control'=>new dropdowncontrol(null,exponent_config_dropdownData('start_of_week'))
+		),
+		'DISPLAY_DEFAULT_TIMEZONE'=>array(
+			'title'=>$i18n['default_timezone'],
+			'description'=>$i18n['default_timezone_desc'],
+			'control'=>new textcontrol()
 		)
 	)
 );

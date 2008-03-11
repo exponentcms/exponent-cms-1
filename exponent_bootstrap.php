@@ -54,6 +54,12 @@ include_once('overrides.php');
 // Auto-detect whatever variables the user hasn't overridden in overrides.php
 include_once(dirname(__realpath(__FILE__)) . '/exponent_variables.php');
 
+// Set the default timezone.
+if (!date_default_timezone_set(DISPLAY_DEFAULT_TIMEZONE)) {
+        eDebug("Error setting timezone");
+}
+
+
 // Process PHP-wrapper settings (ini_sets and setting detectors)
 include_once(dirname(__realpath(__FILE__)) . '/exponent_setup.php');
 

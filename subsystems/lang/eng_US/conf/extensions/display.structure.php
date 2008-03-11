@@ -23,6 +23,8 @@ return array(
 	
 	'start_of_week'=>'Start of Week',
 	'start_of_week_desc'=>'Default day to start the week.',
+	'default_timezone'=>'Default timezone for this site.',
+	'default_timezone_desc'=>'Select the default timezone for this site.  CAUTION:  This may break calendars and other features that use date functions if you change this after entering data.  Must be in a format shown here:  <a href="http://www.php.net/manual/en/timezones.php" target="_blank">http://www.php.net/manual/en/timezones.php</a>',
 );
 
 ?>
