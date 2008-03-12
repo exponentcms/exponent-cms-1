@@ -432,7 +432,7 @@ class mysqli_database {
 		foreach (get_object_vars($object) as $var=>$val) {
 			//We do not want to save any fields that start with an '_'
 			if ($var{0} != '_') {
-				$sql .= "$var,";
+				$sql .= "`$var`,";
 				if ( $values != ") VALUES (" ) {
 					$values .= ",";
 				}

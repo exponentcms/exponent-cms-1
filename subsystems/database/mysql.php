@@ -718,7 +718,7 @@ class mysql_database {
 		foreach (get_object_vars($object) as $var=>$val) {
 			//We do not want to save any fields that start with an '_'
 			if ($var{0} != '_') {
-				$sql .= "$var,";
+				$sql .= "`$var`,";
 				if (version_compare(phpversion(),'4.0.3','>=') > 0) {
 				  $values .= "'".mysql_real_escape_string($val)."',";
 				} else {
