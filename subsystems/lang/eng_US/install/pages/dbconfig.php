@@ -34,7 +34,11 @@ return array(
 	'default_content'=>'Default Example Content',
 	'install'=>'Install Example Content',
 	'install_desc'=>'To help you understand how Exponent works, and how everything fits together, we suggest that you install the packaged example content.  If you are new to Exponent, you are highly encouraged to do so.',
-	
+
+	'enable_sef'=>'Enable Friendly URLs',
+	'sef'=>'Friendly URLs',
+	'sef_desc'=>'Check this option to turn on friendly (SEF) URLs.',	
+
 	'verify'=>'Verify Configuration',
 	'verify_desc'=>'After you are satisfied that the information you have entered is correct, click the "Test Settings" button, below.  The Exponent Install Wizard will then perform some preliminary tests to ensure that the configuration is valid.',
 	'test_settings'=>'Test Settings',
