@@ -43,7 +43,7 @@ function isOneSelected() {
 {/literal}
 </script>
 
-<form method="post" action="?">
+<form method="post" action="{$smarty.const.URL_FULL}index.php">
 <input type="hidden" name="module" value="exporter" />
 <input type="hidden" name="action" value="page" />
 <input type="hidden" name="exporter" value="eql" />
