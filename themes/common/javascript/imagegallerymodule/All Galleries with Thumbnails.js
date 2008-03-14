@@ -25,7 +25,7 @@ function popImage(id,width,height) {
 			imagepanel.cfg.setProperty("width",width+20+"px");
 			//imagepanel.cfg.setProperty("height",height+20+"px");
 			imagepanel.setHeader(img.name);
-			imagepanel.setBody('<img src="'+img.file.directory+'/'+img.enlarged+'" /> ');
+			imagepanel.setBody('<img height="'+height+'" width="'+width+'" src="'+img.file.directory+'/'+img.enlarged+'" /> ');
 			imagepanel.setFooter('<div id="gallerypopfooter">'+img.description+'</div>');
 			setTimeout(function(){ imagepanel.cfg.setProperty("fixedcenter",true); },"30");
 		},
