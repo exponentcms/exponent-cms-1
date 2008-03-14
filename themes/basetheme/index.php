@@ -11,7 +11,7 @@
 	echo exponent_theme_headerInfo($section,$config); 
 	?>
 </head>
-<body class="yui-skin-exponent" onload="eXp.initialize();">
+<body>
 	<div id="doc" class="yui-t2">
 		<div id="hd">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
