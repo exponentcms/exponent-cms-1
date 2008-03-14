@@ -12,6 +12,7 @@
 	?>
 </head>
 <body>
+	<?php exponent_theme_sourceSelectorInfo(); //this will be deprecated by copy 'n paste in beta ?>
 	<div id="doc" class="yui-t2">
 		<div id="hd">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>

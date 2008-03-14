@@ -12,6 +12,7 @@
 	?>
 </head>
 <body>
+<?php exponent_theme_sourceSelectorInfo(); //this will be deprecated by copy 'n paste in beta ?>
 <!-- wrap starts here -->
 <div id="wrap">
 	<!--header -->
