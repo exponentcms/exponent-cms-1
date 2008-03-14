@@ -92,7 +92,8 @@
 #menu .yuimenu .topscrollbar_disabled{background-position:center -975px;}
 #menu .yuimenu .bottomscrollbar{border-top-width:0;background-position:center -850px;}
 #menu .yuimenu .bottomscrollbar_disabled{background-position:center -875px;}
-#menu .yuimenuitem{_border-bottom:solid 1px #fff;}
+#menu .yuimenubaritemlabel-hassubmenu{_border-bottom:solid 1px #62951c;} /* the _ denotes IE 6 only styles, in case you didn't know */
+#menu .yuimenuitem{_border-bottom:solid 1px #2769c7;}
 #menu .yuimenuitemlabel{padding:0 20px;color:#fff;text-decoration:none;cursor:pointer;font-size:130%;}
 #menu .yuimenuitemlabel .helptext{margin-top:-1.5em;*margin-top:-1.45em;}
 #menu .yuimenuitem-hassubmenu{background-image:url(../images/menuitem_submenuindicator.png);background-position:right center;background-repeat:no-repeat;}
