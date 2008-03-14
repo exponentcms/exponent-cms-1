@@ -94,7 +94,8 @@ function exponent_permissions_load($user) {
 				if ($perm_data['manage'] == 1) {
 					// The user is allowed to manage sections.
 					// Pull in all stuff for the section, using section ref.
-					$sectionrefs = $db->selectObjects('sectionref','is_original=1 AND section='.$id);
+					//$sectionrefs = $db->selectObjects('sectionref','is_original=1 AND section='.$id);
+					$sectionrefs = $db->selectObjects('sectionref','section='.$id);
 					foreach ($sectionrefs as $sref) {
 						$sloc = exponent_core_makeLocation($sref->module,$sref->source);
 						if (class_exists($sref->module)) { // In business, the module exists
@@ -109,6 +110,7 @@ function exponent_permissions_load($user) {
 			}
 		}
 	}
+
 	exponent_sessions_set('permissions',$exponent_permissions_r);
 
 	// Check perm stats for UI levels

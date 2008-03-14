@@ -33,7 +33,7 @@ class navigationmodule {
 		
 		return array(
 			'view'=>$i18n['perm_view'],
-			/*TODO: 'manage'=>$i18n['perm_manage'], this is broke*/
+			'manage'=>$i18n['perm_manage']
 		);
 	}
 	
