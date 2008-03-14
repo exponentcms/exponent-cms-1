@@ -22,6 +22,7 @@ define('SCRIPT_FILENAME','source_selector.php');
 
 define('SOURCE_SELECTOR',1);
 
+echo " ";
 // Initialize the Exponent Framework
 include_once('exponent.php');
 
