@@ -133,7 +133,7 @@ class newsmodule_config {
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
 		$object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
 		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);
-		$object->aggregate = (isset($values['aggregate']) ? 1 : 0);
+		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
 		$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
 		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
 		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
