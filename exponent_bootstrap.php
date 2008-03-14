@@ -55,10 +55,7 @@ include_once('overrides.php');
 include_once(dirname(__realpath(__FILE__)) . '/exponent_variables.php');
 
 // Set the default timezone.
-if (!date_default_timezone_set(DISPLAY_DEFAULT_TIMEZONE)) {
-        eDebug("Error setting timezone");
-}
-
+date_default_timezone_set(DISPLAY_DEFAULT_TIMEZONE);
 
 // Process PHP-wrapper settings (ini_sets and setting detectors)
 include_once(dirname(__realpath(__FILE__)) . '/exponent_setup.php');
