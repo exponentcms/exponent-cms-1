@@ -33,7 +33,7 @@ function init() {
 
 	// Instantiate the Dialog
 	YAHOO.example.container.simpledialog1 = new YAHOO.widget.SimpleDialog("simpledialog1",
-									{ 	width: "300px",
+									{ 	width: "400px",
 										fixedcenter: true,
 										visible: false,
 										draggable: false,
