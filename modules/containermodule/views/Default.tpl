@@ -64,7 +64,7 @@
 						this.getItem(0).cfg.setProperty("submenu", aSubmenuData[0]);
 						//console.debug(this.getSubmenus());
 
-						//this.getSubmenus()[0].setItemGroupTitle("Move Yourself", 0);
+						this.getSubmenus()[0].setItemGroupTitle("{/literal}{$_TR.forthis}{$_TR.container_module}{literal}", 0);
 
 					}
 
@@ -184,7 +184,7 @@
 										this.getItem(0).cfg.setProperty("submenu", aSubmenuData[0]);
 										//console.debug(this.getSubmenus());
 
-										//this.getSubmenus()[0].setItemGroupTitle("Move Yourself", 0);
+										this.getSubmenus()[0].setItemGroupTitle("{/literal}{$_TR.forthis}{$container->info.module}{literal}", 0);
 
 									}
 
