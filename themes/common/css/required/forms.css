@@ -56,7 +56,7 @@
 }
 
 /* input styles */
-
+button,
 input.button { 
 	font: bold 12px Arial, Sans-serif; 
 	height: 28px;
