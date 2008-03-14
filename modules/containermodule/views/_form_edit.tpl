@@ -78,7 +78,7 @@ if (!document.body.appendChild) {
 {/if}
 	<fieldset id="titleControl" class="control">
 		<legend>{$_TR.title}</legend>
-		<input type="text" class="textbox" size="31" name="title" id="title" value="{$container->title}" onchange="showPreviewCall()" />
+		<input type="text" class="text" size="31" name="title" id="title" value="{$container->title}" onchange="showPreviewCall()" />
 	</fieldset>
 <fieldset id="descriptionControl" class="control">
 	<legend>{$_TR.description}</legend>
