@@ -17,14 +17,25 @@
 <div class="navigationmodule site-map">
 	<h1>{$moduletitle}</h1>
 	<ul>
-		{foreach from=$sections item=section}
-			<li style="margin-left: {math equation="x*20+10" x=$section->depth-1}px;">
-				{if $section->active == 1}
-					<a title="{$section->description}" href="{$section->link}" {if $section->new_window} target="_blank"{/if}>{$section->name}</a>
-				{else}
-					<span>{$section->name}</span>&nbsp;
-				{/if}
-			</li>
-		{/foreach}
+	{assign var=i value=0}
+	{foreach from=$sections item=section}
+	{if $section->depth > $i}
+		<ul>
+		{math equation="x+1" x=$i assign=i}
+	{elseif $section->depth < $i}
+		{assign var=j value=0}
+		{math equation="x-y" x=$i y=$section->depth assign=j}
+		{section name=closeloop loop=$j}
+			</ul>
+			{math equation="x-1" x=$i assign=i}
+		{/section}
+	{/if}
+
+	{if $section->active == 1}
+		<li><a href="{$section->link}">{$section->name}</a>
+	{else}
+		<li><h6>{$section->name}</h6>
+	{/if}
+	{/foreach}
 	</ul>
 </div>
