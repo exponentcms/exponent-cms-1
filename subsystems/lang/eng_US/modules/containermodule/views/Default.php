@@ -27,6 +27,7 @@ return array(
 	'menu_confview'=>'Configure View',
 	'menu_confsettings'=>'Configure Settings',
 	'menu_deletemod'=>'Remove Module',
+	'forthis'=>'For This ',
 
 );
 

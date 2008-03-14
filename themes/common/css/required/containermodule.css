@@ -24,13 +24,12 @@ div.containermodule span.modtype{
 	color:#111111;
 	line-height:10px;
 	display:block;
-	height:20px;
+	height:15px;
 	width:20px;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-position:3px -387px; 
 	background-repeat:no-repeat;
-	padding:0 0 5px 22px;
 	cursor:pointer;
 }
 
@@ -50,7 +49,7 @@ div.containermodule.edit{
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-position:0 -307px; 
-	height:33px;
+	height:20px;
 }
 
 
@@ -85,7 +84,6 @@ a.addmodule{
 	display:block;
 
 	clear:both;
-	margin:2px 0px;
 	padding:5px 0;
 	float:left;
 	width:100%;
@@ -97,7 +95,6 @@ a.addmodule:hover{
 	display:block;
 	background:#333;
 	clear:both;
-	margin:2px 0px;
 	float:left;
 	width:100%;
 	text-align:center;
@@ -110,6 +107,14 @@ body .containermenu {
 	float:right;
 	position:relative;
 	z-index:50;
+	
+}
+
+body .containermenu h6 {
+	font-size: 85%;
+	font-weight: bold;
+	padding: 0.5em;
+	border-bottom: 1px dotted #000; 
 }
 
 body .containermenu .yuimenuitem{margin:0 0 0 0;_border:0px solid #f5eacd;}
@@ -129,7 +134,7 @@ body .containermenu .yuimenuitem-selected{
 
 body .containermenu .trigger{
 	background-color:transparent;
-	border:none;
+	border:none;	
 }
 
 body .containermenu a {
@@ -150,18 +155,19 @@ body .containermenu .yuimenuitem-hassubmenu{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
-	background-position:5px -418px; 
+	background-position:15px -418px; 
 	background-repeat:no-repeat;
-	height:22px;
+	height:15px;
 	padding:0;
 	margin:2px 0 0 0;
+	
 }
 body .containermenu .yuimenuitem-hassubmenu-selected{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
-	background-position:5px -447px; 
-	height:22px;
+	background-position:15px -418px; 
+	height:15px;
 	padding:0;
 	margin:2px 0 0 0;
 }
@@ -192,6 +198,10 @@ body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel-selected {
     color:#ffffff;
 }
 
+.containermenu .yui-menu-shadow-visible{
+	background-color:#444;
+	opacity:.12;*filter:alpha(opacity=12);
+}
 
 .trigger .yuimenu li.userperms a {
     background-position:0px -8px;
