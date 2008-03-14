@@ -51,6 +51,8 @@ function isAllGood($str) {
 
 exponent_sessions_set("installer_config",$_POST['c']);
 $config = $_POST['c'];
+$config['sef_urls'] = empty($_POST['c']['sef_urls']) ? 0 : 1;
+
 $passed = true;
 
 if (preg_match('/[^A-Za-z0-9]/',$config['db_table_prefix'])) {

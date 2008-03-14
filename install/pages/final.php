@@ -55,13 +55,11 @@ if (file_exists(BASE.'install/not_configured')) {
 <?php echo $i18n['success']; ?>
 <?php exponent_sessions_clearAllSessionData();?>
 <br /><br />
-<span style="font-weight:bold;color:red;">
-	<u>Important Notice:</u></span>
-<span style="color:red;font-size:12px;"><br />
-<ul>
+<span style="font-weight:bold;color:red;"><u>Important Notices: </u></span>
+<ol>
 <li><b>Important: **You should now remove or rename the 'install' directory.**</b><br/></li>
-<li>The PATHOS function, constant, and file prefixes are deprecated in favor of the EXPONENT prefix. The limited compatibility layer currently in place will be removed on our next release.</li>
-</ul>
+<li>The PATHOS function, constant, and file prefixes have been deprecated in favor of the EXPONENT prefix. The limited compatibility layer in previous releases has been completely removed.  Please update any custom code in your Exponent installation to reflect this change.</li>
+</ol>
 <br />
 <br />
 <a href="<?php echo URL_FULL; ?>index.php"><?php echo $i18n['visit']; ?></a>.

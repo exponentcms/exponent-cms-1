@@ -179,6 +179,18 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 	</div>
 </div>
 
+<div class="form_section_header"><?php echo $i18n['sef']; ?></div>
+<div class="form_section">
+	<div class="control">
+		&#0149; <span class="control_caption"><?php echo $i18n['enable_sef']; ?></span>
+		<input type="checkbox" name="c[sef_urls]" checked="checked" />
+		<div class="control_help">
+                <?php echo $i18n['sef_desc']; ?>
+                <br /><br />
+                </div>
+	</div>
+</div>
+
 <div class="form_section_header"><?php echo $i18n['verify']; ?></div>
 <div class="form_section">
 	<div class="control">
