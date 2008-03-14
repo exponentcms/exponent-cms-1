@@ -3,12 +3,18 @@
 	padding:5px;
 	width:100% ;
 }
+
 .listingmodule .item {
 	display: block;
 	border:1px solid #eeeeee;
 	margin:5px 0;
 	padding:5px;
 }
+
+.listingmodule .item .bodycopy {
+
+}
+
 .listingmodule .item h2 {
 	margin:0;
 }
@@ -37,7 +43,7 @@
 	width:100% ;
 }
 
-.listingmodule.viewlisting .bodycopy img  {
+.listingmodule.viewlisting .bodycopy img.listingimage  {
 	border:1px solid #666666;
 	margin-right:10px;
 	float:left;
