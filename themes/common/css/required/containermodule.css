@@ -6,8 +6,10 @@ div.containermodule{
 	padding:0px;
 }
 
-.containermodule ul,
-.containermodule li {
+.containermodule .container_editheader ul,
+.containermodule .container_editheader li,
+.containermodule .container_moduleheader ul,
+.containermodule .container_moduleheader li {
         padding:0 !important;
         margin:0 !important;
         list-style: none !important;
