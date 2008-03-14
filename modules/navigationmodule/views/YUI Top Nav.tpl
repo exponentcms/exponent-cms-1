@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *{math equation="x*20" x=$section->depth}
  *}
-<div class="navigationmodule navigationmodule-yui-top-nav">
+<div class="navigationmodule yui-top-nav">
 <div id="flyoutmenu" class="yuimenubar yuimenubarnav">
 	<div class="bd">
 		<ul class="first-of-type">
@@ -21,7 +21,6 @@
 		{foreach name="children" key=key from=$sections item=section}
 		{assign var=nextkey value=`$key+1`}
 		{assign var=previouskey value=`$key-1`}
-		{assign var="iehack" value=""}
 
 		{if $sections[$previouskey]->depth < $section->depth && $smarty.foreach.children.first!=true}
 
@@ -29,11 +28,6 @@
 			<div class="bd">
 				<ul>
 
-		{/if}
-
-		{if $sections[$nextkey]->depth > $section->depth}
-		{* some really weird pixel shifting with sub menus in IEs with sub menus that this hack fixes*}
-		{assign var="iehack" value="*margin:-4px 0"}
 		{/if}
 
 		{if $section->active == 1}
