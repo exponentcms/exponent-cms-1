@@ -32,7 +32,9 @@
 <div class="listingmodule viewlisting">
 	<h1>{$listing->name}</h1>
 	<div class="bodycopy">
-		{if $listing->file_id}<img class="listingimg" src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$listing->file_id}&constraint=1&width=225&height=275" alt="{$listing->name}" />{/if}
+		{if $listing->file_id}
+		<img class="listingimage" src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$listing->file_id}&constraint=1&width=225&height=275" alt="{$listing->name}" />
+		{/if}
 		<p>{$listing->body}</p>
 	</div>
 </div>

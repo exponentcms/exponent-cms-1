@@ -43,12 +43,14 @@ if (!defined("EXPONENT")) exit("");
 	}	
 	
 	global $db;
-	$file = $db->selectObject('file', "id=".$listing->file_id);
-	$listing->picpath = $file->directory."/".$file->filename;
+	if ($listing->file_id!=0) {
+		$file = $db->selectObject('file', "id=".$listing->file_id);
+		$listing->picpath = $file->directory."/".$file->filename;
+	} else {
+		$listing->picpath = "";
+	}
 	
 	$template = new template("listingmodule","_viewlisting",$loc);
 	$template->assign('listing', $listing);
 	$template->output();
-
-
 ?>
