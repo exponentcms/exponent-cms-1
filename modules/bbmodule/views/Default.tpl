@@ -74,15 +74,15 @@
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	<div class="moduleactions">
 	{if $permissions.create_board == 1}
-		<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">New Board</a>
+		<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">New Board</a><br />
 	{/if}
 	{if $loggedin == 1}
 	{if $monitoring == 1}
-	You are monitoring this thread for new replies.
-	<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_thread id=$thread->id monitor=0}">Click here</a> to stop monitoring it.
+		<br /><br /><i>You are monitoring one or more boards from this forum for new threads.</i>
+		<br /><i><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=0}">Click here</a> to stop monitoring it.</i>
 	{else}
-	You are not monitoring this thread.
-	<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_thread id=$thread->id monitor=1}">Click here</a> to start monitoring it for new replies.
+		You are not monitoring this board.
+		<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=1}">Click here</a> to start monitoring it for new threads.</i>
 	{/if}
 	{/if}
 	</div>
