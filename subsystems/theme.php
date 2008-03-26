@@ -613,4 +613,25 @@ function exponent_theme_getPrinterFriendlyTheme() {
 
 }
 
+function exponent_theme_getTheme() {
+	global $sectionObj;
+	$action_maps = exponent_theme_loadActionMaps();
+
+	if (exponent_theme_inAction() && !empty($action_maps[$_REQUEST['module']]) && array_key_exists($_REQUEST['action'], $action_maps[$_REQUEST['module']])) {
+		return BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php';
+	} elseif ($sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php')) {
+                return BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php';
+	} else {
+                return BASE.'themes/'.DISPLAY_THEME.'/index.php';
+	}
+}
+
+function exponent_theme_loadActionMaps() {
+	if (is_readable(BASE.'themes/'.DISPLAY_THEME.'/action_maps.php')) {
+		return include(BASE.'themes/'.DISPLAY_THEME.'/action_maps.php');
+	} else {
+		return array();
+	}
+}
+
 ?>

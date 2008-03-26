@@ -56,16 +56,8 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 		exit('Redirecting to the Exponent Install Wizard');
 	}
 
-	// Setting $page  to an empty value, we do not want to get out
-	// side params to be used when handling subsystems fail.
-
-	$page = '';
-
 	// Handle sub themes
-	$page = ($sectionObj && $sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php') ?
-		BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php' :
-		BASE.'themes/'.DISPLAY_THEME.'/index.php'
-	);
+	$page = exponent_theme_getTheme();
 
 	// If we are in a printer friendly request then we need to change to our printer friendly subtheme
 	if (PRINTER_FRIENDLY == 1) {
