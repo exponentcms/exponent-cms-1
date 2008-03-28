@@ -15,4 +15,8 @@
  *}
 <div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">{$_TR.form_header}</div>
-{$form_html}
+{form action=save}
+	{control type=hidden name=id value=$textitem->id}
+	{control type=textarea name=text value=$textitem->text}
+	{control type=buttongroup submit=Submit cancel=Cancel}
+{/form}

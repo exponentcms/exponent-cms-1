@@ -65,7 +65,7 @@ class snippetmodule {
 	function show($view,$loc,$title = '') {
 		global $db;
 		
-		$template = new template('textmodule',$view,$loc);
+		$template = new template('snippetmodule',$view,$loc);
 		$location = serialize($loc);
 		$cache = exponent_sessions_getCacheValue('textmodule');
 		if (!isset($cache[$location])){
@@ -84,7 +84,7 @@ class snippetmodule {
 		$template->assign('moduletitle',$title);
 		
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
-	    unset($textitem);	
+	    	unset($textitem);	
 		$template->output($view);
 	}
 	

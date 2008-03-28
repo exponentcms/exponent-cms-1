@@ -19,22 +19,12 @@
 
 if (!defined('EXPONENT')) exit('');
 
-$textitem = null;
-if (isset($_GET['id'])) {
-	$textitem = $db->selectObject('textitem','id=' . intval($_GET['id']));
-}
-
-if ($textitem != null) {
-	$loc = unserialize($textitem->location_data);
-}
-
 if (exponent_permissions_check('edit',$loc)) {
-	$form = snippetitem::form($textitem);
-	$form->location($loc);
-	$form->meta('action','save');
+	$textitem = null;
+	if (isset($_GET['id'])) $textitem = $db->selectObject('textitem','id=' . intval($_GET['id']));
 	
-	$template = new template('textmodule','_form_edit',$loc);
-	$template->assign('form_html',$form->toHTML());
+	$template = new template('snippetmodule','_form_edit',$loc);
+	$template->assign('textitem',$textitem);
 	$template->output();
 } else {
 	echo SITE_403_HTML;
