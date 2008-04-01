@@ -6,7 +6,7 @@ return array(
 	'pagesets'=>'Pagesets',
 	
 	'form_title'=>'Manage Site Navigation',
-	'form_header'=>'Manage the pages and site structure here.',
+	'form_header'=>'Manage the pages and site structure here. Drag and drop tree items to re-order your site\'s hierarchy. Right click on any tree item for a context menu of options for that item.',
 	
 	'new_top_level'=>'Create a New Top Level Page',
 	'new_sub_page'=>'Add Subpage',

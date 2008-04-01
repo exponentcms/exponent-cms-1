@@ -128,7 +128,39 @@ function exponent_theme_includeThemeCSS($files = array()) {
 	//eDebug($css_files);
 }
 
+function css_file_needs_rebuilt() {
+	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/css/exp-styles-min.css')) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
+
+function rebuild_css(){
+	
+	if (css_file_needs_rebuilt()) {
+		global $css_files;
+		//eDebug($css_files);
+		//exit;
+		// Load the Minify library if needed.                 
+		include_once(BASE.'external/minify/minify.php');                 
+		// Create new Minify objects.                 
+		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
+
+		// Specify the files to be minified. Full URLs are allowed as long as they point                 
+		// to the same server running Minify. 
+	       	$minifyCSS->addFile($css_files);
+
+		// Establish the file where we will build the compiled CSS file
+	       	$compiled_file = fopen(BASE.'tmp/css/exp-styles-min.css', 'w');
+		//	eDebug($minifyCSS->combine());
+
+		fwrite($compiled_file, $minifyCSS->combine());
+		fclose($compiled_file);
+	}
+	
+}
 
 function exponent_theme_buildYUIPaths() {
 	global $jsfiles;
@@ -198,6 +230,10 @@ function exponent_theme_buildCSSFile($cssfile) {
  * @node Undocumented
  */
 function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true),$cssfile = 'tmp/css/exp-styles-min.css') {
+	echo headerInfo($section,$config,$cssfile);
+}
+
+function headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true),$cssfile = 'tmp/css/exp-styles-min.css') {
 	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 	$str = '';
@@ -219,12 +255,27 @@ function exponent_theme_headerInfo($section /*this variable is now deprecated*/,
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'">'."\r\n";	
+		//$str .= exponent_theme_loadYUIJS(array('yuiloader-dom-event'));
+		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/external/yui/build/yuiloader-dom-event/yuiloader-dom-event.js"></script>'."\r\n";
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'exponent.js.php"></script>'."\r\n";
-		$str .= exponent_theme_loadYUIJS(array('yahoo-dom-event','animation','dragdrop','container','container_core','menu','element-beta','tabview','connection', 'json-beta'));//,'button-beta','editor-beta'
-		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'js/exponent.js"></script>'."\r\n"; //Phillip - start of exp js object
+		//$str .= exponent_theme_loadYUIJS(array('container','container_core'));//,'button-beta','editor-beta'
+		//$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'js/exponent.js"></script>'."\r\n"; //Phillip - start of exp js object
 	}
 	return $str;
 }
+
+function exponent_theme_footerInfo() {
+	footerInfo();
+}
+
+
+
+function footerInfo() {
+	exponent_javascript_outputJStoDOMfoot();
+	rebuild_css();	
+}
+
+
 
 /* exdoc
  * Prints the HTML for the Source Selector header table.  This is required
@@ -587,7 +638,7 @@ function exponent_theme_getSubthemes($include_default = true,$theme = DISPLAY_TH
 		$dh = opendir($base);
 		// Read out all entries in the THEMEDIR/subthemes directory
 		while (($s = readdir($dh)) !== false) {
-			if (substr($s,-4,4) == '.php' && is_file($base."/$s") && is_readable($base."/$s")) {
+			if (substr($s,-4,4) == '.php' && substr($s,0,1) != '_' && is_file($base."/$s") && is_readable($base."/$s")) {
 				// Only readable .php files are allowed to be subtheme files.
 				$subs[substr($s,0,-4)] = substr($s,0,-4);
 			}
@@ -618,7 +669,12 @@ function exponent_theme_getTheme() {
 	$action_maps = exponent_theme_loadActionMaps();
 
 	if (exponent_theme_inAction() && !empty($action_maps[$_REQUEST['module']]) && array_key_exists($_REQUEST['action'], $action_maps[$_REQUEST['module']])) {
-		return BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php';
+		if ($action_maps[$_REQUEST['module']][$_REQUEST['action']]=="default"){
+			$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
+		} else {
+			$theme = BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php';
+		}
+		return $theme;
 	} elseif ($sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php')) {
                 return BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php';
 	} else {

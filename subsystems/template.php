@@ -102,8 +102,6 @@ class BaseTemplate {
 		// Load language constants
 		$this->tpl->assign('_TR',exponent_lang_loadFile($this->langdir . $this->view . '.php'));
 		
-		if (!defined('SYS_JAVASCRIPT')) include_once(BASE.'subsystems/javascript.php');
-		exponent_javascript_harvestJS($this->module,$this->view);
 	}
 	
 	//PHP4: compatibility wrapper
