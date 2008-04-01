@@ -23,12 +23,12 @@
 	    </ul>            
 	    <div class="yui-content">
         	<div id="tab1">{include file="`$smarty.const.BASE`modules/navigationmodule/views/_manager_hierarchy.tpl"}</div>
-	        <div id="tab2">{chain module=navigationmodule action=manage_standalone}</div>
-        	<div id="tab3">{chain module=navigationmodule action=manage_pagesets}</div>
+	        <div id="tab2" style="display:none">{chain module=navigationmodule action=manage_standalone}</div>
+        	<div id="tab3" style="display:none">{chain module=navigationmodule action=manage_pagesets}</div>
 	    </div>
 	</div>
 </div>
-<script type="text/javascript">
-    {literal}var tabView = new YAHOO.widget.TabView('nav-tabs');{/literal}
-</script>
 
+{script yuimodules="'tabview'" unique="managenavtabs"}
+    {literal}var tabView = new YAHOO.widget.TabView('nav-tabs');{/literal}
+{/script}

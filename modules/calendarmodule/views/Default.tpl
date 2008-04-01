@@ -20,7 +20,7 @@
 {/if}
 {$_TR.calendar_view}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a><br /><br />
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-<table cellspacing="0" cellpadding="0" width="100%" style="border: 1px solid #DDD; border-collapse: collapse" rules="all" class="calendar_monthly">
+<table cellspacing="0" cellpadding="0" width="100%" rules="all" class="calendar_monthly">
 <tbody>
 <tr><td align="left">
 <a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
@@ -43,10 +43,10 @@
 	<tr class="{if $currentweek == $weeknum}calendar_currentweek{/if}">
 		{foreach name=w from=$week key=day item=events}
 			{assign var=number value=$counts[$weeknum][$day]}
-			<td width="14%" align="left" valign="top" style="height: 100px; {if $number == -1}background-color: #EEE;{/if}">
+			<td width="14%" align="left" valign="top" {if $number == -1}class="notinmonth" {/if}style="height: 100px;">
 				{if $number != -1}{math equation="x+86400" x=$dayts assign=dayts}{/if}
 				{if $number > -1}
-					<div style="border-bottom:1px solid lightgrey; padding: 2px; margin-bottom: .25em; background-color: #DDD">
+					<div class="number">
 					{if $number == 0}
 						{$day}
 					{else}

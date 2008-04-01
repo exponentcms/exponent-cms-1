@@ -26,48 +26,60 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: Default.tpl,v 1.4 2005/02/24 20:14:35 filetreefrog Exp $
+ * $Id: Gallery\040List.tpl,v 1.3 2005/02/24 20:14:35 filetreefrog Exp $
  *}
- {if $moduletitle != ""}<div class="moduletitle imagegallery_moduletitle">{$moduletitle}</div>{/if}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{/permissions}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.configure == 1}
-        	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-{foreach from=$galleries item=gallery}
-	<div>
-		<div class="imagegallery_itemtitle"><a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a><br />
-			{permissions level=$smarty.const.UILEVEL_NORMAL}
-				{if $permissions.edit == 1}
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_gallery id=$gallery->id}">
-						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-					</a>
-				{/if}
-				{if $permissions.delete == 1}
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_gallery id=$gallery->id}">
-						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-					</a>
-				{/if}
-			{/permissions}
+
+
+<div class="imagegallerymodule default">
+
+	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
+
+	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+	
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+	{if $permissions.create == 1}
+		<div class="moduleactions">
+				<a class="creategallery" href="{link action=edit_gallery}">
+					Create New Gallery
+				</a>
 		</div>
-		<div style="padding-left: 50px; padding-right: 50px;">{$gallery->description}</div>
-	</div>
-{foreachelse}
-<div align="center"><i>No Galleries Found</i></div>
-{/foreach}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.create == 1}
-	<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_gallery}">
-		<img src="{$smarty.const.ICON_RELATIVE}mimetypes/image.png" /> New Gallery
-	</a>
-{/if}
-{/permissions}
+	{/if}
+	{/permissions}
+	
+	<ul class="items">
+		{foreach key="key" name="gallery" from=$galleries item=gallery}
+		<li class="item">
+			<h2><a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a></h2>
+			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+			<div class="itemactions">
+					{if $permissions.edit == 1}
+						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_gallery id=$gallery->id}">
+							<img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+						</a>
+					{/if}
+					{if $permissions.delete == 1}
+						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_gallery id=$gallery->id}">
+							<img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+						</a>
+					{/if}
+			</div>
+			{/permissions}
+			
+			{if $gallery->description}
+			<div class="bodycopy">
+				{if $gallery->images[0]->thumbnail}
+					<a href="{link action=view_gallery id=$gallery->id}">
+						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;constraint=1&amp;width=75&amp;height=1000">
+					</a>
+				{/if}
+				{$gallery->description}
+			</div>
+			{/if}
+		</li>
+		{foreachelse}
+			<div align="center"><i>No Galleries Found</i></div>
+		{/foreach}
+	</ul>
+	
+	
+</div>

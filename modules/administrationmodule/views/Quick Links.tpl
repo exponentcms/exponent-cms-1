@@ -21,6 +21,7 @@
 		<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>
 		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">Manage Files</a>
 		<a class="admin" href="{link module=administrationmodule action=index}">Site Administration</a>
+		<a id="addmodulelink" class="clicktoaddmodule" href="#">Add Module</a>
 		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">Recycle Bin</a>
 	{/permissions}
 {/if}
@@ -34,4 +35,25 @@
 	{/permissions}
 	{chain module=previewmodule view=Default}
 {/if}
+
+{script}
+{literal}
+	var addmes = YAHOO.util.Dom.getElementsByClassName("addmodule","a");
+	var togglelink = YAHOO.util.Dom.get("addmodulelink",true);
+	
+	
+	YAHOO.util.Event.on(togglelink,"click",toggle);
+	
+	function toggle() {
+		if(YAHOO.util.Dom.getStyle(addmes[0],"display") == "none"){
+			YAHOO.util.Dom.setStyle(addmes,"display","block");
+		} else {
+			YAHOO.util.Dom.setStyle(addmes,"display","none");
+		}
+	}
+	
+	//alert(addmes);
+{/literal}
+{/script}
+
 </div>

@@ -1,6 +1,5 @@
 {*
  * Copyright (c) 2004-2006 OIC Group, Inc.
- * Written and Designed by James Hunt
  *
  * This file is part of Exponent
  *
@@ -32,9 +31,9 @@
 			<b>{$t->name}</b>
 		</td>
 		<td>
-			[ <a class="mngmntlink navigation_mngmntlink" href="{link action=view_template id=$t->id}">{$_TR.view}</a> ]
-			[ <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_template id=$t->id}">{$_TR.properties}</a> ]
-			[ <a class="mngmntlink navigation_mngmntlink" href="{link action=delete_template id=$t->id}" onclick="return confirm('{$_TR.delete_confirm}');">{$_TR.delete}</a> ]
+			[ <a href="{link action=view_template id=$t->id}">{$_TR.view}</a> ]
+			[ <a href="{link action=edit_template id=$t->id}">{$_TR.properties}</a> ]
+			[ <a href="{link action=delete_template id=$t->id}" onclick="return confirm('{$_TR.delete_confirm}');">{$_TR.delete}</a> ]
 		</td>
 	</tr>
 	{foreachelse}

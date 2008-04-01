@@ -63,12 +63,10 @@
 </div>
 
 
-
+{script yuimodules='"menu"' unique="yuimenubaryo"}
 {literal}
-<script type="text/javascript">
-
 YAHOO.util.Event.onContentReady("flyoutmenu", function () {
-	var flyout = new YAHOO.widget.MenuBar(
+	var flyoutBar = new YAHOO.widget.MenuBar(
 						"flyoutmenu", 
 						{
 							position: "static", 
@@ -79,13 +77,11 @@ YAHOO.util.Event.onContentReady("flyoutmenu", function () {
 					);
 
 
-	flyout.render(); 
-
+	flyoutBar.render(); 
 });
 
-</script>
+
 {/literal}
-
-
+{/script}
 
 </div>
