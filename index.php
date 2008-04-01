@@ -71,7 +71,6 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	if (is_readable($page)) {
 		if (IN_AJAX_ACTION == 0) {
 			include_once($page);
-			exponent_javascript_outputJStoDOMfoot();				
 		} else {
 			exponent_theme_runAction();
 		}
@@ -86,34 +85,6 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	}
 }
 
-function css_file_needs_rebuilt() {
-	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/css/exp-styles-min.css')) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-if (css_file_needs_rebuilt()) {
-	global $css_files;
-	//eDebug($css_files);
-	//exit;
-	// Load the Minify library if needed.                 
-	include_once(BASE.'external/minify/minify.php');                 
-	// Create new Minify objects.                 
-	$minifyCSS = new Minify(Minify::TYPE_CSS);                         
-
-	// Specify the files to be minified. Full URLs are allowed as long as they point                 
-	// to the same server running Minify. 
-       	$minifyCSS->addFile($css_files);
-       
-	// Establish the file where we will build the compiled CSS file
-       	$compiled_file = fopen(BASE.'tmp/css/exp-styles-min.css', 'w');
-	//	eDebug($minifyCSS->combine());
-
-	fwrite($compiled_file, $minifyCSS->combine());
-	fclose($compiled_file);
-}
 
 //$microtime_str = explode(' ',microtime());
 //$i_end = $microtime_str[0] + $microtime_str[1];

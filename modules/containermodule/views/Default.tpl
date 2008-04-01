@@ -28,9 +28,10 @@
 	
 	{/script}
 	
-		<div class="containermodule">
+		<div id="container{$top->id}" class="containermodule">
 	{/if}
 {/permissions}
+
 
 
 {permissions level=$smarty.const.UILEVEL_STRUCTURE}
@@ -111,7 +112,7 @@
 		{if ($permissions.administrate == 1 || $permissions.edit_module == 1 || $permissions.delete_module == 1 || $permissions.add_module == 1 || $container->permissions.administrate == 1)}
 			{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 					
-					<div class="container_modulewrapper">
+					<div id="module{$container->id}" class="container_modulewrapper">
 						<div class="container_moduleheader">
 							<div id="perms-{$container->info.class}-{$container->id}" class="yuimenu containermenu">
 								<div class="bd trigger">
@@ -245,7 +246,7 @@
 
 {if $permissions.administrate == 1}
 
-{script unique="dragmods" yuimodules='"dragdrop","json","animation"'}
+{script unique="dragmods" yuimodules='"dragdrop","json","animation","connection"'}
 {literal}
 
 (function() {
