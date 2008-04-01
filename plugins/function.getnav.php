@@ -159,7 +159,7 @@ function smarty_function_getnav($params,&$smarty) {
 		
 	}
 	
-	//eDebug($nav);
+	$nav = (!empty($params['json'])) ? json_encode($nav) : $nav;
 	if (isset($params['assign'])) $smarty->assign($params['assign'],$nav);
 }
 
