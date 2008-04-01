@@ -36,10 +36,10 @@ function exponent_theme_loadCommonCSS() {
 
 	$commondir = 'themes/common/css';
 
-	if (is_dir($commondir) && is_readable($commondir) ) {
-		$dh = opendir($commondir);
+	if (is_dir(BASE . $commondir) && is_readable(BASE . $commondir) ) {
+		$dh = opendir(BASE . $commondir);
 		while (($cssfile = readdir($dh)) !== false) {
-			$filename = $commondir.'/'.$cssfile;
+			$filename = BASE . $commondir.'/'.$cssfile;
 			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
 				$css_files["common-".substr($cssfile,0,-4)] = URL_FULL.$commondir.'/'.$cssfile;
 				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
@@ -62,10 +62,10 @@ function exponent_theme_loadRequiredCSS() {
 
 	$requireddir = 'themes/common/css/required/';
 	$requiredthemedir = 'themes/'.DISPLAY_THEME_REAL.'/css/required/';
-	if (is_dir($requireddir) && is_readable($requireddir) ) {
-		$dh = opendir($requireddir);
+	if (is_dir(BASE . $requireddir) && is_readable(BASE . $requireddir) ) {
+		$dh = opendir( BASE . $requireddir);
 		while (($cssfile = readdir($dh)) !== false) {
-			$filename = $requireddir.$cssfile;
+			$filename = BASE . $requireddir.$cssfile;
 			$themefilename = $requiredthemedir.$cssfile;
 			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
 				$css_files["common-required-".substr($cssfile,0,-4)] = URL_FULL.$requireddir.$cssfile;
@@ -117,9 +117,9 @@ function exponent_theme_includeThemeCSS($files = array()) {
 		}
 	} else {	
 		foreach ($files as $file) {
-			if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
+			if (is_readable( BASE . 'themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
 				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$file;
-			} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
+			} elseif (is_readable(BASE . 'themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
 				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$file;
 			}
 		}
