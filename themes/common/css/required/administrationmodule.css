@@ -77,6 +77,11 @@
     background-image:url(../../images/icons/lock.png);
     background-repeat:no-repeat;
 }
+.administrationmodule.quick-links a.clicktoaddmodule {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position: 3px -468px; 
+}
 .administrationmodule.quick-links a.files {
 	background-image:url(../../images/icons/mimetypes/pdf.png);
     background-repeat:no-repeat;

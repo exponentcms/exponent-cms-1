@@ -52,9 +52,9 @@
 	<div id="footer">
 		<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>				
 	</div>	
-
-
 </div>
-
+	<?php 
+		echo exponent_theme_footerInfo($section,$config); 
+	?>
 </body>
 </html>

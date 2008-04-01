@@ -107,7 +107,7 @@ div.bodycopy ul, ol {
 
 #wrap {
 	width: 790px;
-	background: #CCC url(../images/content.jpg) repeat-y center top;
+	background: #fff url(../images/content.jpg) repeat-y center top ;
 	margin: 0 auto;
 	text-align: left;
 }

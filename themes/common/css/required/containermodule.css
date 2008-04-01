@@ -2,8 +2,7 @@
 
 div.containermodule{
 	border:1px solid #777777;
-	clear:both;
-	padding:0px;
+	padding:0 0 5px 0;
 }
 
 .containermodule .container_editheader ul,
@@ -43,15 +42,20 @@ div.containermodule.edit{
 
 .container_modulewrapper{
 	border:1px solid #999999;
+	border-top-width:0px;
 	clear:both;
 }
 
-.container_moduleheader ,
+.container_moduleheader,
 .container_editheader{
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-position:0 -307px; 
-	height:20px;
+	height:18px;
+}
+
+.container_moduleheader{
+	cursor:move;
 }
 
 
@@ -88,9 +92,9 @@ a.addmodule span.addtext{
 }
 a.addmodule{
 	display:block;
-
+	background:#dedede;
 	clear:both;
-	padding:5px 0;
+	padding:2px 0;
 	float:left;
 	width:100%;
 	text-align:center;
@@ -108,6 +112,10 @@ a.addmodule:hover{
 	color:white;
 }
 
+a.addmodule {
+	display:none;
+}
+
 body .containermenu {
 	width:30px;
 	float:right;
@@ -118,9 +126,13 @@ body .containermenu {
 
 body .containermenu h6 {
 	font-size: 85%;
-	font-weight: bold;
-	padding: 0.5em;
-	border-bottom: 1px dotted #000; 
+	font-weight: normal;
+	padding: 3px 3px 3px 20px;
+	background-color:#cae7e8;
+	color:#333;
+	font-family:"trebuchet ms","arail";
+	margin:0px;
+	border-bottom:1px dotted #888;
 }
 
 body .containermenu .yuimenuitem{margin:0 0 0 0;_border:0px solid #f5eacd;}
@@ -161,7 +173,7 @@ body .containermenu .yuimenuitem-hassubmenu{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
-	background-position:15px -418px; 
+	background-position:10px -418px; 
 	background-repeat:no-repeat;
 	height:15px;
 	padding:0;
@@ -172,7 +184,7 @@ body .containermenu .yuimenuitem-hassubmenu-selected{
 	background-color:transparent;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
-	background-position:15px -447px; 
+	background-position:10px -447px; 
 	height:15px;
 	padding:0;
 	margin:2px 0 0 0;
@@ -185,7 +197,7 @@ body .containermenu .yuimenuitemlabel-selected{
 }
 body .containermenu .trigger .yuimenu .bd{
 	background-color:#b8d3d4;
-	width:150px;
+	/*width:150px;*/
 	border:1px solid #333333;
 }
 body .containermenu .trigger .yuimenu .bd .yuimenu .yuimenuitem{
@@ -198,7 +210,7 @@ body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel {
     background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
  	background-repeat:no-repeat;
-	padding:3px 0 3px 20px;
+	padding:3px 5px 3px 20px;
 }
 body .containermenu .trigger .yuimenu .yuimenuitem .yuimenuitemlabel-selected {
     color:#ffffff;

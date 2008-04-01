@@ -3,7 +3,6 @@
 ##################################################
 #
 # Copyright (c) 2004-2006 OIC Group, Inc.
-# Written and Designed by James Hunt
 #
 # This file is part of Exponent
 #
@@ -21,7 +20,7 @@ if (!defined('EXPONENT')) exit('');
 
 return array(
         'newsmodule'=>array(
-                'view'=>'Full Body',
+                'view'=>'_test',
                 'view_all_news'=>'Full Body'),
         'calendarmodule'=>array(
                 ''=>'Full Body')
