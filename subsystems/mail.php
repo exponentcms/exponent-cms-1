@@ -213,6 +213,14 @@ class exponentMail extends Swift {
 		}	
 	}
 	
+	public function addFrom($email=null, $name=null) {
+	    if (!empty($email) && !empty($name)) {
+	        $this->from = new Swift_Address($email, $name);
+	    } else {
+	        $this->from = $email;
+	    }
+	}
+		
 	public function messageId() {
 		if (!is_object($this->message)) {
 			$this->message = new Swift_Message();
