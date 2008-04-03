@@ -51,10 +51,11 @@ if (exponent_permissions_check('edit',$loc)) {
 		}
 	}
 	$gallery = imagegallery_gallery::update($_POST,$gallery);
-	
+
 	if (!empty($gallery->id)) {
 		$db->updateObject($gallery,'imagegallery_gallery');
 	} else {
+		$gallery->galleryorder = $db->countObjects('imagegallery_gallery','location_data='.serialize($loc)) + 1;
 		$id = $db->insertObject($gallery,'imagegallery_gallery');
 	
 		$resizeimages = 0;

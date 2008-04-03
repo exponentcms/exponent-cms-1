@@ -74,6 +74,7 @@ class imagegallerymodule {
 		$config = $db->selectObject('imagegallerymodule_config', "location_data='".serialize($loc)."'");
 		if (!is_object($config)) {
 			$config->multiple_galleries = 0;
+			$config->random_single_gallery = 0;
 		}
 	
 		//if ($config->multiple_galleries == 0) {
@@ -94,7 +95,7 @@ class imagegallerymodule {
 		}
 		
 		
-		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'");
+		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'",'galleryorder DESC');
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($galleries); $i++) {
 			$iloc->int = $galleries[$i]->id;
@@ -120,10 +121,16 @@ class imagegallerymodule {
 				}
 			}
 		}
+		if ( $config->random_single_gallery ) {
+			$random_gallery[] = $galleries[rand(0,count($galleries)-1)];
+			$template->assign('galleries', $random_gallery);
+			$template->assign('allgalleries',$galleries);
+		} else {
+			$template->assign('galleries',$galleries);
+		}
 		
 		//eDebug($galleries); exit();
 		
-		$template->assign('galleries',$galleries);
 		$template->assign('moduletitle',$title);
 		//$template->assign('show_desc',$config->show_pic_desc);
 		$template->register_permissions(

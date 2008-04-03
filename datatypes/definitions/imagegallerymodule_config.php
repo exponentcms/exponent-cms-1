@@ -42,6 +42,8 @@ return array(
 		DB_FIELD_LEN=>200),
 	"multiple_galleries"=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	"random_single_gallery"=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	//"show_pic_desc"=>array(
 	//	DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
