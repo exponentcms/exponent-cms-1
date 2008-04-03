@@ -32,6 +32,7 @@ if (isset($_GET['id'])) {
 } else {
 	$container->rank = $_GET['rank'];
 }
+$loc->src = urldecode($loc->src);
 
 if (exponent_permissions_check('edit_module',$loc) || exponent_permissions_check('add_module',$loc) ||
 	($iloc != null && exponent_permissions_check('administrate',$iloc)) ||
