@@ -44,15 +44,6 @@ require_once(BASE.'subsystems/sessions.php');
 // Initializes the session.  This will populate the $user variable
 exponent_sessions_initialize();
 
-if (!isset($_SERVER['QUERY_STRING'])) {
-	$_SERVER['QUERY_STRING'] = '';
-}
-
-// Create a REQUEST_URI for people who don't have one.
-// FIXME: Move this code (and other similar platform stuff) into a platform compat layer.
-// FIXME:
-$_SERVER['REQUEST_URI'] = SCRIPT_RELATIVE.SCRIPT_FILENAME . '?' . $_SERVER['QUERY_STRING'];
-
 /*
 if (isset($_REQUEST['section'])) {
 	exponent_sessions_set('last_section', intval($_REQUEST['section']));
@@ -149,6 +140,8 @@ exponent_permissions_initialize();
 // Initialize the Exp Framework Subsystem & Set the routing information
 require_once(BASE.'framework/expFramework.php');
 //$template = null;
+// Set up server compatibility info.
+include_once(BASE.'framework/serverCompat.php');
 // initialize the router
 $router = new router();
 // if the user has turned on sef_urls then we need to route the request, otherwise we can just 

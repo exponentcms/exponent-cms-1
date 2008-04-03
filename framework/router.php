@@ -114,7 +114,6 @@ class router {
 
 		// start splitting the URL into it's different parts
 		$this->splitURL();
-
 		if ($this->url_style == 'sef') {
 			if ($this->url_type == 'page' || $this->url_type == 'base') {
 				$this->routePageRequest();  			// if we hit this the formating of the URL looks like the user is trying to go to a page.
@@ -168,11 +167,12 @@ class router {
 	}
 
 	public function splitURL() {
+		global $exponent_server;
 		$this->url_parts = array();
-		if (isset($_SERVER['REDIRECT_URL'])) { 
+		if (!empty($exponent_server->sefPath)) {
 			$this->url_style = 'sef';
 
-			$this->url_parts = explode('/', substr_replace($_SERVER['REDIRECT_URL'],'',0,strlen(PATH_RELATIVE)));
+			$this->url_parts = explode('/', substr_replace($exponent_server->sefPath,'',0,strlen(PATH_RELATIVE)));
 			if (empty($this->url_parts[count($this->url_parts)-1])) array_pop($this->url_parts);
 
 			if (count($this->url_parts) < 1 || $this->url_parts[0] == '' || $this->url_parts[0] == null) {
@@ -311,12 +311,17 @@ class router {
 	}
 
 	public function buildCurrentUrl() {
-		if (isset($_SERVER['REDIRECT_URL'])) {
-			return URL_BASE.$_SERVER['REDIRECT_URL'];	
-		} else {
-			return URL_BASE.$_SERVER['REQUEST_URI'];
+			if (isset($_SERVER['REDIRECT_URL'])) {
+				$sefPath = $_SERVER['REDIRECT_URL'];
+			} elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
+				$sefPath = $_SERVER['ORIG_PATH_INFO'];
+			} elseif (isset($_SERVER['REDIRECT_URI'])) {
+				$sefPath = substr($_SERVER['REDIRECT_URI'],9);
+			} else {
+				$sefPath = $_SERVER['REQUEST_URI'];
+			}
+			return URL_BASE.$sefPath;
 		}
-	}	
 
 	public static function encode($url) {
 		$spaces = array('&nbsp;', ' ');
