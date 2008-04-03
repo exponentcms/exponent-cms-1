@@ -101,7 +101,7 @@
 
 </div>
 
-{script yuimodules="'treeview','dragdrop','json','container','connection'"}
+{script yuimodules="'treeview','animation','menu','dragdrop','json','container','connection'"}
 {literal} 
 
 
