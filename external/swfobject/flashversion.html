@@ -25,17 +25,16 @@
 	<div id="flashversion">
 		You do not have the Flash plugin installed, or your browser does not support Javascript (you should enable it, perhaps?)
 	</div>
-		<script type="text/javascript">
-			// <![CDATA[
-				
-				var version = deconcept.SWFObjectUtil.getPlayerVersion();
-				if (document.getElementById && (version['major'] > 0)) {
-					document.getElementById('flashversion').innerHTML = "You have Flash player "+ version['major'] +"."+ version['minor'] +"."+ version['rev'] +" installed.";
-				}
+	<script type="text/javascript">
+		// <![CDATA[
 
+			var version = deconcept.SWFObjectUtil.getPlayerVersion();
+			if (document.getElementById && version["major"] > 0) {
+				document.getElementById('flashversion').innerHTML = "You have Flash player "+ version['major'] +"."+ version['minor'] +"."+ version['rev'] +" installed.";
+			}
 
-			// ]]>
-		</script>
+		// ]]>
+	</script>
 
 
 	<div id="info">
