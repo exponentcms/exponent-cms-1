@@ -20,7 +20,7 @@ if (!defined('EXPONENT')) exit('');
 
 return array(
         'newsmodule'=>array(
-                'view'=>'_test',
+//                'view'=>'_test',
                 'view_all_news'=>'Full Body'),
         'calendarmodule'=>array(
                 ''=>'Full Body')

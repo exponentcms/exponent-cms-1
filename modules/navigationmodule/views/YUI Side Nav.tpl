@@ -22,7 +22,7 @@
 	
 			{if $sections[$previouskey]->depth < $section->depth && $smarty.foreach.children.first!=true}
 
-			<div id="flyout`$section`" class="yuimenu">
+			<div id="flyout{$section->id}" class="yuimenu">
 				<div class="bd">
 					<ul class="first-of-type">
 

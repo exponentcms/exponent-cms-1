@@ -163,7 +163,10 @@ class template extends BaseTemplate {
 	
 	//PHP5 constructor
 	function __construct($module, $view = null, $loc = null, $caching=false) {
-		parent::__construct("modules", $module, $view);
+		$type = !isset($type) ? 'modules' : $type;
+
+				//parent::__construct("modules", $module, $view);
+				parent::__construct($type, $module, $view);
 		
 		$this->viewparams = exponent_template_getViewParams($this->viewfile);
 				

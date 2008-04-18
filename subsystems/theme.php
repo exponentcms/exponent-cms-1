@@ -271,6 +271,7 @@ function exponent_theme_footerInfo() {
 
 
 function footerInfo() {
+	exponent_theme_showModule("administrationmodule","_panel");
 	exponent_javascript_outputJStoDOMfoot();
 	rebuild_css();	
 }
@@ -433,7 +434,8 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
  * @node Subsystems:Theme
  */
 function exponent_theme_inAction() {
-	return (isset($_REQUEST['action']) && isset($_REQUEST['module']));
+	return (isset($_REQUEST['action']) && (isset($_REQUEST['module']) || isset($_REQUEST['controller'])));
+	//return (isset($_REQUEST['action']) && isset($_REQUEST['module']) );
 }
 
 /* exdoc
@@ -517,33 +519,37 @@ function exponent_theme_runAction() {
 			echo "<a class='mngmntlink sitetemplate_mngmntlink' href='".$config['mainpage']."'>".$config['backlinktext']."</a><br /><br />";
 		}
 
-		if ($_REQUEST['action'] == 'index') {
-			$view = empty($_REQUEST['view']) ? 'Default' : $_REQUEST['view'];			
-			$title = empty($_REQUEST['title']) ? '' : $_REQUEST['title'];	
-			$src = empty($_REQUEST['src']) ? null : $_REQUEST['src'];		
-			exponent_theme_showModule($_REQUEST['module'], $view, $title, $src);
-			return true;
-		}
+		if (isset($_REQUEST['controller'])) {
+                      echo renderAction($_REQUEST); 
+                } else {
+			if ($_REQUEST['action'] == 'index') {
+				$view = empty($_REQUEST['view']) ? 'Default' : $_REQUEST['view'];			
+				$title = empty($_REQUEST['title']) ? '' : $_REQUEST['title'];	
+				$src = empty($_REQUEST['src']) ? null : $_REQUEST['src'];		
+				exponent_theme_showModule($_REQUEST['module'], $view, $title, $src);
+				return true;
+			}
 
-		global $db, $user;
+			global $db, $user;
 
-		$loc = null;
-		$loc->mod = $_REQUEST['module'];
-		$loc->src = (isset($_REQUEST['src']) ? $_REQUEST['src'] : "");
-		$loc->int = (isset($_REQUEST['int']) ? $_REQUEST['int'] : "");
+			$loc = null;
+			$loc->mod = $_REQUEST['module'];
+			$loc->src = (isset($_REQUEST['src']) ? $_REQUEST['src'] : "");
+			$loc->int = (isset($_REQUEST['int']) ? $_REQUEST['int'] : "");
 
-		$actfile = "/" . $_REQUEST['module'] . "/actions/" . $_REQUEST['action'] . ".php";
-		if (isset($_REQUEST['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
+			$actfile = "/" . $_REQUEST['module'] . "/actions/" . $_REQUEST['action'] . ".php";
+			if (isset($_REQUEST['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";
 
-		if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
-			include_once(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
-		} elseif (is_readable(BASE.'modules/'.$actfile)) {
-			include_once(BASE.'modules/'.$actfile);
-		} else {
-			$i18n = exponent_lang_loadFile('subsystems/theme.php');
-			echo SITE_404_HTML . '<br /><br /><hr size="1" />';
-			echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
-			echo '<br />';
+			if (is_readable(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile)) {
+				include_once(BASE."themes/".DISPLAY_THEME_REAL."/modules".$actfile);
+			} elseif (is_readable(BASE.'modules/'.$actfile)) {
+				include_once(BASE.'modules/'.$actfile);
+			} else {
+				$i18n = exponent_lang_loadFile('subsystems/theme.php');
+				echo SITE_404_HTML . '<br /><br /><hr size="1" />';
+				echo sprintf($i18n['no_action'],strip_tags($_REQUEST['module']),strip_tags($_REQUEST['action']));
+				echo '<br />';
+			}
 		}
 	}
 }

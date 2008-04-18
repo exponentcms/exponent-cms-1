@@ -38,67 +38,72 @@
 }
 
 
-.administrationmodule.quick-links a {
+.administrationmodule.panel a {
 	display: block;
 	font-size: 95%;
 	padding:3px 0 0 25px;
 	font-family:Trebuchet MS;
-	border:1px dotted #999999;
+	border-bottom:1px dotted #999999;
 	text-decoration: none;
 	min-height:18px;
 	*height:18px;
-	margin:2px 10px 0 10px;
 	background-position:3px 50%;
 }
+.administrationmodule.panel .hd {
+	text-align:left;
+}
+.administrationmodule.panel .bd {
+	padding:0;
+}
 
-.administrationmodule.quick-links a:hover {
+.administrationmodule.panel a:hover {
 	text-decoration: none;
 	background-color:#dedede;
 	color: #333333;
 	
 }
-.administrationmodule.quick-links a.preview {
+.administrationmodule.panel a.preview {
 	background-image:url(../../images/icons/view.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.edit {
+.administrationmodule.panel a.edit {
 	background-image:url(../../images/icons/edit.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.sitetree {
+.administrationmodule.panel a.sitetree {
     background-image:url(../../images/icons/sitetree.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.editprofile {
+.administrationmodule.panel a.editprofile {
     background-image:url(../../images/icons/edit-profile.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.changepassword {
+.administrationmodule.panel a.changepassword {
     background-image:url(../../images/icons/lock.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.clicktoaddmodule {
+.administrationmodule.panel a.clicktoaddmodule {
 	background-image:url(../../images/icons/exp1icons.png);
 	background-repeat: no-repeat;
 	background-position: 3px -468px; 
 }
-.administrationmodule.quick-links a.files {
+.administrationmodule.panel a.files {
 	background-image:url(../../images/icons/mimetypes/pdf.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.admin {
+.administrationmodule.panel a.admin {
 	background-image:url(../../images/icons/site-admin.png);
     	background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.recycle {
+.administrationmodule.panel a.recycle {
 	background-image:url(../../images/icons/recycle-bin-small.png);
     	background-repeat:no-repeat;
 }
-.administrationmodule.quick-links a.logout  {
+.administrationmodule.panel a.logout  {
 	background-image:url(../../images/icons/logout.png);
     background-repeat:no-repeat;
 }
-.administrationmodule.quick-links h1 {
+.administrationmodule.panel h1 {
 	font-size: 136%;
 	padding:0;
 }

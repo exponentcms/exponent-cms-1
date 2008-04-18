@@ -34,6 +34,19 @@ div.containermodule span.modtype{
 	cursor:pointer;
 }
 
+a.modulemenutrigger{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-position:0 -418px; 
+	float:right;
+	position:absolute;
+	right:2px;
+	top:1px;
+	display:block;
+	width:15px;
+	height:15px;
+}
+
 div.containermodule.edit{
 	border:0px solid #777777;
 	clear:both;
@@ -52,11 +65,9 @@ div.containermodule.edit{
 	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-position:0 -307px; 
 	height:18px;
+	position:relative;
 }
 
-.container_moduleheader{
-	cursor:move;
-}
 
 
 
@@ -112,9 +123,7 @@ a.addmodule:hover{
 	color:white;
 }
 
-a.addmodule {
-	display:none;
-}
+
 
 body .containermenu {
 	width:30px;

@@ -206,4 +206,7 @@ function exponent_lang_convertLangCode($long_code, $target = "iso639-1") {
 	return $converted_code;
 }
 
+function exponent_lang_getText($text) {
+	return $text;
+}
 ?>

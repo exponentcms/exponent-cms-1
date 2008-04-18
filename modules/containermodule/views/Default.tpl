@@ -19,14 +19,70 @@
 	
 	{script yuimodules='"container"' unique="tt"}
 	{literal}
+
 	var contextElements = YAHOO.util.Dom.getElementsByClassName("viewinfo");
 
-	for (var i=0;i<=contextElements.length;i++) {
-		var tooltip = new YAHOO.widget.Tooltip("tt"+i,{ context:contextElements[i] });
-	}
+	var ttA = new YAHOO.widget.Tooltip("ttA", { 
+				context:contextElements
+	});
+	
 	{/literal}
 	
 	{/script}
+	
+	{script yuimodules='"menu"' unique="modmenu"}
+	
+	{literal}
+	
+		YAHOO.util.Event.onDOMReady(function () {
+			var E =YAHOO.util.Event,
+				D =YAHOO.util.Dom;
+				
+			var triggers = YAHOO.util.Dom.getElementsByClassName("modulemenutrigger");
+			
+				var oMenu = new YAHOO.widget.Menu("basicmenu", { 
+					position: "dynamic"
+					 });
+
+				oMenu.addItems([{ text: "#", url: "#" }]);
+				oMenu.render(document.body);
+				oMenu.subscribe("show", oMenu.focus);
+
+				YAHOO.util.Event.addListener(triggers, "mouseover", function(e){
+
+					var mItems = [
+							{ text: "Yahoo! Mail", url: "http://mail.yahoo.com" },
+							{ text: "Yahoo! Address Book", url: "http://addressbook.yahoo.com" },
+							{ text: "Yahoo! Calendar", url: "http://calendar.yahoo.com" },
+							{ text: "Yahoo! Notepad",  url: "http://notepad.yahoo.com" }
+						];
+
+					var el = E.getTarget(e);
+					oMenu.addItems(mItems);					
+					oMenu.cfg.setProperty("context", [el,"tl","tr"]);
+					oMenu.show();
+					
+				},oMenu,true);
+
+		});
+
+	{/literal}
+	{/script}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 		<div id="container{$top->id}" class="containermodule">
 	{/if}
@@ -114,20 +170,11 @@
 					
 					<div id="module{$container->id}" class="container_modulewrapper">
 						<div class="container_moduleheader">
-							<div id="perms-{$container->info.class}-{$container->id}" class="yuimenu containermenu">
-								<div class="bd trigger">
-									<ul class="first-of-type">
-										<li class="yuimenuitem">
-											<a class="yuimenuitemlabel carrow" href="javascript:void(0)">&nbsp;</a>
-										</li>
-									</ul>
-								</div>
-
-							</div>
+							<a id="menu-{$container->info.class}-{$container->id}" class="modulemenutrigger" href="#">&nbsp;</a>
 							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">{*$container->info.module}-{$_TR.shown_in|sprintf:$container->view*}
 							{if $container->info.workflowPolicy != ""}<br />{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
-						{script yuimodules='"menu"' unique="mod`$container->id`"}
+						{*script yuimodules='"menu"' unique="mod`$container->id`"}
 						
 						{literal}
 						
@@ -208,7 +255,7 @@
 							});
 
 						{/literal}
-						{/script}
+						{/script*}
 						
 						
 					
@@ -246,7 +293,7 @@
 
 {if $permissions.administrate == 1}
 
-{script unique="dragmods" yuimodules='"dragdrop","json","animation","connection"'}
+{*script unique="dragmods" yuimodules='"dragdrop","json","animation","connection"'}
 {literal}
 
 (function() {
@@ -471,6 +518,6 @@ Event.onDOMReady(eXp.DDApp.init, eXp.DDApp, true);
 
 })();
 {/literal}
-{/script}
+{/script*}
 
 {/if}

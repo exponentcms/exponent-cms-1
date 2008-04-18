@@ -107,10 +107,16 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 					"MIME-Version"=>"1.0",
 					"Content-type"=>"text/html; charset=".$langinfo['charset']
 				);
+				$mail = new exponentMail();
+				$mail->addHTML($emailHtml);
+				$mail->addTo($emaillist);
+				$mail->batchSend();
+				/*
 				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
 					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submit_form.php');
 					echo $i18n['err_smtp'];
 				}
+				*/
 			}
 		}
 	}

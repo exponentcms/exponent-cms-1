@@ -409,27 +409,31 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	// convert types into paths
 	$relpath = '';
 	if ($type == "modules") {
-		$relpath .= "modules/";
-	} elseif($type == "forms") {
-		if ($name != "forms/email") {
+			$relpath .= "modules/";
+		} elseif($type == "controllers") {
+			$relpath .= "framework/views/";
+		} elseif($type == "forms") {
+			if ($name != "forms/email") {
+				$relpath .= "subsystems/forms/";
+			}
+		} elseif($type == "themes") {
+			$relpath .= "themes/";
+		} elseif($type == "datatypes") {
+			$relpath .= "datatypes/";
+		} elseif($type == "controls") {
+			$relpath .= "subsystems/forms/controls/";
+		// new style names
+		} elseif($type == "Control") {
+			$relpath .= "subsystems/forms/controls/";
+		} elseif($type == "Form") {
 			$relpath .= "subsystems/forms/";
+		} elseif($type == "Module") {
+			$relpath .= "modules/";
+		} elseif($type == "Controller") {
+			$relpath .= "framework/views/";
+		} elseif($type == "Theme") {
+			$relpath .= "themes/";
 		}
-	} elseif($type == "themes") {
-		$relpath .= "themes/";
-	} elseif($type == "datatypes") {
-		$relpath .= "datatypes/";
-	} elseif($type == "controls") {
-		$relpath .= "subsystems/forms/controls/";
-	// new style names
-	} elseif($type == "Control") {
-		$relpath .= "subsystems/forms/controls/";
-	} elseif($type == "Form") {
-		$relpath .= "subsystems/forms/";
-	} elseif($type == "Module") {
-		$relpath .= "modules/";
-	} elseif($type == "Theme") {
-		$relpath .= "themes/";
-	}
 	
 	// for later use for searching in lib/common
 	$typepath = $relpath;
@@ -440,22 +444,24 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	// for later use for searching in lib/common
 	$relpath2 = '';
 	if ($subtype == "css") {
-		$relpath2 .= "css/";
-	} elseif($subtype == "js") {
-		$relpath2 .= "js/";
-	} elseif($subtype == "tpl") {
-		if ($name == "forms/email") {
-			$relpath2 .= "/";
-		} else {
+			$relpath2 .= "css/";
+		} elseif($subtype == "js") {
+			$relpath2 .= "js/";
+		} elseif($subtype == "tpl") {
+			if ($type == 'controllers' || $type == 'Controller') {
+				//do nothing
+			} elseif ($name == "forms/email") {
+				$relpath2 .= "/";
+			} else {
+				$relpath2 .= "views/";
+			}
+		} elseif($subtype == "form") {
 			$relpath2 .= "views/";
+		} elseif($subtype == "action") {
+			$relpath2 .= "actions/";
+			//HACK: workaround for now
+			$subtype = "php";
 		}
-	} elseif($subtype == "form") {
-		$relpath2 .= "views/";
-	} elseif($subtype == "action") {
-		$relpath2 .= "actions/";
-		//HACK: workaround for now
-		$subtype = "php";
-	}
 	
 	
 	$relpath2 .= $subname;
