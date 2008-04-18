@@ -23,6 +23,7 @@ class router {
 	public  $url_type = '';
 	public  $url_style = '';
 	public  $params = array();
+	public  $sefPath = null;
 	
 	function __construct() {
 		include_once('router_maps.php');
@@ -85,7 +86,11 @@ class router {
 		                        $key = chop($key);
 	        	                if ($value != "") {
 	                	                if ($key != 'module' && $key != 'action' && $key != 'controller') {
-	                        	                $link .= urlencode($key)."/".urlencode($value)."/";
+												if ($key != 'src') {
+													$link .= urlencode($key)."/".urlencode($value)."/";
+												} else {
+													$link .= $key."/".$value."/";
+												}
 	                                	}
 	                        	}
 	                	}
@@ -98,7 +103,14 @@ class router {
 	                foreach ($params as $key=>$value) {
         	                $value = chop($value);
                 	        $key = chop($key);
-                        	if ($value != "") $link .= urlencode($key)."=".urlencode($value)."&";
+                        	if ($value != "") {
+								if ($key != 'src') {
+									$link .= urlencode($key)."=".urlencode($value)."&";
+								} else {
+									$link .= $key."=".$value."&";
+								}
+								
+							}
                 	}
 
 	                $link = substr($link,0,-1);
@@ -109,7 +121,7 @@ class router {
 
 	public function routeRequest() {
 		// Set the current url string.  This is used for flow and possible other things too
-		//eDebug($_SERVER);
+		// eDebug($_SERVER);
 		//
 
 		// start splitting the URL into it's different parts
@@ -167,15 +179,15 @@ class router {
 	}
 
 	public function splitURL() {
-		global $exponent_server;
 		$this->url_parts = array();
-		if (!empty($exponent_server->sefPath)) {
+		$this->buildSEFPath();
+		if (!empty($this->sefPath)) {
 			$this->url_style = 'sef';
 
-			$this->url_parts = explode('/', substr_replace($exponent_server->sefPath,'',0,strlen(PATH_RELATIVE)));
+			$this->url_parts = explode('/', substr_replace($this->sefPath,'',0,strlen(PATH_RELATIVE)));
 			if (empty($this->url_parts[count($this->url_parts)-1])) array_pop($this->url_parts);
-
-			if (count($this->url_parts) < 1 || $this->url_parts[0] == '' || $this->url_parts[0] == null) {
+			
+			if ( count($this->url_parts) < 1 || empty($this->url_parts[0]) ) {
 				$this->url_type = 'base';
 			} elseif (count($this->url_parts) == 1) {
 				$this->url_type = 'page';
@@ -204,14 +216,6 @@ class router {
 			// check the regular page names.  If that still doesn't work then we'll redirect them to the 
 			// search module using the page name as the seach string.
 			$section = $this->getPageByName($this->url_parts[0]);
-
-			// if section is still empty then we should route the user to the search (cool new feature :-) )
-			// at some point we need to write a special action/view for the search module that lets the user
-			// know they were redirected to search since the page they tried to go to directly didn't exist.
-			if (empty($section)) {
-				header('Status: 404 Not Found');
-				redirect_to(array('controller'=>'searchmodule', 'action'=>'search', 'search_string'=>$this->url_parts[0]));
-			}
 
 			$_REQUEST['section'] = $section->id;
 		}
@@ -311,16 +315,10 @@ class router {
 	}
 
 	public function buildCurrentUrl() {
-			if (isset($_SERVER['REDIRECT_URL'])) {
-				$sefPath = $_SERVER['REDIRECT_URL'];
-			} elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
-				$sefPath = $_SERVER['ORIG_PATH_INFO'];
-			} elseif (isset($_SERVER['REDIRECT_URI'])) {
-				$sefPath = substr($_SERVER['REDIRECT_URI'],9);
-			} else {
-				$sefPath = $_SERVER['REQUEST_URI'];
+			if (empty($this->sefPath)) {
+				$this->buildSEFPath();
 			}
-			return URL_BASE.$sefPath;
+			return URL_BASE.$this->sefPath;
 		}
 
 	public static function encode($url) {
@@ -392,14 +390,14 @@ class router {
 			$section = $this->getPageByName($this->url_parts[0]);
 			$params['section'] = $section->id;
 		} elseif ($this->url_type = 'action') {
-                        $params['module'] = $this->url_parts[0];
-                        $params['action'] = $this->url_parts[1];
-                        for($i=2; $i < count($this->url_parts); $i++ ) {
-                                if ($i % 2 == 0) {
-                                        $params[$this->url_parts[$i]] = isset($this->url_parts[$i+1]) ? $this->url_parts[$i+1] : '';
-                                }
-                        }
+            $params['module'] = $this->url_parts[0];
+            $params['action'] = $this->url_parts[1];
+            for($i=2; $i < count($this->url_parts); $i++ ) {
+                if ($i % 2 == 0) {
+                    $params[$this->url_parts[$i]] = isset($this->url_parts[$i+1]) ? $this->url_parts[$i+1] : '';
                 }
+            }
+        }
 
 		return $params;
 	}
@@ -418,8 +416,43 @@ class router {
 		        	$section = $db->selectObject('section', 'name="'.$url_name.'" OR name="'.$name2.'"');
 			}*/
 		}
-		return $section;
+		// if section is still empty then we should route the user to the search (cool new feature :-) )
+		// at some point we need to write a special action/view for the search module that lets the user
+		// know they were redirected to search since the page they tried to go to directly didn't exist.
+		if (empty($section)) {
+			header("Refresh: 0; url=".$this->makeLink(array('module'=>'searchmodule', 'action'=>'search', 'search_string'=>$this->url_parts[0])), false, 404);
+			exit();
+		} else {
+			return $section;
+		}
 	}
 	
+	private function buildSEFPath () {
+		// Apache
+		if (strpos($_SERVER['SERVER_SOFTWARE'],'Apache') === 0) {
+			switch(php_sapi_name()) {
+				case "cgi":
+					$this->sefPath = !empty($_ENV['REQUEST_URI']) ? $_ENV['REQUEST_URI'] : null;
+					break;
+				case "cgi-fcgi":
+					$this->sefPath = ($_SERVER['REDIRECT_URL'] != '/index.php') ? $_SERVER['REDIRECT_URL'] : $_ENV['REQUEST_URI'];
+					break;
+				default:
+					$this->sefPath = !empty($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : null;
+					break;
+			}
+		// Lighty
+		} elseif (strpos($_SERVER['SERVER_SOFTWARE'],'lighttpd') === 0) {
+			if (isset($_SERVER['ORIG_PATH_INFO'])) {
+				$this->sefPath = $_SERVER['ORIG_PATH_INFO'];
+			} elseif (isset($_SERVER['REDIRECT_URI'])){
+				$this->sefPath = substr($_SERVER['REDIRECT_URI'],9);
+			}
+		}
+		
+		if (strpos($this->sefPath,'/index.php') === 0) {
+			$this->sefPath = null;
+		}
+	}
 }
 ?>

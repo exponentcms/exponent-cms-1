@@ -140,8 +140,6 @@ exponent_permissions_initialize();
 // Initialize the Exp Framework Subsystem & Set the routing information
 require_once(BASE.'framework/expFramework.php');
 //$template = null;
-// Set up server compatibility info.
-include_once(BASE.'framework/serverCompat.php');
 // initialize the router
 $router = new router();
 // if the user has turned on sef_urls then we need to route the request, otherwise we can just 
