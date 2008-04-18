@@ -85,7 +85,7 @@ if (!document.body.appendChild) {
 	<textarea rows="5" cols="30" class="textarea" id="ta_description" {if $container->is_existing}disabled{/if} name="description">{$locref->description}</textarea>
 </fieldset>
 
-{control type=buttongroup submit="save" cancel="Cancel" name="buttons"}
+{control type=buttongroup submit="Save" cancel="Cancel" name="buttons"}
 
 <!-- div id="buttonControl" class="control">
 	<input type="submit" class="button" value="{$_TR.save}" onclick="return validateNew()" />
