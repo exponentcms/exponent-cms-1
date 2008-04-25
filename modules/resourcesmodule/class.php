@@ -117,16 +117,16 @@ class resourcesmodule {
 		global $db;
 		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
 		if ($refcount <= 0) {
-		foreach($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $res) {
-			foreach ($db->selectObjects('resourceitem_wf_revision','wf_original='.$res->id) as $wf_res) {
-				$file = $db->selectObject('file','id='.$wf_res->file_id);
-				file::delete($file);
-				$db->delete('file','id='.$file->id);
+			foreach($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $res) {
+				/*foreach ($db->selectObjects('resourceitem_wf_revision','wf_original='.$res->id) as $wf_res) {
+					$file = $db->selectObject('file','id='.$wf_res->file_id);
+					file::delete($file);
+					$db->delete('file','id='.$file->id);
+				}*/
+				$db->delete('resourceitem_wf_revision','wf_original='.$res->id);
 			}
-			$db->delete('resourceitem_wf_revision','wf_original='.$res->id);
-		}
-		rmdir(BASE.'files/resourcesmodule/'.$loc->src);
-		$db->delete('resourceitem',"location_data='".serialize($loc)."'");
+			rmdir(BASE.'files/resourcesmodule/'.$loc->src);
+			$db->delete('resourceitem',"location_data='".serialize($loc)."'");
 		}
 	}
 	

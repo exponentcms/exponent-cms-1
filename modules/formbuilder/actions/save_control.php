@@ -38,6 +38,15 @@ if ($f) {
 		}
 	
 		$ctl = call_user_func(array($_POST['control_type'],'update'),$_POST,$ctl);
+		
+		//lets make sure the name submitted by the user is not a duplicate. if so we will fail back to the form
+		$check = $db->selectObject('formbuilder_control', 'name="'.$ctl->identifier.'" AND form_id='.$f->id);
+		if (!empty($check)) {
+			//validator::failAndReturnToForm('A field with the same name already exists for this form', $_POST);
+			flash('error', 'A field by the name "'.$ctl->identifier.'" already exists on this form');
+			exponent_flow_redirect();
+		}
+
 		if ($ctl != null) {
 			$name = preg_replace('/[^A-Za-z0-9]/','_',$ctl->identifier);
 			if (!isset($_POST['id']) && $db->countObjects('formbuilder_control',"name='".$name."' and form_id=".intval($_POST['form_id'])) > 0) {

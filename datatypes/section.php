@@ -2,8 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
-# Written and Designed by James Hunt
+# Copyright (c) 2004-2008 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -61,6 +60,7 @@ class section {
 		
 		// The name of the section, as it will be linked in the section hierarchy.
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
+		$form->register(null,'',new htmlcontrol('<p>If you don\'t put in an SEF Name one will be generated.  SEF names can only contain alpha-numeric characters, hyphens and underscores.</p>'));
 		$form->register('sef_name',$i18n['sef_name'],new textcontrol($object->sef_name));
 		
 		if (!isset($object->id)) {
@@ -477,7 +477,7 @@ class section {
 		if (empty($name)) return false;
 
 		$match = array();
-		$pattern = "/[^0-9a-zA-Z_\-\ ]/";
+		$pattern = "/([^0-9a-z-_\+])/i";
 		if (preg_match($pattern, $name, $match, PREG_OFFSET_CAPTURE)) {
 			return false;
 		} else {
@@ -488,11 +488,16 @@ class section {
 	public static function isDuplicateName($section=null) {
 		if (empty($section)) return false;
 		global $db;
-		if (!empty($section->id)) {
-			$res = $db->selectValue('section', 'id', 'id != '.$section->id.' AND sef_name="'.$section->sef_name.'"');
-		} else {
-			$res = $db->selectValue('section', 'id', 'sef_name="'.$section->sef_name.'"');
+		if (is_object($section)) {
+			if (!empty($section->id)) {
+				$res = $db->selectValue('section', 'id', 'id != '.$section->id.' AND sef_name="'.$section->sef_name.'"');
+			} else {
+				$res = $db->selectValue('section', 'id', 'sef_name="'.$section->sef_name.'"');
+			}
+		} elseif(is_string($section)) {
+			$res = $db->selectValue('section', 'id', 'sef_name="'.$section.'"');
 		}
+
 		return empty($res) ? false : true;
 	}
 }

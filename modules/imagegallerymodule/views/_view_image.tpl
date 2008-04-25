@@ -43,4 +43,4 @@
 <hr size="1" />
 {/if}
 <br />
-<img alt="{$image->alt}" src="{$image->file->directory}/{$image->file->filename}" />
+<img alt="{$image->alt}" src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->file->filename}" />

@@ -29,9 +29,7 @@ $targSec = $db->selectObject("section","id=".$target);
 $check_id = $targSec->parent;
 $moveSec = $db->selectObject("section","id=".$move);
 
-if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id)) || $user->is_acting_admin == 1 ) {
-		
-
+if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$check_id))) {
 	if ($type == "append"){
 		//save the old parent in case we are changing the depth of the moving section
 		$oldParent = $moveSec->parent;
@@ -66,7 +64,6 @@ if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmo
 			}
 			
 		}
-		
 		
 		echo $moveSec->name . " was appended to " . $targSec->name;
 		eDebug($oldParent);

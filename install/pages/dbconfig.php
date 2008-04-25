@@ -24,7 +24,7 @@ if (exponent_sessions_isset('installer_config')) {
 	$config = exponent_sessions_get('installer_config');
 } else {
 	$config = array(
-		'db_engine'=>'mysql',
+		'db_engine'=>'mysqli',
 		'db_host'=>'localhost',
 		'db_port'=>'3306',
 		'db_name'=>'',

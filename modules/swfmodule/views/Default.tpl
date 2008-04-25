@@ -61,8 +61,8 @@ function FlashInstalled()
 </div>
 {literal}
 <script type="text/javascript">
-        var so = new SWFObject("{/literal}{$data->_flashurl}{literal}", "swf{/literal}{$data->id}{literal}", "{/literal}{$data->width}{literal}", "{/literal}{$data->height}{literal}", "6", "#ffffff");
-        so.addParam("wmode", "opaque");
+        var so = new SWFObject("{/literal}{$data->_flashurl}{literal}", "swf{/literal}{$data->id}{literal}", "{/literal}{$data->width}{literal}", "{/literal}{$data->height}{literal}", "6", "{/literal}{if $data->bgcolor !=""}{$data->bgcolor}{else}#ffffff{/if}{literal}");
+        {/literal}{if $data->transparentbg != 1}{literal}so.addParam("wmode","opaque");{/literal}{else}{literal}so.addParam("wmode", "transparent");{/literal}{/if}{literal}
         so.write("flashcontent");
 </script>
 {/literal}

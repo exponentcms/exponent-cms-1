@@ -486,7 +486,7 @@ class mysql_database {
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
 
-	    	$res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
+	    $res = @mysql_query("SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby",$this->connection);
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysql_num_rows($res); $i++) $objects[] = mysql_fetch_object($res);
@@ -574,7 +574,7 @@ class mysql_database {
 	function selectSum($table,$col,$where = null) {
                 if ($where == null) $where = "1";
 
-                $res = mysql_query("SELECT SUM(".$col.") FROM `" . $this->prefix . "$table` WHERE $where",$this->connection);
+                $res = @mysql_query("SELECT SUM(".$col.") FROM `" . $this->prefix . "$table` WHERE $where",$this->connection);
                 if ($res == null) return 0;
                 $resarray = array();
                 for ($i = 0; $i < mysql_num_rows($res); $i++){

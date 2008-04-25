@@ -1,5 +1,4 @@
 <div class="headlinemodule default">
-
 	{if $headline->headline != ""}<h1 class="top">{$headline->headline}</h1>{/if}
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}

@@ -1,4 +1,4 @@
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+{*permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.configure == 1 || $permissions.administrate == 1}
 <div class="modulepermissions">
 	{if $permissions.administrate == 1}
@@ -11,4 +11,4 @@
 	{/if}
 </div>
 {/if}
-{/permissions}
+{/permissions*}

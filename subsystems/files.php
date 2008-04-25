@@ -285,6 +285,28 @@ function exponent_files_canCreate($dest) {
 	}
 }
 
+function exponent_files_remove_files_in_directory($dir) {
+        $files['removed'] = array();
+        $files['not_removed'] = array();
+
+        if (is_readable($dir)) {
+                $dh = opendir($dir);
+                while (($file = readdir($dh)) !== false) {
+                        $filepath = $dir.'/'.$file;
+                        if (substr($file,0,1) != '.') {
+                                if (is_writeable($filepath) && !is_dir($filepath)) {
+                                        unlink($filepath);
+                                        $files['removed'][] = $filepath;
+                                } else {
+                                        $files['not_removed'][] = $filepath;
+                                }
+                        }
+                }
+        }
+
+        return $files;
+}
+
 function exponent_files_bytesToHumanReadable($size) {
 	if ($size >= 1024*1024*1024) { // Gigs
 		$size_msg = round(($size / (1024*1024*1024)),2) . " GB";

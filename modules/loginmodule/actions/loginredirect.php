@@ -26,10 +26,12 @@ if (isset($_GET['redirecturl'])) {
 		$redirect = URL_FULL.$redirect;
 	}
 	exponent_sessions_set('redirecturl',$redirect);
+} else {
+	exponent_sessions_set('redirecturl',exponent_flow_get());
 }
 
 //$SYS_FLOW_REDIRECTIONPATH = 'loginredirect'; 
-exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+//exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
 if (exponent_sessions_loggedIn()) {
 	header('Location: ' . exponent_sessions_get('redirecturl'));

@@ -18,6 +18,14 @@
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
+
+// Check for form errors
+$capcha_real = exponent_sessions_get('capcha_string');
+if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
+	flash('error', 'Security Validation Failed');
+	exponent_flow_redirect();
+}
+
 if (!defined("SYS_USER")) require_once(BASE."subsystems/users.php");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 exponent_forms_initialize();
@@ -120,6 +128,9 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 			}
 		}
 	}
+
+	// clear the users post data from the session.
+	exponent_sessions_unset('formmodule_data_'.$f->id);
 
 	//If is a new post show response, otherwise redirect to the flow.
 	if (!isset($_POST['data_id'])) {

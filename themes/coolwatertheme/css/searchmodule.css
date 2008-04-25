@@ -7,25 +7,23 @@
 	border: none;	
 	margin: 0; 
 	padding: 5px 0 5px 0;	
-	width: 180px;	
 }
 .searchmodule.searchdefault p { 
 	margin: 0; 
 	padding: 0; 
 }
 
-.searchmodule.searchdefault input.textbox { 
+.searchmodule.searchdefault input.text { 
 	width: 110px;
 	color: #777; 
 	height: 20px;
 	padding: 2px;	
 	border: 1px solid #D2E8F7; 
-	vertical-align: top;
+	float:left;
 }
 .searchmodule.searchdefault input.button { 
 	width: 55px;
 	height: 26px;
-	padding: 2px 5px;
-	vertical-align: top;
+	margin:0 0 0 3px;
 }
 

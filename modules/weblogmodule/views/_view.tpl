@@ -13,23 +13,9 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{*
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_change_config}" alt="{$_TR.alt_change_config}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-*}
 
-<div style="margin-top: 15px;">
-<h1 class="itemtitle weblog_itemtitle">{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
+<div class="weblogmodule view">
+<h1>{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
 <div class="subheader weblog_subheader">Posted by {attribution user_id=$this_post->poster} on {$this_post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -54,7 +40,6 @@
 </a>
 {/if}
 {/permissions}
-</div>
 <div>{$this_post->body}</div>
 {if $config->allow_comments}
 	<div class="comments">
@@ -88,9 +73,26 @@
 	{/if}
 	</div>
 {/if}
-<div class="weblog_itemtitle">Leave a comment</div>
-{$form_html}
-<br /><br />
+{if $config->allow_comments != 0}
+	{if $config->require_login == 0 || ($config->require_login == 1 && $logged_in == 1)}
+		<h2>Leave a comment</h2>
+			{form action=comment_save}
+				{control type=hidden name=parent_id value=$this_post->id}
+				{control type=text name=name label=Name}
+				{control type=text name=email label=Email}
+				{control type=textarea name=body label=Comment}
+				{if $config->use_captcha == 1}{control type=captcha label="Security Verification"}{/if}
+				{control type=buttongroup submit=Save}
+			{/form}
+	{else}
+		<p>
+			<h3>You must be logged in to post comments.</h3>
+			{if $smarty.const.SITE_ALLOW_REGISTRATION == 1}
+				<a href="{link module=loginmodule action=loginredirect}">Click here to login</a>
+			{/if}
+		</p>
+	{/if}
+{/if}
 {if $prev_post != 0 || $next_post != 0}
 <table border="0" cellpadding="3" cellspacing="0" align="left" width="100%">
 <tr><td align="left">&lt;&lt;Previous Post</td><td style="text-align: right;padding-right:10px;">Next Post&gt;&gt;</td></tr>
@@ -109,4 +111,4 @@
 {/if}
 </td></tr></table>
 {/if}
-
+</div>

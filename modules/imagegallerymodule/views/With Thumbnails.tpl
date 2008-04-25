@@ -31,7 +31,6 @@
 
 
 <div class="imagegallerymodule all-galleries-with-thumbnails">
-
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}

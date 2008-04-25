@@ -1,10 +1,14 @@
 Exponent Content Management System
-Copyright (c) 2004-2007 OIC Group, Inc.
+Copyright (c) 2004-2008 OIC Group, Inc.
 ===============================================
 
 Release Notes for Exponent Content Management System
 
 For a complete list of the changes made from release to release, see the CHANGELOG
+
+0.97.0 - 2008
+========================
+- This release includes tighter YUI integration, CSS minification, standardized AJAX interfaces, new theming conventions and more.  Please note, as of this release, the minimum required PHP is version 5.2.1.
 
 0.96.6 - October 03 2007
 ========================

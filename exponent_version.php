@@ -23,7 +23,13 @@ if (!defined('EXPONENT_VERSION_MAJOR')) {
 	 * the system will behave slightly differently, to accomodate for developers
 	 * and their environment.
 	 */
-	define('DEVELOPMENT',1); // CHANGE FOR DIST
+	//##################################################################################//
+	//### IF YOU ARE WANTING TO CHANGE THE DEVELOPMENT DEFINE, YOU CAN NOW FIND IT IN ##//
+	//### THE config.php FILE OR CHANGE IT VIA THE ADMIN CONTROL PANEL                ##//
+	//##################################################################################//
+	//define('DEVELOPMENT',1); // CHANGE FOR DIST
+	//##################################################################################//
+
 	/* exdoc
 	 * This is the major version number of Exponent; the 0 in 0.96.2-beta3
 	 */

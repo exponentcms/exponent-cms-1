@@ -13,47 +13,36 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-
-<div class="administrationmodule quick-links">
-{if $permissions.administrate == 1}
-	<h1>{$moduletitle}</h1>
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>
-		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">Manage Files</a>
-		<a class="admin" href="{link module=administrationmodule action=index}">Site Administration</a>
-		<a id="addmodulelink" class="clicktoaddmodule" href="#">Add Module</a>
-		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">Recycle Bin</a>
-	{/permissions}
-{/if}
-
 {get_user assign=user}
 {if $user->id != '' && $user->id != 0} 
+<div class="administrationmodule quicklinks yui-panel">
+	<div class="hd">
+			{$moduletitle}
+	</div>
+	<div class="bd">
+	{if $can_manage_nav == 1}<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>{/if}
+	{if $permissions.administrate == 1}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">Manage Files</a>
+		<a class="admin" href="{link module=administrationmodule action=index}">Site Administration</a>
+		{*<a id="addmodulelink" class="clicktoaddmodule" href="#">Add Module</a>*}
+		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">Recycle Bin</a>
+	{/permissions}
+	{chain module=previewmodule view=Default}		
+	{/if}
+	</div>
+
+
+
+	<div class="hd">
+			{$user->username}
+	</div>
+	<div class="bd">
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	<a class="changepassword" href="{link module=loginmodule action=changepass}">Change Password</a>
 	<a class="editprofile" href="{link module=loginmodule action=editprofile}">Edit Profile</a>
 	<a class="logout" href="{link module=loginmodule action=logout}">Log Out</a>
 	{/permissions}
-	{chain module=previewmodule view=Default}
-{/if}
-
-{script}
-{literal}
-	var addmes = YAHOO.util.Dom.getElementsByClassName("addmodule","a");
-	var togglelink = YAHOO.util.Dom.get("addmodulelink",true);
-	
-	
-	YAHOO.util.Event.on(togglelink,"click",toggle);
-	
-	function toggle() {
-		if(YAHOO.util.Dom.getStyle(addmes[0],"display") == "none"){
-			YAHOO.util.Dom.setStyle(addmes,"display","block");
-		} else {
-			YAHOO.util.Dom.setStyle(addmes,"display","none");
-		}
-	}
-	
-	//alert(addmes);
-{/literal}
-{/script}
-
+	</div>
 </div>
+{/if}

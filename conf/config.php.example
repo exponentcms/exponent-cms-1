@@ -1,5 +1,6 @@
 <?php
 
+define("DEVELOPMENT",0);
 define("DB_ENGINE",'mysql');
 define("DB_ENCODING",'utf8');
 define("DB_HOST",'localhost');

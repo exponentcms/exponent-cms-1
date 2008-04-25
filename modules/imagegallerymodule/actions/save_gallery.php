@@ -87,7 +87,7 @@ if (exponent_permissions_check('edit',$loc)) {
 	}
 
 	
-	if (IN_AJAX_ACTION == 0) {
+	if (!exponent_javascript_inAjaxAction()) {
 		exponent_flow_redirect();
 	} else {
 		if($resizeimages == 1){

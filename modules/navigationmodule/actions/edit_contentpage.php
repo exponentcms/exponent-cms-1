@@ -25,7 +25,7 @@ $check_id = -1;
 // FIXME: Allow non-administrative users to manage certain
 // FIXME: parts of the section hierarchy.
 
-if ($user->is_acting_admin == 1 /*TODO: section admin*/) {
+//if ($user->is_acting_admin == 1 /*TODO: section admin*/) {
 	$section = null;
 	if (isset($_GET['id'])) {
 		// Check to see if an id was passed in get.  If so, retrieve that section from
@@ -58,5 +58,5 @@ if ($user->is_acting_admin == 1 /*TODO: section admin*/) {
 		// User does not have permission to manage sections.  Throw a 403
 		echo SITE_403_HTML;
 	}
-}
+//}
 ?>

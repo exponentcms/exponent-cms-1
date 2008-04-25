@@ -44,8 +44,10 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200,
-                DB_INDEX=>10),
+        DB_INDEX=>10),
 	'loop_movie'=>array(
-		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'transparentbg'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 );
 ?>

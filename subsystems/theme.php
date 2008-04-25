@@ -138,7 +138,6 @@ function css_file_needs_rebuilt() {
 
 
 function rebuild_css(){
-	
 	if (css_file_needs_rebuilt()) {
 		global $css_files;
 		//eDebug($css_files);
@@ -159,7 +158,16 @@ function rebuild_css(){
 		fwrite($compiled_file, $minifyCSS->combine());
 		fclose($compiled_file);
 	}
-	
+}
+
+function exponent_theme_remove_css() {
+	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+	return exponent_files_remove_files_in_directory(BASE.'tmp/css');
+}
+
+function exponent_theme_remove_smarty_cache() {
+	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+	return exponent_files_remove_files_in_directory(BASE.'tmp/views_c');	
 }
 
 function exponent_theme_buildYUIPaths() {
@@ -204,17 +212,14 @@ function exponent_theme_loadYUIJS($files=array()) {
 function exponent_theme_buildCSSFile($cssfile) {
 	if (DEVELOPMENT > 0 || !is_readable(BASE.$cssfile)) {
 		global $css_files;
-		//eDebug($css_files);
-		//exit;
-		// Load the Minify library if needed.                 
-		// Define the cache dir first.
-		define('MINIFY_CACHE_DIR',BASE.'tmp');
-		include_once(BASE.'external/minify/minify.php');                 
+		define('MINIFY_CACHE_DIR',BASE.'tmp/minify'); 			// Define the cache dir first.
+		if (!is_dir(BASE.'tmp/minify')) mkdir(BASE.'tmp/minify');	//if the dir doesnt exist- create it  
+		include_once(BASE.'external/minify/minify.php');		// Load the Minify library if needed.                 
+		
 		// Create new Minify objects.                 
 		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
 
-		// Specify the files to be minified. Full URLs are allowed as long as they point                 
-		// to the same server running Minify. 
+		// Specify the files to be minified. Full URLs are allowed as long as they point to the same server running Minify. 
 	       	$minifyCSS->addFile($css_files);
 
 		// Establish the file where we will build the compiled CSS file
@@ -229,37 +234,58 @@ function exponent_theme_buildCSSFile($cssfile) {
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
  */
-function exponent_theme_headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true),$cssfile = 'tmp/css/exp-styles-min.css') {
-	echo headerInfo($section,$config,$cssfile);
+function exponent_theme_headerInfo($config) {
+	echo headerInfo($config);
 }
 
-function headerInfo($section /*this variable is now deprecated*/,$config = array("reset-fonts-grids"=>false,"include-common-css"=>false,"include-theme-css"=>true),$cssfile = 'tmp/css/exp-styles-min.css') {
-	global $sectionObj; //global section object created from exponent_core_initializeNavigation() function
+function headerInfo($config) {
+	global $sectionObj, $user;
+	
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
-	$str = '';
 
-	if(!isset($config['include-common-css'])) $config['include-common-css']==false;
-	if(!isset($config['include-theme-css'])) $config['include-theme-css']==true;
+	if(!isset($config['include-common-css'])) $config['include-common-css']=false;
+	if(!isset($config['include-theme-css'])) $config['include-theme-css']=true;
+	if(empty($config['css-file'])) $cssfile = 'tmp/css/exp-styles-min.css';
+
 	// load all the required CSS files for the user.
 	exponent_theme_loadRequiredCSS();
 	//load all configs from user's theme
 	if(!empty($config['reset-fonts-grids'])) exponent_theme_resetCSS();
 	if($config['include-common-css']!=false) exponent_theme_loadCommonCSS();
 	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS();
+	
+	// Build the CSS file
 	exponent_theme_buildCSSFile($cssfile);
+
+	$str = '';
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
 		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
 		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" />' . "\n";
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
+		
+		//the last little bit of IE 6 support
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
+		
 		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'">'."\r\n";	
-		//$str .= exponent_theme_loadYUIJS(array('yuiloader-dom-event'));
-		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/external/yui/build/yuiloader-dom-event/yuiloader-dom-event.js"></script>'."\r\n";
+		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'external/yui/build/yuiloader-dom-event/yuiloader-dom-event.js"></script>'."\r\n";
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'exponent.js.php"></script>'."\r\n";
-		//$str .= exponent_theme_loadYUIJS(array('container','container_core'));//,'button-beta','editor-beta'
-		//$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'js/exponent.js"></script>'."\r\n"; //Phillip - start of exp js object
+		if($user->id!=0){
+			$secloc = exponent_core_makeLocation("navigationmodule", '', $sectionObj->id);
+			if (exponent_permissions_checkOnModule("administrate","containermodule")||
+				exponent_permissions_checkOnModule("add_module","containermodule")||
+				exponent_permissions_checkOnModule("edit_module","containermodule")||
+				exponent_permissions_checkOnModule("delete_module","containermodule")||
+				exponent_permissions_checkOnModule("order_modules","containermodule") || 
+				exponent_permissions_check('manage', $secloc)
+				){
+				$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/themes/common/javascript/containermodule/containermenus.js"></script>'."\r\n";
+			}
+		}
+		if(file_exists(BASE.'themes/'.DISPLAY_THEME_REAL.'/favicon.ico')) {
+		    $str .= "\t".'<link rel="shortcut icon" href="'.URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/favicon.ico" type="image/x-icon" />'."\r\n";
+		}
 	}
 	return $str;
 }
@@ -268,12 +294,11 @@ function exponent_theme_footerInfo() {
 	footerInfo();
 }
 
-
-
 function footerInfo() {
-	exponent_theme_showModule("administrationmodule","_panel");
+	//exponent_theme_showModule("administrationmodule","_panel");
 	exponent_javascript_outputJStoDOMfoot();
 	rebuild_css();	
+	exponent_sessions_unset("last_POST");  //ADK - putting this here so one form doesn't unset it before another form needs it.
 }
 
 
@@ -322,7 +347,7 @@ function exponent_theme_sourceSelectorInfo() {
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
-function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false) {
+function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null, $pickable = false, $hide_menu=false) {
 	global $db;
 
 	if ($prefix == null) $prefix = "@section";
@@ -342,7 +367,7 @@ function exponent_theme_showSectionalModule($module,$view,$title,$prefix = null,
 	}
 
 
-	exponent_theme_showModule($module,$view,$title,$src,$pickable,$sectionObj->id);
+	exponent_theme_showModule($module,$view,$title,$src,$pickable,$sectionObj->id, $hide_menu);
 }
 
 /* exdoc
@@ -380,7 +405,7 @@ function exponent_theme_showTopSectionalModule($module,$view,$title,$prefix = nu
  * @param bool $pickable Whether or not the module is pickable in the Source Picer.
  * @node Subsystems:Theme
  */
-function exponent_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null) {
+function exponent_theme_showModule($module,$view = "Default",$title = "",$source = null,$pickable = false,$section = null, $hide_menu=false) {
 	if (!AUTHORIZED_SECTION && $module != 'navigationmodule' && $module != 'loginmodule') {
 		return;
 	}
@@ -416,10 +441,28 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 			$db->insertObject($locref,'sectionref');
 		}
 	}
+
 	if (defined("SELECTOR") && call_user_func(array($module,"hasSources"))) {
 		containermodule::wrapOutput($module,$view,$loc,$title);
 	} else {
 		if (is_callable(array($module,"show"))) {
+			if (!$hide_menu && $loc->mod != "containermodule" && (call_user_func(array($module,"hasSources")) || $db->tableExists($loc->mod."_config"))) {
+				$container->permissions = array(
+                                	'administrate'=>(exponent_permissions_check('administrate',$loc) ? 1 : 0),
+                                	'configure'=>(exponent_permissions_check('configure',$loc) ? 1 : 0)
+                        	);
+
+				if ($container->permissions['administrate'] || $container->permissions['configure']) {
+					$container->randomizer = microtime();
+					$container->info['class'] = $loc->mod;
+					$container->info['module'] = call_user_func(array($module,"name"));
+					$container->info['source'] = $loc->src;
+					$container->info['hasConfig'] = $db->tableExists($loc->mod."_config");
+					$template = new template('containermodule','_hardcoded_module_menu',$loc);
+					$template->assign('container', $container);
+					$template->output();
+				}
+			}
 			call_user_func(array($module,"show"),$view,$loc,$title);
 		} else {
 			$i18n = exponent_lang_loadFile('subsystems/theme.php');
@@ -618,7 +661,7 @@ function exponent_theme_mainContainer() {
 
 #	if (exponent_sessions_isset("themeopt_override")) {
 #		$config = exponent_sessions_get("themeopt_override");
-		exponent_theme_showSectionalModule("containermodule","Default","","@section");
+		exponent_theme_showSectionalModule("containermodule","Default","","@section",false,true);
 #	} else {
 #		exponent_theme_showSectionalModule("containermodule","Default","","@section");
 #	}

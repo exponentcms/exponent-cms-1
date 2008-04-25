@@ -23,7 +23,6 @@ require_once('exponent.php');
 //Fire off the login form via an exponent action.
 if (!defined('SYS_SESSIONS')) require_once(BASE.'subsystems/sessions.php');
 exponent_sessions_set('redirecturl', exponent_flow_get());
-header("Location: ".URL_FULL."?module=loginmodule&action=loginredirect");
-
+redirect_to(array("module"=>"loginmodule","action"=>"loginredirect"));
 
 ?>

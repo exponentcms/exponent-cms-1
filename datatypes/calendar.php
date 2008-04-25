@@ -51,6 +51,7 @@ class calendar {
 			$form->register(null,'',new htmlcontrol($i18n['remove_warning'],false));
 		}
 		$form->register('eventdate',$i18n['eventdate'],new popupdatetimecontrol($object->eventdate->date,'',false));
+		//$form->register('eventdate',$i18n['eventdate'],new yuicalendarcontrol($object->eventdate->date,'',false));
 
 		$cb = new checkboxcontrol($object->is_allday,true);
 		$cb->jsHooks = array('onclick'=>'exponent_forms_disable_datetime(\'eventstart\',this.form,this.checked); exponent_forms_disable_datetime(\'eventend\',this.form,this.checked);');

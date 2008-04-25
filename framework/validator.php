@@ -23,10 +23,11 @@ class validator {
 		$post['_formError'] = array();
 		foreach($vars as $validate_type=>$param) {
 			switch($validate_type) {
+				case 'captcha':
 				case 'capcha':
 					$capcha_real = exponent_sessions_get('capcha_string');
-					if (SITE_USE_CAPTCHA && strtoupper($post['captcha_string']) != $capcha_real) {
-        					unset($post['captcha_string']);
+					if (SITE_USE_CAPTCHA && strtoupper($post[$param]) != $capcha_real) {
+        					unset($post[$param]);
         					$post['_formError'][] = 'Capcha Verification Failed';
 					}
 				break;
@@ -34,19 +35,22 @@ class validator {
 					if (empty($post[$param])) $post['_formError'][] = $param.' is a required field.';
 				break;
 				case 'valid_email':
-					if (empty($post[$param])) $post['_formError'][] = $param.' is a required field.';
-					if (!self::validate_email_address($post[$param])) $post['_formError'][] = $post[$param].' does not appear to be a valid email address.';
+					if (empty($post[$param])) {
+						$post['_formError'][] = $param.' is a required field.';
+					} elseif (!self::validate_email_address($post[$param])) {
+						$post['_formError'][] = $post[$param].' does not appear to be a valid email address.';
+					}
 				break;
 			}
 		}
-
 		if (count($post['_formError']) > 0) {
-			self::failAndReturnToForm($post['_formError']);
+			self::failAndReturnToForm($post['_formError'], $post);
 		}
 	}
 
-	public static function failAndReturnToForm($msg, $post=null) {
+	public static function failAndReturnToForm($msg='', $post=null) {
 		flash('error', $msg);
+		if (!empty($post)) exponent_sessions_set('last_POST',$post);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit();
 	}
@@ -78,6 +82,19 @@ class validator {
 		}
 		return true;
 	}		
+	
+	public static function uploadSuccessful($file) {
+	    if (is_object($file)) {
+	        return $db->insertObject($file,'file');
+	    } else {
+	        $post = $_POST;
+			$post['_formError'] = $file;
+			flash('error',$file);
+			exponent_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+    		exit();
+    	}
+    }
 }
 ?>
 

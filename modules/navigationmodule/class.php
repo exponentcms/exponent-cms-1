@@ -296,7 +296,7 @@ class navigationmodule {
 			$kids = $cache['kids'][$parent];
 		}		
 			
-        if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+        	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($kids,'exponent_sorting_byRankAscending');
 		for ($i = 0; $i < count($kids); $i++) {
 			$child = $kids[$i];
@@ -482,6 +482,15 @@ class navigationmodule {
         return $lineage;
     }
 
+	function canManageStandalones() {
+		if (exponent_users_isAdmin()) return true;
+		$standalones = navigationmodule::levelTemplate(-1,0);
+		$canmanage = false;
+		foreach ($standalones as $standalone) {
+			$loc = exponent_core_makeLocation('navigationmodule', '', $standalone->id);
+			if (exponent_permissions_check('manage', $loc)) return true;
+		}
+	}
     /*
 	//Commented out per Hans and Tom
 	function isPublic($section) {

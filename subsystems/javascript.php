@@ -151,4 +151,26 @@ function exponent_javascript_outputJStoDOMfoot(){
 	}
 }
 
+function exponent_javascript_inAjaxAction() {
+	return isset($_REQUEST['ajax_action']) ? true : false;
+}
+
+function exponent_javascript_ajaxReply($replyCode=200, $replyText='Ok', $data) {
+	$ajaxObj['replyCode'] = $replyCode;
+	$ajaxObj['replyText'] = $replyText;
+	if (isset($data)) {
+		$ajaxObj['data'] = $data;
+		if (is_array($data)) {
+			$ajaxObj['replyCode'] = 201;
+		} elseif (is_string($data)) {
+			$ajaxObj['replyCode'] = 202;
+		} elseif (is_bool($data)) {
+                        $ajaxObj['replyCode'] = 203;
+		} elseif (empty($data)) {
+                	$ajaxObj['replyCode'] = 204;
+		}
+	}
+	return json_encode($ajaxObj);
+}
+
 ?>

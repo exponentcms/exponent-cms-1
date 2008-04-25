@@ -89,7 +89,7 @@ function exponent_permissions_load($user) {
 		}
 		// Retrieve sectional admin status.
 		// First, figure out what sections the user has permission to manage, through the navigationmodule permissions
-		if (isset($exponent_permissions_r['navigationmodule']['']) && is_array($exponent_permissions_r['navigationmodule'][''])) {
+		/*if (isset($exponent_permissions_r['navigationmodule']['']) && is_array($exponent_permissions_r['navigationmodule'][''])) {
 			foreach ($exponent_permissions_r['navigationmodule'][''] as $id=>$perm_data) {
 				if ($perm_data['manage'] == 1) {
 					// The user is allowed to manage sections.
@@ -108,7 +108,7 @@ function exponent_permissions_load($user) {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	exponent_sessions_set('permissions',$exponent_permissions_r);
@@ -221,12 +221,18 @@ function exponent_permissions_check($permission,$location) {
 	}
 	if (!$has_perm && $location->mod != 'navigationmodule') {
 		global $db;
-		foreach ($db->selectObjects('sectionref',"is_original=1 AND module='".$location->mod."' AND source='".$location->src."'") as $secref) {
+		global $sectionObj;
+		if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$sectionObj->id))) {
+                                $has_perm = true;
+                }
+		//foreach ($db->selectObjects('sectionref',"is_original=1 AND module='".$location->mod."' AND source='".$location->src."'") as $secref) {
+		/*foreach ($db->selectObjects('sectionref',"module='".$location->mod."' AND source='".$location->src."'") as $secref) {
+			eDebug($secref);
 			if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$secref->section))) {
 				$has_perm = true;
 				break;
 			}
-		}
+		}*/
 	}
 
 	return $has_perm;
@@ -244,7 +250,7 @@ function exponent_permissions_check($permission,$location) {
  */
 function exponent_permissions_checkOnModule($permission,$module) {
 	global $exponent_permissions_r, $user;
-	if ($user && $user->is_acting_admin == 1) return true;
+	if ($user && !empty($user->is_acting_admin) && $user->is_acting_admin == 1) return true;
 	return (isset($exponent_permissions_r[$module]) && (count($exponent_permissions_r[$module]) > 0));
 }
 

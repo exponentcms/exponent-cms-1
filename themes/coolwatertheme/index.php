@@ -8,11 +8,11 @@
 	"include-common-css"=>true,
 	"include-theme-css"=>true
 	);
-	echo exponent_theme_headerInfo($section,$config); 
+	echo exponent_theme_headerInfo($config); 
 	?>
 </head>
 <body>
-<?php exponent_theme_sourceSelectorInfo(); //this will be deprecated by copy 'n paste in beta ?>
+<?php exponent_theme_sourceSelectorInfo(); //this will be deprecated by copy 'n paste in the 0.98 ?>
 <!-- wrap starts here -->
 <div id="wrap">
 	<!--header -->
@@ -39,6 +39,7 @@
 			<?php exponent_theme_main(); ?>
 		</div>
 		<div id="sidebar">
+			<?php exponent_theme_showModule("administrationmodule","Quick Links","Administration"); ?>			
 			<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>			
 			<h2>Support Styleshout</h2>
 			<p>If you are interested in supporting my work and would like to contribute, you are

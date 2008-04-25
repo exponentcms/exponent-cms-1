@@ -2,8 +2,8 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
-# Written and Designed by James Hunt
+# Copyright (c) 2004-2008 OIC Group, Inc.
+# Written and Designed by Adam Kessler
 #
 # This file is part of Exponent
 #
@@ -55,9 +55,9 @@ class user {
 	}
 	
 	function update($values,$object) {
-		$object->firstname = $values['firstname'];
-		$object->lastname = $values['lastname'];
-		$object->email = $values['email'];
+		$object->firstname = strip_tags($values['firstname']);
+		$object->lastname = strip_tags($values['lastname']);
+		$object->email = strip_tags($values['email']);
 		return $object;
 	}
 }

@@ -18,13 +18,13 @@
 	<div id="nav-tabs" class="yui-navset">
 	    <ul class="yui-nav">
         	<li class="selected"><a href="#tab1"><em>Hierarchy</em></a></li>
-	        <li><a href="#tab2"><em>Standalone</em></a></li>
-        	<li><a href="#tab3"><em>Page Sets</em></a></li>
+	        {if $canManageStandalones}<li><a href="#tab2"><em>Standalone</em></a></li>{/if}
+        	{if $canManagePagesets}<li><a href="#tab3"><em>Page Sets</em></a></li>{/if}
 	    </ul>            
 	    <div class="yui-content">
         	<div id="tab1">{include file="`$smarty.const.BASE`modules/navigationmodule/views/_manager_hierarchy.tpl"}</div>
-	        <div id="tab2" style="display:none">{chain module=navigationmodule action=manage_standalone}</div>
-        	<div id="tab3" style="display:none">{chain module=navigationmodule action=manage_pagesets}</div>
+	        {if $canManageStandalones}<div id="tab2" style="display:none">{chain module=navigationmodule action=manage_standalone}</div>{/if}
+        	{if $canManagePagesets}<div id="tab3" style="display:none">{chain module=navigationmodule action=manage_pagesets}</div>{/if}
 	    </div>
 	</div>
 </div>

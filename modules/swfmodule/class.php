@@ -70,6 +70,7 @@ class swfmodule {
 		if($data == null) {
 			$data->_noflash = 1;
 			$data->_align = 'center';
+			$data->transparentbg = 1;
 		} else {
 			$data->_noflash = 0;
 			switch ($data->alignment) {

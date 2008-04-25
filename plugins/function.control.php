@@ -18,7 +18,7 @@
 ##################################################
 
 function smarty_function_control($params,&$smarty) { 
-	if ( (isset($params['type']) && isset($params['name'])) || $params['type'] == 'buttongroup' || $params['type'] == 'capcha') {
+	if ( (isset($params['type']) && isset($params['name'])) || $params['type'] == 'buttongroup' || $params['type'] == 'capcha' || $params['type'] == 'captcha') {
 		$i18n = exponent_lang_loadFile('plugins/function_control.php');
 
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
@@ -49,7 +49,7 @@ function smarty_function_control($params,&$smarty) {
 			if (isset($params['module'])) $control->module = $params['module'];
 			if (isset($params['rows'])) $control->rows = $params['rows'];
 			if (isset($params['cols'])) $control->cols = $params['cols'];
-			if (isset($params['toolbar'])) $control->toolbar = $params['toolbar'];
+			//if (isset($params['toolbar'])) $control->toolbar = $params['toolbar'];
 		} elseif ($params['type'] == 'editor') {
 			$control = new htmleditorcontrol();
 			if (isset($params['module'])) $control->module = $params['module'];
@@ -62,12 +62,15 @@ function smarty_function_control($params,&$smarty) {
                         $control = new listbuildercontrol($default, $source);
 			echo $control->controlToHTML($params['name']);
                         return;
-		} elseif ($params['type'] == 'capcha') {
+		} elseif ($params['type'] == 'capcha' || $params['type'] == 'captcha') {
 			if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
+				echo '<div id="'.$params['name'].'Control" class="control"><label><span class="label">'.$params['label'].'</span>';
 				echo '<div class="capcha">'.sprintf($i18n['captcha_description'],'<img class="capcha-img" src="'.PATH_RELATIVE.'captcha.php" />');
 				echo '<a href="javascript:void(0)" class="capcha-why" onclick="window.open(\''.URL_FULL.'/captcha_why.php\',\'mywindow\',\'width=450,height=300\')">'.$i18n['why_do_this'].'</a></div>';
+				unset($params['label']);
 				$params['name'] = 'captcha_string';
 				$control = new textcontrol('',6);
+				echo '</label></div>';
 			} else {
 				return false;
 			}
@@ -80,7 +83,13 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['class'])) $control->class = $params['class'];
 		if (isset($params['required'])) $control->required = $required;;
 		if (isset($params['checked'])) $control->checked = $params['checked'];
-		if (isset($params['value'])) $control->default = $params['value'];
+		if (!empty($params['value'])) {
+			$control->default = $params['value'];
+		} elseif (exponent_sessions_isset('last_POST')) {
+			$post = exponent_sessions_get('last_POST');
+			if (!empty($post[$params['name']])) $control->default = $post[$params['name']];
+		}
+		//if (isset($params['value'])) $control->default = $params['value'];
 		if (isset($params['size'])) $control->size = $params['size'];
 		if (isset($params['flip'])) $control->flip = $params['flip'];
 		if (isset($params['disabled']) && $params['disabled'] != false) $control->disabled = true;

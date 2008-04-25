@@ -113,7 +113,9 @@ function exponent_sessions_validate() {
 		exponent_sessions_clearCurrentUserSessionCache();
 		$ticket->refresh = 0;		
 	}
-	exponent_sessions_updateTicket($ticket, $user);		
+	exponent_sessions_updateTicket($ticket, $user);
+	// Clean out old sessions from the sessionticket table.
+	$db->delete('sessionticket','last_active < ' . (time() - SESSION_TIMEOUT));
 	
 	define('SITE_403_HTML', SITE_403_REAL_HTML);
 }

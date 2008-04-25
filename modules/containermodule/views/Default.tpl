@@ -30,59 +30,9 @@
 	
 	{/script}
 	
-	{script yuimodules='"menu"' unique="modmenu"}
 	
-	{literal}
 	
-		YAHOO.util.Event.onDOMReady(function () {
-			var E =YAHOO.util.Event,
-				D =YAHOO.util.Dom;
-				
-			var triggers = YAHOO.util.Dom.getElementsByClassName("modulemenutrigger");
-			
-				var oMenu = new YAHOO.widget.Menu("basicmenu", { 
-					position: "dynamic"
-					 });
 
-				oMenu.addItems([{ text: "#", url: "#" }]);
-				oMenu.render(document.body);
-				oMenu.subscribe("show", oMenu.focus);
-
-				YAHOO.util.Event.addListener(triggers, "mouseover", function(e){
-
-					var mItems = [
-							{ text: "Yahoo! Mail", url: "http://mail.yahoo.com" },
-							{ text: "Yahoo! Address Book", url: "http://addressbook.yahoo.com" },
-							{ text: "Yahoo! Calendar", url: "http://calendar.yahoo.com" },
-							{ text: "Yahoo! Notepad",  url: "http://notepad.yahoo.com" }
-						];
-
-					var el = E.getTarget(e);
-					oMenu.addItems(mItems);					
-					oMenu.cfg.setProperty("context", [el,"tl","tr"]);
-					oMenu.show();
-					
-				},oMenu,true);
-
-		});
-
-	{/literal}
-	{/script}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 		<div id="container{$top->id}" class="containermodule">
 	{/if}
@@ -93,56 +43,17 @@
 {permissions level=$smarty.const.UILEVEL_STRUCTURE}
 {if $hasParent == 0 && ($permissions.edit_module == 1 || $permissions.administrate == 1)}{** top level container module **}
 	<div class="container_editheader">
-		<div id="perms-containermod-{$top->id}" class="yuimenu containermenu">
-			<div class="bd trigger">
-				<ul class="first-of-type">
-					<li class="yuimenuitem">
-						<a class="yuimenuitemlabel carrow" href="javascript:void(0)">&nbsp;</a>
-					</li>
-				</ul>
-			</div>
-
-		</div>
+	
+		<a id="container{$top->id}" class="modulemenutrigger" href="#" rel="{$_TR.container_module}">&nbsp;</a>
 		<span class="modtype viewinfo" title="{$_TR.container_module} - {$_TR.shown_in|sprintf:$__view}">&nbsp;</span>
 		
-		{script yuimodules='"menu"' unique="mod`$top->id`"}
-		{literal}
-			YAHOO.util.Event.onContentReady("{/literal}perms-containermod-{$top->id}{literal}", function () {
-				var oMenu{/literal}{$top->id}{literal} = new YAHOO.widget.Menu("{/literal}perms-containermod-{$top->id}{literal}", { 
-														position: "static", 
-														hidedelay:	750,
-														lazyload: true });
-
-				var aSubmenuData{/literal}{$top->id}{literal} = [
-				
-					{
-						id:	 "{/literal}containerMenu-{$top->id}{literal}", 
-						itemdata: [ 
-						{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
-						{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }
-						]
-				   
-					}					 
+		<script>
+				YAHOO.expadminmenus["container{$top->id}"] = [
+					{literal}{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
+					{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }{/literal}
 				];
 
-			   oMenu{/literal}{$top->id}{literal}.subscribe("beforeRender", function () {
-				  
-					if (this.getRoot() == this) {
-
-						this.getItem(0).cfg.setProperty("submenu", aSubmenuData{/literal}{$top->id}{literal}[0]);
-						//console.debug(this.getSubmenus());
-
-						this.getSubmenus()[0].setItemGroupTitle("{/literal}{$_TR.forthis}{$_TR.container_module}{literal}", 0);
-
-					}
-
-				});
-				oMenu{/literal}{$top->id}{literal}.render();
-			
-			});
-
-		{/literal}
-		{/script}
+		</script>
 		
 		
 	</div>
@@ -170,10 +81,14 @@
 					
 					<div id="module{$container->id}" class="container_modulewrapper">
 						<div class="container_moduleheader">
-							<a id="menu-{$container->info.class}-{$container->id}" class="modulemenutrigger" href="#">&nbsp;</a>
+							<a id="{$container->info.class}{$container->id}" class="modulemenutrigger" href="#" rel="{$container->info.module}">&nbsp;</a>
 							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">{*$container->info.module}-{$_TR.shown_in|sprintf:$container->view*}
 							{if $container->info.workflowPolicy != ""}<br />{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
+						<script>
+						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  [{getchromemenu module=$container rank=$i}] 
+						</script>
+						{*eDebug var=$container->info*}
 						{*script yuimodules='"menu"' unique="mod`$container->id`"}
 						
 						{literal}

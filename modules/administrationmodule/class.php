@@ -82,6 +82,7 @@ class administrationmodule {
 		if (exponent_sessions_isset('uilevel')) {
 			$level = exponent_sessions_get('uilevel');
 		}
+		$template->assign('can_manage_nav', exponent_permissions_checkOnModule("manage","navigationmodule"));
 		$template->assign('editMode',exponent_sessions_loggedIn() && $level != UILEVEL_PREVIEW);
 		$template->assign('title',$title);
 		$template->assign('previewMode',($level == UILEVEL_PREVIEW));

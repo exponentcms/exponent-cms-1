@@ -26,6 +26,8 @@ if (exponent_permissions_checkOnModule('manage','navigationmodule')) {
 	
 	$template->assign('sections',navigationmodule::levelTemplate(0,0));
 	// Templates
+	$template->assign('canManageStandalones', navigationmodule::canManageStandalones());
+	$template->assign('canManagePagesets', exponent_users_isAdmin());
 	$tpls = $db->selectObjects('section_template','parent=0');
 	$template->assign('templates',$tpls);
 	$template->output();

@@ -51,9 +51,9 @@ class weblog_comment {
 	}
 	
 	function update($values,$object) {
-		$object->name = $values['name'];
-		$object->email = $values['email'];
-		$object->body = $values['body'];
+		$object->name = strip_tags($values['name']);
+		$object->email = strip_tags($values['email']);
+		$object->body = strip_tags($values['body']);
 		return $object;
 	}
 }

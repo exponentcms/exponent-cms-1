@@ -29,24 +29,64 @@ class mysqli_database {
 	var $havedb = false;
 	var $prefix = "";
 
+	/* exdoc
+	 * Make a connection to the Database Server
+	 *
+	 * Takes the supplied credentials (username / password) and tries to
+	 * connect to the server and select the given database.  All the rules
+	 * governing mysql_connect also govern this method.
+	 *
+	 * This must be called before any other methods of database are invoked.
+	 *
+	 * @param string $username The username to connect to the server as.
+	 * @param string $password The password for $username
+	 * @param string $hostname The hostname of the database server.  If
+	 *   localhost is specified, a local socket connection will be attempted.
+	 * @param string $database The name of the database to use.  Multi-database
+	 *   sites are still not yet supported.
+	 * @param bool $new Whether or not to force the PHP connection function to establish
+	 *   a distinctly new connection handle to the server.
+	 */
 
 	function connect ($username, $password, $hostname, $database, $new=false) {
 		list ( $host, $port ) = @explode (":", $hostname);
 		if ($this->connection = mysqli_connect($host, $username, $password, $database, $port)) {
 			$this->havedb = true;
 		}
-		
+		//fix to support utf8, warning it only works from a certain mySQL version on
+		//needed on mySQL servers that dont have the default connection encoding setting to utf8
+
+		//As we do not have any setting for ISAM or InnoDB tables yet, i set the minimum specs
+		// for using this feature to 4.1.2, although isam tables got the support for utf8 already in 4.1
+
+		//anything else would result in an inconsitent user experience
+
+		//TODO: determine how to handle encoding on postgres
+
 		list($major, $minor, $micro) = sscanf(mysqli_get_server_info($this->connection), "%d.%d.%d-%s");
 		if(defined("DB_ENCODING")) {
 			//SET NAMES is possible since version 4.1
 			if(($major > 4) OR (($major == 4) AND ($minor >= 1))) {
-				mysqli_query($this->connection, "SET NAMES " . DB_ENCODING);
+				@mysqli_query($this->connection, "SET NAMES " . DB_ENCODING);
 			}
 		}
 
 		$this->prefix = DB_TABLE_PREFIX . '_';
 	}
-	
+
+	/* exdoc
+	 * Create a new Table
+	 *
+	 * Creates a new database table, according to the passed data definition.
+	 *
+	 * This function abides by the Exponent Data Definition Language, and interprets
+	 * its general structure for MySQL.
+	 *
+	 * @param string $tablename The name of the table to create
+	 * @param array $datadef The data definition to create, expressed in
+	 *   the Exponent Data Definition Language.
+	 * @param array $info Information about the table itself.
+	 */
 	function createTable($tablename,$datadef,$info) {
 		if (!is_array($info)) $info = array(); // Initialize for later use.
 
@@ -93,7 +133,7 @@ class mysqli_database {
 			$sql .= " COMMENT = '" . $info[DB_TABLE_COMMENT] . "'";
 		}			
 		
-		mysqli_query($this->connection, $sql);		
+		@mysqli_query($this->connection, $sql);		
 
 		$return = array(
 			$tablename=>($this->tableExists($tablename) ? DATABASE_TABLE_INSTALLED : DATABASE_TABLE_FAILED)
@@ -111,6 +151,10 @@ class mysqli_database {
 		return $return;
 	}
 
+	/* exdoc
+	 * This is an internal function for use only within the MySQL database class
+	 * @state Internal
+	 */
 	function fieldSQL($name,$def) {
 		$sql = "`$name`";
 		if (!isset($def[DB_FIELD_TYPE])) {
@@ -147,6 +191,10 @@ class mysqli_database {
 		return $sql;
 	}
 
+	/* exdoc
+	 * This is an internal function for use only within the MySQL database class
+	 * @state Internal
+	 */
 	function switchValues($table,$field,$a,$b,$additional_where = null) {
 		if ($additional_where == null) {
 			$additional_where = '1';
@@ -168,10 +216,31 @@ class mysqli_database {
 		}
 	}
 
+	/* exdoc
+	 * Checks to see if the connection for this database object is valid.
+	 * @return bool True if the connection can be used to execute SQL queries.
+	 */
 	function isValid() {
 		return ($this->connection != null && $this->havedb);
 	}
 
+	/* exdoc
+	 * Test the privileges of the user account for the connection.
+	 * Tests run include:
+	 * <ul>
+	 * <li>CREATE TABLE</li>
+	 * <li>INSERT</li>
+	 * <li>SELECT</li>
+	 * <li>UPDATE</li>
+	 * <li>DELETE</li>
+	 * <li>ALTER TABLE</li>
+	 * <li>DROP TABLE</li>
+	 * </ul>
+	 * These tests must be performed in order, for logical reasons.  Execution
+	 * terminates when the first test fails, and the status flag array is returned then.
+	 * Returns an array of status flags.  Key is the test name.  Value is a boolean,
+	 * true if the test succeeded, and false if it failed.
+	 */
 	function testPrivileges() {
 
         $status = array();
@@ -245,6 +314,22 @@ class mysqli_database {
 		return $status;
 	}
 
+	/* exdoc
+	 * Alter an existing table
+	 *
+	 * Alters the structure of an existing database table to conform to the passed
+	 * data definition.
+	 *
+	 * This function abides by the Exponent Data Definition Language, and interprets
+	 * its general structure for MySQL.
+	 *
+	 * @param string $tablename The name of the table to alter
+	 * @param array $newdatadef The new data definition for the table.
+	 *   This is expressed in the Exponent Data Definition Language
+	 * @param array $info Information about the table itself.
+	 * @param bool $aggressive Whether or not to aggressively update the table definition.
+	 *   An aggressive update will drop columns in the table that are not in the Exponent definition.
+	 */
 	function alterTable($tablename,$newdatadef,$info,$aggressive = false) {
 		$dd = $this->getDataDefinition($tablename);
 		$modified = false;
@@ -260,7 +345,7 @@ class mysqli_database {
 				}
 				$sql = substr($sql,0,-1);
 
-				mysqli_query($this->connection, $sql);
+				@mysqli_query($this->connection, $sql);
 			}
 		}
 
@@ -274,7 +359,7 @@ class mysqli_database {
 			}
 
 			$sql = substr($sql,0,-1);
-			mysqli_query($this->connection, $sql);
+			@mysqli_query($this->connection, $sql);
 		}
 
 		//Add any new indexes & keys to the table.
@@ -304,8 +389,13 @@ class mysqli_database {
                         $sql .= ", UNIQUE `".$key."` ( `" . implode("`,`",$value) . "`)";
                 }*/
                 foreach ($index as $key=>$value) {
+			// drop the index first so we don't get dupes
+			$drop = "DROP INDEX ".$key." ON ".$this->prefix.$tablename;
+                        @mysqli_query($this->connection,$drop);
+
+			// readd the index.
                         $sql .= "ADD INDEX (" . $key . ")";
-                        mysqli_query($this->connection, $sql);
+                        @mysqli_query($this->connection, $sql);
                 }
 
 		//Get the return code
@@ -325,28 +415,116 @@ class mysqli_database {
 		return $return;
 	}
 
+	/* exdoc
+	 * Drop a table from the database
+	 *
+	 * Removes an existing table from the database. Returns true if the table was dropped, false if there
+	 * was an error returned by the MySQL server.
+	 *
+	 * @param string $table The name of the table to drop.
+	 */
 	function dropTable($table) {
-		return mysqli_query($this->connection, "DROP TABLE `".$this->prefix."$table`") !== false;
+		return @mysqli_query($this->connection, "DROP TABLE `".$this->prefix."$table`") !== false;
 	}
 
+	/* exdoc
+	 * Run raw SQL.  Returns true if the query succeeded, and false
+	 *   if an error was returned from the MySQL server.
+	 *
+	 * <div style="color:red">If you can help it, do not use this function.  It presents Database Portability Issues.</div>
+	 *
+	 * Runs a straight SQL query on the database.  This is not a
+	 * very portable way of dealing with the database, and is only
+	 * provided as a last resort.
+	 *
+	 * @param string $sql The SQL query to run
+	 */
 	function sql($sql) {
-		return mysqli_query($this->connection, $sql);
+		return @mysqli_query($this->connection, $sql);
 	}
 
-	function selectObjects($table,$where = null,$orderby = null) {
+	/* exdoc
+	 * Select a series of objects
+	 *
+	 * Selects a set of objects from the database.  Because of the way
+	 * Exponent handles objects and database tables, this is akin to
+	 * SELECTing a set of records from a database table.  Returns an
+	 * array of objects, in any random order.
+	 *
+	 * @param string $table The name of the table/object to look at
+	 * @param string $where Criteria used to narrow the result set.  If this
+	 *   is specified as null, then no criteria is applied, and all objects are
+	 *   returned
+	 */
+	function selectObjects($table, $where = null,$orderby = null) {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
 
-	    $res = mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
+	    $res = @mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
 		if ($res == null) return array();
 		$objects = array();
 		for ($i = 0; $i < mysqli_num_rows($res); $i++) $objects[] = mysqli_fetch_object($res);
 		return $objects;
 	}
 
+	function selectSearch($terms, $where = null) {
+		if ($where == null) $where = "1";
+
+		$sql = "SELECT *, MATCH (title,body) AGAINST ('".$terms."') from ".$this->prefix."search WHERE MATCH(title,body) against ('".$terms."')";
+		$res = @mysqli_query($this->connection,$sql);
+		if ($res == null) return array();
+		$objects = array();
+		for ($i = 0; $i < mysqli_num_rows($res); $i++) $objects[] = mysqli_fetch_object($res);
+		return $objects;
+	}
+
+	function selectAndJoinObjects($colsA=null, $colsB=null, $tableA, $tableB, $keyA, $keyB=null, $where = null,$orderby = null) {
+		$sql = 'SELECT ';
+		if ($colsA != null) {
+			if (!is_array($colsA)) {
+				$sql .= 'a.'.$colsA.', ';
+			} else {
+				foreach ($colsA as $colA) {
+					$sql .= 'a.'.$colA.', ';
+				}
+			}
+		} else {
+			$sql .= ' a.*, ';
+		}
+
+		if ($colsB != null) {
+                        if (!is_array($colsB)) {
+                                $sql .= 'b.'.$colsB.' ';
+                        } else {
+				$i = 1;
+                                foreach ($colsB as $colB) {
+                                        $sql .= 'b.'.$colB;
+					if ($i < count($colsB)) $sql .= ', ';
+					$i++;
+                                }
+                        }
+                } else {
+                        $sql .= ' b.* ';
+                }
+	
+		$sql .= ' FROM '.$this->prefix.$tableA.' a JOIN '.$this->prefix.$tableB.' b ';
+		$sql .= is_null($keyB) ? 'USING('.$keyA.')' : 'ON a.'.$keyA.' = b.'.$keyB; 
+                
+		if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+                else $orderby = "ORDER BY " . $orderby;
+	
+                $res = @mysqli_query($this->connection,$sql." WHERE $where $orderby");
+                if ($res == null) return array();
+                $objects = array();
+                for ($i = 0; $i < mysqli_num_rows($res); $i++) $objects[] = mysqli_fetch_object($res);
+                return $objects;
+        }
+	
+
 	function selectObjectsBySql($sql) {
-                $res = mysqli_query($sql, $this->connection);
+                $res = @mysqli_query($this->connection,$sql);
                 if ($res == null) return array();
                 $objects = array();
                 for ($i = 0; $i < mysqli_num_rows($res); $i++) $objects[] = mysqli_fetch_object($res);
@@ -358,7 +536,7 @@ class mysqli_database {
                 if ($orderby == null) $orderby = '';
             	else $orderby = "ORDER BY " . $orderby;
 
-                $res = mysqli_query($this->connection, "SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where $orderby");
+                $res = @mysqli_query($this->connection, "SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where $orderby");
                 if ($res == null) return array();
                 $resarray = array();
                 for ($i = 0; $i < mysqli_num_rows($res); $i++){
@@ -368,9 +546,37 @@ class mysqli_database {
                 return $resarray;
         }
 
+	function selectSum($table,$col,$where = null) {
+                if ($where == null) $where = "1";
+
+                $res = @mysqli_query($this->connection,"SELECT SUM(".$col.") FROM `" . $this->prefix . "$table` WHERE $where");
+                if ($res == null) return 0;
+                $resarray = array();
+                for ($i = 0; $i < mysqli_num_rows($res); $i++){
+                        $row = mysqli_fetch_array($res, MYSQL_NUM);
+                        $resarray[$i] = $row[0];
+                }
+                return $resarray[0];
+        }
+
+	function selectDropdown($table,$col,$where = null,$orderby = null) {
+                if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+                else $orderby = "ORDER BY " . $orderby;
+
+                $res = @mysqli_query($this->connection,"SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
+                if ($res == null) return array();
+                $resarray = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++){
+                        $row = mysql_fetch_object($res);
+                        $resarray[$row->id] = $row->$col;
+                }
+                return $resarray;
+        }
+
 	function selectValue($table,$col,$where=null) {
 	if ($where == null) $where = "1";
-    	$res = mysqli_query($this->connection, "SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1");
+    	$res = @mysqli_query($this->connection, "SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1");
 
         if ($res == null) return null;
 		$obj = mysqli_fetch_object($res);
@@ -381,6 +587,9 @@ class mysqli_database {
                 }
         }
 
+	/*
+	* This function takes an array of indexes and returns an array with the objects associated with each id
+	*/
 	function selectObjectsInArray($table, $array=array(), $orderby=null) {
 		$where = '';
 		foreach($array as $array_id) {
@@ -396,11 +605,25 @@ class mysqli_database {
 		return $res;
 	}
 
+	/* exdoc
+	 * Select a series of objects, and return by ID
+	 *
+	 * Selects a set of objects from the database.  Because of the way
+	 * Exponent handles objects and database tables, this is akin to
+	 * SELECTing a set of records from a database table. Returns an
+	 * array of objects, in any random order.  The indices of the array
+	 * are the IDs of the objects.
+	 *
+	 * @param string $table The name of the table/object to look at
+	 * @param string $where Criteria used to narrow the result set.  If this
+	 *   is specified as null, then no criteria is applied, and all objects are
+	 *   returned
+	 */
 	function selectObjectsIndexedArray($table,$where = null,$orderby = null) {
 		if ($where == null) $where = "1";
 		if ($orderby == null) $orderby = '';
 	    else $orderby = "ORDER BY " . $orderby;
-		$res = mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
+		$res = @mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
 
 		if ($res == null) return array();
 		$objects = array();
@@ -411,14 +634,40 @@ class mysqli_database {
 		return $objects;
 	}
 
+	/* exdoc
+	 * Count Objects matching a given criteria
+	 *
+	 * @param string $table The name of the table to count objects in.
+	 * @param string $where Criteria for counting.
+	 */
 	function countObjects($table,$where = null) {
 		if ($where == null) $where = "1";
-		$res = mysqli_query($this->connection,"SELECT COUNT(*) as c FROM `" . $this->prefix . "$table` WHERE $where");
+		$res = @mysqli_query($this->connection,"SELECT COUNT(*) as c FROM `" . $this->prefix . "$table` WHERE $where");
 		if ($res == null) return 0;
 		$obj = mysqli_fetch_object($res);
 		return $obj->c;
 	}
 
+	function countObjectsBySql($sql) {
+                $res = @mysqli_query($this->connection,$sql);
+                if ($res == null) return 0;
+                $obj = mysqli_fetch_object($res);
+                return $obj->c;
+    }
+
+	/* exdoc
+	 * Select a single object.
+	 *
+	 * Selects an objects from the database.  Because of the way
+	 * Exponent handles objects and database tables, this is akin to
+	 * SELECTing a single record from a database table. Returns the
+	 * first record/object found (in the case of multiple-result queries,
+	 * there is no way to determine which of the set will be returned).
+	 * If no record(s) match the query, null is returned.
+	 *
+	 * @param string $table The name of the table/object to look at
+	 * @param string $where Criteria used to narrow the result set.
+	 */
 	function selectObject($table,$where) {
 		$res = mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1");
 
@@ -426,6 +675,18 @@ class mysqli_database {
 		    return mysqli_fetch_object($res);
 	}
 
+	/* exdoc
+	 * Insert an Object into some table in the Database
+	 *
+	 * This method will return the ID assigned to the new record by MySQL.  Note that
+	 * object attributes starting with an underscore ('_') will be ignored and NOT inserted
+	 * into the table as a field value.
+	 *
+	 * @param Object $object The object to insert.
+	 * @param string $table The logical table name to insert into.  This does not include the table prefix, which
+	 *    is automagically prepended for you.
+	 * @state Stable
+	 */
 	function insertObject($object,$table) {
 		$sql = "INSERT INTO `" . $this->prefix . "$table` (";
 		$values = ") VALUES (";
@@ -440,22 +701,41 @@ class mysqli_database {
 			}
 		}
 		$sql = substr($sql,0,-1).substr($values,0) . ")";
-		if (mysqli_query($this->connection, $sql) != false) {
+
+		if (@mysqli_query($this->connection, $sql) != false) {
 			$id = mysqli_insert_id($this->connection);
 			return $id;
 		} else return 0;
 	}
 
+	/* exdoc
+	 * Delete one or more objects from the given table.
+	 *
+	 * @param string $table The name of the table to delete from.
+	 * @param string $where Criteria for determining which record(s) to delete.
+	 */
 	function delete($table,$where = null) {
 		if ($where != null) {
-			$res = mysqli_query($this->connection,"DELETE FROM `" . $this->prefix . "$table` WHERE $where");
+			$res = @mysqli_query($this->connection,"DELETE FROM `" . $this->prefix . "$table` WHERE $where");
 			return $res;
 		} else {
-			$res = mysqli_query($this->connection,"TRUNCATE TABLE `" . $this->prefix . "$table`");
+			$res = @mysqli_query($this->connection,"TRUNCATE TABLE `" . $this->prefix . "$table`");
 			return $res;
 		}
 	}
 
+	/* exdoc
+	 * Update one or more objects in the database.
+	 *
+	 * This function will only update the attributes of the resulting record(s)
+	 * that are also member attributes of the $object object.
+	 *
+	 * @param object $object An object specifying the fields and values for updating.
+	 *    In most cases, this will be the altered object originally returned from one of
+	 *    the select* methods.
+	 * @param string $table The table to update in.
+	 * @param string $where Optional criteria used to narrow the result set.
+	 */
 	function updateObject($object,$table,$where=null) {
 		$sql = "UPDATE " . $this->prefix . "$table SET ";
 		foreach (get_object_vars($object) as $var=>$val) {
@@ -467,54 +747,105 @@ class mysqli_database {
 		$sql = substr($sql,0,-1) . " WHERE ";
 		if ($where != null) $sql .= $where;
 		else $sql .= "`id`=" . $object->id;
-
-		$res = (mysqli_query($this->connection,$sql) != false);
+		$res = (@mysqli_query($this->connection,$sql) != false);
 		return $res;
 	}
 
+	/* exdoc
+	 * Find the maximum value of a field.  This is similar to a standard
+	 * SELECT MAX(field) ... query.
+	 *
+	 * @param string $table The name of the table to select from.
+	 * @param string $attribute The attribute name to find a maximum value for.
+	 * @param A comma-separated list of fields (or a single field) name, used
+	 *    for a GROUP BY clause.  This can also be passed as an array of fields.
+	 * @param $where Optional criteria for narrowing the result set.
+	 */
 	function max($table,$attribute,$groupfields = null,$where = null) {
 		if (is_array($groupfields)) $groupfields = implode(",",$groupfields);
 		$sql = "SELECT MAX($attribute) as fieldmax FROM `" . $this->prefix . "$table`";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
 
-		$res = mysqli_query($this->connection,$sql);
+		$res = @mysqli_query($this->connection,$sql);
 
 		if ($res != null) $res = mysqli_fetch_object($res);
 		if (!$res) return null;
 		return $res->fieldmax;
 	}
 
+	/* exdoc
+	 * Find the minimum value of a field.  This is similar to a standard
+	 * SELECT MIN(field) ... query.
+	 *
+	 * @param string $table The name of the table to select from.
+	 * @param string $attribute The attribute name to find a minimum value for.
+	 * @param A comma-separated list of fields (or a single field) name, used
+	 *    for a GROUP BY clause.  This can also be passed as an array of fields.
+	 * @param $where Optional criteria for narrowing the result set.
+	 */
 	function min($table,$attribute,$groupfields = null,$where = null) {
 		if (is_array($groupfields)) $groupfields = implode(",",$groupfields);
 		$sql = "SELECT MIN($attribute) as fieldmin FROM `" . $this->prefix . "$table`";
 		if ($where != null) $sql .= " WHERE $where";
 		if ($groupfields != null) $sql .= " GROUP BY $groupfields";
 
-		$res = mysqli_query($this->connection,$sql);
+		$res = @mysqli_query($this->connection,$sql);
 
 		if ($res != null) $res = mysqli_fetch_object($res);
 		if (!$res) return null;
 		return $res->fieldmin;
 	}
 
+	/* exdoc
+	 * Increment a numeric table field in a table.
+	 *
+	 * @param string $table The name of the table to increment in.
+	 * @param string $field The field to increment.
+	 * @param integer $step The step value.  Usually 1.  This can be negative, to
+	 *    decrement, but the decrement() method is prefered, for readability.
+	 * @param string $where Optional criteria to determine which records to update.
+	 */
 	function increment($table,$field,$step,$where = null) {
 		if ($where == null) $where = "1";
 		$sql = "UPDATE `".$this->prefix."$table` SET `$field`=`$field`+$step WHERE $where";
-		return mysqli_query($this->connection,$sql);
+		return @mysqli_query($this->connection,$sql);
 	}
 
+	/* exdoc
+	 * Decrement a numeric table field in a table.
+	 *
+	 * @param string $table The name of the table to decrement in.
+	 * @param string $field The field to decrement.
+	 * @param integer $step The step value.  Usually 1.  This can be negative, to
+	 *    increment, but the increment() method is prefered, for readability.
+	 * @param string $where Optional criteria to determine which records to update.
+	 */
 	function decrement($table,$field,$step,$where = null) {
 		$this->increment($table,$field,-1*$step,$where);
 	}
 
+	/* exdoc
+	 * Check to see if the named table exists in the database.
+	 * Returns true if the table exists, and false if it doesn't.
+	 *
+	 * @param string $table Name of the table to look for.
+	 */
 	function tableExists($table) {
-		$res = mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` LIMIT 0,1");
+		$res = @mysqli_query($this->connection, "SELECT * FROM `" . $this->prefix . "$table` LIMIT 0,1");
 		return ($res != null);
 	}
 
+	/* exdoc
+	 * Get a list of all tables in the database.  Optionally, only the tables
+	 * in the corrent logcial database (tables with the same prefix) can
+	 * be retrieved.
+	 *
+	 * @param bool $prefixed_only Whether to return only the tables
+	 *    for the logical database, or all tables in the physical database.
+	 */
 	function getTables($prefixed_only=true) {
-		$res = mysqli_query($this->connection,"SHOW TABLES");
+		$res = @mysqli_query($this->connection,"SHOW TABLES");
 		$tables = array();
 		for ($i = 0; $res && $i < mysqli_num_rows($res); $i++) {
 			$tmp = mysqli_fetch_array($res);
@@ -527,25 +858,50 @@ class mysqli_database {
 		return $tables;
 	}
 
+	/* exdoc
+	 * Runs whatever table optimization routines the database engine supports.
+	 *
+	 * @param string $table The name of the table to optimize.
+	 */
 	function optimize($table) {
-		$res = (mysqli_query($this->connection,"OPTIMIZE TABLE `" . $this->prefix . "$table`") != false);
+		$res = (@mysqli_query($this->connection,"OPTIMIZE TABLE `" . $this->prefix . "$table`") != false);
 		return $res;
 	}
 
+	/* exdoc
+	 * Retrieve table information for a named table.
+	 * Returns an object, with the following attributes:
+	 * <ul>
+	 * <li><b>rows</b> -- The number of rows in the table.</li>
+	 * <li><b>average_row_length</b> -- The average storage size of a row in the table.</li>
+	 * <li><b>data_total</b> -- How much total disk space is used by the table.</li>
+	 * <li><b>data_overhead</b> -- How much storage space in the table is unused (for compacting purposes)</li>
+	 * </ul>
+	 */
 	function tableInfo($table) {
 		$sql = "SHOW TABLE STATUS LIKE '" . $this->prefix . "$table'";
-		$res = mysqli_query($this->connection,$sql);
+		$res = @mysqli_query($this->connection,$sql);
 		if (!$res) return null;
 		return $this->translateTableStatus(mysqli_fetch_object($res));
 	}
 
+	/* exdoc
+	 * Check whether or not a table in the database is empty (0 rows).
+	 * Returns tue of the specified table has no rows, and false if otherwise.
+	 *
+	 * @param string $table Name of the table to check.
+	 */
 	function tableIsEmpty($table) {
 		return ($this->countObjects($table) == 0);
 	}
 
+	/* exdoc
+	 * Returns table information for all tables in the database.
+	 * This function effectively calls tableInfo() on each table found.
+	 */
 	function databaseInfo() {
 		$sql = "SHOW TABLE STATUS";
-		$res = mysqli_query($this->connection,"SHOW TABLE STATUS LIKE '".$this->prefix."%'");
+		$res = @mysqli_query($this->connection,"SHOW TABLE STATUS LIKE '".$this->prefix."%'");
 		$info = array();
 		for ($i = 0; $res && $i < mysqli_num_rows($res); $i++) {
 			$obj = mysqli_fetch_object($res);
@@ -554,6 +910,10 @@ class mysqli_database {
 		return $info;
 	}
 
+	/* exdoc
+	 * This is an internal function for use only within the MySQL database class
+	 * @state Internal
+	 */
 	function translateTableStatus($status) {
 		$data = null;
 		$data->rows = $status->Rows;
@@ -564,9 +924,33 @@ class mysqli_database {
 		return $data;
 	}
 
+	function describeTable($table) {
+		if (!$this->tableExists($table)) return array();
+                $res = @mysqli_query($this->connection,"DESCRIBE `".$this->prefix."$table`");
+                $dd = array();
+                for ($i = 0; $i < mysql_num_rows($res); $i++) {
+                        $fieldObj = mysql_fetch_object($res);
+
+                        $fieldObj->ExpFieldType = $this->getDDFieldType($fieldObj);
+                        if ($fieldObj->ExpFieldType == DB_DEF_STRING) {
+                                $fieldObj->ExpFieldLength = $this->getDDStringLen($fieldObj);
+                        }
+
+                        $dd[$fieldObj->Field] = $fieldObj;
+                }
+
+                return $dd;
+	}
+
+	/* exdoc
+	 * Build a data definition from a pre-existing table.  This is used
+	 * to intelligently alter tables that have already been installed.
+	 *
+	 * @param string $table The name of the table to get a data definition for.
+	 */
 	function getDataDefinition($table) {
 		if (!$this->tableExists($table)) return array();
-		$res = mysqli_query($this->connection,"DESCRIBE `".$this->prefix."$table`");
+		$res = @mysqli_query($this->connection,"DESCRIBE `".$this->prefix."$table`");
 		$dd = array();
 		for ($i = 0; $i < mysqli_num_rows($res); $i++) {
 			$fieldObj = mysqli_fetch_object($res);
@@ -583,6 +967,10 @@ class mysqli_database {
 		return $dd;
 	}
 
+	/* exdoc
+	 * This is an internal function for use only within the MySQL database class
+	 * @state Internal
+	 */
 	function getDDFieldType($fieldObj) {
 		$type = strtolower($fieldObj->Type);
 
@@ -597,6 +985,10 @@ class mysqli_database {
 		}
 	}
 
+	/* exdoc
+	 * This is an internal function for use only within the MySQL database class
+	 * @state Internal
+	 */
 	function getDDStringLen($fieldObj) {
 		$type = strtolower($fieldObj->Type);
 		if ($type == "text") return 65535;
@@ -607,6 +999,11 @@ class mysqli_database {
 		}
 	}
 
+	/* exdoc
+	 * Returns an error message from the server.  This is intended to be
+	 * used by the implementors of the database wrapper, so that certain
+	 * cryptic error messages can be reworded.
+	 */
 	function error() {
 		if ($this->connection && mysqli_errno($this->connection) != 0) {
 			$errno = mysqli_errno($this->connection);
@@ -621,6 +1018,9 @@ class mysqli_database {
 		} else return "";
 	}
 
+	/* exdoc
+	 * Checks whether the database connection has experienced an error.
+	 */
 	function inError() {
 		return ($this->connection != null && mysqli_errno($this->connection) != 0);
 	}

@@ -37,6 +37,7 @@
 	{if $newsitem->is_featured!=1}
 		<div class="item {cycle values='odd,even'}">
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
+            {if $newsitem->isRss != true}
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
 				{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
@@ -62,7 +63,7 @@
 				{/if}
 			</div>
 			{/permissions}
-
+            {/if}
 			{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
 			{if $newsitem->edited eq 0}
 							{assign var='sortdate' value=$newsitem->real_posted}
@@ -74,7 +75,7 @@
 
 			<div class="bodycopy">
 				{$newsitem->body|summarize:"html":"para"}
-				<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
+				<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">Read More</a>
 			</div>
 		</div>
 	{/if}

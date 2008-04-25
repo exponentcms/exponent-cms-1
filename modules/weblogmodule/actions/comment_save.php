@@ -25,22 +25,14 @@ require_once(BASE.'subsystems/mail.php');
 
 $i18n = exponent_lang_loadFile('modules/weblogmodule/actions/comment_save.php');
 
-//check to see if the user is logged in.  If not make sure they entered an email addy
-//eDebug($user);eDebug($_POST);exit();
-if (!isset($user) && (!isset($_POST['email']) || $_POST['email'] == '') ){
-  echo '<br /><span class="error">Users who are not logged in must supply an email address.  <br /><br />Please go back and enter an email address.'; exit();
-}
+$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 
-// check for capcha...freaking spammers!!
-$capcha_real = exponent_sessions_get('capcha_string');
-
-if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
-        $post = $_POST;
-        unset($post['captcha_string']);
-        $post['_formError'] = $i18n['bad_captcha'];
-        exponent_sessions_set('last_POST',$post);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-}
+//check to see if the user is logged in.  If not make sure they entered an email addy & captcha
+if (!empty($config->require_login) && !exponent_users_isLoggedIn()) validator::failAndReturnToForm('You must be logged in to submit comments');
+$validate = array();
+if (!empty($config->use_captcha)) $validate['captcha'] = 'captcha_string';
+if (!exponent_users_isLoggedIn()) $validate['valid_email'] = 'email';
+if (count($validate) > 0) validator::validate($validate, $_POST);
 
 $post = null;
 $comment = null;
@@ -85,7 +77,6 @@ if ($post && $post->is_draft == 0) {
 	// Send email to addresses corresponding to users listed in comments_notify
 	// 1.23.08 rkq
 
-	$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 	$users = unserialize($config->comments_notify);
 	$userlist = array();
 	$j=0;

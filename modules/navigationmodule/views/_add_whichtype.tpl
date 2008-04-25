@@ -13,13 +13,14 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="moduletitle navigation_modultitle">{$_TR.form_title}</div>
+<div class="navigationmodule add-whichtype">
 <div class="form_header">
-{if $parent->id == 0}{$_TR.new_top_level}{else}
-{$_TR.new_sub_level|sprintf:$parent->name}{/if}
-{$_TR.form_header}
+        <h1>{$_TR.form_title}</h1>
+        <p>
+		{if $parent->id == 0}{$_TR.new_top_level}{else}{$_TR.new_sub_level|sprintf:$parent->name}{/if}
+		{$_TR.form_header}
+	</p>
 </div>
-
 <div style="background-color: #CCC; padding: 5px;">
 <a class="mngmntlink navigation_mngmntlink" href="{link action=edit_contentpage parent=$parent->id}">{$_TR.content_page}</a>
 </div>
@@ -49,3 +50,4 @@
 </div>
 <div style="padding: .5em; padding-bottom: 1.5em;">{$_TR.standalone_desc}</div>
 {/if}
+</div>

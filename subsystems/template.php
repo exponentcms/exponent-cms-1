@@ -425,7 +425,6 @@ function exponent_template_listFormTemplates($type) {
 	return exponent_core_buildNameList("forms", $type, "tpl", "[!_]*");
 }
 
-
 /* exdoc
  *
  * Looks through the module's views directory and returns

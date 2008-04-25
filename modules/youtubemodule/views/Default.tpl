@@ -66,5 +66,9 @@
 		</div>
 	{/foreach}
 	<div style="clear:both"></div>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.edit == 1}
 	<a href="{link action=edit}">Add another video</a>
+	{/if}
+	{/permissions}
 </div>

@@ -389,7 +389,7 @@ function exponent_users_create($formvalues) {
 	$u = exponent_users_update($formvalues,null);
 
 	// The username is not included in the update method, so we define it here.
-	$u->username = $formvalues['username'];
+	$u->username = strip_tags($formvalues['username']);
 
 	// Make an md5 checksum hash of the password for storage.  That way no
 	// one can know a password without being told.
@@ -752,7 +752,7 @@ function exponent_users_getGroupsForUser($u, $allow_exclusive=1, $allow_inclusiv
 	}
 	// Holding array for the groups.
 	$groups = array();
-	if ($u->is_admin == 1) {
+	if ( (!empty($u->is_admin) && $u->is_admin == 1) || (!empty($u->is_acting_admin) && $u->is_acting_admin == 1) ) {
 		// For administrators, we synthesize group memberships - they effectively
 		// belong to all groups.  So, we call exponent_users_getAllGroups, and pass the
 		// filtration criteria arguments (2 and 3) to it.
@@ -932,5 +932,9 @@ function exponent_users_isLoggedIn() {
         }
 }
 
+function exponent_users_isAdmin() {
+	global $user;
+	return (!empty($user->is_acting_admin) || !empty($user->is_admin)) ? true : false;
+}
 
 ?>

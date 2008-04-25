@@ -18,14 +18,18 @@
 ##################################################
 
 if (!defined('EXPONENT')) exit('');
-function grabMyChildren ($id) {
-	global $db;
-	$nav = $db->selectObjects("section","parent=".$id." ORDER BY rank");
+	//$nav = navigationmodule::levelTemplate(intval($_REQUEST['id'], 0));
+	$nav = $db->selectObjects('section', 'parent='.intval($_REQUEST['id']), 'rank');
 	
-	return json_encode($nav);
-}
+	$manage_all = false;
+	if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',intval($_REQUEST['id'])))) {$manage_all = true;}
 
-echo grabMyChildren($_REQUEST['id']);
-exit;
-
+	for($i=0; $i<count($nav);$i++) {
+		if ($manage_all || exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$nav[$i]->id))) {
+			$nav[$i]->manage = 1;
+		} else {
+			$nav[$i]->manage = 0;
+		}
+	}
+	echo exponent_javascript_ajaxReply(201, '', $nav);
 ?>

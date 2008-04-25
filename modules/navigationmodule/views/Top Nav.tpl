@@ -16,7 +16,6 @@
 
 <div class="navigationmodule top-nav">
 	<ul>
-		
 	{assign var=isparent value=0}	
 	{foreach from=$sections item=section}
 	{if $section->parent == 0}
@@ -39,10 +38,5 @@
 		{/if}
 		{assign var=isparent value=0}
 	{/foreach}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $canManage == 1}
-		<li><a class="navlink" href="{link action=manage}">{$_TR.manage}</a></li>
-	{/if}
-	{/permissions}
 	</ul>
 </div>

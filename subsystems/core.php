@@ -421,10 +421,10 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 		} elseif($type == "datatypes") {
 			$relpath .= "datatypes/";
 		} elseif($type == "controls") {
-			$relpath .= "subsystems/forms/controls/";
+			$relpath .= "themes/";
 		// new style names
 		} elseif($type == "Control") {
-			$relpath .= "subsystems/forms/controls/";
+			$relpath .= "themes/";
 		} elseif($type == "Form") {
 			$relpath .= "subsystems/forms/";
 		} elseif($type == "Module") {
@@ -452,6 +452,8 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 				//do nothing
 			} elseif ($name == "forms/email") {
 				$relpath2 .= "/";
+		    } elseif ($type == 'controls' || $type == 'Control') {
+		        $relpath2 .= 'editors/';
 			} else {
 				$relpath2 .= "views/";
 			}
@@ -470,7 +472,7 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 	}
 
 	$relpath .= $relpath2;
-	
+
 	//TODO: handle subthemes
 	//TODO: now that glob is used build a syntax for it instead of calling it repeatedly
 	//latter override the precursors
@@ -523,7 +525,7 @@ function exponent_core_buildNameList($type, $name, $subtype, $subname) {
 				// just to make sure: do we have an extension ?
 				// relying on there is only one dot in the filename
 				$extension = strstr(basename($file), ".");
-				$nameList[] = basename($file, $extension);
+				$nameList[basename($file, $extension)] = basename($file, $extension);
 			} else {
 				// don't know where this might be needed, but...
 				$nameList[] = array_pop(explode("/", $file));

@@ -207,7 +207,7 @@ class form extends baseform {
 			
 			$formError = @$last_POST['_formError'];
 			
-			exponent_sessions_unset("last_POST");
+			//exponent_sessions_unset("last_POST");
 		}
 		
 				$html = "<!-- Form Object '" . $this->name . "' -->\r\n";

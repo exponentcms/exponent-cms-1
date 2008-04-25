@@ -80,8 +80,7 @@ class containermodule {
 		$cache = exponent_sessions_getCacheValue('containermodule');		
 		if (!isset($this) || !isset($this->_hasParent) || $this->_hasParent == 0) {
 			// Top level container.			
-			if(!isset($cache['top'][$container_key]))
-        	{        		
+			if(!isset($cache['top'][$container_key])) {        		
 				$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".$container_key."'");				
 				//if container isn't here already, then create it.
 	            if ($container == null) {
@@ -152,7 +151,8 @@ class containermodule {
 					'supportsWorkflow'=>($mod->supportsWorkflow()?1:0),
 					'workflowPolicy'=>($policy ? $policy->name : ''),
 					'workflowUsesDefault'=>(exponent_workflow_moduleUsesDefaultPolicy($location->mod,$location->src) ? 1 : 0),
-					'clickable'=>($clickable_mods == null || in_array($modclass,$clickable_mods))
+					'clickable'=>($clickable_mods == null || in_array($modclass,$clickable_mods)),
+					'hasConfig'=>$db->tableExists($modclass."_config")
 				);
 			} else {
 				$containers[$i]->output = sprintf($i18n['mod_not_found'],$location->mod);
@@ -166,6 +166,7 @@ class containermodule {
 					'supportsWorkflow'=>0,
 					'workflowPolicy'=>'',
 					'workflowUsesDefault'=>0,
+					'hasConfig'=>$db->tableExists($modclass."_config"),
 					'clickable'=>0
 				);
 			}

@@ -8,7 +8,7 @@
 	"include-common-css"=>true,
 	"include-theme-css"=>true
 	);
-	echo exponent_theme_headerInfo($section,$config); 
+	echo exponent_theme_headerInfo($config); 
 	?>
 </head>
 <body>
@@ -18,9 +18,11 @@
 	<div id="header">			
 		<h1 id="logo-text"><a href="<?php echo URL_FULL; ?>index.php">ex<span class="green">ponent</span> <sup>CMS</sup></a></h1>		
 		<p id="slogan">The "coolwater" theme from Styleshout.com</p>		
-		<div id="header-links">
-			<?php exponent_theme_showModule("textmodule","Top Links"); ?>
-		</div>
+			<div id="header-links">
+				<a href="<?php echo exponent_core_makeLink(array('section'=>SITE_DEFAULT_SECTION)); ?>">Home</a> | 
+				<a href="<?php echo exponent_core_makeLink(array('section'=>16)); ?>">Contact Us</a> | 
+				<a href="<?php echo exponent_core_makeLink(array('section'=>10)); ?>">Site-map</a>
+			</div>
 		<div id="header-login">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
 		</div>
@@ -42,6 +44,9 @@
 		<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>				
 	</div>	
 
+		<?php 
+			echo exponent_theme_footerInfo($section,$config); 
+		?>
 
 </div>
 

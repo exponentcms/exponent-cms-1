@@ -31,6 +31,7 @@ class swfitem {
 			$object->name = '';
 			$object->description = '';
 			$object->bgcolor = '#FFFFFF';
+			$object->transparentbg = 1;
 			$object->height = 100;
 			$object->width = 100;
 			$object->alignment = 0;
@@ -43,6 +44,7 @@ class swfitem {
 		}
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		$form->register('bgcolor',$i18n['bgcolor'],new textcontrol($object->bgcolor),10,false,10);
+		$form->register('transparentbg', 'Use background color specified in SWF (ignore above setting)',new checkboxcontrol($object->transparentbg,true));
 		$form->register('height',$i18n['height'],new textcontrol($object->height,5,false,5,'integer'));
 		$form->register('width',$i18n['width'],new textcontrol($object->width,5,false,5,'integer'));
 		$align = array($i18n['center'],$i18n['left'],$i18n['right']);
@@ -66,6 +68,7 @@ class swfitem {
 		
 		$object->name = $values['name'];
 		$object->bgcolor = $values['bgcolor'];
+		$object->transparentbg = (isset($values['transparentbg']) ? 1 : 0);
 		$object->height = $values['height'] + 0;
 		$object->width = $values['width'] + 0;
 		$object->alignment = $values['alignment'];

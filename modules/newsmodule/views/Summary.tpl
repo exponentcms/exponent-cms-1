@@ -20,6 +20,7 @@
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	{foreach key="key" name="object" from=$news item=newsitem}
 	<div class="item">
+	    {if $newsitem->isRss != true}
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		<div class="itemactions">
 			{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
@@ -47,11 +48,12 @@
 			{/if}
 		</div>
 		{/permissions}
+		{/if}
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
 		<span class="date">{$newsitem->real_posted|format_date:"%A, %B %e, %Y"}</span>
 		<div class="bodycopy">
 			{$newsitem->body|summarize:"html":"para"}
-			<a class="readmore" href="{link action=view id=$newsitem->id}">Read More</a>
+			<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">Read More</a>
 		</div>
 	</div>
 	{/foreach}

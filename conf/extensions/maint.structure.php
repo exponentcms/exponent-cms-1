@@ -34,7 +34,12 @@ return array(
 			'title'=>$i18n['maint_msg'],
 			'description'=>$i18n['maint_msg_desc'],
 			'control'=>new htmleditorcontrol()
-		)
+		),
+		'DEVELOPMENT'=>array(
+			'title'=>exponent_lang_getText('Enable Error Reporting'),
+                        'description'=>exponent_lang_getText('This option enables error reporting. This is useful for developement, but should be turned off for a live site.'),
+                        'control'=>new checkboxcontrol(false,true)
+		),
 	)
 );
 

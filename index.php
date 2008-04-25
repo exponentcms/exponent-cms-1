@@ -28,6 +28,12 @@ $i_start = $microtime_str[0] + $microtime_str[1];
 // Initialize the Exponent Framework
 require_once('exponent.php');
 
+// if the user has turned on sef_urls then we need to route the request, otherwise we can just 
+// skip it and default back to the old way of doing things.
+$router->routeRequest();
+$section = $router->getSection();
+$sectionObj = $router->getSectionObj($section);
+
 // set the output header
 Header("Content-Type: text/html; charset=".LANG_CHARSET);
 
@@ -69,7 +75,7 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 	$base_i18n = exponent_lang_loadFile('index.php');
 
 	if (is_readable($page)) {
-		if (IN_AJAX_ACTION == 0) {
+		if (!exponent_javascript_inAjaxAction()) {
 			include_once($page);
 		} else {
 			exponent_theme_runAction();

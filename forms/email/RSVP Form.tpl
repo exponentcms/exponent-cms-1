@@ -20,7 +20,7 @@
 <input type="hidden" name="src" value="{$loc->src}" />
 <input type="hidden" name="msg" value="_Default" />
 <input type="hidden" name="subject" value="RSVP Event Submisson" />
-<input type="hidden" name="id" value="{$item->id}" />
+<input type="hidden" name="id" value="{$id}" />
 <input type="hidden" name="eventtitle" value="{$item->title}" />
 <input type="hidden" name="eventdate" value="{$item->eventstart|format_date:"%B %e, %Y, %l:%M %P"} - {$item->eventend|format_date:"%l:%M %P"}" />
 

@@ -258,6 +258,7 @@ class newsmodule {
                     $rssObject->posted = !empty($rssItem['date_timestamp']) ? $rssItem['date_timestamp'] : "";
                     $rssObject->edited = !empty($rssItem['date_timestamp']) ? $rssItem['date_timestamp'] : "";
                     $rssObject->published = !empty($rssItem['date_timestamp']) ? $rssItem['date_timestamp'] : "";
+                    $rssObject->isRss = true;
                     $news[] = $rssObject;
                 }
             }

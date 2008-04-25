@@ -29,6 +29,8 @@ class weblogmodule_config {
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->allow_comments = 1;
+			$object->use_captcha = 1;
+			$object->require_login = 0;
 			$object->items_per_page = 10;
 			$object->enable_rss = false;
             		$object->feed_title = "";
@@ -70,9 +72,13 @@ class weblogmodule_config {
                 }
 
 		$form->register(null,'',new htmlcontrol('<h1>General Configuration</h1><hr size="1" />'));	
-		$form->register('allow_comments',$i18n['allow_comments'],new checkboxcontrol($object->allow_comments));
 		$form->register('comments_notify',$i18n['comments_notify'],new listbuildercontrol($selected_users, $userlist));
 		$form->register('items_per_page',$i18n['items_per_page'],new textcontrol($object->items_per_page));
+
+		$form->register(null,'',new htmlcontrol('<h1>Comments</h1><hr size="1" />'));	
+		$form->register('allow_comments',$i18n['allow_comments'],new checkboxcontrol($object->allow_comments));
+		$form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments?'),new checkboxcontrol($object->use_captcha));		
+		$form->register('require_login',exponent_lang_getText('Require users to be logged in to post comments?'),new checkboxcontrol($object->require_login));		
 
 		$form->register(null,'',new htmlcontrol('<h1>Merge Blogs</h1><hr size="1" />'));
                 $form->register('aggregate','Pull Events from These Other Blog Module',new listbuildercontrol($selected_blogs,$all_blogs));
@@ -86,14 +92,15 @@ class weblogmodule_config {
 	}
 	
 	function update($values,$object) {
-		print "Update function";
 		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
+		$object->use_captcha = (isset($values['use_captcha']) ? 1 : 0);
+		$object->require_login = (isset($values['require_login']) ? 1 : 0);
 		$object->comments_notify = serialize(listbuildercontrol::parseData($values,'comments_notify'));
 	  	$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
-        	$object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
+        $object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
-        	$object->feed_title = $values['feed_title'];
-        	$object->feed_desc = $values['feed_desc'];
+        $object->feed_title = $values['feed_title'];
+        $object->feed_desc = $values['feed_desc'];
 		return $object;
 	}
 }

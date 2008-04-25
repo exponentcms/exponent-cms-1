@@ -42,7 +42,7 @@ class fakeform extends form {
 
 			$formError = @$last_POST['_formError'];
 
-			exponent_sessions_unset("last_POST");
+			//exponent_sessions_unset("last_POST");
 		}
 
 		global $router;

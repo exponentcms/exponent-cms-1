@@ -48,6 +48,7 @@
 	height: 40px;
 	width: 790px;
 	position:relative;
+	z-index:2;
 
 }
 .yuimenubar{visibility:visible;position:static;}

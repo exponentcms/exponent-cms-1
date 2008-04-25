@@ -39,7 +39,7 @@ class router {
         	}
 
 		// Check to see if SEF_URLS have been turned on in the site config
-		if (SEF_URLS == 1 && (SCRIPT_FILENAME != 'content_selector.php' && SCRIPT_FILENAME != 'source_selector.php' && SCRIPT_FILENAME != 'orphan_source_selector.php') && $force_old_school == false) {
+		if (SEF_URLS == 1 && ($_SERVER["PHP_SELF"] == PATH_RELATIVE.'index.php') && $force_old_school == false) {
 			if (isset($params['section'])) {
 	                	if (empty($params['sef_name'])) {
 	                        	global $db;
@@ -306,7 +306,8 @@ class router {
 
 		// pass off the name<=>value pairs
 		foreach($return_params['url_parts'] as $key=>$value) {
-			$save_value = is_numeric($value) ? $value: router::decode($value);
+			//$save_value = is_numeric($value) ? $value: router::decode($value);
+			$save_value = $value;
 			$_REQUEST[$key] = $save_value;
 		        $_GET[$key] = $save_value;
 		}
@@ -322,12 +323,8 @@ class router {
 		}
 
 	public static function encode($url) {
-		$spaces = array('&nbsp;', ' ');
-		$url = str_replace('-', '+', $url);
 		$url = str_replace('&', 'and', $url);
-		$url = str_replace(' - ', '-', $url);
-                //return urlencode(strtolower(str_replace($spaces, '-', $url)));	
-                return strtolower(str_replace($spaces, '-', $url));	
+                return preg_replace("/(-)$/", "", preg_replace('/(-){2,}/', '-', strtolower(preg_replace("/([^0-9a-z-_\+])/i", '-', $url))));	
 	}
 	
 	public static function decode($url) {
@@ -435,7 +432,7 @@ class router {
 					$this->sefPath = !empty($_ENV['REQUEST_URI']) ? $_ENV['REQUEST_URI'] : null;
 					break;
 				case "cgi-fcgi":
-					$this->sefPath = ($_SERVER['REDIRECT_URL'] != '/index.php') ? $_SERVER['REDIRECT_URL'] : $_ENV['REQUEST_URI'];
+					@$this->sefPath = ($_SERVER['REDIRECT_URL'] != '/index.php') ? $_SERVER['REDIRECT_URL'] : $_ENV['REQUEST_URI'];
 					break;
 				default:
 					$this->sefPath = !empty($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : null;
@@ -454,5 +451,39 @@ class router {
 			$this->sefPath = null;
 		}
 	}
+
+	public function getSection() {
+		// Check if this was a printer friendly link request
+	        define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
+
+        	if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
+        		$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+	        } else {
+        	 	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
+	        }
+        	return $section;
+    	}
+
+    	public function getSectionObj($section) {
+	        global $db;
+        	$sectionObj = $db->selectObject('section','id='. intval($section));
+	        if (!navigationmodule::canView($sectionObj)) {
+        		define('AUTHORIZED_SECTION',0);
+	        } else {
+        	    define('AUTHORIZED_SECTION',1);
+	        }
+        	if (!navigationmodule::isPublic($sectionObj)) {
+	        	define('PUBLIC_SECTION',0);
+        	} else {
+         		define('PUBLIC_SECTION',1);
+	        }
+        
+        	if (isset($_REQUEST['section'])) {
+                	exponent_sessions_set('last_section', intval($_REQUEST['section']));
+	        } else {
+        	        //exponent_sessions_unset('last_section');
+	        }
+        	return $sectionObj;
+    	}
 }
 ?>

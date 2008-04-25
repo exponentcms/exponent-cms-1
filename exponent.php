@@ -128,6 +128,8 @@ require_once(BASE.'subsystems/permissions.php');
 if (!defined('SYS_FLOW')) require_once(BASE.'subsystems/flow.php');
 // Initialize the User Subsystem.
 require_once(BASE.'subsystems/users.php');
+// Initialize the javascript subsystem
+if (!defined('SYS_JAVASCRIPT')) require_once(BASE.'subsystems/javascript.php');
 
 // Validate session
 exponent_sessions_validate();
@@ -142,49 +144,9 @@ require_once(BASE.'framework/expFramework.php');
 //$template = null;
 // initialize the router
 $router = new router();
-// if the user has turned on sef_urls then we need to route the request, otherwise we can just 
-// skip it and default back to the old way of doing things.
-$router->routeRequest();
-
-//eDebug($router);
-// MOVED FROM ABOVE FOR TESTING - WE NEED TO REMOVE ONE THESE
-if (isset($_REQUEST['section'])) {
-        exponent_sessions_set('last_section', intval($_REQUEST['section']));
-} else {
-        //exponent_sessions_unset('last_section');
-}
 
 //Initialize the navigation heirarchy
 $sections = exponent_core_initializeNavigation();
-
-//Check to see if we are executing an ajax action.
-if (isset($_REQUEST['ajax_action']) ) { 
-	define('IN_AJAX_ACTION', 1);
-} else {
-	define('IN_AJAX_ACTION', 0);
-}
-
-// Check if this was a printer friendly link request
-define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
-
-#$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
-if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
-	$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
-} else {
-	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
-}
-$sectionObj = $db->selectObject('section','id='. intval($section));
-
-if (!navigationmodule::canView($sectionObj)) {
-	define('AUTHORIZED_SECTION',0);
-} else {
-	define('AUTHORIZED_SECTION',1);
-}
-if (!navigationmodule::isPublic($sectionObj)) {
-	define('PUBLIC_SECTION',0);
-} else {
-	define('PUBLIC_SECTION',1);
-}
 
 function eDebug($var){
 	if (DEVELOPMENT) {

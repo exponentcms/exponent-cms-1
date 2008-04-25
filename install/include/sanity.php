@@ -127,7 +127,7 @@ function sanity_checkServer() {
 	$status = array(
 		$global_i18n['check_db']=>_sanity_checkDB(),
 		$global_i18n['check_gd']=>_sanity_checkGD(),
-		'PHP 5.2.0++'=>_sanity_checkPHPVersion(),
+		'PHP 5.2.1+'=>_sanity_checkPHPVersion(),
 		$global_i18n['check_zlib']=>_sanity_checkZlib(),
 		$global_i18n['check_xml']=>_sanity_checkXML(),
 		$global_i18n['check_safemode']=>_sanity_CheckSafeMode(),
@@ -151,10 +151,10 @@ function _sanity_checkGD() {
 
 function _sanity_checkPHPVersion() {
 	global $global_i18n;
-	if (version_compare(phpversion(),'5.2.0','>=')) {
+	if (version_compare(phpversion(),'5.2.1','>=')) {
 		return array(SANITY_FINE,phpversion());
 	} else {
-		return array(SANITY_WARNING,'Warning! ExponentCMS will not be fully functional with PHP < 5.2.0'.$global_i18n['not_supported']);
+		return array(SANITY_ERROR,'This version of ExponentCMS requires PHP 5.2.1 or higher. You are running PHP '.phpversion().'<br>'.$global_i18n['not_supported']);
 	}
 }
 

@@ -100,16 +100,19 @@ class formmodule {
 			usort($controls,"exponent_sorting_byRankAscending");
 			
 			$form = new form();
+			$data = exponent_sessions_get('formmodule_data_'.$f->id);
 			foreach ($controls as $c) {
 				$ctl = unserialize($c->data);
 				$ctl->_id = $c->id;
 				$ctl->_readonly = $c->is_readonly;
+				if(!empty($data[$c->name])) $ctl->default = $data[$c->name];
 				$form->register($c->name,$c->caption,$ctl);
 			}
 			$form->register(uniqid(""),"", new htmlcontrol("<br /><br />"));
 			$form->register("submit","",new buttongroupcontrol($f->submitbtn,$f->resetbtn,""));
 			
-			$form->meta("action","submit_form");
+			//$form->meta("action","submit_form");
+			$form->meta("action","confirm_form");
 			$form->meta("m",$floc->mod);
 			$form->meta("s",$floc->src);
 			$form->meta("i",$floc->int);

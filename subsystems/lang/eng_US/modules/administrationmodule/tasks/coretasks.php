@@ -38,6 +38,11 @@ return array(
 	'workflow_policies'=>'Workflow Policies',
 	'system_info'=>'System Info',
 
+	'development'=>'Development',
+	'rebuild_css'=>'Rebuild CSS File',
+	'clear_smarty'=>'Clear Smary Cache',
+	'toggle_dev'=>(DEVELOPMENT == 0) ? 'Turn Error Reporting On' : 'Turn Error Reporting Off',
+
 );
 
 ?>

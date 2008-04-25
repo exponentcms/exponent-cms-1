@@ -52,6 +52,8 @@
 YAHOO.util.Event.on("gallery","submit",function(e){
 	YAHOO.util.Event.stopEvent(e);
 	YAHOO.util.Dom.get('description').value = FCKeditorAPI.GetInstance('description').GetXHTML();
+	YAHOO.util.Dom.get('Submit').value = "Saving...";
+	YAHOO.util.Dom.get('Submit').enabled = false;
 	var postvars = YAHOO.util.Connect.setForm("gallery");
 	var wait = 
 			new YAHOO.widget.Panel("wait",	

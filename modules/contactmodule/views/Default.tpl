@@ -1,6 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
- * Written and Designed by James Hunt
+ * Copyright (c) 2004-2008 OIC Group, Inc.
  *
  * This file is part of Exponent
  *
@@ -18,22 +17,22 @@
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	{if $numContacts != 0}
 		{form action=contact}
-			{control type=hidden name=msg value="_Default"}<br />
-			{control type=text name=name label=$_TR.name size=30}<br />
-			{control type=text name=email label=$_TR.email size=30}<br />
-			{control type=text name=subject label=$_TR.subject size=50}<br />
-			{control type=textarea name=message rows="8" cols="45" label=$_TR.message}<br />
+			{control type=hidden name=msg value="_Default"}
+			{control type=text name=name label=$_TR.name size=30}
+			{control type=text name=email label=$_TR.email size=30}
+			{control type=text name=subject label=$_TR.subject size=50}
+			{control type=textarea name=message rows="8" cols="45" label=$_TR.message}
 			{control type=buttongroup submit=Send}
 		{/form}
 	{else}
 		{if $smarty.const.PREVIEW_READONLY == 1 || $permissions.configure == 1}
-			{$_TR.no_contacts}<br /><br />
+			{$_TR.no_contacts}
 		{/if}
 	{/if}
 
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.configure == 1}
-			<a class="mngmntlink contact_mngmntlink" href="{link action=manage_contacts}">{$_TR.manage_contacts}</a>
+			<a href="{link action=manage_contacts}">{$_TR.manage_contacts}</a>
 		{/if}
 	{/permissions}
 </div>

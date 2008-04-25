@@ -22,14 +22,17 @@ function smarty_block_script($params,$content,&$smarty, &$repeat) {
 		if (!defined('SYS_JAVBASCRIPT')) require_once(BASE.'subsystems/javascript.php');
 		global $userjsfiles;
 		
+		$load = (empty($params['yuideptype']))?"":"{},".$params['yuideptype'];
+		$optionals = (empty($params['optionals']))?"false":"true";
+		
 		if (!empty($params['yuimodules'])) {
 			$loader = '
 				var loader'.$params['unique'].' = new YAHOO.util.YUILoader();
 				loader'.$params['unique'].'.base = eXp.URL_FULL+\'external/yui/build/\';
 				loader'.$params['unique'].'.require('.$params["yuimodules"].');
-				loader'.$params['unique'].'.loadOptional = false;
+				loader'.$params['unique'].'.loadOptional = '.$optionals.';
 				loader'.$params['unique'].'.onSuccess = init'.$params['unique'].';
-				loader'.$params['unique'].'.insert();
+				loader'.$params['unique'].'.insert({},\'js\');
 			';
 			
 			if(!empty($params['src'])){
@@ -55,7 +58,7 @@ function smarty_block_script($params,$content,&$smarty, &$repeat) {
 						alert("Loading '.$params['src'].' failed");
 					};
 
-					scriptloader'.$params['unique'].'.insert();
+					scriptloader'.$params['unique'].'.insert({},\'js\');
 					}
 				';
 				
@@ -84,7 +87,7 @@ function smarty_block_script($params,$content,&$smarty, &$repeat) {
 					//build the custom tree
 				};
 				
-				scriptloader'.$params['unique'].'.insert();';
+				scriptloader'.$params['unique'].'.insert({},\'js\');';
 				
 				$newcontent = '
 					function init'.$params['unique'].'(){

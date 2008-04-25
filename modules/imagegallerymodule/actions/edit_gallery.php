@@ -37,18 +37,24 @@ if (isset($_GET['id'])) {
 	$gallery = $db->selectObject("imagegallery_gallery","id=".$_GET['id']);
 	$loc = unserialize($gallery->location_data);
 	$loc->int = $gallery->id;
+} else {
+    $gallery->box_size = 100;
+    $gallery->pop_size = 600;
+    $gallery->perrow = 5;
+    $gallery->perpage = 25;
+    
 }
 
 if (exponent_permissions_check("edit",$loc)) {
 	//deprecated for Form controls
-	$form = imagegallery_gallery::form($gallery);
-	$form->location($loc);
-	$form->meta("action","save_gallery");
+	//$form = imagegallery_gallery::form($gallery);
+	//$form->location($loc);
+	//$form->meta("action","save_gallery");
 	
 	$template = new template("imagegallerymodule","_form_editgallery",$loc);
 	$template->assign("is_edit",(isset($gallery->id) ? 1 : 0));
-	if($gallery) $template->assign("gallery",$gallery);
-	$template->assign("form_html",$form->toHTML());
+	$template->assign("gallery",$gallery);
+	//$template->assign("form_html",$form->toHTML());
 	$template->output();
 }
 

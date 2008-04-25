@@ -112,6 +112,8 @@ class bbextension {
 					} while (file_exists(BASE.$directory.'/'.$fname));
 				}
 				
+				$bb_user->file_id = validator::uploadSuccessful(file::update('file',$directory,null,$fname));
+				/*
 				$file = file::update('file',$directory,null,$fname);
 				if (is_object($file)) {
 						$bb_user->file_id = $db->insertObject($file,'file');
@@ -123,6 +125,7 @@ class bbextension {
 					header('Location: ' . $_SERVER['HTTP_REFERER']);
 					exit();
 				}
+				*/
 			} else {
 				$post = $_POST;
 				$post['_formError'] = "Your avatar file is too large to upload.";
