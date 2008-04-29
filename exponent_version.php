@@ -27,7 +27,7 @@ if (!defined('EXPONENT_VERSION_MAJOR')) {
 	//### IF YOU ARE WANTING TO CHANGE THE DEVELOPMENT DEFINE, YOU CAN NOW FIND IT IN ##//
 	//### THE config.php FILE OR CHANGE IT VIA THE ADMIN CONTROL PANEL                ##//
 	//##################################################################################//
-	//define('DEVELOPMENT',1); // CHANGE FOR DIST
+	//define('DEVELOPMENT',0); // CHANGE FOR DIST
 	//##################################################################################//
 
 	/* exdoc
