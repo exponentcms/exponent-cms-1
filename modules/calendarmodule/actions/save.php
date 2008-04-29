@@ -54,6 +54,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 	if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 
 	//Get and save the image
+	/*  Yeah, no.
 	if ($_FILES['file']['name'] != '') {
                 $dir = 'files/calendarmodule/'.$loc->src;
                 $file = file::update('file',$dir,null);
@@ -67,7 +68,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
                         header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
         }
-
+    */
 	if (isset($item->id)) {
 		if ($item->is_recurring == 1) {
 			// For recurring events, check some stuff.
