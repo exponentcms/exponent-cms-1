@@ -27,6 +27,9 @@ $template->assign('post',$_POST);
 $msg = $template->render();
 
 $config = $db->selectObject('contactmodule_config',"location_data='".serialize($loc)."'");
+if (!empty($config->use_captcha)) $validate['captcha'] = 'captcha_string';
+$validate['valid_email'] = 'email';
+if (count($validate) > 0) validator::validate($validate, $_POST);
 if ($config == null) {
 	$config->subject = $i18n['default_subject'];
 	$config->replyto_address = '';

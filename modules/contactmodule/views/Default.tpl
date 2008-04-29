@@ -22,6 +22,7 @@
 			{control type=text name=email label=$_TR.email size=30}
 			{control type=text name=subject label=$_TR.subject size=50}
 			{control type=textarea name=message rows="8" cols="45" label=$_TR.message}
+			{if $conf->use_captcha != 0}{control type=captcha name=captcha_string}{/if}
 			{control type=buttongroup submit=Send}
 		{/form}
 	{else}

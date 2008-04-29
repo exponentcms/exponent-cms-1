@@ -41,6 +41,7 @@ class contactmodule {
 		global $db;
 		
 		$contacts = $db->selectObjects('contact_contact',"location_data='".serialize($loc)."'");
+		$conf = $db->selectObject('contactmodule_config',"location_data='".serialize($loc)."'");
 		
 		$t = new template('contactmodule','_standard',$loc);
 		$t->register_permissions(array(
@@ -53,6 +54,7 @@ class contactmodule {
 		$template->assign('loc',$loc);
 		$template->assign('numContacts',count($contacts));
 		$template->assign('moduletitle',$title);
+		$template->assign('conf',$conf);
 		$template->register_permissions(array(
 			'administrate','configure'),
 			$loc);

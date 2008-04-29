@@ -31,6 +31,7 @@ class contactmodule_config {
 			$object->from_name = $i18n['default_from_name'];
 			$object->from_address = 'info@'.HOSTNAME;
 			$object->final_message = $i18n['default_final_message'];
+			$object->use_captcha = 1;
 		} else {
 			$form->meta('id',$object->id);
 		}
@@ -40,6 +41,7 @@ class contactmodule_config {
 		$form->register('from',$i18n['from'],new textcontrol($object->from_address));
 		$form->register('replyto',$i18n['replyto'],new textcontrol($object->replyto_address));
 		$form->register('final_message',$i18n['final_message'],new htmleditorcontrol($object->final_message));
+	    $form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments?'),new checkboxcontrol($object->use_captcha));		
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
@@ -54,6 +56,7 @@ class contactmodule_config {
 		$object->from_address = $values['from'];
 		$object->replyto_address = $values['replyto'];
 		$object->final_message = htmleditorcontrol::parseData('final_message',$values);
+		$object->use_captcha = (isset($values['use_captcha']) ? 1 : 0);
 		return $object;
 	}
 }
