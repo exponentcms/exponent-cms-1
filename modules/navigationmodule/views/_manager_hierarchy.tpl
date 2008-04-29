@@ -19,6 +19,7 @@
 </style>
 
 {/literal}
+<link rel="stylesheet" type="text/css" href="{$smarty.const.URL_FULL}external/yui/build/treeview/assets/skins/sam/treeview.css">
 <link rel="stylesheet" type="text/css" href="{$smarty.const.URL_FULL}external/yui/build/menu/assets/skins/sam/menu.css">
 
 
@@ -29,10 +30,10 @@
 				<p>{$_TR.form_header}</p>
 		</div>
 		<a class="newpage" href="{link action=add_section parent=0}">{$_TR.new_top_level}</a>
-		<div id="navtree"><img src="{$smarty.const.ICON_RELATIVE}ajax-loader.gif">	Loading Navigation</div>
+		<div id="navtree"><img src="{$smarty.const.ICON_RELATIVE}ajax-loader.gif">	<strong>Loading Navigation</strong></div>
 </div>
 
-{script yuimodules="'treeview','menu','animation','dragdrop','json','container','connection'"}
+{script yuimodules="'treeview','menu','animation','dragdrop','json','container','connection'" unique="DDTreeNav" yuideptype="js"}
 {literal} 
 
 eXp.ddNavTree = function() {
@@ -68,6 +69,8 @@ eXp.ddNavTree = function() {
 		//YAHOO.util.Dom.setStyle(proxy,"width",YAHOO.util.Dom.getStyle(proxy,"width")+"px");
 		//console.debug(YAHOO.util.Dom.getStyle(proxy,"width"));
 		proxy.style.border="3px solid";
+		var nodebeingdragged = tree.getNodeByElement(YAHOO.util.Dom.get(real.id));
+		nodebeingdragged.hideChildren();
 
 	};
 
@@ -171,27 +174,31 @@ eXp.ddNavTree = function() {
 	}
 
 	function insertAfterNode(moveMe,moveMeAfter) {
-		tree.popNode(moveMe);
-		moveMe.insertAfter(moveMeAfter);
-		saveToDB(moveMe.data.id,moveMeAfter.data.id,"after");
-		tree.getRoot().refresh();
+		if(moveMe.data.id!=moveMeAfter.data.id){
+			tree.popNode(moveMe);
+			moveMe.insertAfter(moveMeAfter);
+			saveToDB(moveMe.data.id,moveMeAfter.data.id,"after");
+			tree.getRoot().refresh();
+		}
 	}
 	
 	function appendToNode(moveMe,moveMeUnder) {
-		saveToDB(moveMe.data.id,moveMeUnder.data.id,"append");
-		tree.popNode(moveMe);
-		//moveMeUnder.expand();
-		//tree.subscribe("expand",moveMeUnder.expand);
-		if (moveMeUnder.expanded==true){			
-			if(moveMeUnder.children[0]){
-				moveMe.insertBefore(moveMeUnder.children[0]);
+		if(moveMe.data.id!=moveMeUnder.data.id){
+			saveToDB(moveMe.data.id,moveMeUnder.data.id,"append");
+			tree.popNode(moveMe);
+			//moveMeUnder.expand();
+			//tree.subscribe("expand",moveMeUnder.expand);
+			if (moveMeUnder.expanded==true){			
+				if(moveMeUnder.children[0]){
+					moveMe.insertBefore(moveMeUnder.children[0]);
+				} else {
+					moveMe.appendTo(moveMeUnder);
+				}
 			} else {
-				moveMe.appendTo(moveMeUnder);
+			//	tree.getRoot().refresh();
 			}
-		} else {
-		//	tree.getRoot().refresh();
+			tree.getRoot().refresh();
 		}
-		tree.getRoot().refresh();
 		
 	}
 	
@@ -317,11 +324,14 @@ eXp.ddNavTree = function() {
 	   
 		tree.draw();
 		refreshDD();
+		YAHOO.util.Event.on("expall","click",tree.expandAll,tree,true);
+		YAHOO.util.Event.on("colall","click",tree.collapseAll,tree,true);
+		
 	}
 	
 	function buildHTML(section) {
 		var draggable = (section.manage!=false)? 'draggables' : 'nondraggables' ;
-		var dragafters = (section.manage!=false)? 'addafter' : 'addafter' ;
+		var dragafters = (section.manage!=false)? 'addafter' : 'cannotaddafter' ;
 		var menu = '';
 	//	var menu = (section.manage!=false)?'<a class="sectionmenu" href="#">&nbsp;</a>':'';
 		var drag = (section.manage!=false)?'<div class="draghandle" id="draghandle'+section.id+'">&nbsp;</div>':'';

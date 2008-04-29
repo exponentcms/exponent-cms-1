@@ -302,28 +302,41 @@ function print_r(input, _indent)
 
 function js_array_to_php_array (a)
 {
-    var a_php = "";
-    var total = 0;
-    for (var key in a)
-    {
-        ++ total;
-        a_php = a_php + "s:" +
-                String(key).length + ":\"" + String(key) + "\";s:" +
-                String(a[key]).length + ":\"" + String(a[key]) + "\";";
-    }
-    a_php = "a:" + total + ":{" + a_php + "}";
-    return a_php;
+	var a_php = "";
+	var total = 0;
+	for (var key in a)
+	{
+		++ total;
+		a_php = a_php + "s:" +
+				String(key).length + ":\"" + String(key) + "\";s:" +
+				String(a[key]).length + ":\"" + String(a[key]) + "\";";
+	}
+	a_php = "a:" + total + ":{" + a_php + "}";
+	return a_php;
 }
 
 function page(page) {
-        var uri = 'index.php?module=travelmodule&_common=1&action=page&ajax_action=1' + '&page=' + page;
-        YAHOO.util.Connect.asyncRequest('POST', uri, {
-                success : function(o) {
-                        document.getElementById('page-objects').innerHTML= o.responseText;
-                },
-                failure : function(o) {
-                        alert('An error was encountered while processing your request. ' + o.statusText);
-                },
-                timeout : 5000
-        });
+		var uri = 'index.php?module=travelmodule&_common=1&action=page&ajax_action=1' + '&page=' + page;
+		YAHOO.util.Connect.asyncRequest('POST', uri, {
+				success : function(o) {
+						document.getElementById('page-objects').innerHTML= o.responseText;
+				},
+				failure : function(o) {
+						alert('An error was encountered while processing your request. ' + o.statusText);
+				},
+				timeout : 5000
+		});
 }
+
+function divtoggle(id) {
+		el = document.getElementById(id);
+		if (el.style.display == 'none') {
+				el.style.display = 'block';
+		} else {
+				el.style.display = 'none';
+		}
+}
+
+
+
+

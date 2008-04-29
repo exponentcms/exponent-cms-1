@@ -37,15 +37,16 @@ $sectionObj = $router->getSectionObj($section);
 // set the output header
 Header("Content-Type: text/html; charset=".LANG_CHARSET);
 
-// Check to see if we are in maintenance mode.
-if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admin == 0)) {
-	//only admins/acting_admins are allowed to get to the site,
-	//all others get the maintenance view
-	//Note: admins are automatically acting admins
+// Initialize the theme subsystem
+if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
+// Check to see if we are in maintenance mode.
+if (MAINTENANCE_MODE && !exponent_users_isAdmin() && ( !isset($_REQUEST['module']) || $_REQUEST['module'] != 'loginmodule')) {
+	//only admins/acting_admins are allowed to get to the site, all others get the maintenance view
 	$template = new standalonetemplate('_maintenance');
 	$template->output();
 } else {
+	if (MAINTENANCE_MODE > 0) flash('error', "Maintenance Mode is Enabled");
 	//the default user is anonymous
 	if (!exponent_sessions_loggedIn()) {
 		// Initialize the users subsystem
@@ -54,8 +55,6 @@ if (MAINTENANCE_MODE AND (!exponent_sessions_loggedIn() OR $user->is_acting_admi
 		//TODO: Maxims initial anonymous user implementation
 		//exponent_users_login("anonymous", "anonymous");
 	}
-	// Initialize the theme subsystem
-	if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
 
 	if (!DEVELOPMENT && @file_exists(BASE.'install/not_configured')) {
 		header('Location: '.URL_FULL.'install/index.php?page=setlang');

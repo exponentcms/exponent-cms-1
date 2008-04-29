@@ -77,9 +77,9 @@ class yuicalendarcontrol extends formcontrol {
 	function controlToHTML($name) {
 		$html = "
 		<div class=\"yui-skin-sam\">
-			<input class=\"text\" type=\"text\" name=\"date1\" id=\"date1\" />
-			<button type=\"button\" id=\"update\">Update Calendar</button>	
-			<div id=\"cal1Container\"></div>
+			<input class=\"text\" type=\"text\" name=\"".$name."\" id=\"".$name."\" />
+			<button type=\"button\" id=\"update-".$name."\">Update Calendar</button>	
+			<div id=\"cal".$name."Container\"></div>
 		</div>
 		<script type=\"text/javascript\">
 		var loader = new YAHOO.util.YUILoader({
@@ -98,19 +98,19 @@ class yuicalendarcontrol extends formcontrol {
 									var date = dates[0];
 									var year = date[0], month = date[1], day = date[2];
 
-									var txtDate1 = document.getElementById(\"date1\");
+									var txtDate1 = document.getElementById(\"".$name."\");
 									txtDate1.value = month + \"/\" + day + \"/\" + year;
 								}
 
 								function updateCal() {
-									var txtDate1 = document.getElementById(\"date1\");
+									var txtDate1 = document.getElementById(\"".$name."\");
 
 									if (txtDate1.value != \"\") {
-										YAHOO.example.calendar.cal1.select(txtDate1.value);
-										var selectedDates = YAHOO.example.calendar.cal1.getSelectedDates();
+										YAHOO.example.calendar.cal".$name.".select(txtDate1.value);
+										var selectedDates = YAHOO.example.calendar.cal".$name.".getSelectedDates();
 										var firstDate = selectedDates[0];
-										YAHOO.example.calendar.cal1.cfg.setProperty(\"pagedate\", (firstDate.getMonth()+1) + \"/\" + firstDate.getFullYear());
-										YAHOO.example.calendar.cal1.render();
+										YAHOO.example.calendar.cal".$name.".cfg.setProperty(\"pagedate\", (firstDate.getMonth()+1) + \"/\" + firstDate.getFullYear());
+										YAHOO.example.calendar.cal".$name.".render();
 
 									}
 								}
@@ -120,12 +120,12 @@ class yuicalendarcontrol extends formcontrol {
 									updateCal();
 									YAHOO.util.Event.preventDefault(e);
 								}
-								YAHOO.example.calendar.cal1 = new YAHOO.widget.Calendar(\"cal1\",\"cal1Container\",{selected:'".date('m/d/Y',$this->default)."'});
-								YAHOO.example.calendar.cal1.selectEvent.subscribe(handleSelect, YAHOO.example.calendar.cal1, true);
-								YAHOO.example.calendar.cal1.select('".date('m/d/Y',$this->default)."');
-								YAHOO.example.calendar.cal1.render();
-								YAHOO.util.Event.addListener(\"update\", \"click\", updateCal);
-								YAHOO.util.Event.addListener(\"dates\", \"submit\", handleSubmit);
+								YAHOO.example.calendar.cal".$name." = new YAHOO.widget.Calendar(\"cal".$name."\",\"cal".$name."Container\",{selected:'".date('m/d/Y',$this->default)."'});
+								YAHOO.example.calendar.cal".$name.".selectEvent.subscribe(handleSelect, YAHOO.example.calendar.cal".$name.", true);
+								YAHOO.example.calendar.cal".$name.".select('".date('m/d/Y',$this->default)."');
+								YAHOO.example.calendar.cal".$name.".render();
+								YAHOO.util.Event.addListener(\"update-".$name."\", \"click\", updateCal);
+								YAHOO.util.Event.addListener(\"dates-".$name."\", \"submit\", handleSubmit);
 							}
 
 							YAHOO.util.Event.onDOMReady(YAHOO.example.calendar.init);
@@ -146,10 +146,9 @@ class yuicalendarcontrol extends formcontrol {
 	}
 
 	function parseData($original_name,$formvalues) {
-		// if (!isset($formvalues[$original_name.'_disabled'])) {
-		// 	return strtotime($formvalues[$original_name.'_hidden']);
-		// 	//return $formvalues[$original_name.'_hidden'];
-		// } else return 0;
+		if (!empty($formvalues[$original_name])) {
+		 	return strtotime($formvalues[$original_name]);
+		 } else return 0;
 	}
 
 	function templateFormat($db_data, $ctl) {

@@ -95,7 +95,8 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 				}
 			}
 			$eventdate = $db->selectObject('eventdate','id='.intval($_POST['date_id']));
-			$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			//$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			$eventdate->date = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		} else {
 			$item->approved = 1;
@@ -103,14 +104,17 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 			// There should be only one eventdate
 			$eventdate = $db->selectObject('eventdate','event_id = '.$item->id);
 
-			$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			//$eventdate->date = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+			$eventdate->date = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		}
 		calendarmodule::spiderContent($item);
 	} else {
 		exponent_forms_initialize();
-		$start_recur = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
-		$stop_recur  = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
+		//$start_recur = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
+		$start_recur = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("eventdate",$_POST));
+		//$stop_recur  = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
+		$stop_recur  = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("untildate",$_POST));
 
 		if ($_POST['recur'] != "recur_none") {
 			// Do recurrence

@@ -25,7 +25,7 @@
 		</li>
 	{else }
 		<li class="yuimenuitem">
-			<span class="yuimenulabel">{$section->name}</span>
+			<a class="yuimenubaritemlabel" href="#">{$section->name|replace:"&":"&amp;"}</a>
 		</li>
 		{/if}
 		{/if}

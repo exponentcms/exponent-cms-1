@@ -80,12 +80,36 @@ function redirect_to(array $parms=array()) {
 function flash($name="", $msg) {
 	if ($name == "") return false;
 	$flash = exponent_sessions_get('flash');
-	$flash[$name] = $msg;
+	$flash[$name][] = $msg;
 	exponent_sessions_set('flash', $flash);
 }
 
 function flushFlash() {
 	exponent_sessions_set('flash', array());
+}
+
+function handleErrors($errno, $errstr, $errfile, $errline) {
+	if (DEVELOPMENT > 0) {
+		$msg = "";
+		switch ($errno) {
+        		case E_USER_ERROR:
+		            $msg = 'PHP Error('.$errno.'): ';
+		        break;
+		        case E_USER_WARNING:
+		            $msg = 'PHP Warning('.$errno.'): ';
+		        break;
+		        case E_USER_NOTICE:
+		        case E_NOTICE:
+		            $msg = 'PHP Notice('.$errno.'): ';
+		        default:
+				$msg = 'PHP Issue('.$errno.'): ';
+	           	break;	
+    		}
+                $msg .= $errstr;
+		$msg .= !empty($errfile) ? ' in file '.$errfile : "";
+		$msg .= !empty($errline) ? ' on line '.$errline : "";
+		// currently we are doing nothing with these error messages..we could in the future however.
+	}
 }
 
 function show_msg_queue() {

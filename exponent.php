@@ -131,17 +131,14 @@ require_once(BASE.'subsystems/users.php');
 // Initialize the javascript subsystem
 if (!defined('SYS_JAVASCRIPT')) require_once(BASE.'subsystems/javascript.php');
 
+//check to see if we need to suppress errors
+require_once(BASE.'framework/expFramework.php');
+if (exponent_javascript_inAjaxAction()) set_error_handler('handleErrors');
+
 // Validate session
 exponent_sessions_validate();
 // Initialize permissions variables
 exponent_permissions_initialize();
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// ACORN CODE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-////////////////////////////////////////////////////////////////////////////////
-// Initialize the Exp Framework Subsystem & Set the routing information
-require_once(BASE.'framework/expFramework.php');
-//$template = null;
 // initialize the router
 $router = new router();
 

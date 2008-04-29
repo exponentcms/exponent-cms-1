@@ -142,6 +142,11 @@ $stuff = array(
                         'module'=>'administrationmodule',
                         'action'=>'clear_smarty_cache',
                         'icon'=>ICON_RELATIVE."filetypes.png"),
+                'maintmode'=>array(
+                        'title'=>$i18n['toggle_maint'],
+                        'module'=>'administrationmodule',
+                        'action'=>'toggle_maintenance',
+                        'icon'=>ICON_RELATIVE."filetypes.png"),
                 'icon'=>ICON_RELATIVE."admin/developer.png",
         ),
 );

@@ -13,11 +13,13 @@
 	</head>
 	<body>
 	
-	<div style="border: 1px solid black; margin: 25%; padding: 3em;">
-	{$smarty.const.MAINTENANCE_MSG_HTML}
+	<div style="border: 1px solid black; margin: 15%; padding: 3em;">
+		{$smarty.const.MAINTENANCE_MSG_HTML}
 		<p>
-			<a href="login.php">{$_TR.login}</a>
+			<!--a href="login.php">{$_TR.login}</a-->
 		</p>
+		<h3>{$_TR.login}</h3>
+		{chain module=loginmodule view=Default title="Administrators Login"}
 	</div>
 	</body>
 </html>

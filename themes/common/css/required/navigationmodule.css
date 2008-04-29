@@ -23,7 +23,7 @@
 
 #navtree {
 	border:1px solid #999;
-	padding:10px;
+	padding:20px 10px;
 }
 
 #navTreeContext h6 {
@@ -94,10 +94,22 @@
 	width:100%;
 	padding:0;
 }
+
+.navigationmodule.manager-hierarchy span.options {
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:100% -442px; 
+}
+
 .navigationmodule.manager-hierarchy .draggables span {
 	color:#010101;
 	font-weight:bold;
-	padding:3px 0 0 2px;
+	padding:3px 20px 0 2px;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:100% -442px; 
 }
 .navigationmodule.manager-hierarchy .draggables a.sectionmenu{
 	width:20px;
@@ -124,10 +136,6 @@
 	font-weight:bold;
 	padding:3px 0 0 2px;
 	display:block;
-}
-
-.navigationmodule.manager-hierarchy .draggables:hover {
-	cursor:url(../../images/icons/admin/menu.cur), context-menu;
 }
 
 .navigationmodule.manager-hierarchy .ghost {

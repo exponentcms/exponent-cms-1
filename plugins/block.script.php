@@ -22,80 +22,14 @@ function smarty_block_script($params,$content,&$smarty, &$repeat) {
 		if (!defined('SYS_JAVBASCRIPT')) require_once(BASE.'subsystems/javascript.php');
 		global $userjsfiles;
 		
-		$load = (empty($params['yuideptype']))?"":"{},".$params['yuideptype'];
-		$optionals = (empty($params['optionals']))?"false":"true";
+		if (empty($params['unique'])) die("<strong style='color:red'>The 'unique' parameter is required for the {script} pluggin.</strong>"); 
+		
 		
 		if (!empty($params['yuimodules'])) {
-			$loader = '
-				var loader'.$params['unique'].' = new YAHOO.util.YUILoader();
-				loader'.$params['unique'].'.base = eXp.URL_FULL+\'external/yui/build/\';
-				loader'.$params['unique'].'.require('.$params["yuimodules"].');
-				loader'.$params['unique'].'.loadOptional = '.$optionals.';
-				loader'.$params['unique'].'.onSuccess = init'.$params['unique'].';
-				loader'.$params['unique'].'.insert({},\'js\');
-			';
 			
-			if(!empty($params['src'])){
-
-				$newcontent = '
-				function init'.$params['unique'].'(){
-					var scriptloader'.$params['unique'].' = new YAHOO.util.YUILoader();
-					
-					scriptloader'.$params['unique'].'.addModule({
-					  name:\'js'.$params['unique'].'\',
-					  type:\'js\',
-					  fullpath:\''.$params['src'].'\',
-					  varName: "js'.$params['unique'].'"
-					});
-				
-					scriptloader'.$params['unique'].'.require("js'.$params['unique'].'"); 
-
-					scriptloader'.$params['unique'].'.onSuccess = function() {
-						'.$content.'
-					};
-					
-					scriptloader'.$params['unique'].'.onFailure = function() {
-						alert("Loading '.$params['src'].' failed");
-					};
-
-					scriptloader'.$params['unique'].'.insert({},\'js\');
-					}
-				';
-				
-			} else {
-				
-			$newcontent = '
-				function init'.$params['unique'].'(){
-					'.$content.'
-				}
-			';
-			}
+			$userjsfiles['yuimodules'][$params['unique']] = $params['yuimodules'];
+			$userjsfiles['yuiloader'][$params['unique']] = $content;
 			
-			$userjsfiles[$smarty->_tpl_vars[__name]][$params['unique']] = $loader.$newcontent;
-			
-		} else if(!empty($params['src']) && empty($params['yuimodules'])){
-				
-			$loader = '
-				var scriptloader'.$params['unique'].' = new YAHOO.util.YUILoader();
-				scriptloader'.$params['unique'].'.addModule({
-				  name:\'js'.$params['unique'].'\',
-				  type:\'js\',
-				  fullpath:'.$params['src'].',
-				});
-				
-				scriptloader'.$params['unique'].'.onSuccess = function() {
-					//build the custom tree
-				};
-				
-				scriptloader'.$params['unique'].'.insert({},\'js\');';
-				
-				$newcontent = '
-					function init'.$params['unique'].'(){
-						'.$content.'
-					}
-				';
-				$userjsfiles[$smarty->_tpl_vars[__name]][$params['unique']] = $loader.$newcontent;
-
 		} else {
 			$userjsfiles[$smarty->_tpl_vars[__name]][$params['unique']] = $content;
 		}

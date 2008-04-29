@@ -39,7 +39,6 @@
 			<?php exponent_theme_main(); ?>
 		</div>
 		<div id="sidebar">
-			<?php exponent_theme_showModule("administrationmodule","Quick Links","Administration"); ?>			
 			<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>			
 			<h2>Support Styleshout</h2>
 			<p>If you are interested in supporting my work and would like to contribute, you are

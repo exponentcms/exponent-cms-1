@@ -45,8 +45,10 @@ class newsitem {
 		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
 	
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Publish Information</div><hr size="1" />'));
-		$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
-		$form->register('unpublish',$i18n['unpublish'],new popupdatetimecontrol($object->unpublish,$i18n['nounpublish']));
+		//$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
+		$form->register('publish',$i18n['publish'],new yuidatetimecontrol($object->publish,$i18n['nopublish']));
+		//$form->register('unpublish',$i18n['unpublish'],new popupdatetimecontrol($object->unpublish,$i18n['nounpublish']));
+		$form->register('unpublish',$i18n['unpublish'],new yuidatetimecontrol($object->unpublish,$i18n['nounpublish']));
 		
 		$form->register('featured_header','',new htmlcontrol('<br /><div class="moduletitle">Featured Event Info</div><hr size="1" />'));
                 $form->register('is_featured','Feature this event',new checkboxcontrol($object->is_featured,true));
@@ -68,8 +70,10 @@ class newsitem {
 		$object->title = $values['title'];
 		$object->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$values['int']));
 		$object->body = $values['body'];
-		$object->publish = popupdatetimecontrol::parseData('publish',$values);
-		$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);
+		//$object->publish = popupdatetimecontrol::parseData('publish',$values);
+		$object->publish = yuidatetimecontrol::parseData('publish',$values);
+		//$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);
+		$object->unpublish = yuidatetimecontrol::parseData('unpublish',$values);
 		$object->is_featured = (isset($values['is_featured']) ? 1 : 0);
 		
 		return $object;

@@ -152,7 +152,7 @@ a.addmodule:hover{
     color:#ffffff;
 }
 
-.containermenu .yui-menu-shadow-visible{
+#containermodulemenu.containermenu .yui-menu-shadow-visible{
 	background-color:#444;
 	opacity:.12;*filter:alpha(opacity=12);
 }

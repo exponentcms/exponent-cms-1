@@ -13,4 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{$_TR.error|sprintf:$__view}
+
+<ul class="error">
+	<li>{gettext str="The view you are trying to use was not found for this module"}</li>
+</ul>

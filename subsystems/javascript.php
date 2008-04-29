@@ -142,9 +142,32 @@ function exponent_javascript_outputJStoDOMfoot(){
 	if (!empty($userjsfiles)){
 		echo '<script type="text/javascript" charset="utf-8">';
 		//eDebug($userjsfiles);
-		foreach($userjsfiles as $top){
-			foreach($top as $contents){
-				echo $contents;
+		if (!empty($userjsfiles['yuiloader'])){
+			echo 'var loader = new YAHOO.util.YUILoader();';
+			echo 'loader.base = eXp.URL_FULL+\'external/yui/build/\';';
+			echo 'loader.loadOptional = true;';
+			echo 'loader.require(';
+			$countr = 0;
+			foreach($userjsfiles['yuimodules'] as $mods){
+					echo ($countr==0)?$mods:",".$mods;
+					$countr++;
+			}
+			echo ");";
+			echo 'loader.onSuccess = function(){';
+			foreach($userjsfiles['yuiloader'] as $script){
+				echo $script;
+			}
+			echo '};';
+			echo 'loader.insert({},\'js\');';
+		}
+		
+
+		foreach($userjsfiles as $key=>$top){
+			if ($key!='yuiloader'&&$key!='yuimodules') {
+				//echo $key;
+				foreach($top as $cey=>$contents){
+					echo $contents;
+				}
 			}
 		}
 		echo '</script>';

@@ -32,7 +32,7 @@
 <i>{$_TR.anon_users}:</i><br />
 {/if}
 {if $loggedin == false || $smarty.const.PREVIEW_READONLY == 1}
-<form method="post" action="">
+<form method="post" action="{$smarty.const.URL_FULL}index.php">
 <input type="hidden" name="action" value="login" />
 <input type="hidden" name="module" value="loginmodule" />
 <input type="text" class="text" name="username" id="login_username" size="15" />

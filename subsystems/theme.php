@@ -280,7 +280,8 @@ function headerInfo($config) {
 				exponent_permissions_checkOnModule("order_modules","containermodule") || 
 				exponent_permissions_check('manage', $secloc)
 				){
-				$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/themes/common/javascript/containermodule/containermenus.js"></script>'."\r\n";
+				//$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/themes/common/javascript/containermodule/containermenus.js"></script>'."\r\n";
+				$str .= "\t".'<script type="text/javascript">YAHOO.namespace ("expadminmenus");</script>'."\r\n";
 			}
 		}
 		if(file_exists(BASE.'themes/'.DISPLAY_THEME_REAL.'/favicon.ico')) {
@@ -454,6 +455,7 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 
 				if ($container->permissions['administrate'] || $container->permissions['configure']) {
 					$container->randomizer = microtime();
+					$container->view = $view;
 					$container->info['class'] = $loc->mod;
 					$container->info['module'] = call_user_func(array($module,"name"));
 					$container->info['source'] = $loc->src;

@@ -36,7 +36,7 @@
 			{if $sections[$nextkey]->depth == $section->depth}</li>{/if}
 		{else }
 			<li class="yuimenuitem">
-				<span class="yuimenulabel">{$section->name}</span>
+				<a class="{if $section->depth == 0}yuimenubaritemlabel{else}yuimenuitemlabel{/if}" href="#">{$section->name}</a>
 			{if $sections[$nextkey]->depth == $section->depth}</li>{/if}
 		{/if}
 
@@ -66,7 +66,7 @@
 {script yuimodules='"menu"' unique="yuimenubaryo"}
 {literal}
 YAHOO.util.Event.onContentReady("flyoutmenu", function () {
-	var flyoutBar = new YAHOO.widget.MenuBar(
+	eXp.flyoutBar = new YAHOO.widget.MenuBar(
 						"flyoutmenu", 
 						{
 							position: "static", 
@@ -77,7 +77,7 @@ YAHOO.util.Event.onContentReady("flyoutmenu", function () {
 					);
 
 
-	flyoutBar.render(); 
+	eXp.flyoutBar.render(); 
 });
 
 

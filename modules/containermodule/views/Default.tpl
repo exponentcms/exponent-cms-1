@@ -17,7 +17,7 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if ($permissions.administrate == 1 || $permissions.edit_module == 1 || $permissions.delete_module == 1 || $permissions.add_module == 1 || $container->permissions.administrate == 1 || $container->permissions.edit_module == 1 || $container->permissions.delete_module == 1)} 
 	
-	{script yuimodules='"container"' unique="tt"}
+	{script yuimodules='"container","menu"' unique="tt"}
 	{literal}
 
 	var contextElements = YAHOO.util.Dom.getElementsByClassName("viewinfo");
@@ -25,6 +25,54 @@
 	var ttA = new YAHOO.widget.Tooltip("ttA", { 
 				context:contextElements
 	});
+	
+	
+	YAHOO.util.Event.onDOMReady(function(){
+
+		var containerModuleMenusloader = new YAHOO.util.YUILoader({
+		    require: ["menu"],
+		    loadOptional: true,
+			base : eXp.URL_FULL+'external/yui/build/',
+		    loadOptional: false,
+		    onSuccess: function() {
+
+
+
+				eXp.containerModuleMenus = function () {
+					var E =YAHOO.util.Event,
+						D =YAHOO.util.Dom;
+
+					var triggers = YAHOO.util.Dom.getElementsByClassName("modulemenutrigger");
+
+					var containermenu = new YAHOO.widget.Menu("containermodulemenu", { 
+						position: "dynamic",
+						clicktohide: true,
+						classname: "containermenu",
+						hidedelay: 350,
+						fixedcenter: false
+						});
+
+					containermenu.render(document.body);
+
+					YAHOO.util.Event.addListener(triggers, "mouseover", function(e){
+						containermenu.hide();
+						var el = E.getTarget(e);
+						var items = YAHOO.expadminmenus[el.id];
+						containermenu.cfg.setProperty("context",[el,"tl","tr"]);
+						containermenu.clearContent();
+						containermenu.addItems(items);
+						containermenu.setItemGroupTitle("For this "+el.getAttribute("rel"), 0);
+						containermenu.render();
+						containermenu.show();
+					});
+
+				}();
+		    }
+		});
+
+		containerModuleMenusloader.insert({},'js');
+
+	});	
 	
 	{/literal}
 	
@@ -86,7 +134,7 @@
 							{if $container->info.workflowPolicy != ""}<br />{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
 						<script>
-						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  [{getchromemenu module=$container rank=$i}] 
+						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  {getchromemenu module=$container rank=$i}; 
 						</script>
 						{*eDebug var=$container->info*}
 						{*script yuimodules='"menu"' unique="mod`$container->id`"}
