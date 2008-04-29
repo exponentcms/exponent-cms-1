@@ -41,7 +41,7 @@ class contactmodule_config {
 		$form->register('from',$i18n['from'],new textcontrol($object->from_address));
 		$form->register('replyto',$i18n['replyto'],new textcontrol($object->replyto_address));
 		$form->register('final_message',$i18n['final_message'],new htmleditorcontrol($object->final_message));
-	    $form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments?'),new checkboxcontrol($object->use_captcha));		
+	    $form->register('use_captcha',exponent_lang_getText('Require CAPTCHA to submit form?'),new checkboxcontrol($object->use_captcha));		
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
