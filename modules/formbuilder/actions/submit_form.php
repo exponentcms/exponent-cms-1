@@ -75,6 +75,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 	
 	//Email stuff here...
 	//Don't send email if this is an edit.
+	require_once('subsystems/mail.php');
 	if ($f->is_email == 1 && !isset($_POST['data_id'])) {
 		//Building Email List...
 		$emaillist = array();
