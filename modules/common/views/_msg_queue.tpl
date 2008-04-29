@@ -14,6 +14,7 @@
  *
  *}
 
+<div class="common msg-queue">
 {foreach from=$queues item=queue key=qname}
 	<ul class="queue {$qname}">
 		{foreach from=$queue item=msg} 
@@ -21,3 +22,4 @@
 		{/foreach}
 	</ul>
 {/foreach}
+</div>

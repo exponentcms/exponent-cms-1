@@ -80,7 +80,7 @@ function redirect_to(array $parms=array()) {
 function flash($name="", $msg) {
 	if ($name == "") return false;
 	$flash = exponent_sessions_get('flash');
-	$flash[$name][] = $msg;
+	$flash[$name] = $msg;
 	exponent_sessions_set('flash', $flash);
 }
 

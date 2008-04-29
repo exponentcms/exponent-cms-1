@@ -51,7 +51,7 @@ class validator {
 	public static function failAndReturnToForm($msg='', $post=null) {
 		flash('error', $msg);
 		if (!empty($post)) exponent_sessions_set('last_POST',$post);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+	        header('Location: ' . $_SERVER['HTTP_REFERER']);
 		exit();
 	}
 
