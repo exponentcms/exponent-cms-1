@@ -36,12 +36,16 @@ if ($f) {
 				$ctl->caption = $control->caption;
 			}
 		}
-	
-		$ctl = call_user_func(array($_POST['control_type'],'update'),$_POST,$ctl);
+
+		if (call_user_func(array($_POST['control_type'],'useGeneric')) == true) { 	
+			$ctl = call_user_func(array('genericcontrol','update'),$_POST,$ctl);
+		} else {
+			$ctl = call_user_func(array($_POST['control_type'],'update'),$_POST,$ctl);
+		}
 		
 		//lets make sure the name submitted by the user is not a duplicate. if so we will fail back to the form
 		$check = $db->selectObject('formbuilder_control', 'name="'.$ctl->identifier.'" AND form_id='.$f->id);
-		if (!empty($check)) {
+		if (!empty($check) && empty($_POST['id'])) {
 			//validator::failAndReturnToForm('A field with the same name already exists for this form', $_POST);
 			flash('error', 'A field by the name "'.$ctl->identifier.'" already exists on this form');
 			exponent_flow_redirect();

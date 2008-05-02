@@ -316,11 +316,14 @@ class router {
 	}
 
 	public function buildCurrentUrl() {
-			if (empty($this->sefPath)) {
-				$this->buildSEFPath();
-			}
-			return URL_BASE.$this->sefPath;
+		$url =  URL_BASE;
+		if ($this->url_style == 'sef') {
+			$url .= $this->sefPath;
+		} else {
+			$url .= (empty($_SERVER['REQUEST_URI'])) ? $_ENV['REQUEST_URI'] : $_SERVER['REQUEST_URI'];
 		}
+		return $url;
+	}
 
 	public static function encode($url) {
 		$url = str_replace('&', 'and', $url);

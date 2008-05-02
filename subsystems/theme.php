@@ -78,14 +78,6 @@ function exponent_theme_loadRequiredCSS() {
 	//eDebug($css_files);
 }
 
-function exponent_theme_loadAllCSS() {
-	//exponent_theme_resetCSS();
-	//exponent_theme_loadYUICSS(array('menu'));
-	exponent_theme_loadExpDefaults();
-	exponent_theme_includeCSSFiles();	
-}
-
-
 /* exdoc
  * @function include_css()
  * checks for a css document to include on your page.
@@ -93,7 +85,6 @@ function exponent_theme_loadAllCSS() {
  * root of your theme, then in themes/common/css/
  * @node Subsystems:Theme
  */
-
 function exponent_theme_includeThemeCSS($files = array()) {
 	global $css_files;
 	if (empty($files)) {
@@ -170,29 +161,6 @@ function exponent_theme_remove_smarty_cache() {
 	return exponent_files_remove_files_in_directory(BASE.'tmp/views_c');	
 }
 
-function exponent_theme_buildYUIPaths() {
-	global $jsfiles;
-
-	$yuidir = BASE.'external/yui/build/';
-	$yuidir_url  = URL_FULL.'external/yui/build/'; 
-	if (is_dir($yuidir) && is_readable($yuidir) ) {
-		$dh = opendir($yuidir);
-		while (($file = readdir($dh)) !== false) {
-			if (is_dir($yuidir.$file) && is_readable($yuidir.$file) && substr($file,0,1) != ".") {
-				$jsdh = opendir($yuidir.$file);
-				while (($jsfile = readdir($jsdh)) !== false) {
-					if (is_file($yuidir.$file.'/'.$jsfile) && is_readable($yuidir.$file.'/'.$jsfile) ) {
-						//echo substr($jsfile,-7)."<br>";
-						if ((substr($jsfile,-7) == "-min.js") || $jsfile == "yahoo-dom-event.js") {
-							$jsfiles[substr($jsfile,0,-3)] = $yuidir_url.$file.'/'.$jsfile;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
 function exponent_theme_loadYUIJS($files=array()) {
 		global $jsfiles;
 		exponent_theme_buildYUIPaths();
@@ -209,6 +177,7 @@ function exponent_theme_loadYUIJS($files=array()) {
 		}	
 		return $files_to_string;
 }
+
 function exponent_theme_buildCSSFile($cssfile) {
 	if (DEVELOPMENT > 0 || !is_readable(BASE.$cssfile)) {
 		global $css_files;
@@ -230,6 +199,21 @@ function exponent_theme_buildCSSFile($cssfile) {
 		fclose($compiled_file);
 	}
 }
+
+function exponent_theme_includeCSS($cssfile) {
+	$str = "";
+	if (DEVELOPMENT == 0) {
+		$str = "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'">'."\r\n";
+	} else {
+		global $css_files;
+		foreach ($css_files as $file) {
+			$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.$file.'">'."\r\n";
+		}
+	}
+
+	return $str;
+}
+
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
  * @node Undocumented
@@ -268,7 +252,7 @@ function headerInfo($config) {
 		//the last little bit of IE 6 support
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
 		
-		$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'">'."\r\n";	
+		$str .= exponent_theme_includeCSS($cssfile);	
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'external/yui/build/yuiloader-dom-event/yuiloader-dom-event.js"></script>'."\r\n";
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'exponent.js.php"></script>'."\r\n";
 		if($user->id!=0){

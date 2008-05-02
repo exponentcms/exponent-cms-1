@@ -17,7 +17,6 @@ div.containermodule .container_editheader{
 	clear:both;
 }
 
-div.hardcoded-menu span.modtype,
 div.containermodule span.modtype{
 	font-size:9px;
 	font-family:verdana;
@@ -26,6 +25,21 @@ div.containermodule span.modtype{
 	display:block;
 	height:18px;
 	width:20px;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-position:0px -386px; 
+	background-repeat:no-repeat;
+	cursor:pointer;
+}
+div.hardcoded-menu span.modtype{
+	font-size:9px;
+	font-family:verdana;
+	color:#111111;
+	line-height:1px;
+	display:block;
+	height:18px;
+	width:20px;
+	position:absolute;
 	background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-position:0px -386px; 
@@ -42,7 +56,7 @@ a.modulemenutrigger{
 	top:0px;
 	display:block;
 	width:18px;
-	height:15px;
+	height:15px; 
 }
 
 
@@ -55,6 +69,7 @@ a.modulemenutrigger{
 	height:18px;
 	position:relative;
 	z-index:0;
+	width:100%;
 }
 
 
@@ -74,6 +89,7 @@ a.modulemenutrigger{
 	height:18px;
 	border:1px solid #944;
 	border-width:0 1px;
+	position:relative;
 }
 
 
@@ -125,6 +141,16 @@ a.addmodule:hover{
 	background-position: 0px -548px; 
 }
 
+/* The menu */
+
+#containermodulemenu{
+	text-align:left;
+}
+#containermodulemenu ul,
+#containermodulemenu ul li{
+	list-style-image:none;
+}
+
 #containermodulemenu.containermenu .yuimenuitemlabel{
 	color:#333333;
 }
@@ -152,16 +178,34 @@ a.addmodule:hover{
     color:#ffffff;
 }
 
-#containermodulemenu.containermenu .yui-menu-shadow-visible{
-	background-color:#444;
-	opacity:.12;*filter:alpha(opacity=12);
+#containermodulemenu.containermenu .yuimenuitem .yuimenuitemlabel-selected {
+    color:#ffffff;
 }
+
+#containermodulemenu .yui-menu-shadow {
+    position: absolute;
+    visibility: hidden;
+    z-index: -1;
+}
+#containermodulemenu.containermenu .yui-menu-shadow-visible{
+	background-color:#000;
+	opacity:.25;*filter:alpha(opacity=25);
+    top: 2px;
+    right: -2px;
+    left: 2px;
+    bottom: -2px;
+    visibility: visible;
+}
+
+
 
 li.rankup a {
     background-position:0px -159px; 
+	display:block;	
 }
 li.rankdown a { 
     background-position:0px -128px;
+	display:block;	
 }
 li.userperms a {
     background-position:0px -8px;
@@ -184,6 +228,7 @@ li.deletemod a {
 	display:block;	
 }
 
+/*END THE MENU*/
 
 
 

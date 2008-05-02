@@ -52,7 +52,7 @@ class genericcontrol extends formcontrol {
 	}
 
 	function genericcontrol($type="", $default = false, $class="", $filter="", $checked=false, $required = false, $validate="", $onclick="") {
-		$this->type = $type;
+		$this->type = (empty($type)) ? "text" : $type;
 		$this->default = $default;
 		$this->class = $class;
 		$this->checked = $checked;
@@ -85,7 +85,9 @@ class genericcontrol extends formcontrol {
                 return $html;
         }
 	
-	function controlToHTML() {
+	function controlToHTML($name) {
+		$this->name = empty($this->name) ? $name : $this->name;
+		$this->id = empty($this->id) ? $name : $this->id;
 		$html = '<input type="'.$this->type.'" id="' . $this->id . '" name="' . $this->name . '" value="'.$this->default.'"';
 		if ($this->size) $html .= ' size="' . $this->size . '"';
 		if ($this->checked) $html .= ' checked="checked"';
@@ -105,9 +107,9 @@ class genericcontrol extends formcontrol {
 
 		if (!empty($this->readonly)) $html .= ' readonly="readonly"';
 
-		if (@$this->required) $html .= ' required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
-		if ($this->onclick != "") $html .= ' onclick="'.$this->onclick.'" ';
-		if ($this->onchange != "") $html .= ' onchange="'.$this->onchange.'" ';
+		if (!empty($this->required)) $html .= ' required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
+		if (!empty($this->onclick)) $html .= ' onclick="'.$this->onclick.'" ';
+		if (!empty($this->onchange)) $html .= ' onchange="'.$this->onchange.'" ';
 
 		$html .= ' />';
 		return $html;
@@ -149,15 +151,18 @@ class genericcontrol extends formcontrol {
 	}
 	
 	function update($values, $object) {
-		if ($object == null) $object = new checkboxcontrol();
+		if ($object == null) $object = new genericcontrol();;
 		if ($values['identifier'] == "") {
 			$i18n = exponent_lang_loadFile('subsystems/forms/controls/checkboxcontrol.php');
-		
 			$post = $_POST;
 			$post['_formError'] = $i18n['id_required'];
 			exponent_sessions_set("last_POST",$post);
 			return null;
 		}
+		if (empty($object->type)) {
+			$object->type = (empty($values['control_type'])) ? "text" : substr($values['control_type'],0,-7);
+		}
+		if (!empty($values['size'])) $object->size = $values['size'];
 		$object->identifier = $values['identifier'];
 		$object->caption = $values['caption'];
 		$object->default = isset($values['default']);

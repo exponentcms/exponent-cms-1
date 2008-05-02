@@ -127,8 +127,7 @@ class newsmodule {
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 		if (empty($config)) {
 			$config->sortorder = 'DESC';
-			//FJD - changed from posted to edited:
-			$config->sortfield = 'edited';
+			$config->sortfield = 'posted';
 			$config->item_limit = 10;
 			$config->enable_rss = false;
 			$config->group_by_tags = false;

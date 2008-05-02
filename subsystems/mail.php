@@ -169,11 +169,13 @@ class exponentMail extends Swift {
 		return parent::send($this->message, $this->to, $this->from);
 	}
 	
+	// Does not seem to be working correctly.  Use at your own risk!
 	public function batchSend() {
 		require_once(BASE.'subsystems/mail/Swift/Plugin/AntiFlood.php');
-		$this->attachPlugin(new Swift_Plugin_AntiFlood(200, 5));
+		$this->attachPlugin(new Swift_Plugin_AntiFlood(200, 5),"anti-flood");
 		$batch = new Swift_BatchMailer($this);
 		$batch->setSleepTime(1);
+		$batch->setMaxTries(1);
 		$batch->send($this->message, $this->to, $this->from);
 		return $batch->getFailedRecipients();
 	}
@@ -237,6 +239,10 @@ class exponentMail extends Swift {
 	
 	public function clearBody () {
 		$this->message->setBody("");
+	}
+	
+	public function flushRecipients() {
+	    $this->to->flush();
 	}
 	
 	function __destruct() {

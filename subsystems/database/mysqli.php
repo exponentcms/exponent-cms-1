@@ -567,8 +567,8 @@ class mysqli_database {
                 $res = @mysqli_query($this->connection,"SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
                 if ($res == null) return array();
                 $resarray = array();
-                for ($i = 0; $i < mysql_num_rows($res); $i++){
-                        $row = mysql_fetch_object($res);
+                for ($i = 0; $i < mysqli_num_rows($res); $i++){
+                        $row = mysqli_fetch_object($res);
                         $resarray[$row->id] = $row->$col;
                 }
                 return $resarray;

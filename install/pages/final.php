@@ -55,10 +55,10 @@ if (file_exists(BASE.'install/not_configured')) {
 <?php echo $i18n['success']; ?>
 <?php exponent_sessions_clearAllSessionData();?>
 <br /><br />
-<span style="font-weight:bold;color:red;"><u>Important Notices: </u></span>
+<h2><u>Important Notices: </u></h2>
 <ol>
-<li><b>Important: **You should now remove or rename the 'install' directory.**</b><br/></li>
-<li>The PATHOS function, constant, and file prefixes have been deprecated in favor of the EXPONENT prefix. The limited compatibility layer in previous releases has been completely removed.  Please update any custom code in your Exponent installation to reflect this change.</li>
+	<li class="error">If you are upgrading your site your theme will need to be modified before your site will work. 
+	<a href="http://www.exponentcms.org">For information go to the Exponent CMS website</a></li>
 </ol>
 <br />
 <br />

@@ -24,12 +24,14 @@ function smarty_function_getchromemenu($params,&$smarty) {
 	$menu = array();
 
 	if (!empty($params['rank']) && exponent_permissions_check('order_modules', $cloc)) {
-		$a = $params['rank'] - 2;
-		$b = $params['rank'] - 1;
-		$uplink = $router->makeLink(array('module'=>'containermodule', 'action'=>'order', 'a'=>$a, 'b'=>$b));
-		$downlink = $router->makeLink(array('module'=>'containermodule', 'action'=>'order', 'a'=>$a, 'b'=>$params['rank']));
-		$menu[] = array('text'=>$smarty->_tpl_vars['_TR']['menu_moveup'],"classname"=>"rankup","url"=>$uplink);
-		$menu[] = array('text'=>$smarty->_tpl_vars['_TR']['menu_movedown'],"classname"=>"rankdown","url"=>$downlink);
+		$uplink = $router->makeLink(array('module'=>'containermodule','src'=>$cloc->src,'action'=>'order','a'=>$params['rank'] - 2,'b'=>$params['rank'] - 1));
+		$downlink = $router->makeLink(array('module'=>'containermodule','src'=>$cloc->src,'action'=>'order', 'a'=>$params['rank'] - 1,'b'=>$params['rank']));
+		if ($params['rank'] != 1) {	//dont show this up arrow if it's the first module in a container
+			$menu[] = array('text'=>$smarty->_tpl_vars['_TR']['menu_moveup'],"classname"=>"rankup","url"=>$uplink);
+		}
+		if (!$params['last']) { //if this is the last module in a container don't show down arrow.
+			$menu[] = array('text'=>$smarty->_tpl_vars['_TR']['menu_movedown'],"classname"=>"rankdown","url"=>$downlink);
+		}
 	}
 
 	if ($module->permissions['administrate'] == 1) {

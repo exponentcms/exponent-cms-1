@@ -21,10 +21,30 @@
 	float:right;
 }
 
+/* TREE STYLES */
+
 #navtree {
 	border:1px solid #999;
 	padding:20px 10px;
+	background:#efefef;
 }
+
+#navtree table{
+	border-collapse:collapse;
+	border-spacing:0;
+	padding:0;
+	margin:0;
+	width:100%;
+}
+#navtree td{
+	border-collapse:collapse;
+	border-spacing:0;
+	border:0;
+	padding:0;
+	margin:0;
+	
+}
+
 
 #navTreeContext h6 {
 	text-align:left;
@@ -85,14 +105,16 @@
 	background:#fff;
 }
 .navigationmodule.manager-hierarchy .hovered {
-	background:#dedede;
+	background:#cdcdcd;
 	color:white;
 	font-weight:bold;
-	border:1px dotted #777;
+	border:1px dotted #efefef;
 }
 .navigationmodule.manager-hierarchy .draggables {
 	width:100%;
 	padding:0;
+	border:1px solid #efefef;
+	
 }
 
 .navigationmodule.manager-hierarchy span.options {
@@ -110,6 +132,7 @@
 	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-repeat:no-repeat; 
 	background-position:100% -442px; 
+	cursor:default;
 }
 .navigationmodule.manager-hierarchy .draggables a.sectionmenu{
 	width:20px;
@@ -123,13 +146,14 @@
 }
 .navigationmodule.manager-hierarchy .draghandle {
 	margin: 0;
-	cursor:move;
-	height:18px;
-	padding:0 9px;
+	height:20px;
+	width:20px;
+	padding:0;
+	float:left;
 	background-image:url(../../images/icons/exp1icons.png);
 	background-repeat: no-repeat;
-	background-position:99% -574px;
-	display:inline;
+	background-position:100% -571px;
+	display:block;
 }
 .navigationmodule.manager-hierarchy .nondraggables span {
 	color:#555;
@@ -142,24 +166,67 @@
 	filter: alpha(opacity=30); -moz-opacity:.3;
 }
 
-.navigationmodule.manager-hierarchy .addafter {
+.navigationmodule.manager-hierarchy .addbefore {
 	width:100%;
-	font-size:100%;
+	font-size:0px;
 	height:3px;
-	margin-top:1px;
+	margin-bottom:1px;
+	margin-bottom:1px;
 }
-.navigationmodule.manager-hierarchy .addafter-h {
+.navigationmodule.manager-hierarchy .addbefore-h {
 	background:#000;
 }
-.ddnavproxiebeingdragged {
-	background:#eee;
-	width:none;
-	text-align:left;
-	border:3px solid green;
-	padding:0 0 5px 0;
-	margin-left:20px;
-	margin-top:20px;
+
+.navigationmodule.manager-hierarchy .addafter {
+	width:100%;
+	font-size:0px;
+	height:3px;
+	margin-top:1px;
+	margin-bottom:1px;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-color:none;  
+	background-position:100% -220px; 
 }
+.navigationmodule.manager-hierarchy .addafter-h {
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-color:none;  
+	background-position:100% -215px; 
+}
+
+
+.ddnavproxiebeingdragged {
+	background:none;
+	text-align:left;
+	padding:0 0 5px 0;
+	margin-left:25px;
+	margin-top:25px;
+}
+
+.ddnavproxiebeingdragged .shrinkwrap{
+/*	opacity:.90;*filter:alpha(opacity=90);
+*/	border:1px solid #9a9;
+	float:left;
+	z-index:1;
+	background:white;
+	padding:2px 5px 2px 2px;
+	position:relative;
+}
+
+.ddnavproxiebeingdragged .shrinkwrap .pshadow{
+	position:absolute;
+	z-index:-1;
+	background:#000;
+	top:2px;
+	right:-3px;
+	bottom:-3px;
+	left:2px;
+	opacity:.25;*filter:alpha(opacity=25);
+	*visibility:hidden;
+}
+
+
 .ddnavproxiebeingdragged span {
 	color:#333;
 	font-weight:bold;
@@ -167,9 +234,43 @@
 }
 
 #dropindicator{
-	width:10px;	
-	height:8px;
+	width:18px;	
+	height:15px;
 	float:left;
+	margin:0 5px;
+}
+#dropindicator.dropattop{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -643px; 
+}
+
+#dropindicator.dropatbottom{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -665px; 
+}
+#dropindicator.putinbetween{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -685px; 
+}
+
+#dropindicator.addtome{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -703px; 
+}
+
+#dropindicator.nodrop{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -722px; 
 }
 
 

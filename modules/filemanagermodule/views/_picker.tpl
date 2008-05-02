@@ -23,7 +23,9 @@
 				margin: 0px;
 				padding: 0px;
 			}
-
+			h2 {
+				margin:3px 0;
+			}
 			div.imagecollection_sidebar {
 				background-color: #666;
 				border-right: 2px solid black;
@@ -61,7 +63,6 @@
 			div.imagecollection_previews {
 				padding: 1em;
 				margin-bottom: 30px;
-				margin-left: 220px;
 			}
 
 			div.scroller {
@@ -86,14 +87,14 @@
 			div.imagecollection_upload {
 				background-color: #999;
 				border-top: 2px solid black;
-				border-left: 2px solid black;
 				padding: .2em;
-				text-align: right;
+				text-align: center;
 				font-size: 11px;
 				position: fixed;
-				bottom: 0;
-				right: 0px;
+				bottom: 0px;
+				left: 0px;
 				height: 30px;
+				width:100%
 			}
 
 			div.imagecollection_previews table tr td img {
@@ -147,17 +148,17 @@
 		</script>
 	</head>
 	<body>
-		<div class="imagecollection_sidebar">
+		<!--div class="imagecollection_sidebar">
 			<ul>
 				<li><a href="?id=0"><i>{$_TR.uncategorized}</i></a></li>
 				{foreach from=$collections item=collect}
 				<li><a href="?id={$collect->id}">{$collect->name}</a></li>
 				{/foreach}
 			</ul>
-		</div>
+		</div-->
 		<div class="imagecollection_previews">
-			<div style="font-size: larger;">{$collection->name} ({$numfiles} {plural singular=file plural=files count=$numfiles})</div>
-			<div style="padding-left: 2em; margin-bottom: 1em; border-bottom: 2px solid black;">{$collection->description}</div>
+			<h2>{gettext str="File Manager"} ({$numfiles} {plural singular=file plural=files count=$numfiles})</h2>
+			<!--div style="padding-left: 2em; margin-bottom: 1em; border-bottom: 2px solid black;">{$collection->description}</div-->
 			<div class="scroller">
 			<table>
 				<tr>

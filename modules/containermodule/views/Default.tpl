@@ -26,7 +26,6 @@
 				context:contextElements
 	});
 	
-	
 	YAHOO.util.Event.onDOMReady(function(){
 
 		var containerModuleMenusloader = new YAHOO.util.YUILoader({
@@ -35,9 +34,6 @@
 			base : eXp.URL_FULL+'external/yui/build/',
 		    loadOptional: false,
 		    onSuccess: function() {
-
-
-
 				eXp.containerModuleMenus = function () {
 					var E =YAHOO.util.Event,
 						D =YAHOO.util.Dom;
@@ -77,11 +73,6 @@
 	{/literal}
 	
 	{/script}
-	
-	
-	
-
-	
 		<div id="container{$top->id}" class="containermodule">
 	{/if}
 {/permissions}
@@ -116,8 +107,6 @@
 
 {viewfile module=$singlemodule view=$singleview var=viewfile}
 
-
-
 {foreach key=key name=c from=$containers item=container}
 	{assign var=i value=$smarty.foreach.c.iteration}
 	{if $smarty.const.SELECTOR == 1}
@@ -134,9 +123,13 @@
 							{if $container->info.workflowPolicy != ""}<br />{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
 						<script>
-						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  {getchromemenu module=$container rank=$i}; 
+						{if $i == $containers|@count}
+							{assign var=last value=true}
+						{else}
+							{assign var=last value=false}
+						{/if}
+						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  {getchromemenu module=$container rank=$i last=$last}; 
 						</script>
-						{*eDebug var=$container->info*}
 						{*script yuimodules='"menu"' unique="mod`$container->id`"}
 						
 						{literal}

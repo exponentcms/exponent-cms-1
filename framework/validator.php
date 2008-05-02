@@ -84,6 +84,7 @@ class validator {
 	}		
 	
 	public static function uploadSuccessful($file) {
+		global $db;
 	    if (is_object($file)) {
 	        return $db->insertObject($file,'file');
 	    } else {

@@ -106,9 +106,14 @@
 		oFCKeditor.Config["StylesXmlPath"] = '{editorinclude filename="fckstyles.xml"}';	
 		oFCKeditor.Config["TemplatesXmlPath"] = '{editorinclude filename="fcktemplates.xml"}';	
 		oFCKeditor.Config["ForcePasteAsPlainText"] = "true";	
-		//oFCKeditor.Config["SkinPath"] = "{$view->path_to_editor}skins/office2003/";
+		oFCKeditor.Config["SkinPath"] = "{$smarty.const.URL_FULL}external/editors/FCKeditor/editor/skins/office2003/";
 		//oFCKeditor.Config["SkinPath"] = "{$view->path_to_editor}skins/default/";
 		oFCKeditor.Config["FontFormats"]='p;h1;h2;h3;h4;h5;h6';
+		oFCKeditor.CustomStyles = {literal}
+		{
+			//'Red Title'	: { Element : 'h3', Styles : { 'color' : 'Red' } }
+		};
+		{/literal}
 		oFCKeditor.Create();
 	/* ]]> */
 	</script>

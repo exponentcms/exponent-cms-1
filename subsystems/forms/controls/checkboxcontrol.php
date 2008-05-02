@@ -52,6 +52,7 @@ class checkboxcontrol extends formcontrol {
 	
 	function name() { return "Checkbox"; }
 	function isSimpleControl() { return true; }
+	function useGeneric() { return false; }
 	
 	function getFieldDefinition() { 
 		return array(
@@ -66,14 +67,14 @@ class checkboxcontrol extends formcontrol {
 	}
 	
 	 function toHTML($label,$name) {
-	 	if(!empty($this->flip)){
-	 		$html = "<div id=\"".$name."Control\" class=\"control";
+	 	if(empty($this->flip)){
+	 		$html = "<div id=\"".$name."Control\" class=\"control checkbox";
 	 		$html .= (!empty($this->required)) ? ' required">' : '">';
 	 		$html .= "<span class=\"checkboxlabel\">".$label."</span>";
 	 		$html .= $this->controlToHTML($name);
 	 		$html .= "</div>";			
 	 	}else{
-	 		$html = "<div id=\"".$name."Control\" class=\"control";
+	 		$html = "<div id=\"".$name."Control\" class=\"control  fliped checkbox";
 	 		$html .= (!empty($this->required)) ? ' required">' : '">';
 	 		$html .= $this->controlToHTML($name);
 	 		$html .= "<span class=\"checkboxlabel fliped\">".$label."</span>";

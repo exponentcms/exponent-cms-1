@@ -23,13 +23,14 @@ if (!defined('EXPONENT')) exit('');
 	
 	$manage_all = false;
 	if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',intval($_REQUEST['id'])))) {$manage_all = true;}
-
-	for($i=0; $i<count($nav);$i++) {
+	$navcount = count($nav);
+	for($i=0; $i<$navcount;$i++) {
 		if ($manage_all || exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$nav[$i]->id))) {
 			$nav[$i]->manage = 1;
 		} else {
 			$nav[$i]->manage = 0;
 		}
 	}
+	$nav[$navcount-1]->last=true;
 	echo exponent_javascript_ajaxReply(201, '', $nav);
 ?>

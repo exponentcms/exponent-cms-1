@@ -33,7 +33,7 @@ class newsmodule_config {
 	
 		$form = new form();
 		if (!isset($object->id)) {
-			$object->sortorder = 'ASC';
+			$object->sortorder = 'DESC';
 			$object->sortfield = 'posted';
 			$object->item_limit = 10;
 			$object->enable_rss = false;

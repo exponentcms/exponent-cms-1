@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<script type="text/javascript">
+{script unique="deletemodule" yuimodules="container"}
 {literal}
 var message = "{/literal}{$_TR.confirm}";{literal}
 YAHOO.namespace("example.container");
@@ -53,5 +53,5 @@ function init() {
 
 YAHOO.util.Event.addListener(window, "load", init);
 {/literal}
-</script>
+{/script}
 <div id="recycle-dlg"></div>

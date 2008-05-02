@@ -49,6 +49,7 @@ class textcontrol extends formcontrol {
 
 	function name() { return "Text Box"; }
 	function isSimpleControl() { return true; }
+	function useGeneric() { return false; }
 	function getFieldDefinition() {
 		return array(
 			DB_FIELD_TYPE=>DB_DEF_STRING,

@@ -8,7 +8,7 @@
 	margin:10px 0 10px 10px;
 }
 .form_header p .managemodules {
-	font-family:"Trebuchet MS","Arial";
+	font-family:"Trebuchet MS";
 	padding:3px 0 2px 15px;
 	background:url(../../images/icons/admin/managemodules.png) no-repeat 0 50%;
 }
@@ -39,12 +39,19 @@
 }
 
 .control .checkboxlabel {
-	font-family:"Trebuchet MS","Arial";
+	font-family:"Trebuchet MS";
 	color:#444444;
 	font-weight:bold;
+	margin-left:5px;
+}
+.control.flipped .checkbox {
+	margin-left:5px;
+}
+.control.flipped .checkboxlabel {
+	margin-left:0px;
 }
 .control .label a {
-	font-family:Trebuchet MS;
+	font-family:"Trebuchet MS";
 	color:#883333;
 }
 
@@ -59,7 +66,7 @@ input.button {
 	background-position: 0px -600px; 
 	margin-right:3px;
 	font-weight:bold;
-	color:#444;
+	color:#555;
 }
 
 input.radiobutton {

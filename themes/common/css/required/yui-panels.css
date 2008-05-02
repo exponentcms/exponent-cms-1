@@ -23,11 +23,11 @@ body .yui-panel{position:relative;*zoom:1;left:0;top:0;border-style:solid;border
 body .yui-panel .hd,body .yui-panel .bd,body .yui-panel .ft{*zoom:1;*position:relative;border-style:solid;border-width:0 1px;border-color:#808080;margin:0 -1px;}
 body .yui-panel .hd{border-bottom:solid 1px #ccc;}
 body .yui-panel .bd,body .yui-panel .ft{background-color:#F2F2F2;}
-body .yui-panel .hd{padding:0 10px;font-size:93%;line-height:2;*line-height:1.9;font-weight:bold;color:#000;background:url(../../images/sprite.png) repeat-x 0 -200px;}
+body .yui-panel .hd{padding:0 10px;font-size:93%;line-height:2;*line-height:1.9;font-weight:bold;color:#000;background:url(../../images/icons/sprite.png) repeat-x 0 -200px;}
 body .yui-panel .bd{padding:10px;}
 body .yui-panel .ft{border-top:solid 1px #808080;padding:5px 10px;font-size:77%;}
 body .yui-panel-container.focused .yui-panel .hd{}
-body .container-close{position:absolute;top:5px;right:6px;width:25px;height:15px;background:url(../../images/sprite.png) no-repeat 0 -300px;cursor:pointer;}
+body .container-close{position:absolute;top:5px;right:6px;width:25px;height:15px;background:url(../../images/icons/sprite.png) no-repeat 0 -300px;cursor:pointer;}
 body .yui-panel-container .underlay{right:-1px;left:-1px;}
 body .yui-panel-container.matte{padding:9px 10px;background-color:#fff;}
 body .yui-panel-container.shadow{_padding:2px 5px 0 3px;}
@@ -38,7 +38,7 @@ body .yui-dialog .ft button.default{font-weight:bold;}
 body .yui-dialog .ft span.default{border-color:#304369;background-position:0 -1400px;}
 body .yui-dialog .ft span.default .first-child{border-color:#304369;}
 body .yui-dialog .ft span.default button{color:#fff;}
-body .yui-simple-dialog .bd .yui-icon{background:url(../../images/sprite.png) no-repeat 0 0;width:16px;height:16px;margin-right:10px;float:left;}
+body .yui-simple-dialog .bd .yui-icon{background:url(../../images/icons/sprite.png) no-repeat 0 0;width:16px;height:16px;margin-right:10px;float:left;}
 body .yui-simple-dialog .bd span.blckicon{background-position:0 -1100px;}
 body .yui-simple-dialog .bd span.alrticon{background-position:0 -1050px;}
 body .yui-simple-dialog .bd span.hlpicon{background-position:0 -1150px;}

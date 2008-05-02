@@ -183,6 +183,7 @@ if ( isset($bb) && (isset($user) && $user->id != 0) ) {
 			$msg = $template->render();
 			
 			// Saved.  do notifs
+			/*
 			$emails = array();
 			if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 			foreach ($notifs as $n) {
@@ -194,6 +195,32 @@ if ( isset($bb) && (isset($user) && $user->id != 0) ) {
 			
 			if (!defined("SYS_SMTP")) require(BASE."subsystems/smtp.php");
 			exponent_smtp_mail($emails,$from_addr,$title,$msg,$headers); 
+			*/
+			$emails = array();
+			if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+			foreach ($notifs as $n) {
+				if ($n->user_id != $user->id) {
+					$u = exponent_users_getUserById($n->user_id);
+					if ($u->email != "" && !in_array($u->email,$emails)) $emails[] = $u->email;
+				}
+			}
+
+			require_once(BASE."subsystems/mail.php");
+			$mail = new exponentMail();
+			$mail->addText($msg);
+			if ($parent == null) {
+			    $mail->addFrom($config->email_address_thread,$config->email_from_thread);
+			} else {
+			    $mail->addFrom($config->email_address_reply,$config->email_from_reply);
+			}
+			foreach($emails as $recip) {
+			    try {
+			        $mail->addTo($recip);
+			        $mail->send();
+			    } catch (Error $e) {
+			    }
+			    $mail->flushRecipients();
+			}
 		}
 		
 		//increment the number of posts listed for this user in the bb_user profile extension.

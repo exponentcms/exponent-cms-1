@@ -49,6 +49,7 @@ eXp.ddNavTree = function() {
 		////console.debug(id)
 		if (id) {
 			new YAHOO.util.DDTarget("addafter"+id,sGroup);
+			new YAHOO.util.DDTarget("addbefore"+id,sGroup);
 			// bind this drag drop object to the
 			// drag source object
 			this.init("section"+id, sGroup, config);
@@ -62,15 +63,16 @@ eXp.ddNavTree = function() {
 	DDSend.prototype.startDrag = function(x, y) {
 		var proxy = this.getDragEl();
 		var real = this.getEl();
+		var nodebeingdragged = tree.getNodeByElement(YAHOO.util.Dom.get(real.id));
+		nodebeingdragged.collapse();
 		//console.debug(Dom.get(real.id.replace("section","sectionlabel")).innerHTML);
-		proxy.innerHTML = "<div id='dropindicator' class='nodrop'>&nbsp;</div><span>"+Dom.get(real.id.replace("section","sectionlabel")).innerHTML+"</span>";
+		proxy.innerHTML = "<div class='shrinkwrap'><div id='dropindicator' class='nodrop'>&nbsp;</div><span>"+Dom.get(real.id.replace("section","sectionlabel")).innerHTML+"</span><span class='pshadow'></span></div>";
 		YAHOO.util.Dom.addClass(real,"ghost");
 		YAHOO.util.Dom.addClass(proxy,"ddnavproxiebeingdragged");
 		//YAHOO.util.Dom.setStyle(proxy,"width",YAHOO.util.Dom.getStyle(proxy,"width")+"px");
 		//console.debug(YAHOO.util.Dom.getStyle(proxy,"width"));
-		proxy.style.border="3px solid";
-		var nodebeingdragged = tree.getNodeByElement(YAHOO.util.Dom.get(real.id));
-		nodebeingdragged.hideChildren();
+		YAHOO.util.Dom.setStyle(proxy,"border","0");
+		DDM.refreshCache();
 
 	};
 
@@ -79,37 +81,55 @@ eXp.ddNavTree = function() {
 		var destEl = Dom.get(id);
 		var dragSecId = srcEl.getAttribute("id").replace("section","");
 		var hoveredSecId = id.replace("addafter","");
+		hoveredSecId = hoveredSecId.replace("addbefore",""); 
 		
 		//console.debug('hover - '+dragSecId+' over - '+hoveredSecId);
 		
+		if (YAHOO.util.Dom.hasClass(destEl,"addbefore") && dragSecId!=hoveredSecId){
+			YAHOO.util.Dom.addClass(destEl,"addbefore-h");
+			YAHOO.util.Dom.get("dropindicator").className ="dropattop";
+		}
 		if (YAHOO.util.Dom.hasClass(destEl,"addafter") && dragSecId!=hoveredSecId){
 			YAHOO.util.Dom.addClass(destEl,"addafter-h");
+			YAHOO.util.Dom.get("dropindicator").className ="putinbetween";
+		}
+		if (YAHOO.util.Dom.hasClass(destEl,"lastonthelist") && dragSecId!=hoveredSecId){
+			YAHOO.util.Dom.addClass(destEl,"addafter-h");
+			YAHOO.util.Dom.get("dropindicator").className ="dropatbottom";
 		}
 		if (YAHOO.util.Dom.hasClass(destEl,"draggables")){
 			YAHOO.util.Dom.addClass(destEl,"hovered");
+			YAHOO.util.Dom.get("dropindicator").className ="addtome";
 		}
 	};
 
 	DDSend.prototype.onDragOut = function(e, id) {
 		var srcEl = this.getEl();
 		var destEl = Dom.get(id);
-		if (YAHOO.util.Dom.hasClass(destEl,"addafter")){
-			YAHOO.util.Dom.removeClass(destEl,"addafter-h");
-		}
-		if (YAHOO.util.Dom.hasClass(destEl,"draggables")){
-			YAHOO.util.Dom.removeClass(destEl,"hovered");
-		}
+		YAHOO.util.Dom.get("dropindicator").className ="nodrop";
+		YAHOO.util.Dom.removeClass(destEl,"addbefore-h");
+		YAHOO.util.Dom.removeClass(destEl,"addafter-h");
+		YAHOO.util.Dom.removeClass(destEl,"hovered");
+
+		
 	}
 
 	DDSend.prototype.onDragDrop = function(e, id) {
 		var srcEl = this.getEl();
 		var destEl = Dom.get(id);
+
 		var dragSecId = srcEl.getAttribute("id").replace("section","");
 		var hoveredSecId = id.replace("addafter","");
+		hoveredSecId = hoveredSecId.replace("addbefore","");
+		
 		
 		var draggedNode = tree.getNodeByElement(YAHOO.util.Dom.get(this.id));
 		var droppedOnNode = tree.getNodeByElement(YAHOO.util.Dom.get(id));
 
+		if (YAHOO.util.Dom.hasClass(destEl,"addbefore") && dragSecId!=hoveredSecId){
+			insertBeforeNode(draggedNode,droppedOnNode);
+			YAHOO.util.Dom.removeClass(destEl,"addbefore-h");
+		}
 		if (YAHOO.util.Dom.hasClass(destEl,"addafter") && dragSecId!=hoveredSecId){
 			insertAfterNode(draggedNode,droppedOnNode);
 			YAHOO.util.Dom.removeClass(destEl,"addafter-h");
@@ -171,6 +191,7 @@ eXp.ddNavTree = function() {
 			currentIconMode = newVal;
 		}
 		buildTree();
+		tree.getRoot().refresh();
 	}
 
 	function insertAfterNode(moveMe,moveMeAfter) {
@@ -179,6 +200,8 @@ eXp.ddNavTree = function() {
 			moveMe.insertAfter(moveMeAfter);
 			saveToDB(moveMe.data.id,moveMeAfter.data.id,"after");
 			tree.getRoot().refresh();
+			var lotl = Dom.getElementsByClassName("lastonthelist");
+			//console.debug(lotl);
 		}
 	}
 	
@@ -188,19 +211,25 @@ eXp.ddNavTree = function() {
 			tree.popNode(moveMe);
 			//moveMeUnder.expand();
 			//tree.subscribe("expand",moveMeUnder.expand);
-			if (moveMeUnder.expanded==true){			
+			if (moveMeUnder.dynamicLoadComplete==true){			
 				if(moveMeUnder.children[0]){
 					moveMe.insertBefore(moveMeUnder.children[0]);
 				} else {
 					moveMe.appendTo(moveMeUnder);
 				}
-			} else {
-			//	tree.getRoot().refresh();
 			}
+			var lotl = Dom.getElementsByClassName("lastonthelist");
+			//adjustFirstLast(moveMe,moveMeUnder);
 			tree.getRoot().refresh();
 		}
 		
 	}
+
+	// function adjustFirstLast (dragged,dropped){
+	// 	if(dragged.data.obj.rank==0){
+	// 		
+	// 	}
+	// }
 	
 	function addSubNode (){
 		window.location="{/literal}{$smarty.const.URL_FULL}{literal}index.php?module=navigationmodule&action=add_section&parent="+currentMenuNode.data.id;
@@ -280,11 +309,11 @@ eXp.ddNavTree = function() {
 					//Result is an array if more than one result, string otherwise
 					if(YAHOO.lang.isArray(oResults.data)) {
 						for (var i=0, j=oResults.data.length; i<j; i++) {
-							var tempNode = new YAHOO.widget.HTMLNode({id:oResults.data[i].id,name:oResults.data[i].name,html:buildHTML(oResults.data[i])}, node, false, true)
+							var tempNode = new YAHOO.widget.HTMLNode({obj:oResults.data[i],id:oResults.data[i].id,name:oResults.data[i].name,html:buildHTML(oResults.data[i])}, node, false, true)
 						}
 					} else {
 						//there is only one result; comes as string:
-						var tempNode = new YAHOO.widget.HTMLNode({id:oResults.data.id,name:oResults.data.name,html:buildHTML(oResults.data)}, node, false, true)
+						var tempNode = new YAHOO.widget.HTMLNode({obj:oResults.data,id:oResults.data.id,name:oResults.data.name,html:buildHTML(oResults.data)}, node, false, true)
 					}
 				}
 				//refresh DragDrop Cache
@@ -314,7 +343,7 @@ eXp.ddNavTree = function() {
 		var root = tree.getRoot();
 
 		for (var i=0, j=topnav.length; i<j; i++) {
-			var tempNode = new YAHOO.widget.HTMLNode({id:topnav[i].id,name:topnav[i].name,html:buildHTML(topnav[i])}, root, false, true);
+			var tempNode = new YAHOO.widget.HTMLNode({obj:topnav[i],id:topnav[i].id,name:topnav[i].name,html:buildHTML(topnav[i])}, root, false, true);
 		}
 
 		tree.createEvent("nodemoved");
@@ -330,12 +359,13 @@ eXp.ddNavTree = function() {
 	}
 	
 	function buildHTML(section) {
+		var last = (section.last==true)?'lastonthelist':'';
 		var draggable = (section.manage!=false)? 'draggables' : 'nondraggables' ;
 		var dragafters = (section.manage!=false)? 'addafter' : 'cannotaddafter' ;
-		var menu = '';
-	//	var menu = (section.manage!=false)?'<a class="sectionmenu" href="#">&nbsp;</a>':'';
+		var dragbefores = (section.manage!=false)? 'addbefore' : 'cannotaddbefore' ;
+		var first = (section.rank==0)?'<div class="'+dragbefores+'" id="addbefore'+section.id+'"></div>':'';
 		var drag = (section.manage!=false)?'<div class="draghandle" id="draghandle'+section.id+'">&nbsp;</div>':'';
-		var html = '<div class="'+draggable+'" id="section'+section.id+'" href="'+section.link+'">'+menu+drag+'<span class="sectionlabel" id="sectionlabel'+section.id+'">'+section.name+'</span></div><div class="'+dragafters+'" id="addafter'+section.id+'"></div>';
+		var html = '<div class="'+draggable+'" id="section'+section.id+'" href="'+section.link+'">'+drag+'<span class="sectionlabel" id="sectionlabel'+section.id+'">'+section.name+'</span></div><div class="'+dragafters+' '+last+'" id="addafter'+section.id+'"></div>';
 		return html;
 	}
 	

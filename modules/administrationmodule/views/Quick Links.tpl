@@ -17,7 +17,7 @@
 {if $user->id != '' && $user->id != 0} 
 <div class="administrationmodule quicklinks yui-panel">
 	<div class="hd">
-			Administration Quicklinks
+			{gettext str="Administration Quicklinks"}
 	</div>
 	<div class="bd">
 	{if $can_manage_nav == 1}<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>{/if}
