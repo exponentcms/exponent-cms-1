@@ -27,7 +27,7 @@
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.11
+ * @version 2.6.19
  */
 
 /* $Id$ */
@@ -464,7 +464,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.11';
+    var $_version              = '2.6.19';
 
     /**
      * current template inclusion depth
@@ -838,69 +838,66 @@ class Smarty
      * Registers a prefilter function to apply
      * to a template before compiling
      *
-     * @param string $function name of PHP function to register
+     * @param callback $function
      */
     function register_prefilter($function)
     {
-    $_name = (is_array($function)) ? $function[1] : $function;
-        $this->_plugins['prefilter'][$_name]
+        $this->_plugins['prefilter'][$this->_get_filter_name($function)]
             = array($function, null, null, false);
     }
 
     /**
      * Unregisters a prefilter function
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function unregister_prefilter($function)
     {
-        unset($this->_plugins['prefilter'][$function]);
+        unset($this->_plugins['prefilter'][$this->_get_filter_name($function)]);
     }
 
     /**
      * Registers a postfilter function to apply
      * to a compiled template after compilation
      *
-     * @param string $function name of PHP function to register
+     * @param callback $function
      */
     function register_postfilter($function)
     {
-    $_name = (is_array($function)) ? $function[1] : $function;
-        $this->_plugins['postfilter'][$_name]
+        $this->_plugins['postfilter'][$this->_get_filter_name($function)]
             = array($function, null, null, false);
     }
 
     /**
      * Unregisters a postfilter function
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function unregister_postfilter($function)
     {
-        unset($this->_plugins['postfilter'][$function]);
+        unset($this->_plugins['postfilter'][$this->_get_filter_name($function)]);
     }
 
     /**
      * Registers an output filter function to apply
      * to a template output
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function register_outputfilter($function)
     {
-    $_name = (is_array($function)) ? $function[1] : $function;
-        $this->_plugins['outputfilter'][$_name]
+        $this->_plugins['outputfilter'][$this->_get_filter_name($function)]
             = array($function, null, null, false);
     }
 
     /**
      * Unregisters an outputfilter function
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function unregister_outputfilter($function)
     {
-        unset($this->_plugins['outputfilter'][$function]);
+        unset($this->_plugins['outputfilter'][$this->_get_filter_name($function)]);
     }
 
     /**
@@ -1091,8 +1088,8 @@ class Smarty
      * @param integer $error_type
      */
     function trigger_error($error_msg, $error_type = E_USER_WARNING)
-   	{
-       trigger_error("Smarty error: $error_msg", $error_type);
+    {
+        trigger_error("Smarty error: $error_msg", $error_type);
     }
 
 
@@ -1116,7 +1113,7 @@ class Smarty
      * @param string $compile_id
      * @param boolean $display
      */
-    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false, $render = true)
+    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
         
@@ -1255,14 +1252,14 @@ class Smarty
             if ($this->_is_compiled($resource_name, $_smarty_compile_path)
                     || $this->_compile_resource($resource_name, $_smarty_compile_path))
             {
-                if ($render) include($_smarty_compile_path);
+                include($_smarty_compile_path);
             }
         } else {
             ob_start();
             if ($this->_is_compiled($resource_name, $_smarty_compile_path)
                     || $this->_compile_resource($resource_name, $_smarty_compile_path))
             {
-                if ($render) include($_smarty_compile_path);
+                include($_smarty_compile_path);
             }
             $_smarty_results = ob_get_contents();
             ob_end_clean();
@@ -1587,8 +1584,8 @@ class Smarty
         }
 
         if (!$_return) {
-            if (!$params['quiet']) {               
-            	$this->trigger_error('unable to read resource: "' . $params['resource_name'] . '"');
+            if (!$params['quiet']) {
+                $this->trigger_error('unable to read resource: "' . $params['resource_name'] . '"');
             }
         } else if ($_return && $this->security) {
             require_once(SMARTY_CORE_DIR . 'core.is_secure.php');
@@ -1715,7 +1712,10 @@ class Smarty
     function _read_file($filename)
     {
         if ( file_exists($filename) && ($fd = @fopen($filename, 'rb')) ) {
-            $contents = ($size = filesize($filename)) ? fread($fd, $size) : '';
+            $contents = '';
+            while (!feof($fd)) {
+                $contents .= fread($fd, 8192);
+            }
             fclose($fd);
             return $contents;
         } else {
@@ -1932,6 +1932,25 @@ class Smarty
     {
         return eval($code);
     }
+    
+    /**
+     * Extracts the filter name from the given callback
+     * 
+     * @param callback $function
+     * @return string
+     */
+	function _get_filter_name($function)
+	{
+		if (is_array($function)) {
+			$_class_name = (is_object($function[0]) ?
+				get_class($function[0]) : $function[0]);
+			return $_class_name . '_' . $function[1];
+		}
+		else {
+			return $function;
+		}
+	}
+    
     /**#@-*/
 
 }
