@@ -33,14 +33,14 @@
 <div align="center">
 <table width="85%" cellpadding="0" cellspacing="1" border="0">
 	<tr>
-		<td class="header bb_header">General Administration</td>
-		<td class="header bb_header">User Administration</td>
+		<td class="header bb_header">{$_TR.gen_admin}</td>
+		<td class="header bb_header">{$_TR.user_admin}</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td >
 			<ul>
-				<li><a href="{link module=bbmodule action=view_rank}">Configure Ranks</a></li>
+				<li><a href="{link module=bbmodule action=view_rank}">{$_TR.conf_ranks}</a></li>
 			</ul>
 		</td>
 	</tr>
