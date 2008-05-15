@@ -184,10 +184,11 @@ class router {
 		if (!empty($this->sefPath)) {
 			$this->url_style = 'sef';
 
-			$this->url_parts = explode('/', substr_replace($this->sefPath,'',0,strlen(PATH_RELATIVE)));
+			$this->url_parts = explode('/', $this->sefPath);
 			if (empty($this->url_parts[count($this->url_parts)-1])) array_pop($this->url_parts);
+			if (empty($this->url_parts[0])) array_shift($this->url_parts);
 			
-			if ( count($this->url_parts) < 1 || empty($this->url_parts[0]) ) {
+			if ( count($this->url_parts) < 1 || (empty($this->url_parts[0]) && count($this->url_parts) == 1) ) {
 				$this->url_type = 'base';
 			} elseif (count($this->url_parts) == 1) {
 				$this->url_type = 'page';
@@ -311,14 +312,13 @@ class router {
 			$_REQUEST[$key] = $save_value;
 		        $_GET[$key] = $save_value;
 		}
-
 		return true;
 	}
 
 	public function buildCurrentUrl() {
 		$url =  URL_BASE;
 		if ($this->url_style == 'sef') {
-			$url .= $this->sefPath;
+			$url .= substr(PATH_RELATIVE,0,-1).$this->sefPath;
 		} else {
 			$url .= (empty($_SERVER['REQUEST_URI'])) ? $_ENV['REQUEST_URI'] : $_SERVER['REQUEST_URI'];
 		}
@@ -435,7 +435,7 @@ class router {
 					$this->sefPath = !empty($_ENV['REQUEST_URI']) ? $_ENV['REQUEST_URI'] : null;
 					break;
 				case "cgi-fcgi":
-					@$this->sefPath = ($_SERVER['REDIRECT_URL'] != '/index.php') ? $_SERVER['REDIRECT_URL'] : $_ENV['REQUEST_URI'];
+					@$this->sefPath = ($_SERVER['REDIRECT_URL'] != PATH_RELATIVE.'index.php') ? $_SERVER['REDIRECT_URL'] : $_ENV['REQUEST_URI'];
 					break;
 				default:
 					$this->sefPath = !empty($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : null;
@@ -449,7 +449,7 @@ class router {
 				$this->sefPath = substr($_SERVER['REDIRECT_URI'],9);
 			}
 		}
-		
+		@$this->sefPath = substr($this->sefPath,strlen(substr(PATH_RELATIVE,0,-1)));	
 		if (strpos($this->sefPath,'/index.php') === 0) {
 			$this->sefPath = null;
 		}
