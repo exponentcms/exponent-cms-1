@@ -15,6 +15,10 @@ ul.queue {
         font-weight: bold;
 }
 
+ul.queue li {
+        list-style: none;
+}
+
 ul.queue.error {
 }
 

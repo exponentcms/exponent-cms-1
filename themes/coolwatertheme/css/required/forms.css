@@ -62,7 +62,8 @@ input.text {
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
 }
-input.select {
+select.select {
+	padding:3px;
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
@@ -72,25 +73,6 @@ input.select {
 	border: 1px solid #4289d7; 
 	color:#777;
 }
-
-
-
-
-/* Specific to Add Module page */
-#contentsourcecontrol label{
-	margin-bottom:5px;
-	display:block;
-}
-
-.radiobuttoncontrol {
-	float:left;
-	margin-right:5px;
-}
-
-
-
-
-
 
 
 

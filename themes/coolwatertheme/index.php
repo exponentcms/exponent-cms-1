@@ -5,6 +5,7 @@
 	<?php 
 	$config = array(
 	"reset-fonts-grids"=>false,
+	"xhtml"=>true,
 	"include-common-css"=>true,
 	"include-theme-css"=>true
 	);
@@ -30,31 +31,25 @@
 	</div>
 	<!-- navigation -->
 	<div  id="menu">
-		<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
+		<?php exponent_theme_showModule("navigationmodule","YUI Top Nav"); ?>
 	</div>
 	<!-- content-wrap starts here -->
 	<div id="content-wrap">
-		
 		<div id="main">
 			<?php exponent_theme_main(); ?>
 		</div>
 		<div id="sidebar">
-			<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>			
-			<h2>Support Styleshout</h2>
-			<p>If you are interested in supporting my work and would like to contribute, you are
-			welcome to make a small donation through the 
-			<a href="http://www.styleshout.com/">donate link</a> on my website - it will 
-			be a great help and will surely be appreciated.</p>
+			<?php exponent_theme_showModule("containermodule","Default","","containermodulesrc1"); ?>			
 		</div>
 	<!-- content-wrap ends here -->	
 	</div>
 	<!--footer starts here-->
 	<div id="footer">
-		<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>				
+		<?php exponent_theme_showModule("textmodule","Default","","textmodulesrc1"); ?>				
 	</div>	
 </div>
 	<?php 
-		echo exponent_theme_footerInfo($section,$config); 
+		echo exponent_theme_footerInfo(); 
 	?>
 </body>
 </html>
