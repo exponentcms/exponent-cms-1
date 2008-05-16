@@ -43,7 +43,7 @@ function init() {
 										icon: YAHOO.widget.SimpleDialog.ICON_HELP,
 										constraintoviewport: true,
 										buttons: [ { text:"Send to Recycle Bin", handler:handleYes, isDefault:true },
-											{ text:"Delete Permanantly",  handler:handleNo } ]
+											{ text:"Delete Permanently",  handler:handleNo } ]
 									} );
 	YAHOO.example.container.simpledialog1.setHeader("Send to Recycle Bin?");
 	
