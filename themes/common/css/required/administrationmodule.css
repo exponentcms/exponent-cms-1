@@ -32,6 +32,8 @@
 	width: 33%;
 	display: inline;
 	float: left;
+	height: 145px;
+        min-height: 145px;
 }
 
 .administrationmodule.default h4 {
