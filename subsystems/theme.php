@@ -203,11 +203,11 @@ function exponent_theme_buildCSSFile($cssfile) {
 function exponent_theme_includeCSS($cssfile) {
 	$str = "";
 	if (DEVELOPMENT == 0) {
-		$str = "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'">'."\r\n";
+		$str = "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'" '.XHTML_CLOSING.'>'."\r\n";
 	} else {
 		global $css_files;
 		foreach ($css_files as $file) {
-			$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.$file.'">'."\r\n";
+			$str .= "\t".'<link rel="stylesheet" type="text/css" href="'.$file.'" '.XHTML_CLOSING.'>'."\r\n";
 		}
 	}
 
@@ -230,6 +230,7 @@ function headerInfo($config) {
 	if(!isset($config['include-common-css'])) $config['include-common-css']=false;
 	if(!isset($config['include-theme-css'])) $config['include-theme-css']=true;
 	if(empty($config['css-file'])) $cssfile = 'tmp/css/exp-styles-min.css';
+	if(empty($config['xhtml'])||($config['xhtml']==false)){ define("XHTML",0);define("XHTML_CLOSING","");} else {define("XHTML",1); define("XHTML_CLOSING","/");}
 
 	// load all the required CSS files for the user.
 	exponent_theme_loadRequiredCSS();
@@ -244,10 +245,10 @@ function headerInfo($config) {
 	$str = '';
 	if ($sectionObj != null) {
 		$str = '<title>'.($sectionObj->page_title == "" ? SITE_TITLE : $sectionObj->page_title)."</title>\r\n";
-		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" />'."\n";
-		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" />' . "\n";
+		$str .= "\t".'<meta http-equiv="Content-Type" content="text/html; charset='.$langinfo['charset'].'" '.XHTML_CLOSING.'>'."\n";
+		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" '.XHTML_CLOSING.'>' . "\n";
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
-		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" />'."\n";
+		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" '.XHTML_CLOSING.'>'."\n";
 		
 		//the last little bit of IE 6 support
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
