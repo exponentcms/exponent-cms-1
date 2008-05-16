@@ -74,6 +74,7 @@ class dropdowncontrol extends formcontrol {
 		if (@$this->required) {
 			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
+		if (!empty($this->onchange)) $html .= ' onchange="'.$this->onchange.'" ';
 		$html .= '>';
 
 		if ($this->include_blank == true) {

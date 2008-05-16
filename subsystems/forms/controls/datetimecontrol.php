@@ -92,13 +92,13 @@ class datetimecontrol extends formcontrol {
 		if ($this->showdate) {
 			if (!defined("SYS_DATETIME")) require_once(BASE."subsystems/datetime.php");
 			$html .= exponent_datetime_monthsDropdown($name . "_month",$default_date['mon']);
-			$html .= '<input type="text" id="' . $name . '_day" name="' . $name . '_day" size="3" maxlength="2" value="' . $default_date['mday'] . '" />';
-			$html .= '<input type="text" id="' . $name . '_year" name="' . $name . '_year" size="5" maxlength="4" value="' . $default_date['year'] . '" />';
+			$html .= '<input class="text" type="text" id="' . $name . '_day" name="' . $name . '_day" size="3" maxlength="2" value="' . $default_date['mday'] . '" />';
+			$html .= '<input class="text" id="' . $name . '_year" name="' . $name . '_year" size="5" maxlength="4" value="' . $default_date['year'] . '" />';
 		}
 		if ($this->showtime) {
-			$html .= '<input type="text" id="' . $name . '_hour" name="' . $name . '_hour" size="3" maxlength="2" value="' . $hour . '" />';
-			$html .= '<input type="text" id="' . $name . '_minute" name="' . $name . '_minute" size="3" maxlength="2" value="' . $minute . '" />';
-			$html .= '<select id="' . $name . '_ampm" name="' . $name . '_ampm" size="1">';
+			$html .= '<input class="text" type="text" id="' . $name . '_hour" name="' . $name . '_hour" size="3" maxlength="2" value="' . $hour . '" />';
+			$html .= '<input class="text" type="text" id="' . $name . '_minute" name="' . $name . '_minute" size="3" maxlength="2" value="' . $minute . '" />';
+			$html .= '<select class="select" id="' . $name . '_ampm" name="' . $name . '_ampm" size="1">';
 			$html .= '<option value="am"' . ($default_date['hours'] < 12 ? " selected":"") . '>am</option>';
 			$html .= '<option value="pm"' . ($default_date['hours'] < 12 ? "":" selected") . '>pm</option>';
 			$html .= '</select>';

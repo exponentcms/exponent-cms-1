@@ -69,7 +69,9 @@ class yuidatetimecontrol extends formcontrol {
 			$html .= '<input id="'.$name.'" type="checkbox" name="'.$name.'" onchange="divtoggle(\'datetime-'.$name.'\')" checked>'.$this->edit_text;
 			$html .= '<div style="display:none" id="datetime-'.$name.'">';
 			$html .= ($this->showdate) ? $datectl->controlToHTML($name."date") : "";
+			$html .= '<div class="yuitime">';
 			$html .= ($this->showtime) ? $timectl->controlToHTML($name."time") : "";
+			$html .= '</div>';
 			$html .= '</div>';
 		}
 		return $html;

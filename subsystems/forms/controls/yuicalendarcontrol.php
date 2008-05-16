@@ -77,9 +77,11 @@ class yuicalendarcontrol extends formcontrol {
 	function controlToHTML($name) {
 		$html = "
 		<div class=\"yui-skin-sam\">
-			<input class=\"text\" type=\"text\" name=\"".$name."\" id=\"".$name."\" />
-			<button type=\"button\" id=\"update-".$name."\">Update Calendar</button>	
 			<div id=\"cal".$name."Container\"></div>
+			<div id=\"calinput\">
+				<input class=\"text\" type=\"text\" name=\"".$name."\" id=\"".$name."\" />
+				<button class=\"button\" type=\"button\" id=\"update-".$name."\">Update Calendar</button>
+			</div>
 		</div>
 		<script type=\"text/javascript\">
 		var loader = new YAHOO.util.YUILoader({
