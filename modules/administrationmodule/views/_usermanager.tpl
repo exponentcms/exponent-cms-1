@@ -14,7 +14,7 @@
  *
  *}
 
-<div class="administrationmodule usermanager"
+<div class="administrationmodule usermanager">
 <div class="form_header">
         <h1>{$_TR.form_title}</h1>
         <p>{$_TR.form_header}</p>

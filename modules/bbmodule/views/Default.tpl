@@ -35,16 +35,16 @@
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	<table cellspacing="0" cellpadding="0" border="1">
 	<tr>
-		<th>{$_TR.title}</td>
-		<th>{$_TR.topics}</td>
-		<th>{$_TR.lastpost}</td>
+		<th>Forum</td>
+		<th>Topics</td>
+		<th>Last Post</td>
 	</tr>
 	{foreach from=$boards item=board}
 	<tr class="bbrow {cycle values='odd,even'}">
 		<td>
 			<b><a class="mngmntlink bb_mngmntlink" href="{link module="bbmodule" action="view_board" id=$board->id}">{$board->name}</a></b>
 			<br />		<span class="bb_boarddesc">{$board->description}</span> {permissions level=$smarty.const.UILEVEL_NORMAL}
-				<div class="bb_editcontrolls">{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1} <a style="border: 0px" href="{link action=edit_board id=$board->id}" title="{$_TR.edit_board}">
+				<div class="bb_editcontrolls">{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1} <a style="border: 0px" href="{link action=edit_board id=$board->id}" title="Edit the name or description for this board">
 						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 				</a> {/if}
 				{if $permissions.delete_board == 1 || $board->permissions.delete_board == 1} <a style="border: 0px" href="{link action=delete_board id=$board->id}" title="Delete this board">
@@ -57,7 +57,7 @@
 			{$board->num_topics}</td>
 		<td align="center" class="">
 			{if $board->last_post == null}
-				{$_TR.no_posts}
+				No Posts
 			{else}
 				<span class="bb_date">{$board->last_post->posted|format_date:"%D %T"}</span> <br /> 
 				<a href="{link action=showuserprofile module=loginmodule id=$board->last_post->poster->id}">{attribution user=$board->last_post->poster}</a>
@@ -67,38 +67,38 @@
 	</tr>
 	{foreachelse}
 	<tr>
-		<td><em>{$_TR.no_board}</em></td>
+		<td><i>No bulletin boards were found</i></td>
 	</tr>
 	{/foreach}
 	</table>
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	<div class="moduleactions">
 	{if $permissions.create_board == 1}
-		<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">{$_TR.new_board}</a><br />
+		<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">New Board</a><br />
 	{/if}
 	{if $loggedin == 1}
 	{if $monitoring == 1}
-		<br /><br /><em>{$_TR.thread_monitor}</em>
-		<br /><em><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=0}">{$_TR.stop_monitoring}</em>
+		<br /><br /><i>You are monitoring one or more boards from this forum for new threads.</i>
+		<br /><i><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=0}">Click here</a> to stop monitoring it.</i>
 	{else}
-		{$_TR.not_monitoring}
-		<br /><em><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=1}">{$_TR.start_monitoring}</em>
+		You are not monitoring this board.
+		<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=1}">Click here</a> to start monitoring it for new threads.</i>
 	{/if}
 	{/if}
 	</div>
 	{/permissions}
 	
 	{if $show_users == true}
-	<div class="moduletitle bb_moduletitle" style="margin-top: 45px;">{$_TR.who_online}</div>
+	<div class="moduletitle bb_moduletitle" style="margin-top: 45px;">Who's Online</div>
 		<table cellspacing="1" cellpadding="5" style="border:none;" width="100%">
 			<tr class="bb_boardlist_header">
-				<td>{$total_users} {$_TR.totalusers} {$num_members} {$_TR.members} {$anon_users}{$_TR.guests}</td>
+				<td>{$total_users} visitors in the last 15 minutes: {$num_members} Members - {$anon_users} Guests</td>
 			</tr>
 			<tr>
 				<td>
 					<img class="mngmnt_icon" style="border:none; " src="{$smarty.const.ICON_RELATIVE}icon_world2.gif" title="{$_TR.alt_world2}" alt="{$_TR.alt_world2}" />
 					{foreach from=$users_online item=user}
-						<a href="{link module=loginmodule action=showuserprofile id=$user->id}" title="{$_TR.view_profile}">{$user->username}</a>&nbsp;
+						<a href="{link module=loginmodule action=showuserprofile id=$user->id}" title="View user profile">{$user->username}</a>&nbsp;
 					{/foreach}
 				</td>
 			</tr>

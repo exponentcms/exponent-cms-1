@@ -46,22 +46,12 @@
 	{/if}
 	{/permissions}
 	
-	<ul class="items">
 		{foreach key="key" name="gallery" from=$galleries item=gallery}
-		<li class="item">
+		<div class="item">
 			<h2><a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a></h2>
-			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
-					{if $permissions.edit == 1}
-						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_gallery id=$gallery->id}">
-							<img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-						</a>
-					{/if}
-					{if $permissions.delete == 1}
-						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_gallery id=$gallery->id}">
-							<img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-						</a>
-					{/if}
+				{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
 			</div>
 			{/permissions}
 			
@@ -69,17 +59,16 @@
 			<div class="bodycopy">
 				{if $gallery->images[0]->thumbnail}
 					<a href="{link action=view_gallery id=$gallery->id}">
-						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;constraint=1&amp;width=75&amp;height=1000">
+						<img class="firstimage" align="left" hspace="5px" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;constraint=1&amp;width=75&amp;height=1000">
 					</a>
 				{/if}
 				{$gallery->description}
 			</div>
 			{/if}
-		</li>
+		</div>
 		{foreachelse}
 			<div align="center"><i>No Galleries Found</i></div>
 		{/foreach}
-	</ul>
 	
 	
 </div>

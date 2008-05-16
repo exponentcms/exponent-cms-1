@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{script unique="deletemodule" yuimodules="container"}
+{script unique="deletemodule" yuimodules="'container'"}
 {literal}
 var message = "{/literal}{$_TR.confirm}";{literal}
 YAHOO.namespace("example.container");
@@ -36,13 +36,14 @@ function init() {
 									{ 	width: "400px",
 										fixedcenter: true,
 										visible: false,
+										modal:true,
 										draggable: false,
 										close: true,
 										text: message,
 										icon: YAHOO.widget.SimpleDialog.ICON_HELP,
 										constraintoviewport: true,
 										buttons: [ { text:"Send to Recycle Bin", handler:handleYes, isDefault:true },
-											{ text:"Delete Permanently",  handler:handleNo } ]
+											{ text:"Delete Permanantly",  handler:handleNo } ]
 									} );
 	YAHOO.example.container.simpledialog1.setHeader("Send to Recycle Bin?");
 	

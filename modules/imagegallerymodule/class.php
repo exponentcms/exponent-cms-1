@@ -143,7 +143,7 @@ class imagegallerymodule {
 		if (!defined('SYS_IMAGE')) require(BASE.'subsystems/image.php');
 		if ($file != null && $height != 0) {
 			$size = getimagesize($file->directory."/".$file->filename);
-			if($size[1]<=$height) $height = $size[1];
+			//if($size[1]<=$height) $height = $size[1];
 				if($size[1]<=$size[0]){
 					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));				
 				}else{

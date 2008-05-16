@@ -40,18 +40,13 @@ if (!defined("EXPONENT")) exit("");
 		
 		$file = $db->selectObject("file","id=".$image->file_id);
 	
-		
 		$thumbname = imagegallerymodule::createThumbnailFile($file, $image->thumb); 
 		$img->thumbnail = $thumbname; 
 		$popname = imagegallerymodule::createEnlargedFile($file, $image->pop); 
 		$img->enlarged = $popname; 
 		
-		
-		
-		
 		$db->updateObject($img,"imagegallery_image");
 		
-
 		exit();
 		
 

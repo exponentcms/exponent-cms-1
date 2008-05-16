@@ -48,7 +48,7 @@
 			<h2>{$gallery->name}</h2>
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
-				{include file="_edit_delete.tpl"}
+				{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
 			</div>
 			{/permissions}
 			<p>{$gallery->description}</p>

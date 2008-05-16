@@ -224,19 +224,19 @@ eXp.ddNavTree = function() {
 		}
 		
 	}
-
-	// function adjustFirstLast (dragged,dropped){
-	// 	if(dragged.data.obj.rank==0){
-	// 		
-	// 	}
-	// }
 	
 	function addSubNode (){
 		window.location="{/literal}{$smarty.const.URL_FULL}{literal}index.php?module=navigationmodule&action=add_section&parent="+currentMenuNode.data.id;
 	}
 	
 	function editNode (){
-		window.location="{/literal}{$smarty.const.URL_FULL}{literal}index.php?module=navigationmodule&action=edit_contentpage&id="+currentMenuNode.data.id;
+		if (currentMenuNode.data.obj.alias_type==0){
+			window.location="{/literal}{$smarty.const.URL_FULL}{literal}index.php?module=navigationmodule&action=edit_contentpage&id="+currentMenuNode.data.id;
+		} else if (currentMenuNode.data.obj.alias_type==1){
+			window.location="{/literal}{$smarty.const.URL_FULL}{literal}index.php?module=navigationmodule&action=edit_externalalias&id="+currentMenuNode.data.id;
+		} else {
+			window.location="{/literal}{$smarty.const.URL_FULL}{literal}index.php?module=navigationmodule&action=edit_internalalias&id="+currentMenuNode.data.id;
+		}
 	}
 	
 	function deleteNode (){
@@ -436,7 +436,7 @@ eXp.ddNavTree = function() {
 } ();
 
 //once the DOM has loaded, we can go ahead and set up our tree:
-YAHOO.util.Event.onDOMReady(eXp.ddNavTree.init, eXp.ddNavTree,true)
+YAHOO.util.Event.onDOMReady(eXp.ddNavTree.init, eXp.ddNavTree,true);
 
 
 

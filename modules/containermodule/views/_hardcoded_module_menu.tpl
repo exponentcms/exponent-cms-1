@@ -16,7 +16,7 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 <div class="hardcoded-menu">
 <a id="{$container->info.class}{$container->randomizer}" class="modulemenutrigger hardcoded" href="#" rel="{$container->info.module}">&nbsp;</a>
-<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">
+<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}"></span>
 <script>YAHOO.expadminmenus["{$container->info.class}{$container->randomizer}"] =  {getchromemenu module=$container}</script>
 </div>
 {/permissions}

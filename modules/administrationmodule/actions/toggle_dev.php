@@ -25,6 +25,7 @@ if (exponent_permissions_check('development',exponent_core_makeLocation('adminis
 	if (!defined('SYS_CONFIG')) include_once(BASE.'subsystems/config.php');
 	$value = (DEVELOPMENT == 1) ? 0 : 1;
 	exponent_config_change('DEVELOPMENT', $value);
+	exponent_theme_remove_css();
 	redirect_to(array('module'=>'administrationmodule', 'action'=>'index'));
 } else {
 	echo SITE_403_HTML;

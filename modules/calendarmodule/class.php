@@ -330,7 +330,7 @@ class calendarmodule {
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "'");
 					break;
 				case "upcoming":
-					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date > $day ORDER BY date ASC ".$limit);
+					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date >= $day ORDER BY date ASC ".$limit);
 					break;
 				case "past":
 					$dates = $db->selectObjects("eventdate","location_data='" . serialize($loc) . "' AND date < $day ORDER BY date DESC ".$limit);

@@ -120,7 +120,7 @@
 						<div class="container_moduleheader">
 							<a id="{$container->info.class}{$container->id}" class="modulemenutrigger" href="#" rel="{$container->info.module}">&nbsp;</a>
 							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">{*$container->info.module}-{$_TR.shown_in|sprintf:$container->view*}
-							{if $container->info.workflowPolicy != ""}<br />{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
+							{if $container->info.workflowPolicy != ""} -{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
 						<script>
 						{if $i == $containers|@count}
