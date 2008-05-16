@@ -39,7 +39,7 @@
 			<?php exponent_theme_main(); ?>
 		</div>
 		<div id="sidebar">
-			<?php exponent_theme_showModule("containermodule","Default","","containermodulesrc1"); ?>			
+			<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>			
 		</div>
 	<!-- content-wrap ends here -->	
 	</div>

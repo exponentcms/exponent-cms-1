@@ -1,0 +1,11 @@
+.loginmodule.login-default span{
+	display:block;
+	font-weight:bold;
+}
+
+.loginmodule.login-default .button{
+	float:left;
+	margin-top:5px;
+}
+
+
