@@ -77,8 +77,9 @@ class router {
 				}
 
 				// if we found a mapping for this link then we can return it now.
-				if ($link != '') return router::encode($linkbase.$link);
-
+				//if ($link != '') return router::encode($linkbase.$link);
+				if ($link != '') return urlencode($linkbase.$link);
+				
 		                $link .= $params['controller'].'/';
 	        	        $link .= $params['action'].'/';
 	                	foreach ($params as $key=>$value) {
@@ -432,21 +433,21 @@ class router {
 		if (strpos($_SERVER['SERVER_SOFTWARE'],'Apache') === 0) {
 			switch(php_sapi_name()) {
 				case "cgi":
-					$this->sefPath = !empty($_ENV['REQUEST_URI']) ? $_ENV['REQUEST_URI'] : null;
+					$this->sefPath = !empty($_ENV['REQUEST_URI']) ? urldecode($_ENV['REQUEST_URI']): null;
 					break;
 				case "cgi-fcgi":
-					@$this->sefPath = ($_SERVER['REDIRECT_URL'] != PATH_RELATIVE.'index.php') ? $_SERVER['REDIRECT_URL'] : $_ENV['REQUEST_URI'];
+					@$this->sefPath = ($_SERVER['REDIRECT_URL'] != PATH_RELATIVE.'index.php') ? urldecode($_SERVER['REDIRECT_URL']) : urldecode($_ENV['REQUEST_URI']);
 					break;
 				default:
-					$this->sefPath = !empty($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : null;
+					$this->sefPath = !empty($_SERVER['REDIRECT_URL']) ? urldecode($_SERVER['REDIRECT_URL']) : null;
 					break;
 			}
 		// Lighty
 		} elseif (strpos($_SERVER['SERVER_SOFTWARE'],'lighttpd') === 0) {
 			if (isset($_SERVER['ORIG_PATH_INFO'])) {
-				$this->sefPath = $_SERVER['ORIG_PATH_INFO'];
+				$this->sefPath = urldecode($_SERVER['ORIG_PATH_INFO']);
 			} elseif (isset($_SERVER['REDIRECT_URI'])){
-				$this->sefPath = substr($_SERVER['REDIRECT_URI'],9);
+				$this->sefPath = urldecode(substr($_SERVER['REDIRECT_URI'],9));
 			}
 		}
 		@$this->sefPath = substr($this->sefPath,strlen(substr(PATH_RELATIVE,0,-1)));	
