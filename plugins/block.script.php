@@ -19,6 +19,7 @@
 
 function smarty_block_script($params,$content,&$smarty, &$repeat) {
 	if ($content) {
+		if (!defined('SYS_JAVBASCRIPT')) require_once(BASE.'subsystems/javascript.php');
 		global $userjsfiles;
 		
 		if (empty($params['unique'])) die("<strong style='color:red'>The 'unique' parameter is required for the {script} pluggin.</strong>"); 
