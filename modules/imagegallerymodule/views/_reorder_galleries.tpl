@@ -31,13 +31,13 @@
  
  <div class="imagegallerymodule reorder_galleries">
 	<div class="form_header">
-                <h1>Reorder Image Galleries</h1>
+                <h1>{$_TR.reorder_images}</h1>
     </div>
 
 <table cellpadding="2" cellspacing="0" bgalleryorder="0" width="100%">
 	<tr>
-		<th><strong>Gallery Title</strong></td>
-		<th><strong>Arrange</strong></td>
+		<th><strong>{$_TR.gallery_title}</strong></th>
+		<th><strong>{$_TR.arrange}</strong></th>
 	</tr>
 {foreach from=$galleries item=gallery}
 {math equation="x+1" x=$gallery->galleryorder assign=nextrank}
