@@ -43,7 +43,7 @@
 			{/if}
 			{if $permissions.manage_approval == 1}
 				<a class="managerevisions" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">
-					<img src="{$smarty.const.ICON_RELATIVE}revisions.png">
+					<img src="{$smarty.const.ICON_RELATIVE}revisions.png" alt="{$_TR.revisions}">
 				</a>
 			{/if}
 		</div>

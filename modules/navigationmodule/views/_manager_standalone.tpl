@@ -23,9 +23,9 @@
 
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
-		<th><strong>Page Title</strong></td>
-		<th><strong>Actions</strong></td>
-		<th><strong>Permissions</strong></td>
+		<th><strong>{$_TR.page_title}</strong></th>
+		<th><strong>{$_TR.actions}</strong></th>
+		<th><strong>{$_TR.permissions}</strong></th>
 	</tr>
 	{foreach from=$sections item=section}
 	{math equation="x+1" x=$section->rank assign=nextrank}
