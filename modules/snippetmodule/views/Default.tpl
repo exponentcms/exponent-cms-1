@@ -31,7 +31,7 @@
 	<a class="mngmntlink text_mngmntlink" href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=summary}">{$_TR.link_viewap}</a>
 	{/if}
 	{if $permissions.manage_approval == 1 && ($textitem->id != 0 && $textitem->approved != 0)}
-		&nbsp;&nbsp;&nbsp;<a class="mngmntlink text_mngmntlink" href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=revisions_view id=$textitem->id} "title="{$_TR.link_manageap}" >
+		&nbsp;&nbsp;&nbsp;<a class="mngmntlink text_mngmntlink" href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=revisions_view id=$textitem->id}" title="{$_TR.link_manageap}" >
 			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
 		</a>
 	{/if}
