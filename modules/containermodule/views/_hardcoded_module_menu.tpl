@@ -83,9 +83,3 @@ YAHOO.util.Event.onDOMReady(function(){
 
 
 {/permissions}
-
-
-
-
-
-
