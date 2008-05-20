@@ -66,18 +66,14 @@ $i18n = exponent_lang_loadFile('install/pages/dbconfig.php');
 		&#0149; <span class="control_caption"><?php echo $i18n['backend']; ?>: </span>
 		<select name="c[db_engine]" onchange="showOptions(this.value);">
 		<?php
-		$dh = opendir(BASE.'subsystems/database');
-		while (($file = readdir($dh)) !== false) {
-			if (is_file(BASE.'subsystems/database/'.$file) && is_readable(BASE.'subsystems/database/'.$file) && substr($file,-9,9) == '.info.php') {
-				$info = include(BASE.'subsystems/database/'.$file);
-				echo '<option value="'.substr($file,0,-9).'"';
-				// Now check to see if it was previously selected:
-				if ($config['db_engine'] == substr($file,0,-9)) {
-					echo ' selected="selected"';
-				}
-				echo '>'.$info['name'].'</option>';
-			}
-		}
+		require_once(BASE.'subsystems/database.php');
+		foreach (exponent_database_backends(1) as $name=>$display) {
+            echo '<option value="'.$name.'"';
+            if ($config['db_engine'] == $name) {
+            	echo ' selected="selected"';
+            }
+        	echo '>'.$display.'</option>';
+        }
 		?>
 		</select>
 		<div class="control_help">
