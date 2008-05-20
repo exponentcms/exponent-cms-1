@@ -18,12 +18,12 @@
 
 if (!defined('EXPONENT')) exit('');
 
-return array(
-        'newsmodule'=>array(
-//                'view'=>'_test',
-                'view_all_news'=>'Full Body'),
-        'calendarmodule'=>array(
-                ''=>'Full Body')
-);
+// return array(
+//         'newsmodule'=>array(
+// //                'view'=>'_test',
+//                 'view_all_news'=>'Full Body'),
+//         'calendarmodule'=>array(
+//                 ''=>'Full Body')
+// );
 
 ?>
