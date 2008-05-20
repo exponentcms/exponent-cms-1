@@ -17,7 +17,7 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if ($permissions.administrate == 1 || $permissions.edit_module == 1 || $permissions.delete_module == 1 || $permissions.add_module == 1 || $container->permissions.administrate == 1 || $container->permissions.edit_module == 1 || $container->permissions.delete_module == 1)} 
 	
-	{script yuimodules='"container","menu"' unique="tt"}
+	{script yuimodules='"container","menu"' unique="tooltipAndMenu"}
 	{literal}
 
 	var contextElements = YAHOO.util.Dom.getElementsByClassName("viewinfo");
@@ -75,7 +75,7 @@
 	{/literal}
 	
 	{/script}
-		<div id="container{$top->id}" class="containermodule">
+		<div id="cont{$top->id}" class="containermodule">
 	{/if}
 {/permissions}
 
@@ -88,7 +88,7 @@
 		<a id="container{$top->id}" class="modulemenutrigger" href="#" rel="{$_TR.container_module}">&nbsp;</a>
 		<span class="modtype viewinfo" title="{$_TR.container_module} - {$_TR.shown_in|sprintf:$__view}">&nbsp;</span>
 		
-		<script>
+		<script type="text/javascript" charset="utf-8">
 				YAHOO.expadminmenus["container{$top->id}"] = [
 					{literal}{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
 					{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }{/literal}
@@ -121,10 +121,10 @@
 					<div id="module{$container->id}" class="container_modulewrapper">
 						<div class="container_moduleheader">
 							<a id="{$container->info.class}{$container->id}" class="modulemenutrigger" href="#" rel="{$container->info.module}">&nbsp;</a>
-							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">{*$container->info.module}-{$_TR.shown_in|sprintf:$container->view*}
+							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">&nbsp;
 							{if $container->info.workflowPolicy != ""} -{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
-						<script>
+						<script type="text/javascript" charset="utf-8">
 						{if $i == $containers|@count}
 							{assign var=last value=true}
 						{else}
@@ -132,88 +132,6 @@
 						{/if}
 						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  {getchromemenu module=$container rank=$i last=$last}; 
 						</script>
-						{*script yuimodules='"menu"' unique="mod`$container->id`"}
-						
-						{literal}
-						
-							YAHOO.util.Event.onContentReady("{/literal}perms-{$container->info.class}-{$container->id}{literal}", function () {
-								var oMenu = new YAHOO.widget.Menu("{/literal}perms-{$container->info.class}-{$container->id}{literal}", { 
-																		position: "static",
-																		zIndex: 50, 
-																		hidedelay:	750, 
-																		lazyload: true });
-
-								var aSubmenuData = [
-
-									{
-										id:	 "{/literal}menu-{$container->info.class}-{$container->id}{literal}", 
-										itemdata: [ 
-											{/literal}
-											{if $smarty.foreach.c.first == false}
-												{if $permissions.order_modules == 1}
-												{math equation='x - 2' x=$smarty.foreach.c.iteration assign=a}
-												{math equation='x - 1' x=$smarty.foreach.c.iteration assign=b}
-											{literal}
-											{ text: "{/literal}{$_TR.menu_moveup}{literal}", classname: "rankup" , url: "{/literal}{link action=order a=$a b=$b}{literal}" },
-											{/literal}
-											
-												{/if}
-											{/if}
-										
-										
-											{if $smarty.foreach.c.last == false}
-												{if $permissions.order_modules == 1}
-												{math equation='x - 1' x=$smarty.foreach.c.iteration assign=a}{literal}
-											{ text: "{/literal}{$_TR.menu_movedown}{literal}", classname: "rankdown" , url: "{/literal}{link action=order a=$a b=$smarty.foreach.c.iteration}{literal}" },
-										
-										
-												{/literal}{/if}
-											{/if}
-										
-											{if $container->permissions.administrate == 1}{literal}
-											{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=userperms _common=1}{literal}" },
-											{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link src=$container->info.source module=$container->info.class action=groupperms _common=1}{literal}" },
-											{/literal}{/if}
-										
-											{if $permissions.edit_module == 1 || $container->permissions.administrate == 1}
-											{literal}
-											{ text: "{/literal}{$_TR.menu_confview}{literal}", classname: "configview" , url: "{/literal}{link src=$container->info.source action=edit id=$container->id}{literal}" },
-											{/literal}
-											{/if}
-										
-											{if $container->permissions.configure == 1}
-											{literal}
-											{ text: "{/literal}{$_TR.menu_confsettings}{literal}", classname: "configsettings" , url: "{/literal}{link module=$container->info.class src=$container->info.source action=configure _common=1}{literal}" },
-											{/literal}
-											{/if}
-										
-											{if $permissions.delete_module == 1 || $container->permissions.administrate == 1}{literal}
-											{ text: "{/literal}{$_TR.menu_deletemod}{literal}", classname: "deletemod" , url: "{/literal}{link action=delete rerank=1 id=$container->id}{literal}" }
-										   
-											{/literal}{/if}{literal}									   
-											]
-
-									}					 
-								];
-
-							   oMenu.subscribe("beforeRender", function () {
-
-									if (this.getRoot() == this) {
-
-										this.getItem(0).cfg.setProperty("submenu", aSubmenuData[0]);
-										//console.debug(this.getSubmenus());
-
-										this.getSubmenus()[0].setItemGroupTitle("{/literal}{$_TR.forthis}{$container->info.module}{literal}", 0);
-
-									}
-
-								});
-								oMenu.render();
-
-							});
-
-						{/literal}
-						{/script*}
 						
 						
 					
@@ -233,7 +151,7 @@
 
 	{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 	{if $permissions.add_module == 1 && $hidebox == 0}
-	<a id="addmod{$num}" class="addmodule" href="{link action=edit rerank=1 rank=$smarty.foreach.c.iteration}"><span class="addtext">{$_TR.add_new}</span></a>
+	<a class="addmodule" href="{link action=edit rerank=1 rank=$smarty.foreach.c.iteration}"><span class="addtext">{$_TR.add_new}</span></a>
 	{/if}
 	{/permissions}
 	{/if}
@@ -246,7 +164,6 @@
 </div>
 {/if}
 {/permissions}
-
 
 
 {if $permissions.administrate == 1}

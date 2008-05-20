@@ -24,9 +24,9 @@
 	<div class="moduleactions">
 		{if $permissions.edit == 1}
 			{if $textitem->approved != 1}
-				<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+				<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" {$smarty.const.XHTML_CLOSING}>
 			{else}
-				<a href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+				<a href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" {$smarty.const.XHTML_CLOSING}></a>
 			{/if}
 		{/if}
 		{if $textitem->approved != 1 && ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1)}
@@ -34,7 +34,7 @@
 		{/if}
 		{if $permissions.manage_approval == 1 && ($textitem->id != 0 && $textitem->approved != 0)}
 			<a href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=revisions_view id=$textitem->id}" title="{$_TR.link_manageap}" >
-				<img src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
+				<img src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" {$smarty.const.XHTML_CLOSING}> 
 			</a>
 		{/if}
 	</div>

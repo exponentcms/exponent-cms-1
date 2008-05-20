@@ -24,26 +24,26 @@
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		<div class="itemactions">
 			{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
-				<a href="{link action=userperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
-				<a href="{link action=groupperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" /></a>
+				<a href="{link action=userperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" {$smarty.const.XHTML_CLOSING}></a>&nbsp;
+				<a href="{link action=groupperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" {$smarty.const.XHTML_CLOSING}></a>
 			{/if}
 			{if $permissions.edit_item == true || $newsitem->permissions.edit_item == true}
 				{if $newsitem->approved == 2} {* in ap *}
-				<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+				<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" {$smarty.const.XHTML_CLOSING}>
 				{else}
-				<a href="{link action=edit id=$newsitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+				<a href="{link action=edit id=$newsitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" {$smarty.const.XHTML_CLOSING}></a>
 				{/if}
 			{/if}
 			{if $permissions.delete_item == true || $newsitem->permissions.delete_item == true}
 				{if $newsitem->approved == 2} {* in ap *}
-				<img src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+				<img src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" {$smarty.const.XHTML_CLOSING}>
 				{else}
-				<a onclick="return confirm('{$_TR.delete_confirm}');" href="{link action=delete id=$newsitem->id}"><img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+				<a onclick="return confirm('{$_TR.delete_confirm}');" href="{link action=delete id=$newsitem->id}"><img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" {$smarty.const.XHTML_CLOSING}></a>
 				{/if}
 			{/if}
 			{if $permissions.manage_approval == 1}
-				<a class="managerevisions" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">
-					<img src="{$smarty.const.ICON_RELATIVE}revisions.png" alt="{$_TR.revisions}">
+				<a class="managerevisions" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}">
+					<img src="{$smarty.const.ICON_RELATIVE}revisions.png" alt="{$_TR.revisions}" {$smarty.const.XHTML_CLOSING}>
 				</a>
 			{/if}
 		</div>
@@ -75,6 +75,7 @@
 			<li><a class="expirednews" href="{link action=view_expired}">{$_TR.view_expired}</a></li>
 		{/if}
 		{/permissions}
+		</ul>
 	</div>
 	{/if}
 	{/permissions}
