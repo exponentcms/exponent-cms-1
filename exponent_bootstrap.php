@@ -56,7 +56,7 @@ include_once(dirname(__realpath(__FILE__)) . '/exponent_variables.php');
 
 // Set the default timezone.
 if (function_exists('date_default_timezone_set')) {
-    date_default_timezone_set(DISPLAY_DEFAULT_TIMEZONE);
+    @date_default_timezone_set(DISPLAY_DEFAULT_TIMEZONE);
 }
 
 // Process PHP-wrapper settings (ini_sets and setting detectors)
