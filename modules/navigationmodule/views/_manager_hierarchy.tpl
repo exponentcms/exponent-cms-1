@@ -410,6 +410,7 @@ eXp.ddNavTree = function() {
 	var oContextMenu = new YAHOO.widget.ContextMenu("navTreeContext", {
 																	trigger: "navtree",
 																	hidedelay:1000,
+																	zIndex:500,
 																	classname: "yui-skin-sam",
 																	itemdata:navoptions,
 																	lazyload: true

@@ -23,7 +23,8 @@
 	var contextElements = YAHOO.util.Dom.getElementsByClassName("viewinfo");
 
 	var ttA = new YAHOO.widget.Tooltip("ttA", { 
-				context:contextElements
+				context:contextElements,
+				zIndex:500
 	});
 	
 	YAHOO.util.Event.onDOMReady(function(){
@@ -43,8 +44,9 @@
 					var containermenu = new YAHOO.widget.Menu("containermodulemenu", { 
 						position: "dynamic",
 						clicktohide: true,
+						zIndex:500,
 						classname: "containermenu",
-						hidedelay: 350,
+						hidedelay: 0,
 						fixedcenter: false
 						});
 
