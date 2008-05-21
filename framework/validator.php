@@ -28,7 +28,7 @@ class validator {
 					$capcha_real = exponent_sessions_get('capcha_string');
 					if (SITE_USE_CAPTCHA && strtoupper($post[$param]) != $capcha_real) {
         					unset($post[$param]);
-        					$post['_formError'][] = 'Capcha Verification Failed';
+        					$post['_formError'][] = 'Captcha Verification Failed';
 					}
 				break;
 				case 'presense_of':
