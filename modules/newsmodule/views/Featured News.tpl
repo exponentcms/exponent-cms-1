@@ -80,6 +80,7 @@
 	</div>
 	<div class="bodycopy">
 		{$item->body|summarize:html:para}
+		<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">Read More</a>
 	</div>
 </div>
 {/foreach}

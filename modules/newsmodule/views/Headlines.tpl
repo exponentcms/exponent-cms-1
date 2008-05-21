@@ -21,7 +21,13 @@
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	{foreach from=$news item=newsitem}
 		<div>
-			{if $newsitem->title} != ""}<h2>{$newsitem->title}</h2>{/if}
+			{if $newsitem->title != ""}
+				<h2>
+					<a class="readmore" href="{link action=view id=$newsitem->id}">
+						{$newsitem->title}
+					</a>
+				</h2>
+			{/if}
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 				{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
 					<a href="{link action=userperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
