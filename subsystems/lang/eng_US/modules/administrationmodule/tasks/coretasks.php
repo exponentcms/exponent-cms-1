@@ -40,7 +40,7 @@ return array(
 
 	'development'=>'Development',
 	'rebuild_css'=>'Rebuild CSS File',
-	'clear_smarty'=>'Clear Smary Cache',
+	'clear_smarty'=>'Clear Smarty Cache',
 	'toggle_dev'=>(DEVELOPMENT == 0) ? 'Turn Error Reporting On' : 'Turn Error Reporting Off',
 	'toggle_maint'=>(MAINTENANCE_MODE == 0) ? 'Turn Maintenance Mode On' : 'Turn Maintenance Mode Off',
 
