@@ -86,8 +86,8 @@ YAHOO.myProject.myModule.adddescription("{$key}","{$slide->description}");
 </div>
 
 
+{script unique="yuislideshow" yuimodules="  container,animation"}
 {literal}
-<script type="text/javascript">
 YAHOO.util.Event.onDOMReady(function() { 
 	slideshow = new YAHOO.myowndb.slideshow("yui-sldshw-displayer", {effect:  YAHOO.myowndb.slideshow.effects.fadeOut, interval:{/literal}{$config->delay}{literal}});
 	slideshow.loop();
@@ -117,12 +117,8 @@ YAHOO.util.Event.onDOMReady(function() {
 
 });
 
-
-
-
-
-</script>
-{/literal}	
+{/literal}
+{/script}
 
 {else}
 There are no slides in the slideshow.<br />

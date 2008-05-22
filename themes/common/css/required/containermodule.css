@@ -57,6 +57,10 @@ a.modulemenutrigger{
 	display:block;
 	width:18px;
 	height:15px; 
+	text-decoration:none;
+}
+a.modulemenutrigger:hover{
+	text-decoration:none;
 }
 
 
@@ -171,6 +175,8 @@ a.addmodule:hover{
 #containermodulemenu.containermenu .yuimenuitem .yuimenuitemlabel {
     background-image:url(../../images/icons/exp1icons.png);  
 	_background-image:url(../../images/icons/exp1icons.gif);  
+	font-family:"Trebuchet MS","Verdana";
+	font-size:12px;
  	background-repeat:no-repeat;
 	padding:3px 5px 3px 20px;
 }

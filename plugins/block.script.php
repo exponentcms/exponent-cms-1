@@ -23,17 +23,8 @@ function smarty_block_script($params,$content,&$smarty, &$repeat) {
 		
 		if (empty($params['unique'])) die("<strong style='color:red'>The 'unique' parameter is required for the {script} pluggin.</strong>"); 
 		
-		
-		if (!empty($params['yuimodules'])) {
-			
-			$userjsfiles['yuimodules'][$params['unique']] = $params['yuimodules'];
-			$userjsfiles['yuiloader'][$params['unique']] = $content;
-			
-		} else {
-			$userjsfiles[$smarty->_tpl_vars[__name]][$params['unique']] = $content;
-		}
+		exponent_javascript_toFoot($params['unique'],$params['yuimodules'],$smarty->_tpl_vars[__name],$content);
 	}
-	
 }
 
 

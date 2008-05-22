@@ -120,20 +120,15 @@ function exponent_javascript_array($array) {
 	return exponent_javascript_object($array);
 }
 
-function exponent_javascript_harvestJS($module,$view){
-	
+function exponent_javascript_toFoot($unique,$yuimodules,$view,$content){
 	global $userjsfiles;
-
-	$commondir = BASE.'themes/common/javascript/'.$module.'/'.$view.'.js';
-	$themedir = BASE.'themes/'.DISPLAY_THEME_REAL.'/javascript/'.$module.'/'.$view.'.js';
-
-//	echo $commondir;
-	if (is_readable($themedir)) {
-		$userjsfiles[$module][$view] = file_get_contents($themedir);
-	} elseif (is_readable($commondir)) {
-		$userjsfiles[$module][$view] = file_get_contents($commondir);
+	
+	if (!empty($yuimodules)) {
+		$userjsfiles['yuimodules'][$unique] = $yuimodules;
+		$userjsfiles['yuiloader'][$unique] = $content;
+	} else {
+		$userjsfiles[$view][$params['unique']] = $content;
 	}
-	//eDebug($userjsfiles);
 }
 
 function exponent_javascript_outputJStoDOMfoot(){
@@ -141,18 +136,23 @@ function exponent_javascript_outputJStoDOMfoot(){
 	global $userjsfiles;
 	if (!empty($userjsfiles)){
 		echo '<script type="text/javascript" charset="utf-8">';
-		//eDebug($userjsfiles);
+		$buildYUIModules = array();
 		if (!empty($userjsfiles['yuiloader'])){
+			foreach($userjsfiles['yuimodules'] as $mods){
+				$toreplace = array('"',"'"," ");
+				$stripmodquotes = str_replace($toreplace, "", $mods);				
+				$splitmods = explode(",",$stripmodquotes);
+				
+				foreach ($splitmods as $key=>$val){
+					$buildYUIModules[$val] = "'".$val."'";
+				}
+				
+			}
+				
 			echo 'var loader = new YAHOO.util.YUILoader();';
 			echo 'loader.base = eXp.URL_FULL+\'external/yui/build/\';';
 			echo 'loader.loadOptional = true;';
-			echo 'loader.require(';
-			$countr = 0;
-			foreach($userjsfiles['yuimodules'] as $mods){
-					echo ($countr==0)?$mods:",".$mods;
-					$countr++;
-			}
-			echo ");";
+			echo 'loader.require('.implode(",",$buildYUIModules).');';
 			echo 'loader.onSuccess = function(){';
 			foreach($userjsfiles['yuiloader'] as $script){
 				echo $script;

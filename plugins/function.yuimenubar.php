@@ -20,22 +20,19 @@
 function smarty_function_yuimenubar($params,&$smarty) {
 
 
-	//$str = "";
-	echo'<script type="text/javascript">
+	$menu = '
         function buildmenu () {
             var oMenuBar = new YAHOO.widget.MenuBar("'.$params['buildon'].'", { 
 													
 														constraintoviewport:false,
 														postion:"dynamic",
 														visible:true,
-														zindex:250,
+														zIndex:250,
  														autosubmenudisplay: true, 
 														hidedelay: 750, 
 														lazyload: true });
 
-            var aSubmenuData = ';
-				echo navigationmodule::navtojson();
-			echo	';
+            var aSubmenuData = '.navigationmodule::navtojson().';
             oMenuBar.subscribe("beforeRender", function () {
 
                 if (this.getRoot() == this) {
@@ -53,8 +50,9 @@ function smarty_function_yuimenubar($params,&$smarty) {
         
         }
 		YAHOO.util.Event.onDOMReady(buildmenu);
-    </script>
     ';
+	
+	exponent_javascript_toFoot("yuimenubar-".$params['buildon'],"menu",$smarty->_tpl_vars[__name],$menu);
 	
 	
 }

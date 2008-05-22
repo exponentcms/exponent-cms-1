@@ -223,7 +223,17 @@ function exponent_theme_headerInfo($config) {
 }
 
 function headerInfo($config) {
-	global $sectionObj, $user;
+	
+	if (!is_array($config)){
+		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>
+		The exponent_theme_headerInfo() function only takes 1 parameter, and it MUST be an array (\$config). Please refer to the Exponent documentation for details:<br />
+		<a href=\"http://docs.exponentcms.org\" target=\"_blank\">http://docs.exponentcms.org/</a>
+		</h1>";
+		die();
+	}
+	
+	global $sectionObj, $user, $validateTheme;
+	$validateTheme['headerinfo'] = true;
 	
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 
@@ -281,7 +291,8 @@ function exponent_theme_footerInfo() {
 }
 
 function footerInfo() {
-	//exponent_theme_showModule("administrationmodule","_panel");
+	global $validateTheme;
+	$validateTheme['footerinfo'] = true;
 	exponent_javascript_outputJStoDOMfoot();
 	rebuild_css();	
 	exponent_sessions_unset("last_POST");  //ADK - putting this here so one form doesn't unset it before another form needs it.
@@ -725,5 +736,24 @@ function exponent_theme_loadActionMaps() {
 		return array();
 	}
 }
+
+
+function exponent_theme_satisfyThemeRequirements() {
+	global $validateTheme;
+	if ($validateTheme['headerinfo']==false) {
+		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>exponent_theme_headerInfo() is a required function in your theme.  Please refer to the Exponent documentation for details:<br />
+		<a href=\"http://docs.exponentcms.org\" target=\"_blank\">http://docs.exponentcms.org/</a>
+		</h1>";
+		die();
+	}
+	
+	if ($validateTheme['footerinfo']==false) {
+		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>exponent_theme_footerInfo() is a required function in your theme.  Please refer to the Exponent documentation for details:<br />
+		<a href=\"http://docs.exponentcms.org\" target=\"_blank\">http://docs.exponentcms.org/</a>
+		</h1>";
+		die();
+	}
+}
+
 
 ?>
