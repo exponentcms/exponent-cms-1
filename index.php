@@ -76,6 +76,7 @@ if (MAINTENANCE_MODE && !exponent_users_isAdmin() && ( !isset($_REQUEST['module'
 	if (is_readable($page)) {
 		if (!exponent_javascript_inAjaxAction()) {
 			include_once($page);
+			exponent_theme_satisfyThemeRequirements();
 		} else {
 			exponent_theme_runAction();
 		}
