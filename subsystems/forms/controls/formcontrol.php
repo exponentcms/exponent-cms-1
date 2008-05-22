@@ -48,7 +48,8 @@ class formcontrol {
 	function getFieldDefinition() { return array(); }
 
 	function toHTML($label,$name) {
-		$html = "<div id=\"".$name."Control\" class=\"control";
+		$this->id  = (empty($this->id)) ? $name : $this->id;
+		$html = "<div id=\"".$this->id."Control\" class=\"control";
 		$html .= (!empty($this->required)) ? ' required">' : '">';
 		$html .= "<label>";
 		if(empty($this->flip)){

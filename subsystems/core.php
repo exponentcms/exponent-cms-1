@@ -395,7 +395,6 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 		// new style name processing
 		//$type = array_pop(preg_split("*(?=[A-Z])*", $name));
 
-		
 		//TODO: convert everything to the new naming model
 		if(stripos($name, "module") != false){
 			$type = "modules";
@@ -422,7 +421,6 @@ function exponent_core_resolveFilePaths($type, $name, $subtype, $subname) {
 			$relpath .= "datatypes/";
 		} elseif($type == "controls") {
 			$relpath .= "themes/";
-		// new style names
 		} elseif($type == "Control") {
 			$relpath .= "themes/";
 		} elseif($type == "Form") {

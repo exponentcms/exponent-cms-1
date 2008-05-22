@@ -8,7 +8,7 @@
 	"include-common-css"=>true,
 	"include-theme-css"=>true
 	);
-	echo exponent_theme_headerInfo($section,$config); 
+	echo exponent_theme_headerInfo($config); 
 	?>
 </head>
 <body>
@@ -37,5 +37,6 @@
 			<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>
 		</div>
 	</div>
+<?php echo exponent_theme_footerInfo(); ?>
 </body>
 </html>

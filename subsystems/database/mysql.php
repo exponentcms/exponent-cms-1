@@ -468,6 +468,12 @@ class mysql_database {
 		return @mysql_query($sql,$this->connection);
 	}
 
+	function toggle($table, $col, $where=null) {
+                $obj = $this->selectObject($table, $where);
+                $obj->$col = ($obj->$col == 0) ? 1 : 0;
+                $this->updateObject($obj, $table);
+        }
+
 	/* exdoc
 	 * Select a series of objects
 	 *

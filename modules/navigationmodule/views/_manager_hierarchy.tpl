@@ -365,7 +365,7 @@ eXp.ddNavTree = function() {
 		var dragbefores = (section.manage!=false)? 'addbefore' : 'cannotaddbefore' ;
 		var first = (section.rank==0)?'<div class="'+dragbefores+'" id="addbefore'+section.id+'"></div>':'';
 		var drag = (section.manage!=false)?'<div class="draghandle" id="draghandle'+section.id+'">&nbsp;</div>':'';
-		var html = '<div class="'+draggable+'" id="section'+section.id+'" href="'+section.link+'">'+drag+'<span class="sectionlabel" id="sectionlabel'+section.id+'">'+section.name+'</span></div><div class="'+dragafters+' '+last+'" id="addafter'+section.id+'"></div>';
+		var html = '<div class="'+draggable+'" id="section'+section.id+'">'+drag+'<a href="'+section.link+'"><span class="sectionlabel" id="sectionlabel'+section.id+'">'+section.name+'</span></a></div><div class="'+dragafters+' '+last+'" id="addafter'+section.id+'"></div>';
 		return html;
 	}
 	

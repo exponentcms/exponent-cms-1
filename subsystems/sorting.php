@@ -63,6 +63,9 @@ function exponent_sorting_byLastNameAscending($a,$b) {
         return strnatcasecmp($a->lastname,$b->lastname);
 }
 
+function exponent_sorting_byFirstNameAscending($a,$b) {
+        return strnatcasecmp($a->firstname,$b->firstname);
+}
 /* exdoc
  * Object sorting comparison function -- sorts by username attribute in ascending order.
  * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)

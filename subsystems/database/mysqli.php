@@ -443,6 +443,12 @@ class mysqli_database {
 		return @mysqli_query($this->connection, $sql);
 	}
 
+	function toggle($table, $col, $where=null) {
+		$obj = $this->selectObject($table, $where);
+		$obj->$col = ($obj->$col == 0) ? 1 : 0;
+		$this->updateObject($obj, $table);
+	}
+
 	/* exdoc
 	 * Select a series of objects
 	 *
@@ -976,11 +982,12 @@ class mysqli_database {
 
 		if ($type == "int(11)") return DB_DEF_ID;
 		if ($type == "int(8)") return DB_DEF_INTEGER;
-		else if ($type == "tinyint(1)") return DB_DEF_BOOLEAN;
-		else if ($type == "int(14)") return DB_DEF_TIMESTAMP;
-		else if (substr($type,5) == "double") return DB_DEF_DECIMAL;
+		elseif ($type == "tinyint(1)") return DB_DEF_BOOLEAN;
+		elseif ($type == "int(14)") return DB_DEF_TIMESTAMP;
+		//else if (substr($type,5) == "double") return DB_DEF_DECIMAL;
+		elseif ($type == "double") return DB_DEF_DECIMAL;
 		// Strings
-		else if ($type == "text" || $type == "mediumtext" || $type == "longtext" || strpos($type,"varchar(") !== false) {
+		elseif ($type == "text" || $type == "mediumtext" || $type == "longtext" || strpos($type,"varchar(") !== false) {
 			return DB_DEF_STRING;
 		}
 	}
@@ -1028,6 +1035,7 @@ class mysqli_database {
 	function limit($num,$offset) {
 		return ' LIMIT '.$offset.','.$num.' ';
 	}
+
 }
 
 ?>

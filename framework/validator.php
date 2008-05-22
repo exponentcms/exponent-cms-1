@@ -28,7 +28,7 @@ class validator {
 					$capcha_real = exponent_sessions_get('capcha_string');
 					if (SITE_USE_CAPTCHA && strtoupper($post[$param]) != $capcha_real) {
         					unset($post[$param]);
-        					$post['_formError'][] = 'Captcha Verification Failed';
+        					$post['_formError'][] = exponent_lang_getText('Capcha Verification Failed');
 					}
 				break;
 				case 'presense_of':
@@ -43,8 +43,11 @@ class validator {
 				break;
 			}
 		}
+		
 		if (count($post['_formError']) > 0) {
 			self::failAndReturnToForm($post['_formError'], $post);
+		} else { 
+			return true;
 		}
 	}
 

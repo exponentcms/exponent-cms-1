@@ -14,6 +14,9 @@ return array(
 	
 	'create_account'=>'Create Account',
 	'forgot_password'=>'Forgot Your Password?',
+
+	'username'=> (USER_REGISTRATION_USE_EMAIL == 1) ? 'Email' : 'Username',
+	'password'=>'Password',
 );
 
 ?>

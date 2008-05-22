@@ -19,20 +19,6 @@
 
 function smarty_block_form($params,$content,&$smarty, &$repeat) {
 	if(empty($content)){
-		//handle incoming errors
-		
-		/*if (exponent_sessions_isset("last_POST")) {
-			$formError  = exponent_sessions_get("last_POST");
-			$smarty->assign('formError', $formError);
-			exponent_sessions_unset("last_POST");
-			echo '<ul class="error">';
-				foreach($formError['_formError'] as $err) {
-					echo '<li>'.$err."</li>";
-				}
-			echo '</ul>';
-		}*/
-		
-		
 		$name = isset($params['name']) ? $params['name'] : 'form';
 		$module = isset($params['module']) ? $params['module'] : $smarty->_tpl_vars['__loc']->mod;
 		$method = isset($params['method']) ? $params['method'] : "POST";

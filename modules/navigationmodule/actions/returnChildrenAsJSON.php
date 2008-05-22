@@ -19,10 +19,12 @@
 
 if (!defined('EXPONENT')) exit('');
 	//$nav = navigationmodule::levelTemplate(intval($_REQUEST['id'], 0));
-	$nav = $db->selectObjects('section', 'parent='.intval($_REQUEST['id']), 'rank');
+	$id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+
+	$nav = $db->selectObjects('section', 'parent='.$id, 'rank');
 	
 	$manage_all = false;
-	if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',intval($_REQUEST['id'])))) {$manage_all = true;}
+	if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$id))) {$manage_all = true;}
 	$navcount = count($nav);
 	for($i=0; $i<$navcount;$i++) {
 		if ($manage_all || exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$nav[$i]->id))) {
@@ -30,6 +32,7 @@ if (!defined('EXPONENT')) exit('');
 		} else {
 			$nav[$i]->manage = 0;
 		}
+		$nav[$i]->link = exponent_core_makeLink(array('section'=>$nav[$i]->id),'',$nav[$i]->sef_name);
 	}
 	$nav[$navcount-1]->last=true;
 	echo exponent_javascript_ajaxReply(201, '', $nav);

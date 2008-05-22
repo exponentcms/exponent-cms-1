@@ -22,7 +22,10 @@ function smarty_function_control($params,&$smarty) {
 		$i18n = exponent_lang_loadFile('plugins/function_control.php');
 
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
-			exponent_forms_initialize();
+		exponent_forms_initialize();
+
+		// if a label wasn't passed in then we need to set one.
+		if (empty($params['label'])) $params['label'] = $params['name'];
 
 		//Figure out which type of control to use. Also, some controls need some special setup.	 We handle that here.
 		if ($params['type'] == 'popupdatetimecontrol') {
@@ -37,9 +40,10 @@ function smarty_function_control($params,&$smarty) {
 		} elseif ($params['type'] == 'dropdown') {
 			$control = new dropdowncontrol();
 			$control->include_blank = isset($params['includeblank']) ? $params['includeblank'] : false;
+			$control->multiple = isset($params['multiple']) ? true : false;
 			if (isset($params['from']) && isset($params['to'])) {
 				for($i=$params['from']; $i <= $params['to']; $i++) {
-					$control->items[$i] = $i;
+					$control->items[$i] = isset($params['zeropad']) ? sprintf("%02d",$i) : $i;
 				}
 			} else {
 				$control->items = isset($params['items']) ? $params['items'] : array();
@@ -74,6 +78,31 @@ function smarty_function_control($params,&$smarty) {
 			} else {
 				return false;
 			}
+		 } elseif ($params['type'] == 'state') {
+                        global $db;
+			if ($db->tableExists('geo_region')) {
+                        	$country = empty($params['country']) ? 223 : $params['country']; //check for a country,else default to US.
+	                        $control = new dropdowncontrol();
+        	                $control->include_blank = isset($params['includeblank']) ? $params['includeblank'] : false;
+				if (isset($params['multiple'])) {
+					$control->multiple = true;
+					$control->items[-1] = 'ALL United States';
+				}
+                	        foreach($db->selectObjects('geo_region', 'country_id=223') as $state) {
+					if (isset($params['abbv'])) {
+						$control->items[$state->id] = $state->code;
+					} else {
+                        	        	$control->items[$state->id] = $state->name;
+					}
+	                        }
+
+        	                // sanitize the default value. can accept as id, code abbrv or full name,
+                	        if (!empty($params['value']) && !is_numeric($params['value']) && !is_array($params['value'])) {
+                        	        $params['value'] = $db->selectValue('geo_region', 'id', 'name="'.$params['value'].'" OR code="'.$params['value'].'"');
+	                        }
+			} else { 
+				echo "NO TABLE"; exit();
+			}
 		} else {
 			$control = new genericcontrol($params['type']);
 		}
@@ -81,13 +110,28 @@ function smarty_function_control($params,&$smarty) {
 		//eDebug($smarty->_tpl_vars['formError']);	
 		//Add the optional params in specified
 		if (isset($params['class'])) $control->class = $params['class'];
-		if (isset($params['required'])) $control->required = $required;;
+		if (isset($params['required'])) $control->required = true;
 		if (isset($params['checked'])) $control->checked = $params['checked'];
-		if (!empty($params['value'])) {
-			$control->default = $params['value'];
-		} elseif (exponent_sessions_isset('last_POST')) {
+		if (exponent_sessions_isset('last_POST')) {
 			$post = exponent_sessions_get('last_POST');
-			if (!empty($post[$params['name']])) $control->default = $post[$params['name']];
+			if ($params['type'] == 'checkbox') {
+            	$realname = str_replace('[]', '', $params['name']);
+				$control->default = $params['value'];
+                if (!empty($post[$realname])) {
+					if (is_array($post[$realname])) {
+	            	    if (in_array($params['value'], $post[$realname])) $control->checked = true;
+					} else {
+						$control->checked = true;
+					}
+                }
+			} elseif (isset($params['multiple'])){
+				$realname = str_replace('[]', '', $params['name']);
+				if (!empty($post[$realname])) $control->default = $post[$realname];
+                        } else {
+				if (!empty($post[$params['name']])) $control->default = $post[$params['name']];
+                        }
+		} elseif (!empty($params['value'])) {
+			$control->default = $params['value'];
 		}
 		//if (isset($params['value'])) $control->default = $params['value'];
 		if (isset($params['size'])) $control->size = $params['size'];
@@ -102,7 +146,7 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['readonly']) && $params['readonly'] != false) $control->readonly = true;
 
 		// check to see if we are returning to the form via errors...if so use the post data instead.
-		if (isset($smarty->_tpl_vars['formError'])) {
+		/*if (isset($smarty->_tpl_vars['formError'])) {
 			if ($params['type'] == 'checkbox') {
 				$realname = str_replace('[]', '', $params['name']);
 				if (!empty($smarty->_tpl_vars['formError'][$realname])) {
@@ -111,7 +155,7 @@ function smarty_function_control($params,&$smarty) {
 			} else {
 				$control->default = $smarty->_tpl_vars['formError'][$params['name']];
 			}
-		}
+		}*/
 
 		$control->name = $params['name'];
 		$control->id = isset($params['id']) && $params['id'] != "" ? $params['id'] : $params['name'];

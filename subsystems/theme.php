@@ -584,7 +584,7 @@ function exponent_theme_runAction() {
 	}
 }
 
-function exponent_theme_showAction($module, $action, $src, $params="") {
+function exponent_theme_showAction($module, $action, $src="", $params="") {
 	
 	global $db, $user;
 

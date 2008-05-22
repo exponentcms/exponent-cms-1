@@ -95,7 +95,7 @@ class htmleditorcontrol extends formcontrol {
 			//until exponent_core_resolveFilePaths() gets an update
 			//waiting for switch to PHP5: strrpos() will take strings as needle
 			$viewObj = new ControlTemplate("EditorControl", SITE_WYSIWYG_EDITOR);
-			
+	
 			//assign the data models to the view object
 			$viewObj->assign("view", $view);
 			$viewObj->assign("content", $content);

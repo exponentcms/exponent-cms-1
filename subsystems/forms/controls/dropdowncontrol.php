@@ -56,11 +56,12 @@ class dropdowncontrol extends formcontrol {
 			DB_FIELD_LEN=>255);
 	}
 	
-	function dropdowncontrol($default = "",$items = array(), $include_blank = false) {
+	function dropdowncontrol($default = "",$items = array(), $include_blank = false, $multiple=false) {
 		$this->default = $default;
 		$this->items = $items;
 		$this->include_blank = $include_blank;
 		$this->required = false;
+		$this->multiple = $multiple;
 	}
 	
 	function controlToHTML($name) {
@@ -74,16 +75,23 @@ class dropdowncontrol extends formcontrol {
 		if (@$this->required) {
 			$html .= 'required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
 		}
+		if ($this->multiple) $html .= ' multiple';
 		if (!empty($this->onchange)) $html .= ' onchange="'.$this->onchange.'" ';
 		$html .= '>';
 
-		if ($this->include_blank == true) {
+		if (is_bool($this->include_blank) && $this->include_blank == true) {
 			$html .= '<option value=""></option>';
+		} elseif (is_string($this->include_blank) && !empty($this->include_blank)) {
+			$html .= '<option value="-1">'.$this->include_blank.'</option>';
 		}
 
 		foreach ($this->items as $value=>$caption) {
 			$html .= '<option value="' . $value . '"';
-			if ($value == $this->default) $html .= " selected";
+			if (is_array($this->default)) {
+				if (in_array($value, $this->default)) $html .= " selected";
+			} else {
+				if ($value == $this->default) $html .= " selected"; 
+			}
 			$html .= '>' . $caption . '</option>';
 		}
 		$html .= '</select>';

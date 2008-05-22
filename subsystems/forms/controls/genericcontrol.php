@@ -51,7 +51,7 @@ class genericcontrol extends formcontrol {
 		return array();
 	}
 
-	function genericcontrol($type="", $default = false, $class="", $filter="", $checked=false, $required = false, $validate="", $onclick="") {
+	function genericcontrol($type="", $default = false, $class="", $filter="", $checked=false, $required = false, $validate="", $onclick="", $label="") {
 		$this->type = (empty($type)) ? "text" : $type;
 		$this->default = $default;
 		$this->class = $class;
@@ -65,27 +65,28 @@ class genericcontrol extends formcontrol {
 	}
 	
 	function toHTML($label,$name) {
+		$this->id = empty($this->id) ? $name : $this->id;
 		if ($this->type != 'hidden') {
 			$class = empty($this->class) ? '' : ' '.$this->class;
-        	        $html = '<div id="'.$name.'Control" class="'.$this->type.' control'." ".$class;
+        	        $html = '<div id="'.$this->id.'Control" class="'.$this->type.' control'." ".$class;
                 	$html .= (!empty($this->required)) ? ' required">' : '">';
 	                $html .= "<label>";
         	        if(empty($this->flip)){
                 	        $html .= "<span class=\"label\">".$label."</span>";
-                        	$html .= $this->controlToHTML($name);
+                        	$html .= $this->controlToHTML($name, $label);
 	                } else {
-        	                $html .= $this->controlToHTML($name);
+        	                $html .= $this->controlToHTML($name, $label);
                         	$html .= "<span class=\"label\">".$label."</span>";
                 	}
 	                $html .= "</label>";
         	        $html .= "</div>";
 		} else {
-			$html .= $this->controlToHTML($name);
+			$html .= $this->controlToHTML($name, $label);
 		}
                 return $html;
         }
 	
-	function controlToHTML($name) {
+	function controlToHTML($name, $label) {
 		$this->name = empty($this->name) ? $name : $this->name;
 		$this->id = empty($this->id) ? $name : $this->id;
 		$html = '<input type="'.$this->type.'" id="' . $this->id . '" name="' . $this->name . '" value="'.$this->default.'"';
@@ -107,7 +108,8 @@ class genericcontrol extends formcontrol {
 
 		if (!empty($this->readonly)) $html .= ' readonly="readonly"';
 
-		if (!empty($this->required)) $html .= ' required="'.rawurlencode($this->default).'" caption="'.rawurlencode($this->caption).'" ';
+		$caption = isset($this->caption) ? $this->caption : str_replace(array(":","*"), "", ucwords($label));
+		if (!empty($this->required)) $html .= ' required="'.rawurlencode($this->default).'" caption="'.$caption.'" ';
 		if (!empty($this->onclick)) $html .= ' onclick="'.$this->onclick.'" ';
 		if (!empty($this->onchange)) $html .= ' onchange="'.$this->onchange.'" ';
 
