@@ -159,10 +159,7 @@ class weblogmodule {
 				foreach ($month_days[$i] as $mday=>$timestamp) {
 					if ($mday > 0) {
 						// Got a valid one.  Go with it.
-						$month_days[$i][$mday] = array(
-							'number'=>$db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp .' AND posted < '.strtotime('+1 day',$timestamp)),
-							'ts'=>$timestamp
-						);
+						$month_days[$i][$mday]['number'] = $db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp .' AND posted < '.strtotime('+1 day',$timestamp['ts']));
 					}
 				}
 			}

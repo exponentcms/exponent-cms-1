@@ -26,7 +26,7 @@ return array(
 	'not_monitoring'=>'You are not monitoring this thread.',
 	'start_monitoring'=>'Start monitoring board for new replies.',
 
-	'who_online'=>'Who's Online',
+	'who_online'=>'Who\'s Online',
 	'totalusers'=>' visitors in the last 15 minutes: ',
 	'members'=>' Members - ',
 	'guests'=>' Guests',

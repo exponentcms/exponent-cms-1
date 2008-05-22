@@ -132,41 +132,17 @@ class calendarmodule {
 		}
 		
 		if ($viewconfig['type'] == "minical") {
-			$monthly = array();
+			$monthly = exponent_datetime_monthlyDaysTimestamp();
 			$info = getdate(time());
-			$info = getdate(time());
-			// Grab non-day numbers only (before end of month)
-			$week = 0;
-			$currentweek = 0;
 			$currentday = $info['mday'];
-			
-			$infofirst = getdate(mktime(12,0,0,$info['mon'],1,$info['year']));
-			
-			if ($infofirst['wday'] == 0) $monthly[$week] = array(); // initialize for non days
-			for ($i = 0 - $infofirst['wday']; $i < 0; $i++) {
-				$monthly[$week][$i] = array("number"=>-1,"ts"=>-1);
+			foreach ($monthly as $weekNum=>$week) {
+				foreach ($week as $dayNum=>$day) {
+					if ($dayNum == $info['mday']) {
+						$currentweek = $weekNum;
+					}
+					$monthly[$weekNum][$dayNum]['number'] = ($monthly[$weekNum][$dayNum]['ts'] != -1) ? $db->countObjects("eventdate","location_data='".serialize($loc)."' AND date = ".$day['ts']) : -1;
+				}
 			}
-						
-			$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
-			
-			// Grab day counts (deprecated, handled by the php date function)
-			// $endofmonth = exponent_datetime_endOfMonthDay(time());
-			
-			$endofmonth = date('t', time());
-			
-			for ($i = 1; $i <= $endofmonth; $i++) {
-				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
-				if ($i == $info['mday']) $currentweek = $week;
-				
-				$monthly[$week][$i] = array("ts"=>$start,"number"=>$db->countObjects("eventdate","location_data='".serialize($loc)."' AND date = $start"));
-				if ($weekday >= 6) {
-					$week++;
-					$monthly[$week] = array(); // allocate an array for the next week
-					$weekday = 0;
-				} else $weekday++;
-			}
-			// Grab non-day numbers only (after end of month)
-			for ($i = 1; $weekday && $i <= (7-$weekday); $i++) $monthly[$week][$i+$endofmonth] = -1;
 			
 			$template->assign("monthly",$monthly);
 			$template->assign("currentweek",$currentweek);
