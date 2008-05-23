@@ -207,6 +207,7 @@ if ( isset($bb) && (isset($user) && $user->id != 0) ) {
 
 			require_once(BASE."subsystems/mail.php");
 			$mail = new exponentMail();
+			$mail->subject($title);
 			$mail->addText($msg);
 			if ($parent == null) {
 			    $mail->addFrom($config->email_address_thread,$config->email_from_thread);
