@@ -16,7 +16,7 @@
 <table>
 <tr><td width="22" valign="top">
 	{if $mimetype->icon != ""}
-	<img src="{$smarty.const.MIMEICON_RELATIVE}{$mimetype->icon}"/>
+	<img src="{$smarty.const.MIMEICON_RELATIVE}{$mimetype->icon}" alt="" />
 	{/if}
 </td>
 <td>

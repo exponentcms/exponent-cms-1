@@ -35,7 +35,7 @@
 {assign var=fid value=$resource->file_id}
 <tr><td>
 {if $files[$fid]->mimetype->icon != ""}
-<img src="{$smarty.const.MIMEICON_RELATIVE}{$files[$fid]->mimetype->icon}"/>
+<img src="{$smarty.const.MIMEICON_RELATIVE}{$files[$fid]->mimetype->icon}" alt="{$files[$fid]->mimetype->name}" />
 {/if}
 <a class="mngmntlink resources_mngmntlink" href="{link action=view id=$resource->id}" title="{$resource->name}">{$resource->name}</a>
 </td><td align="left" valign="top">

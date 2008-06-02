@@ -51,7 +51,7 @@
 <tr>
 	<td valign="top" width="22">
 		{if $files[$fid]->mimetype->icon != ""}
-		<img src="{$smarty.const.MIMEICON_RELATIVE}{$files[$fid]->mimetype->icon}"/>
+		<img src="{$smarty.const.MIMEICON_RELATIVE}{$files[$fid]->mimetype->icon}" alt="{$files[$fid]->mimetype->name}" />
 		{/if}
 	</td>
 	<td valign="top">

@@ -31,7 +31,7 @@
 		{assign var=fid value=$resource->file_id}
 
 		{if $files[$fid]->mimetype->icon != ""}
-		<img src="{$smarty.const.MIMEICON_RELATIVE}/{$files[$fid]->mimetype->icon}"/>
+		<img src="{$smarty.const.MIMEICON_RELATIVE}/{$files[$fid]->mimetype->icon}" alt="{$files[$fid]->mimetype->name}" />
 		{/if}
 
 		<a href="{link action=download_resource id=$resource->id}" title="{$resource->name}">{$resource->name}</a>
