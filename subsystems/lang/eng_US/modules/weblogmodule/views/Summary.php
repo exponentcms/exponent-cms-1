@@ -21,6 +21,7 @@ return array(
 
 	'posted_by'=>'Posted by',
 	'on'=>'on',
+	'alt_rssfeed'=>'Subscribe to this Weblog RSS feed',
 );
 
 ?>
