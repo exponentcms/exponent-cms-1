@@ -20,7 +20,7 @@
 	{/if}
 	
 	{if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
-		<h2>{$_TR.welcome|sprintf:$displayname}<h2>
+		<h2>{$_TR.welcome|sprintf:$displayname}</h2>
 		<a href="{link action=editprofile}">{$_TR.edit_profile}</a>
 	
 		{if $is_group_admin}
