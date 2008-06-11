@@ -57,8 +57,8 @@ if (file_exists(BASE.'install/not_configured')) {
 <br /><br />
 <h2><u>Important Notices: </u></h2>
 <ol>
-	<li class="error">If you are upgrading your site your theme will need to be modified before your site will work. 
-	<a href="http://www.exponentcms.org">For information go to the Exponent CMS website</a></li>
+	<li class="error">If you are upgrading your site your theme <b>will need to be modified</b> before your site will work. 
+	<a href="http://docs.exponentcms.org/New_Themes_Guide" target="_blank">For information go to the Exponent CMS Documentation Site</a></li>
 </ol>
 <br />
 <br />

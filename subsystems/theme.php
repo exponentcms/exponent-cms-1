@@ -227,7 +227,7 @@ function headerInfo($config) {
 	if (!is_array($config)){
 		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>
 		The exponent_theme_headerInfo() function only takes 1 parameter, and it MUST be an array (\$config). Please refer to the Exponent documentation for details:<br />
-		<a href=\"http://docs.exponentcms.org\" target=\"_blank\">http://docs.exponentcms.org/</a>
+		<a href=\"http://docs.exponentcms.org/New_Themes_Guide\" target=\"_blank\">http://docs.exponentcms.org/</a>
 		</h1>";
 		die();
 	}
@@ -746,14 +746,14 @@ function exponent_theme_satisfyThemeRequirements() {
 	global $validateTheme;
 	if ($validateTheme['headerinfo']==false) {
 		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>exponent_theme_headerInfo() is a required function in your theme.  Please refer to the Exponent documentation for details:<br />
-		<a href=\"http://docs.exponentcms.org\" target=\"_blank\">http://docs.exponentcms.org/</a>
+		<a href=\"http://docs.exponentcms.org/New_Themes_Guide\" target=\"_blank\">http://docs.exponentcms.org/</a>
 		</h1>";
 		die();
 	}
 	
 	if ($validateTheme['footerinfo']==false) {
 		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>exponent_theme_footerInfo() is a required function in your theme.  Please refer to the Exponent documentation for details:<br />
-		<a href=\"http://docs.exponentcms.org\" target=\"_blank\">http://docs.exponentcms.org/</a>
+		<a href=\"http://docs.exponentcms.org/New_Themes_Guide\" target=\"_blank\">http://docs.exponentcms.org/</a>
 		</h1>";
 		die();
 	}
