@@ -10,10 +10,10 @@
 			<div class="itemactions">
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit == 1}
-				<a href="{link action=edit id=$link->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+				<a href="{link action=edit id=$link->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit} - {$link->name}" /></a>
 				{/if}
 				{if $permissions.delete == 1}
-				<a href="{link action=delete id=$link->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_link_confirm}');" /></a>
+				<a href="{link action=delete id=$link->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete} - {$link->name}" onclick="return confirm('{$_TR.delete_link_confirm}');" /></a>
 				{/if}
 				{/permissions}
 			</div>

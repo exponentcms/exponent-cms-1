@@ -23,7 +23,9 @@
 		<input type="hidden" name="src" id="src" value="@random47977a9d212f9" />
 		<input type="hidden" name="int" id="int" value="" />
 		<input type="hidden" name="action" id="action" value="search" />
+		<label>
 		<input name="search_string" class="text" type="text" />
+		</label>
 		<input name="search" class="button" value="Search" type="submit" />
 	</form>
 	
