@@ -19,7 +19,7 @@ Added / Fixed for 0.97.0 Beta
 # Drag and Drop Hierarchy navigation management.
 # Full Search-Engine Friendly URL support.
 # JSCal date and time picker in newsmodule and calendarmadule have 
-#An automatic resizing mechanism has been added to the Image Gallery Module when changing thumbnail size
+# An automatic resizing mechanism has been added to the Image Gallery Module when changing thumbnail size
 
 # Theme:
 # CSS Engine optimized and tuned for easier debugging over the 0.97 Alpha.
@@ -40,13 +40,22 @@ Added / Fixed for 0.97.0 Beta
 # Build up of the themes/common directory which encapsulates theme ambiguous CSS, images, and javascript.
 # Scaffolding for easy form and module creation.
 # Added stub function for exponent_getText() in subsystems/lang.php as a start to the lang system upgrades.
+# Sectional Administration Permission - This allows an admin to give a user(s) the ability to administration a page or set of pages.
+# Rewrite of upgrade scripts.  The installer will now show what scripts it ran and their completion status.
+# mysqli database subsystem - it's also been made the default.
+# Mediaplayer module.
+# Podcasting integrated into the Resources Module.
+# RSS aggregation integrated into the News Module.
+# Added the ability to tie (aggregate) multiple news or calendar module togther.
+# YouTube Module
+# Code Snippet Module - for adding javascript/html/flash, etc into a page without the GUI editors stripping it out.
 
 # Trimming:
 # moved some modules, language packs, and themes out of the core package and onto the contributions page on ExponentCMS.org  to reduce core release file size
 # The "Upload Image File" field has been removed from the Calendar Module's edit form. 
 
 # Bug Fixes:
-
+# TONS - see SVN commit logs for more details.
 
 Added / Fixed in 0.97.0 -prealpha-1
 -----------------------
