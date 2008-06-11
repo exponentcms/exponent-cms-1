@@ -22,6 +22,6 @@
 	{form action="save"}
 		{control type="hidden" name="id" value=$textitem->id}
 		{control type="editor" name="text" value=$textitem->text}
-		{control type=buttongroup submit="submit" cancel="cancel"}
+		{control type=buttongroup submit="Save" cancel="Cancel"}
 	{/form}
 </div>
