@@ -2,28 +2,55 @@ Exponent Content Management System
 Copyright (c) 2004-2007 OIC Group, Inc.
 ===============================================
 
-Planned for 0.96.7
+Added / Fixed for 0.97.0 Beta
 -----------------------
-# Anonymous user permissions.  Grant permissions to "non-logged in" users.
-# Form control helpers.  Generate forms in your views with new SMARTY tags which intelligently insert needed tags to save you time.
-# Increased YUI integration.  Exponent will depend on only one external javascript library for a more solid development environment.
-# Validation subsystem for validating forms.
-# Spam control form helper. Reduce the spam you get by forcing users submitting forms to answer a simple question on the form.
-# Base theme built from YUI Grids with high HTML compliance as primary theme.
-# Common CSS.  Major cleanups to CSS structure with simplified default stylesheets.
-# Drastic reduction in use of tables for site structure.
-# Overall user interface and usability improvements. ExponentCMS will be easier to use than ever before!
-# Administration control panel replaced with context-sensitive admin bar.
-# Drag and drop modules.
-# Full Search-Engine Friendly URL support.
-# Removal of unneeded modules, language packs, and themes from main download bundle.
-# Scaffolding.
-# Much, much more!
 
-Added / Fixed in 0.96.7-prealpha-1
+# External Library Updates:
+# FCKEditor upgraded to version 2.6
+# YAHOO! User Interface Library upgraded to version 2.5.1
+# Minify http://code.google.com/p/minify/ version 1.0.1 was added to the system
+# Swift Mailer version 3.3.3 has been added to subsytems
+# Flow Player has been added to /external for the Media Player Module
+
+# Interface:
+# Overall user interface and usability improvements including container module chrome and navigation management.
+# Administration control panel Quicklinks view for easier administration.
+# Further options and configuration added to Administration Default panel, including a Developer's menu.
+# Drag and Drop Hierarchy navigation management.
+# Full Search-Engine Friendly URL support.
+# JSCal date and time picker in newsmodule and calendarmadule have 
+#An automatic resizing mechanism has been added to the Image Gallery Module when changing thumbnail size
+
+# Theme:
+# CSS Engine optimized and tuned for easier debugging over the 0.97 Alpha.
+# Many default views cleaned up to adhere to new CSS conventions.
+# Many Accessibility and Standards Compliant adjustments to the system at large.
+# New Navigation module views taking advantage of YUI's Menu system.
+# exponent_theme_headerInfo() and exponent_theme_footerInfo() are now required in a theme's index.php and subtheme files. 
+# Drastic reduction in use of tables for site structure, namely in the forms subsystem.  Many navigation views have been converted to unordered lists as well.
+# The Image Gallery Module's views have been cleaned up slightly, and With Thumbnails view has been added taking advantage of YUI's panels as a popup
+
+
+# Developments:
+# Drastic speed improvements.
+# Form control helpers. Generate forms in your views with new SMARTY tags which intelligently insert needed tags to save you time.
+# Increased YUI integration.  Exponent will depend on only one external javascript library for a more solid development environment. 
+# {script} Smarty plugin to move javascript to the foot of the document.  Also will load YUI modules using YUI Loader.
+# Validation subsystem for validating forms.
+# Build up of the themes/common directory which encapsulates theme ambiguous CSS, images, and javascript.
+# Scaffolding for easy form and module creation.
+# Added stub function for exponent_getText() in subsystems/lang.php as a start to the lang system upgrades.
+
+# Trimming:
+# moved some modules, language packs, and themes out of the core package and onto the contributions page on ExponentCMS.org  to reduce core release file size
+# The "Upload Image File" field has been removed from the Calendar Module's edit form. 
+
+# Bug Fixes:
+
+
+Added / Fixed in 0.97.0 -prealpha-1
 -----------------------
-# Added SEF URL code via the new Exponent Router.  More info can be found at http://www.exponentcms.org.  We should have some blogs and/or docs up shortly. 
-# New basetheme - a new basic theme highlighting our new file structure and HTML conventions to be used by themers.
+# Added SEF URL code via the new Exponent Router.  
 # CSS Minify - We are now using google Minify class to minify the CSS and push it all into one file which is then included in themes, in some cases this significantly reduces the http requests needed by a theme.
 # changed the call to {link} to $section->link to work with SEF URLs
 # New Mail subsystem
