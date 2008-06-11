@@ -276,7 +276,11 @@ function headerInfo($config) {
 				exponent_permissions_check('manage', $secloc)
 				){
 				//$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/themes/common/javascript/containermodule/containermenus.js"></script>'."\r\n";
-				$str .= "\t".'<script type="text/javascript">YAHOO.namespace ("expadminmenus");</script>'."\r\n";
+				$str .= "\t".'<script type="text/javascript">
+				//<![CDATA[
+				YAHOO.namespace ("expadminmenus");
+				//]]>
+				</script>'."\r\n";
 			}
 		}
 		if(file_exists(BASE.'themes/'.DISPLAY_THEME_REAL.'/favicon.ico')) {

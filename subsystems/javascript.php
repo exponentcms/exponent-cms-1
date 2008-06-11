@@ -135,7 +135,8 @@ function exponent_javascript_outputJStoDOMfoot(){
 	
 	global $userjsfiles;
 	if (!empty($userjsfiles)){
-		echo '<script type="text/javascript" charset="utf-8">';
+		echo '<script type="text/javascript" charset="utf-8">//<![CDATA[
+		';
 		$buildYUIModules = array();
 		if (!empty($userjsfiles['yuiloader'])){
 			foreach($userjsfiles['yuimodules'] as $mods){
@@ -170,7 +171,7 @@ function exponent_javascript_outputJStoDOMfoot(){
 				}
 			}
 		}
-		echo '</script>';
+		echo '//]]></script>';
 	}
 }
 

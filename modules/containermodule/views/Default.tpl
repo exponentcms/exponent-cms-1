@@ -89,12 +89,14 @@
 		<span class="modtype viewinfo" title="{$_TR.container_module} - {$_TR.shown_in|sprintf:$__view}">&nbsp;</span>
 		
 		<script type="text/javascript" charset="utf-8">
+		//<![CDATA[
+		
 				YAHOO.expadminmenus["container{$top->id}"] = [
 					{literal}{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
 					{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }{/literal}
 				];
 
-		</script>
+		//]]></script>
 		
 		
 	</div>
