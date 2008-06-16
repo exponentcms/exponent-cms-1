@@ -17,21 +17,9 @@
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 {if $featured_items[0]->id!=""}
 <div id="newsmodule featured">	
-	{if $moduletitle != ""}
-		<h1>
-			{if $enable_rss == true}
-	        		<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-			{/if}
-			{$moduletitle}
-		</h1>
-	{else}
-		{if $enable_rss == true}
-			<h1>
-	        		<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	        	</h1>
-		{/if}
-	
-	{/if}	
+
+	{if $enable_rss == true}<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
+	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 
 {foreach from=$featured_items item=item}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}

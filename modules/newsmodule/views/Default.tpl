@@ -18,21 +18,10 @@
 	<div class="permissions">
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 	</div>
-	{if $moduletitle != ""}
-		<h1>
-			{if $enable_rss == true}
-	        		<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-			{/if}
-			{$moduletitle}
-		</h1>
-	{else}
-		{if $enable_rss == true}
-			<h1>
-	        		<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	        	</h1>
-		{/if}
-	
-	{/if}	
+
+	{if $enable_rss == true}<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
+	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+
 	{foreach from=$news item=newsitem}
 	{if $newsitem->is_featured!=1}
 		<div class="item {cycle values='odd,even'}">
@@ -99,6 +88,7 @@
 			<li><a class="expirednews" href="{link action=view_expired}">{$_TR.view_expired}</a></li>
 		{/if}
 		{/permissions}
+		</ul>
 	</div>
 	{/if}
 	{/permissions}

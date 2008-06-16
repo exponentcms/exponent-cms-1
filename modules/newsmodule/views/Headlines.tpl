@@ -73,6 +73,7 @@
 			<li><a class="expirednews" href="{link action=view_expired}">{$_TR.view_expired}</a></li>
 		{/if}
 		{/permissions}
+		</ul>
 	</div>
 	{/if}
 	{/permissions}
