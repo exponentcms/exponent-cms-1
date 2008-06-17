@@ -29,13 +29,7 @@
 	
 	YAHOO.util.Event.onDOMReady(function(){
 
-		var containerModuleMenusloader = new YAHOO.util.YUILoader({
-		    require: ["menu"],
-		    loadOptional: true,
-			base : eXp.URL_FULL+'external/yui/build/',
-		    loadOptional: false,
-		    onSuccess: function() {
-				eXp.containerModuleMenus = function () {
+				containerModuleMenus = function () {
 					var E =YAHOO.util.Event,
 						D =YAHOO.util.Dom;
 
@@ -65,10 +59,6 @@
 					});
 
 				}();
-		    }
-		});
-
-		containerModuleMenusloader.insert({},'js');
 
 	});	
 	
