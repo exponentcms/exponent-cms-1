@@ -14,7 +14,7 @@
  *{math equation="x*20" x=$section->depth}
  *}
 <div class="navigationmodule yui-top-nav">
-<div id="flyoutmenu" class="yuimenubar yuimenubarnav">
+<div id="menubar" class="yuimenubar yuimenubarnav">
 	<div class="bd">
 		<ul class="first-of-type">
 		{assign var=startdepth value=0}
@@ -63,11 +63,11 @@
 </div>
 
 
-{script yuimodules='"menu"' unique="yuimenubaryo"}
+{script yuimodules='"menu"' unique="yuimenubar"}
 {literal}
-YAHOO.util.Event.onContentReady("flyoutmenu", function () {
-	eXp.flyoutBar = new YAHOO.widget.MenuBar(
-						"flyoutmenu", 
+YAHOO.util.Event.onDOMReady( function () {
+	menubar = new YAHOO.widget.MenuBar(
+						"menubar", 
 						{
 							position: "static", 
 							hidedelay: 750, 
@@ -77,7 +77,7 @@ YAHOO.util.Event.onContentReady("flyoutmenu", function () {
 					);
 
 
-	eXp.flyoutBar.render(); 
+	menubar.render(); 
 });
 
 

@@ -14,7 +14,7 @@
  *{math equation="x*20" x=$section->depth}
  *}
 <div class="navigationmodule yui-side-nav">
-	<div id="sidenav" class="yuimenu">
+	<div id="sidenavjavascript" class="yuimenu">
 		<div class="bd">
 			<ul class="first-of-type">
 			{foreach name="children" key=key from=$sections item=section}
@@ -31,5 +31,5 @@
 			</ul>
 		</div>
 	</div>
-{yuimenu buildon="sidenav"}
+{yuimenu buildon="sidenavjavascript"}
 </div>
