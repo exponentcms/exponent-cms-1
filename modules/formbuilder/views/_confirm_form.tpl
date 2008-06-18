@@ -32,7 +32,7 @@
 		{foreach from=$postdata item=data key=name}
 			{control type=hidden name=$name value=$data}
 		{/foreach}
-		{control type=capcha}
+		{control type=captcha}
 		{control type=buttongroup submit="Submit Form" cancel="Change Responses"}
 	{/form}
 </div> 

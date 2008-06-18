@@ -20,8 +20,8 @@
 if (!defined("EXPONENT")) exit("");
 
 // Check for form errors
-$capcha_real = exponent_sessions_get('capcha_string');
-if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $capcha_real) {
+$captcha_real = exponent_sessions_get('captcha_string');
+if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $captcha_real) {
 	flash('error', 'Security Validation Failed');
 	exponent_flow_redirect();
 }

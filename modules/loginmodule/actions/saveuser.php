@@ -22,7 +22,7 @@ if (!defined('EXPONENT')) exit('');
 if ( (!$user || $user->id==0) && SITE_ALLOW_REGISTRATION == 1) {
 	$i18n = exponent_lang_loadFile('modules/loginmodule/actions/saveuser.php');
 
-	$capcha_real = exponent_sessions_get('capcha_string');
+	$captcha_real = exponent_sessions_get('captcha_string');
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_SECURITY')) require_once(BASE.'subsystems/security.php');
 	$username_error = exponent_security_checkUsername($_POST['username']);
@@ -44,9 +44,9 @@ if ( (!$user || $user->id==0) && SITE_ALLOW_REGISTRATION == 1) {
 			unset($_POST['pass2']);
 			validator::failAndReturnToForm(sprintf($i18n['not_strong_enough'],$strength_error), $_POST);
 		} else {
-			// Finally, check the capcha
+			// Finally, check the captcha
 			validator::validate(array('captcha'=>'captcha_string'), $_POST);
-			exponent_sessions_unset('capcha_string');
+			exponent_sessions_unset('captcha_string');
 			$u = exponent_users_create($_POST,null);
 			$u = exponent_users_saveProfileExtensions($_POST,$u,true);
 			exponent_users_login($_POST['username'],$_POST['pass1']);

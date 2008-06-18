@@ -24,11 +24,10 @@ class validator {
 		foreach($vars as $validate_type=>$param) {
 			switch($validate_type) {
 				case 'captcha':
-				case 'capcha':
-					$capcha_real = exponent_sessions_get('capcha_string');
-					if (SITE_USE_CAPTCHA && strtoupper($post[$param]) != $capcha_real) {
+					$captcha_real = exponent_sessions_get('captcha_string');
+					if (SITE_USE_CAPTCHA && strtoupper($post[$param]) != $captcha_real) {
         					unset($post[$param]);
-        					$post['_formError'][] = exponent_lang_getText('Capcha Verification Failed');
+        					$post['_formError'][] = exponent_lang_getText('Captcha Verification Failed');
 					}
 				break;
 				case 'presense_of':
