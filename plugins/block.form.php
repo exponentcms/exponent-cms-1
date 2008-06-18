@@ -22,6 +22,7 @@ function smarty_block_form($params,$content,&$smarty, &$repeat) {
 		$name = isset($params['name']) ? $params['name'] : 'form';
 		$module = isset($params['module']) ? $params['module'] : $smarty->_tpl_vars['__loc']->mod;
 		$method = isset($params['method']) ? $params['method'] : "POST";
+		$enctype = isset($params['enctype']) ? $params['enctype'] : 'multipart/form-data';
 
 		echo "<!-- Form Object 'form' -->\r\n";
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'subsystems/forms/js/inputfilters.js.php"></script>'."\r\n";
