@@ -50,6 +50,11 @@ return array(
 		DB_FIELD_LEN=>200),
 	'enable_podcasting'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	"require_agreement"=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'agreement_body'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000),
 );
 
 ?>

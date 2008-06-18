@@ -42,11 +42,16 @@ class resourcesmodule_config {
 			$object->enable_podcasting = 0;
 			$object->feed_title = "";
 			$object->feed_desc = "";
+			$object->require_agreement = 0;
+			$object->agreement_body = "";
 		} else {
 			$form->meta('id',$object->id);
 		}
 		
 		$form->register('allow_anon_downloads','Allow anonymous downloads?',new checkboxcontrol($object->allow_anon_downloads,true));
+		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Confidentiality Agreement</div><hr size="1" />'));
+		$form->register('require_agreement','Require Confidentiality Agreement',new checkboxcontrol($object->require_agreement,true));
+		$form->register('agreement_body',"Enter Confidentiality Agreement",new htmleditorcontrol($object->agreement_body));
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Podcasting Configuration</div><hr size="1" />'));
 		$form->register('enable_podcasting','Enable Podcasting?', new checkboxcontrol($object->enable_podcasting,true));
 		$form->register('feed_title',"Podcast Title",new textcontrol($object->feed_title,35,false,75));
@@ -58,8 +63,10 @@ class resourcesmodule_config {
 	function update($values,$object) {
 		$object->allow_anon_downloads = isset($values['allow_anon_downloads']);
 		$object->enable_podcasting = isset($values['enable_podcasting']);
+		$object->require_agreement = isset($values['require_agreement']);
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
+		$object->agreement_body = $values['agreement_body'];
 		return $object;
 	}
 }
