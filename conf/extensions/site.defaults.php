@@ -48,5 +48,6 @@ if (!defined('DIR_DEFAULT_MODE')) define('DIR_DEFAULT_MODE',octdec(DIR_DEFAULT_M
 if (!defined('USE_LANG')) define('USE_LANG','eng_US');
 if (!defined('ENABLE_WORKFLOW')) define('ENABLE_WORKFLOW',0);
 if (!defined('WORKFLOW_REVISION_LIMIT')) define('WORKFLOW_REVIOSION_LIMIT',0);
+if (!defined('ORGANIZATION_NAME')) define('ORGANIZATION_NAME',URL_BASE);
 
 ?>
