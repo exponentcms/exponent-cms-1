@@ -1009,12 +1009,11 @@ class mysql_database {
 	 */
 	function getDDFieldType($fieldObj) {
 		$type = strtolower($fieldObj->Type);
-
 		if ($type == "int(11)") return DB_DEF_ID;
 		if ($type == "int(8)") return DB_DEF_INTEGER;
 		else if ($type == "tinyint(1)") return DB_DEF_BOOLEAN;
 		else if ($type == "int(14)") return DB_DEF_TIMESTAMP;
-		else if (substr($type,5) == "double") return DB_DEF_DECIMAL;
+		else if ($type == "double") return DB_DEF_DECIMAL;
 		// Strings
 		else if ($type == "text" || $type == "mediumtext" || $type == "longtext" || strpos($type,"varchar(") !== false) {
 			return DB_DEF_STRING;
