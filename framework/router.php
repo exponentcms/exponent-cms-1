@@ -26,7 +26,7 @@ class router {
 	public  $sefPath = null;
 	
 	function __construct() {
-		include_once('router_maps.php');
+		include_once(BASE.'framework/router_maps.php');
 		$this->maps = $maps;
 	}
 
@@ -43,9 +43,6 @@ class router {
 			if (isset($params['section'])) {
 	                	if (empty($params['sef_name'])) {
 	                        	global $db;
-		                        //$spaces = array('&nbsp;', ' ');
-	        	                //$params['sef_name'] = strtolower(str_replace($spaces, '-', $db->selectValue('section', 'name', 'id='.intval($params['section']))));
-					//$params['sef_name'] = router::encode($db->selectValue('section', 'sef_name', 'id='.intval($params['section'])));
 					$params['sef_name'] = $db->selectValue('section', 'sef_name', 'id='.intval($params['section']));
 	                	}
 	        	        return $linkbase.$params['sef_name'];
@@ -189,7 +186,7 @@ class router {
 			if (empty($this->url_parts[count($this->url_parts)-1])) array_pop($this->url_parts);
 			if (empty($this->url_parts[0])) array_shift($this->url_parts);
 			
-			if ( count($this->url_parts) < 1 || (empty($this->url_parts[0]) && count($this->url_parts) == 1) ) {
+			if (count($this->url_parts) < 1 || (empty($this->url_parts[0]) && count($this->url_parts) == 1) ) {
 				$this->url_type = 'base';
 			} elseif (count($this->url_parts) == 1) {
 				$this->url_type = 'page';
@@ -313,6 +310,7 @@ class router {
 			$_REQUEST[$key] = $save_value;
 		        $_GET[$key] = $save_value;
 		}
+
 		return true;
 	}
 
@@ -390,7 +388,7 @@ class router {
 		} elseif ($this->url_type == 'page') {
 			$section = $this->getPageByName($this->url_parts[0]);
 			$params['section'] = $section->id;
-		} elseif ($this->url_type = 'action') {
+		} elseif ($this->url_type == 'action') {
             $params['module'] = $this->url_parts[0];
             $params['action'] = $this->url_parts[1];
             for($i=2; $i < count($this->url_parts); $i++ ) {
