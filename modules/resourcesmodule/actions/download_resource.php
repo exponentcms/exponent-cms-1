@@ -37,7 +37,17 @@ if ($resource != null) {
 	$config = $db->selectObject('resourcesmodule_config', "location_data='".serialize($loc)."'");
 
 	// if the admin/user hasn't configured this module yet we'll allow anon-downloads
+	if (empty($config)) { 
 	if (empty($config)) $config->allow_anon_downloads = true;
+		$config->require_agreement = false;
+	}
+
+	// check if a confidentiality agreement is needed and present
+	if ($config->require_agreement) {
+		global $user;
+		$user_agreement = $db->selectObject('resource_agreement', "user_id=".$user->id." AND location_data='".$resource->location_data."'");
+		if (empty($user_agreement)) redirect_to(array('module'=>'resourcesmodule', 'action'=>'viewagreement', 'src'=>$loc->src, 'id'=>$resource->id));
+	}
 
 	if (!isset($config) || $config == null || $config->allow_anon_downloads != true) {
     		if ( !exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
