@@ -105,55 +105,54 @@ class navigationmodule {
 		// Do nothing, no content
 	}
 	
-	function navtojson(){
+	function getChildren(&$i) {
 		global $sections;
-		function getChildren(&$i) {
-			global $sections;
 
-			//echo "i=".$i."<br>";
-			if ($sections[$i]->depth == $sections[$i+1]->depth) {
-				return array();
-			} else {
-				$ret_depth = $sections[$i]->depth;
-				$i++;
-				$ret_array = array();
-				for($i; $i<count($sections); $i++) {
-					// start setting up the objects to return
-					$obj = null;
-					$obj->text = $sections[$i]->name;
-					
-					if ($sections[$i]->active == 1) { 
-						$obj->url = $sections[$i]->link;
-					} else { 
-						$obj->url = "#";
-						$obj->onclick = "onclick: { fn: return false }";
-					}
-					
-					//echo "i=".$i."<br>";
-					if (hasChildren($i)) {
-						$obj->submenu = null;
-						$obj->submenu->id = $sections[$i]->name.$sections[$i]->id;
-						//echo "getting children of ".$sections[$i]->name;
-						$obj->submenu->itemdata = getChildren($i);
-						$ret_array[] = $obj;
-					} else {
-						$ret_array[] = $obj;	
-					}
+		//echo "i=".$i."<br>";
+		if ($sections[$i]->depth == $sections[$i+1]->depth) {
+			return array();
+		} else {
+			$ret_depth = $sections[$i]->depth;
+			$i++;
+			$ret_array = array();
+			for($i; $i<count($sections); $i++) {
+				// start setting up the objects to return
+				$obj = null;
+				$obj->text = $sections[$i]->name;
+				
+				if ($sections[$i]->active == 1) { 
+					$obj->url = $sections[$i]->link;
+				} else { 
+					$obj->url = "#";
+					$obj->onclick = "onclick: { fn: return false }";
+				}
+				
+				//echo "i=".$i."<br>";
+				if (navigationmodule::hasChildren($i)) {
+					$obj->submenu = null;
+					$obj->submenu->id = $sections[$i]->name.$sections[$i]->id;
+					//echo "getting children of ".$sections[$i]->name;
+					$obj->submenu->itemdata = getChildren($i);
+					$ret_array[] = $obj;
+				} else {
+					$ret_array[] = $obj;	
+				}
 
-					if (($i+1) >= count($sections) || $sections[$i+1]->depth <= $ret_depth) {
-						return $ret_array;		
-					}
+				if (($i+1) >= count($sections) || $sections[$i+1]->depth <= $ret_depth) {
+					return $ret_array;		
 				}
 			}
 		}
+	}
 
-		function hasChildren($i) {
-			global $sections;
-			if ( ($i+1) >= count($sections)) return false;
-			return ($sections[$i]->depth < $sections[$i+1]->depth) ? true : false;
-		}
+	function hasChildren($i) {
+		global $sections;
+		if ( ($i+1) >= count($sections)) return false;
+		return ($sections[$i]->depth < $sections[$i+1]->depth) ? true : false;
+	}
 
-
+	function navtojson(){
+		global $sections;
 		$json_array = array();
 
 		for($i=0; $i<count($sections); $i++) {
@@ -168,7 +167,7 @@ class navigationmodule {
 				}*/
 				
 				//$obj->disabled = true;
-				$obj->itemdata = getChildren($i);
+				$obj->itemdata = navigationmodule::getChildren($i);
 			} 
 			$json_array[] = $obj;
 		}
