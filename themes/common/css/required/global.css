@@ -2,7 +2,7 @@
 	list-style: none;
 }
 
-td.header, td.header a {
+th.header, td.header, td.header a {
         background-color: #aaa;
         color: #fff;
         font-weight: bold;
