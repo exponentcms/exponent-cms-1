@@ -44,7 +44,7 @@ if ($this_post) {
 		$loc = unserialize($this_post->location_data);
 	
 		$next_post = $db->selectObject('weblog_post',$where.' AND posted >= '.$this_post->posted.' AND id != '.$this_post->id);
-		$prev_post = $db->selectObject('weblog_post',$where.' AND posted <= '.$this_post->posted.' AND id != '.$this_post->id);
+		$prev_post = $db->selectObject('weblog_post',$where.' AND posted <= '.$this_post->posted.' AND id != '.$this_post->id, 'posted DESC');
 		if (!$next_post) {
 			$next_post = 0;
 		}

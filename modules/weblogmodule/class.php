@@ -33,7 +33,7 @@ class weblogmodule {
 
                 //Get this modules items
                 $items = array();
-                $items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."'");
+                $items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."'", 'posted DESC');
 
                 //Convert the newsitems to rss items
                 $rssitems = array();
@@ -42,7 +42,8 @@ class weblogmodule {
                         $rss_item->title = $item->title;
                         $rss_item->description = $item->body;
                         $rss_item->date = date('r', $item->posted);
-                        $rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
+                        //$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
+                        $rss_item->link = exponent_core_makeLink(array('module'=>'weblogmodule', 'action'=>'view', 'id'=>$item->id));
                         $rssitems[$key] = $rss_item;
                 }
                 return $rssitems;
