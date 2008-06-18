@@ -146,6 +146,9 @@ a.addmodule:hover{
 }
 
 /* The menu */
+#containermodulemenu.yuimenu.show-scrollbars {
+	overflow:visible;
+}
 
 #containermodulemenu{
 	text-align:left;
