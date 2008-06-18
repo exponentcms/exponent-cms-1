@@ -100,6 +100,9 @@ if (exponent_permissions_check('configuration',exponent_core_makeLocation('admin
 		$template->assign('success',0);
 		$template->assign('errors',$errors);
 	}
+
+	//blow away the css files incase the theme was changed.
+	exponent_theme_remove_css();
 	$template->output();
 } else {
 	echo SITE_403_HTML;
