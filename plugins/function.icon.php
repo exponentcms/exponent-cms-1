@@ -29,7 +29,7 @@ function smarty_function_icon($params,&$smarty) {
 	$title 	= (empty($params['title'])) ? '' : $params['title'];
 	$alt 	= (empty($params['alt'])) ? '' : $params['alt'];
 	$text 	= (empty($params['text'])) ? '' : $params['text'];
-	$img 	= (empty($params['img'])) ? '' : '<img src="'.ICON_RELATIVE.$params['img'].'" title="'.$title.'" alt="'.$alt.'">';
+	$img 	= (empty($params['img'])) ? '' : '<img src="'.ICON_RELATIVE.$params['img'].'" title="'.$title.'" alt="'.$alt.'" '.XHTML_CLOSING.'>';
 	$linktext = $img.$text;
 
 	// we need to unset these vars before we pass the params array off to makeLink
