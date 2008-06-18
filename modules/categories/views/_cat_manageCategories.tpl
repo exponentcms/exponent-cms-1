@@ -13,9 +13,9 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-{$_TR.form_header}
+        <h1>{$_TR.form_title}</h1>
+        <p>{$_TR.form_header}</p>
 </div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>

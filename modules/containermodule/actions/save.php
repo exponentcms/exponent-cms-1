@@ -50,7 +50,7 @@ if (exponent_permissions_check("add_module",$loc) ||
 		$db->updateObject($locref,"locationref","module='".$iloc->mod."' AND source='".$iloc->src."'");
 	}
 	
-    exponent_sessions_clearAllUsersSessionCache('containermodule');
+    	exponent_sessions_clearAllUsersSessionCache('containermodule');
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

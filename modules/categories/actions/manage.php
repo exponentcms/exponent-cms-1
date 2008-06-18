@@ -23,13 +23,14 @@ $mloc = exponent_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
 
 if (exponent_permissions_check('manage_categories',$mloc)) {
 	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-	
+
 	$categories = $db->selectObjects("category","location_data='".serialize($mloc)."'");
-	if (exponent_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
+	/*if (exponent_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("categories","_cat_manageCategories",$loc);
 	} else {
 		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
-	}	
+	}*/
+	$template = new template("categories","_cat_manageCategories",$mloc);	
 	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 	usort($categories, "exponent_sorting_byRankAscending");
 	$template->assign("origmodule", $_GET['orig_module']);
