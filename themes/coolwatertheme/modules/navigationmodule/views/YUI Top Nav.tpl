@@ -14,7 +14,7 @@
  *{math equation="x*20" x=$section->depth}
  *}
 <div class="navigationmodule yui-top-nav">
-<div id="flyoutmenu" class="yuimenubar yuimenubarnav">
+<div id="yuimenubar" class="yuimenubar yuimenubarnav">
 	<div class="bd">
 		<ul class="first-of-type">
 		{assign var=startdepth value=0}
@@ -63,9 +63,9 @@
 </div>
 
 
-{script yuimodules='"menu","animation"' unique="yuimenubaryo"}
+{script yuimodules='"menu","animation"' unique="yuimenubar"}
 {literal}
-YAHOO.util.Event.onContentReady("flyoutmenu", function () {
+YAHOO.util.Event.onContentReady("yuimenubar", function () {
     var ua = YAHOO.env.ua,
         oAnim;  // Animation instance
 
@@ -298,7 +298,7 @@ YAHOO.util.Event.onContentReady("flyoutmenu", function () {
          of configuration properties.
     */
 
-    eXp.flyoutBar = new YAHOO.widget.MenuBar("flyoutmenu", { 
+    yuimenubar = new YAHOO.widget.MenuBar("yuimenubar", { 
                                                 autosubmenudisplay: true, 
                                                 hidedelay: 750, 
                                                 lazyload: true });
@@ -309,11 +309,11 @@ YAHOO.util.Event.onContentReady("flyoutmenu", function () {
          each submenu of the MenuBar instance.
     */
     
-    eXp.flyoutBar.subscribe("beforeShow", onSubmenuBeforeShow);
-    eXp.flyoutBar.subscribe("show", onSubmenuShow);
+    yuimenubar.subscribe("beforeShow", onSubmenuBeforeShow);
+    yuimenubar.subscribe("show", onSubmenuShow);
 
 
-	eXp.flyoutBar.render(); 
+	yuimenubar.render(); 
 });
 
 
