@@ -20,6 +20,7 @@
 function smarty_function_yuimenubar($params,&$smarty) {
 
 
+
 	$menu = '
         function buildmenu () {
             var oMenuBar = new YAHOO.widget.MenuBar("'.$params['buildon'].'", { 
@@ -37,9 +38,10 @@ function smarty_function_yuimenubar($params,&$smarty) {
 
                 if (this.getRoot() == this) {
 					for (i=0; i<=this.getItems().length; i++){
-						var j=i+1;
-						//console.debug(this.getItem(4));
-	                    this.getItem(i).cfg.setProperty("submenu", aSubmenuData[j]);
+						var j=i;
+						if (aSubmenuData[j].itemdata.length>0){
+		                    this.getItem(i).cfg.setProperty("submenu", aSubmenuData[j]);
+						}
 					}
 					
                 }

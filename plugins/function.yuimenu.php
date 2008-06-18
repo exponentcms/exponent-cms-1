@@ -19,42 +19,36 @@
 
 function smarty_function_yuimenu($params,&$smarty) {
 
+	$menu = '
+        function buildmenu () {
+            var oMenuSidenavJs = new YAHOO.widget.Menu("'.$params['buildon'].'", { 
+																position: "static", 
+																hidedelay:	100, 
+																lazyload: true });
 
-	//$str = "";
-	echo'<script type="text/javascript">
-		function buildmenu () {
-			var oMenu = new YAHOO.widget.Menu("'.$params['buildon'].'", { 
-																	position: "static", 
-																	hidedelay:	750, 
-																	lazyload: true });
+            var aSubmenuData = '.navigationmodule::navtojson().';
+            oMenuSidenavJs.subscribe("beforeRender", function () {
 
-			var sidenav = ';
-				echo navigationmodule::navtojson();
-			echo ';
-			oMenu.subscribe("beforeRender", function () {
-
-				if (this.getRoot() == this) {
-	
-				//	console.debug(this.getItems().length);
-					
+                if (this.getRoot() == this) {
 					for (i=0; i<=this.getItems().length; i++){
-						//	var j=i+1;
-						if(sidenav[i].itemdata!=""){
-							//console.debug(sidenav[i].itemdata);
-						this.getItem(i).cfg.setProperty("submenu", sidenav[i]);
+						var j=i;
+						//console.debug(aSubmenuData[j].itemdata.length);
+						if (aSubmenuData[j].itemdata.length>0){
+		                    this.getItem(i).cfg.setProperty("submenu", aSubmenuData[j]);
 						}
 					}
 					
-				}
+                }
 
-			});
+            });
 
-			oMenu.render();			
-		
-		}
+            oMenuSidenavJs.render();         
+        
+        }
 		YAHOO.util.Event.onDOMReady(buildmenu);
-	</script>
-	';
+    ';
+	
+	exponent_javascript_toFoot("yuimenu-".$params['buildon'],"menu",$smarty->_tpl_vars[__name],$menu);
 	
 	
 }
