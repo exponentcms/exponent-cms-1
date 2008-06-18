@@ -136,4 +136,10 @@ function exponent_flow_redirect($url_type = SYS_FLOW_NONE) {
 	exit('Redirecting...');
 }
 
+function exponent_flow_redirecto_login($redirecturl) {
+	$redirecturl = empty($redirecturl) ? exponent_flow_get() : $redirecturl;
+	exponent_sessions_set('redirecturl',$redirecturl);
+	redirect_to(array('module'=>'loginmodule', 'action'=>'loginredirect'));
+}
+
 ?>
