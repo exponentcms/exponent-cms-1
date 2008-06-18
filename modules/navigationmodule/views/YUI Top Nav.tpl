@@ -14,7 +14,7 @@
  *{math equation="x*20" x=$section->depth}
  *}
 <div class="navigationmodule yui-top-nav">
-<div id="menubar" class="yuimenubar yuimenubarnav">
+<div id="yuimenubar" class="yuimenubar yuimenubarnav">
 	<div class="bd">
 		<ul class="first-of-type">
 		{assign var=startdepth value=0}
@@ -67,7 +67,7 @@
 {literal}
 YAHOO.util.Event.onDOMReady( function () {
 	menubar = new YAHOO.widget.MenuBar(
-						"menubar", 
+						"yuimenubar", 
 						{
 							position: "static", 
 							hidedelay: 750, 
