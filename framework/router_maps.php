@@ -15,7 +15,8 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
-
+$maps = array();
+/*
 // Find news by the title of the news post.  URL would look like news/my-post-title
 $maps[] = array('controller'=>'news',
 		'action'=>'findByTitle',
@@ -48,4 +49,5 @@ $maps[] = array('controller'=>'news',
                                 'year'=>'(19|20)\d\d',
 				'month'=>'[01]?\d',),
 );
+*/
 ?>
