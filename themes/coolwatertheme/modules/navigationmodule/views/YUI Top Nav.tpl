@@ -298,7 +298,7 @@ YAHOO.util.Event.onContentReady("yuimenubar", function () {
          of configuration properties.
     */
 
-    yuimenubar = new YAHOO.widget.MenuBar("yuimenubar", { 
+    var yuimenubar = new YAHOO.widget.MenuBar("yuimenubar", { 
                                                 autosubmenudisplay: true, 
                                                 hidedelay: 750, 
                                                 lazyload: true });

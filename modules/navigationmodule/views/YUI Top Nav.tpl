@@ -66,7 +66,7 @@
 {script yuimodules='"menu"' unique="yuimenubar"}
 {literal}
 YAHOO.util.Event.onDOMReady( function () {
-	menubar = new YAHOO.widget.MenuBar(
+	var menubar = new YAHOO.widget.MenuBar(
 						"yuimenubar", 
 						{
 							position: "static", 
