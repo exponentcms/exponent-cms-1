@@ -24,7 +24,7 @@ function smarty_function_attribution($params,&$smarty) {
 	} else if (isset($params['user'])) {
 		$u = $params['user'];
 	}
-	if ($u) {
+	if (!empty($u->id)) {
 		$str = "";
 		switch (DISPLAY_ATTRIBUTION) {
 			case "firstlast":
@@ -42,6 +42,8 @@ function smarty_function_attribution($params,&$smarty) {
 				break;
 		}
 		echo $str;
+	} else {
+		echo 'Anonymous User';
 	}
 }
 

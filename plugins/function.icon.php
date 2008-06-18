@@ -39,7 +39,9 @@ function smarty_function_icon($params,&$smarty) {
 	unset($params['img']);
 
 	if (!empty($params['action'])) {
-		echo '<a href="'.exponent_core_makeLink($params).'" title="'.$title.'">'.$linktext.'</a>';
+		echo '<a href="'.exponent_core_makeLink($params).'" title="'.$title.'"';
+		if (isset($params['onclick'])) echo ' onclick="'.$params['onclick'].'"';
+		echo '>'.$linktext.'</a>';
 	} else {
 		echo $linktext;
 	}
