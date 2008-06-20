@@ -2,10 +2,37 @@ Exponent Content Management System
 Copyright (c) 2004-2007 OIC Group, Inc.
 ===============================================
 
+Added / Fixed / changed for 0.97.0 Release Candidate 1
+-----------------------
+# YAHOO! User Interface Library upgraded to version 2.5.1
+# {$script} smarty plugin now handles external non-yui scripts
+# Exponent core Javascript are now housed and being migrated to the framework/lib/js direcotry
+# Cleaned up some Resource module views
+# Added "skins" concept to themes/common, which, when mimicked in a users theme, overriding styles becomes very easy.
+# The style naming convention of the linklist module in quicklinks view conflicted in IE 6 with admin quicklinks styles adn has been changed to quick-links
+# Fixed bugs in the 4 YUI menu views, and adjusted styles to have common stylability
+# Re-written the 2 YUI menu plugins for the two views (YUI Top Nav JS and YUI Side Nav JS) that build the menus on Javascript.
+# Fixed firefox 3 mac scollers on the admin menus so they no longer show.
+# Some Coolwater theme style changes
+# Fixed a bug in the calendar module categories feature
+# Updated the admin create user to use the validator code
+# The minified stylesheets are now removed when a config change is made.
+# Spelling correction on the word CAPTCHA systemwide
+# Changed the sort of the RSS feeds and the list of "previous posts"
+# New confidentiality agreement config for Resource Module
+# Router maps commented out to reduce potential errors in routing for now
+# The Sitemap view for Navigation Module has been cleanup up and made more friendly in all senses.
+# A bug in the form builder module where viewing records would pitch an error in SEF mode.
+# Made the global table header style apply to <th>'s as well as <td>'s
+# The Image Gallery Module has been deprecated. A re-write will be out shortly.
+
+
+
 Added / Fixed for 0.97.0 Beta
 -----------------------
 
 # External Library Updates:
+# Smarty Templating Engine upgraded to version 2.6.19
 # FCKEditor upgraded to version 2.6
 # YAHOO! User Interface Library upgraded to version 2.5.1
 # Minify http://code.google.com/p/minify/ version 1.0.1 was added to the system
@@ -28,6 +55,7 @@ Added / Fixed for 0.97.0 Beta
 # New Navigation module views taking advantage of YUI's Menu system.
 # exponent_theme_headerInfo() and exponent_theme_footerInfo() are now required in a theme's index.php and subtheme files. 
 # Drastic reduction in use of tables for site structure, namely in the forms subsystem.  Many navigation views have been converted to unordered lists as well.
+# Action Maps to map certain actions to a specific subtheme
 # The Image Gallery Module's views have been cleaned up slightly, and With Thumbnails view has been added taking advantage of YUI's panels as a popup
 
 
