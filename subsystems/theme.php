@@ -26,6 +26,7 @@ define("SYS_THEME",1);
 
 $css_files = array();  // This array keeps track of all the css files that need to be included via the minify script
 $jsfiles = array();
+$validateTheme = array("headerinfo"=>false,"footerinfo"=>false);
 
 /* exdoc
  * @state <b>UNDOCUMENTED</b>
