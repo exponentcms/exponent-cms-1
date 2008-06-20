@@ -120,40 +120,73 @@ function exponent_javascript_array($array) {
 	return exponent_javascript_object($array);
 }
 
-function exponent_javascript_toFoot($unique,$yuimodules,$view,$content){
+function exponent_javascript_toFoot($unique,$yuimodules,$view,$content,$externaljssource){
 	global $userjsfiles;
-	
-	if (!empty($yuimodules)) {
-		$userjsfiles['yuimodules'][$unique] = $yuimodules;
+
+	if (!empty($yuimodules) || !empty($externaljssource)) {
 		$userjsfiles['yuiloader'][$unique] = $content;
+
+		if (!empty($yuimodules)) {
+			$userjsfiles['yuimodules'][$unique] = $yuimodules;
+		}
+
+		if (!empty($externaljssource)) {
+			$userjsfiles['externalscripts'][$unique] = $externaljssource;
+		}
+
 	} else {
-		$userjsfiles[$view][$params['unique']] = $content;
+		$userjsfiles[$view][$unique] = $content;
 	}
 }
 
 function exponent_javascript_outputJStoDOMfoot(){
-	
+
 	global $userjsfiles;
+	
+	
 	if (!empty($userjsfiles)){
-		echo '<script type="text/javascript" charset="utf-8">//<![CDATA[
-		';
-		$buildYUIModules = array();
+		echo '<script type="text/javascript" charset="utf-8">//<![CDATA[';
 		if (!empty($userjsfiles['yuiloader'])){
-			foreach($userjsfiles['yuimodules'] as $mods){
-				$toreplace = array('"',"'"," ");
-				$stripmodquotes = str_replace($toreplace, "", $mods);				
-				$splitmods = explode(",",$stripmodquotes);
-				
-				foreach ($splitmods as $key=>$val){
-					$buildYUIModules[$val] = "'".$val."'";
-				}
-				
-			}
-				
-			echo 'var loader = new YAHOO.util.YUILoader();';
+			
+			echo '
+			var loader = new YAHOO.util.YUILoader();';
 			echo 'loader.base = eXp.URL_FULL+\'external/yui/build/\';';
 			echo 'loader.loadOptional = true;';
-			echo 'loader.require('.implode(",",$buildYUIModules).');';
+
+			$yuimods = array();
+			if(!empty($userjsfiles['yuimodules'])){
+				foreach($userjsfiles['yuimodules'] as $mods){
+					$toreplace = array('"',"'"," ");
+					$stripmodquotes = str_replace($toreplace, "", $mods);				
+					$splitmods = explode(",",$stripmodquotes);
+				
+					foreach ($splitmods as $key=>$val){
+						$yuimods[$val] = "'".$val."'";
+					}
+				
+				}
+				$ym = implode(",",$yuimods);
+			}
+			
+			
+			if(!empty($userjsfiles['externalscripts'])){
+				$extldr = '';
+				foreach ($userjsfiles['externalscripts'] as $e=>$val){
+					echo '
+					loader.addModule({
+						name: "extmd'.$e.'",
+						type: "js",
+					    fullpath: "'.$val.'",
+					    varName: "EXTMD'.$e.'"';
+					echo '});';
+					$extmods[$e] = "'extmd".$e."'";
+				}
+				$em = implode(",",$extmods);
+				$em = (!empty($ym)) ? ",".$em : $em;
+			} 
+			
+			echo 'loader.require('.@$ym.@$em.');';
+			
 			echo 'loader.onSuccess = function(){';
 			foreach($userjsfiles['yuiloader'] as $script){
 				echo $script;
@@ -164,7 +197,7 @@ function exponent_javascript_outputJStoDOMfoot(){
 		
 
 		foreach($userjsfiles as $key=>$top){
-			if ($key!='yuiloader'&&$key!='yuimodules') {
+			if ($key!='yuiloader'&&$key!='yuimodules'&&$key!='externalscripts') {
 				//echo $key;
 				foreach($top as $cey=>$contents){
 					echo $contents;
