@@ -17,3 +17,8 @@
 	padding:0 10px;
 }
 
+.imagegallerymodule div.item {
+        clear: both;
+        padding: 10px 0px;
+}
+

@@ -103,8 +103,11 @@ if ($post && $post->is_draft == 0) {
 	while($i<$j)
 	{
 		$mail->to = $emailaddresses[$i];
-		$params["to"] = $emailaddresses[$i];	
-		$mail->quicksend($params);
+		$params["to"] = $emailaddresses[$i];
+		try {	
+		    $mail->quickSend($params);
+		} catch (Exception $e) {
+	    }
 		$i++;
 	}
 	exponent_flow_redirect();
