@@ -21,7 +21,7 @@ function smarty_function_attribution($params,&$smarty) {
 	if (isset($params['user_id'])) {
 		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 		$u = exponent_users_getUserById($params['user_id']);
-	} else if (isset($params['user'])) {
+	} elseif (isset($params['user'])) {
 		$u = $params['user'];
 	}
 	if (!empty($u->id)) {
