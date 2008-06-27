@@ -23,18 +23,18 @@
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 
 	{foreach from=$news item=newsitem}
-	{if $newsitem->is_featured!=1}
+	{*if $newsitem->is_featured!=1*}
 		<div class="item {cycle values='odd,even'}">
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
-            {if $newsitem->isRss != true}
+            	{if $newsitem->isRss != true}
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
 				{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
-					<a href="{link action=userperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
-					<a href="{link action=groupperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" /></a>
+					<a href="{link action=userperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
+					<a href="{link action=groupperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" /></a>
 				{/if}
 				{if $permissions.edit_item == true || $newsitem->permissions.edit_item == true}
-					{if $newsitem->approved == 2} {* in ap *}
+					{if $newsitem->approved == 2} {* in approval *}
 					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 					{else}
 					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$newsitem->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
@@ -52,13 +52,13 @@
 				{/if}
 			</div>
 			{/permissions}
-            {/if}
+            {*/if*}
 			{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
 			{if $newsitem->edited eq 0}
-							{assign var='sortdate' value=$newsitem->real_posted}
-					{else}
-							{assign var='sortdate' value=$newsitem->edited}
-					{/if}
+				{assign var='sortdate' value=$newsitem->real_posted}
+			{else}
+				{assign var='sortdate' value=$newsitem->edited}
+			{/if}
 
 			<span class="date">{$sortdate|format_date:"%B %e"}</span>
 

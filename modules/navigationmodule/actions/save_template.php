@@ -26,7 +26,7 @@ if ($user && $user->is_acting_admin == 1) {
 	}
 	
 	$page = section_template::update($_POST,$page);
-	
+
 	if (isset($page->id)) {
 		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 			

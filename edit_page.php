@@ -17,12 +17,13 @@
 #
 ##################################################
 
-define('SCRIPT_EXP_RELATIVE','modules/navigationmodule/actions/');
+define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','edit_page.php');
 
 ob_start();
 
-include_once('../../../exponent.php');
+include_once('exponent.php');
+if (!defined("EXPONENT")) exit("");
 
 if (!defined('SYS_THEME')) include_once(BASE.'subsystems/theme.php');
 
@@ -56,7 +57,6 @@ exponent_sessions_set('themeopt_override',array(
 $REDIRECTIONPATH = 'section_template';
 
 if ($user && $user->is_acting_admin == 1) {
-	
 	if (is_readable(BASE.$page)) {
 		include_once(BASE.$page);
 	} else {

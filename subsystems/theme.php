@@ -94,18 +94,18 @@ function exponent_theme_includeThemeCSS($files = array()) {
 		//exponent_theme_loadYUICSS(array('menu'));
 		//exponent_theme_loadExpDefaults();
 
-		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', 'themes/'.DISPLAY_THEME_REAL.'/');
-		
+		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/');
+
 		foreach ($cssdirs as $cssdir) {
-				if (is_dir($cssdir) && is_readable($cssdir) ) {
-						$dh = opendir($cssdir);
-						while (($cssfile = readdir($dh)) !== false) {
-								$filename = $cssdir.$cssfile;
-								if ( is_file($filename) && substr($filename,-4,4) == ".css" && !array_key_exists(substr("usertheme-".$cssfile,0,-4), $css_files)) {
-										$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.$cssdir.$cssfile;
-								}
-						}
+			if (is_dir($cssdir) && is_readable($cssdir) ) {
+				$dh = opendir($cssdir);
+				while (($cssfile = readdir($dh)) !== false) {
+					$filename = $cssdir.$cssfile;
+					if ( is_file($filename) && substr($filename,-4,4) == ".css" && !array_key_exists(substr("usertheme-".$cssfile,0,-4), $css_files)) {
+						$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.$cssdir.$cssfile;
+					}
 				}
+			}
 		}
 	} else {	
 		foreach ($files as $file) {

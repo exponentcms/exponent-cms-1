@@ -145,6 +145,12 @@ $router = new router();
 //Initialize the navigation heirarchy
 $sections = exponent_core_initializeNavigation();
 
+// if the user has turned on sef_urls then we need to route the request, otherwise we can just 
+// skip it and default back to the old way of doing things.
+$router->routeRequest();
+$section = $router->getSection();
+$sectionObj = $router->getSectionObj($section);
+
 function eDebug($var){
 	if (DEVELOPMENT) {
 		echo "<xmp>";

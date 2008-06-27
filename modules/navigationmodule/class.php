@@ -369,11 +369,12 @@ class navigationmodule {
 	function process_section($section,$template) {
 		global $db;
 		
-        if (!is_object($template)) {
+	        if (!is_object($template)) {
 			$template = $db->selectObject('section_template','id='.$template);
 			$section->subtheme = $template->subtheme;
 			$db->updateObject($section,'section');
 		}
+
 		$prefix = '@st'.$template->id;
 		$refs = $db->selectObjects('locationref',"source LIKE '$prefix%'");
 		
@@ -401,11 +402,12 @@ class navigationmodule {
 	}
 	
 	function process_subsections($parent_section,$subtpl) {
-		global $db;
+		global $db, $router;
 		
 		$section = null;
 		$section->parent = $parent_section->id;
 		$section->name = $subtpl->name;
+		$section->sef_name = $router->encode($section->name);
 		$section->subtheme = $subtpl->subtheme;
 		$section->active = $subtpl->active;
 		$section->public = $subtpl->public;
