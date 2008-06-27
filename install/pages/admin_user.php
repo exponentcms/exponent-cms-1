@@ -23,7 +23,9 @@ $i18n = exponent_lang_loadFile('install/pages/admin_user.php');
 
 ?>
 <h2 id="subtitle"><?php echo $i18n['subtitle']; ?></h2>
-<span style="color: red; font-weight: bold; padding-top: 8px;" id="errorMessage"></span>
+<span style="color: red; font-weight: bold; padding-top: 8px;" id="errorMessage">
+<?php echo $_GET['erremail'] == 'true' ? 'You must supply a valid email address.' : ''; ?>
+</span>
 <script>
 function checkPassword(f){	
 	if (f.password.value != f.password2.value) {

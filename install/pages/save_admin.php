@@ -26,6 +26,11 @@ if ($user->username == '') {
 	$i18n = exponent_lang_loadFile('install/pages/save_admin.php');
 	echo $i18n['bad_username'];
 } else {
+    if (validator::validate_email_address($_POST['email']) == false) {
+        flash('You must supply a valid email address.');
+        header('Location: index.php?page=admin_user&erremail=true');
+        exit();
+    }
 	$user->password = md5($_POST['password']);
 	$user->firstname = $_POST['firstname'];
 	$user->lastname = $_POST['lastname'];
@@ -38,9 +43,6 @@ if ($user->username == '') {
 	}else{
 		$db->insertObject($user,'user');
 	}
-	
-	//create anonymous user
-	//include(BASE . "install/upgrades/0.95.6/create_anonymous_user.php");
 	
 	header('Location: '.'index.php?page=final');
 }
