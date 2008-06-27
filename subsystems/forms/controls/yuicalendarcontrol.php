@@ -47,7 +47,7 @@ class yuicalendarcontrol extends formcontrol {
 	var $showtime = true;
 
 	function name() { return "YAHOO! UI Calendar"; }
-	function isSimpleControl() { return true; }
+	function isSimpleControl() { return false; }
 	function getFieldDefinition() {
 		return array(
 			DB_FIELD_TYPE=>DB_DEF_TIMESTAMP);

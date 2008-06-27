@@ -46,8 +46,8 @@ class yuieditorcontrol extends formcontrol {
 	var $cols = 60;
 	var $rows = 20;
 	
-	function name() { return "Text Area"; }
-	function isSimpleControl() { return true; }
+	function name() { return "YUI Editor"; }
+	function isSimpleControl() { return false; }
 	function getFieldDefinition() {
 		return array(
 			DB_FIELD_TYPE=>DB_DEF_STRING,
