@@ -117,6 +117,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 		//$stop_recur  = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
 		$stop_recur  = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("untildate",$_POST));
 
+
 		if ($_POST['recur'] != "recur_none") {
 			// Do recurrence
 			$freq = $_POST['recur_freq_'.$_POST['recur']];
