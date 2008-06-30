@@ -492,6 +492,41 @@ class navigationmodule {
 			if (exponent_permissions_check('manage', $loc)) return true;
 		}
 	}
+
+	function checkForSectionalAdmins($id) {
+		global $db;
+
+		$section = $db->selectObject('section', 'id='.$id);
+		$branch = navigationmodule::levelTemplate($id, 0);
+		array_unshift($branch, $section);
+
+		$allusers = array();
+		$allgroups = array();
+		while ($section->parent > 0) {
+			$ploc = exponent_core_makeLocation('navigationmodule', null, $section);
+			$allusers = array_merge($allusers, $db->selectColumn('userpermission', 'uid', "permission='manage' AND module='navigationmodule' AND internal=".$section->parent));
+			$allgroups = array_merge($allgroups, $db->selectColumn('grouppermission', 'gid', "permission='manage' AND module='navigationmodule' AND internal=".$section->parent));
+			$section = $db->selectObject('section', 'id='.$section->parent);
+		}
+		
+		foreach ($branch as $section) {
+			$sloc = exponent_core_makeLocation('navigationmodule', null, $section->id);
+
+			// remove any manage permissions for this page and it's children
+			$db->delete('userpermission', "module='navigationmodule' AND internal=".$section->id);
+			$db->delete('grouppermission', "module='navigationmodule' AND internal=".$section->id);
+
+			foreach ($allusers as $uid) {
+				$u = exponent_users_getUserById($uid);
+				exponent_permissions_grant($u, 'manage', $sloc);
+			}
+			
+			foreach ($allgroups as $gid) {
+        	        	$g = exponent_users_getGroupById($gid);
+                		exponent_permissions_grantGroup($g, 'manage', $sloc);
+                	}
+		}	
+	}
     /*
 	//Commented out per Hans and Tom
 	function isPublic($section) {

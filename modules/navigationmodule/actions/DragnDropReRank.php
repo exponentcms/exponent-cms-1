@@ -156,10 +156,10 @@ if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmo
 			}
 		}
 	}
+
+	navigationmodule::checkForSectionalAdmins($move);	
 	exponent_sessions_clearAllUsersSessionCache('navigationmodule');
 	
-			
-	//exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

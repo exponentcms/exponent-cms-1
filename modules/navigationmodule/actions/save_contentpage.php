@@ -61,19 +61,17 @@ if (($check_id != -1 &&
 	
 		// Existing section.  Update the database record.
 		// The 'id=x' where clause is implicit with an updateObject
-		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
-			
 		$db->updateObject($section,'section');
 	} else {
 		// Since this is new, we need to increment ranks, in case the user
 		// added it in the middle of the level.
 		$db->increment('section','rank',1,'rank >= ' . $section->rank . ' AND parent=' . $section->parent);
 		// New section.  Insert a new database record.
-		exponent_sessions_clearAllUsersSessionCache('navigationmodule');
-			
-		$db->insertObject($section,'section');
+		$section->id = $db->insertObject($section,'section');
 	}
 	
+	exponent_sessions_clearAllUsersSessionCache('navigationmodule');
+	navigationmodule::checkForSectionalAdmins($section->id);
 	// Go back to where we came from.  Probably the navigation manager.
 	exponent_flow_redirect();
 } else {

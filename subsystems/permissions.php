@@ -219,7 +219,7 @@ function exponent_permissions_check($permission,$location) {
 			}
 		}
 	}
-	if (!$has_perm && $location->mod != 'navigationmodule') {
+	if (!$has_perm && ($location->mod != 'navigationmodule' && $location->mod != 'administrationmodule')) {
 		global $db;
 		global $sectionObj;
 		if (exponent_permissions_check('manage',exponent_core_makeLocation('navigationmodule','',$sectionObj->id))) {
@@ -422,9 +422,8 @@ function exponent_permissions_grantGroup($group,$permission,$location) {
 
 			global $db;
 
-      $db->delete("grouppermission", " gid='" . $obj->gid . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
+      			$db->delete("grouppermission", " gid='" . $obj->gid . "' module = '" . $obj->module . "' AND source='" . $obj->source . "' AND internal='" . $obj->internal . "'");
 			$db->insertObject($obj,"grouppermission");
-			echo "In groupGrant</br>";
 		}
 	}
 }
@@ -502,8 +501,8 @@ function exponent_permissions_revokeAll($user,$location) {
  */
 function exponent_permissions_revokeComplete($location) {
 	global $db;
-	$db->delete("userpermission","module='".$location->mod."' AND source='".$location->src."'");
-	$db->delete("grouppermission","module='".$location->mod."' AND source='".$location->src."'");
+	$db->delete("userpermission","module='".$location->mod."' AND source='".$location->src."'". "' AND internal='" . $location->int . "'");
+	$db->delete("grouppermission","module='".$location->mod."' AND source='".$location->src."'". "' AND internal='" . $location->int . "'");
 	return true;
 }
 

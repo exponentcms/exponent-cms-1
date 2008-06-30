@@ -245,10 +245,12 @@ function exponent_core_incrementLocationReference($loc,$section) {
 		$db->insertObject($newLocRef,"locationref");
 		
 		// Go ahead and assign permissions on contained module.
-		$perms = call_user_func(array($loc->mod,"permissions"));
-		global $user;
-		foreach (array_keys($perms) as $perm) {
-			exponent_permissions_grant($user,$perm,$loc);
+		if ($loc->mod != 'navigationmodule' && $loc->mod != 'administrationmodule') {
+			$perms = call_user_func(array($loc->mod,"permissions"));
+			global $user;
+			foreach (array_keys($perms) as $perm) {
+				exponent_permissions_grant($user,$perm,$loc);
+			}
 		}
 		exponent_permissions_triggerSingleRefresh($user);
 	}

@@ -25,15 +25,30 @@ if (exponent_permissions_check('administrate',$loc)) {
 	foreach ($users as $user_str) {
 		$perms = explode(':',$user_str);
 		$u = exponent_users_getUserById($perms[0]);
-		exponent_permissions_revokeAll($u,$loc);
-		for ($i = 1; $i < count($perms); $i++) {
-			exponent_permissions_grant($u,$perms[$i],$loc);
+
+		$locarray = array();
+		if ($loc->mod == 'navigationmodule' && !empty($perms[1]) && $perms[1] == 'manage') {
+			$sections = navigationmodule::levelTemplate($loc->int);
+			$locarray[] = $loc;
+			foreach ($sections as $section) {
+				$locarray[] = exponent_core_makeLocation('navigationmodule', null, $section->id);
+			}
+		} else {
+			$locarray[] = $loc;
 		}
-		
+
+		foreach ($locarray as $location) {
+			exponent_permissions_revokeAll($u,$location);
+			for ($i = 1; $i < count($perms); $i++) {
+				exponent_permissions_grant($u,$perms[$i],$location);
+			}
+		}
+
 		if ($perms[0] == $user->id) {
 			exponent_permissions_load($user);
 		}
 	}
+	
 	exponent_permissions_triggerRefresh();
 	exponent_flow_redirect();
 } else {

@@ -21,15 +21,29 @@ if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('administrate',$loc)) {
 
-  $groups = explode(';',$_POST['permdata']);
+ 	$groups = explode(';',$_POST['permdata']);
     
 	if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
 	foreach ($groups as $group_str) {
 		$perms = explode(':',$group_str);
 		$g = exponent_users_getGroupById($perms[0]);
-		exponent_permissions_revokeAllGroup($g,$loc);
-		for ($i = 1; $i < count($perms); $i++) {
-			exponent_permissions_grantGroup($g,$perms[$i],$loc);
+
+		$locarray = array();
+                if ($loc->mod == 'navigationmodule' && !empty($perms[1]) && $perms[1] == 'manage') {
+                        $sections = navigationmodule::levelTemplate($loc->int);
+                        $locarray[] = $loc;
+                        foreach ($sections as $section) {
+                                $locarray[] = exponent_core_makeLocation('navigationmodule', null, $section->id);
+                        }
+                } else {
+                        $locarray[] = $loc;
+                }
+
+                foreach ($locarray as $location) {
+			exponent_permissions_revokeAllGroup($g,$location);
+			for ($i = 1; $i < count($perms); $i++) {
+				exponent_permissions_grantGroup($g,$perms[$i],$location);
+			}
 		}
 	}
 	exponent_permissions_triggerRefresh();
