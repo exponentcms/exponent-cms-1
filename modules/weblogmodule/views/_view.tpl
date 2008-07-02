@@ -15,7 +15,6 @@
  *}
 
 <div class="weblogmodule view">
-<h1>{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
 <div class="subheader weblog_subheader">Posted by {attribution user_id=$this_post->poster} on {$this_post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -40,7 +39,11 @@
 </a>
 {/if}
 {/permissions}
-<div>{$this_post->body}</div>
+<div>
+{if $this_post->image!=""}<img style="align: left;" src="{$smarty.const.URL_FULL}/thumb.php?file={$this_post->image}&constraint=1&width=150&height=200" alt="{$this_post->title}">{/if}
+<h1>{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
+{$this_post->body}
+</div>
 {if $config->allow_comments}
 	<div class="comments">
 	{if $post->is_draft}

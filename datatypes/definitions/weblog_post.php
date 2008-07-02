@@ -51,6 +51,11 @@ return array(
                 DB_INDEX=>10),
 	'is_draft'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'file_id'=>array(
+    	DB_FIELD_TYPE=>DB_DEF_ID),
+	'tags'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000)
 );
 
 ?>

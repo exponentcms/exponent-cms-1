@@ -25,6 +25,11 @@ class weblogmodule_config {
 	
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
+        $tc_list = array();
+                $tag_collections = $db->selectObjects("tag_collections");
+                foreach ($tag_collections as $tag_collections => $collection) {
+                        $tc_list[$collection->id] = $collection->name;
+                }
 
 		$form = new form();
 		if (!isset($object->id)) {
@@ -33,12 +38,37 @@ class weblogmodule_config {
 			$object->require_login = 0;
 			$object->items_per_page = 10;
 			$object->enable_rss = false;
-            		$object->feed_title = "";
-            		$object->feed_desc = "";
+            $object->feed_title = "";
+            $object->feed_desc = "";
+			$object->collections = array();
+			$object->show_tags = array();
 			$object->comments_notify = serialize(array());
 			$object->aggregate = array();
 		} else {
-			$form->meta('id',$object->id);				
+			$form->meta('id',$object->id);						$cols = unserialize($object->collections);
+			$object->collections = array();
+			$available_tags = array();
+			foreach ($cols as $col_id) {
+				$collection = $db->selectObject('tag_collections', 'id='.$col_id);
+				$object->collections[$collection->id] = $collection->name;
+
+				//while we're here we will get he list of available tags.
+				$tmp_tags = $db->selectObjects('tags', 'collection_id='.$col_id);
+				foreach ($tmp_tags as $tag) {
+					$available_tags[$tag->id] = $tag->name;
+				}
+			}
+			//Get the tags the user chose to show in the group by views
+			$stags = unserialize($object->show_tags);
+			$object->show_tags = array();
+			
+			if (is_array($stags)) {
+				foreach ($stags as $stag_id) {
+        	                        $show_tag = $db->selectObject('tags', 'id='.$stag_id);
+                	                $object->show_tags[$show_tag->id] = $show_tag->name;
+                        	}
+			}
+
 		}
 		
 		$selected_users = array();
@@ -80,6 +110,14 @@ class weblogmodule_config {
 		$form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments?'),new checkboxcontrol($object->use_captcha));		
 		$form->register('require_login',exponent_lang_getText('Require users to be logged in to post comments?'),new checkboxcontrol($object->require_login));		
 
+        $form->register(null,'',new htmlcontrol('<h1>Tagging</h1><hr size="1" />'));
+		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
+		$form->register('collections',$i18n['tag_collections'],new listbuildercontrol($object->collections,$tc_list));
+		//$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
+		//$form->register(null,'',new htmlcontrol($i18n['show_tags_desc']));
+		//$form->register('show_tags','',new listbuildercontrol($object->show_tags,$available_tags));
+
+
 		$form->register(null,'',new htmlcontrol('<h1>Merge Blogs</h1><hr size="1" />'));
                 $form->register('aggregate','Pull Events from These Other Blog Module',new listbuildercontrol($selected_blogs,$all_blogs));
 
@@ -95,6 +133,11 @@ class weblogmodule_config {
 		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
 		$object->use_captcha = (isset($values['use_captcha']) ? 1 : 0);
 		$object->require_login = (isset($values['require_login']) ? 1 : 0);
+        $object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
+		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);
+		$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
+		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
+
 		$object->comments_notify = serialize(listbuildercontrol::parseData($values,'comments_notify'));
 	  	$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
         $object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);

@@ -39,6 +39,8 @@ class weblog_post {
 		
 		$form->register('title',$i18n['title'], new textcontrol($object->title));
 		$form->register('body',$i18n['body'], new htmleditorcontrol($object->body));
+        $form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">Tags</div><hr size="1" />'));
+
 		$form->register('is_private',$i18n['is_private'], new checkboxcontrol($object->is_private));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		

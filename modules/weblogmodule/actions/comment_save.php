@@ -78,37 +78,41 @@ if ($post && $post->is_draft == 0) {
 	// 1.23.08 rkq
 
 	$users = unserialize($config->comments_notify);
-	$userlist = array();
-	$j=0;
-	$emailaddresses = array();
-	foreach($users as $i)
-	{
-		if($user->email!="")
-		{
-			$emailaddresses[$j] = $user->email;
-			++$j;
+	if (!empty($users)) {
+		try {
+			$userlist = array();
+			$j=0;
+			$emailaddresses = array();
+			foreach($users as $i)
+			{
+				if($user->email!="")
+				{
+					$emailaddresses[$j] = $user->email;
+					++$j;
+				}
+			}
+			
+			$textmessage = $comment->name."(".$comment->email.") has replied to your blog post, '".$post->title."'. He or she wrote: '".$comment->body."'";
+			$htmlmessage = "<a href=\"mailto:".$comment->email."\">".$comment->name."</a> has replied to your blog post, '".$post->title."'. He or she wrote: '".$comment->body."'";
+			$params = array("text_message"=>$textmessage,
+					"html_message"=>$htmlmessage,
+					"subject"=>"Blog Post Comment",
+					"to"=>"email",
+					"from"=>SMTP_FROMADDRESS,
+					);
+			$mail = new exponentMail($params);	
+			$i=0;		
+			while($i<$j)
+			{
+				$mail->to = $emailaddresses[$i];
+				$params["to"] = $emailaddresses[$i];	
+				$mail->quickSend($params);
+				$i++;
+			}
+		}catch (Exception $e){
+			$message = exponent_lang_getText("Your comment was saved, however an error occured while trying to send email: \n") . $e->getMessage() . "\n";
+			flash('error', $message); 
 		}
-	}
-	
-	$textmessage = $comment->name."(".$comment->email.") has replied to your blog post, '".$post->title."'. He or she wrote: '".$comment->body."'";
-	$htmlmessage = "<a href=\"mailto:".$comment->email."\">".$comment->name."</a> has replied to your blog post, '".$post->title."'. He or she wrote: '".$comment->body."'";
-	$params = array("text_message"=>$textmessage,
-			"html_message"=>$htmlmessage,
-			"subject"=>"Blog Post Comment",
-			"to"=>"email",
-			"from"=>SMTP_FROMADDRESS,
-			);
-	$mail = new exponentMail($params);	
-	$i=0;		
-	while($i<$j)
-	{
-		$mail->to = $emailaddresses[$i];
-		$params["to"] = $emailaddresses[$i];
-		try {	
-		    $mail->quickSend($params);
-		} catch (Exception $e) {
-	    }
-		$i++;
 	}
 	exponent_flow_redirect();
 } else {

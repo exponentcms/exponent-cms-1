@@ -98,11 +98,23 @@ class weblogmodule {
 			$config->allow_comments = 1;
 			$config->items_per_page = 10;
 			$config->enable_rss = false;
+			$config->collections = serialize(array());
 		}
 
 		//If rss is enabled tell the view to show the RSS button
                 if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+		if ($config->group_by_tags == true) {	
+			$view = "_group_by_tags";	
+		} 
+
 		$template->assign('enable_rss', $config->enable_rss);
+
+		//Get the tags that have been selected to be shown in the grouped by tag views
+		if (isset($config->show_tags)) {
+        		$available_tags = unserialize($config->show_tags);
+        	} else {
+        		$available_tags = array();
+        	}
 
 		$viewconfig = array('type'=>'default');
 		if (is_readable($template->viewdir."/$view.config")) {
@@ -153,6 +165,23 @@ class weblogmodule {
                                 $authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
                         }
                         $template->assign('authors', $authors);
+		} else if ($viewconfig['type'] == 'bytag') {                       
+			$post_tags = $db->selectColumn('weblog_post', 'tags', $where);
+			$all_tags = $db->selectObjects('tags');
+			for ($i = 0; $i < count($post_tags); $i++) {
+				if (!empty($post_tags[$i])) $tag_ids = unserialize($post_tags[$i]);
+				for ($j = 0; $j < count($tag_ids); $j++) {
+					for ($k = 0; $k < count($all_tags); $k++) {
+						if ($all_tags[$k]->id == $tag_ids[$j]) {
+							if (empty($all_tags[$k]->cnt)) $all_tags[$k]->cnt = 1;
+							else $all_tags[$k]->cnt++;
+						}
+						//if (empty($all_tags[$k]->cnt)) $all_tags[$k]->cnt = 1;
+					}
+				}
+			}
+			usort($all_tags, "exponent_sorting_byNameAscending");
+			$template->assign('tags', $all_tags);
 		} else if ($viewconfig['type'] == 'calendar') {
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 			$month_days = exponent_datetime_monthlyDaysTimestamp(time());
@@ -187,11 +216,36 @@ class weblogmodule {
 				usort($comments,'exponent_sorting_byPostedDescending');
 				$posts[$i]->comments = $comments;
 				$posts[$i]->total_comments = count($comments);
+
+				//Get the tags for this weblogitem
+				$selected_tags = array();
+		        	$tag_ids = unserialize($posts[$i]->tags);
+		        	if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+				$posts[$i]->tags = $selected_tags;
+				$posts[$i]->selected_tags = $selected_tags;
+		
+				//If this module was configured to group the items by tags, then we need to change the data array a bit
+				if ($config->group_by_tags == true) {
+					$grouped_posts = array();
+					foreach($posts[$i]->tags as $tag) {
+						if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
+							if (!isset($grouped_posts[$tag->name])) { $grouped_posts[$tag->name] = array();} 
+							array_push($grouped_posts[$tag->name],$posts[$i]);
+						}
+					}
+				}
 			}
 			usort($posts,'exponent_sorting_byPostedDescending');
 			$template->assign('posts',$posts);
 			$template->assign('total_posts',$total);
 		}
+
+
+			
+//wrong place
+//if($config->group_by_tags == true) {$template->assign('posts',$grouped_posts);} else {$template->assign('news',$news);}
+
+		$template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 
 		$template->register_permissions(
 			array('administrate','configure','post','edit','delete','comment','edit_comments','delete_comments','view_private'),

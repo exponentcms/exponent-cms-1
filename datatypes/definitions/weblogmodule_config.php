@@ -41,6 +41,19 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
     	'enable_rss'=>array(
         	DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'enable_tags'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'collections'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>1000,
+ 	        DB_INDEX=>10),
+	'group_by_tags'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'show_tags'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>1000,
+ 	        DB_INDEX=>10),
+
 	'feed_title'=>array(
         	DB_FIELD_TYPE=>DB_DEF_STRING,
 	        DB_FIELD_LEN=>75),

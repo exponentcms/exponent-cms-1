@@ -43,6 +43,8 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 
 	$post = weblog_post::update($_POST,$post);
 	$post->location_data = serialize($loc);
+	//Get and add the tags selected by the user
+	$post->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
 
 	if (isset($post->id)) {
 		if ($was_draft && $post->is_draft == 0) {
