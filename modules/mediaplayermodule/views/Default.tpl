@@ -13,7 +13,7 @@
  *
  *}
 <div class="mediaplayermodule default">
-{if $moduletitle != ""}{$moduletitle}{/if}
+{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
  {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
