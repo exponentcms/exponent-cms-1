@@ -32,7 +32,7 @@ $exts = exponent_users_listExtensions();
 
 $user_temp = $db->selectObject("user", "id=".$_GET['id']);
 $profile = null;
-if($profile != null) {
+if($user_temp != null) {
 	$profile->firstname = $user_temp->firstname;
 	$profile->lastname = $user_temp->lastname;
 	$profile->username = $user_temp->username;
