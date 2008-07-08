@@ -73,6 +73,7 @@ class mediaplayermodule {
 			$data->loop_media = 0;
 			$data->auto_rewind = 1;
 			$data->autoplay = 0;
+			$data->hide_controls = 0;
 		} else {
 			$data->_noflash = 0;
 			switch ($data->alignment) {

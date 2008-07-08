@@ -134,6 +134,14 @@ PlayList control (FlowPlayer specific, not in mplayer plug-in API):
 		Existing playList is discarded.
 		The clip should be a valid flowplayer clip object that are
 		also used in playLists.
+		
+	showEmailView():Void;
+	
+	    Shows the e-mail to a friend view.
+		
+	showEmbedView():Void;
+	
+	    Shows the embedding view.
 
 Callbacks from the player (FlowPlayer specific, not in mplayer plug-in API):
 
@@ -148,19 +156,32 @@ Callbacks from the player (FlowPlayer specific, not in mplayer plug-in API):
 		has following properties: name, baseUrl, fileName, start (start time in seconds),
 		end (end time in seconds), protected (is hotlink protection applied for this clip?),
 		linkUrl, linkWindow, controlEnabled (enable playback control buttons?)
+		
+		If you return false from this callback the player's default behavior associated with
+		this event is disabled. The default is to move to the next clip in playList, or rewind
+		the current clip and loop (if only one clip in playlist) after this event occurs.
 
 	function onClipChanged(clip);
 		
 		Called when the user manually changes to another clip in the playlist or
 		when the playback moves from one clip to the next.
+		
+		If you return false from this callback the player's default behavior associated with
+		this event is disabled. The default is to play the clip.
 
 	function onLoadBegin(clip);
 	
 		Called when the loading of a clip begins.
+		
+		If you return false from this callback the player's default behavior associated with
+		this event is disabled. The default is to show the clip's display, resize and center
+		the display.
 
 	function onStreamNotFound(clip);
 	
-		Called when a clip is not found using it's URL.
+		Called when a clip is not found using it's URL. If you return false from this callback
+		the player's default behavior associated with this event is disabled. The default
+		behavior is to play the configured "noVideoClip", if it's configured.
 
 	function onPlay(clip);
 	
@@ -184,7 +205,9 @@ Callbacks from the player (FlowPlayer specific, not in mplayer plug-in API):
 
 	function onStartBuffering(clip);
 		
-		Called when a clip starts buffering.
+		Called when a clip starts buffering. If you return false from this callback
+		the player's default behavior associated with this event is disabled. The default
+		behavior is to hide the display of the previous clip.
 
 	function onBufferFull(clip);
 	
@@ -205,3 +228,6 @@ Callbacks from the player (FlowPlayer specific, not in mplayer plug-in API):
 		Called every time the playhead moves in the media's timeline. The value
 		of time tells the current time.
 	
+	function onSeek(targetTime);
+	
+		Called when seek occurs. The parameter values gives the seek's target time in seconds. 

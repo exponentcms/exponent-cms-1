@@ -12,6 +12,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+<div class="mediaplayermodule default">
+{if $moduletitle != ""}{$moduletitle}{/if}
  {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1}
 	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
@@ -42,8 +44,8 @@
 <script type="text/javascript">
 		var fp = new SWFObject("{/literal}{$smarty.const.URL_FULL}external/flowplayer/FlowPlayerDark.swf{literal}","FlowPlayer", "{/literal}{$data->width}{literal}", "{/literal}{$data->height}{literal}", 9, "{/literal}{$data->bgcolor}{literal}");
 		fp.useExpressInstall('{/literal}{$smarty.const.URL_FULL}external/swfobject/expressinstall.swf{literal}');
-		fp.addVariable("config", "{videoFile: '{/literal}{$smarty.const.URL_FULL}{$data->_flashurl}{literal}', initialScale: 'fit', showMenu: false, showFullScreenButton: false, {/literal}{if $data->autoplay == 0}{literal}autoPlay: false, {/literal}{/if}{if $data->loop_media == 0}{literal}loop: false, {/literal}{/if}{if $data->auto_rewind == 1}{literal}autoRewind: true, {/literal}{/if}{literal}protected: true}");
+		fp.addVariable("config", "{videoFile: '{/literal}{$smarty.const.URL_FULL}{$data->_flashurl}{literal}', initialScale: 'fit', showMenu: false, showFullScreenButton: false, {/literal}{if $data->autoplay == 0}{literal}autoPlay: false, {/literal}{/if}{if $data->loop_media == 0}{literal}loop: false, {/literal}{/if}{if $data->auto_rewind == 1}{literal}autoRewind: true, {/literal}{/if}{if $data->hide_controls == 1}{literal}hideControls: true, {/literal}{/if}{literal}protected: true}");
         fp.write("{/literal}{$loc->src}{literal}");
 </script>
 {/literal}
-
+</div>

@@ -37,13 +37,14 @@ class mediaitem {
 			$object->loop_media = 0;
 			$object->auto_rewind = 1;
 			$object->autoplay = 0;
+			$object->hide_controls = 0;
 		} else {
 			$form->meta('id',$object->id);
 		}
 		$form->register('name','Media Name',new textcontrol($object->name));
 		$form->register('bgcolor','Background Color of Media Player',new textcontrol($object->bgcolor),10,false,10);
-		$form->register('height','Height of Media Player',new textcontrol($object->height,5,false,5,'integer'));
 		$form->register('width','Width of Media Player',new textcontrol($object->width,5,false,5,'integer'));
+		$form->register('height','Height of Media Player',new textcontrol($object->height,5,false,5,'integer'));
 		$align = array('Center','Left','Right');
 		$form->register('alignment', 'Alignment', new dropdowncontrol($object->alignment,$align));
 		
@@ -54,6 +55,7 @@ class mediaitem {
 		$form->register('loop_media', 'Auto-loop this video?', new checkboxcontrol($object->loop_media, true));
 		$form->register('auto_rewind', 'Automatically "rewind" this video?', new checkboxcontrol($object->auto_rewind, true));
 		$form->register('autoplay', 'Automatically play this video when the page loads?', new checkboxcontrol($object->autoplay,true));
+		$form->register('hide_controls','Hide the controls on this player?', new checkboxcontrol($object->hide_controls,true));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		
 		return $form;
@@ -68,7 +70,8 @@ class mediaitem {
 		$object->alignment = $values['alignment'];
 		$object->loop_media = (isset($values['loop_media']) ? 1 : 0);
 		$object->auto_rewind = (isset($values['auto_rewind']) ? 1 : 0);
-		$object->autoplay = (isset($values['autoplay']) ? 1 : 0);		
+		$object->autoplay = (isset($values['autoplay']) ? 1 : 0);	
+		$object->hide_controls = (isset($values['hide_controls']) ? 1 : 0);	
 		return $object;
 	}
 }

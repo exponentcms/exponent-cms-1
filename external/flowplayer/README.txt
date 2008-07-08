@@ -1,10 +1,91 @@
 
 The players are located in the root flowplayer directory in the distribution package. 
-The player flash components are: FlowPlayer.swf, FlowPlayerWhite.swf, FlowPlayerBlack.swf and FlowPlayerLP.swf
-Sample HTML files + JavaScript for embedding the players are in the html directory. 
+* The player flash components are: FlowPlayer.swf, FlowPlayerWhite.swf, FlowPlayerBlack.swf and FlowPlayerLP.swf
+* Sample HTML files + JavaScript for embedding the players are in the examples directory. Open the examples/index.html
+  with your browser!
+* Extra example files for special cases in the extras folder
+  (example suggestion.js, example external configuration file).
+
+Installation
+============
+
+To install the player copy html/flashembed.min.js and one of the player SWF files into
+your Web server. Only the SWF and flashembed.min.js is required! For further info please
+see the installation instruction in our Web site http://flowplayer.org
+
+See html/FlowPlayer.html for a simple example!
 
 FlowPlayer Version history (latest release on top)
 =================================================
+
+2.2.1
+	Fixes:
+	- initialVolumePercentage did not affect the volume level before the slider was touched
+	- non-HW full-screen did not scale the video up when the menu was hidden
+	- pauses the player before opening the page linked with the clip specific linkUrl variable
+	- Fixed SWF viewing
+	- The controlBar's playbutton did not work after pressing stop or after rewinding to beginning
+	- controlsOverVideo: 'no' was fixed
+
+2.2
+    - Added possibility to pause/resume using the space bar
+	- Added initialVolumePercentage configuration variable
+	- Added getVersion() to the JavaScript API
+	- Explicitly returning false from following JavaScript API callback methods will disable
+	  the default behavior related to the event:
+	  onClipChanged, onClipDone, onLoadBegin, onStartBuffering, onStreamNotFound
+	- The clips' "start" property is now supported with lighttpd
+	- Added new showEmailView() and showEmbedView() to the JavaScript API
+	- Added new onSeek(targetSeconds) to the JavaScript API
+	- Changed to use the new Google Analytics pageTracker._trackPageview function to send the stats.
+	  To continue using urchinTracker (the deprecated old function) you can configure this using the new
+	  googleAnalyticsFunction configuration option. 
+	Fixes:
+	- The play button is now enabled at the end of the clip when loop: false, autoRewin: false
+	- JavaScript API method getIsPlaying() now returns false if the player is paused
+	- Looping through adjacent streams now works properly when using a RTMP server. You will need to provide
+	  duration information for the clips though. The loop parameter works also as expected.
+	- Suggestion thumbnails fell out of alignment if they were of differing widths.
+	- There was no sound when video clips don't contain metadata or when using RTMP live streams.
+	To fix this, the sound is now muted only when autoPlay: false, autoBuffering: true
+	- Volume slider now mutes the volume completely when dragged to the left end.
+
+2.1.3
+	New version 0.27 of flashembed.js
+	Commercial versions: 
+		Added the possibility have a custom Overlay Play Button image. New config option playButtonImageUrl to achieve this.
+	Fixes:
+	- noVideoClip was not working with playOverlay
+	- progress bar was not visible in IE after page refresh
+	- Now really stops at first frame when setting autoPlay:false, autoBuffering: false
+
+2.1.2
+	- New example.html included, old example files were dropped from the distribution package
+	- New version of flashembed.min.js, it has some bugs fixed 
+	Fixes:
+	- Sometimes the buffering animation was left running in the beginning of videos.
+	- Scaling problems fixed. You can use showOnLoadBegin: false in the clips to prevent them from showing before
+	they have been scaled properly.
+
+2.1.1
+	Fixes:
+	- Buffering animation was left visible when pausing and resuming using the control-bar's
+	pause/resume button
+
+2.1
+	- Hardware Scaled video in full-screen mode
+	- New buffering rotation animation
+	- New option controlBarGloss
+	Fixes:
+	- The control bar hiding is now based on mouse move delay, works much better that way
+	- Calls onFlowPlayerReady() also when you use the configInject option.
+	- Does not show NaN's in the time display when playing MP3 clips with autoPlay: false
+	- The stop button behaves correctly for MP3 clips
+	- Replay button in the suggestions view fixed
+	- Does not produce sound in the beginning of clip when autoPlay: false and autoBuffering: true
+	- Now shows the first frame of video when autoPlay: false and autoBuffering: true
+	- Fixed: was not possible to set the clip's duration just using the 'end' parameter
+	- Does not show the buffering rotation animation at the end of playList
 
 2.0.1
 	- Arranges the buttons to the left if the scrubber is not shown (when using showScrubber: false)

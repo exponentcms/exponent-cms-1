@@ -51,5 +51,7 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'autoplay'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'hide_controls'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 );
 ?>
