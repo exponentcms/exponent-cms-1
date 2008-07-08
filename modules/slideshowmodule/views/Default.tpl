@@ -42,13 +42,13 @@
 {/permissions}
 {if $moduletitle != ''}<div class="moduletitle">{$moduletitle}</div>{/if}
 {if $number > 0}
-<img id="{$unique}_slideshowImg" {if $config->img_width != 0}width="{$config->img_width}" {/if}{if $config->img_height != 0}height="{$config->img_height}" {/if}src="{$slides[0]->file->directory}/{$slides[0]->file->filename}" /><br />
+<img id="{$unique}_slideshowImg" {if $config->img_width != 0}width="{$config->img_width}" {/if}{if $config->img_height != 0}height="{$config->img_height}" {/if}src="{$smarty.const.URL_FULL}{$slides[0]->file->directory}/{$slides[0]->file->filename}" /><br />
 <script type="text/javascript">
-{$unique}_images = new Array({foreach name=s from=$slides item=slide}'{$slide->file->directory}/{$slide->file->filename}'{if $smarty.foreach.s.last != 1},{/if}{/foreach});
+{$unique}_images = new Array({foreach name=s from=$slides item=slide}'{$smarty.const.URL_FULL}{$slide->file->directory}/{$slide->file->filename}'{if $smarty.foreach.s.last != 1},{/if}{/foreach});
 g_{$unique}_delay = {$config->delay};
 g_{$unique}_random = {$config->random};
 </script>
-<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}modules/slideshowmodule/slideshow.js.php?u={$unique}"></script>
+<script type="text/javascript" src="{$smarty.const.URL_FULL}modules/slideshowmodule/slideshow.js.php?u={$unique}"></script>
 {else}
 There are no slides in the slideshow.<br />
 {/if}
