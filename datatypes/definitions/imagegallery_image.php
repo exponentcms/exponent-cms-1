@@ -43,7 +43,7 @@ return array(
 		DB_FIELD_LEN=>150),
 	"alt"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>25),
+		DB_FIELD_LEN=>80),
 	"description"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
