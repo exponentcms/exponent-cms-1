@@ -113,10 +113,16 @@ function handleErrors($errno, $errstr, $errfile, $errline) {
 }
 
 function show_msg_queue() {
-	$template = new template('common','_msg_queue');
-	$template->assign('queues', exponent_sessions_get('flash'));
+	$queues = exponent_sessions_get('flash');
+	if (!empty($queues)) {
+		$template = new template('common','_msg_queue');
+		$template->assign('queues', exponent_sessions_get('flash'));
+		$html = $template->render();
+	} else {
+		$html = '';
+	}
 	flushFlash();
-	return $template->render();
+	return $html;
 }
 
 function assign_to_template(array $vars=array()) {
