@@ -104,7 +104,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 				if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
 				$headers = array(
 					"MIME-Version"=>"1.0",
-					"Content-type"=>"text/html; charset=iso-8859-1"
+					"Content-type"=>"text/html; charset=UTF-8"
 				);
 				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
 					$i18n = exponent_lang_loadFile('modules/wizard/actions/submit_form.php');

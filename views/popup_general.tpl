@@ -17,7 +17,7 @@
 <html>
 	<head>
 		<title>{$smarty.const.SITE_TITLE}</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}style.css" />
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}popup.css" />
 		<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}exponent.js.php"></script>

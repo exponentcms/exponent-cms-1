@@ -16,7 +16,7 @@
  <html>
 	<head>
 		<title>{$smarty.const.SITE_TITLE}</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}style.css" />
 		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}editor.css" />
 		<meta name="Generator" value="Exponent Content Management System" />
