@@ -20,7 +20,6 @@
 // Part of the Extensions category
 
 if (!defined('EXPONENT')) exit('');
-
 if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
 	$themes = array();
@@ -36,7 +35,7 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 				$t->name = $theme->name();
 				$t->description = $theme->description();
 				$t->author = $theme->author();
-				$t->preview = is_readable(BASE."themes/$file/preview.jpg") ? PATH_RELATIVE."themes/$file/preview.jpg" : PATH_RELATIVE."themes/" . DISPLAY_THEME . "/noprev.jpg";
+				$t->preview = is_readable(BASE."themes/$file/preview.jpg") ? "themes/$file/preview.jpg" : "themes/" . DISPLAY_THEME . "/noprev.jpg";
 				$themes[$file] = $t;
 			}
 		}

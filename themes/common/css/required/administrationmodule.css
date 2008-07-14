@@ -1,6 +1,6 @@
 /** Administration Module Manager form **/
 .administration_modmgrheader {
-        background-color: lightgrey;
+        background-color: #999;
 }
 
 .administration_modmgrheader span.active {
@@ -15,7 +15,7 @@
 
 .administration_modmgrbody {
         padding-left: 10px;
-        border: 1px solid lightgrey;
+        border: 1px solid #999;
 }
 
 /** Admin Control quick-links Styles  **/
@@ -171,3 +171,68 @@
 	background-image:url(../../images/icons/edit-profile.png);
     	background-repeat:no-repeat;	
 }
+
+/* theme manager */
+.administrationmodule.thememanager h1,
+.administrationmodule.thememanager h2,
+.administrationmodule.thememanager h3
+{
+	position:relative;
+	padding:0;
+	margin:0;
+}
+.administrationmodule.thememanager .current {
+	right:0px;
+	position:absolute;
+	font-size:16px;
+	padding:0 0 0 22px;
+	background:url(../../images/icons/accepted.png) no-repeat 0 50%;
+	color:#585;
+}
+.administrationmodule.thememanager .previewing {
+	font-size:16px;
+    padding:0 0 0 22px;
+	position:absolute;
+	right:0;
+    background:url(../../images/icons/view.png) no-repeat 0 50%;
+    color:#669 !important;
+}  
+.administrationmodule.thememanager .previewtheme {
+	font-size:16px;
+    padding:0 0 0 22px;
+    background:url(../../images/icons/view.png) no-repeat 0 50%;
+    color:#669 !important;
+}  
+.administrationmodule.thememanager .switchtheme:hover {
+	font-size:16px;
+    padding:0 0 0 22px;
+    background:url(../../images/icons/play.png) no-repeat 0 50%;
+    color:#99d !important;
+}  
+.administrationmodule.thememanager .switchtheme {
+	font-size:16px;
+    padding:0 0 0 22px;
+    background:url(../../images/icons/play.png) no-repeat 0 50%;
+    color:#66a !important;
+}  
+.administrationmodule.thememanager .previewtheme:hover {
+    color:#99a !important;
+}  
+.administrationmodule.thememanager .item {
+	float:left;
+	width:100%;
+	padding:5px;
+	border:1px solid #ddd;
+}
+.administrationmodule.thememanager h2 {
+}
+.administrationmodule.thememanager .previewimage {
+	border:1px solid #333;
+	float:left;
+	margin-right:10px;
+}
+
+.administrationmodule.thememanager .themeinfo {
+	border-left:1px dotted #777;
+}
+

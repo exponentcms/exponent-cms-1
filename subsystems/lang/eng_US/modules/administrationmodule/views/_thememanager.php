@@ -6,9 +6,10 @@ return array(
 	
 	'new_theme'=>'Upload New Theme',
 	
-	'current'=>'Current',
+	'current'=>'Active Theme',
+	'switch_theme'=>'Use This Theme',
 	'previewing'=>'Previewing',
-	'preview'=>'Preview',
+	'preview'=>'Preview Theme',
 	'view_files'=>'View Files',
 	
 	'by'=>'by',

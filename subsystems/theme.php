@@ -43,10 +43,10 @@ function exponent_theme_loadCommonCSS() {
 			$filename = BASE . $commondir.'/'.$cssfile;
 			if ( is_file($filename) && substr($filename,-4,4) == ".css") {
 				$css_files["common-".substr($cssfile,0,-4)] = URL_FULL.$commondir.'/'.$cssfile;
-				if (is_readable('themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile)) {
-					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$cssfile;
-				} elseif (is_readable('themes/'.DISPLAY_THEME_REAL.'/'.$cssfile)) {
-					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$cssfile;
+				if (is_readable('themes/'.DISPLAY_THEME.'/css/'.$cssfile)) {
+					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME.'/css/'.$cssfile;
+				} elseif (is_readable('themes/'.DISPLAY_THEME.'/'.$cssfile)) {
+					$css_files["usertheme-".substr($cssfile,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME.'/'.$cssfile;
 				}
 			}
 		}
@@ -62,7 +62,7 @@ function exponent_theme_loadRequiredCSS() {
 	global $css_files;
 
 	$requireddir = 'themes/common/css/required/';
-	$requiredthemedir = 'themes/'.DISPLAY_THEME_REAL.'/css/required/';
+	$requiredthemedir = 'themes/'.DISPLAY_THEME.'/css/required/';
 	if (is_dir(BASE . $requireddir) && is_readable(BASE . $requireddir) ) {
 		$dh = opendir( BASE . $requireddir);
 		while (($cssfile = readdir($dh)) !== false) {
@@ -94,7 +94,7 @@ function exponent_theme_includeThemeCSS($files = array()) {
 		//exponent_theme_loadYUICSS(array('menu'));
 		//exponent_theme_loadExpDefaults();
 
-		$cssdirs = array('themes/'.DISPLAY_THEME_REAL.'/css/', URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/');
+		$cssdirs = array('themes/'.DISPLAY_THEME.'/css/', URL_FULL.'themes/'.DISPLAY_THEME.'/');
 
 		foreach ($cssdirs as $cssdir) {
 			if (is_dir($cssdir) && is_readable($cssdir) ) {
@@ -109,10 +109,10 @@ function exponent_theme_includeThemeCSS($files = array()) {
 		}
 	} else {	
 		foreach ($files as $file) {
-			if (is_readable( BASE . 'themes/'.DISPLAY_THEME_REAL.'/css/'.$file)) {
-				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/css/'.$file;
-			} elseif (is_readable(BASE . 'themes/'.DISPLAY_THEME_REAL.'/'.$file)) {
-				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME_REAL.'/'.$file;
+			if (is_readable( BASE . 'themes/'.DISPLAY_THEME.'/css/'.$file)) {
+				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME.'/css/'.$file;
+			} elseif (is_readable(BASE . 'themes/'.DISPLAY_THEME.'/'.$file)) {
+				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME.'/'.$file;
 			}
 		}
 	}
@@ -162,23 +162,6 @@ function exponent_theme_remove_smarty_cache() {
 	return exponent_files_remove_files_in_directory(BASE.'tmp/views_c');	
 }
 
-function exponent_theme_loadYUIJS($files=array()) {
-		global $jsfiles;
-		exponent_theme_buildYUIPaths();
-		//eDebug($jsfiles);
-		$files_to_load = array();
-		$files_to_string = "";
-		//manually add yui-dom-event, since it doen't have a -min version'
-	//		$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles['yahoo-dom-event'].'"></script>'."\r\n";
-		foreach($files as $filename) {
-			if ($filename!="yahoo-dom-event") $filename = $filename."-min"; 
-			if (array_key_exists($filename, $jsfiles)) {	
-				$files_to_string .= "\t".'<script type="text/javascript" src="'.$jsfiles[$filename].'"></script>'."\r\n";
-			}
-		}	
-		return $files_to_string;
-}
-
 function exponent_theme_buildCSSFile($cssfile) {
 	if (DEVELOPMENT > 0 || !is_readable(BASE.$cssfile)) {
 		global $css_files;
@@ -203,7 +186,8 @@ function exponent_theme_buildCSSFile($cssfile) {
 
 function exponent_theme_includeCSS($cssfile) {
 	$str = "";
-	if (DEVELOPMENT == 0) {
+	
+	if (DEVELOPMENT == 0 && DISPLAY_THEME==DISPLAY_THEME_REAL) {
 		$str = "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'" '.XHTML_CLOSING.'>'."\r\n";
 	} else {
 		global $css_files;
