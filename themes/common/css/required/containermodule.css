@@ -136,7 +136,7 @@ a.addmodule:hover{
 	_padding: 3px 3px 3px 10px;
 	background-color:#cae7e8;
 	color:#333;
-	font-family:"trebuchet ms","arail";
+	font-family:"Trebuchet MS","Arail";
 	margin:0px;
 	border-bottom:1px dotted #888;
     background-image:url(../../images/icons/exp1icons.png);  
@@ -160,6 +160,7 @@ a.addmodule:hover{
 
 #containermodulemenu.containermenu .yuimenuitemlabel{
 	color:#333333;
+	text-decoration:none;
 }
 #containermodulemenu.containermenu .yuimenuitem-selected{
 	background-color:#445;
@@ -208,32 +209,32 @@ a.addmodule:hover{
 
 
 
-li.rankup a {
-    background-position:0px -159px; 
+#containermodulemenu.containermenu li.rankup a {
+    background-position:0px -161px; 
 	display:block;	
 }
-li.rankdown a { 
-    background-position:0px -128px;
+#containermodulemenu.containermenu li.rankdown a { 
+    background-position:0px -130px;
 	display:block;	
 }
-li.userperms a {
-    background-position:0px -8px;
+#containermodulemenu.containermenu li.userperms a {
+    background-position:0px -9px;
 	display:block;	
 }
-li.groupperms a {
-    background-position:0px -38px;
+#containermodulemenu.containermenu li.groupperms a {
+    background-position:0px -39px;
 	display:block;	
 }
-li.configview a {
+#containermodulemenu.containermenu li.configview a {
     background-position:0px -100px;
 	display:block;	
 }
-li.configsettings a {
-    background-position:0px -360px;
+#containermodulemenu.containermenu li.configsettings a {
+    background-position:0px -362px;
 	display:block;	
 }
-li.deletemod a {
-    background-position:0px -70px ;
+#containermodulemenu.containermenu li.deletemod a {
+    background-position:0px -72px ;
 	display:block;	
 }
 
