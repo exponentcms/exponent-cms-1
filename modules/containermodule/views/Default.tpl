@@ -17,53 +17,7 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if ($permissions.administrate == 1 || $permissions.edit_module == 1 || $permissions.delete_module == 1 || $permissions.add_module == 1 || $container->permissions.administrate == 1 || $container->permissions.edit_module == 1 || $container->permissions.delete_module == 1)} 
 	
-	{script yuimodules='"container","menu"' unique="tooltipAndMenu"}
-	{literal}
-
-	var contextElements = YAHOO.util.Dom.getElementsByClassName("viewinfo");
-
-	var ttA = new YAHOO.widget.Tooltip("ttA", { 
-				context:contextElements,
-				zIndex:500
-	});
-	
-	YAHOO.util.Event.onDOMReady(function(){
-
-				containerModuleMenus = function () {
-					var E =YAHOO.util.Event,
-						D =YAHOO.util.Dom;
-
-					var triggers = YAHOO.util.Dom.getElementsByClassName("modulemenutrigger");
-
-					var containermenu = new YAHOO.widget.Menu("containermodulemenu", { 
-						position: "dynamic",
-						clicktohide: true,
-						zIndex:500,
-						classname: "containermenu",
-						hidedelay: 0,
-						fixedcenter: false
-						});
-
-					containermenu.render(document.body);
-
-					YAHOO.util.Event.addListener(triggers, "mouseover", function(e){
-						containermenu.hide();
-						var el = E.getTarget(e);
-						var items = YAHOO.expadminmenus[el.id];
-						containermenu.cfg.setProperty("context",[el,"tl","tr"]);
-						containermenu.clearContent();
-						containermenu.addItems(items);
-						containermenu.setItemGroupTitle("For this "+el.getAttribute("rel"), 0);
-						containermenu.render();
-						containermenu.show();
-					});
-
-				}();
-
-	});	
-	
-	{/literal}
-	
+	{script yuimodules='container,menu' unique="tooltipAndMenu" src="`$smarty.const.URL_FULL`framework/lib/js/exp-container.js"}
 	{/script}
 		<div id="cont{$top->id}" class="containermodule">
 	{/if}
@@ -78,15 +32,12 @@
 		<a id="container{$top->id}" class="modulemenutrigger" href="#" rel="{$_TR.container_module}">&nbsp;</a>
 		<span class="modtype viewinfo" title="{$_TR.container_module} - {$_TR.shown_in|sprintf:$__view}">&nbsp;</span>
 		
-		<script type="text/javascript" charset="utf-8">
-		//<![CDATA[
-		
-				YAHOO.expadminmenus["container{$top->id}"] = [
-					{literal}{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
-					{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }{/literal}
-				];
-
-		//]]></script>
+		{script unique=$top->id}
+			YAHOO.expadminmenus["container{$top->id}"] = [
+				{literal}{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
+				{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }{/literal}
+			];
+		{/script}
 		
 		
 	</div>
