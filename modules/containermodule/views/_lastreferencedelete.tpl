@@ -13,12 +13,13 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{script unique="deletemodule" yuimodules="'container'"}
+{script unique="deletemodule" yuimodules="container"}
 {literal}
-var message = "{/literal}{$_TR.confirm}";{literal}
-YAHOO.namespace("example.container");
 
-function init() {
+YAHOO.util.Event.onDOMReady(function(){
+	
+	var message = "{/literal}{$_TR.confirm}";{literal}
+	YAHOO.namespace("example.container");
 	
 	// Define various event handlers for Dialog
 	var handleYes = function() {
@@ -32,7 +33,7 @@ function init() {
 	};
 
 	// Instantiate the Dialog
-	YAHOO.example.container.simpledialog1 = new YAHOO.widget.SimpleDialog("simpledialog1",
+	YAHOO.example.container.simpledialog1 = new YAHOO.widget.SimpleDialog("expdialog",
 									{ 	width: "400px",
 										fixedcenter: true,
 										visible: false,
@@ -50,9 +51,8 @@ function init() {
 	// Render the Dialog
 	YAHOO.example.container.simpledialog1.render("recycle-dlg");
 	YAHOO.example.container.simpledialog1.show();
-}
+});
 
-YAHOO.util.Event.addListener(window, "load", init);
 {/literal}
 {/script}
 <div id="recycle-dlg"></div>
