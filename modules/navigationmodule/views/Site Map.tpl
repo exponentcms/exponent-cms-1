@@ -14,12 +14,12 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+<div class="navigationmodule site-map">
 {assign var=in_action value=0}
 {if $smarty.request.module == 'navigationmodule' && $smarty.request.action == 'manage'}
 {assign var=in_action value=1}
 {/if}
 {assign var=titlepresent value=0}
-<div class="navigationmodule site-map">
 {if $moduletitle != ""}
 <h1>{$moduletitle}</h1>
 {assign var=titlepresent value=1}
@@ -73,15 +73,16 @@
 <h{$headerlevel}><a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a></h{$headerlevel}>
 {else}
 <li class="{$class}">
-<span class="inactive"><h{$headerlevel}>{$section->name}</h{$headerlevel}></span>
+<h{$headerlevel}><span class="inactive">{$section->name}</span></h{$headerlevel}>
 {/if}
 {/foreach}
-</li>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $canManage == 1}
 <!--li>[<a class="navlink" href="{link action=manage}">{$_TR.manage}</a>]</li-->
 <li class="managelink">[<a class="navlink" href="{link action=manage}">{$_TR.manage}</a>]</li>
 {/if}
 {/permissions}
-</ul>
+{section name=finalclose loop=$section->depth+1}
+</li></ul>
+{/section}
 </div>
