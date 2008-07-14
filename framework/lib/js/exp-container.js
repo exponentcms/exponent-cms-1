@@ -19,13 +19,17 @@ YAHOO.util.Event.onDOMReady(function(){
 			zIndex:500,
 			classname: "containermenu",
 			hidedelay: 0,
+			effect: { 
+				effect: YAHOO.widget.ContainerEffect.FADE,
+				duration: 0.25
+			},
 			fixedcenter: false
 			});
 
 		containermenu.render(document.body);
 
 		YAHOO.util.Event.addListener(triggers, "mouseover", function(e){
-			containermenu.hide();
+			//containermenu.hide();
 			var el = E.getTarget(e);
 			var items = YAHOO.expadminmenus[el.id];
 			containermenu.cfg.setProperty("context",[el,"tl","tr"]);
@@ -38,7 +42,7 @@ YAHOO.util.Event.onDOMReady(function(){
 
 	}();
 
-});	
+}); 
 
 /*
 (function() {
