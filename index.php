@@ -30,9 +30,9 @@ require_once('exponent.php');
 
 // if the user has turned on sef_urls then we need to route the request, otherwise we can just 
 // skip it and default back to the old way of doing things.
-//$router->routeRequest();
-//$section = $router->getSection();
-//$sectionObj = $router->getSectionObj($section);
+$router->routeRequest();
+$section = $router->getSection();
+$sectionObj = $router->getSectionObj($section);
 
 // set the output header
 Header("Content-Type: text/html; charset=".LANG_CHARSET);

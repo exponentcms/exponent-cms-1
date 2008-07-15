@@ -147,9 +147,11 @@ $sections = exponent_core_initializeNavigation();
 
 // if the user has turned on sef_urls then we need to route the request, otherwise we can just 
 // skip it and default back to the old way of doing things.
-$router->routeRequest();
-$section = $router->getSection();
-$sectionObj = $router->getSectionObj($section);
+//$router->routeRequest();
+//$section = $router->getSection();
+//$sectionObj = $router->getSectionObj($section);
+
+// This causes about a half dozen bugs if its here and not in index.php.
 
 function eDebug($var){
 	if (DEVELOPMENT) {
