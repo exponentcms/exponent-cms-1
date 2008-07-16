@@ -23,7 +23,8 @@ return array(
 	'view_categories'=>'View Categories',
 	'alt_view_cat'=>'View Event Categories',
 
-	'alt_rssfeed'=>'Subscribe to this Events RSS Feed',
+	'rss_feed'=>'Subscribe to this calender\'s RSS Feed',
+	'default_summery'=>'Subscribe to this calender\'s RSS Feed',
 
 
 	'sunday'=>'Sunday',

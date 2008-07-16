@@ -14,74 +14,68 @@
  *
  *}
 
-<div class="calendarmodule default">
+<div class="calendarmodule cal-default">
 {if $enable_rss == true}
-        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+	<a class="rsslink" href="{rsslink}">{$_TR.rss_feed}</a> {br}
 {/if}
-{$_TR.calendar_view}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a><br /><br />
-{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-<table cellspacing="0" cellpadding="0" width="100%" rules="all" class="calendar_monthly">
-<tbody>
-<tr><td align="left">
-<a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
-</td>
-<td align="center" valign="top" colspan="5"><h1>{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B %Y"}</h1></td>
-<td align="right">
-<a rel="nofollow" class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" /></a>
-</td></tr>
-<tr>
-	<td align="center" style="font-weight:bold">{$_TR.sunday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.monday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.tuesday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.wednesday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.thursday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.friday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.saturday}</td>
-</tr>
-{math equation="x-86400" x=$now assign=dayts}
-{foreach from=$monthly item=week key=weeknum}
-	<tr class="{if $currentweek == $weeknum}calendar_currentweek{/if}">
-		{foreach name=w from=$week key=day item=events}
-			{assign var=number value=$counts[$weeknum][$day]}
-			<td width="14%" align="left" valign="top" {if $number == -1}class="notinmonth" {/if}style="height: 100px;">
-				{if $number != -1}{math equation="x+86400" x=$dayts assign=dayts}{/if}
-				{if $number > -1}
-					<div class="number">
-					{if $number == 0}
-						{$day}
-					{else}
-						<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayts}" title="{$dayts|format_date:'%A, %B %e, %Y'}" alt="{$dayts|format_date:'%A, %B %e, %Y'}">{$day}</a>
-					{/if}
-					</div>
-				{/if}
-				{foreach name=e from=$events item=event}
-					{assign var=catid value=0}
-					{if $__viewconfig.colorize == 1 && $modconfig->enable_categories}{assign var=catid value=$event->category_id}{/if}
-					<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}"{if $catid != 0} style="color: {$categories[$catid]->color};"{/if}>{$event->title}</a><br />
-					{if $smarty.foreach.e.last != 1}<hr size="1" color="lightgrey" />{/if}
-				{/foreach}
-			</td>
-		{/foreach}
-	</tr>
-{/foreach}
-</tbody>
-</table>
+<a class="listviewlink" href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a>{br}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
-<a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a>
+<a class="addevent" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a>
 {/if}
 {if $in_approval != 0 && $canview_approval_link == 1}
-<br />
+{br}
 <a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.view_approval}</a>
 {/if}
 {if $modconfig->enable_categories == 1}
 {if $permissions.manage_categories == 1}
-<br />
+{br}
 <a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">{$_TR.manage_categories}</a>
 {else}
-<br />
+{br}
 <a class="mngmntlink calendar_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>
 {/if}
 {/if}
 {/permissions}
+
+<h1>{if $moduletitle}{$moduletitle}{/if}</h1>
+
+<table id="calendar" cellspacing="0" cellpadding="0" summary="{$moduletitle|default:$_TR.default_summery}">
+<caption><a href="{link action=viewmonth time=$prevmonth} title="{$_TR.alt_previous}" class="nav">&laquo;</a> {$now|format_date:"%B %Y"} <a href="{link action=viewmonth time=$nextmonth}" title="{$_TR.alt_next}" class="nav">&raquo;</a></caption>
+
+		<tr>
+			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday}</th>
+			<th scope="col" abbr="{$_TR.monday}" title="{$_TR.monday}">{$_TR.monday}</th>
+			<th scope="col" abbr="{$_TR.tuesday}" title="{$_TR.tuesday}">{$_TR.tuesday}</th>
+			<th scope="col" abbr="{$_TR.wednesday}" title="{$_TR.wednesday}">{$_TR.wednesday}</th>
+			<th scope="col" abbr="{$_TR.thursday}" title="{$_TR.thursday}">{$_TR.thursday}</th>
+			<th scope="col" abbr="{$_TR.friday}" title="{$_TR.friday}">{$_TR.friday}</th>
+			<th scope="col" abbr="{$_TR.saturday}" title="{$_TR.saturday}">{$_TR.saturday}</th>
+		</tr>
+	{math equation="x-86400" x=$now assign=dayts}
+	{foreach from=$monthly item=week key=weeknum}
+		<tr class="{if $currentweek == $weeknum} currentweek{/if}">
+		{foreach name=w from=$week key=day item=events}
+			{assign var=number value=$counts[$weeknum][$day]}
+			<td {if $number == -1}class="notinmonth" {/if}>
+				{if $number != -1}{math equation="x+86400" x=$dayts assign=dayts}{/if}
+				{if $number > -1}
+					{if $number == 0}
+						<span class="number">
+							{$day}
+						</span>
+					{else}
+						<a class="number" href="{link action=viewday time=$dayts}" title="{$dayts|format_date:'%A, %B %e, %Y'}" alt="{$dayts|format_date:'%A, %B %e, %Y'}">{$day}</a>
+					{/if}
+				{/if}
+				{foreach name=e from=$events item=event}
+					{assign var=catid value=0}
+					{if $__viewconfig.colorize == 1 && $modconfig->enable_categories}{assign var=catid value=$event->category_id}{/if}
+					<a class="calevent" class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}"{if $catid != 0} style="color: {$categories[$catid]->color};"{/if}>{$event->title}</a>
+				{/foreach}
+			</td>
+		{/foreach}
+		</tr>
+	{/foreach}
+</table>
 </div>

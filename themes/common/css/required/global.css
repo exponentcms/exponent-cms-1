@@ -27,3 +27,7 @@ tr.row:hover td a {
 	background-color:#efefef;
 }
 
+a.rsslink {
+	background:url(../../images/icons/feed-icon.png) no-repeat 3px 50%;
+	padding-left:18px;
+}
