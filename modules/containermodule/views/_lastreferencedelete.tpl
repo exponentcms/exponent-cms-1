@@ -19,7 +19,6 @@
 YAHOO.util.Event.onDOMReady(function(){
 	
 	var message = "{/literal}{$_TR.confirm}";{literal}
-	YAHOO.namespace("example.container");
 	
 	// Define various event handlers for Dialog
 	var handleYes = function() {
@@ -33,7 +32,7 @@ YAHOO.util.Event.onDOMReady(function(){
 	};
 
 	// Instantiate the Dialog
-	YAHOO.example.container.simpledialog1 = new YAHOO.widget.SimpleDialog("expdialog",
+	var simpledialog1 = new YAHOO.widget.SimpleDialog("expdialog",
 									{ 	width: "400px",
 										fixedcenter: true,
 										visible: false,
@@ -46,13 +45,12 @@ YAHOO.util.Event.onDOMReady(function(){
 										buttons: [ { text:"Send to Recycle Bin", handler:handleYes, isDefault:true },
 											{ text:"Delete Permanently",  handler:handleNo } ]
 									} );
-	YAHOO.example.container.simpledialog1.setHeader("Send to Recycle Bin?");
+	simpledialog1.setHeader("Send to Recycle Bin?");
 	
 	// Render the Dialog
-	YAHOO.example.container.simpledialog1.render("recycle-dlg");
-	YAHOO.example.container.simpledialog1.show();
+	simpledialog1.render(document.body);
+	simpledialog1.show();
 });
 
 {/literal}
 {/script}
-<div id="recycle-dlg"></div>
