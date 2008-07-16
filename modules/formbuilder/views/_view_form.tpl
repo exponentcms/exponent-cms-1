@@ -14,10 +14,17 @@
  *
  *}
  
- <div align="center"><center><b>{$_TR.form_title}</b><br />{$_TR.form_header}</center></div>
- <div style="border: 2px dashed lightgrey; padding: 1em;">
+<div class="formmodule view-form">
+	<div class="form_header">
+		<h1>
+			{$_TR.form_title}
+		</h1>
+		<p>
+			{$_TR.form_header}
+		</p>
+	</div>
+
 {$form_html}
-</div>
 <script language="JavaScript">
 	function pickSource() {ldelim}
 		window.open('{$pickerurl}','sourcePicker','title=no,toolbar=no,width=640,height=480,scrollbars=yes');
@@ -47,3 +54,5 @@
 </tr>
 </table>
 {/if}
+
+</div>

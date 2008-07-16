@@ -19,11 +19,14 @@
 
 if (!defined("EXPONENT")) exit("");
 
-// Check for form errors
-$captcha_real = exponent_sessions_get('captcha_string');
-if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $captcha_real) {
-	flash('error', 'Security Validation Failed');
-	exponent_flow_redirect();
+if (empty($_REQUEST['isedit'])){
+
+	// Check for form errors
+	$captcha_real = exponent_sessions_get('captcha_string');
+	if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $captcha_real) {
+		flash('error', 'Security Validation Failed');
+		exponent_flow_redirect();
+	}
 }
 
 if (!defined("SYS_USER")) require_once(BASE."subsystems/users.php");

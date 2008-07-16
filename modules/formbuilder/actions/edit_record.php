@@ -25,6 +25,7 @@ if (!defined('SYS_FORMS')) include_once(BASE.'subsystems/forms.php');
 exponent_forms_initialize();
 
 // Sanitize required _GET parameters
+
 $_GET['id'] = intval($_GET['id']);
 $_GET['form_id'] = intval($_GET['form_id']);
 
@@ -53,6 +54,7 @@ if ($f && $data && $controls) {
 		$form->meta('action','submit_form');
 		$form->meta('m',$loc->mod);
 		$form->meta('s',$loc->src);
+		$form->meta('isedit',1);
 		$form->meta('i',$loc->int);
 		$form->meta('id',$f->id);
 		$form->meta('data_id',$data->id);
