@@ -64,6 +64,7 @@ class loginmodule {
 		} else {
 			$template->assign('loggedin',0);
 		}
+		$template->assign('moduletitle',$title);
 		$template->output($view);
 	}
 	
