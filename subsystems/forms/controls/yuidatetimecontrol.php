@@ -35,7 +35,7 @@ class yuidatetimecontrol extends formcontrol {
 			DB_FIELD_TYPE=>DB_DEF_TIMESTAMP);
 	}
 	
-	function yuidatetimecontrol($default = 0, $edit_text = "", $showdate = true, $showtime = true, $display_only=false) {
+	function yuidatetimecontrol($default = 0, $edit_text = "", $showdate = true, $showtime = true, $display_only=false, $checked=true) {
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 		if ($default == 0) $default = time();
 		$this->default = $default;
@@ -43,6 +43,7 @@ class yuidatetimecontrol extends formcontrol {
 		$this->showdate = $showdate;
 		$this->showtime = $showtime;
 		$this->display_only = $display_only;
+		$this->checked = $checked;
 	}
 
 	function toHTML($label,$name) {
@@ -66,8 +67,11 @@ class yuidatetimecontrol extends formcontrol {
 		$datetime = date('l, F d, o g:i a', $this->default);
 		$html  = '<span id="dtdisplay-'.$name.'">'.$datetime.'</span>';
 		if (!$this->display_only) {
-			$html .= '<input id="'.$name.'" type="checkbox" name="'.$name.'" onchange="divtoggle(\'datetime-'.$name.'\')" checked>'.$this->edit_text;
-			$html .= '<div style="display:none" id="datetime-'.$name.'">';
+			$html .= '<input id="'.$name.'" type="checkbox" name="'.$name.'" onchange="divtoggle(\'datetime-'.$name.'\')"';
+			$html .= $this->checked ? ' checked>'.$this->edit_text : '>'.$this->edit_text;
+			$html .= '<div ';
+			$html .= $this->checked ? 'style="display:none"': '';
+			$html .= ' id="datetime-'.$name.'">';
 			$html .= ($this->showdate) ? $datectl->controlToHTML($name."date") : "";
 			$html .= '<div class="yuitime">';
 			$html .= ($this->showtime) ? $timectl->controlToHTML($name."time") : "";

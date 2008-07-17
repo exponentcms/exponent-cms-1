@@ -46,9 +46,11 @@ class newsitem {
 	
 		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Publish Information</div><hr size="1" />'));
 		//$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
-		$form->register('publish',$i18n['publish'],new yuidatetimecontrol($object->publish,$i18n['nopublish']));
+		$checked = empty($object->publish) ? true : false;
+		$form->register('publish',$i18n['publish'],new yuidatetimecontrol($object->publish,$i18n['nopublish'], true, true, false, $checked));
 		//$form->register('unpublish',$i18n['unpublish'],new popupdatetimecontrol($object->unpublish,$i18n['nounpublish']));
-		$form->register('unpublish',$i18n['unpublish'],new yuidatetimecontrol($object->unpublish,$i18n['nounpublish']));
+		$checked = empty($object->unpublish) ? true : false;
+		$form->register('unpublish',$i18n['unpublish'],new yuidatetimecontrol($object->unpublish,$i18n['nounpublish'], true, true, false, $checked));
 		
 		$form->register('featured_header','',new htmlcontrol('<br /><div class="moduletitle">Featured Event Info</div><hr size="1" />'));
                 $form->register('is_featured','Feature this event',new checkboxcontrol($object->is_featured,true));
