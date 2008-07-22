@@ -19,14 +19,11 @@
 
 if (!defined("EXPONENT")) exit("");
 
-if (empty($_REQUEST['isedit'])){
-
-	// Check for form errors
-	$captcha_real = exponent_sessions_get('captcha_string');
-	if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $captcha_real) {
-		flash('error', 'Security Validation Failed');
-		exponent_flow_redirect();
-	}
+// Check for form errors
+$captcha_real = exponent_sessions_get('captcha_string');
+if (SITE_USE_CAPTCHA && strtoupper($_POST['captcha_string']) != $captcha_real) {
+	flash('error', 'Security Validation Failed');
+	exponent_flow_redirect();
 }
 
 if (!defined("SYS_USER")) require_once(BASE."subsystems/users.php");
@@ -121,8 +118,11 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 				);
 				$mail = new exponentMail();
 				$mail->addHTML($emailHtml);
-				$mail->addTo($emaillist);
-				$mail->batchSend();
+				foreach ($emaillist as $email) {
+					$mail->addTo($email);
+					$mail->send();
+					$mail->flushRecipients();
+				}
 				/*
 				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
 					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submit_form.php');
