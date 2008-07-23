@@ -21,6 +21,9 @@ if (!defined('EXPONENT')) exit('');
 
 $post = null;
 $iloc = null;
+
+$i18n = exponent_lang_loadFile('modules/weblogmodule/actions/post_edit.php');
+
 if (isset($_GET['id'])) {
 	$post = $db->selectObject('weblog_post','id='.intval($_GET['id']));
 	$loc = unserialize($post->location_data);
@@ -37,7 +40,7 @@ if (($post == null && exponent_permissions_check('post',$loc)) ||
 	
 $weblogmodule_config = $db->selectObject('weblogmodule_config', "location_data='".serialize($loc)."'");
 	//$weblogmodule_config = $db->selectObject('weblogmodule_config', "location_data='".$post->location_data."'");
-	if (isset($weblogmodule_config->enable_tags)) {
+	if (isset($weblogmodule_config->enable_tags) && $weblogmodule_config->enable_tags = true) {
 		$cols = array();
 		$tags = array();
 		$cols = unserialize($weblogmodule_config->collections);
@@ -60,16 +63,15 @@ $weblogmodule_config = $db->selectObject('weblogmodule_config', "location_data='
 			$used_tags = array();
 			if (isset($post->id)) {
 				$tag_ids = unserialize($post->tags);
-				if (is_array($tag_ids)) {  //If it's not an array, we don't have any tags.
+				if (is_array($tag_ids) && count($tag_ids)>0) {  //If it's not an array, we don't have any tags.
 					$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');
 					foreach ($selected_tags as $selected_tag) {
 						$used_tags[$selected_tag->id] = $selected_tag->name;
 					}
 				}
 			}
-
 			if (count($tag_list) > 0) {
-				$form->registerAfter('tag_header','tags',$i18n['tags'],new listbuildercontrol($used_tags,$tag_list));
+				$form->registerAfter('tag_header','tags',$i18n['tags'],new listbuildercontrol($used_tags, $tag_list));
 			} else {
 				$form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>There are no tags assigned to the collection(s) available to this module.</div>'));
 			}

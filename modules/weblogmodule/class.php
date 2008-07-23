@@ -103,10 +103,7 @@ class weblogmodule {
 
 		//If rss is enabled tell the view to show the RSS button
                 if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
-		if ($config->group_by_tags == true) {	
-			$view = "_group_by_tags";	
-		} 
-
+		
 		$template->assign('enable_rss', $config->enable_rss);
 
 		//Get the tags that have been selected to be shown in the grouped by tag views
@@ -220,31 +217,15 @@ class weblogmodule {
 				//Get the tags for this weblogitem
 				$selected_tags = array();
 		        	$tag_ids = unserialize($posts[$i]->tags);
-		        	if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+		        	if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 				$posts[$i]->tags = $selected_tags;
-				$posts[$i]->selected_tags = $selected_tags;
-		
-				//If this module was configured to group the items by tags, then we need to change the data array a bit
-				if ($config->group_by_tags == true) {
-					$grouped_posts = array();
-					foreach($posts[$i]->tags as $tag) {
-						if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
-							if (!isset($grouped_posts[$tag->name])) { $grouped_posts[$tag->name] = array();} 
-							array_push($grouped_posts[$tag->name],$posts[$i]);
-						}
-					}
-				}
+				$posts[$i]->selected_tags = $selected_tags;							
 			}
 			usort($posts,'exponent_sorting_byPostedDescending');
 			$template->assign('posts',$posts);
 			$template->assign('total_posts',$total);
 		}
-
-
-			
-//wrong place
-//if($config->group_by_tags == true) {$template->assign('posts',$grouped_posts);} else {$template->assign('news',$news);}
-
+		
 		$template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 
 		$template->register_permissions(

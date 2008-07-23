@@ -15,6 +15,7 @@
  *}
 
 <div class="weblogmodule view">
+<h1>{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
 <div class="subheader weblog_subheader">Posted by {attribution user_id=$this_post->poster} on {$this_post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <br />
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}

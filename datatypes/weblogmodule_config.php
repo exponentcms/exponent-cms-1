@@ -38,10 +38,11 @@ class weblogmodule_config {
 			$object->require_login = 0;
 			$object->items_per_page = 10;
 			$object->enable_rss = false;
-            $object->feed_title = "";
-            $object->feed_desc = "";
+			$object->enable_tags = false;
+      $object->feed_title = "";
+      $object->feed_desc = "";
 			$object->collections = array();
-			$object->show_tags = array();
+			//$object->show_tags = array();
 			$object->comments_notify = serialize(array());
 			$object->aggregate = array();
 		} else {
@@ -52,22 +53,22 @@ class weblogmodule_config {
 				$collection = $db->selectObject('tag_collections', 'id='.$col_id);
 				$object->collections[$collection->id] = $collection->name;
 
-				//while we're here we will get he list of available tags.
+				//while we're here we will get the list of available tags.
 				$tmp_tags = $db->selectObjects('tags', 'collection_id='.$col_id);
 				foreach ($tmp_tags as $tag) {
 					$available_tags[$tag->id] = $tag->name;
 				}
 			}
 			//Get the tags the user chose to show in the group by views
-			$stags = unserialize($object->show_tags);
-			$object->show_tags = array();
+			//$stags = unserialize($object->show_tags);
+			//$object->show_tags = array();
 			
-			if (is_array($stags)) {
-				foreach ($stags as $stag_id) {
-        	                        $show_tag = $db->selectObject('tags', 'id='.$stag_id);
-                	                $object->show_tags[$show_tag->id] = $show_tag->name;
-                        	}
-			}
+			//if (is_array($stags)) {
+			//	foreach ($stags as $stag_id) {
+       // 	                        $show_tag = $db->selectObject('tags', 'id='.$stag_id);
+      //          	                $object->show_tags[$show_tag->id] = $show_tag->name;
+       //                 	}
+		//	}
 
 		}
 		
@@ -133,17 +134,16 @@ class weblogmodule_config {
 		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
 		$object->use_captcha = (isset($values['use_captcha']) ? 1 : 0);
 		$object->require_login = (isset($values['require_login']) ? 1 : 0);
-        $object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
-		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);
-		$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
+    $object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
+		//$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
 		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
-
 		$object->comments_notify = serialize(listbuildercontrol::parseData($values,'comments_notify'));
-	  	$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
-        $object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
+	  $object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
+    $object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
-        $object->feed_title = $values['feed_title'];
-        $object->feed_desc = $values['feed_desc'];
+		$object->enable_tags = (isset($values['enable_rss']) ? 1 : 0);
+    $object->feed_title = $values['feed_title'];
+    $object->feed_desc = $values['feed_desc'];
 		return $object;
 	}
 }
