@@ -439,7 +439,7 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
                         	);
 
 				if ($container->permissions['administrate'] || $container->permissions['configure']) {
-					$container->randomizer = ceil(microtime(1));
+					$container->randomizer = rand(microtime(1),rand(microtime(1),1));
 					$container->view = $view;
 					$container->info['class'] = $loc->mod;
 					$container->info['module'] = call_user_func(array($module,"name"));

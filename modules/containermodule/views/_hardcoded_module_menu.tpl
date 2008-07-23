@@ -17,7 +17,9 @@
 <div class="hardcoded-menu">
 	<a id="{$container->info.class}{$container->randomizer}" class="modulemenutrigger hardcoded" href="#" rel="{$container->info.module}">&nbsp;</a>
 	<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">&nbsp;</span>
-	{script unique=$container->randomizer}
+	{script yuimodules='container,menu' unique="tooltipAndMenu" src="`$smarty.const.URL_FULL`framework/lib/js/exp-container.js"}
+	{/script}
+	{script unique=`$container->info.class``$container->randomizer`}
 		YAHOO.expadminmenus["{$container->info.class}{$container->randomizer}"] =  {getchromemenu module=$container}
 	{/script}
 </div>

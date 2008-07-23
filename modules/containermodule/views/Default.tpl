@@ -67,14 +67,15 @@
 							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">&nbsp;
 							{if $container->info.workflowPolicy != ""} -{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
 						</div>
-						<script type="text/javascript" charset="utf-8">
+
 						{if $i == $containers|@count}
 							{assign var=last value=true}
 						{else}
 							{assign var=last value=false}
 						{/if}
+						{script unique="module`$container->id`"}
 						YAHOO.expadminmenus["{$container->info.class}{$container->id}"] =  {getchromemenu module=$container rank=$i last=$last}; 
-						</script>
+						{/script}
 						
 						
 					
