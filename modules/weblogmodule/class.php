@@ -107,11 +107,11 @@ class weblogmodule {
 		$template->assign('enable_rss', $config->enable_rss);
 
 		//Get the tags that have been selected to be shown in the grouped by tag views
-		if (isset($config->show_tags)) {
-        		$available_tags = unserialize($config->show_tags);
-        	} else {
-        		$available_tags = array();
-        	}
+		//if (isset($config->show_tags)) {
+    //    		$available_tags = unserialize($config->show_tags);
+    //    	} else {
+    //    		$available_tags = array();
+    //    	}
 
 		$viewconfig = array('type'=>'default');
 		if (is_readable($template->viewdir."/$view.config")) {

@@ -137,6 +137,7 @@ class weblogmodule_config {
     $object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
 		//$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
 		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
+
 		$object->comments_notify = serialize(listbuildercontrol::parseData($values,'comments_notify'));
 	  $object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
     $object->items_per_page = ($values['items_per_page'] > 0 ? $values['items_per_page'] : 10);

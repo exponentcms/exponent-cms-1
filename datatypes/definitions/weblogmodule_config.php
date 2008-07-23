@@ -53,7 +53,7 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1000,
  	        DB_INDEX=>10),
-
+ 
 	'feed_title'=>array(
         	DB_FIELD_TYPE=>DB_DEF_STRING,
 	        DB_FIELD_LEN=>75),
