@@ -407,7 +407,7 @@ class router {
                         // if we made it in here this is a request for http://www.baseurl.com
                         $section = $db->selectObject('section', 'id='.SITE_DEFAULT_SECTION);
 		} else {
-			$section = $db->selectObject('section', 'sef_name="'.$url_name.'"');
+			$section = $db->selectObject('section', "sef_name='".$url_name."'");
 			/*if (empty($section)) {
 					$url_name = router::decode($url_name);
 		        	//$name = str_replace('-', ' ', $url_name);

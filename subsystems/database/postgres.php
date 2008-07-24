@@ -27,13 +27,13 @@
  * @subpackage	Database = PostGreSQL
  *
  * @author		James Hunt
- * @copyright	2004-2006
-
-
-
-
-
- OIC Group, Inc.
+ * @copyright	2004-2008
+ *
+ *
+ *
+ *
+ *
+ * OIC Group, Inc.
  * @version	0.95
  *
  * @ignore
@@ -87,7 +87,7 @@ class postgres_database {
 				$this->connection = pg_connect($dsn);
 			}
 	
-			trigger_error( $this->connection );
+			@trigger_error( $this->connection );
 			
 			$this->prefix = DB_TABLE_PREFIX . '_';
 		}
@@ -104,6 +104,19 @@ class postgres_database {
 				$alter_sql[] = 'ALTER TABLE "'.$this->prefix.$tablename . '" ALTER COLUMN "'.$name.'" SET NOT NULL';
 				$default = null;
 				if (isset($def[DB_DEFAULT])) $default = $def[DB_DEFAULT];
+				if (isset($def[DB_PRIMARY]) && $def[DB_PRIMARY] == true) $primary[] = $name;
+				if (isset($def[DB_INDEX]) && ($def[DB_INDEX] > 0)) {
+					if ($def[DB_FIELD_TYPE] == DB_DEF_STRING) {
+						$index[$name] = $def[DB_INDEX];
+					}
+					else {
+						$index[$name] = 0;
+					}
+				}
+				if (isset($def[DB_UNIQUE])) {
+					if (!isset($unique[$def[DB_UNIQUE]])) $unique[$def[DB_UNIQUE]] = array();
+					$unique[$def[DB_UNIQUE]][] = $name;
+				}
 				else {
 					switch ($def[DB_FIELD_TYPE]) {
 						case DB_DEF_ID:
@@ -121,11 +134,23 @@ class postgres_database {
 				$alter_sql[] = 'ALTER TABLE "'.$this->prefix.$tablename . '" ALTER COLUMN "'.$name.'" SET DEFAULT '."'".$default."'";				
 			}
 		}
-		$sql = substr($sql,0,-1) . ")";
+		$sql = substr($sql,0,-1);
+		if (count($primary)) {
+			$sql .= ", PRIMARY KEY(" . implode(",",$primary) . ")";
+		}
+		foreach ($unique as $key=>$value) {
+			$sql .= ", UNIQUE ".$key." ( " . implode(",",$value) . ")";
+		}
+		$sql .= ")";
 		pg_query($this->connection,$sql);
 		foreach ($alter_sql as $sql) {
 			#echo '//'.$sql.'<br />';
 			pg_query($this->connection,$sql);
+		}
+		foreach ($index as $key=>$value) {
+			$indexes_sql = "CREATE INDEX ".$key."_idx ON ".$this->prefix."$tablename (" .$key. ");";
+			eLog($indexes_sql);
+			pg_query($indexes_sql);
 		}
 		
 		if (isset($info[DB_TABLE_WORKFLOW]) && $info[DB_TABLE_WORKFLOW]) {
@@ -159,7 +184,7 @@ class postgres_database {
 			return false; // must specify known FIELD_TYPE
 		}
 		
-		if (isset($def[DB_PRIMARY]) && $def[DB_PRIMARY]) $sql .= " PRIMARY KEY";
+		//if (isset($def[DB_PRIMARY]) && $def[DB_PRIMARY]) $sql .= " PRIMARY KEY";
 		
 		if (isset($def[DB_DEFAULT])) $sql .= " DEFAULT '" . $def[DB_DEFAULT] . "'";
 		
@@ -217,14 +242,14 @@ class postgres_database {
 	function selectObjects($table,$where = null) {
 		$sql = "SELECT * FROM " . $this->prefix.$table;
 		if ($where != null) $sql .= " WHERE $where";
-		$res = pg_query($sql);
+		$res = @pg_query($sql);
 		$this->checkError($res);
 		
 		$records = array();
-		for ($i = 0; $i < pg_num_rows($res); $i++) {
+		for ($i = 0; $i < @pg_num_rows($res); $i++) {
 			$records[] = pg_fetch_object($res);
 		}
-		pg_free_result($res);
+		@pg_free_result($res);
 		return $records;
 	}
 	
@@ -562,6 +587,206 @@ ENDSQL;
 	function limit($num,$offset) {
 		return ' LIMIT '.$num.' OFFSET '.$offset.' ';
 	}
+	
+	function toggle($table, $col, $where=null) {
+		$obj = $this->selectObject($table, $where);
+		$obj->$col = ($obj->$col == 0) ? 1 : 0;
+		$this->updateObject($obj, $table);
+	}
+
+	function selectSearch($terms, $where = null) {
+		if ($where == null) $where = "1";
+
+		$sql = "SELECT *, MATCH (title,body) AGAINST ('".$terms."') from ".$this->prefix."search WHERE MATCH(title,body) against ('".$terms."')";
+		$res = pg_query($this->connection,$sql);
+		if ($res == null) return array();
+		$objects = array();
+		for ($i = 0; $i < pg_num_rows($res); $i++) $objects[] = pg_fetch_object($res);
+		return $objects;
+	}
+
+	function selectAndJoinObjects($colsA=null, $colsB=null, $tableA, $tableB, $keyA, $keyB=null, $where = null,$orderby = null) {
+		$sql = 'SELECT ';
+		if ($colsA != null) {
+			if (!is_array($colsA)) {
+				$sql .= 'a.'.$colsA.', ';
+			} else {
+				foreach ($colsA as $colA) {
+					$sql .= 'a.'.$colA.', ';
+				}
+			}
+		} else {
+			$sql .= ' a.*, ';
+		}
+
+		if ($colsB != null) {
+                        if (!is_array($colsB)) {
+                                $sql .= 'b.'.$colsB.' ';
+                        } else {
+				$i = 1;
+                                foreach ($colsB as $colB) {
+                                        $sql .= 'b.'.$colB;
+					if ($i < count($colsB)) $sql .= ', ';
+					$i++;
+                                }
+                        }
+                } else {
+                        $sql .= ' b.* ';
+                }
+	
+		$sql .= ' FROM '.$this->prefix.$tableA.' a JOIN '.$this->prefix.$tableB.' b ';
+		$sql .= is_null($keyB) ? 'USING('.$keyA.')' : 'ON a.'.$keyA.' = b.'.$keyB; 
+                
+		if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+                else $orderby = "ORDER BY " . $orderby;
+	
+                $res = @pg_query($this->connection,$sql." WHERE $where $orderby");
+                if ($res == null) return array();
+                $objects = array();
+                for ($i = 0; $i < pg_num_rows($res); $i++) $objects[] = pg_fetch_object($res);
+                return $objects;
+    }
+
+	function selectObjectsBySql($sql) {
+                $res = @pg_query($this->connection,$sql);
+                if ($res == null) return array();
+                $objects = array();
+                for ($i = 0; $i < pg_num_rows($res); $i++) $objects[] = pg_fetch_object($res);
+                return $objects;
+	}
+
+	function selectColumn($table,$col,$where = null,$orderby = null) {
+                if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+            	else $orderby = "ORDER BY " . $orderby;
+
+                $res = pg_query($this->connection, "SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where $orderby");
+                if ($res == null) return array();
+                $resarray = array();
+                for ($i = 0; $i < pg_num_rows($res); $i++){
+                        $row = pg_fetch_array($res, MYSQL_NUM);
+                        $resarray[$i] = $row[0];
+                }
+                return $resarray;
+    }
+
+	function selectSum($table,$col,$where = null) {
+                if ($where == null) $where = "1";
+
+                $res = @pg_query($this->connection,"SELECT SUM(".$col.") FROM `" . $this->prefix . "$table` WHERE $where");
+                if ($res == null) return 0;
+                $resarray = array();
+                for ($i = 0; $i < pg_num_rows($res); $i++){
+                        $row = pg_fetch_array($res, MYSQL_NUM);
+                        $resarray[$i] = $row[0];
+                }
+                return $resarray[0];
+    }
+	
+	function selectDropdown($table,$col,$where = null,$orderby = null) {
+                if ($where == null) $where = "1";
+                if ($orderby == null) $orderby = '';
+                else $orderby = "ORDER BY " . $orderby;
+
+                $res = @pg_query($this->connection,"SELECT * FROM `" . $this->prefix . "$table` WHERE $where $orderby");
+                if ($res == null) return array();
+                $resarray = array();
+                for ($i = 0; $i < pg_num_rows($res); $i++){
+                        $row = pg_fetch_object($res);
+                        $resarray[$row->id] = $row->$col;
+                }
+                return $resarray;
+    }
+
+	function selectValue($table,$col,$where=null) {
+		if ($where == null) $where = "1";
+    	$res = @pg_query($this->connection, "SELECT ".$col." FROM `" . $this->prefix . "$table` WHERE $where LIMIT 0,1");
+
+        if ($res == null) return null;
+		$obj = pg_fetch_object($res);
+		 if (is_object($obj)) {
+                        return $obj->$col;
+                } else {
+                        return null;
+                }
+    }
+
+	function selectObjectsInArray($table, $array=array(), $orderby=null) {
+		$where = '';
+		foreach($array as $array_id) {
+			if ($where == '') {
+				$where .= 'id='.$array_id;
+			} else {
+				$where .= ' OR id='.$array_id;
+			}
+		}
+
+		//eDebug($where);
+		$res = $this->selectObjects($table, $where, $orderby);
+		return $res;
+	}
+
+	function countObjectsBySql($sql) {
+                $res = @pg_query($this->connection,$sql);
+                if ($res == null) return 0;
+                $obj = pg_fetch_object($res);
+                return $obj->c;
+    }
+
+	function translateTableStatus($status) {
+		$data = null;
+		$data->rows = $status->Rows;
+		$data->average_row_lenth = $status->Avg_row_length;
+		$data->data_overhead = $status->Data_free;
+		$data->data_total = $status->Data_length;
+
+		return $data;
+	}
+
+	function describeTable($table) {
+		if (!$this->tableExists($table)) return array();
+                $res = @pg_query($this->connection,"DESCRIBE `".$this->prefix."$table`");
+                $dd = array();
+                for ($i = 0; $i < pg_num_rows($res); $i++) {
+                        $fieldObj = pg_fetch_object($res);
+
+                        $fieldObj->ExpFieldType = $this->getDDFieldType($fieldObj);
+                        if ($fieldObj->ExpFieldType == DB_DEF_STRING) {
+                                $fieldObj->ExpFieldLength = $this->getDDStringLen($fieldObj);
+                        }
+
+                        $dd[$fieldObj->Field] = $fieldObj;
+                }
+
+                return $dd;
+	}
+	
+	function getDDFieldType($fieldObj) {
+		$type = strtolower($fieldObj->Type);
+
+		if ($type == "int(11)") return DB_DEF_ID;
+		if ($type == "int(8)") return DB_DEF_INTEGER;
+		elseif ($type == "tinyint(1)") return DB_DEF_BOOLEAN;
+		elseif ($type == "int(14)") return DB_DEF_TIMESTAMP;
+		//else if (substr($type,5) == "double") return DB_DEF_DECIMAL;
+		elseif ($type == "double") return DB_DEF_DECIMAL;
+		// Strings
+		elseif ($type == "text" || $type == "mediumtext" || $type == "longtext" || strpos($type,"varchar(") !== false) {
+			return DB_DEF_STRING;
+		}
+	}
+	
+	function getDDStringLen($fieldObj) {
+		$type = strtolower($fieldObj->Type);
+		if ($type == "text") return 65535;
+		else if ($type == "mediumtext") return 16777215;
+		else if ($type == "longtext") return 16777216;
+		else if (strpos($type,"varchar(") !== false) {
+			return str_replace(  array("varchar(",")"),  "",$type) + 0;
+		}
+	}
+
 }
 
 ?>
