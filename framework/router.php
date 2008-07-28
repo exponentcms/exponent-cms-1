@@ -193,7 +193,14 @@ class router {
 			} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$this->url_type = 'post';
 			} else {
-				$this->url_type = 'action';
+				// take a peek and see if a page exists with the same name as the first value...if so we probably have a page with
+                                // extra perms...like printerfriendly=1 or ajax=1;
+                                global $db;
+                                if ( ($db->selectObject('section', "sef_name='".$this->url_parts[0]."'") != null) && (in_array('printerfriendly', $this->url_parts))) {
+                                        $this->url_type = 'page';
+                                } else {
+                                        $this->url_type = 'action';
+                                }
 			}
 
 			$this->params = $this->convertPartsToParams();
