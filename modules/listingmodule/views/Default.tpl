@@ -14,6 +14,8 @@
 
 	{if $moduletitle}<h1>{$moduletitle}</h1>{/if}
 	{foreach name=a from=$listings item=listing}
+	{math equation="x-1" x=$listing->rank assign=prev}
+	{math equation="x+1" x=$listing->rank assign=next}
 	<div class="item">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		<div class="itemactions">
