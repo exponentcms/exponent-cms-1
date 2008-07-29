@@ -45,7 +45,7 @@ if ($f) {
 			$ctl->_controltype = get_class($ctl);
 			$form->register($c->name,$c->caption,$ctl);
 		}
-		
+	
 		$template = new template("formbuilder","_view_form");
 		$template->assign("form_html",$form->toHTML($f->id));
 		$template->assign("form",$f);

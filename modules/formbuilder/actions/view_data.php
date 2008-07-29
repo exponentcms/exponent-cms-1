@@ -52,21 +52,18 @@ if (isset($_GET['id'])) {
 		foreach (explode("|!|",$rpt->column_names) as $column_name) {
 			if ($column_name == "ip") {
 				$columndef .= 'new cColumn("'.$i18n['ip'].'","ip",null,null),';
-			}
-			elseif ($column_name == "user_id") {
+			} elseif ($column_name == "user_id") {
 				foreach ($items as $key=>$item) {
 					if ($item->$column_name != 0) {
 						 $locUser = exponent_users_getUserById($item->$column_name);
 						 $item->$column_name = $locUser->username;
-					} 
-					else {
+					} else {
 						$item->$column_name = '';
 					}
 					$items[$key] = $item;
 				}
 				$columndef .= 'new cColumn("'.$i18n['username'].'","user_id",null,null),';
-			}
-			elseif ($column_name == "timestamp") {
+			} elseif ($column_name == "timestamp") {
 				$srt = $column_name."_srt";
 				foreach ($items as $key=>$item) {
 					$item->$srt = $item->$column_name;
@@ -75,9 +72,7 @@ if (isset($_GET['id'])) {
 				}
 				$columndef .= 'new cColumn("'.$i18n['timestamp'].'","timestamp",null,f'.$srt.'),';
 				$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
-			
-			}
-			else {
+			} else {
 				$control = $db->selectObject("formbuilder_control","name='".$column_name."' and form_id=".$_GET['id']);
 				if ($control) {
 					$ctl = unserialize($control->data);
@@ -95,8 +90,7 @@ if (isset($_GET['id'])) {
 					if (isset($datadef[DB_FIELD_TYPE]) && $datadef[DB_FIELD_TYPE] == DB_DEF_TIMESTAMP) {
 						$columndef .= 'new cColumn("' . $control->caption . '","'.$column_name.'",null,f'.$srt.'),';
 						$sortfuncts .= 'function f'.$srt.'(a,b) {return (a.var_'.$srt.'<b.var_'.$srt.')?1:-1;}';
-					}
-					else {
+					} else {
 						$columndef .= 'new cColumn("' . $control->caption . '","'.$column_name.'",null,null),';
 					}
 				}

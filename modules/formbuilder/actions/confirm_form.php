@@ -19,9 +19,7 @@
 	
 if (!defined("EXPONENT")) exit("");
 
-//eDebug($_POST);
 $cols = $db->selectObjects('formbuilder_control', 'form_id='.intval($_POST['id']));
-//eDebug($cols);
 foreach($cols as $col) {
 	$coldef = unserialize($col->data);
 	$coldata = new ReflectionClass($coldef);
@@ -33,7 +31,11 @@ foreach($cols as $col) {
 			$responses[$col->caption] = $_POST[$col->name];
 		}
 	} else {
-		if ($coltype == 'checkboxcontrol') {
+		if ($coltype == 'uploadcontrol') {
+			if (!empty($_FILES[$col->name]['error'])) validator::failAndReturnToForm('An error was encounter while trying to upload your file', $_POST);
+			$_POST[$col->name] = call_user_func(array('uploadcontrol','moveFile'),$col->name,$_FILES,true);
+                        $responses[$col->caption] = $_FILES[$col->name]['name'];
+		} elseif ($coltype == 'checkboxcontrol') {
                         $responses[$col->caption] = 'No';
                 } else {
                         $responses[$col->caption] = '';
