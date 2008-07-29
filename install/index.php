@@ -98,6 +98,7 @@ switch ($page) {
 <html>
 <head>
 	<title><?php echo $i18n['page_title']; ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo LANG_CHARSET; ?>" />
 	<link rel="stylesheet" href="style.css" />
 	<script type="text/javascript">
 	

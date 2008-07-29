@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset={$smarty.const.LANG_CHARSET}" />
 		<title>{$smarty.const.SITE_TITLE} :: {$_TR.down}</title>
 		<style type="text/css">{literal}
 			div {
