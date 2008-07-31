@@ -35,7 +35,7 @@ $section = $router->getSection();
 $sectionObj = $router->getSectionObj($section);
 
 // set the output header
-Header("Content-Type: text/html; charset=".LANG_CHARSET);
+header("Content-Type: text/html; charset=".LANG_CHARSET);
 
 // Initialize the theme subsystem
 if (!defined('SYS_THEME')) require_once(BASE.'subsystems/theme.php');
@@ -97,7 +97,7 @@ if (MAINTENANCE_MODE && !exponent_users_isAdmin() && ( !isset($_REQUEST['module'
 //echo "\r\n<!--".sprintf($base_i18n['exec_time'],round($i_end - $i_start,4)).'-->';
 
 while (ob_get_level() > 0) {
-           ob_end_flush();
+	ob_end_flush();
 }
 
 ?>
