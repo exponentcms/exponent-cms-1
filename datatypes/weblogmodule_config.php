@@ -22,7 +22,7 @@ class weblogmodule_config {
 	function form($object) {
 		global $db;
 		$i18n = exponent_lang_loadFile('datatypes/weblogmodule_config.php');
-	
+
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
         $tc_list = array();
@@ -62,7 +62,7 @@ class weblogmodule_config {
 			//Get the tags the user chose to show in the group by views
 			//$stags = unserialize($object->show_tags);
 			//$object->show_tags = array();
-			
+
 			//if (is_array($stags)) {
 			//	foreach ($stags as $stag_id) {
        // 	                        $show_tag = $db->selectObject('tags', 'id='.$stag_id);
@@ -71,12 +71,12 @@ class weblogmodule_config {
 		//	}
 
 		}
-		
+
 		$selected_users = array();
 		foreach(unserialize($object->comments_notify) as $i) {
 			$selected_users[$i] = $db->selectValue('user', 'username', 'id='.$i);
 		}
-	
+
 		$userlist = array();
 		$list = exponent_users_getAllUsers();
 		foreach ($list as $i) {
@@ -85,7 +85,7 @@ class weblogmodule_config {
 			}
 		}
 
-		// setup the listbuilder arrays for calendar aggregation.       
+		// setup the listbuilder arrays for calendar aggregation.
                 $loc = unserialize($object->location_data);
                 $blogs = exponent_modules_getModuleInstancesByType('weblogmodule');
                 $saved_aggregates = empty($object->aggregate) ? array() : unserialize($object->aggregate);
@@ -102,14 +102,14 @@ class weblogmodule_config {
                         }
                 }
 
-		$form->register(null,'',new htmlcontrol('<h1>General Configuration</h1><hr size="1" />'));	
+		$form->register(null,'',new htmlcontrol('<h1>General Configuration</h1><hr size="1" />'));
 		$form->register('comments_notify',$i18n['comments_notify'],new listbuildercontrol($selected_users, $userlist));
 		$form->register('items_per_page',$i18n['items_per_page'],new textcontrol($object->items_per_page));
 
-		$form->register(null,'',new htmlcontrol('<h1>Comments</h1><hr size="1" />'));	
+		$form->register(null,'',new htmlcontrol('<h1>Comments</h1><hr size="1" />'));
 		$form->register('allow_comments',$i18n['allow_comments'],new checkboxcontrol($object->allow_comments));
-		$form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments?'),new checkboxcontrol($object->use_captcha));		
-		$form->register('require_login',exponent_lang_getText('Require users to be logged in to post comments?'),new checkboxcontrol($object->require_login));		
+		$form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments?'),new checkboxcontrol($object->use_captcha));
+		$form->register('require_login',exponent_lang_getText('Require users to be logged in to post comments?'),new checkboxcontrol($object->require_login));
 
         $form->register(null,'',new htmlcontrol('<h1>Tagging</h1><hr size="1" />'));
 		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
@@ -120,7 +120,7 @@ class weblogmodule_config {
 
 
 		$form->register(null,'',new htmlcontrol('<h1>Merge Blogs</h1><hr size="1" />'));
-                $form->register('aggregate','Pull Events from These Other Blog Module',new listbuildercontrol($selected_blogs,$all_blogs));
+                $form->register('aggregate','Pull Posts from These Other Blog Module',new listbuildercontrol($selected_blogs,$all_blogs));
 
 		$form->register(null,'',new htmlcontrol('<h1>RSS Configuration</h1><hr size="1" />'));
        	 	$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
@@ -129,7 +129,7 @@ class weblogmodule_config {
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
-	
+
 	function update($values,$object) {
 		$object->allow_comments = (isset($values['allow_comments']) ? 1 : 0);
 		$object->use_captcha = (isset($values['use_captcha']) ? 1 : 0);

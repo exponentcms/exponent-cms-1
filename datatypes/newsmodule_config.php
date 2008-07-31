@@ -20,17 +20,17 @@
 class newsmodule_config {
 	function form($object) {
 		$i18n = exponent_lang_loadFile('datatypes/newsmodule_config.php');
-	
+
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-	
+
 		global $db;
 		$tc_list = array();
                 $tag_collections = $db->selectObjects("tag_collections");
                 foreach ($tag_collections as $tag_collections => $collection) {
                         $tc_list[$collection->id] = $collection->name;
                 }
-	
+
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->sortorder = 'DESC';
@@ -71,7 +71,7 @@ class newsmodule_config {
 			//Get the tags the user chose to show in the group by views
 			$stags = unserialize($object->show_tags);
 			$object->show_tags = array();
-			
+
 			if (is_array($stags)) {
 				foreach ($stags as $stag_id) {
         	                        $show_tag = $db->selectObject('tags', 'id='.$stag_id);
@@ -81,7 +81,7 @@ class newsmodule_config {
 
 		}
 
-		// setup the listbuilder arrays for news aggregation.       
+		// setup the listbuilder arrays for news aggregation.
                 $loc = unserialize($object->location_data);
                 $news = exponent_modules_getModuleInstancesByType('newsmodule');
                 $saved_aggregates = empty($object->aggregate) ? array() : unserialize($object->aggregate);
@@ -104,17 +104,17 @@ class newsmodule_config {
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
 		$form->register('sortorder',$i18n['sortorder'], new dropdowncontrol($object->sortorder,$opts));
 		$form->register('sortfield',$i18n['sortfield'], new dropdowncontrol($object->sortfield,$fields));
-	
+
 	 	$form->register(null,'',new htmlcontrol('<h1>Merge News</h1><hr size="1" />'));
-                $form->register('aggregate','Pull Events from These Other News Module',new listbuildercontrol($selected_news,$all_news));
-	
+                $form->register('aggregate','Pull News from These Other News Modules',new listbuildercontrol($selected_news,$all_news));
+
 		$form->register(null,'',new htmlcontrol('<h1>Tagging</h1><hr size="1" />'));
 		$form->register('enable_tags',$i18n['enable_tags'], new checkboxcontrol($object->enable_tags));
 		$form->register('collections',$i18n['tag_collections'],new listbuildercontrol($object->collections,$tc_list));
 		//$form->register('group_by_tags',$i18n['group_by_tags'], new checkboxcontrol($object->group_by_tags));
 		//$form->register(null,'',new htmlcontrol($i18n['show_tags_desc']));
 		//$form->register('show_tags','',new listbuildercontrol($object->show_tags,$available_tags));
-		
+
 		$form->register(null,'',new htmlcontrol('<h1>RSS Configuration</h1><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
 		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
@@ -123,10 +123,10 @@ class newsmodule_config {
 		$form->register('rss_feed',$i18n['rss_feed'], new listbuildercontrol($object->rss_feed,null));
 		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
 		$form->register('submit','', new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
-		
+
 		return $form;
 	}
-	
+
 	function update($values,$object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
                 exponent_forms_initialize();
@@ -158,7 +158,7 @@ class newsmodule_config {
 		    $object->rss_feed = null;
 		}
 		$object->rss_cachetime = $values['rss_cachetime'];
-		
+
 		return $object;
 	}
 }
