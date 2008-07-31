@@ -28,7 +28,7 @@
 				{/if}
 
 				<li class="yuimenuitem">
-				<a class="yuimenuitemlabel" href="{$section->link}">{$section->name}</a>
+				<a class="yuimenuitemlabel" href="{$section->link}" {if $section->new_window} target="_blank"{/if}>{$section->name}</a>
 				{if $sections[$nextkey]->depth == $section->depth}</li>{/if}
 
 				{if $sections[$nextkey]->depth < $section->depth}
