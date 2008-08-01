@@ -17,6 +17,7 @@
 <html>
 	<head>
 		<title>{$_TR.form_title}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset={$smarty.const.LANG_CHARSET}" />
 		<style type="text/css">
 			{literal}
 			body {
