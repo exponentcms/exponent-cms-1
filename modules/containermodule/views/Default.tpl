@@ -28,24 +28,18 @@
 {permissions level=$smarty.const.UILEVEL_STRUCTURE}
 {if $hasParent == 0 && ($permissions.edit_module == 1 || $permissions.administrate == 1)}{** top level container module **}
 	<div class="container_editheader">
-	
 		<a id="container{$top->id}" class="modulemenutrigger" href="#" rel="{$_TR.container_module}">&nbsp;</a>
 		<span class="modtype viewinfo" title="{$_TR.container_module} - {$_TR.shown_in|sprintf:$__view}">&nbsp;</span>
-		
 		{script unique=$top->id}
 			YAHOO.expadminmenus["container{$top->id}"] = [
 				{literal}{ text: "{/literal}{$_TR.menu_userperm}{literal}", classname: "userperms" , url: "{/literal}{link _common=1 action=userperms}{literal}" },
 				{ text: "{/literal}{$_TR.menu_groupperm}{literal}", classname: "groupperms" , url: "{/literal}{link _common=1 action=groupperms}{literal}" }{/literal}
 			];
 		{/script}
-		
-		
 	</div>
 {/if}
 {if $permissions.add_module == 1 && $hidebox == 0}
-
 	<a class="addmodule" href="{link action=edit rerank=1 rank=0}"><span class="addtext">{$_TR.add_new}</span></a>
-
 {/if}
 
 {/permissions}
@@ -64,8 +58,8 @@
 					<div id="module{$container->id}" class="container_modulewrapper">
 						<div class="container_moduleheader">
 							<a id="{$container->info.class}{$container->id}" class="modulemenutrigger" href="#" rel="{$container->info.module}">&nbsp;</a>
-							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}">&nbsp;
-							{if $container->info.workflowPolicy != ""} -{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}</span>
+							<span class="modtype viewinfo" title="{$container->info.module}-{$_TR.shown_in|sprintf:$container->view}{if $container->info.workflowPolicy != ""} -{$_TR.workflow|sprintf:$container->info.workflowPolicy}{/if}">&nbsp;
+							</span>
 						</div>
 
 						{if $i == $containers|@count}
