@@ -14,7 +14,7 @@ return array(
 	'configure_module'=>'Change the layout of this %s',
 	'add_new'=>'Add a new module here',
 	'shown_in'=>'Shown in %s view',
-	'workflow'=>'Uses "%s" Workflow Policy',
+	'workflow'=>'Uses %s Workflow Policy',
 	'delete'=>'Delete this %s',
 	'delete_confirm'=>'Are you sure you want to delete this %s?',
 
