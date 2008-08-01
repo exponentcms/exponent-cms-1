@@ -35,7 +35,7 @@ if (exponent_permissions_check('workflow',exponent_core_makeLocation('administra
 	$policies = array();
 	
 	$_GET['m'] = preg_replace('/[^A-Za-z0-9_]/','',$_GET['m']);
-	$_GET['s'] = preg_replace('/[^A-Za-z0-9_]/','',$_GET['s']);
+	//$_GET['s'] = preg_replace('/[^A-Za-z0-9_]/','',$_GET['s']);
 	
 	$assoc = $db->selectObject('approvalpolicyassociation',"module='".$_GET['m']."' AND source='".$_GET['s']."'");
 	if (!$assoc) $assoc = $db->selectObject('approvalpolicyassociation',"module='".$_GET['m']."' AND is_global='1'");
@@ -69,7 +69,6 @@ if (exponent_permissions_check('workflow',exponent_core_makeLocation('administra
 	if (isset($_GET['s'])) {
 		$form->meta('s',$_GET['s']);
 	}
-	
 	
 	$template = new template('workflow','_form_editassoc');
 	$template->assign('form_html',$form->toHTML());
