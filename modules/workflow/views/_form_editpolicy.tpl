@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2008 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -13,6 +13,10 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
-<div class="form_header">{$_TR.form_header}</div>
-{$form_html}
+<div class="module workflow edit-policy">
+	<div class="form_header">
+		<h1>{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</h1>
+		<p>{$_TR.form_header}</p>
+	</div>
+	{$form_html}
+</div>

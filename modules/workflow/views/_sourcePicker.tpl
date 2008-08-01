@@ -16,7 +16,6 @@
 {foreach name=c from=$containers item=container}
 	{assign var=i value=$smarty.foreach.c.iteration}
 	<div class="container_editbox">
-	 
 		<div class="container_editheader">
 			{* I.E. requires a 'dummy' div inside of the above div, so that it
 			   doesn't just 'lose' the margins and padding. jh 8/23/04 *}
@@ -27,15 +26,20 @@
 						{$container->info.module}
 						<br />
 						{if $container->info.supportsWorkflow}
-						{if $container->info.workflowUsesDefault == 1}Default: {/if}
-						{if $container->info.workflowPolicy != ""}{$container->info.workflowPolicy}{else}<i>{$_TR.no_policy}</i>{/if}
+							{if $container->info.workflowUsesDefault == 1}Default: {/if}
+							{if $container->info.workflowPolicy != ""}
+								{$container->info.workflowPolicy}
+							{else}
+								<i>{$_TR.no_policy}No Policy</i>
+							{/if}
 						{else}
 						
 						{/if}
 					</td>
 					<td align="right" valign="top">
 						{if $container->info.supportsWorkflow == 1}
-						<a class="mngmntlink container_mngmnltink" href="{$dest}&s={$container->info.source}&m={$container->info.class}">{$_TR.change_policy}</a>
+						<!--a class="mngmntlink container_mngmnltink" href="{$dest}&s={$container->info.source}&m={$container->info.class}">{$_TR.change_policy}</a-->
+						<a class="mngmntlink container_mngmnltink" href="{$dest}&s={$container->info.source}&m={$container->info.class}">Change Policy</a>
 						{/if}
 					</td>
 				</tr>

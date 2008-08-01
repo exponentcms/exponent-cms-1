@@ -13,8 +13,14 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+
+<div class="module workflow policymanager">
+
+<div class="form_header">
+        <h1>{$_TR.form_title}</h1>
+        <p>{$_TR.form_header}</p>
+</div>
+
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
 	<tr>
 		<td width="20%" class="header administration_header">{$_TR.policy_name}</td>
@@ -29,8 +35,8 @@
 		</td>
 		<td valign="top">{$policy->description}</td>
 		<td valign="top">
-			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy id=$policy->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
-			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_confirmdeletepolicy id=$policy->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+			{icon action=admin_editpolicy id=$policy->id img=edit}
+			{icon action=admin_confirmdeletepolicy id=$policy->id img=delete}
 			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_viewactions id=$policy->id}">{$_TR.manage_actions}</a>
 			<br />
 		</td>
@@ -42,3 +48,4 @@
 		<a class="mngmntlink administration_mngmntlink" href="{link action=admin_editpolicy}">{$_TR.new_policy}</a>
 	</td></tr>
 </table>
+</div>

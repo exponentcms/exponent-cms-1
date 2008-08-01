@@ -15,12 +15,14 @@
  *}
 <br /><br />
 <hr size="1" />
-<div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}<br /><br />
-<a class="mngmntlink administration_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}source_selector.php?&dest='+escape('{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy')+'&vmod=workflow&vview=_sourcePicker','picker','title=no,toolbar=no,width=640,height=480,scrollbars=yes'); return false">{$_TR.single_link}</a></div>
+<div class="form_header">
+        <h1>{$_TR.form_title}</h1>
+        <p>{$_TR.form_header}</p>
+	<a href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}source_selector.php?&dest='+escape('{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy')+'&vmod=workflow&vview=_sourcePicker','picker','title=no,toolbar=no,width=640,height=480,scrollbars=yes'); return false">{$_TR.single_link}</a>
+</div>
 {if $policy_count == 0}
-<div style="font-style: italic;">{$_TR.no_policies}</div>
-<hr size="1"/>
+	<div><em>{$_TR.no_policies}</em></div>
+	<hr size="1"/>
 {/if}
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
@@ -32,15 +34,12 @@
 	{assign var=def value=$defaults[$module]}
 <tr class="row {cycle values='odd,even'}_row">
 	<td>{$names[$module]}</td>
-	<td>{if $def != 0}{$policies[$def]->name}{else}<i>{$_TR.no_policy}</i>{/if}</td>
+	<td>{if $def != 0}{$policies[$def]->name}{else}<em>{$_TR.no_policy}</em>{/if}</td>
 	<td>
 		{if $policy_count != 0}
-		<a class="mngmntlink workflow_mngmntlink" href="{link action=assoc_edit m=$module p=$def}">
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-		</a>
+			{icon action=assoc_edit m=$module p=$def img=edit}
 		{else}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
-			&nbsp;
+			{img src="`$smarty.const.ICON_RELATIVE`edit.disabled.png" title=$_TR.alt_edit_disabled alt=$_TR.alt_edit_disabled}
 		{/if}
 	</td>
 </tr>
