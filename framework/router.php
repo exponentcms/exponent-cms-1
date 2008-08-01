@@ -18,12 +18,12 @@
 
 class router {
 	private $maps = array();
-	public  $url_parts = '';
-	public  $current_url = '';
-	public  $url_type = '';
-	public  $url_style = '';
-	public  $params = array();
-	public  $sefPath = null;
+	public	$url_parts = '';
+	public	$current_url = '';
+	public	$url_type = '';
+	public	$url_style = '';
+	public	$params = array();
+	public	$sefPath = null;
 	
 	function __construct() {
 		include_once(BASE.'framework/router_maps.php');
@@ -34,19 +34,19 @@ class router {
 		$linkbase = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 		$linkbase .= SCRIPT_RELATIVE;
 
-        	if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
-	                return $linkbase;
-        	}
+			if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
+					return $linkbase;
+			}
 
 		// Check to see if SEF_URLS have been turned on in the site config
 		if (SEF_URLS == 1 && ($_SERVER["PHP_SELF"] == PATH_RELATIVE.'index.php') && $force_old_school == false) {
-			if (isset($params['section'])) {
-	                	if (empty($params['sef_name'])) {
-	                        	global $db;
+			if (isset($params['section']) && !isset($params['action'])) {
+						if (empty($params['sef_name'])) {
+								global $db;
 					$params['sef_name'] = $db->selectValue('section', 'sef_name', 'id='.intval($params['section']));
-	                	}
-	        	        return $linkbase.$params['sef_name'];
-	        	} else {
+						}
+						return $linkbase.$params['sef_name'];
+				} else {
 				// initialize the link
 				$link = '';
 
@@ -69,7 +69,7 @@ class router {
 								$link .= $params[$key]."/";
 							}
 						}
-						break;  // if this hits then we've found a match
+						break;	// if this hits then we've found a match
 					}
 				}
 
@@ -77,31 +77,31 @@ class router {
 				//if ($link != '') return router::encode($linkbase.$link);
 				if ($link != '') return urlencode($linkbase.$link);
 				
-		                $link .= $params['controller'].'/';
-	        	        $link .= $params['action'].'/';
-	                	foreach ($params as $key=>$value) {
-	                        	$value = chop($value);
-		                        $key = chop($key);
-	        	                if ($value != "") {
-	                	                if ($key != 'module' && $key != 'action' && $key != 'controller') {
+						$link .= $params['controller'].'/';
+						$link .= $params['action'].'/';
+						foreach ($params as $key=>$value) {
+								$value = chop($value);
+								$key = chop($key);
+								if ($value != "") {
+										if ($key != 'module' && $key != 'action' && $key != 'controller') {
 												if ($key != 'src') {
 													$link .= urlencode($key)."/".urlencode($value)."/";
 												} else {
 													$link .= $key."/".$value."/";
 												}
-	                                	}
-	                        	}
-	                	}
-	                	return $linkbase.$link;
-	        	}
+										}
+								}
+						}
+						return $linkbase.$link;
+				}
 		} else {
 			// if the users don't have SEF URL's turned on then we make the link the old school way.
 			if (!empty($params['sef_name'])) unset($params['sef_name']);
 			$link = $linkbase . SCRIPT_FILENAME . "?";
-	                foreach ($params as $key=>$value) {
-        	                $value = chop($value);
-                	        $key = chop($key);
-                        	if ($value != "") {
+					foreach ($params as $key=>$value) {
+							$value = chop($value);
+							$key = chop($key);
+							if ($value != "") {
 								if ($key != 'src') {
 									$link .= urlencode($key)."=".urlencode($value)."&";
 								} else {
@@ -109,16 +109,16 @@ class router {
 								}
 								
 							}
-                	}
+					}
 
-	                $link = substr($link,0,-1);
-                	return $link; // phillip: removed htmlspecialchars so that links return without parsing & to &amp; in URL strings
-                	//return htmlspecialchars($link,ENT_QUOTES);
+					$link = substr($link,0,-1);
+					return $link; // phillip: removed htmlspecialchars so that links return without parsing & to &amp; in URL strings
+					//return htmlspecialchars($link,ENT_QUOTES);
 		}
 	}
 
 	public function routeRequest() {
-		// Set the current url string.  This is used for flow and possible other things too
+		// Set the current url string.	This is used for flow and possible other things too
 		// eDebug($_SERVER);
 		//
 
@@ -126,16 +126,16 @@ class router {
 		$this->splitURL();
 		if ($this->url_style == 'sef') {
 			if ($this->url_type == 'page' || $this->url_type == 'base') {
-				$this->routePageRequest();  			// if we hit this the formating of the URL looks like the user is trying to go to a page.
+				$this->routePageRequest();				// if we hit this the formating of the URL looks like the user is trying to go to a page.
 			} elseif ($this->url_type == 'action') {
-				if (!$this->isMappedURL()) {  			//if this URL is handled via the map file then this function will route it
-					$ret = $this->routeActionRequest();  	// we didn't have a map for this URL.  Try to route it with this function.
+				if (!$this->isMappedURL()) {			//if this URL is handled via the map file then this function will route it
+					$ret = $this->routeActionRequest();		// we didn't have a map for this URL.  Try to route it with this function.
 
-					// if this url wasn't a valid section, or action then kill it.  It might not actually be a "bad" url, 
+					// if this url wasn't a valid section, or action then kill it.	It might not actually be a "bad" url, 
 					// but this is a precautionary measure against bad paths on images, css & js file, etc...with the new
 					// mod_rewrite rules these bad paths will not route thru here so we need to take them into account and
 					// deal with them accordingly.
-					if (!$ret) $this->url_type == 'malformed';  
+					if (!$ret) $this->url_type == 'malformed';	
 				}
 			} elseif ($this->url_type == 'post') {
 				// no need to do anything for POST data.  All the module/controller/action info comes thru the POST vars..
@@ -194,18 +194,18 @@ class router {
 				$this->url_type = 'post';
 			} else {
 				// take a peek and see if a page exists with the same name as the first value...if so we probably have a page with
-                                // extra perms...like printerfriendly=1 or ajax=1;
-                                global $db;
-                                if ( ($db->selectObject('section', "sef_name='".$this->url_parts[0]."'") != null) && (in_array('printerfriendly', $this->url_parts))) {
-                                        $this->url_type = 'page';
-                                } else {
-                                        $this->url_type = 'action';
-                                }
+								// extra perms...like printerfriendly=1 or ajax=1;
+								global $db;
+								if ( ($db->selectObject('section', "sef_name='".$this->url_parts[0]."'") != null) && (in_array('printerfriendly', $this->url_parts))) {
+										$this->url_type = 'page';
+								} else {
+										$this->url_type = 'action';
+								}
 			}
 
 			$this->params = $this->convertPartsToParams();
 		} elseif (isset($_SERVER['REQUEST_URI'])) {
-			// if we hit here, we don't really need to do much.  All the pertinent info will come thru in the POST/GET vars
+			// if we hit here, we don't really need to do much.	 All the pertinent info will come thru in the POST/GET vars
 			// so we don't really need to worry about what the URL looks like.
 			$this->url_style = 'query'; 
 		} 
@@ -267,7 +267,7 @@ class router {
 		$return_params = array('controller'=>'','action'=>'','url_parts'=>array());
 	
 		// If we have three url parts we assume they are controller->action->id, otherwise split them out into name<=>value pairs
-		$return_params['controller'] = $this->url_parts[0];  	// set the controller/module
+		$return_params['controller'] = $this->url_parts[0];		// set the controller/module
 		$return_params['action'] = $this->url_parts[1];		// set the action
 
 		// Figure out if this is module or controller request - WE ONLY NEED THIS CODE UNTIL WE PULL OUT THE OLD MODULES
@@ -300,8 +300,8 @@ class router {
 		// Set the action for this module or controller
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// most of the time we can just grab the action outta the POST array since this is passed as a hidden field, 
-                        // but sometimes it is actually set as the action on the form itself...then we get it from the params array instead.
-                        $action = !empty($_POST['action']) ? $_POST['action'] : $this->params['action'];
+						// but sometimes it is actually set as the action on the form itself...then we get it from the params array instead.
+						$action = !empty($_POST['action']) ? $_POST['action'] : $this->params['action'];
 		} else {
 			$action = $return_params['action'];
 		}
@@ -315,14 +315,14 @@ class router {
 			//$save_value = is_numeric($value) ? $value: router::decode($value);
 			$save_value = $value;
 			$_REQUEST[$key] = $save_value;
-		        $_GET[$key] = $save_value;
+				$_GET[$key] = $save_value;
 		}
 
 		return true;
 	}
 
 	public function buildCurrentUrl() {
-		$url =  URL_BASE;
+		$url =	URL_BASE;
 		if ($this->url_style == 'sef') {
 			$url .= substr(PATH_RELATIVE,0,-1).$this->sefPath;
 		} else {
@@ -333,7 +333,7 @@ class router {
 
 	public static function encode($url) {
 		$url = str_replace('&', 'and', $url);
-                return preg_replace("/(-)$/", "", preg_replace('/(-){2,}/', '-', strtolower(preg_replace("/([^0-9a-z-_\+])/i", '-', $url))));	
+				return preg_replace("/(-)$/", "", preg_replace('/(-){2,}/', '-', strtolower(preg_replace("/([^0-9a-z-_\+])/i", '-', $url))));	
 	}
 	
 	public static function decode($url) {
@@ -357,7 +357,7 @@ class router {
 			$url = '';
 			if (SEF_URLS == 1) {
 				$section = $db->selectObject('section', 'id='.intval($id));
-                        	$url .= !empty($section->sef_name) ? $section->sef_name : $section->name;
+							$url .= !empty($section->sef_name) ? $section->sef_name : $section->name;
 			} else {
 				$url .= 'index.php?section='.$id;
 			}
@@ -370,7 +370,7 @@ class router {
 		$url = '';
 		if (PRINTER_FRIENDLY != 1) {
 			$class = !empty($class) ? $class : 'printer-friendly-link';
-			$url =  '<a class="'.$class.'" href="javascript:void(0)" onclick="window.open(\'';
+			$url =	'<a class="'.$class.'" href="javascript:void(0)" onclick="window.open(\'';
 			if ($this->url_style == 'sef') {
 				$url .= $this->convertToOldSchoolUrl();
 				if ($this->url_type=='base') $url .= 'index.php?section='.SITE_DEFAULT_SECTION;
@@ -396,14 +396,14 @@ class router {
 			$section = $this->getPageByName($this->url_parts[0]);
 			$params['section'] = $section->id;
 		} elseif ($this->url_type == 'action') {
-            $params['module'] = $this->url_parts[0];
-            $params['action'] = $this->url_parts[1];
-            for($i=2; $i < count($this->url_parts); $i++ ) {
-                if ($i % 2 == 0) {
-                    $params[$this->url_parts[$i]] = isset($this->url_parts[$i+1]) ? $this->url_parts[$i+1] : '';
-                }
-            }
-        }
+			$params['module'] = $this->url_parts[0];
+			$params['action'] = $this->url_parts[1];
+			for($i=2; $i < count($this->url_parts); $i++ ) {
+				if ($i % 2 == 0) {
+					$params[$this->url_parts[$i]] = isset($this->url_parts[$i+1]) ? $this->url_parts[$i+1] : '';
+				}
+			}
+		}
 
 		return $params;
 	}
@@ -411,15 +411,15 @@ class router {
 	public function getPageByName($url_name) {
 		global $db;
 		if ($this->url_type == 'base') {
-                        // if we made it in here this is a request for http://www.baseurl.com
-                        $section = $db->selectObject('section', 'id='.SITE_DEFAULT_SECTION);
+						// if we made it in here this is a request for http://www.baseurl.com
+						$section = $db->selectObject('section', 'id='.SITE_DEFAULT_SECTION);
 		} else {
 			$section = $db->selectObject('section', "sef_name='".$url_name."'");
 			/*if (empty($section)) {
 					$url_name = router::decode($url_name);
-		        	//$name = str_replace('-', ' ', $url_name);
-		        	$name2 = str_replace(' ', '&nbsp;', $url_name);
-		        	$section = $db->selectObject('section', 'name="'.$url_name.'" OR name="'.$name2.'"');
+					//$name = str_replace('-', ' ', $url_name);
+					$name2 = str_replace(' ', '&nbsp;', $url_name);
+					$section = $db->selectObject('section', 'name="'.$url_name.'" OR name="'.$name2.'"');
 			}*/
 		}
 		// if section is still empty then we should route the user to the search (cool new feature :-) )
@@ -463,36 +463,40 @@ class router {
 
 	public function getSection() {
 		// Check if this was a printer friendly link request
-	        define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
+			define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
 
-        	if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
-        		$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
-	        } else {
-        	 	$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
-	        }
-        	return $section;
-    	}
+			if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
+				if (isset($_REQUEST['section'])) {
+					$section = $this->url_type=="sef" ? $this->getPageByName($_REQUEST['section']) : $_REQUEST['section'] ;
+				} else {
+					$section = (exponent_sessions_isset('last_section') ? exponent_sessions_get('last_section') : SITE_DEFAULT_SECTION);
+				}
+			} else {
+				$section = (isset($_REQUEST['section']) ? $_REQUEST['section'] : SITE_DEFAULT_SECTION);
+			}
+			return $section;
+		}
 
-    	public function getSectionObj($section) {
-	        global $db;
-        	$sectionObj = $db->selectObject('section','id='. intval($section));
-	        if (!navigationmodule::canView($sectionObj)) {
-        		define('AUTHORIZED_SECTION',0);
-	        } else {
-        	    define('AUTHORIZED_SECTION',1);
-	        }
-        	if (!navigationmodule::isPublic($sectionObj)) {
-	        	define('PUBLIC_SECTION',0);
-        	} else {
-         		define('PUBLIC_SECTION',1);
-	        }
-        
-        	if (isset($_REQUEST['section'])) {
-                	exponent_sessions_set('last_section', intval($_REQUEST['section']));
-	        } else {
-        	        //exponent_sessions_unset('last_section');
-	        }
-        	return $sectionObj;
-    	}
+		public function getSectionObj($section) {
+			global $db;
+			$sectionObj = $db->selectObject('section','id='. intval($section));
+			if (!navigationmodule::canView($sectionObj)) {
+				define('AUTHORIZED_SECTION',0);
+			} else {
+				define('AUTHORIZED_SECTION',1);
+			}
+			if (!navigationmodule::isPublic($sectionObj)) {
+				define('PUBLIC_SECTION',0);
+			} else {
+				define('PUBLIC_SECTION',1);
+			}
+		
+			if (isset($_REQUEST['section'])) {
+					exponent_sessions_set('last_section', intval($_REQUEST['section']));
+			} else {
+					//exponent_sessions_unset('last_section');
+			}
+			return $sectionObj;
+		}
 }
 ?>
