@@ -1,0 +1,31 @@
+/* Gets rid of the border applied to management icons */
+/* If needed, add borders to images on a lower level */
+a img {
+	border:none;
+}
+
+a.readmore {
+	padding-left: 15px;
+    background-image: url(../images/icons/readmore.gif);
+    background-repeat: no-repeat;
+}
+a.readmore:hover {
+	background-image: url(../images/icons/readmore.gif);
+	background-repeat: no-repeat;
+}
+
+a.addnews{
+	padding:2px 0 2px 20px;
+	background:url(../images/icons/addnews.png) no-repeat 0 50%;
+}
+
+a.expirednews{
+	padding:2px 0 2px 20px;
+	background:url(../images/icons/expirednews.png) no-repeat 0 50%;
+}
+
+a.viewmorenews{
+	padding:2px 0 2px 20px;
+	background:url(../images/icons/viewallnews.png) no-repeat 0 50%;
+	_background:url(../images/icons/viewallnews.gif) no-repeat 0 50%;
+}
