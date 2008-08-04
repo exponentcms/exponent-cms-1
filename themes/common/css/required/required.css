@@ -1,0 +1,930 @@
+/* Container Styles */
+
+div.containermodule{
+	border:1px solid #777777;
+	border-width:0 1px 1px 1px;
+	padding:0 0 5px 0;
+}
+
+#containermodulemenu ul,
+#containermodulemenu li {
+        padding:0 !important;
+        margin:0 !important;
+        list-style: none !important;
+}
+
+div.containermodule .container_editheader{
+	clear:both;
+}
+
+div.containermodule span.modtype{
+	font-size:9px;
+	font-family:verdana;
+	color:#111111;
+	line-height:10px;
+	display:block;
+	height:18px;
+	width:20px;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-position:0px -386px; 
+	background-repeat:no-repeat;
+	cursor:pointer;
+}
+div.hardcoded-menu span.modtype{
+	font-size:9px;
+	font-family:verdana;
+	color:#111111;
+	line-height:1px;
+	display:block;
+	height:18px;
+	width:20px;
+	position:absolute;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-position:0px -386px; 
+	background-repeat:no-repeat;
+	cursor:pointer;
+}
+
+a.modulemenutrigger{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-position:0 -416px; 
+	position:absolute;
+	right:0px;
+	top:0px;
+	display:block;
+	width:18px;
+	height:15px; 
+	text-decoration:none;
+}
+a.modulemenutrigger:hover{
+	text-decoration:none;
+}
+
+
+.hardcoded-menu,
+.container_moduleheader,
+.container_editheader{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-position:0 -291px; 
+	height:18px;
+	position:relative;
+	z-index:0;
+	width:100%;
+}
+
+
+.container_modulewrapper{
+	border:1px solid #999999;
+	border-top-width:0px;
+	clear:both;
+}
+
+
+.container_moduleheader {
+	background-position:0 -263px;
+	height:23px;
+}
+.hardcoded-menu {
+	background-position:0 -322px;
+	height:18px;
+	border:1px solid #944;
+	border-width:0 1px;
+	position:relative;
+}
+
+
+a.addmodule span.addtext{
+	
+	vertical-align:middle;
+	padding:0 0 0 20px;
+	background-color:transparent;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat;  
+	background-position: 3px -473px; 
+}
+a.addmodule{
+	display:block;
+	background:#dedede;
+	clear:both;
+	padding:2px 0;
+	float:left;
+	width:100%;
+	text-align:center;
+	text-decoration:none;
+	color:blue;
+}
+a.addmodule:hover{
+	display:block;
+	background:#333;
+	clear:both;
+	float:left;
+	width:100%;
+	text-align:center;
+	text-decoration:none;
+	color:white;
+}
+
+#containermodulemenu.containermenu h6 {
+	font-size: 90%;
+	font-weight: bold;
+	padding: 3px 3px 3px 20px;
+	_padding: 3px 3px 3px 10px;
+	background-color:#cae7e8;
+	color:#333;
+	font-family:"Trebuchet MS","Arail";
+	margin:0px;
+	border-bottom:1px dotted #888;
+    background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+ 	background-repeat:no-repeat;
+	background-position: 0px -548px; 
+}
+
+/* The menu */
+#containermodulemenu.yuimenu.show-scrollbars {
+	overflow:visible;
+}
+
+#containermodulemenu{
+	text-align:left;
+}
+#containermodulemenu ul,
+#containermodulemenu ul li{
+	list-style-image:none;
+}
+
+#containermodulemenu.containermenu .yuimenuitemlabel{
+	color:#333333;
+	text-decoration:none;
+}
+#containermodulemenu.containermenu .yuimenuitem-selected{
+	background-color:#445;
+}
+#containermodulemenu.containermenu .yuimenuitemlabel-selected{
+	color:#ffffff;
+	text-decoration:none;
+}
+#containermodulemenu.containermenu .bd{
+	background-color:#b8d3d4;
+	/*width:150px;*/
+	border:1px solid #333333;
+	padding-bottom:3px;
+}
+
+#containermodulemenu.containermenu .yuimenuitem .yuimenuitemlabel {
+    background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	font-family:"Trebuchet MS","Verdana";
+	font-size:12px;
+ 	background-repeat:no-repeat;
+	padding:3px 5px 3px 20px;
+}
+#containermodulemenu.containermenu .yuimenuitem .yuimenuitemlabel-selected {
+    color:#ffffff;
+}
+
+#containermodulemenu.containermenu .yuimenuitem .yuimenuitemlabel-selected {
+    color:#ffffff;
+}
+
+#containermodulemenu .yui-menu-shadow {
+    position: absolute;
+    visibility: hidden;
+    z-index: -1;
+}
+#containermodulemenu.containermenu .yui-menu-shadow-visible{
+	background-color:#000;
+	opacity:.25;*filter:alpha(opacity=25);
+    top: 2px;
+    right: -2px;
+    left: 2px;
+    bottom: -2px;
+    visibility: visible;
+}
+
+
+
+#containermodulemenu.containermenu li.rankup a {
+    background-position:0px -161px; 
+	display:block;	
+}
+#containermodulemenu.containermenu li.rankdown a { 
+    background-position:0px -130px;
+	display:block;	
+}
+#containermodulemenu.containermenu li.userperms a {
+    background-position:0px -9px;
+	display:block;	
+}
+#containermodulemenu.containermenu li.groupperms a {
+    background-position:0px -39px;
+	display:block;	
+}
+#containermodulemenu.containermenu li.configview a {
+    background-position:0px -100px;
+	display:block;	
+}
+#containermodulemenu.containermenu li.configsettings a {
+    background-position:0px -362px;
+	display:block;	
+}
+#containermodulemenu.containermenu li.deletemod a {
+    background-position:0px -72px ;
+	display:block;	
+}
+
+
+
+/*END THE MENU*/
+
+
+/* YUI Panel */
+
+/*
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.4.1
+*/
+.yui-overlay,.yui-panel-container{visibility:hidden;position:absolute;z-index:2;}
+.yui-panel-container form{margin:0;}
+.mask{z-index:1;display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;}
+.masked select,.drag select,.hide-select select{_visibility:hidden;}
+.yui-panel-container select{_visibility:inherit;}
+.hide-scrollbars,.hide-scrollbars *{overflow:hidden;}
+.hide-scrollbars select{display:none;}
+.show-scrollbars{overflow:auto;}
+.yui-panel-container.show-scrollbars,.yui-tt.show-scrollbars{overflow:visible;}
+.yui-panel-container.show-scrollbars .underlay,.yui-tt.show-scrollbars .yui-tt-shadow{overflow:auto;}
+.yui-panel-container.shadow .underlay.yui-force-redraw{padding-bottom:1px;}
+.yui-effect-fade .underlay{display:none;}
+.yui-tt-shadow{position:absolute;}
+body .mask{background-color:#000;opacity:.25;*filter:alpha(opacity=25);}
+body .yui-panel-container{padding:0 1px;*padding:2px 3px;}
+body .yui-panel{position:relative;*zoom:1;left:0;top:0;border-style:solid;border-width:1px 0;border-color:#808080;z-index:1;}
+body .yui-panel .hd,body .yui-panel .bd,body .yui-panel .ft{*zoom:1;*position:relative;border-style:solid;border-width:0 1px;border-color:#808080;margin:0 -1px;}
+body .yui-panel .hd{border-bottom:solid 1px #ccc;}
+body .yui-panel .bd,body .yui-panel .ft{background-color:#F2F2F2;}
+body .yui-panel .hd{padding:0 10px;font-size:93%;line-height:2;*line-height:1.9;font-weight:bold;color:#000;background:url(../../images/icons/sprite.png) repeat-x 0 -200px;}
+body .yui-panel .bd{padding:10px;}
+body .yui-panel .ft{border-top:solid 1px #808080;padding:5px 10px;font-size:77%;}
+body .yui-panel-container.focused .yui-panel .hd{}
+body .container-close{position:absolute;top:5px;right:6px;width:25px;height:15px;background:url(../../images/icons/sprite.png) no-repeat 0 -300px;cursor:pointer;}
+body .yui-panel-container .underlay{right:-1px;left:-1px;}
+body .yui-panel-container.matte{padding:9px 10px;background-color:#fff;}
+body .yui-panel-container.shadow{_padding:2px 5px 0 3px;}
+body .yui-panel-container.shadow .underlay{position:absolute;top:2px;right:-3px;bottom:-3px;left:-3px;*top:3px;*left:-1px;*right:-1px;*bottom:-1px;_top:0;_right:0;_bottom:0;_left:0;_margin-top:3px;_margin-left:-1px;background-color:#000;opacity:.12;*filter:alpha(opacity=12);}
+body .yui-dialog .ft{border-top:none;padding:0 10px 10px 10px;font-size:100%;}
+body .yui-dialog .ft .button-group{display:block;text-align:right;}
+body .yui-dialog .ft button.default{font-weight:bold;}
+body .yui-dialog .ft span.default{border-color:#304369;background-position:0 -1400px;}
+body .yui-dialog .ft span.default .first-child{border-color:#304369;}
+body .yui-dialog .ft span.default button{color:#fff;}
+body .yui-simple-dialog .bd .yui-icon{background:url(../../images/icons/sprite.png) no-repeat 0 0;width:16px;height:16px;margin-right:10px;float:left;}
+body .yui-simple-dialog .bd span.blckicon{background-position:0 -1100px;}
+body .yui-simple-dialog .bd span.alrticon{background-position:0 -1050px;}
+body .yui-simple-dialog .bd span.hlpicon{background-position:0 -1150px;}
+body .yui-simple-dialog .bd span.infoicon{background-position:0 -1200px;}
+body .yui-simple-dialog .bd span.warnicon{background-position:0 -1900px;}
+body .yui-simple-dialog .bd span.tipicon{background-position:0 -1250px;}
+
+/* TOOLTIPS */
+body .yui-tt .bd{position:relative;top:0;left:0;z-index:1;color:#333;padding:2px 5px;border-color:#295a9b;border-width:1px;border-style:solid;background-color:#ddffdd;}
+body .yui-tt.show-scrollbars .bd{overflow:auto;}
+body .yui-tt-shadow{top:2px;right:-3px;left:-3px;bottom:-3px;background-color:#000;}
+body .yui-tt-shadow-visible{opacity:.12;*filter:alpha(opacity=12);}
+
+/* end yui panel */
+
+
+/* YUI Tabs */
+
+/*
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.4.1
+*/
+.yui-navset .yui-nav li,.yui-navset .yui-navset-top .yui-nav li,.yui-navset .yui-navset-bottom .yui-nav li{margin:0 0.5em 0 0;}
+.yui-navset-left .yui-nav li,.yui-navset-right .yui-nav li{margin:0 0 0.5em;}
+.yui-navset .yui-navset-left .yui-nav,.yui-navset .yui-navset-right .yui-nav,.yui-navset-left .yui-nav,.yui-navset-right .yui-nav{width:6em;}
+.yui-navset-top .yui-nav,.yui-navset-bottom .yui-nav{width:auto;}
+.yui-navset .yui-navset-left,.yui-navset-left{padding:0 0 0 6em;}
+.yui-navset-right{padding:0 6em 0 0;}
+.yui-navset-top,.yui-navset-bottom{padding:auto;}
+.yui-nav,.yui-nav li{margin:0;padding:0;list-style:none;}
+.yui-navset li em{font-style:normal;}
+.yui-navset{position:relative;zoom:1;}
+.yui-navset .yui-content{zoom:1;}
+.yui-navset .yui-nav li,.yui-navset .yui-navset-top .yui-nav li,.yui-navset .yui-navset-bottom .yui-nav li{display:inline-block;display:-moz-inline-stack;*display:inline;vertical-align:bottom;cursor:pointer;zoom:1;}
+.yui-navset-left .yui-nav li,.yui-navset-right .yui-nav li{display:block;}
+.yui-navset .yui-nav a{position:relative;}
+.yui-navset .yui-nav li a,.yui-navset-top .yui-nav li a,.yui-navset-bottom .yui-nav li a{display:block;display:inline-block;vertical-align:bottom;zoom:1;}
+.yui-navset-left .yui-nav li a,.yui-navset-right .yui-nav li a{display:block;}
+.yui-navset-bottom .yui-nav li a{vertical-align:text-top;}
+.yui-navset .yui-nav li a em,.yui-navset-top .yui-nav li a em,.yui-navset-bottom .yui-nav li a em{display:block;}
+.yui-navset .yui-navset-left .yui-nav,.yui-navset .yui-navset-right .yui-nav,.yui-navset-left .yui-nav,.yui-navset-right .yui-nav{position:absolute;z-index:1;}
+.yui-navset-top .yui-nav,.yui-navset-bottom .yui-nav{position:static;}
+.yui-navset .yui-navset-left .yui-nav,.yui-navset-left .yui-nav{left:0;right:auto;}
+.yui-navset .yui-navset-right .yui-nav,.yui-navset-right .yui-nav{right:0;left:auto;}
+body .yui-navset .yui-nav,body .yui-navset .yui-navset-top .yui-nav{border:solid #2647a0;border-width:0 0 5px;Xposition:relative;zoom:1;}
+body .yui-navset .yui-nav li,body .yui-navset .yui-navset-top .yui-nav li{margin:0 0.16em 0 0;padding:1px 0 0;zoom:1;}
+body .yui-navset .yui-nav .selected,body .yui-navset .yui-navset-top .yui-nav .selected{margin:0 0.16em -1px 0;}
+body .yui-navset .yui-nav a,body .yui-navset .yui-navset-top .yui-nav a{background:#d8d8d8 url(../../images/icons/sprite.png) repeat-x;border:solid #a3a3a3;border-width:0 1px;color:#000;position:relative;text-decoration:none;}
+body .yui-navset .yui-nav a em,body .yui-navset .yui-navset-top .yui-nav a em{border:solid #a3a3a3;border-width:1px 0 0;cursor:hand;padding:0.25em .75em;left:0;right:0;bottom:0;top:-1px;position:relative;}
+body .yui-navset .yui-nav .selected a,body .yui-navset .yui-nav .selected a:focus,body .yui-navset .yui-nav .selected a:hover{background:#2647a0 url(../../images/icons/sprite.png) repeat-x left -1400px;color:#fff;}
+body .yui-navset .yui-nav a:hover,body .yui-navset .yui-nav a:focus{background:#bfdaff url(../../images/icons/sprite.png) repeat-x left -1300px;outline:0;}
+body .yui-navset .yui-nav .selected a em{padding:0.35em 0.75em;}
+body .yui-navset .yui-nav .selected a,body .yui-navset .yui-nav .selected a em{border-color:#243356;}
+body .yui-navset .yui-content{background:#edf5ff;}
+body .yui-navset .yui-content,body .yui-navset .yui-navset-top .yui-content{border:1px solid #808080;border-top-color:#243356;padding:0.25em 0.5em;}
+body .yui-navset-left .yui-nav,body .yui-navset .yui-navset-left .yui-nav,body .yui-navset .yui-navset-right .yui-nav,body .yui-navset-right .yui-nav{border-width:0 5px 0 0;Xposition:absolute;top:0;bottom:0;}
+body .yui-navset .yui-navset-right .yui-nav,body .yui-navset-right .yui-nav{border-width:0 0 0 5px;}
+body .yui-navset-left .yui-nav li,body .yui-navset .yui-navset-left .yui-nav li,body .yui-navset-right .yui-nav li{margin:0 0 0.16em;padding:0 0 0 1px;}
+body .yui-navset-right .yui-nav li{padding:0 1px 0 0;}
+body .yui-navset-left .yui-nav .selected,body .yui-navset .yui-navset-left .yui-nav .selected{margin:0 -1px 0.16em 0;}
+body .yui-navset-right .yui-nav .selected{margin:0 0 0.16em -1px;}
+body .yui-navset-left .yui-nav a,body .yui-navset-right .yui-nav a{border-width:1px 0;}
+body .yui-navset-left .yui-nav a em,body .yui-navset .yui-navset-left .yui-nav a em,body .yui-navset-right .yui-nav a em{border-width:0 0 0 1px;padding:0.2em .75em;top:auto;left:-1px;}
+body .yui-navset-right .yui-nav a em{border-width:0 1px 0 0;left:auto;right:-1px;}
+body .yui-navset-left .yui-nav a,body .yui-navset-left .yui-nav .selected a,body .yui-navset-left .yui-nav a:hover,body .yui-navset-right .yui-nav a,body .yui-navset-right .yui-nav .selected a,body .yui-navset-right .yui-nav a:hover,body .yui-navset-bottom .yui-nav a,body .yui-navset-bottom .yui-nav .selected a,body .yui-navset-bottom .yui-nav a:hover{background-image:none;}
+body .yui-navset-left .yui-content{border:1px solid #808080;border-left-color:#243356;}
+body .yui-navset-bottom .yui-nav,body .yui-navset .yui-navset-bottom .yui-nav{border-width:5px 0 0;}
+body .yui-navset .yui-navset-bottom .yui-nav .selected,body .yui-navset-bottom .yui-nav .selected{margin:-1px 0.16em 0 0;}
+body .yui-navset .yui-navset-bottom .yui-nav li,body .yui-navset-bottom .yui-nav li{padding:0 0 1px 0;vertical-align:top;}
+body .yui-navset .yui-navset-bottom .yui-nav li a,body .yui-navset-bottom .yui-nav li a{}
+body .yui-navset .yui-navset-bottom .yui-nav a em,body .yui-navset-bottom .yui-nav a em{border-width:0 0 1px;top:auto;bottom:-1px;}
+body .yui-navset-bottom .yui-content,body .yui-navset .yui-navset-bottom .yui-content{border:1px solid #808080;border-bottom-color:#243356;}
+
+
+/* End YUI Tabs */
+
+/* administration module styles */
+
+/** Administration Module Manager form **/
+.administration_modmgrheader {
+        background-color: #999;
+}
+
+.administration_modmgrheader span.active {
+        color: green;
+        font-weight: bold;
+}
+
+.administration_modmgrheader span.inactive {
+        color: red;
+        font-weight: bold;
+}
+
+.administration_modmgrbody {
+        padding-left: 10px;
+        border: 1px solid #999;
+}
+
+/** Admin Control quick-links Styles  **/
+.administrationmodule.default {
+	width: 100%;
+}
+
+.administrationmodule.default .category-box {
+	width: 100%;
+	/*text-align: center;*/
+}
+
+.administrationmodule.default .category {
+	width: 33%;
+	display: inline;
+	float: left;
+	height: 175px;
+    min-height: 175px;
+}
+
+.administrationmodule.default h4 {
+}
+
+
+#expadminquick-links .container-close {
+	background:url(../../images/icons/exp1icons.png) 100% -575px no-repeat;
+	margin:0 -5px 0 0;
+}
+#expadminquick-links.closed .container-close {
+	background:url(../../images/icons/exp1icons.png) 100% -597px no-repeat;
+	margin:0 -10px 5px 0;
+}
+#expadminquick-links.closed {
+	border:1px dotted #444;
+	border-width:0 1px 1px 0;
+}
+#expadminquick-links.closed .hd {
+	background:none;
+}
+
+.administrationmodule.quicklinks {
+	border-width:0 1px;
+	margin-bottom:10px;
+}
+
+.administrationmodule.quicklinks a {
+	display: block;
+	font-size: 95%;
+	color: #555;
+	font-weight:bold;
+	padding:3px 0 0 25px;
+	font-family:"Trebuchet MS",arial;
+	border-bottom:1px dotted #999999;
+	border-right:1px dotted #999999;
+	border-left:1px dotted #efefef;
+	border-top:1px dotted #efefef;
+	background-color:#dedfde;
+	text-decoration: none;
+	text-transform:uppercase;
+	min-height:18px;
+	*height:18px;
+	background-position:3px 50%;
+	margin:1px;
+}
+.administrationmodule.quicklinks a:hover {
+	border-left:1px dotted #999;
+	border-top:1px dotted #999;
+	text-decoration: none;
+	background-color:#cdcddd;
+	color: #333333;
+	
+}
+.administrationmodule.quicklinks .hd {
+	text-align:left;
+	border-top:1px solid #888;
+}
+.administrationmodule.quicklinks .bd {
+	border-left:1px dotted #777;
+	border-width:1px 0 0 0;
+	padding:0;
+	background:#999;
+}
+
+.administrationmodule.quicklinks a.preview {
+	background-image:url(../../images/icons/view.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.edit {
+	background-image:url(../../images/icons/edit.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.sitetree {
+    background-image:url(../../images/icons/sitetree.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.editprofile {
+    background-image:url(../../images/icons/edit-profile.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.changepassword {
+    background-image:url(../../images/icons/lock.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.clicktoaddmodule {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position: 3px -468px; 
+}
+.administrationmodule.quicklinks a.files {
+	background-image:url(../../images/icons/mimetypes/pdf.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.admin {
+	background-image:url(../../images/icons/site-admin.png);
+    	background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.recycle {
+	background-image:url(../../images/icons/recycle-bin-small.png);
+    	background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks a.logout  {
+	background-image:url(../../images/icons/logout.png);
+    background-repeat:no-repeat;
+}
+.administrationmodule.quicklinks h1 {
+	font-size: 136%;
+	padding:0;
+}
+
+.administrationmodule.default h4 {
+	font-size: 107%;
+	padding: 17px 0px 17px 48px;
+	background-repeat: no-repeat;
+}
+
+.administrationmodule.default ul.task {
+	font-size: 9px;
+	margin-left: 15px;
+	margin-bottom: 20px;
+	padding: 0;
+}
+
+
+.administrationmodule.orphanedcontent h1 {
+	background-image: url(../../images/icons/recycle-bin.png);
+	background-repeat: no-repeat;
+	padding: 20px 0px 0px 60px;
+	height: 50px;
+}
+
+.administrationmodule.usermanager .form_header a {
+	padding: 4px 0px 0px 20px;
+	background-image:url(../../images/icons/edit-profile.png);
+    	background-repeat:no-repeat;	
+}
+
+/* theme manager */
+.administrationmodule.thememanager h1,
+.administrationmodule.thememanager h2,
+.administrationmodule.thememanager h3
+{
+	position:relative;
+	padding:0;
+	margin:0;
+}
+.administrationmodule.thememanager .current {
+	right:0px;
+	position:absolute;
+	font-size:16px;
+	padding:0 0 0 22px;
+	background:url(../../images/icons/accepted.png) no-repeat 0 50%;
+	color:#585;
+}
+.administrationmodule.thememanager .previewing {
+	font-size:16px;
+    padding:0 0 0 22px;
+	position:absolute;
+	right:0;
+    background:url(../../images/icons/view.png) no-repeat 0 50%;
+    color:#669 !important;
+}  
+.administrationmodule.thememanager .previewtheme {
+	font-size:16px;
+    padding:0 0 0 22px;
+    background:url(../../images/icons/view.png) no-repeat 0 50%;
+    color:#669 !important;
+}  
+.administrationmodule.thememanager .switchtheme:hover {
+	font-size:16px;
+    padding:0 0 0 22px;
+    background:url(../../images/icons/play.png) no-repeat 0 50%;
+    color:#99d !important;
+}  
+.administrationmodule.thememanager .switchtheme {
+	font-size:16px;
+    padding:0 0 0 22px;
+    background:url(../../images/icons/play.png) no-repeat 0 50%;
+    color:#66a !important;
+}  
+.administrationmodule.thememanager .previewtheme:hover {
+    color:#99a !important;
+}  
+.administrationmodule.thememanager .item {
+	float:left;
+	width:100%;
+	padding:5px;
+	border:1px solid #ddd;
+}
+.administrationmodule.thememanager h2 {
+}
+.administrationmodule.thememanager .previewimage {
+	border:1px solid #333;
+	float:left;
+	margin-right:10px;
+}
+
+.administrationmodule.thememanager .themeinfo {
+	border-left:1px dotted #777;
+}
+
+/* End Admin Styles */
+
+/* Message Que */
+
+.error {
+        font-weight: bold;
+        color: #ff0000;
+}
+
+ul.queue {
+        width: 85%;
+        padding: 10px 10px 10px 20px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        background: #f1a5a5;
+        background-image: none;
+        border: 2px solid #ff0000;
+        color: #ff0000;
+        font-weight: bold;
+}
+
+ul.queue li {
+        list-style: none;
+}
+
+ul.queue.error {
+}
+
+ul.queue.message {
+
+        background: #c6f6c6;
+        border: 2px solid #2e6b2e;
+        color: #2e6b2e;
+}
+
+
+/* End Message Que */
+
+/* Navigationmodule  */
+
+.navigationmodule .newpage{
+	padding:8px 0 5px 25px;
+	background:url(../../images/icons/admin/newpage.png) no-repeat 0 50%;
+	color:#333;
+	font-size:130%;
+	display:block;
+}
+.navigationmodule .newpage:hover{
+	color:#0079f4;
+}
+
+.perms {
+	margin-left:10px;
+}
+.perms .addsubpage {
+	background:url(../../images/icons/exp1icons.png);
+	background-position:0 -498px;
+	width:20px;
+	height:20px;
+	display:block;
+	float:right;
+}
+
+/* TREE STYLES */
+
+#navtree {
+	border:1px solid #999;
+	padding:20px 10px;
+	background:#efefef;
+}
+
+#navtree table{
+	border-collapse:collapse;
+	border-spacing:0;
+	padding:0;
+	margin:0;
+	width:100%;
+}
+#navtree td{
+	border-collapse:collapse;
+	border-spacing:0;
+	border:0;
+	padding:0;
+	margin:0;
+}
+
+
+#navTreeContext h6 {
+	text-align:left;
+	padding-left:20px;
+	font-size:12px;
+	color:#333;
+	border-bottom:1px solid #dedede;
+}
+
+#navTreeContext .yuimenuitem {
+	height:25px;
+}
+
+#navTreeContext .yuimenuitemlabel {
+	padding-top:5px;
+}
+
+#navTreeContext .addsubpage {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position:0 -492px;
+}
+
+#navTreeContext .editpage {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position:0 -517px;
+}
+#navTreeContext .deletepage {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position:0 -68px;
+}
+#navTreeContext .userperms {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position:0 -8px;
+}
+#navTreeContext .groupperms {
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position:0 -38px;
+}
+
+#navTreeContext.yui-skin-sam .bd {
+	background:white;
+	border:1px solid #444;
+	text-align:left;
+}
+
+#navTreeContext li.yuimenuitem {
+	*width:200px;
+	display:block;
+}
+
+
+.navigationmodule.manager-hierarchy .not-hovered {
+	background:#fff;
+}
+.navigationmodule.manager-hierarchy .hovered {
+	background:#cdcdcd;
+	color:white;
+	font-weight:bold;
+	border:1px dotted #efefef;
+}
+.navigationmodule.manager-hierarchy .draggables {
+	width:100%;
+	padding:0;
+	border:1px solid #efefef;
+	
+}
+
+.navigationmodule.manager-hierarchy span.options {
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:100% -442px; 
+}
+
+.navigationmodule.manager-hierarchy .draggables span {
+	color:#010101;
+	font-weight:bold;
+	padding:3px 20px 0 2px;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:100% -442px; 
+	cursor:default;
+}
+.navigationmodule.manager-hierarchy .draggables a.sectionmenu{
+	width:20px;
+	height:15px;
+	padding:0 20px 0 0;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:100% -418px; 
+	text-decoration:none;
+}
+.navigationmodule.manager-hierarchy .draghandle {
+	margin: 0;
+	height:20px;
+	width:20px;
+	padding:0;
+	float:left;
+	background-image:url(../../images/icons/exp1icons.png);
+	background-repeat: no-repeat;
+	background-position:100% -571px;
+	display:block;
+}
+.navigationmodule.manager-hierarchy .nondraggables span {
+	color:#555;
+	font-weight:bold;
+	padding:3px 0 0 2px;
+	display:block;
+}
+
+.navigationmodule.manager-hierarchy .ghost {
+	filter: alpha(opacity=30); -moz-opacity:.3;
+}
+
+.navigationmodule.manager-hierarchy .addbefore {
+	width:100%;
+	font-size:0px;
+	height:3px;
+	margin-bottom:1px;
+	margin-bottom:1px;
+}
+.navigationmodule.manager-hierarchy .addbefore-h {
+	background:#000;
+}
+
+.navigationmodule.manager-hierarchy .addafter {
+	width:100%;
+	font-size:0px;
+	height:3px;
+	margin-top:1px;
+	margin-bottom:1px;
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-color:none;  
+	background-position:100% -220px; 
+}
+.navigationmodule.manager-hierarchy .addafter-h {
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-color:none;  
+	background-position:100% -215px; 
+}
+
+
+.ddnavproxiebeingdragged {
+	background:none;
+	text-align:left;
+	padding:0 0 5px 0;
+	margin-left:25px;
+	margin-top:25px;
+}
+
+.ddnavproxiebeingdragged .shrinkwrap{
+/*	opacity:.90;*filter:alpha(opacity=90);
+*/	border:1px solid #9a9;
+	float:left;
+	z-index:1;
+	background:white;
+	padding:2px 5px 2px 2px;
+	position:relative;
+}
+
+.ddnavproxiebeingdragged .shrinkwrap .pshadow{
+	display:none;
+/*	position:absolute;
+	z-index:-1;
+	background:#000;
+	top:2px;
+	right:-3px;
+	bottom:-3px;
+	left:2px;
+	opacity:.25;*filter:alpha(opacity=25);
+	*visibility:hidden;
+*/}
+
+
+.ddnavproxiebeingdragged span {
+	color:#333;
+	font-weight:bold;
+	font-size:12px;
+}
+
+#dropindicator{
+	width:18px;	
+	height:15px;
+	float:left;
+	margin:0 5px;
+}
+#dropindicator.dropattop{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -643px; 
+}
+
+#dropindicator.dropatbottom{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -665px; 
+}
+#dropindicator.putinbetween{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -685px; 
+}
+
+#dropindicator.addtome{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -703px; 
+}
+
+#dropindicator.nodrop{
+	background-image:url(../../images/icons/exp1icons.png);  
+	_background-image:url(../../images/icons/exp1icons.gif);  
+	background-repeat:no-repeat; 
+	background-position:0 -722px; 
+}
+
+
+.nodebeingdragged{
+	margin:20px 0 0 20px;
+	border:1px solid green;
+	background:#eee;
+}
+
+/* end nav stuff */
+
