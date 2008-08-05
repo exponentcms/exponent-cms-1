@@ -17,16 +17,16 @@
 {if $user->id != '' && $user->id != 0} 
 <div class="administrationmodule quicklinks yui-panel">
 	<div class="hd">
-			{gettext str="Administration Quicklinks"}
+			{gettext str=$_TR.quicklinks}
 	</div>
 	<div class="bd">
-	{if $can_manage_nav == 1}<a class="sitetree" href="{link module=navigationmodule action=manage}">Manage Site Navigation</a>{/if}
+	{if $can_manage_nav == 1}<a class="sitetree" href="{link module=navigationmodule action=manage}">{$_TR.manage_site}</a>{/if}
 	{if $permissions.administrate == 1}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">Manage Files</a>
-		<a class="admin" href="{link module=administrationmodule action=index}">Site Administration</a>
-		{*<a id="addmodulelink" class="clicktoaddmodule" href="#">Add Module</a>*}
-		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">Recycle Bin</a>
+		<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">{$_TR.manage_files}</a>
+		<a class="admin" href="{link module=administrationmodule action=index}">{$_TR.site_administration}</a>
+		{*<a id="addmodulelink" class="clicktoaddmodule" href="#">{$_TR.add_module}</a>*}
+		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">{$_TR.recycle_bin}</a>
 	{/permissions}
 	{/if}
 	{chain module=previewmodule view=Default}		
@@ -39,9 +39,9 @@
 	</div>
 	<div class="bd">
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	<a class="changepassword" href="{link module=loginmodule action=changepass}">Change Password</a>
-	<a class="editprofile" href="{link module=loginmodule action=editprofile}">Edit Profile</a>
-	<a class="logout" href="{link module=loginmodule action=logout}">Log Out</a>
+	<a class="changepassword" href="{link module=loginmodule action=changepass}">{$_TR.change_password}</a>
+	<a class="editprofile" href="{link module=loginmodule action=editprofile}">{$_TR.edit_profile}</a>
+	<a class="logout" href="{link module=loginmodule action=logout}">{$_TR.logout}</a>
 	{/permissions}
 	</div>
 </div>

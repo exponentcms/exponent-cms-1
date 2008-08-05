@@ -28,7 +28,7 @@
 
 {if $moduletitle != ""}<div class="moduletitle news_moduletitle">{$moduletitle}</div>{/if}
 {foreach from=$news item=tag key=tag_name}
-<div class="itemtitle news_itemtitle">News about {$tag_name}</div>
+<div class="itemtitle news_itemtitle">{$_TR.news_about} {$tag_name}</div>
 {foreach from=$tag item=newsitem}
 	<ul>
 	<!--div style="margin-top:5px;margin-bottom:5px;margin-left:15px;"-->
@@ -37,7 +37,7 @@
 			<div class="itemtitle news_itemtitle">
 			<a class="mngmntlink news_mngmntlink" href="{link action=view id=$newsitem->id}">{$newsitem->title}</a>
 			</div>
-			Posted: {$newsitem->posted|format_date:"%B %d, %Y"}<br />[<a href="{link action=view id=$newsitem->id}">read more</a>]
+			Posted: {$newsitem->posted|format_date:"%B %d, %Y"}<br />[<a href="{link action=view id=$newsitem->id}">{$_TR.read_more}</a>]
 		</li>
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == true || $newsitem->permissions.administrate == true}

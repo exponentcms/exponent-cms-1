@@ -18,6 +18,12 @@ return array(
 	'pub_date'=>'Publishes on',
 	'time_to_pub'=>'Time to publication',
 	'no_unpublished'=>'No News Awaiting Publication',
+	
+	'day'=>'day',
+	'hour'=>'hour',
+	'and'=>'and',
+	'minute'=>'minute',
+	'from_now'=>'from now',
 );
 
 ?>

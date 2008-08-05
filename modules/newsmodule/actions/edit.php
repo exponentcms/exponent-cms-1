@@ -82,10 +82,10 @@ if (($news != null && exponent_permissions_check("edit_item",$loc)) ||
 			if (count($tag_list) > 0) {
 				$form->registerAfter('tag_header','tags',$i18n['tags'],new listbuildercontrol($used_tags,$tag_list));
 			} else {
-				$form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>There are no tags assigned to the collection(s) available to this module.</div>'));
+				$form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>'.$i18n['no_tags'].'</div>'));
 			}
 		} else {
-			$form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>No tag collection have been assigned to this module</div>'));
+			$form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>'.$i18n['no_tags_assigned'].'</div>'));
 		}
 
 	}	

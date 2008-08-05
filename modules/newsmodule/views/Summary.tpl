@@ -53,7 +53,7 @@
 		<span class="date">{$newsitem->real_posted|format_date:"%A, %B %e, %Y"}</span>
 		<div class="bodycopy">
 			{$newsitem->body|summarize:"html":"para"}
-			<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">Read More</a>
+			<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
 		</div>
 	</div>
 	{/foreach}

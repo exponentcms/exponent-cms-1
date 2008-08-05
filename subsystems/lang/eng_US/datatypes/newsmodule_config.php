@@ -5,6 +5,12 @@ return array(
 	'sortorder'=>'Sort Order',
 	'sortfield'=>'Sort on',
 	
+	'general_conf'=>'General Configuration',
+	'merge_news'=>'Merge News',
+	'pull_news'=>'Pull News from These Other News Modules',
+	'tagging'=>'Tagging',
+	'rss_configuration'=>'RSS Configuration',
+	
 	'save'=>'Save',
 	'cancel'=>'Cancel',
 	
