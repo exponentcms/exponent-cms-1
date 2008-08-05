@@ -109,6 +109,7 @@
 		oFCKeditor.Config["SkinPath"] = "{$smarty.const.URL_FULL}external/editors/FCKeditor/editor/skins/office2003/";
 		//oFCKeditor.Config["SkinPath"] = "{$view->path_to_editor}skins/default/";
 		oFCKeditor.Config["FontFormats"]='p;h1;h2;h3;h4;h5;h6';
+		oFCKeditor.Config["ProcessHTMLEntities"]="false";
 		oFCKeditor.CustomStyles = {literal}
 		{
 			//'Red Title'	: { Element : 'h3', Styles : { 'color' : 'Red' } }
