@@ -28,7 +28,6 @@
 		{*<a id="addmodulelink" class="clicktoaddmodule" href="#">Add Module</a>*}
 		<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">Recycle Bin</a>
 	{/permissions}
-	{chain module=previewmodule view=Default}		
 	{/if}
 	{chain module=previewmodule view=Default}		
 	</div>
