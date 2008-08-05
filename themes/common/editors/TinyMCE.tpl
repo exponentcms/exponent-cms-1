@@ -169,7 +169,8 @@
 					convert_urls			: false,
 					//a temporary (?) fix for the layout of TinyMCE, currently it becomes "tiny" with a small custom toolbar
 					width				: "100%",
-					height				: "100%"
+					height				: "100%",
+					entity_encoding			: "raw"
 				};
 {/literal}
 {if $view->toolbar != NULL}
