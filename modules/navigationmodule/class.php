@@ -54,20 +54,20 @@ class navigationmodule {
 				if( $current->parent == -1 )
 				{
 					$sections = navigationmodule::levelTemplate(-1,0);
-					/*foreach ($sections as $section) {
+					foreach ($sections as $section) {
 						if ($section->id == $id) {
 							$current = $section;
 							break;
 						}
-					}*/
+					}
 				} else {
-					//$sections = navigationmodule::levelTemplate(0,0);
-					/*foreach ($sections as $section) {
+					$sections = navigationmodule::levelTemplate(0,0);
+					foreach ($sections as $section) {
 						if ($section->id == $id) {
 							$current = $section;
 							break;
 						}
-					}*/
+					}
 				}
 			break;
 			default:

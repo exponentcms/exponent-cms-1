@@ -14,16 +14,18 @@
  *
  *}
 {assign var=i value=0}
-<div class="breadcrumb">
-&nbsp;
+
+<div class="module navigationmodule breadcrumb">
 {foreach from=$sections item=section}
 	{if $current->numParents >= $i && ($current->id == $section->id || $current->parents[$i] == $section->id)}
 		{math equation="x+1" x=$i assign=i}
 		{if $section->active == 1}
-  			{if $section->id == $current->id} <a class="activecrumb"
-  			{else} <a class="breadcrumb"
+  			{if $section->id == $current->id} 
+				<a class="activecrumb"
+  			{else} 
+				<a class="breadcrumb"
   			{/if}
-  			href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{makecase type=ucwords value=$section->name}</a>&nbsp;
+  				href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{makecase type=ucwords value=$section->name}</a>&nbsp;
 		{else}
 			<span>{makecase type=ucwords value=$section->name}</span>&nbsp;
 		{/if}
