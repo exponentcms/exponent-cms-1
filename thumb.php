@@ -24,20 +24,19 @@ include_once('exponent_bootstrap.php');
 include_once('subsystems/image.php');
 
 if (isset($_GET['id'])) {
-	include_once('subsystems/autoloader.php');
 	include_once('subsystems/config/load.php');
 	// Initialize the Database Subsystem
 	include_once(BASE.'subsystems/database.php');
 	$db = exponent_database_connect(DB_USER,DB_PASS,DB_HOST.':'.DB_PORT,DB_NAME);
 
-	$file_obj = new expFile($_GET['id']); 
-    	$_GET['file'] = $file_obj->path;
+	$file_obj = $db->selectObject('file','id='. intval($_GET['id']));
+
+    $_GET['file'] = $file_obj->directory.'/'.$file_obj->filename;
 }
 
 $quality = isset($_GET['quality']) ? intval($_GET['quality']) : 75;
 
-//$file = BASE.$_GET['file'];
-$file = $_GET['file'];
+$file = BASE.$_GET['file'];
 $thumb = null;
 
 if (isset($_GET['constraint'])) {
