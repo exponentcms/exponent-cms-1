@@ -1,0 +1,28 @@
+.imagegallerymodule .newgallery{
+	padding:5px 0 5px 20px;
+	background:url(../images/icons/manage_images.png) no-repeat 0 50%;
+}
+
+.imagegallerymodule .thumbbox a{
+	border:1px solid #333344;
+	margin:0 3px 3px 0;
+}
+
+#gallerypopfooter {
+	font-size:120%;
+	border:1px dotted #aaaaaa;
+	color:#333333;
+	font-weight:bold;
+	background:#ffffff;
+	padding:0 10px;
+}
+
+.imagegallerymodule div.item {
+        clear: both;
+        padding: 10px 0px;
+}
+
+/* temp fix for image gallery module wait screen where the containing div expands to the width of the screen.  This is a brute force method */
+#wait_c {
+	width:300px;
+}

@@ -1,0 +1,24 @@
+.searchmodule.results {
+	
+}
+.searchmodule.results .searched_for{
+	display:block;
+	padding:5px;
+	border-top:1px dotted #999;
+	border-bottom:1px dotted #999;
+	margin:0 0 15px 0;
+}
+.searchmodule.results .item {
+	padding:5px;
+	margin: 0 0 10px 0;
+	border:1px dotted #999;
+}
+
+.searchmodule.results .item .summary {
+	color:#888;
+}
+.searchmodule.results .item .summary b {
+	background:#ffe39c;
+	border:1px dotted #fdb827 ;
+	color:#444;
+}

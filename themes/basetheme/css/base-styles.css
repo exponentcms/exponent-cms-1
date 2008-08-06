@@ -74,6 +74,21 @@ p,fieldset,table,pre {
 	/*so things don't run into each other*/
 	margin-bottom:1em;
 }
-/* setting a consistent width, 160px; 
-   control of type=file still not possible */
-input[type=text],input[type=password],textarea{width:12.25em;*width:11.9em;}
+img {
+	border:none;
+}
+
+a.readmore {
+	padding-left: 15px;
+    background-image: url(../images/icons/readmore.gif);
+    background-repeat: no-repeat;
+}
+a.readmore:hover {
+	background-image: url(../images/icons/readmore.gif);
+	background-repeat: no-repeat;
+}
+
+a.rsslink img {
+	border: 0;
+}
+
