@@ -86,9 +86,10 @@ function exponent_theme_loadRequiredCSS() {
  * root of your theme, then in themes/common/css/
  * @node Subsystems:Theme
  */
-function exponent_theme_includeThemeCSS($files = array()) {
+function exponent_theme_includeThemeCSS($files) {
 	global $css_files;
-	if (empty($files)) {
+
+	if (is_bool($files)) {
 		global $css_files;
 		//exponent_theme_resetCSS();
 		//exponent_theme_loadYUICSS(array('menu'));
@@ -107,12 +108,13 @@ function exponent_theme_includeThemeCSS($files = array()) {
 				}
 			}
 		}
-	} else {	
+	} else {
+		//eDebug($files);
 		foreach ($files as $file) {
-			if (is_readable( BASE . 'themes/'.DISPLAY_THEME.'/css/'.$file)) {
-				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME.'/css/'.$file;
-			} elseif (is_readable(BASE . 'themes/'.DISPLAY_THEME.'/'.$file)) {
-				$css_files[] = URL_FULL.'themes/'.DISPLAY_THEME.'/'.$file;
+			if (is_readable( BASE . 'themes/'.DISPLAY_THEME.'/css/'.$file.".css")) {
+				$css_files["usertheme-".substr($file,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME.'/css/'.$file.".css";
+			} elseif (is_readable(BASE . 'themes/'.DISPLAY_THEME.'/'.$file.".css")) {
+				$css_files["usertheme-".substr($file,0,-4)] = URL_FULL.'themes/'.DISPLAY_THEME.'/'.$file.".css";
 			}
 		}
 	}
@@ -232,7 +234,7 @@ function headerInfo($config) {
 	//load all configs from user's theme
 	if(!empty($config['reset-fonts-grids'])) exponent_theme_resetCSS();
 	if($config['include-common-css']!=false) exponent_theme_loadCommonCSS();
-	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS();
+	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS($config['include-theme-css']);
 	
 	// Build the CSS file
 	exponent_theme_buildCSSFile($cssfile);
