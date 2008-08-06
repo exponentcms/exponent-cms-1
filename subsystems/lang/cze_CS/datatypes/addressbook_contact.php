@@ -7,7 +7,7 @@ return array(
 	'sort_first_desc'=>'Podle křestního jména, obrácené abecední pořadí',
 	'sort_entries'=>'Řadit položky',
 	'save'=>'Save',
-	'cancel'=>'Cancel'
+	'cancel'=>'Cancel',
 	
 	'save'=>'Uložit',
 	'cancel'=>'Zrušit'
