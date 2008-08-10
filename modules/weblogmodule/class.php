@@ -33,7 +33,7 @@ class weblogmodule {
 
                 //Get this modules items
                 $items = array();
-                $items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."'", 'posted DESC');
+                $items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."' AND is_private != 1", 'posted DESC');
 
                 //Convert the newsitems to rss items
                 $rssitems = array();
