@@ -51,9 +51,9 @@
 <div class="attribution">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 <div>{$post->body|summarize:html:para}</div>
 <p class="post-footer align-left">
-	<a class="readmore" href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}</a> |
+	<a class="readmore" href="{link module=weblogmodule action=findByTitle title=$post->title}">{$_TR.read_more}</a> |
 	{if $config->allow_comments}
-		<a class="comments" href="{link action=view id=$post->id}">Comment{if $post->total_comments != 1}s{/if} ({$post->total_comments})</a> |
+		<a class="comments" href="{link action=findByTitle title=$post->title}">Comment{if $post->total_comments != 1}s{/if} ({$post->total_comments})</a> |
 	{/if}
 	<span class="date">{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</span>
 </p>
