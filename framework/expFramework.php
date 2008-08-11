@@ -19,8 +19,8 @@
 
 function renderAction(array $parms=array()) {
 	//Get some info about the controller
-	$baseControllerName = $parms['controller'];
-	$fullControllerName = $parms['controller'].'Controller';
+	$baseControllerName = getControllerName($parms['controller']);
+	$fullControllerName = getControllerClassName($parms['controller']);
 	$controllerClass = new ReflectionClass($fullControllerName);
 
 	// Figure out the action to use...if the specified action doesn't exist then
@@ -126,9 +126,9 @@ function show_msg_queue() {
 }
 
 function assign_to_template(array $vars=array()) {
-	if (count($vars) == 0) return false;
-
 	global $template;
+	
+	if (empty($template) || count($vars) == 0) return false;
 	foreach ($vars as $key=>$val) {
 		$template->assign($key, $val);
 	}
@@ -156,6 +156,80 @@ function get_template_for_action($controller, $action) {
 		return new template('scaffold', 'blank', $loc, false, 'controllers');
 	}
 	
+}
+
+function viewExists($controller, $action) {
+	$basepath = BASE.'framework/views/'.$controller.'/'.$action.'.tpl';
+	$themepath = BASE.'themes/'.DISPLAY_THEME_REAL.'/framework/views/'.$controller.'/'.$action.'.tpl';
+	return (file_exists($basepath) || file_exists($themepath)) ? true : false;
+}
+
+function controllerExists($controllername='') {
+	$ctldir = BASE.'framework/controllers/'.getControllerClassName($controllername).'.php';
+	$expdir = BASE.'framework/lib/controllers/'.getControllerClassName($controllername).'.php';
+	$ret = false;
+	if (is_readable($ctldir) || is_readable($expdir)) $ret = true;
+	return $ret;
+}
+
+function getControllerClassName($controllername) {
+	if (empty($controllername)) return null;
+	return (substr($controllername, -10) == 'Controller') ? $controllername : $controllername.'Controller';
+}
+
+function getControllerName($controllername) {
+	if (empty($controllername)) return null;
+        return (substr($controllername, -10) == 'Controller') ? substr($controllername, 0, -10) : $controllername;
+}
+
+function getController($controllername='') {
+	$fullname = getControllerClassName($controllername);
+	if (controllerExists($controllername))  {
+		$controller = new $fullname();
+		return $controller;
+	} else {
+		return null;
+	}
+}
+
+function listControllers() {
+	$ctls = array();
+        if (is_readable(BASE."framework/controllers")) {
+                $dh = opendir(BASE."framework/controllers");
+                while (($file = readdir($dh)) !== false) {
+                        if (substr($file,-4) == ".php") {
+                                //$controllername = substr($file, 0, -14);
+                                $controllername = substr($file, 0, -4);
+                                $ctls[] = $controllername;
+                        }
+                }
+        }
+        return $ctls;
+}
+
+function getModulesAndControllers() {
+	$mods = exponent_modules_listActive();
+	$ctls = listControllers();
+	return array_merge($ctls, $mods);
+}
+
+function makeLocation($mod=null,$src=null,$int=null) {
+        $loc = null;
+        $loc->mod = ($mod ? $mod : "");
+        $loc->src = ($src ? $src : "");
+        $loc->int = ($int ? $int : "");
+        return $loc;
+}
+
+function object2Array($object=null) {
+	$ret_array = array();
+        if(empty($object)) return $ret_array;
+
+        foreach($object as $key=>$value) {
+        	$ret_array[$key] = $value;
+        }
+
+        return $ret_array;
 }
 
 ?>

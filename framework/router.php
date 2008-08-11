@@ -34,9 +34,9 @@ class router {
 		$linkbase = (ENABLE_SSL ? NONSSL_URL : URL_BASE);
 		$linkbase .= SCRIPT_RELATIVE;
 
-			if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
-					return $linkbase;
-			}
+		if (isset($params['section']) && $params['section'] == SITE_DEFAULT_SECTION) {
+				return $linkbase;
+		}
 
 		// Check to see if SEF_URLS have been turned on in the site config
 		if (SEF_URLS == 1 && ($_SERVER["PHP_SELF"] == PATH_RELATIVE.'index.php') && $force_old_school == false) {
@@ -64,18 +64,18 @@ class router {
 					if (count($missing_params) == 0) {
 						foreach($this->maps[$i]['url_parts'] as $key=>$value) {
 							if ($key == 'controller') {
-								$link .= $value."/";
+								$link .= urlencode($value)."/";
 							} else {
-								$link .= $params[$key]."/";
+								$link .= urlencode($params[$key])."/";
 							}
 						}
-						break;	// if this hits then we've found a match
+						break;  // if this hits then we've found a match
 					}
 				}
 
 				// if we found a mapping for this link then we can return it now.
-				//if ($link != '') return router::encode($linkbase.$link);
-				if ($link != '') return urlencode($linkbase.$link);
+				//if ($link != '') return expRouter::encode($linkbase.$link);
+				if ($link != '') return $linkbase.$link;
 				
 						$link .= $params['controller'].'/';
 						$link .= $params['action'].'/';
@@ -128,18 +128,26 @@ class router {
 			if ($this->url_type == 'page' || $this->url_type == 'base') {
 				$this->routePageRequest();				// if we hit this the formating of the URL looks like the user is trying to go to a page.
 			} elseif ($this->url_type == 'action') {
-				if (!$this->isMappedURL()) {			//if this URL is handled via the map file then this function will route it
-					$ret = $this->routeActionRequest();		// we didn't have a map for this URL.  Try to route it with this function.
+				$this->isMappedURL();  				//check for a router map
+				$ret = $this->routeActionRequest();  		// we didn't have a map for this URL.  Try to route it with this function.
 
-					// if this url wasn't a valid section, or action then kill it.	It might not actually be a "bad" url, 
-					// but this is a precautionary measure against bad paths on images, css & js file, etc...with the new
-					// mod_rewrite rules these bad paths will not route thru here so we need to take them into account and
-					// deal with them accordingly.
-					if (!$ret) $this->url_type == 'malformed';	
-				}
+				// if this url wasn't a valid section, or action then kill it.  It might not actually be a "bad" url, 
+				// but this is a precautionary measure against bad paths on images, css & js file, etc...with the new
+				// mod_rewrite rules these bad paths will not route thru here so we need to take them into account and
+				// deal with them accordingly.
+				if (!$ret) $this->url_type == 'malformed';  
 			} elseif ($this->url_type == 'post') {
-				// no need to do anything for POST data.  All the module/controller/action info comes thru the POST vars..
-				// we can just let them trickle down to exponent.php && index.php
+				// some forms aren't getting the controller field set right when the form is created
+				// we are putting this check here to safe gaurd against a controller being referred to as 
+				// a module in the form.
+				if (!empty($_POST['controller']) || !empty($_POST['module'])) {
+					$module = !empty($_POST['controller']) ? $_POST['controller'] : $_POST['module'];
+					// Figure out if this is module or controller request - WE ONLY NEED THIS CODE UNTIL WE PULL OUT THE OLD MODULES
+                			if (is_readable(BASE.'framework/controllers/'.$module.'Controller.php')) {
+		        	                $_POST['controller'] = $module;
+		        	                $_REQUEST['controller'] = $module;
+                			}
+				}
 			}
 		} elseif ($this->url_style == 'query' && SEF_URLS == 1 && !empty($_REQUEST['section'])) {
 			// if we hit this it's an old school url coming in and we're trying to use SEF's. 
@@ -155,8 +163,8 @@ class router {
 		}
 		
 		// this will track the browse history - helps keep track of flow and will be the start of the user behavior tracking
+		// Moved to the index so we have access to $section. - RAM
 		//$this->updateHistory();
-
 	}
 
 	private function updateHistory() {
@@ -194,13 +202,13 @@ class router {
 				$this->url_type = 'post';
 			} else {
 				// take a peek and see if a page exists with the same name as the first value...if so we probably have a page with
-								// extra perms...like printerfriendly=1 or ajax=1;
-								global $db;
-								if ( ($db->selectObject('section', "sef_name='".$this->url_parts[0]."'") != null) && (in_array('printerfriendly', $this->url_parts))) {
-										$this->url_type = 'page';
-								} else {
-										$this->url_type = 'action';
-								}
+				// extra perms...like printerfriendly=1 or ajax=1;
+				global $db;
+				if ( ($db->selectObject('section', "sef_name='".$this->url_parts[0]."'") != null) && (in_array('printerfriendly', $this->url_parts))) {
+						$this->url_type = 'page';
+				} else {
+						$this->url_type = 'action';
+				}
 			}
 
 			$this->params = $this->convertPartsToParams();
@@ -236,10 +244,8 @@ class router {
 			$pairs = array();
 			$i = 0;
 			if ($part_count == count($map['url_parts'])) {
-				//echo "Count match<br>";
 				foreach($map['url_parts'] as $key=>$map_part) {
 					$res = preg_match("/$map_part/", $this->url_parts[$i]);
-					//echo "MATCHES: $res<br>";
 					if ($res != 1) {
 						$matched = false;
 						break;
@@ -249,14 +255,26 @@ class router {
 				}
 			} else {
 				$matched = false;
-				//echo "Match ruled out due to count difference<br>";
 			}
 
 			if ($matched) {
-				$return_params['controller'] = $map['controller'];
-				$return_params['action'] = $map['action'];
-				$return_params['url_parts'] = $pairs;
-				//echo "A complete match was found...breaking loop now <br>";
+				// safeguard against false matches when a real action was what the user really wanted.
+				if (method_exists(getController($this->url_parts[0]), $this->url_parts[1])) return false;
+
+				$this->url_parts[0] = $map['controller'];
+				$this->url_parts[1] = $map['action'];
+		
+				if (isset($map['view'])) {
+					$this->url_parts[2] = 'view';
+					$this->url_parts[3] = $map['view'];
+				}
+
+				foreach($pairs as $key=>$value) {
+					if ($key != 'controller') {
+						$this->url_parts[] = $key;
+						$this->url_parts[] = $value;
+					}
+				}
 				return true;
 			}
 		}
@@ -267,7 +285,7 @@ class router {
 		$return_params = array('controller'=>'','action'=>'','url_parts'=>array());
 	
 		// If we have three url parts we assume they are controller->action->id, otherwise split them out into name<=>value pairs
-		$return_params['controller'] = $this->url_parts[0];		// set the controller/module
+		$return_params['controller'] = $this->url_parts[0];	// set the controller/module
 		$return_params['action'] = $this->url_parts[1];		// set the action
 
 		// Figure out if this is module or controller request - WE ONLY NEED THIS CODE UNTIL WE PULL OUT THE OLD MODULES
@@ -300,8 +318,8 @@ class router {
 		// Set the action for this module or controller
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// most of the time we can just grab the action outta the POST array since this is passed as a hidden field, 
-						// but sometimes it is actually set as the action on the form itself...then we get it from the params array instead.
-						$action = !empty($_POST['action']) ? $_POST['action'] : $this->params['action'];
+			// but sometimes it is actually set as the action on the form itself...then we get it from the params array instead.
+			$action = !empty($_POST['action']) ? $_POST['action'] : $this->params['action'];
 		} else {
 			$action = $return_params['action'];
 		}
@@ -315,7 +333,7 @@ class router {
 			//$save_value = is_numeric($value) ? $value: router::decode($value);
 			$save_value = $value;
 			$_REQUEST[$key] = $save_value;
-				$_GET[$key] = $save_value;
+			$_GET[$key] = $save_value;
 		}
 
 		return true;
@@ -333,7 +351,7 @@ class router {
 
 	public static function encode($url) {
 		$url = str_replace('&', 'and', $url);
-				return preg_replace("/(-)$/", "", preg_replace('/(-){2,}/', '-', strtolower(preg_replace("/([^0-9a-z-_\+])/i", '-', $url))));	
+		return preg_replace("/(-)$/", "", preg_replace('/(-){2,}/', '-', strtolower(preg_replace("/([^0-9a-z-_\+])/i", '-', $url))));	
 	}
 	
 	public static function decode($url) {
