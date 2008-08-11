@@ -98,22 +98,22 @@ class router {
 			// if the users don't have SEF URL's turned on then we make the link the old school way.
 			if (!empty($params['sef_name'])) unset($params['sef_name']);
 			$link = $linkbase . SCRIPT_FILENAME . "?";
-					foreach ($params as $key=>$value) {
-							$value = chop($value);
-							$key = chop($key);
-							if ($value != "") {
-								if ($key != 'src') {
-									$link .= urlencode($key)."=".urlencode($value)."&";
-								} else {
-									$link .= $key."=".$value."&";
-								}
-								
+				foreach ($params as $key=>$value) {
+						$value = chop($value);
+						$key = chop($key);
+						if ($value != "") {
+							if ($key != 'src') {
+								$link .= urlencode($key)."=".urlencode($value)."&";
+							} else {
+								$link .= $key."=".$value."&";
 							}
-					}
+							
+						}
+				}
 
-					$link = substr($link,0,-1);
-					return $link; // phillip: removed htmlspecialchars so that links return without parsing & to &amp; in URL strings
-					//return htmlspecialchars($link,ENT_QUOTES);
+				$link = substr($link,0,-1);
+				return $link; // phillip: removed htmlspecialchars so that links return without parsing & to &amp; in URL strings
+				//return htmlspecialchars($link,ENT_QUOTES);
 		}
 	}
 

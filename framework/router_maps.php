@@ -16,15 +16,24 @@
 #
 ##################################################
 $maps = array();
-/*
+
 // Find news by the title of the news post.  URL would look like news/my-post-title
-$maps[] = array('controller'=>'news',
+$maps[] = array('controller'=>'weblogmodule',
+		'action'=>'findByTitle',
+		'url_parts'=>array(
+				'controller'=>'blog',
+				'title'=>'(.*)'),
+);
+
+// Find news by the title of the news post.  URL would look like news/my-post-title
+$maps[] = array('controller'=>'newsmodule',
 		'action'=>'findByTitle',
 		'url_parts'=>array(
 				'controller'=>'news',
 				'title'=>'(.*)'),
 );
 
+/*
 // Find news by the date of the news post.  URL would look like news/2007/10/18 to find all the posts on Oct 18, 2007
 $maps[] = array('controller'=>'news',
 		'action'=>'findByDate',
