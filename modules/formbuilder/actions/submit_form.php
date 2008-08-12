@@ -104,33 +104,29 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 		$template->assign("is_email",1);
 		$emailHtml = $template->render();
 		
-		if (count($emaillist)) {
-			//This is an easy way to remove duplicates
-			$emaillist = array_flip(array_flip($emaillist));
-			
-			if (count($emaillist)) {
-				//This is an easy way to remove duplicates
-				$emaillist = array_flip(array_flip($emaillist));
-				
-				if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
-				$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
-				$headers = array(
-					"MIME-Version"=>"1.0",
-					"Content-type"=>"text/html; charset=".$langinfo['charset']
-				);
-				$mail = new exponentMail();
-				$mail->addHTML($emailHtml);
-				foreach ($emaillist as $email) {
-					$mail->addTo($email);
-					$mail->send();
-					$mail->flushRecipients();
-				}
-				/*
-				if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
-					$i18n = exponent_lang_loadFile('modules/formbuilder/actions/submit_form.php');
-					echo $i18n['err_smtp'];
-				}
-				*/
+		 if (count($emaillist)) {
+        //This is an easy way to remove duplicates
+        $emaillist = array_flip(array_flip($emaillist));
+
+        if (count($emaillist)) {
+                if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+                $langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
+                $headers = array(
+                        "MIME-Version"=>"1.0",
+                        "Content-type"=>"text/html; charset=".$langinfo['charset']
+                );
+                $mail = new exponentMail();
+                $mail->subject($f->subject);
+                $mail->addHTML($emailHtml);
+                $mail->addTo($emaillist);
+                $mail->batchSend();
+                /*
+                if (exponent_smtp_mail($emaillist,"",$f->subject,$emailHtml,$headers) == false) {
+                        $i18n = exponent_lang_loadFile('modules/formbuilder/actions/submit_form.php');
+                        echo $i18n['err_smtp'];
+                }
+                */
+        }
 			}
 		}
 	}
