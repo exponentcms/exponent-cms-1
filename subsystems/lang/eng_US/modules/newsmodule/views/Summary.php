@@ -17,6 +17,7 @@ return array(
 	'alt_revisions'=>'View Revision History for this News Item',
 	'revisions'=>'Revisions',
 
+	'read_more'=>'Read More',
 	'view_all'=>'More News...',
 	'create_news'=>'Create News',
 	'view_approval'=>'View Approval',
