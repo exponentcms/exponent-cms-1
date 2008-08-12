@@ -21,27 +21,31 @@ if (!defined("EXPONENT")) exit("");
 
 $cols = $db->selectObjects('formbuilder_control', 'form_id='.intval($_POST['id']));
 foreach($cols as $col) {
-	$coldef = unserialize($col->data);
-	$coldata = new ReflectionClass($coldef);
+        $coldef = unserialize($col->data);
+        $coldata = new ReflectionClass($coldef);
         $coltype = $coldata->getName();
-	if (!empty($_POST[$col->name])) {
-		if ($coltype == 'checkboxcontrol') {
-			$responses[$col->caption] = 'Yes';
-		} else {
-			$responses[$col->caption] = $_POST[$col->name];
-		}
-	} else {
-		if ($coltype == 'uploadcontrol') {
-			if (!empty($_FILES[$col->name]['error'])) validator::failAndReturnToForm('An error was encounter while trying to upload your file', $_POST);
-			$_POST[$col->name] = call_user_func(array('uploadcontrol','moveFile'),$col->name,$_FILES,true);
-                        $responses[$col->caption] = $_FILES[$col->name]['name'];
-		} elseif ($coltype == 'checkboxcontrol') {
-                        $responses[$col->caption] = 'No';
+        if ($coltype != "htmlcontrol"){
+                $responses[$col->name]['caption'] = $col->caption;
+                $value = call_user_func(array($coltype,'parseData'),$col->name,$_POST,true);
+                $value = call_user_func(array($coltype,'templateFormat'),$value,$coldef);
+                if (!empty($_POST[$col->name])) {
+                        if ($coltype == 'checkboxcontrol') {
+                                $responses[$col->name]['value'] = 'Yes';
+                        } else {
+                                $responses[$col->name]['value'] = $value; //$_POST[$col->name];
+                        }
                 } else {
-                        $responses[$col->caption] = '';
-                }	
-	}
+                        if ($coltype == 'checkboxcontrol') {
+                                $responses[$col->name]['value'] = 'No';
+                        }else if ($coltype=='datetimecontrol'){
+                                $responses[$col->name]['value'] = $value;
+                        }else {
+                                $responses[$col->name]['value'] = '';
+                        }
+                }
+        }
 }
+
 // remove some post data we don't want to pass thru to the form
 unset($_POST['action']);
 unset($_POST['module']);
@@ -53,3 +57,4 @@ $template->assign('postdata', $_POST);
 $template->output();
 
 ?>
+

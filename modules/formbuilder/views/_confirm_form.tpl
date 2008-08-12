@@ -15,24 +15,24 @@
  *}
 
 <div class="formbuilder confirm-form">
-	<h1>Please confirm your submission</h1>
-	<table width="90%">
-	<th>Field</th>
-	<th>Your Response</th>
-	{foreach from=$responses item=response key=name}
-		<tr>
-			<td><strong>{$name}: </strong>
-			<td>{$response}</td>
-		</tr>
-	{/foreach}	
-	</table>
+        <h1>Please confirm your submission</h1>
+        <table width="90%">
+        <th>Field</th>
+        <th>Your Response</th>
+        {foreach from=$responses item=response key=name}
+                <tr>
+                        <td><strong>{$response.caption}: </strong>
+                        <td>{$response.value}</td>
+                </tr>
+        {/foreach}
+        </table>
 
-	<p>If the information above looks correct, fill out the security question below to submit your form submission</p>
-	{form action=submit_form}
-		{foreach from=$postdata item=data key=name}
-			{control type=hidden name=$name value=$data}
-		{/foreach}
-		{control type=captcha}
-		{control type=buttongroup submit="Submit Form" cancel="Change Responses"}
-	{/form}
-</div> 
+        <p>If the information above looks correct, fill out the security question below to submit your form submission</p>
+        {form action=submit_form}
+                {foreach from=$postdata item=data key=name}
+                        {control type=hidden name=$name value=$data}
+                {/foreach}
+                {control type=captcha}
+                {control type=buttongroup submit="Submit Form" cancel="Change Responses"}
+        {/form}
+</div>
