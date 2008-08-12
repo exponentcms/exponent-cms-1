@@ -55,7 +55,7 @@ require_once(BASE."subsystems/forms/controls/formcontrol.php");
 
 	function toHTML($label,$name) {
 		if ($this->span) {
-			return '<div>' . $this->html . '</div>';
+			return '<div class="control htmlcontrol">' . $this->html . '</div>';
 		} else {
 			return parent::toHTML($label,$name);
 		}

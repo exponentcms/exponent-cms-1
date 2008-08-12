@@ -52,12 +52,13 @@ class fakeform extends form {
 		$html .= $formError;
 		$html .= "<form name=\"" . $this->name . "\" method=\"" . $this->method . "\" action=\"" . $this->action . "\" enctype=\"".$this->enctype."\">\r\n";
 		foreach ($this->meta as $name=>$value) $html .= "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />\r\n";
-		$html .= "<table cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\r\n";
 		$rank = 0;
+		$even = "odd";
 		foreach ($this->controlIdx as $name) {
-			$html .= "<tr><td valign=\"top\">".$this->controlLbl[$name]."</td><td style='padding-left: 5px;' valign=\"top\">";
-			$html .= $this->controls[$name]->controlToHTML($name) . "\r\n";
-			$html .= "<td>";
+			$even = ($even=="odd") ? "even" : "odd";
+			$html .= "<div class=\"formmoduleedit ".$even." control\">";
+			$html .= "<div class=\"label\">".$this->controlLbl[$name]."</div>";
+			$html .= "<div class=\"formmoduleeditactions\">";
 			if ($rank != count($this->controlIdx)-1) {
 				//$html .= '<a href="?module='.$module.'&action=order_controls&p='.$form_id.'&a='.$rank.'&b='.($rank+1).'">';
 				$html .= '<a href="'.$router->makeLink(array('module'=>$module, 'action'=>'order_controls', 'p'=>$form_id, 'a'=>$rank, 'b'=>($rank+1))).'">';
@@ -96,13 +97,15 @@ class fakeform extends form {
 			}
 			$html .= '<img style="border:none;" src="'.ICON_RELATIVE.'delete.png" />';
 			$html .= '</a>';
-			$html .= "</td>";
-			$html .= "</td></tr>";
-
+			$html .= "</div>";
+			$html .= $this->controls[$name]->controlToHTML($name) . "\r\n";
+			$html .= "</div>";
+			
 			$rank++;
+			
 		}
-		$html .= "<tr><td width='5%'></td><td wdith='90%'><td></td width='5%'></tr>\r\n";
-		$html .= "</table>\r\n";
+	//	$html .= "<tr><td width='5%'></td><td wdith='90%'><td></td width='5%'></tr>\r\n";
+	//	$html .= "</table>\r\n";
 		$html .= "</form>\r\n";
 		return $html;
 	}

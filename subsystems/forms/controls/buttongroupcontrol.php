@@ -69,7 +69,7 @@ class buttongroupcontrol extends formcontrol {
 
 	function toHTML($label,$name) {
 		if ($this->submit . $this->reset . $this->cancel == "") return "";
-		$html = "<div id=\"".$name."Control\" class=\"control\">";
+		$html = "<div id=\"".$name."Control\" class=\"control buttongroup\">";
 		$html .= $this->controlToHTML($name);
 		$html .= "</div>";			
 		return $html;
