@@ -11,6 +11,7 @@ function addSelectedItem(name) {
 		var sText = document.getElementById("source_" + name).value;
 		var ptChoices = document.getElementById("dest_" + name);
 		if (sText != "") {
+			sText = sText.replace(/^\s+|\s+$/g, '');
 			var newopt = document.createElement("OPTION")
 			newopt.text = sText;
 			newopt.value = sText;
