@@ -29,3 +29,8 @@ a.viewmorenews{
 	background:url(../images/icons/viewallnews.png) no-repeat 0 50%;
 	_background:url(../images/icons/viewallnews.gif) no-repeat 0 50%;
 }
+
+a.rsslink {
+        background:url(../images/icons/feed-icon.png) no-repeat 3px 50%;
+        padding-left:18px;
+}
