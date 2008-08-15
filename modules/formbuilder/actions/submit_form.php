@@ -129,7 +129,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
         }
 			}
 		}
-	}
+	
 
 	// clear the users post data from the session.
 	exponent_sessions_unset('formmodule_data_'.$f->id);
