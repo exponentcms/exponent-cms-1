@@ -19,7 +19,7 @@
 	
 if (!defined("EXPONENT")) exit("");
 
-$cols = $db->selectObjects('formbuilder_control', 'form_id='.intval($_POST['id']));
+$cols = $db->selectObjects('formbuilder_control', 'form_id='.intval($_POST['id']) . ' ORDER BY rank');
 foreach($cols as $col) {
         $coldef = unserialize($col->data);
         $coldata = new ReflectionClass($coldef);
