@@ -89,8 +89,8 @@
 	</div>	
 	<div class="quoteandreply">
 		{if $permissions.reply == 1}
-			<a href="{link action=edit_post parent=$thread->id }"><img src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}"><img src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
+			<a href="{link action=edit_post parent=$thread->id }"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{else}
 			<a href="{link module=loginmodule action=loginredirect redirecturl=$__redirect}">Login to reply to this topic.</a>
 		{/if}
@@ -105,12 +105,12 @@
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_post == 1 || $reply->poster->id == $currentuser->id}
 					<a href="{link action=edit_post id=$reply->id}">
-					<img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 					</a>
 				{/if}
 				{if $permissions.delete_thread == 1 || $reply->poster->id == $currentuser->id}
 					<a href="{link action=delete_post id=$reply->id}">
-					<img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 					</a>
 				{/if}
 			{/permissions}
@@ -119,7 +119,7 @@
 			<h3>{$reply->poster->username}</h3>
 			<div class="avitar">
 				{if $reply->poster->avatar_path != ""}
-					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" ><img src="{$reply->poster->avatar_path}" /></a>
+					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" ><img class="mngmnt_icon" style="border:none;" src="{$reply->poster->avatar_path}" /></a>
 				{/if}
 				{if $reply->poster->bb_user->hide_online_status != 0}<br />
 					I'm Online
@@ -155,14 +155,14 @@
 		</div><br />
 		<div class="quoteandreply">
 		{if $permissions.reply == 1}
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}"><img src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{/if}
 		</div>		
 	</div>
 {/foreach}
 
 {if $permissions.reply == 1}
-<br /><a href="{link action=edit_post parent=$thread->id}"><img src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+<br /><a href="{link action=edit_post parent=$thread->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
 {else}
   {if $loggedin == 1}
     You are not allowed to post to this topic
