@@ -27,7 +27,12 @@
         {/foreach}
         </table>
 
-        <p>If the information above looks correct, fill out the security question below to submit your form submission</p>
+	{if $smarty.const.SITE_USE_CAPTCHA == 1}
+		<p>If the information above looks correct, fill out the security question below and submit your form.</p>
+        {else}
+                <p>If the information above looks correct, submit your form below.</p>
+        {/if}
+
         {form action=submit_form}
                 {foreach from=$postdata item=data key=name}
                         {control type=hidden name=$name value=$data}
