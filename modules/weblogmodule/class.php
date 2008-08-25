@@ -29,25 +29,25 @@ class weblogmodule {
 	function supportsWorkflow() { return false; }
 
 	function getRSSContent($loc) {
-                global $db;
+				global $db;
 
-                //Get this modules items
-                $items = array();
-                $items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."' AND is_private != 1", 'posted DESC');
+				//Get this modules items
+				$items = array();
+				$items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."' AND is_private != 1", 'posted DESC');
 
-                //Convert the newsitems to rss items
-                $rssitems = array();
-                foreach ($items as $key => $item) {
-                        $rss_item = new FeedItem();
-                        $rss_item->title = $item->title;
-                        $rss_item->description = $item->body;
-                        $rss_item->date = date('r', $item->posted);
-                        //$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
-                        $rss_item->link = exponent_core_makeLink(array('module'=>'weblogmodule', 'action'=>'view', 'id'=>$item->id));
-                        $rssitems[$key] = $rss_item;
-                }
-                return $rssitems;
-        }
+				//Convert the newsitems to rss items
+				$rssitems = array();
+				foreach ($items as $key => $item) {
+						$rss_item = new FeedItem();
+						$rss_item->title = $item->title;
+						$rss_item->description = $item->body;
+						$rss_item->date = date('r', $item->posted);
+						//$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
+						$rss_item->link = exponent_core_makeLink(array('module'=>'weblogmodule', 'action'=>'view', 'id'=>$item->id));
+						$rssitems[$key] = $rss_item;
+				}
+				return $rssitems;
+		}
 
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/weblogmodule/class.php');
@@ -102,16 +102,16 @@ class weblogmodule {
 		}
 
 		//If rss is enabled tell the view to show the RSS button
-                if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
 		
 		$template->assign('enable_rss', $config->enable_rss);
 
 		//Get the tags that have been selected to be shown in the grouped by tag views
 		//if (isset($config->show_tags)) {
-    //    		$available_tags = unserialize($config->show_tags);
-    //    	} else {
-    //    		$available_tags = array();
-    //    	}
+	//			$available_tags = unserialize($config->show_tags);
+	//		} else {
+	//			$available_tags = array();
+	//		}
 
 		$viewconfig = array('type'=>'default');
 		if (is_readable($template->viewdir."/$view.config")) {
@@ -121,17 +121,17 @@ class weblogmodule {
 		// If this module has been configured to aggregate then setup the where clause to pull
 		// posts from the proper blogs.
 		$locsql = "(location_data='".serialize($loc)."'";
-                if (!empty($config->aggregate)) {
-                        $locations = unserialize($config->aggregate);
-                        foreach ($locations as $source) {
-                                $tmploc = null;
-                                $tmploc->mod = 'weblogmodule';
-                                $tmploc->src = $source;
-                                $tmploc->int = '';
-                                $locsql .= " OR location_data='".serialize($tmploc)."'";
-                        }
-                }
-                $locsql .= ')';
+				if (!empty($config->aggregate)) {
+						$locations = unserialize($config->aggregate);
+						foreach ($locations as $source) {
+								$tmploc = null;
+								$tmploc->mod = 'weblogmodule';
+								$tmploc->src = $source;
+								$tmploc->int = '';
+								$locsql .= " OR location_data='".serialize($tmploc)."'";
+						}
+				}
+				$locsql .= ')';
 
 		$where = '(is_draft = 0 OR poster = '.$user_id.") AND ".$locsql;
 		if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
@@ -156,13 +156,13 @@ class weblogmodule {
 			} while ($start_month < $max_date);
 			$template->assign('months',array_reverse($months,true));
 		} else if ($viewconfig['type'] == 'byauthor') {
-                        $users = $db->selectColumn('weblog_post', 'distinct(poster)', $where);
-                        $authors = $db->selectObjectsInArray('user', $users, 'username');
-                        for($i=0; $i < count($authors); $i++) {
-                                $authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
-                        }
-                        $template->assign('authors', $authors);
-		} else if ($viewconfig['type'] == 'bytag') {                       
+						$users = $db->selectColumn('weblog_post', 'distinct(poster)', $where);
+						$authors = $db->selectObjectsInArray('user', $users, 'username');
+						for($i=0; $i < count($authors); $i++) {
+								$authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
+						}
+						$template->assign('authors', $authors);
+		} else if ($viewconfig['type'] == 'bytag') {					   
 			$post_tags = $db->selectColumn('weblog_post', 'tags', $where);
 			$all_tags = $db->selectObjects('tags');
 			for ($i = 0; $i < count($post_tags); $i++) {
@@ -185,7 +185,7 @@ class weblogmodule {
 			for ($i = 0; $i < count($month_days); $i++) {
 				foreach ($month_days[$i] as $mday=>$timestamp) {
 					if ($mday > 0) {
-						// Got a valid one.  Go with it.
+						// Got a valid one.	 Go with it.
 						$month_days[$i][$mday]['number'] = $db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp .' AND posted < '.strtotime('+1 day',$timestamp['ts']));
 					}
 				}
@@ -216,8 +216,8 @@ class weblogmodule {
 
 				//Get the tags for this weblogitem
 				$selected_tags = array();
-		        	$tag_ids = unserialize($posts[$i]->tags);
-		        	if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+					$tag_ids = unserialize($posts[$i]->tags);
+					if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 				$posts[$i]->tags = $selected_tags;
 				$posts[$i]->selected_tags = $selected_tags;							
 			}
@@ -226,7 +226,7 @@ class weblogmodule {
 			$template->assign('total_posts',$total);
 		}
 		
-		$template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
+		if (!empty($config->collections)) $template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 
 		$template->register_permissions(
 			array('administrate','configure','post','edit','delete','comment','edit_comments','delete_comments','view_private'),
@@ -239,7 +239,7 @@ class weblogmodule {
 	function deleteIn($loc) {
 		global $db;
 		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
-                if ($refcount <= 0) {
+				if ($refcount <= 0) {
 			foreach ($db->selectObjects('weblog_post',"location_data='".serialize($loc)."'") as $post) {
 				$db->delete('weblog_comment','parent_id='.$post->id);
 			}
@@ -269,8 +269,8 @@ class weblogmodule {
 	}
 
 	function searchName() {
-                return "Weblogs";
-        }
+				return "Weblogs";
+		}
 
 	function spiderContent($item = null) {
 		global $db;
