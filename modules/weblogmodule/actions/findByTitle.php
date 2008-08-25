@@ -21,11 +21,6 @@ if (!defined('EXPONENT')) exit('');
 
 exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
-if ($config == null) {
-	$config->allow_comments = 1;
-}
-
 $where = '';
 if (!exponent_permissions_check('view_private',$loc)) $where = ' AND is_private = 0';
 
@@ -33,9 +28,12 @@ $this_post = null;
 if (isset($_GET['id'])) {
 	$this_post = $db->selectObject('weblog_post','id='.intval($_GET['id']).$where);
 } else if (isset($_GET['title'])) {
-	$this_post = $db->selectObject('weblog_post',"title='".router::decode($_GET['title'])."'".$where);
+	$this_post = $db->selectObject('weblog_post',"title='".urldecode($_GET['title'])."'".$where);
 }
-
+$config = $db->selectObject('weblogmodule_config',"location_data='".$this_post->location_data."'");
+if ($config == null) {
+	$config->allow_comments = 1;
+}
 $where = "location_data='".$this_post->location_data."' AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).")";
 if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
 
@@ -67,7 +65,7 @@ if ($this_post) {
 		);
 		
 		$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id);
-    $this_post->total_comments = count($this_post->comments);
+    		$this_post->total_comments = count($this_post->comments);
 		usort($this_post->comments,'exponent_sorting_byPostedDescending');
 
 		$template = new template('weblogmodule','_view',$loc);
