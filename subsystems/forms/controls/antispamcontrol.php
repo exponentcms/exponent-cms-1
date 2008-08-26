@@ -48,8 +48,7 @@ class antispamcontrol extends formcontrol {
 	function isSimpleControl() { return true; }
 
 	function controlToHTML($name) {
-		$html = '<div class="antispam">This question is being presented to you to try to differentiate between a human submission and
-			a bot in an effort to reduce spam. Please choose the obvious answer below or your inquiry will not be successfully submitted.<br /><br />';
+		$html = '<div class="antispam">To reduce spam, please answer the following question<br /><br />';
 		switch ( rand(1,2) ) {
 			case 1:
 				$html .= '<label>I am not human: <input class="antispamcontrol" type="checkbox" id="checker" name="checker" value="1" checked="checked">(true)</label>';
