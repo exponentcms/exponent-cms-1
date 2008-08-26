@@ -638,6 +638,12 @@ ul.queue.message {
         border: 2px solid #2e6b2e;
         color: #2e6b2e;
 }
+.sys_message {
+	padding:5px;
+	background: #c6f6c6;
+	border: 2px solid #2e6b2e;
+	color: #2e6b2e;
+}
 
 
 /* End Message Que */
