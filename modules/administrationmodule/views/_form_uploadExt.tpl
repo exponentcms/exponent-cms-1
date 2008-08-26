@@ -13,6 +13,12 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
-{$form_html}
+<div id="id" class="module administration upload-extention">
+	<div class="form_header">
+	        <h1>{$_TR.form_title}</h1>
+	        <p>{$_TR.form_header}</p>
+	</div>
+	<div class="bodycopy">
+ 		{$form_html}
+	</div>	
+</div>
