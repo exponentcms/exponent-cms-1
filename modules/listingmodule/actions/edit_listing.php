@@ -50,6 +50,7 @@ if (!defined("EXPONENT")) exit("");
 		$form->meta("action","save_listing");
 				
 		$template = new template("listingmodule","_form_editlisting",$loc);
+		$template->assign("listing",$listing);
 		$template->assign("is_edit",(isset($listing->id) ? 1 : 0));
 		$template->assign("form_html",$form->toHTML());
 		$template->output();

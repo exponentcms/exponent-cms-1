@@ -28,8 +28,18 @@
  *
  * $Id: _form_editlisting.tpl,v 1.2 2005/02/19 16:53:36 filetreefrog Exp $
  *}
-<div class="form_title">{if $is_edit}Edit Listing{else}New Listing{/if}</div>
-<div class="form_header">
-Enter information for this listing below.
+<div class="module listing form-editlisting">
+	<div class="form_header">
+	       <h1>{if $is_edit}Edit Listing{else}New Listing{/if}</h1>
+	       <p>Enter information for this listing below.</p>
+	</div>
+	{form action="save_listing"}
+		{control type="hidden" name="id" value=$listing->id}
+		{control type="text" name="name" value=$listing->name}
+		{control type="textarea" name="summary" id="summary" value=$listing->summary cols=50 rows=10}
+		{control type="editor" name="body" id="body" value=$listing->body}
+		{control type="file" name="upload" label="Upload Picture" value=$listing->body}
+		{control type=buttongroup submit="Save" cancel="Cancel"}
+	{/form}
 </div>
-{$form_html}
+
