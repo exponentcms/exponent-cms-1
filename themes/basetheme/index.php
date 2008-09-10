@@ -16,8 +16,7 @@
 	<div id="doc" class="yui-t2">
 		<div id="hd">
 			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
-			<?php echo $router->printerFriendlyLink('Printer Friendly') ?>
-			<h1 class="logo">Exponent CMS</h1>
+			<h1 id="logo">Exponent CMS</h1>
 			<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
 		</div>
 		<div id="bd">
