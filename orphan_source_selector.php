@@ -66,12 +66,12 @@ if (isset($_REQUEST['hideOthers'])) {
 
 exponent_sessions_set('source_select',$source_select);
 
-$template = new standalonetemplate('orphaned_content');
+$thistemplate = new standalonetemplate('orphaned_content');
 
 ob_start();
 // Include the orphans_modules action of the container, to get a list of modules types with orhpans.
 include_once(BASE.'modules/containermodule/actions/orphans_modules.php');
-$template->assign('modules_output',ob_get_contents());
+$thistemplate->assign('modules_output',ob_get_contents());
 ob_end_clean();
 
 
@@ -79,15 +79,15 @@ if (isset($_GET['module'])) {
 	ob_start();
 	// Include the orphans_content action of the container module, to show all modules of the specified type.
 	include_once(BASE.'modules/containermodule/actions/orphans_content.php');
-	$template->assign('main_output',ob_get_contents());
-	$template->assign('error','');
+	$thistemplate->assign('main_output',ob_get_contents());
+	$thistemplate->assign('error','');
 	ob_end_clean();
 } else if ($db->countObjects('locationref','refcount = 0')) {
-	$template->assign('error','needmodule');
+	$thistemplate->assign('error','needmodule');
 } else {
-	$template->assign('error','nomodules');
+	$thistemplate->assign('error','nomodules');
 }
 
-$template->output();
+$thistemplate->output();
 
 ?>

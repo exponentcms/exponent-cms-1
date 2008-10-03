@@ -28,7 +28,6 @@ if (!defined('EXPONENT')) exit('');
 			$modclass = $orphan->module;
 			$mod = new $modclass();
 			$orphan_mods[$modclass] = $mod->name();
-	
 		}
 	}
 	uasort($orphan_mods,'strnatcmp');
