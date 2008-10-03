@@ -2,6 +2,16 @@ Exponent Content Management System
 Copyright (c) 2004-2007 OIC Group, Inc.
 ===============================================
 
+Added / Fixed / changed for 0.97.0 GA
+-----------------------
+# YAHOO! User Interface Library upgraded to version 2.5.2
+# MANY view and style fixes and enhancements
+# Fixed a bug with recycle bin where an admin could not add a module to a page FROM the recycle bin
+# Many language fixes and additions
+# Many bug fixes
+# For a detailed commit log, please see https://code.launchpad.net/~exponent-core-dev/exponent-cms/0.97.0
+
+
 Added / Fixed / changed for 0.97.0 Release Candidate 1
 -----------------------
 # YAHOO! User Interface Library upgraded to version 2.5.1
