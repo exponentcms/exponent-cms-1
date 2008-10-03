@@ -11,7 +11,7 @@
  *
  * GPL: http://www.gnu.org/licenses/gpl.txt
 *}
-<div class="navigationmodule yui-side-nav">
+<div class="navigationmodule yui-side-nav exp-yui-nav">
 	<div id="sidenav" class="yuimenu">
 		<div class="bd">
 				<ul class="first-of-type">
@@ -27,7 +27,7 @@
 						<ul class="first-of-type">
 				{/if}
 
-				<li class="yuimenuitem">
+				<li class="yuimenuitem{if $section->id == $current->id} current{/if}">
 				<a class="yuimenuitemlabel" href="{$section->link}" {if $section->new_window} target="_blank"{/if}>{$section->name}</a>
 				{if $sections[$nextkey]->depth == $section->depth}</li>{/if}
 

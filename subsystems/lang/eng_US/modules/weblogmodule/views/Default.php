@@ -20,7 +20,7 @@ return array(
 	'delete_comment_confirm'=>'Are you sure you want to delete this Comment?',
 
 	'next'=>'Next',
-
+	'read_more'=>'Read More',
 	'new_post'=>'New Post',
 
 	'draft'=>'Draft',

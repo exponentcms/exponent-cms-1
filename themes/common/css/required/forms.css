@@ -12,13 +12,10 @@
 	padding:3px 0 2px 15px;
 	background:url(../../images/icons/admin/managemodules.png) no-repeat 0 50%;
 }
-#moduleControl {
-	width:43%;
-	float:left;
-	margin-right:20px;
+#source_table td {
+    border:0;
+    padding:2px;
 }
-
-
 /* control (wrapers for input and other form fields) and label styles */
 
 .control {
@@ -61,12 +58,13 @@ input.button {
 	margin: 0;
 	padding: 2px 3px; 
 	background-image:url(../../images/icons/exp1icons.png);  
-	_background-image:url(../../images/icons/exp1icons.gif);  
 	background-repeat:repeat-x;  
 	background-position: 0px -600px; 
 	margin-right:3px;
 	font-weight:bold;
-	color:#555;
+	cursor:pointer;
+	border:1px solid #0068bb;
+	color:#fff;
 }
 
 input.radiobutton {
@@ -84,15 +82,6 @@ select.select,
 input.text,
 .textarea {
 	padding:3px;
-}
-
-
-
-
-/* Specific to Add Module page */
-#contentsourcecontrol label{
-	margin-bottom:5px;
-	display:block;
 }
 
 .radiobuttoncontrol {

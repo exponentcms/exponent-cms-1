@@ -29,7 +29,7 @@ Options:
 
 Report bugs to <bug-gnu-emacs@gnu.org>.'
 
-Id='$Id$'
+Id='$Id: chlog.sh 722 2005-03-21 17:15:56Z filetreefrog $'
 
 # Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 2001, 2002
 #  Free Software Foundation, Inc.

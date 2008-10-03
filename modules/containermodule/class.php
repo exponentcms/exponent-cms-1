@@ -56,14 +56,13 @@ class containermodule {
 	
 	function show($view,$loc = null,$title = '') {
 		$i18n = exponent_lang_loadFile('modules/containermodule/class.php');
-	
+		if (empty($view)) $view = "Default";
 		$source_select = array();
 		$clickable_mods = null; // Show all
 		$dest = null;
 		
 		$singleview = '_container';
 		$singlemodule = 'containermodule';
-		
 		if (exponent_sessions_isset('source_select') && defined('SELECTOR')) {
 			$source_select = exponent_sessions_get('source_select');
 			$singleview = $source_select['view'];
@@ -81,7 +80,7 @@ class containermodule {
 		if (!isset($this) || !isset($this->_hasParent) || $this->_hasParent == 0) {
 			// Top level container.			
 			if(!isset($cache['top'][$container_key])) {        		
-				$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".$container_key."'");				
+				$container = $db->selectObject('container',"external='".serialize(null)."' AND internal='".$container_key."'");
 				//if container isn't here already, then create it.
 	            if ($container == null) {
 					$container->external = serialize(null);
@@ -95,10 +94,10 @@ class containermodule {
         	}else{
         		$container = $cache['top'][$container_key];
         	}
-			if (!defined('PREVIEW_READONLY') || defined('SELECTOR')) $view = $container->view;
+			if (!defined('PREVIEW_READONLY') || defined('SELECTOR')) $view = empty($container->view) ? $view : $container->view;
 			$title = $container->title;
 		}
-		
+
 		$template = new template('containermodule',$view,$loc,$cache);
 		if ($dest) $template->assign('dest',$dest);
 		$template->assign('singleview',$singleview);

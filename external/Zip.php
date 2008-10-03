@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@blavet.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: Zip.php 1133 2006-03-03 23:13:17Z freddirkse $
 
 if (!defined('EXPONENT')) exit('');
 
@@ -90,7 +90,7 @@ if (!defined('EXPONENT')) exit('');
 * It provides creation, extraction, deletion and add features.
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision$
+* @version  $Revision: 1133 $
 * @package  Archive_Zip
 * @category Archive
 */

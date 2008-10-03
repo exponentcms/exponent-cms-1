@@ -5,6 +5,7 @@
 	<?php 
 	$config = array(
 	"reset-fonts-grids"=>true,
+	"xhtml"=>false,
 	"include-common-css"=>true,
 	"include-theme-css"=>true
 	);
@@ -12,11 +13,11 @@
 	?>
 </head>
 <body>
-	<?php exponent_theme_sourceSelectorInfo(); //this will be deprecated by copy 'n paste in beta ?>
+	<?php exponent_theme_sourceSelectorInfo(); ?>
 	<div id="doc" class="yui-t2">
 		<div id="hd">
-			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
 			<h1 id="logo">Exponent CMS</h1>
+			<?php exponent_theme_showModule("loginmodule","Expanded"); ?>
 			<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
 		</div>
 		<div id="bd">
@@ -33,7 +34,7 @@
 			</div>
 		</div>
 		<div id="ft">
-			<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>
+			<?php exponent_theme_showModule("textmodule","Default","","@basetheme"); ?>
 		</div>
 	</div>
 <?php echo exponent_theme_footerInfo(); ?>

@@ -22,7 +22,7 @@ if (class_exists('basetheme')) return;
 class basetheme {
 	function name() { return "Base Theme"; }
 	function author() { return "Phillip Ball"; }
-	function description() { return "A good base theme to get Themers started"; }
+	function description() { return "Based on <a href='http://developer.yahoo.com/yui/grids/'>YUI Grids</a> good base theme to get Themers started"; }
 }
 
 ?>

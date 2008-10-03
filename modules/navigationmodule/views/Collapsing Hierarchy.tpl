@@ -13,27 +13,47 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<table cellpadding="1" cellspacing="0" border="0" width="100%">
-{foreach from=$sections item=section}
-{assign var=inPath value=0}
-{foreach from=$current->parents item=parentId}
-	{if $parentId == $section->id}
-		{assign var=inPath value=1}
-	{/if}
-{/foreach}
-{if $section->numParents == 0 || $inPath || $section->id == $current->id ||  $section->parent == $current->id}
-<tr><td style="padding-left: {math equation="x*20" x=$section->depth}px">
-{if $section->active == 1}
-<a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;
-{else}
-<span class="navlink">{$section->name}</span>&nbsp;
-{/if}
-</td></tr>
-{/if}
-{/foreach}
-</table>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $canManage == 1}
-[ <a class="navlink" href="{link action=manage}">{$_TR.manage}</a> ]
-{/if}
-{/permissions}
+ <style type="text/css" media="screen">
+     {*should go in stylesheet*}
+     {literal}
+     .navigationmodule.collapsing .depth1 {
+         margin-left:10px;
+     }
+     .navigationmodule.collapsing .depth2 {
+         margin-left:20px;
+     }
+     .navigationmodule.collapsing .depth3 {
+         margin-left:30px;
+     }
+     .navigationmodule.collapsing .depth4 {
+         margin-left:40px;
+     }
+     .navigationmodule.collapsing .depth5 {
+         margin-left:50px;
+     }
+     {/literal}
+ </style>
+ 
+ 
+ 
+<div class="navigationmodule collapsing">
+    <ul>
+    {foreach from=$sections item=section}
+    {assign var=inPath value=0}
+        {foreach from=$current->parents item=parentId}
+            {if $parentId == $section->id}
+                {assign var=inPath value=1}
+            {/if}
+        {/foreach}
+        {if $section->numParents == 0 || $inPath || $section->id == $current->id ||  $section->parent == $current->id}
+            <li class="depth{$section->depth} {if $section->id == $current->id}current{/if}">
+                {if $section->active == 1}
+                    <a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;
+                {else}
+                    <span class="navlink">{$section->name}</span>&nbsp;
+                {/if}
+            </li>
+        {/if}
+    {/foreach}
+    </ul>
+</div>

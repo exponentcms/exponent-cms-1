@@ -34,3 +34,10 @@ a.rsslink {
         background:url(../images/icons/feed-icon.png) no-repeat 3px 50%;
         padding-left:18px;
 }
+
+a.comments {
+	padding-left: 20px;
+    background-image: url(../images/icons/comments.gif);
+	background-repeat: no-repeat;
+}
+

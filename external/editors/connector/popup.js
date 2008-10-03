@@ -9,7 +9,7 @@
 // Version 3.0 developed by Mihai Bazon.
 //   http://dynarch.com/mishoo
 //
-// $Id$
+// $Id: popup.js 1214 2006-04-25 13:23:32Z maxxcorp $
 // v 1.3 2005/12/15 MaxxCorp
 
 function getAbsolutePos(el) {

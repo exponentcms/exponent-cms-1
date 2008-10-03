@@ -32,7 +32,7 @@ function smarty_block_form($params,$content,&$smarty, &$repeat) {
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/lang/calendar-en.js"></script>'."\r\n";
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/calendar-setup.js"></script>'."\r\n";
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'js/PopupDateTimeControl.js"></script>'."\r\n";
-		echo '<form id="'.$name.'" name="'.$name.'" class="'.$params['class'].'" method="'.$method.'" action="'.URL_FULL.'index.php" enctype="'.$params['enctype'].'">'."\r\n";
+		echo '<form id="'.$name.'" name="'.$name.'" class="'.$params['class'].'" method="'.$method.'" action="'.URL_FULL.'index.php" enctype="'.$enctype.'">'."\r\n";
 		echo '<input type="hidden" name="module" id="module" value="'.$module.'" />'."\r\n";
 		echo '<input type="hidden" name="src" id="src" value="'.$smarty->_tpl_vars['__loc']->src.'" />'."\r\n";
 		echo '<input type="hidden" name="int" id="int" value="'.$smarty->_tpl_vars['__loc']->int.'" />'."\r\n";

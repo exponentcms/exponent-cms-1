@@ -21,29 +21,29 @@ function smarty_function_yuimenubar($params,&$smarty) {
 
 
 
-	$menu = '
+    $menu = '
         function buildmenu () {
             var oMenuBar = new YAHOO.widget.MenuBar("'.$params['buildon'].'", { 
-													
-														constraintoviewport:false,
-														postion:"dynamic",
-														visible:true,
-														zIndex:250,
- 														autosubmenudisplay: true, 
-														hidedelay: 750, 
-														lazyload: true });
+                                                    
+                                                        constraintoviewport:false,
+                                                        postion:"dynamic",
+                                                        visible:true,
+                                                        zIndex:250,
+                                                        autosubmenudisplay: true, 
+                                                        hidedelay: 750, 
+                                                        lazyload: true });
 
             var aSubmenuData = '.navigationmodule::navtojson().';
             oMenuBar.subscribe("beforeRender", function () {
 
                 if (this.getRoot() == this) {
-					for (i=0; i<=this.getItems().length; i++){
-						var j=i;
-						if (aSubmenuData[j].itemdata.length>0){
-		                    this.getItem(i).cfg.setProperty("submenu", aSubmenuData[j]);
-						}
-					}
-					
+                    for (i=0; i<=this.getItems().length; i++){
+                        var j=i;
+                        if (aSubmenuData[j].itemdata.length>0){
+                            this.getItem(i).cfg.setProperty("submenu", aSubmenuData[j]);
+                        }
+                    }
+                    
                 }
 
             });
@@ -51,12 +51,12 @@ function smarty_function_yuimenubar($params,&$smarty) {
             oMenuBar.render();         
         
         }
-		YAHOO.util.Event.onDOMReady(buildmenu);
+        YAHOO.util.Event.onDOMReady(buildmenu);
     ';
-	
-	exponent_javascript_toFoot("yuimenubar-".$params['buildon'],"menu",$smarty->_tpl_vars[__name],$menu);
-	
-	
+    
+    exponent_javascript_toFoot("yuimenubar-".$params['buildon'],"menu",$smarty->_tpl_vars[__name],$menu);
+    
+    
 }
-	
+    
 ?>

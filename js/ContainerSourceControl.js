@@ -1,14 +1,14 @@
 if (document.body.appendChild) {
 	g_noSourceControl = (document.getElementById("r_existing_source") == null);
 	
-	g_ta_description  = document.getElementById("ta_description");
+	//g_ta_description  = document.getElementById("ta_description");
 	
 	if (!g_noSourceControl) {
 		g_radio_existing  = document.getElementById("r_existing_source");
 		g_radio_new       = document.getElementById("r_new_source");
 		g_existing_link	  = document.getElementById("existing_source_link"); 
 		
-		g_radio_all = new Array(g_radio_existing, g_radio_new, g_ta_description);
+		g_radio_all = new Array(g_radio_existing, g_radio_new);
 	}
 	
 	g_ctl_module = document.getElementById("i_mod");
@@ -26,7 +26,7 @@ if (document.body.appendChild) {
 			elem.appendChild(document.createTextNode("This module does not"));
 			elem.appendChild(document.createElement("br"));
 			elem.appendChild(document.createTextNode("support Sources."));
-			g_ta_description.value = "";
+			//g_ta_description.value = "";
 			return;
 		}
 		switch (type) {
@@ -37,9 +37,9 @@ if (document.body.appendChild) {
 				g_existing_link.setAttribute("onclick","pickSource(); return false;");
 				//g_existing_link.onclick = function() { pickSource(); return false; }
 				
-				clearList(g_ta_description);
-				g_ta_description.value = "";
-				g_ta_description.disabled = true;
+				//clearList(g_ta_description);
+				//g_ta_description.value = "";
+				//g_ta_description.disabled = true;
 				
 				g_radio_new.disabled = false;
 				showPreviewCall();
@@ -48,9 +48,9 @@ if (document.body.appendChild) {
 				disableAll();
 				g_radio_new.disabled = false;
 				g_radio_new.checked = true;
-				g_ta_description.disabled = false
-				clearList(g_ta_description);
-				g_ta_description.value = "";
+				//g_ta_description.disabled = false
+				//clearList(g_ta_description);
+				//g_ta_description.value = "";
 				g_existing_link.setAttribute("onclick","pickSource(); return false;");
 				//g_existing_link.onclick = function() { pickSource(); return false; }
 				
@@ -59,7 +59,7 @@ if (document.body.appendChild) {
 			case null:
 				g_radio_new.disabled = false;
 				g_radio_existing.disabled = false;
-				g_ta_description.disabled = false
+				//g_ta_description.disabled = false
 				g_existing_link.setAttribute("onclick","pickSource(); return false;");
 				//g_existing_link.onclick = function() { alert("This module does not support Sources"); return false; }
 				break;
@@ -78,6 +78,7 @@ if (document.body.appendChild) {
 	
 	// Clears out all of the options in a select box.
 	function clearList(list) {
+	    //console.debug(list);
 		while (list.childNodes.length) {
 			list.removeChild(list.childNodes.item(0));
 		}
@@ -178,8 +179,8 @@ if (document.body.appendChild) {
 	function sourcePicked(src,desc) {
 		sourceSelected("existing_source",true,src,desc);
 		
-		clearList(g_ta_description);
-		g_ta_description.appendChild(document.createTextNode(desc));
+        // clearList(g_ta_description);
+        // g_ta_description.appendChild(document.createTextNode(desc));
 		
 		showPreviewCall();
 	}

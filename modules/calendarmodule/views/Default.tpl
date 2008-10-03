@@ -19,31 +19,31 @@
 	<a class="rsslink" href="{rsslink}">{$_TR.rss_feed}</a> {br}
 {/if}
 <a class="listviewlink" href="{link _common=1 view='Monthly List' action='show_view' time=$time}">{$_TR.list_view}</a>{br}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.post == 1}
-<a class="addevent" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a>
-{/if}
-{if $in_approval != 0 && $canview_approval_link == 1}
-{br}
-<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.view_approval}</a>
-{/if}
-{if $modconfig->enable_categories == 1}
-{if $permissions.manage_categories == 1}
-{br}
-<a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">{$_TR.manage_categories}</a>
-{else}
-{br}
-<a class="mngmntlink calendar_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>
-{/if}
-{/if}
-{/permissions}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.post == 1}
+	<a class="addevent" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a>
+	{/if}
+	{if $in_approval != 0 && $canview_approval_link == 1}
+	{br}
+	<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.view_approval}</a>
+	{/if}
+	{if $modconfig->enable_categories == 1}
+	{if $permissions.manage_categories == 1}
+	{br}
+	<a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">{$_TR.manage_categories}</a>
+	{else}
+	{br}
+	<a class="mngmntlink calendar_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>
+	{/if}
+	{/if}
+	{/permissions}
 
 <h1>{if $moduletitle}{$moduletitle}{/if}</h1>
 
 <table id="calendar" cellspacing="0" cellpadding="0" summary="{$moduletitle|default:$_TR.default_summery}">
 <caption><a href="{link action=viewmonth time=$prevmonth} title="{$_TR.alt_previous}" class="nav">&laquo;</a> {$now|format_date:"%B %Y"} <a href="{link action=viewmonth time=$nextmonth}" title="{$_TR.alt_next}" class="nav">&raquo;</a></caption>
 
-		<tr>
+		<tr class="daysoftheweek">
 			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday}</th>
 			<th scope="col" abbr="{$_TR.monday}" title="{$_TR.monday}">{$_TR.monday}</th>
 			<th scope="col" abbr="{$_TR.tuesday}" title="{$_TR.tuesday}">{$_TR.tuesday}</th>

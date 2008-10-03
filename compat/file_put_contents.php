@@ -15,7 +15,7 @@
 // | Authors: Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: file_put_contents.php 1212 2006-04-25 05:30:59Z maxxcorp $
 
 
 if (!defined('FILE_USE_INCLUDE_PATH')) {
@@ -34,7 +34,7 @@ if (!defined('FILE_APPEND')) {
  * @package     PHP_Compat
  * @link        http://php.net/function.file_put_contents
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision$
+ * @version     $Revision: 1212 $
  * @internal    $resource_context is not supported
  * @since       PHP 5
  * @require     PHP 4.0.1 (trigger_error)

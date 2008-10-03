@@ -16,7 +16,7 @@
 <div class="weblogmodule summary">
 <h1>
 {if $enable_rss == true}
-        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+        <a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
 {if $moduletitle != ""}{$moduletitle}{/if}
 </h1>

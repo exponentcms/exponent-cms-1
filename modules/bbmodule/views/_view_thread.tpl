@@ -77,7 +77,6 @@
 			{/if}
 		</div>
 		<div class="author">
-			{attribution user=$thread->poster->username} 
 			{if $user != ""}
 				An anonymous user replies on {$thread->posted|format_date:"%D %T"}:
 			{else}
@@ -137,7 +136,6 @@
 		</div>
 		{if $reply->subject}<h2>{$reply->subject}</h2>{else}<h2>re: {$thread->subject}</h2>{/if}
 		<div class="author">
-			{attribution user=$reply->poster->username} 
 			{if $user != ""}
 				An anonymous user replies:
 			{else}

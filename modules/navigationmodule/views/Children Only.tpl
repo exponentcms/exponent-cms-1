@@ -17,7 +17,7 @@
 	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
 	<ul>
 		{foreach from=$sections item=section}
-			{if $section->numParents != 0 && ($section->parents[0] == $current->id || $section->parents[0] == $current->parents[0])}
+			{if $current->id == $section->parent}
 				<li>
 					{if $section->active == 1}
 						<a href="{$section->link}" class="navlink"{if $section->new_window} target="_blank"{/if}>{$section->name}</a>&nbsp;

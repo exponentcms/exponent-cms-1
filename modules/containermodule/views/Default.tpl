@@ -19,7 +19,7 @@
 	
 	{script yuimodules='container,menu' unique="tooltipAndMenu" src="`$smarty.const.URL_FULL`framework/lib/js/exp-container.js"}
 	{/script}
-		<div id="cont{$top->id}" class="containermodule">
+		<div id="cont{$top->id}" class="containermodule main-wrapper">
 	{/if}
 {/permissions}
 

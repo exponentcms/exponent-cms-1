@@ -18,7 +18,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: PEAR.php 442 2005-02-08 22:04:35Z filetreefrog $
 //
 
 define('PEAR_ERROR_RETURN',     1);
