@@ -42,7 +42,6 @@
 {/permissions}
 <div>
 {if $this_post->image!=""}<img style="align: left;" src="{$smarty.const.URL_FULL}/thumb.php?file={$this_post->image}&constraint=1&width=150&height=200" alt="{$this_post->title}">{/if}
-<h1>{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
 {$this_post->body}
 </div>
 {if $config->allow_comments}

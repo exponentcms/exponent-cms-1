@@ -34,7 +34,7 @@
 if (!defined("EXPONENT")) exit("");
 
 	$listing = null;		
-	if (isset($_POST['id'])) {
+	if (!empty($_POST['id'])) {
 		$listing = $db->selectObject('listing', 'id='.$_POST['id']);
 		if ($listing != null) {
 			$loc = unserialize($listing->location_data);
@@ -47,7 +47,6 @@ if (!defined("EXPONENT")) exit("");
 			$listing->rank += 1;
 		}
 	}
-	
 	if (exponent_permissions_check("manage",$loc)) {	
 		//Get the file save it to the temp directory
 		$source = $loc->src;
