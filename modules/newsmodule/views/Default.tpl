@@ -54,13 +54,14 @@
 			{/permissions}
             {*/if*}
 			{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}
-			{if $newsitem->edited eq 0}
+			
+			{if $newsitem->edited == 0 || $config->sortfield == "publish"}
 				{assign var='sortdate' value=$newsitem->real_posted}
 			{else}
 				{assign var='sortdate' value=$newsitem->edited}
 			{/if}
 
-			<span class="date">{$sortdate|format_date:"%B %e"}</span>
+    		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
 
 			<div class="bodycopy">
 				{$newsitem->body|summarize:"html":"para"}
@@ -71,25 +72,21 @@
 	{/foreach}
 	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $morenews == 1 || $permissions.add_item == true || ($in_approval > 0 && $canview_approval_link == 1) || $permissions.view_unpublished == 1}
 	<div class="moduleactions">
-		<ul>
 		{if $morenews == 1}
-			<li><a class="viewmorenews" href="{link action=view_all_news}">{$_TR.view_all}</a></li>
+			<a class="viewmorenews" href="{link action=view_all_news}">{$_TR.view_all}</a>{br}
 		{/if}
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.add_item == true}
-			<li><a class="addnews" href="{link action=edit}">{$_TR.create_news}</a></li>
+			<a class="addnews" href="{link action=edit}">{$_TR.create_news}</a>{br}
 		{/if}
 		{if $in_approval > 0 && $canview_approval_link == 1}
-			<li><a class="approvenews" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a></li>
+			<a class="approvenews" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
 		{/if}
 		{if $permissions.view_unpublished == 1 }
-			<li><a class="expirednews" href="{link action=view_expired}">{$_TR.view_expired}</a></li>
+			<a class="expirednews" href="{link action=view_expired}">{$_TR.view_expired}</a>{br}
 		{/if}
 		{/permissions}
-		</ul>
 	</div>
-	{/if}
 	{/permissions}
 </div>

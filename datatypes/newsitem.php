@@ -40,7 +40,7 @@ class newsitem {
 			if ($object->unpublish == 0) $object->unpublish = null;
 		}
 	
-		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['news_content'].'</div><hr size="1" />'));	
+		//$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['news_content'].'</div><hr size="1" />'));	
 		$form->register('title',$i18n['title'],new textcontrol($object->title));
 		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
 	

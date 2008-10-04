@@ -50,7 +50,14 @@
 		{/permissions}
 		{/if}
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
-		<span class="date">{$newsitem->real_posted|format_date:"%A, %B %e, %Y"}</span>
+		{if $newsitem->edited == 0 || $config->sortfield == "publish"}
+			{assign var='sortdate' value=$newsitem->real_posted}
+		{else}
+			{assign var='sortdate' value=$newsitem->edited}
+		{/if}
+
+		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
+		
 		<div class="bodycopy">
 			{$newsitem->body|summarize:"html":"para"}
 			<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
