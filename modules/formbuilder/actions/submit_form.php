@@ -104,10 +104,6 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 		$template->assign("is_email",1);
 		$emailHtml = $template->render();
 		
-		 if (count($emaillist)) {
-        //This is an easy way to remove duplicates
-        $emaillist = array_flip(array_flip($emaillist));
-
 		if (count($emaillist)) {
 			//This is an easy way to remove duplicates
 			$emaillist = array_flip(array_flip($emaillist));
@@ -138,7 +134,6 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 			}
 		}
 	}
-	
 
 	// clear the users post data from the session.
 	exponent_sessions_unset('formmodule_data_'.$f->id);

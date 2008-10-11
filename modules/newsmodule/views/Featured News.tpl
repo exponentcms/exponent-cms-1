@@ -18,9 +18,9 @@
 {if $featured_items[0]->id!=""}
 <div id="newsmodule featured">	
 
-	{if $enable_rss == true}<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-
+    {if $enable_rss == true}<a class="rsslink" href="{rsslink}">RSS Subscription</a>{/if}
+    
 {foreach from=$featured_items item=item}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1 || $item->permissions.administrate == 1}

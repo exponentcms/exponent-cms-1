@@ -16,7 +16,8 @@
 <div class="newsmodule summary">
 
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-
+	
+	{if $enable_rss == true}<a class="rsslink" href="{rsslink}">RSS Subscription</a>{/if}
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	{foreach key="key" name="object" from=$news item=newsitem}
 	<div class="item">

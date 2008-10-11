@@ -19,7 +19,7 @@
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 	</div>
 
-	{if $enable_rss == true}<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
+	{if $enable_rss == true}<a class="rsslink" href="{rsslink}">RSS Subscription</a>{/if}
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 
 	{foreach from=$news item=newsitem}
