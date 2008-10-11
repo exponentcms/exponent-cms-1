@@ -1,0 +1,75 @@
+Einige wichtige Adressen vorab die ihnen bei Fragen helfen können.
+US-Home (Englisch): www.exponentcms.org
+Deutsch: www.exponent-poral.de
+Deutsche Entwicklerseite: www.uttendorf.de
+
+
+Installation von ExponentCMS
+
+Anmerkung zum Upgrading:
+Falls Sie upgraden sollten Sie ZUERST ihre Daten exportieren und ein Backup aller ihrer Daten erstellen.
+
+Falls Sie von einer Version kleiner als 0.96.3, upgraden möchten:
+Wir denken dass es besser ist eine Neuinstallation vorzunehmen weil der Installationsassistent sehr stark modifiziert wurde und deshalb ein Upgraden zu völlig unerwarteten Verhalten führen kann.
+
+Schritte:
+1. Laden Sie immer die neueste Version herunter
+
+Das Exponent Paket gibt es in folgenden Formaten:
+
+    * .tar.gz – Für alle Linux/Unix Benutzer
+    * .zip – Für alle Windows Benutzer
+
+Informationen über die jeweiligen Versionen und Download quellen finden Sie
+auf http://www.exponentcms.org und http://www.exponent-portal.de 
+
+2. Das Archive entpacken
+
+Sie haben nun zwei Möglichkeiten: Entweder Sie entpacken das Archiv auf ihrem lokalen Datenträger und laden diese dann (Erklärung weiter unten) auf ihren Webserver, oder Sie laden das gepackte Archiv sofort auf ihren Webserver.
+
+Unter Linux entpacken Sie das Archiv wie folgt:
+
+    tar -xzvpf exponent-VERSION.tar.gz
+Statt VERSION fügen Sie die Nummer z.B. 0.96.5, ein.
+
+Die -p Option bewirkt das alle Dateiberechtigungen erhalten bleiben und ist sehr wichtig. 
+Exponent erwartet das bestimmte Dateien und Verzeichnisse von Webserver beschrieben werden können. Das gepackte Archiv beinhaltet diese Informationen.
+Tipp: Einfacher und schneller geht das Entpacken mit MC (Midnight Commander) 
+
+Falls Sie Zugriff auf ihren Webserver haben (Root) und dieser Apache heißt, können Sie die Ownership sehr einfach ändern indem Sie z B. :
+
+chown -R apache:apache exponent-VERSION
+eingeben.
+
+ACHTUNG: Sie sollten das Archiv bzw. das Verzeichnis umbenennen. Verwenden Sie aus Sicherheitsgründen nicht den Archivenamen als Verzeichnisnamen. Legen Sie stattdessen ein neues Verzeichnis ihrer Wahl z. B. „cms“ an, und kopieren Sie alle Dateien aus dem entpackten Exponentarchiv dort hinein. Das hat zudem den Vorteil dass später nicht eine „häßliche“ Adresse wie z.B. www.meinedomane.de/exponent0.96.3/index.php in ihrem Browser angezeigt wird. 
+
+Falls Sie keinen Zugriff auf den Webserver sprich Rootzugriff auf ihren Server haben müssen Sie die Berechtigungen für bestimmte Dateien und Verzeichnisse mittels eines FTP-Programms einzeln ändern. Welche das sind, darüber gibt ihnen der Exponent-Installationsassistent Auskunft
+
+Falls Sie Windows und das .zip Archiv benutzen empfiehlt das Exponent Entwicklungsteam die Verwendung des OpenSource Programms „7-zip“ das Sie hier http://www.7-zip.org/ herunterladen können. Die in Windows XP eingebaute ZIP Unterstützung wurde von uns noch nicht ausführlich getestet.
+
+Nach dem entpackten erhalten Sie ein Verzeichnis mit dem Namen: “exponent-VERSION“ Wobei VERSION für eine Nummer steht. Dieses Verzeichnis beinhaltet alle von Exponent benötigten Dateien.
+
+3. Datenbank Setup
+
+Aus Sicherheitsgründen kann der Exponent-Installations-Assistent keine Datenbank anlegen. Deshalb müssen Sie das selbst in die Hand nehmen bevor Sie den Exponent-Assistenten aufrufen. 
+
+Falls Sie damit Probleme haben erkundigen Sie sich bei ihrem Provider oder im deutschen Portal unter www.exponentcms-Portal.de. Der Assistent fragt Sie nach dem Namen der Datenbank dem Usernamen und einem Paßwort damit er eine Verbindung zur Datenbank herstellen kann. Der Installationsassistent prüft während der Installation ob alle notwendigen Rechte für die Datenbank vorhanden sind.
+
+4. Installationsassist Ausführen
+
+Sie sollten nun:
+-	Das Archiv heruntergeladen haben
+-	Das Archiv entpackt haben
+-	Ein Verzeichnis auf dem Webserver angelegt haben
+-	Alle notwendigen Rechte gesetzt haben
+-	Die Datenbank angelegt haben
+-	Informationen über die Datenbankverbindung haben
+
+Nachdem alle notwendigen Voraussetzungen geschaffen sind, können Sie nun den Installationsassist von Exponent aufrufen. 
+
+Wie? 
+Nehmen wir an ihre Webseite unter der Exponent laufen soll hat die URL http://www.uttendorf.de und Sie haben Exponent in das Root Verzeichnis entpackt, dann öffnen Sie einen Browser ihrer Wahl und geben ein: www.uttendorf.de
+
+Sie können aber Exponent auch in einem Unterverzeichnis wie z. B. „cms“ entpacken. Wenn ihre Domäne www.uttendorf.de lautet und das Unterverzeichnis /cms, dann geben Sie in den Browser die Adresse www.uttendorf.de/cms ein, um den Assistenten zu starten.
+
+Folgen Sie nun den Anweisungen des Installationsassistenten und Sie haben in 5-Minuten ein professionelles innovatives CMS System laufen.
