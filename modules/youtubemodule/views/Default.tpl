@@ -48,6 +48,9 @@
 			                <script type="text/javascript">
                         			var so = new SWFObject("{/literal}{$youtube->url}{literal}&hl={/literal}{$smarty.const.DISPLAY_LANGUAGE}{literal}&fs=1","swf{/literal}{$youtube->id}{literal}","{/literal}{$youtube->width}{literal}","{/literal}{$youtube->height}{literal}", "6", "#ffffff");
 			                        so.addParam("wmode", "opaque");
+						so.addParam("allowscriptaccess","always");
+						so.addParam("allowFullScreen","true");
+                        			so.write("flashcontent{/literal}{$youtube->id}{literal}");
                         			so.write("flashcontent{/literal}{$youtube->id}{literal}");
                 			</script>
                 			{/literal}
