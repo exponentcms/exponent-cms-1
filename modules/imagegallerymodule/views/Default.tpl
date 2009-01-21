@@ -42,6 +42,7 @@
 				<a class="creategallery" href="{link action=edit_gallery}">
 					{$_TR.link_newgallery}
 				</a>
+    {br}<a href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" />Reorder Galleries</a>{br}
 		</div>
 	{/if}
 	{/permissions}
