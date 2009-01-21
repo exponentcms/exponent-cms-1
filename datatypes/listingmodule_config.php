@@ -35,19 +35,64 @@ class listingmodule_config {
 	function form($object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
+
 		$form = new form();
 		if (!isset($object->id)) {
-			//nothing to do here yet
+			$object->sort = 'asc_name';
+			$object->items_perpage = 20;
 		} else {
+			switch ($object->orderhow) {
+				case 0: // ascending
+					$object->sort = 'asc_'.$object->orderby;
+					break;
+				case 1: // descending
+					$object->sort = 'desc_'.$object->orderby;
+					break;
+				case 2: // rank
+					$object->sort = 'desc_'.$object->orderby;
+					break;
+				case 3: // random
+					$object->sort = 'rank_';
+					break;
+				default:
+					$object->sort = 'asc_name';
+					break;
+			}
 			$form->meta('id',$object->id);
 		}
-		
+
+		$order_options = array(
+			'asc_name'=>'Alphabetical By Name',
+			'desc_name'=>'Reverse Alphabetical By Name',
+			'rank_'=>'By Specific Position',
+			'random_'=>'Randomly'
+		);
+
+		$form->register('orderby','Sorting',new dropdowncontrol($object->sort,$order_options));
+		$form->register('items_perpage','Items per page: ',new textcontrol($object->items_perpage,5));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
-	
+
 	function update($values,$object) {
+		$toks = explode('_',$values['orderby']);
+		switch ($toks[0]) {
+			case 'asc':
+				$object->orderhow = 0;
+				break;
+			case 'desc':
+				$object->orderhow = 1;
+				break;
+			case 'rank':
+				$object->orderhow = 2;
+				break;
+			case 'random':
+				$object->orderhow = 3;
+				break;
+		}
+		$object->orderby = $toks[1];
+		$object->items_perpage = $values['items_perpage'];
+
 		return $object;
 	}
 }

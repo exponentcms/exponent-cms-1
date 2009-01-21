@@ -35,26 +35,41 @@ class listing {
 	function form($object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
+
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->name = '';
+			$object->url = 'http://';
+			$object->opennew = 0;
 			$object->summary = '';
 			$object->body = '';
 		} else {
 			$form->meta('id',$object->id);
 		}
-		
+
 		$form->register('name','Name',new textcontrol($object->name,50,false,200));
+		$form->register('url','URL',new textcontrol($object->url));
+		$form->register('opennew','Open in New Window',new checkboxcontrol($object->opennew,false));
 		$form->register('summary','Summary',new texteditorcontrol($object->summary));
 		$form->register('body','Body',new htmleditorcontrol($object->body));
 		$form->register('upload','Upload Picture', new uploadcontrol());
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
-	
+
 	function update($values,$object) {
 		$object->name = $values['name'];
+		$object->url = htmlentities(stripslashes($values['url']),ENT_QUOTES,LANG_CHARSET);
+		//$object->url = $values['url'];
+		$object->opennew = (isset($values['opennew']) ? 1 : 0);
+		if (!exponent_core_URLisValid($object->url)) {
+			$object->url = 'http://'.$object->url;
+		}
+		// Get rid of default values
+		if ( (substr($object->url,0,7) == 'http://') &&
+		    (strlen($object->url) == 7) ) {
+			$object->url = '';
+		}
 		$object->summary = $values['summary'];
 		$object->body = $values['body'];
 		return $object;

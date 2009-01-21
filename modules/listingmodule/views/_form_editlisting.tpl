@@ -36,6 +36,8 @@
 	{form action="save_listing"}
 		{control type="hidden" name="id" value=$listing->id}
 		{control type="text" name="name" value=$listing->name}
+		{control type="text" name="url" id="listingURL" value=$listing->url}
+		{control type="checkbox" name="opennew" label="Open in new window" flip=true}
 		{control type="textarea" name="summary" id="summary" value=$listing->summary cols=50 rows=10}
 		{control type="editor" name="body" id="body" value=$listing->body}
 		{control type="file" name="upload" label="Upload Picture" value=$listing->body}

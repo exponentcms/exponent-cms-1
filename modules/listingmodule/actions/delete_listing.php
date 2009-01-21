@@ -33,25 +33,30 @@
 
 if (!defined("EXPONENT")) exit("");
 
-	$listing = null;		
-	if (isset($_GET['id'])) {
-		$listing = $db->selectObject('listing', 'id='.$_GET['id']);
-		if ($listing != null) {
-			$loc = unserialize($listing->location_data);
-		}
-	}
-	
-	if ($listing) {
+$listing = null;
+if (isset($_GET['id'])) {
+	$listing = $db->selectObject('listing', 'id='.$_GET['id']);
+	if ($listing != null) {
 		$loc = unserialize($listing->location_data);
-		if (exponent_permissions_check("manage",$loc)) {
-			$db->delete('listing', 'id='.$_GET['id']);
-			$db->decrement('listing', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$listing->rank);
-			exponent_flow_redirect();
-		} else {
-			echo SITE_403_HTML;
-		}
-	} else {
-		echo SITE_404_HTML;
 	}
+}
+
+if ($listing) {
+	$loc = unserialize($listing->location_data);
+	if (exponent_permissions_check('manage',$loc) || exponent_permissions_check('delete',$loc)) {
+		if ($listing->file_id != '') {
+        $file = $db->selectObject('file', 'id='.$listing->file_id);
+        file::delete($file);
+        $db->delete('file','id='.$file->id);
+      }
+		$db->delete('listing', 'id='.$_GET['id']);
+		$db->decrement('listing', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$listing->rank);
+		exponent_flow_redirect();
+	} else {
+		echo SITE_403_HTML;
+	}
+} else {
+	echo SITE_404_HTML;
+}
 
 ?>
