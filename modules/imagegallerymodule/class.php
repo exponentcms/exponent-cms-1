@@ -35,17 +35,17 @@ class imagegallerymodule {
 	function name() { return 'Image Gallery'; }
 	function description() { return 'Allows a user to post images to galleries.'; }
 	function author() { return 'OIC Group, Inc.'; }
-	
+
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function getLocationHierarchy($loc) {
 		return array(exponent_core_makeLocation($loc->mod,$loc->src),$loc);
 	}
-	
+
 	function permissions($internal = '') {
 		if ($internal == '') {
 			return array(
@@ -66,23 +66,23 @@ class imagegallerymodule {
 			);
 		}
 	}
-	
+
 	function show($view,$loc = null, $title = '') {
 		global $db;
-		
+
 		$config = null;
 		$config = $db->selectObject('imagegallerymodule_config', "location_data='".serialize($loc)."'");
 		if (!is_object($config)) {
 			$config->multiple_galleries = 0;
 			$config->random_single_gallery = 0;
 		}
-	
+
 		//if ($config->multiple_galleries == 0) {
 			//$template = new template("imagegallerymodule",'_view_all_galleries',$loc);
 		//} else {
 			$template = new template("imagegallerymodule",$view,$loc);
 		//}
-	
+
 		if (!defined('SYS_FILES')) require(BASE.'subsystems/files.php');
 		$directory = 'files/imagegallerymodule/'.$loc->src;
 		if (!file_exists(BASE.$directory)) {
@@ -93,8 +93,8 @@ class imagegallerymodule {
 				$template->assign('uploadError',$err);
 			}
 		}
-		
-		
+
+
 		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'",'galleryorder DESC');
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($galleries); $i++) {
@@ -103,8 +103,8 @@ class imagegallerymodule {
 				'edit'=>exponent_permissions_check('edit',$iloc),
 				'delete'=>exponent_permissions_check('delete',$iloc)
 			);
-		
-			if ($config->multiple_galleries == 0) {	
+
+			if ($config->multiple_galleries == 0) {
 				$galleries[$i]->images = array();
 				$galleries[$i]->images = $db->selectObjects('imagegallery_image', 'gallery_id='.$galleries[$i]->id,'rank');
 				for ($y = 0; $y < count($galleries[$i]->images); $y++) {
@@ -121,16 +121,16 @@ class imagegallerymodule {
 				}
 			}
 		}
-		if ( $config->random_single_gallery ) {
+		if ( $config->random_single_gallery && (count($galleries) > 0) ) {
 			$random_gallery[] = $galleries[rand(0,count($galleries)-1)];
 			$template->assign('galleries', $random_gallery);
 			$template->assign('allgalleries',$galleries);
 		} else {
 			$template->assign('galleries',$galleries);
 		}
-		
+
 		//eDebug($galleries); exit();
-		
+
 		$template->assign('moduletitle',$title);
 		//$template->assign('show_desc',$config->show_pic_desc);
 		$template->register_permissions(
@@ -145,9 +145,9 @@ class imagegallerymodule {
 			$size = getimagesize($file->directory."/".$file->filename);
 			//if($size[1]<=$height) $height = $size[1];
 				if($size[1]<=$size[0]){
-					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));				
+					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));
 				}else{
-					$thumb = exponent_image_scaleToWidth($file->directory."/".$file->filename,intval($height));				
+					$thumb = exponent_image_scaleToWidth($file->directory."/".$file->filename,intval($height));
 				}
 			$pos = strrpos($file->filename, ".");
 			if ($pos != false) {
@@ -167,8 +167,8 @@ class imagegallerymodule {
 				imagepng($thumb, $file->directory."/".$thumbname);
 			case 'image/gif':
 				imagegif($thumb, $file->directory."/".$thumbname);
-		} 
-		
+		}
+
 		return $thumbname;
 	}
 	function createEnlargedFile($file = null, $height = 0) {
@@ -177,9 +177,9 @@ class imagegallerymodule {
 			$size = getimagesize($file->directory."/".$file->filename);
 			if($size[1]<=$height) $height = $size[1];
 				if($size[1]<=$size[0]){
-					$thumb = exponent_image_scaleToWidth($file->directory."/".$file->filename,intval($height));				
+					$thumb = exponent_image_scaleToWidth($file->directory."/".$file->filename,intval($height));
 				}else{
-					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));				
+					$thumb = exponent_image_scaleToHeight($file->directory."/".$file->filename,intval($height));
 				}
 			$pos = strrpos($file->filename, ".");
 			if ($pos != false) {
@@ -199,10 +199,10 @@ class imagegallerymodule {
 				imagepng($thumb, $file->directory."/".$popname);
 			case 'image/gif':
 				imagegif($thumb, $file->directory."/".$popname);
-		} 
+		}
 		return $popname;
 	}
-	
+
 	function deleteIn($loc) {
 		global $db;
 		foreach ($db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'") as $gallery) {
@@ -210,23 +210,23 @@ class imagegallerymodule {
 		}
 		$db->delete('imagegallery_gallery',"location_data='".serialize($loc)."'");
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 		global $db;
 		$basedirectory = 'files/imagegallerymodule/'.$nloc->src;
-		
+
 		foreach ($db->selectObjects('imagegallery_gallery',"location_data='".serialize($oloc)."'") as $gallery) {
 			$old_id = $gallery->id;
 			unset($gallery->id);
 			$gallery->location_data = serialize($nloc);
 			$gallery->id = $db->insertObject($gallery,'imagegallery_gallery');
-			
+
 			$directory = $basedirectory . '/gallery'.$gallery->id;
 			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 			if (!file_exists(BASE.$directory) && exponent_files_makeDirectory($directory) != SYS_FILES_SUCCESS) {
 				return;
 			}
-			
+
 			foreach ($db->selectObjects('imagegallery_image','gallery_id='.$old_id) as $image) {
 				$file = $db->selectObject('file','id='.$image->file_id);
 				copy(BASE.$file->directory.'/'.$file->filename,BASE.$directory.'/'.$file->filename);
@@ -234,7 +234,7 @@ class imagegallerymodule {
 					$file->directory = $directory;
 					unset($file->id);
 					$image->file_id = $db->insertObject($file,'file');
-					
+
 					unset($image->id);
 					$image->gallery_id = $gallery->id;
 					$db->insertObject($image,'imagegallery_image');
@@ -242,7 +242,7 @@ class imagegallerymodule {
 			}
 		}
 	}
-	
+
 	function spiderContent($item = null) {
 		// FIXME:For now, no searching in the gallery mod
 		return false;

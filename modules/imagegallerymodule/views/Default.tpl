@@ -40,7 +40,7 @@
 	{if $permissions.create == 1}
 		<div class="moduleactions">
 				<a class="creategallery" href="{link action=edit_gallery}">
-					Create New Gallery
+					{$_TR.link_newgallery}
 				</a>
 		</div>
 	{/if}
@@ -59,7 +59,7 @@
 			<div class="bodycopy">
 				{if $gallery->images[0]->thumbnail}
 					<a href="{link action=view_gallery id=$gallery->id}">
-						<img class="firstimage" align="left" hspace="5px" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;constraint=1&amp;width=75&amp;height=1000">
+						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;constraint=1&amp;width=75&amp;height=100">
 					</a>
 				{/if}
 				{$gallery->description}
@@ -67,7 +67,7 @@
 			{/if}
 		</div>
 		{foreachelse}
-			<div align="center"><i>No Galleries Found</i></div>
+			<div align="center"><p><em>{$_TR.no_galleries}</em></p></div>
 		{/foreach}
 	
 	
