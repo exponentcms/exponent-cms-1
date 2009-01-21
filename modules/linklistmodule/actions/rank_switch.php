@@ -28,38 +28,21 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: save.php,v 1.1 2005/03/13 19:17:05 filetreefrog Exp $
+# $Id: rank_switch.php,v 1.2 2005/02/19 16:53:35 filetreefrog Exp $
 ##################################################
 
-if (!defined('EXPONENT')) exit('');
+if (!defined("EXPONENT")) exit("");
+eDebug($loc);
 
-$link = null;
-if (isset($_POST['id'])) {
-	$link = $db->selectObject('linklist_link','id='.$_POST['id']);
-	if ($link) {
-		$loc = unserialize($link->location_data);
-	}
-} else {
-	$link->rank = $db->max('linklist_link', 'rank', 'location_data', "location_data='".serialize($loc)."'");
-	if ($link->rank == null) {
-		$link->rank = 0;
-	} else {
-		$link->rank += 1;
-	}
-}
+if (exponent_permissions_check("configure",$loc)) {
+eDebug($_GET['a']);
+eDebug($_GET['b']);
 
-if (($link && exponent_permissions_check('edit',$loc)) || (!$link && exponent_permissions_check('create',$loc))) {
-	$link = linklist_link::update($_POST,$link);
-	$link->location_data = serialize($loc);
+	$db->switchValues('linklist_link', 'rank', $_GET['a'], $_GET['b'], "location_data='".serialize($loc)."'");
 
-	if (isset($link->id)) {
-		$db->updateObject($link,'linklist_link');
-	} else {
-		$db->insertObject($link,'linklist_link');
-	}
 	exponent_flow_redirect();
 } else {
-	echo SITE_404_HTML;
+	echo SITE_403_HTML;
 }
 
 ?>

@@ -75,7 +75,12 @@ class linklistmodule {
 			case 2:
 				shuffle($links);
 				break;
+			case 3:
+				//sort the listings by their rank
+				usort($links, 'exponent_sorting_byRankAscending');
+				break;
 		}
+
 
 		$template = new template('linklistmodule',$view,$loc);
 		$template->assign('links',$links);

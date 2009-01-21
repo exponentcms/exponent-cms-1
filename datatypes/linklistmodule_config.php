@@ -35,7 +35,7 @@ class linklistmodule_config {
 	function form($object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
+
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->sort = 'asc_name';
@@ -50,27 +50,34 @@ class linklistmodule_config {
 				case 2: // random
 					$object->sort = 'random_';
 					break;
+				case 3: // order specified by arrows
+					$object->sort = 'rank_';
+					break;
 				default:
 					$object->sort = 'asc_name';
 					break;
 			}
 			$form->meta('id',$object->id);
 		}
-		
+
 		$order_options = array(
 			'random_'=>'Randomly',
 			'asc_name'=>'Alphabetical By Name',
 			'desc_name'=>'Reverse Alphabetical By Name',
+			'rank_'=>'By rank order specified',
 		);
-		
+
 		$form->register('orderby','Sorting',new dropdowncontrol($object->sort,$order_options));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
-	
+
 	function update($values,$object) {
 		$toks = explode('_',$values['orderby']);
 		switch ($toks[0]) {
+			case 'rank':
+				$object->orderhow = 3;
+				break;
 			case 'random':
 				$object->orderhow = 2;
 				break;
@@ -82,7 +89,7 @@ class linklistmodule_config {
 				break;
 		}
 		$object->orderby = $toks[1];
-		
+
 		return $object;
 	}
 }

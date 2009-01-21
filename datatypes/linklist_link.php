@@ -35,17 +35,17 @@ class linklist_link {
 	function form($object) {
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
+
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->name = '';
 			$object->url = 'http://';
 			$object->description = '';
-			$object->opennew = 1;
+			$object->opennew = 0;
 		} else {
 			$form->meta('id',$object->id);
 		}
-		
+
 		$form->register('name','Name',new textcontrol($object->name));
 		$form->register('url','URL',new textcontrol($object->url));
 		$form->register('opennew','Open in New Window',new checkboxcontrol($object->opennew,true));
@@ -53,7 +53,7 @@ class linklist_link {
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
-	
+
 	function update($values,$object) {
 		$object->name = $values['name'];
 		$object->url = $values['url'];
