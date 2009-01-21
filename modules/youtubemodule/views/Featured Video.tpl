@@ -25,7 +25,7 @@
 
 	{if $youtube->id != 0}
         	<object width="{$youtube->width}" height="{$youtube->height}">
-                	<param name="movie" value="{$youtube->url}" />
+                	<param name="movie" value="{$youtube->url}&hl={$smarty.const.DISPLAY_LANGUAGE}&fs=1" />
                         <param name="wmode" value="transparent" />
                         <embed src="{$youtube->url}"
                                type="application/x-shockwave-flash"
