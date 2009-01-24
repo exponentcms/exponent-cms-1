@@ -47,7 +47,7 @@
 			<h2><a href="{link action=view_listing id=$listing->id}">{$listing->name}</a></h2>
 			{if $listing->picpath != ""}
 				<a href="{link action=view_listing id=$listing->id}">
-					<img class="listingimage" src="thumb.php?file={$listing->picpath}&width=100&height=150"/>
+					<img class="listingimage" src="thumb.php?base={$smarty.const.BASE}&amp;file={$listing->picpath}&amp;width=100&amp;height=150"/>
 				</a>
 			{/if}
 			<div class="bodycopy">
