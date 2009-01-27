@@ -41,3 +41,32 @@ a.comments {
 	background-repeat: no-repeat;
 }
 
+/* BASIC EXP CALENDAR STYLES */
+.mini-cal {
+	border:none; 
+	width=10em; 
+	text-align: center;
+}
+.mini-cal caption, .viewweek caption, .viewday caption, p.caption {
+	line-height: 2.5em;
+	text-align: center;
+	font-weight: bold;
+	border-top: 1px solid;
+}
+.viewweek td  {
+	padding: .1em .1em .1em 0;
+}
+.mini-cal th, .mini-cal td {
+	padding: .1em .2em;
+	text-align: right;
+}
+.viewweek, .viewday {
+	border: none;
+	width:100%;
+}
+.viewweek dt {
+	line-height: 2em;
+}
+.divider, .viewday li, .viewweek dt {
+	border-top: 1px solid;
+}

@@ -43,13 +43,18 @@
 <caption><a class="nav doublearrow" href="{link action=viewmonth time=$prevmonth}" title="{$_TR.alt_previous}">&laquo;</a> {$now|format_date:"%B %Y"} <a class="nav doublearrow" href="{link action=viewmonth time=$nextmonth}" title="{$_TR.alt_next}">&raquo;</a></caption>
 
 		<tr class="daysoftheweek">
+			{if $smarty.const.DISPLAY_START_OF_WEEK == 0}
 			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday}</th>
+			{/if}
 			<th scope="col" abbr="{$_TR.monday}" title="{$_TR.monday}">{$_TR.monday}</th>
 			<th scope="col" abbr="{$_TR.tuesday}" title="{$_TR.tuesday}">{$_TR.tuesday}</th>
 			<th scope="col" abbr="{$_TR.wednesday}" title="{$_TR.wednesday}">{$_TR.wednesday}</th>
 			<th scope="col" abbr="{$_TR.thursday}" title="{$_TR.thursday}">{$_TR.thursday}</th>
 			<th scope="col" abbr="{$_TR.friday}" title="{$_TR.friday}">{$_TR.friday}</th>
 			<th scope="col" abbr="{$_TR.saturday}" title="{$_TR.saturday}">{$_TR.saturday}</th>
+			{if $smarty.const.DISPLAY_START_OF_WEEK != 0}
+			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday}</th>
+			{/if}
 		</tr>
 	{math equation="x-86400" x=$now assign=dayts}
 	{foreach from=$monthly item=week key=weeknum}

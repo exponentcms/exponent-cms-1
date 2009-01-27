@@ -115,6 +115,7 @@ class calendarmodule {
 		}
 
 		$time = (isset($_GET['time']) ? $_GET['time'] : time());
+
 		$template->assign("time",$time);
 
 		$viewconfig = $template->viewparams;
@@ -130,40 +131,48 @@ class calendarmodule {
 				return ($a->eventstart < $b->eventstart ? -1 : 1);
 			}
 		}
-
 		if ($viewconfig['type'] == "minical") {
-			$monthly = exponent_datetime_monthlyDaysTimestamp();
-			$info = getdate(time());
-			$currentday = $info['mday'];
+			$monthly = exponent_datetime_monthlyDaysTimestamp($time);
+			$info = getdate($time);
+			$timefirst = mktime(12,0,0,$info['mon'],1,$info['year']);
+			$now = getdate(time());
+			$currentday = $now['mday'];
+			$endofmonth = date('t', $time);
 			foreach ($monthly as $weekNum=>$week) {
 				foreach ($week as $dayNum=>$day) {
-					if ($dayNum == $info['mday']) {
+					if ($dayNum == $now['mday']) {
 						$currentweek = $weekNum;
 					}
-					$monthly[$weekNum][$dayNum]['number'] = ($monthly[$weekNum][$dayNum]['ts'] != -1) ? $db->countObjects("eventdate",$locsql." AND date = ".$day['ts']) : -1;
+					if ($dayNum <= $endofmonth) {
+						$monthly[$weekNum][$dayNum]['number'] = ($monthly[$weekNum][$dayNum]['ts'] != -1) ? $db->countObjects("eventdate",$locsql." AND date = ".$day['ts']) : -1;
+					}
 				}
 			}
 
 			$template->assign("monthly",$monthly);
 			$template->assign("currentweek",$currentweek);
 			$template->assign("currentday",$currentday);
-			$template->assign("now",time());
+			$template->assign("now",$timefirst);
+			$prevmonth = mktime(0, 0, 0, date("m",$timefirst)-1, date("d",$timefirst)+10,   date("Y",$timefirst));
+			$nextmonth = mktime(0, 0, 0, date("m",$timefirst)+1, date("d",$timefirst)+10,   date("Y",$timefirst));
+			$template->assign("prevmonth",$prevmonth);
+			$template->assign("thismonth",$timefirst);
+			$template->assign("nextmonth",$nextmonth);
 		} else if ($viewconfig['type'] == "byday") {
 		  // Remember this is the code for weekly view and monthly listview
 		  // Test your fixes on both views before submitting your changes to cvs
-    			$startperiod = 0;
+   			$startperiod = 0;
 			$totaldays = 0;
 			if ($viewconfig['range'] == "week") {
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
+			$template->assign("prev_timestamp",$startperiod - 3600);
+			$template->assign("next_timestamp",$startperiod+(($totaldays * 86400) + 3600));
 			} else {
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
-				//$totaldays  = date('t', time());
 				$totaldays  = date('t', $time);
 			}
 
-			$template->assign("prev_timestamp",$startperiod - 3600);
-			$template->assign("next_timestamp",$startperiod+(($totaldays * 86400) + 3600));
 
 			$days = array();
 			// added per Ignacio
@@ -173,12 +182,13 @@ class calendarmodule {
 				$info = getdate($time);
 
         			if ($viewconfig['range'] == "week") {
-          				$start = $startperiod + ($i*86400);
+          				$start = mktime(12,0,0,$info['mon'],$i,$info['year']);
+  //        				$start = $startperiod + ($i*86400);
 				} else {
           				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				}
 
-				$edates = $db->selectObjects("eventdate",$locsql." AND date = $start");
+				$edates = $db->selectObjects("eventdate",$locsql." AND date = '".$start."'");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
 
 				for ($j = 0; $j < count($days[$start]); $j++) {
@@ -207,15 +217,23 @@ class calendarmodule {
 			$timefirst = mktime(12,0,0,$info['mon'],1,$info['year']);
 			$infofirst = getdate($timefirst);
 
-			if ($infofirst['wday'] == 0) {
-				$monthly[$week] = array(); // initialize for non days
-				$counts[$week] = array();
+			$monthly[$week] = array(); // initialize for non days
+			$counts[$week] = array();
+
+			if ( ($infofirst['wday'] == 0) && (DISPLAY_START_OF_WEEK == 1) ) {
+				for ($i = -6; $i < (1-DISPLAY_START_OF_WEEK); $i++) {
+					$monthly[$week][$i] = array();
+					$counts[$week][$i] = -1;
+				}
+				$weekday = $infofirst['wday']+7; // day number in grid.  if 7+, switch weeks
+
+			} else {
+				for ($i = 1 - $infofirst['wday']; $i < (1-DISPLAY_START_OF_WEEK); $i++) {
+					$monthly[$week][$i] = array();
+					$counts[$week][$i] = -1;
+				}
+				$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
 			}
-			for ($i = 1 - $infofirst['wday']; $i < 1; $i++) {
-				$monthly[$week][$i] = array();
-				$counts[$week][$i] = -1;
-			}
-			$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
 
 			// Grab day counts (deprecated, handled by the date function)
 			// $endofmonth = exponent_datetime_endOfMonthDay($time);
@@ -228,23 +246,22 @@ class calendarmodule {
 				#$monthly[$week][$i] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
 
 				//$dates = $db->selectObjects("eventdate",$locsql." AND date = $start");
-				$dates = $db->selectObjects("eventdate",$locsql." AND date = $start");
+				$dates = $db->selectObjects("eventdate",$locsql." AND date = '".$start."'");
 				$monthly[$week][$i] = calendarmodule::_getEventsForDates($dates);
 
 				$counts[$week][$i] = count($monthly[$week][$i]);
-				if ($weekday >= 6) {
+				if ($weekday >= (6+DISPLAY_START_OF_WEEK)) {
 					$week++;
 					$monthly[$week] = array(); // allocate an array for the next week
 					$counts[$week] = array();
-					$weekday = 0;
+					$weekday = DISPLAY_START_OF_WEEK;
 				} else $weekday++;
 			}
 			// Grab non-day numbers only (after end of month)
-			for ($i = 1; $weekday && $i < (8-$weekday); $i++) {
+			for ($i = 1; $weekday && $i < (8+DISPLAY_START_OF_WEEK-$weekday); $i++) {
 				$monthly[$week][$i+$endofmonth] = array();
 				$counts[$week][$i+$endofmonth] = -1;
 			}
-
 			$template->assign("currentweek",$currentweek);
 			$template->assign("monthly",$monthly);
 			$template->assign("counts",$counts);
