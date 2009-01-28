@@ -16,7 +16,7 @@
 {selectObjects table="newsitem" where="is_featured=1 and location_data='`$news[0]->location_data`'" orderby="edited" item=featured_items}
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 {if $featured_items[0]->id!=""}
-<div id="newsmodule featured">	
+<div class="newsmodule featured">	
 
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
     {if $enable_rss == true}<a class="rsslink" href="{rsslink}">RSS Subscription</a>{/if}
@@ -48,7 +48,7 @@
 			{/if}
 		{/if}
 		{if $permissions.manage_approval == 1}
-			<a href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">
+			<a href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}">
 				<img src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
 			</a>
 		{/if}
