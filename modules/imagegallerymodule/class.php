@@ -93,9 +93,12 @@ class imagegallerymodule {
 				$template->assign('uploadError',$err);
 			}
 		}
+		$where = "";
 
+		if (isset($_GET['id'])) { $where = " AND id='" . intval($_GET['id']) ."' "; }
 
-		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'",'galleryorder DESC');
+		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'" .$where,'galleryorder DESC');
+
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($galleries); $i++) {
 			$iloc->int = $galleries[$i]->id;
@@ -206,9 +209,32 @@ class imagegallerymodule {
 	function deleteIn($loc) {
 		global $db;
 		foreach ($db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'") as $gallery) {
-			$db->delete('imagegallery_image','gallery_id='.$gallery->id);
+//eDebug($gallery);
+			if (exponent_permissions_check("delete",$loc)) {
+				$gallery->images = array();
+				$gallery->images = $db->selectObjects('imagegallery_image', 'gallery_id='.$gallery->id);
+				for ($y = 0; $y < count($gallery->images); $y++) {
+					$image = $gallery->images[$y];
+//eDebug($image);
+					$file = $db->selectObject('file','id='.$image->file_id);
+					file::delete($file);
+					$file->filename = $image->thumbnail;
+					file::delete($file);
+					$file->filename = $image->enlarged;
+					file::delete($file);
+					$db->delete('file','id='.$image->file_id);
+					$db->delete("imagegallery_image","id=".$image->id);
+				}
+				rmdir(BASE.'files/imagegallerymodule/'.$loc->src.'/gallery'.$gallery->id);
+				$db->delete("imagegallery_gallery","id=".$gallery->id);
+			}
 		}
-		$db->delete('imagegallery_gallery',"location_data='".serialize($loc)."'");
+		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
+//eDebug($refcount);
+		if ($refcount <= 0) {
+			rmdir(BASE.'files/imagegallerymodule/'.$loc->src);
+			$db->delete('imagegallery_gallery',"location_data='".serialize($loc)."'");
+		}
 	}
 
 	function copyContent($oloc,$nloc) {

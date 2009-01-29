@@ -38,7 +38,8 @@
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.create == 1}
 	<div class="moduleactions">
-		<a class="newgallery" href="{link action=edit_gallery}">New Gallery</a><br />
+		<a class="newgallery" href="{link action=edit_gallery}">{$_TR.new_gallery}</a>
+		{br}<a href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" />{$_TR.reorder_galleries}</a>{br}
 	</div>
 	{/if}
 	{/permissions}
@@ -67,9 +68,7 @@
 			<div style="clear:both"></div>
 		</div>
 	{foreachelse}
-		<div align="center">
-			<i>No Galleries Found</i>
-		</div>
+		<p><em>{$_TR.no_galleries}</em></p>
 	{/foreach}
 
 </div>
@@ -86,7 +85,7 @@ imagepanel = new YAHOO.widget.Panel("imagepanel", {
 											visible:false,
 											effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.25}
 											} );
-imagepanel.setHeader('Photo'); 
+imagepanel.setHeader('{/literal}{$_TR.photo}{literal}'); 
 imagepanel.setBody('&nbsp;');
 imagepanel.setFooter('&nbsp;');
 imagepanel.render(document.body);

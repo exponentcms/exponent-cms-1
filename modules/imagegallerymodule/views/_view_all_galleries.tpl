@@ -39,36 +39,36 @@
 	<h1>{$gallery->name}</h1>
 	{br}
 	{br}
-	<table cellspacing="0" cellpadding="0" style="border:none;" width="95%" align="left" style="margin-bottom: 15px;">
+	<table>
 	<tr>
 		{foreach name=a from=$gallery->images item=image}
-			<td valign="bottom" align="center" class="imagegallery_picbox">
+			<td class="imagegallery_picbox">
 					<a href="{link action=view_image id=$image->id}">
-						<img style="border:none;" src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->name}" />
+						<img src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->name}" />
 					</a>
 					<div>
 						<a href="{link action=view_image id=$image->id}">{$image->name}</a>
 					</div>
-					<table cellpadding="0" cellspacing="0" border="0">
+					<table>
 					{permissions level=$smarty.const.UI_LEVEL_NORMAL}
 					{if $permissions.manage == 1}
 					<tr>
 					{if $smarty.foreach.a.first == false}
 					{math equation="x-1" x=$image->rank assign=prevrank}
-					<td width="16">
-						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$prevrank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
+					<td>
+						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$prevrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
 					</td>
 					{/if}
-					<td width="16">
-						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+					<td>
+						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 					</td>
-					<td width="16">
-						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onclick="return confirm('Are you sure you want to delete this image?');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+					<td>
+						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_image id=$image->id}" onclick="return confirm('{$_TR.conf_del_img}');"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 					</td>
 					{if $smarty.foreach.a.last == false}
 					{math equation="x+1" x=$image->rank assign=nextrank}
-					<td width="16">
-					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$nextrank}"><img class="mngmnt_icon" style="border:none; text-align:center; margin-right: 5px;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" /></a>
+					<td>
+					<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$nextrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" /></a>
 					</td>
 					{/if}
 					</tr>
@@ -82,15 +82,15 @@
 		</table>
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.manage == 1}
-					<br />
-					<br />
+					{br}
+					{br}
 					<script type="text/javascript">
 					{literal}
 					function validate(frm) {
 					        var num = parseInt(frm.count.value);
 
 					        if (num <= 0 || isNaN(num)) {
-					                alert("Please enter only positive, whole numbers.");
+					                alert("{/literal}{$_TR.whole_number}{literal}");
 					                return false;
 					        }
 
@@ -106,12 +106,12 @@
 					<input type="hidden" name="src" value="{$__loc->src}" />
 					<input type="hidden" name="gid" value="{$gallery->id}" />
 					<input type="hidden" name="action" value="upload_multiple" />
-					Upload Multiple files to {$gallery->name}: <input type="text" size="3" name="count" value="3" /><input type="submit" value="Upload" />
+					{$_TR.upload_files} {$gallery->name}: <input type="text" size="3" name="count" value="3" /><input type="submit" value="{$_TR.upload}" />
 					</form>
 				{/if}
 				{/permissions}
 		{foreachelse}
-		<div align="center"><i>No Galleries Found</i></div>
+		<p><em>{$_TR.no_galleries}</em></p>
 		{/foreach}
 </div>
 

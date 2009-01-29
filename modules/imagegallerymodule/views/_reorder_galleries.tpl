@@ -48,14 +48,14 @@
 </td>
 <td>
 {if $smarty.foreach.a.first == 0}
-	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$prevrank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.gif" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" /></a>
+	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$prevrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.gif" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" /></a>
 {else}
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 {/if}
 {if $smarty.foreach.a.last == 0}
-	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$nextrank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.gif" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" /></a>
+	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$nextrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.gif" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" /></a>
 {else}
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 {/if}
 </td></tr>
 {/foreach}
