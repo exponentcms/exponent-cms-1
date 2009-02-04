@@ -19,7 +19,7 @@
 	text-decoration: none;	
 	color: #1773BC;				
 }
-#sidebar .linklistmodule.quick-links ul li a:hover {	
+#sidebar .linklistmodule.quick-links ul li a:hover, #sidebar .linklistmodule.quick-links ul li a:focus {	
 	color: #333;
 }
 #sidebar .linklistmodule.quick-links ul ul { margin: 0 0 0 5px; padding: 0; }
