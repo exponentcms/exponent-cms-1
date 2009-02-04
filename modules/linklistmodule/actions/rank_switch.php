@@ -32,13 +32,10 @@
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
-eDebug($loc);
 
 if (exponent_permissions_check("configure",$loc)) {
-eDebug($_GET['a']);
-eDebug($_GET['b']);
 
-	$db->switchValues('linklist_link', 'rank', $_GET['a'], $_GET['b'], "location_data='".serialize($loc)."'");
+	$db->switchValues('linklist_link', 'rank', intval($_GET['a']), intval($_GET['b']), "location_data='".serialize($loc)."'");
 
 	exponent_flow_redirect();
 } else {
