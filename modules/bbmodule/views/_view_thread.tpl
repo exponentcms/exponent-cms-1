@@ -58,7 +58,7 @@
 		<h1>{$thread->subject}</h1>
 		<div class="bio" >
 			<h3>{$thread->poster->username}</h3>
-			<div class="avitar">
+			<div class="avatar">
 				{if $thread->poster->avatar_path != ""}
 					<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="View user profile"><img src="{$thread->poster->avatar_path}" /></a>
 				{/if}
@@ -116,7 +116,7 @@
 		</div>
 		<div class="bio" >
 			<h3>{$reply->poster->username}</h3>
-			<div class="avitar">
+			<div class="avatar">
 				{if $reply->poster->avatar_path != ""}
 					<a href="{link module=loginmodule action=showuserprofile id=$reply->poster->id}" title="View user profile" ><img class="mngmnt_icon" style="border:none;" src="{$reply->poster->avatar_path}" /></a>
 				{/if}
