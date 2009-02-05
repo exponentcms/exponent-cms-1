@@ -37,7 +37,7 @@ if (isset($_REQUEST['modules'])) {
 	$modules = unserialize($config->modules);
 }
 
-$search_string = trim(strtolower(strip_tags($_GET['search_string'])));
+$search_string = trim(strtolower(strip_tags($_REQUEST['search_string'])));
 
 if ($search_string == "") {
 	echo exponent_lang_loadKey('modules/searchmodule/actions/search.php','need_term');
@@ -116,7 +116,7 @@ foreach ($db->selectObjects("search",exponent_search_whereClause(array("title","
 			$lastfirst = -2*$halflen-1; // padding to be safe.
 			$result->sum = "";
 			while (strlen($result->sum) < 200) {
-				$lastpos = stripos($r->body,$_GET['search_string'],$lastpos);
+				$lastpos = stripos($r->body,$_REQUEST['search_string'],$lastpos);
 				if ($lastpos === false) break;
 				$first = $lastpos - $halflen;
 				if ($first < 0) $first = 0;
