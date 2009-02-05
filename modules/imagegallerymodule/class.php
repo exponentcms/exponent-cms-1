@@ -109,7 +109,7 @@ class imagegallerymodule {
 
 			if ($config->multiple_galleries == 0) {
 				$galleries[$i]->images = array();
-				$galleries[$i]->images = $db->selectObjects('imagegallery_image', 'gallery_id='.$galleries[$i]->id,'rank');
+				$galleries[$i]->images = $db->selectObjects("imagegallery_image","gallery_id=".$galleries[$i]->id . ' ORDER BY rank ASC '.$db->limit($galleries[$i]->perpage,0));
 				for ($y = 0; $y < count($galleries[$i]->images); $y++) {
 					$galleries[$i]->images[$y]->file = $db->selectObject("file","id=".$galleries[$i]->images[$y]->file_id);
 					//eDebug($galleries[$i]->images[$y]->file);
@@ -122,6 +122,14 @@ class imagegallerymodule {
 						}
 					}
 				}
+
+			$galleries[$i]->currentpage = 0;
+//			$galleries[$i]->nextpage = 1;
+//			$galleries[$i]->prevpage = -1;
+			$galleries[$i]->totalimages = count($galleries[$i]->images);
+			$galleries[$i]->totalpages = ceil($galleries[$i]->totalimages/$galleries[$i]->perpage);
+			if ($galleries[$i]->totalpages == 0) $galleries[$i]->totalpages = 1;
+
 			}
 		}
 		if ( $config->random_single_gallery && (count($galleries) > 0) ) {

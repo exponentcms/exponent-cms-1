@@ -42,19 +42,19 @@ if ($gallery) {
 
 	$loc = unserialize($gallery->location_data);
 
-	$totalimages = $db->countObjects("imagegallery_image","gallery_id=".$gallery->id);
-	$currentpage = (isset($_GET['page']) ? $_GET['page'] : 0);
+	$gallery->totalimages = $db->countObjects("imagegallery_image","gallery_id=".$gallery->id);
+	$gallery->currentpage = (isset($_GET['page']) ? $_GET['page'] : 0);
 
-	$perrow = $gallery->perrow != 0 ? $gallery->perrow : 3;
-	$perpage = $gallery->perpage != 0 ? $gallery->perpage : 12;
-	$totalpages = ceil($totalimages/$perpage);
+	$gallery->perrow = $gallery->perrow != 0 ? $gallery->perrow : 3;
+	$gallery->perpage = $gallery->perpage != 0 ? $gallery->perpage : 12;
+	$gallery->totalpages = ceil($gallery->totalimages/$gallery->perpage);
 
+	if ($gallery->totalpages == 0) $gallery->totalpages = 1;
+	if ($gallery->currentpage >= $gallery->totalpages || $gallery->currentpage < 0) $gallery->currentpage = 0;
+//	$gallery->prevpage = $gallery->currentpage-1;
+//	$gallery->nextpage = $gallery->currentpage+1;
 
-	if ($totalpages == 0) $totalpages = 1;
-	if ($currentpage >= $totalpages || $currentpage < 0) $currentpage = 0;
-
-
-	$images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id . ' ORDER BY rank ASC '.$db->limit($perpage,($currentpage*$perpage)));
+	$images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id . ' ORDER BY rank ASC '.$db->limit($gallery->perpage,($gallery->currentpage*$gallery->perpage)));
 	for ($i = 0; $i < count($images); $i++) {
 		$images[$i]->file = $db->selectObject("file","id=".$images[$i]->file_id);
 	}
@@ -64,7 +64,7 @@ if ($gallery) {
 	$table = array();
 	for ($i = 0; $i < count($images);$i++) {
 		$tmp = array();
-		for ($j = 0; $j < $perrow && $i < count($images); $j++, $i++) {
+		for ($j = 0; $j < $gallery->perrow && $i < count($images); $j++, $i++) {
 			$tmp[] = $images[$i];
 		}
 		$table[] = $tmp;
@@ -91,13 +91,13 @@ if ($gallery) {
 	$template->assign("galleries",$galleries);
 	//$template->assign("images",$images);
 	$template->assign("table",$table);
-
-	$template->assign("currentpage",$currentpage+1);
+/*
+	$template->assign("currentpage",$currentpage);
 	$template->assign("nextpage",$currentpage+1);
 	$template->assign("prevpage",$currentpage-1);
 	$template->assign("totalimages",$totalimages);
 	$template->assign("totalpages",$totalpages);
-
+*/
 	$template->output();
 } else {
 	echo SITE_404_HTML;
