@@ -37,9 +37,9 @@ if (isset($_POST['id'])) {
 	$news->edited = time();
 }
 
-if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) || 
+if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
 	(!isset($news->id) && exponent_permissions_check("add_item",$loc)) ||
-	($iloc != null   && exponent_permissions_check("edit_item",$iloc)) 
+	($iloc != null   && exponent_permissions_check("edit_item",$iloc))
 ) {
 
 	//Get and save the image
@@ -58,11 +58,11 @@ if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
 			exit();
                 }
         }
-	
-	$news = newsitem::update($_POST,$news);
+
 	//Get and add the tags selected by the user
-	$news->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
-		
+	if (isset($_POST['tags'])) $news->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
+	$news = newsitem::update($_POST,$news);
+
 	//not sure why this is here - added by James?
 	/*if (!isset($news->id) && $db->countObjects('newsitem',"internal_name='".$news->internal_name."'")) {
 		unset($_POST['internal_name']);
@@ -72,7 +72,7 @@ if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
 		exit('');
 	}
 	*/
-	
+
 	$news->location_data = serialize($loc);
 
 	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");

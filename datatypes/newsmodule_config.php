@@ -136,7 +136,7 @@ class newsmodule_config {
 		$object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
 		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);
 		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
-		$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
+		//$object->show_tags = serialize(listbuildercontrol::parseData($values,'show_tags'));
 		$object->collections = serialize(listbuildercontrol::parseData($values,'collections'));
 		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
 		$object->feed_title = $values['feed_title'];
@@ -146,16 +146,13 @@ class newsmodule_config {
 		} else {
 			$object->item_limit = 10;
 		}
-		if ( $values['pull_rss'] == 1 ) {
-		    $object->pull_rss = 1;
-		    if (!empty($values['rss_feed'])) {
+
+		$object->pull_rss = (isset($values['pull_rss']) ? 1 : 0);
+
+	    if (!empty($values['rss_feed'])) {
     		    $object->rss_feed = serialize(listbuildercontrol::parseData($values,'rss_feed'));
-    		} else {
+   		} else {
     		    $object->rss_feed = null;
-    		}
-		} else {
-		    $object->pull_rss = 0;
-		    $object->rss_feed = null;
 		}
 		$object->rss_cachetime = $values['rss_cachetime'];
 
