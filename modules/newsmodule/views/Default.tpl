@@ -26,7 +26,7 @@
 	{*if $newsitem->is_featured!=1*}
 		<div class="item {cycle values='odd,even'}">
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
-            	{if $newsitem->isRss != true}
+            	{*if $newsitem->isRss != true*}
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
 				{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
@@ -61,14 +61,14 @@
 				{assign var='sortdate' value=$newsitem->edited}
 			{/if}
 
-    		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
+	    		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
 
 			<div class="bodycopy">
-				{$newsitem->body|summarize:"html":"para"}
+				<p>{$newsitem->body|summarize:"html":"para"}</p>
 				<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
 			</div>
+		{*/if*}
 		</div>
-	{/if}
 	{/foreach}
 	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
