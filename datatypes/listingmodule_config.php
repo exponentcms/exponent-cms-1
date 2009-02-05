@@ -33,13 +33,15 @@
 
 class listingmodule_config {
 	function form($object) {
+		$i18n = exponent_lang_loadFile('datatypes/listingmodule_config.php');
+
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
 
 		$form = new form();
 		if (!isset($object->id)) {
 			$object->sort = 'asc_name';
-			$object->items_perpage = 20;
+			$object->items_perpage = 10;
 		} else {
 			switch ($object->orderhow) {
 				case 0: // ascending
@@ -49,10 +51,10 @@ class listingmodule_config {
 					$object->sort = 'desc_'.$object->orderby;
 					break;
 				case 2: // rank
-					$object->sort = 'desc_'.$object->orderby;
+					$object->sort = 'rank_';
 					break;
 				case 3: // random
-					$object->sort = 'rank_';
+					$object->sort = 'random_';
 					break;
 				default:
 					$object->sort = 'asc_name';
@@ -62,19 +64,22 @@ class listingmodule_config {
 		}
 
 		$order_options = array(
-			'asc_name'=>'Alphabetical By Name',
-			'desc_name'=>'Reverse Alphabetical By Name',
-			'rank_'=>'By Specific Position',
-			'random_'=>'Randomly'
+			'asc_name'=>$i18n['sort_name_asc'],
+			'desc_name'=>$i18n['sort_name_desc'],
+			'rank_'=>$i18n['sort_rank'],
+			'random_'=>$i18n['sort_random']
 		);
 
-		$form->register('orderby','Sorting',new dropdowncontrol($object->sort,$order_options));
-		$form->register('items_perpage','Items per page: ',new textcontrol($object->items_perpage,5));
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+		$form->register('items_perpage',$i18n['items_perpage'],new textcontrol($object->items_perpage,5));
+		$form->register('orderby',$i18n['sort_entries'],new dropdowncontrol($object->sort,$order_options));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 
 	function update($values,$object) {
+
+		$object->items_perpage = $values['items_perpage'];
+
 		$toks = explode('_',$values['orderby']);
 		switch ($toks[0]) {
 			case 'asc':
@@ -91,7 +96,6 @@ class listingmodule_config {
 				break;
 		}
 		$object->orderby = $toks[1];
-		$object->items_perpage = $values['items_perpage'];
 
 		return $object;
 	}

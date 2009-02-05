@@ -149,9 +149,11 @@ class listingmodule {
 		foreach ($db->selectObjects('listing',"location_data='".serialize($loc)."'") as $listing) {
         if ($listing->file_id != '') {
           $file = $db->selectObject('file', 'id='.$listing->file_id);
-          file::delete($file);
-          $db->delete('file','id='.$file->id);
-	     }
+          if (is_object($file)) {
+	          file::delete($file);
+	          $db->delete('file','id='.$file->id);
+	      }
+	    }
 		  $db->delete('listing', 'id='.$listing->id);
       }
       // now remove the empty directory
