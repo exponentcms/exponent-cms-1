@@ -1,0 +1,42 @@
+ul.thumbbox, .view-all-galleries ul {
+	list-style-type: none;
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+ul.thumbbox li, .view-all-galleries ul li {
+	display: inline;
+	width: 28%;
+}
+.view-all-galleries ul li br {
+	clear: both;
+}
+.view-all-galleries ul li a {
+	border: 1px solid;
+	float: left;
+	margin: 0.3em;
+	padding: 0.3em;
+	text-align: center;
+	width: 100px;	
+}
+.view-all-galleries ul li a img {
+	float: left;
+}
+ul.thumbbox li img {
+	border: 1px solid;
+	padding: .3em;
+}
+div.paging {
+	width: 99%;
+	margin: 0 auto;
+	clear: both;
+}
+.paging .previous {
+	float: left;
+	display: inline;
+}
+.paging .next {
+	float: right;
+	display: inline;
+}

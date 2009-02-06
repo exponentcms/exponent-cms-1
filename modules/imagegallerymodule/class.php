@@ -108,8 +108,15 @@ class imagegallerymodule {
 			);
 
 			if ($config->multiple_galleries == 0) {
+				$offset = 0;
+				$num_items = 1000000; // just a large number to get everything
+				if (isset($_GET['page'])) {
+					$offset = $galleries[$i]->perpage*intval($_GET['page']);
+					$num_items = $galleries[$i]->perpage;
+				}
+				//$limit = "$offset, $num_items";
 				$galleries[$i]->images = array();
-				$galleries[$i]->images = $db->selectObjects("imagegallery_image","gallery_id=".$galleries[$i]->id . ' ORDER BY rank ASC '.$db->limit($galleries[$i]->perpage,0));
+				$galleries[$i]->images = $db->selectObjects("imagegallery_image","gallery_id=".$galleries[$i]->id. ' ORDER BY rank ASC '.$db->limit($num_items,$offset));
 				for ($y = 0; $y < count($galleries[$i]->images); $y++) {
 					$galleries[$i]->images[$y]->file = $db->selectObject("file","id=".$galleries[$i]->images[$y]->file_id);
 					//eDebug($galleries[$i]->images[$y]->file);

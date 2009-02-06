@@ -54,7 +54,13 @@ if ($gallery) {
 //	$gallery->prevpage = $gallery->currentpage-1;
 //	$gallery->nextpage = $gallery->currentpage+1;
 
-	$images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id . ' ORDER BY rank ASC '.$db->limit($gallery->perpage,($gallery->currentpage*$gallery->perpage)));
+	$offset = 0;
+	$num_items = 1000000; // just a large number to get everything
+	if (isset($_GET['page'])) {
+		$offset = $gallery->perpage*intval($_GET['page']);
+		$num_items = $gallery->perpage;
+	}
+	$images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id . ' ORDER BY rank ASC '.$db->limit($num_items,$offset));
 	for ($i = 0; $i < count($images); $i++) {
 		$images[$i]->file = $db->selectObject("file","id=".$images[$i]->file_id);
 	}
