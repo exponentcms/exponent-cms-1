@@ -60,18 +60,27 @@ if ($gallery) {
 		$offset = $gallery->perpage*intval($_GET['page']);
 		$num_items = $gallery->perpage;
 	}
-	$images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id . ' ORDER BY rank ASC '.$db->limit($num_items,$offset));
-	for ($i = 0; $i < count($images); $i++) {
-		$images[$i]->file = $db->selectObject("file","id=".$images[$i]->file_id);
+
+	$gallery->images = array();
+	$gallery->images = $db->selectObjects("imagegallery_image","gallery_id=".$gallery->id. ' ORDER BY rank ASC '.$db->limit($num_items,$offset));
+	for ($i = 0; $i < count($gallery->images); $i++) {
+		$gallery->images[$i]->file = $db->selectObject("file","id=".$gallery->images[$i]->file_id);
+		//eDebug($gallery->images[$i]->file);
+		if(is_object($gallery->images[$i]->file)){
+			if (file_exists(BASE.$gallery->images[$i]->file->directory."/".$gallery->images[$i]->enlarged)) {
+				$popsize = getimagesize(BASE.$gallery->images[$i]->file->directory."/".$gallery->images[$i]->enlarged);
+				//eDebug($gallery->images[$i]);
+				$gallery->images[$i]->popwidth = $popsize[0];
+				$gallery->images[$i]->popheight = $popsize[1];
+			}
+		}
 	}
 
-	$gallery->images = $images;
-
 	$table = array();
-	for ($i = 0; $i < count($images);$i++) {
+	for ($i = 0; $i < count($gallery->images);$i++) {
 		$tmp = array();
-		for ($j = 0; $j < $gallery->perrow && $i < count($images); $j++, $i++) {
-			$tmp[] = $images[$i];
+		for ($j = 0; $j < $gallery->perrow && $i < count($gallery->images); $j++, $i++) {
+			$tmp[] = $gallery->images[$i];
 		}
 		$table[] = $tmp;
 	}
