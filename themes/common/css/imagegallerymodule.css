@@ -12,7 +12,7 @@ ul.thumbbox li, .view-all-galleries ul li {
 .view-all-galleries ul li br {
 	clear: both;
 }
-.view-all-galleries ul li a {
+.view-all-galleries ul li.imagegallery_picbox a {
 	border: 1px solid;
 	float: left;
 	margin: 0.3em;
@@ -20,7 +20,7 @@ ul.thumbbox li, .view-all-galleries ul li {
 	text-align: center;
 	width: 100px;	
 }
-.view-all-galleries ul li a img {
+.view-all-galleries ul li.imagegallery_picbox a img {
 	float: left;
 }
 ul.thumbbox li img {
