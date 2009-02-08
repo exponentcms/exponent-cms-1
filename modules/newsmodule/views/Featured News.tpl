@@ -19,7 +19,7 @@
 <div class="newsmodule featured">	
 
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-    {if $enable_rss == true}<a class="rsslink" href="{rsslink}">RSS Subscription</a>{/if}
+    {if $enable_rss == true}<a class="rsslink" href="{rsslink}">{$_TR.alt_rssfeed}</a>{/if}
     
 {foreach from=$featured_items item=item}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -67,8 +67,8 @@
 		<span class="date">{$sortdate|format_date:"%B %e"}</span>
 	</div>
 	<div class="bodycopy">
-		{$item->body|summarize:html:para}
-		<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
+		<p>{$item->body|summarize:html:para}</p>
+		<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}<span> "{$item->title}"</span></a>
 	</div>
 </div>
 {/foreach}

@@ -52,11 +52,11 @@
 		</div>
 		<div class="bodycopy">{$post->body}</div>
 		{if $config->allow_comments}
-			<p class="comments post-footer">
-    				<a class="comments" href="{link action=findByTitle title=$post->title}">Comment{if $post->total_comments != 1}s{/if} ({$post->total_comments})</a>
-			</p>
+			<div class="post-footer">
+    				<a class="comments" href="{link action=findByTitle title=$post->title}">Comment{if $post->total_comments != 1}s{/if}<span> on "{$post->title}"</span> ({$post->total_comments})</a>
+			</div>
 		{/if}
-		<hr size="1" />
+		<hr />
 	</div>
 {/foreach}
 {if $total_posts > $config->items_per_page}

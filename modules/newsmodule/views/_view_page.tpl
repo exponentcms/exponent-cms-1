@@ -19,7 +19,7 @@
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 	</div>
 
-	{if $enable_rss == true}<a class="rsslink" href="{rsslink}">RSS Subscription</a>{/if}
+	{if $enable_rss == true}<a class="rsslink" href="{rsslink}">{$_TR.alt_rssfeed}</a>{/if}
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 
 	{foreach from=$news item=newsitem}
@@ -64,8 +64,8 @@
     		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
 
 			<div class="bodycopy">
-				{$newsitem->body|summarize:"html":"para"}
-				<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
+				<p>{$newsitem->body|summarize:"html":"para"}</p>
+				<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}<span> "{$newsitem->title}"</span></a>
 			</div>
 		</div>
 	{/if}

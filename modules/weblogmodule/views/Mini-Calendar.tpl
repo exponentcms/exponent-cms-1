@@ -22,16 +22,21 @@
 	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {/permissions}
-<table cellspacing="0" cellpadding="2" border="0" width="160">
-<tr><td align="center" class="weblog_header" colspan="7">{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B"}</td></tr>
-	<tr>
-		<td align="center" class="weblog_miniday">{$_TR.sunday_short}</td>
-		<td align="center" class="weblog_miniday">{$_TR.monday_short}</td>
-		<td align="center" class="weblog_miniday">{$_TR.tuesday_short}</td>
-		<td align="center" class="weblog_miniday">{$_TR.wednesday_short}</td>
-		<td align="center" class="weblog_miniday">{$_TR.thursday_short}</td>
-		<td align="center" class="weblog_miniday">{$_TR.friday_short}</td>
-		<td align="center" class="weblog_miniday">{$_TR.saturday_short}</td>
+<table class="mini-cal">
+	<caption><a class="nav doublearrow" href="{link action=view_month month=$prevmonth view='Mini-Calendar'}" title="{$_TR.alt_previous}">&laquo;</a> {$now|format_date:"%B"} <a class="nav doublearrow" href="{link action=view_month month=$nextmonth view='Mini-Calendar'}" title="{$_TR.alt_next}">&raquo;</a></caption>
+	<tr class="daysoftheweek">
+		{if $smarty.const.DISPLAY_START_OF_WEEK == 0}
+			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday_short}</th>
+		{/if}
+		<th scope="col" abbr="{$_TR.monday}" title="{$_TR.monday}">{$_TR.monday_short}</th>
+		<th scope="col" abbr="{$_TR.tuesday}" title="{$_TR.tuesday}">{$_TR.tuesday_short}</th>
+		<th scope="col" abbr="{$_TR.wednesday}" title="{$_TR.wednesday}">{$_TR.wednesday_short}</th>
+		<th scope="col" abbr="{$_TR.thursday}" title="{$_TR.thursday}">{$_TR.thursday_short}</th>
+		<th scope="col" abbr="{$_TR.friday}" title="{$_TR.friday}">{$_TR.friday_short}</th>
+		<th scope="col" abbr="{$_TR.saturday}" title="{$_TR.saturday}">{$_TR.saturday_short}</th>
+		{if $smarty.const.DISPLAY_START_OF_WEEK != 0}
+			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday_short}</th>
+		{/if}
 	</tr>
 {foreach from=$days item=week key=weekid}
 	<tr class="{if $currentweek == $weekid}weblog_currentweek{/if}">

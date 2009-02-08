@@ -33,3 +33,69 @@ div.comments {
   font-size: 10px;
   margin-bottom: 30px;
 }
+/* 
+Make readmore and comments links accessible using the techniques at
+http://www.maxdesign.com.au/presentation/more-links/ and
+http://www.knusperpixel.com/css/simple-accessible-more-links-v2/
+*/
+.post-footer a.readmore span, .post-footer a.comments span {
+/*
+Set span off screen
+*/
+	position: absolute;
+	left: -1000px;
+	width: 900px;
+}
+.post-footer a.readmore:hover,
+.post-footer a.readmore:focus,
+.post-footer a.readmore:active,
+.post-footer a.comments:hover,
+.post-footer a.comments:focus,
+.post-footer a.comments:active {
+	/*
+	On 'hover' set the anchor to 'position:relative' to get a
+	measuring point. Somehow IE doesn't like it when this is
+	in the '.post-footer a' declaration...
+	*/
+	position: relative;
+	text-decoration: none; /* Google chrome needs this to be in the parent, so we define it here */
+}
+.post-footer a.readmore:hover span,
+.post-footer a.readmore:focus span,
+.post-footer a.readmore:active span,
+.post-footer a.comments:hover span,
+.post-footer a.comments:focus span,
+.post-footer a.comments:active span {
+	/*
+	Take the previously hidden span and display it near the anchor
+	*/
+	left: 20px;
+	top: 20px;
+	width: 100px;
+	/*
+	This is just for looks...
+	*/
+	padding: 5px;
+	line-height: 1.2em;
+	font-size: 80%;
+	border: 1px solid;
+	text-decoration: inherit; /* Google chrome needs this, instead of a simple attribute of none */
+	background-color: #F6F6FF;
+	color: #000;
+}
+.post-footer a.readmore:hover span:before,
+.post-footer a.readmore:focus span:before,
+.post-footer a.readmore:active span:before {
+	/*
+	IE doesn't show this - but others do.
+	*/
+	content: "Read more";
+}
+.post-footer a.comments:hover span:before,
+.post-footer a.comments:focus span:before,
+.post-footer a.comments:active span:before {
+	/*
+	IE doesn't show this - but others do.
+	*/
+	content: "Comments";
+}

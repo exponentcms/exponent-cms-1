@@ -70,3 +70,18 @@ a.comments {
 .divider, .viewday li, .viewweek dt {
 	border-top: 1px solid;
 }
+/* BASIC NEWSMODULE STYLES */
+/* unpublished news */
+.newsmodule.view-unpublished table {
+	width: 100%;
+	margin-bottom: 1.5em;
+}
+.newsmodule.view-unpublished table th {
+	border-bottom: 1px solid;
+}
+.newsmodule.view-unpublished caption {
+	line-height: 2.5em;
+	text-align: center;
+	font-weight: bold;
+	text-transform: uppercase;
+}

@@ -23,7 +23,7 @@ return array(
 	'view_approval'=>'View Approval',
 	'view_expired'=>'Unpublished / Expired News',
 
-	'alt_rssfeed'=>'Subscribe to this News RSS feed',
+	'alt_rssfeed'=>'RSS Subscription',
 );
 
 ?>

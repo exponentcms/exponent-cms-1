@@ -84,7 +84,7 @@
 		{/foreach}
 	</div>
 {/if}
-<hr size="1" />
+<hr />
 </div>
 {/foreach}
 {if $page != 0}

@@ -47,10 +47,10 @@
 {if $config->allow_comments}
 	<div class="comments">
 	{if $post->is_draft}
-		<i>{$_TR.draft_desc}</i>
+		<em>{$_TR.draft_desc}</em>
 	{else}
     <br />
-    <div class="weblog_itemtitle"><a name="comments">{$this_post->total_comments} comment{if $this_post->total_comments != 1}s{/if} to "{$this_post->title}"</a></div>
+    <div class="weblog_itemtitle"><a class="comments">{$this_post->total_comments} comment{if $this_post->total_comments != 1}s{/if} to "{$this_post->title}"</a></div>
 		{foreach from=$this_post->comments item=comment}
 			<div class="weblog_comment_{cycle values="odd,even"}">
         <div class="weblog_comment_body">{$comment->body}

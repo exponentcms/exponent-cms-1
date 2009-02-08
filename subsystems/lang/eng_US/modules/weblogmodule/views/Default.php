@@ -14,6 +14,7 @@ return array(
 	'delete_confirm'=>'Are you sure you want to delete this Weblog Post?',
 
 	'comment'=>'Comment',
+	'comments'=>'Comments',
 
 	'alt_edit_comment'=>'Edit this Comment',
 	'alt_delete_comment'=>'Delete this Comment',
