@@ -26,7 +26,7 @@
 	{*if $newsitem->is_featured!=1*}
 		<div class="item {cycle values='odd,even'}">
 		{if $newsitem->title != ""}<h2>{$newsitem->title}</h2>{/if}
-            	{*if $newsitem->isRss != true*}
+            	{if $newsitem->isRss != true}
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 			<div class="itemactions">
 				{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
@@ -61,24 +61,34 @@
 				{assign var='sortdate' value=$newsitem->edited}
 			{/if}
 
-	    		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
+    		<span class="date">{$sortdate|format_date:"%A, %B %e, %Y"}</span>
 
 			<div class="bodycopy">
-				<p>{$newsitem->body|summarize:"html":"para"}</p>
+				{$newsitem->body|summarize:"html":"para"}
 				<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
 			</div>
-		{*/if*}
 		</div>
+	{/if}
 	{/foreach}
+
+
+
 	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	<div class="moduleactions">
-    
-    {if $enable_pagination == 1}
-        {if $total_news > $item_limit}
-           <p> <a class="mngmntlink news_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a></p>
+    	{if $enable_pagination == 1}
+            <p>
+            {if $page != 0}
+                {math equation="x-1" x=$page assign=prevpage}
+                <a class="mngmntlink news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>&nbsp;&nbsp;
+            {/if}
+            {if $shownext}
+                {math equation="x+1" x=$page assign=nextpage}
+                <a class="mngmntlink news_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>
+            {/if}
+        	</p>
         {/if}
-	{/if}
+    
 		{if $morenews == 1}
 			<a class="viewmorenews" href="{link action=view_all_news}">{$_TR.view_all}</a>{br}
 		{/if}

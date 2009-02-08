@@ -36,6 +36,7 @@ class newsmodule_config {
 			$object->sortorder = 'DESC';
 			$object->sortfield = 'posted';
 			$object->item_limit = 10;
+			$object->enable_pagination = 0;			
 			$object->enable_rss = false;
 			$object->enable_tags = false;
 			$object->group_by_tags = false;
@@ -102,6 +103,7 @@ class newsmodule_config {
 		$fields = array('posted'=>$i18n['posteddate'],'publish'=>$i18n['publishdate'],'edited'=>'Date of Last Edit');
 		$form->register(null,'',new htmlcontrol('<h1>'.$i18n['general_conf'].'</h1><hr size="1" />'));
 		$form->register('item_limit',$i18n['item_limit'],new textcontrol($object->item_limit));
+		$form->register('enable_pagination',$i18n['enable_pagination'],new checkboxcontrol($object->enable_pagination,true));		
 		$form->register('sortorder',$i18n['sortorder'], new dropdowncontrol($object->sortorder,$opts));
 		$form->register('sortfield',$i18n['sortfield'], new dropdowncontrol($object->sortfield,$fields));
 
@@ -132,6 +134,7 @@ class newsmodule_config {
                 exponent_forms_initialize();
 		$object->sortorder = $values['sortorder'];
 		$object->sortfield = $values['sortfield'];
+		$object->enable_pagination = (isset($values['enable_pagination']) ? 1 : 0);		
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
 		$object->enable_tags = (isset($values['enable_tags']) ? 1 : 0);
 		$object->group_by_tags = (isset($values['group_by_tags']) ? 1 : 0);

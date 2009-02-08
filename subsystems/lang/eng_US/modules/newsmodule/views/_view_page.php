@@ -20,6 +20,7 @@ return array(
 	'read_more'=>'Read More...',
 
 	'next'=>'Next &raquo;',
+	'prev'=>'&laquo; Previous',	
 	'view_all'=>'More News...',
 	'create_news'=>'Create News',
 	'view_approval'=>'View Approval',
