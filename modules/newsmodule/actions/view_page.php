@@ -21,7 +21,7 @@ if (!defined('EXPONENT')) exit('');
 
 $config = $db->selectObject("newsmodule_config","location_data='".serialize($loc)."'");
 if ($config == null) {
-	$config->sortorder = "ASC";
+	$config->sortorder = "DESC";
 	$config->item_limit = 10;
 	$config->enable_pagination = 0;
 }

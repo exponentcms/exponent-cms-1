@@ -154,7 +154,7 @@ class newsmodule {
 		$canviewapproval = false;
 		if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
 		if (!$canviewapproval) { // still not able to view
-			foreach($db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ') AND approved != 0') as $post) {
+			foreach($db->selectObjects('newsitem', $locsql." AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ') AND approved != 0') as $post) {
 				if ($user && $user->id == $post->poster) {
 					$canviewapproval = true;
 					break;
@@ -192,14 +192,13 @@ class newsmodule {
 			$ifloc = "location_data='" . serialize($loc) . "' AND ";
 		}*/			
 		
-		//Get the news items.
-		//$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
 		
 		// pagination by item_limit
-		$total = $db->countObjects('newsitem',"location_data='".serialize($loc)."' AND (publish = 0 or publish <= " . 
+		$total = $db->countObjects('newsitem', $locsql." AND (publish = 0 or publish <= " . 
 									time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0");
 		
 		if($config->enable_pagination == 0) {
+			//Get the news items.
 			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
 		} else {				
 			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . 
