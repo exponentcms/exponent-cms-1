@@ -497,7 +497,7 @@ function exponent_datetime_monthlyDaysTimestamp($timestamp) {
 
 	// Grab non-day numbers only (after end of month)
 	if ($weekday != DISPLAY_START_OF_WEEK) {
-		for ($i = 1; $weekday && $i <= (7-$weekday); $i++) $monthly[$week][$i+$endofmonth] = -1;
+		for ($i = 1; $weekday && $i <= (7-$weekday)+DISPLAY_START_OF_WEEK; $i++) $monthly[$week][$i+$endofmonth] = -1;
 	}
 	return $monthly;
 }

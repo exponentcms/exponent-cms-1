@@ -22,8 +22,9 @@
 	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {/permissions}
+{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 <table class="mini-cal">
-	<caption><a class="nav doublearrow" href="{link action=view_month month=$prevmonth view='Mini-Calendar'}" title="{$_TR.alt_previous}">&laquo;</a> {$now|format_date:"%B"} <a class="nav doublearrow" href="{link action=view_month month=$nextmonth view='Mini-Calendar'}" title="{$_TR.alt_next}">&raquo;</a></caption>
+	<caption><a class="nav doublearrow" href="{link action=view_mini month=$prevmonth view='Mini-Calendar'}" title="{$_TR.alt_previous}">&laquo;</a> {$now|format_date:"%B %Y"} <a class="nav doublearrow" href="{link action=view_mini month=$nextmonth view='Mini-Calendar'}" title="{$_TR.alt_next}">&raquo;</a></caption>
 	<tr class="daysoftheweek">
 		{if $smarty.const.DISPLAY_START_OF_WEEK == 0}
 			<th scope="col" abbr="{$_TR.sunday}" title="{$_TR.sunday}">{$_TR.sunday_short}</th>
@@ -42,7 +43,7 @@
 	<tr class="{if $currentweek == $weekid}weblog_currentweek{/if}">
 		{foreach from=$week key=day item=dayinfo}
 			<td align="center">
-			{if $day > 0}
+			{if $dayinfo.number > -1}
 				{if $dayinfo.number == 0}
 					{$day}
 				{else}
