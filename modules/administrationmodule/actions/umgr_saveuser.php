@@ -46,15 +46,17 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
 		} else {
 			$username_error = exponent_security_checkUsername($_POST['username']);
 			$strength_error = exponent_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
-			
+
 			if ($username_error != ''){
 				unset($_POST['username']);
-		                validator::failAndReturnToForm(sprintf($i18n['username_failed'],$username_error), $_POST);
+		        validator::failAndReturnToForm(sprintf($i18n['username_failed'],$username_error), $_POST);
 			}else if ($strength_error != '') {
 				unset($_POST['pass1']);
-	                        unset($_POST['pass2']);
-        	                validator::failAndReturnToForm(sprintf($i18n['strength_failed'],$strength_error), $_POST);
+	            unset($_POST['pass2']);
+        	    validator::failAndReturnToForm(sprintf($i18n['strength_failed'],$strength_error), $_POST);
 			} else {
+				validator::validate(array('valid_email'=>'email'), $_POST);
+
 				$u = exponent_users_create($_POST,null);
 				$u = exponent_users_saveProfileExtensions($_POST,$u,true);
 				exponent_flow_redirect();
