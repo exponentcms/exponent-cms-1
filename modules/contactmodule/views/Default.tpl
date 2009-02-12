@@ -16,7 +16,7 @@
 <div class="contactmodule default">
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	{if $numContacts != 0}
-		{form action=contact}
+		{form name=contact action=contact}
 			{control type=hidden name=msg value="_Default"}
 			{control type=text name=name label=$_TR.name size=45}
 			{control type=text name=email label=$_TR.email size=45}

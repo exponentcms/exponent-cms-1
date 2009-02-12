@@ -22,6 +22,7 @@ function smarty_block_form($params,$content,&$smarty, &$repeat) {
 		$name = isset($params['name']) ? 'id="'.$params['name'].'"' : '';
 		$module = isset($params['module']) ? $params['module'] : $smarty->_tpl_vars['__loc']->mod;
 		$method = isset($params['method']) ? $params['method'] : "post";
+		$class = isset($params['class']) ? 'class="'.$params['class'].'"' : '';
 		$enctype = isset($params['enctype']) ? $params['enctype'] : 'multipart/form-data';
 
 		echo "<!-- Form Object 'form' -->\r\n";
@@ -32,12 +33,12 @@ function smarty_block_form($params,$content,&$smarty, &$repeat) {
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/lang/calendar-en.js"></script>'."\r\n";
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'external/jscalendar/calendar-setup.js"></script>'."\r\n";
 		echo '<script type="text/javascript" src="'.PATH_RELATIVE.'js/PopupDateTimeControl.js"></script>'."\r\n";
-		echo '<form '.$name.' class="'.$params['class'].'" method="'.$method.'" action="'.URL_FULL.'index.php" enctype="'.$enctype.'">'."\r\n";
-		echo '<input type="hidden" name="module" id="module" value="'.$module.'" />'."\r\n";
-		echo '<input type="hidden" name="src" id="src" value="'.$smarty->_tpl_vars['__loc']->src.'" />'."\r\n";
-		echo '<input type="hidden" name="int" id="int" value="'.$smarty->_tpl_vars['__loc']->int.'" />'."\r\n";
+		echo '<form '.$name.$class.' method="'.$method.'" action="'.URL_FULL.'index.php" enctype="'.$enctype.'">'."\r\n";
+		echo '<input type="hidden" name="module" value="'.$module.'" />'."\r\n";
+		echo '<input type="hidden" name="src" value="'.$smarty->_tpl_vars['__loc']->src.'" />'."\r\n";
+		echo '<input type="hidden" name="int" value="'.$smarty->_tpl_vars['__loc']->int.'" />'."\r\n";
 		echo isset ($params['ajax']) ? '<input type="hidden" name="ajax_action" value="1" />'."\r\n" : '';
-		if (isset($params['action']))  echo '<input type="hidden" name="action" id="action" value="'.$params['action'].'" />'."\r\n";
+		if (isset($params['action']))  echo '<input type="hidden" name="action" value="'.$params['action'].'" />'."\r\n";
 
 		//echo the innards
 	}else{

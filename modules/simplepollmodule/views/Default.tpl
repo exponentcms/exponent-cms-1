@@ -44,7 +44,7 @@
 {if $moduletitle != ''}<div class="moduletitle">{$moduletitle}</div>{/if}
 
 {if $have_answers != 0}
-<form method="post">
+<form method="post" action="{$smarty.const.URL_FULL}index.php">
 	<input type="hidden" name="module" value="simplepollmodule" />
 	<input type="hidden" name="action" value="vote" />
 	<b>{$question->question}</b><br />

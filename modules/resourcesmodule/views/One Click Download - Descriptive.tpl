@@ -63,7 +63,7 @@
 		</div>
 		</li>
 		{/foreach}
-	<ul>
+	</ul>
 	<div class="moduleactions">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.post == 1 && $noupload != 1}
@@ -78,6 +78,7 @@
 		{else}{$_TR.file_unknown}
 		{/if}
 		</div>
-		{/if}	</div>
+		{/if}	
+	</div>
 	
 </div>

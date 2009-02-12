@@ -13,29 +13,6 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- <style type="text/css" media="screen">
-     {*should go in stylesheet*}
-     {literal}
-     .navigationmodule.collapsing .depth1 {
-         margin-left:10px;
-     }
-     .navigationmodule.collapsing .depth2 {
-         margin-left:20px;
-     }
-     .navigationmodule.collapsing .depth3 {
-         margin-left:30px;
-     }
-     .navigationmodule.collapsing .depth4 {
-         margin-left:40px;
-     }
-     .navigationmodule.collapsing .depth5 {
-         margin-left:50px;
-     }
-     {/literal}
- </style>
- 
- 
- 
 <div class="navigationmodule collapsing">
     <ul>
     {foreach from=$sections item=section}

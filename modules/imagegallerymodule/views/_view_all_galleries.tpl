@@ -29,35 +29,6 @@
  * $Id: _view_gallery.tpl,v 1.11 2005/06/22 22:15:23 filetreefrog Exp $
  *}
 <div class="imagegallerymodule view-all-galleries">
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.manage == 1}
-			<script type="text/javascript">
-			{literal}
-			function validate(frm) {
-				var num = parseInt(frm.count.value);
-
-				if (num <= 0 || isNaN(num)) {
-					alert("{/literal}{$_TR.whole_number}{literal}");
-					return false;
-				}
-
-				if (num > 25) num = 25;
-
-				frm.count.value = num;
-				return true;
-			}
-			{/literal}
-			</script>
-			<form method="get" onsubmit="return validate(this)" action="{$smarty.const.URL_FULL}index.php">
-			<input type="hidden" name="module" value="imagegallerymodule" />
-			<input type="hidden" name="src" value="{$__loc->src}" />
-			<input type="hidden" name="gid" value="{$gallery->id}" />
-			<input type="hidden" name="action" value="upload_multiple" />
-			{$_TR.upload_files} {$galleries[0]->name}: <input type="text" size="3" name="count" value="3" /><input type="submit" value="{$_TR.upload}" />
-			</form>
-		{/if}
-	{/permissions}
-
 	{foreach from=$galleries item=gallery}
 		{assign var=boxw value=$gallery->box_size}
 		{assign var=boxh value=$gallery->box_size}
@@ -66,6 +37,35 @@
 	
 		<h1>{$gallery->name}</h1>
 		{br}
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
+			{if $permissions.manage == 1}
+				<script type="text/javascript">
+				{literal}
+				function validate(frm) {
+					var num = parseInt(frm.count.value);
+
+					if (num <= 0 || isNaN(num)) {
+						alert("{/literal}{$_TR.whole_number}{literal}");
+						return false;
+					}
+
+					if (num > 25) num = 25;
+
+					frm.count.value = num;
+					return true;
+				}
+				{/literal}
+				</script>
+				<form method="get" onsubmit="return validate(this)" action="{$smarty.const.URL_FULL}index.php">
+				<input type="hidden" name="module" value="imagegallerymodule" />
+				<input type="hidden" name="src" value="{$__loc->src}" />
+				<input type="hidden" name="gid" value="{$gallery->id}" />
+				<input type="hidden" name="action" value="upload_multiple" />
+				{$_TR.upload_files} {$galleries[0]->name}: <input type="text" size="3" name="count" value="3" /><input type="submit" value="{$_TR.upload}" />
+				</form>
+			{/if}
+		{/permissions}
+
 		{br}
 		{permissions level=$smarty.const.UI_LEVEL_NORMAL}
 			{if $permissions.manage != 1}

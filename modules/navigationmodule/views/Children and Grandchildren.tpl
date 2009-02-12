@@ -18,11 +18,11 @@
 	{foreach from=$sections item=section}
 	{if $section->parent==$current->id}
 		{if $section->active == 1}
-		<li class="expandablenav"><img id="{$section->name|replace:' ':''}" class="twisty" src="{$smarty.const.THEME_RELATIVE}images/expand.gif"><a class="childlink" title="{$section->name}" href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$section->name|truncate:23:"...":true}</a>
+		<li class="expandablenav"><img id="{$section->name|replace:' ':''}" class="twisty" src="{$smarty.const.THEME_RELATIVE}images/expand.gif" alt="" /><a class="childlink" title="{$section->name}" href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$section->name|truncate:23:"...":true}</a>
 			{getnav type="children" of=$section->id assign=grandchildren}
 			{foreach key=skey name=grandchildren from=$grandchildren item=grandchild}
 			{if $smarty.foreach.grandchildren.first}<ul id="{$section->name|replace:' ':''}gc" class="grandchildren">{/if}
-				<li><a href="{$grandchild->link}" class="navlink"{if $grandchild->new_window} target="_blank"{/if} title="{$grandchild->name}">{$grandchild->name|truncate:30:"...":true}</a>
+				<li><a href="{$grandchild->link}" class="navlink"{if $grandchild->new_window} target="_blank"{/if} title="{$grandchild->name}">{$grandchild->name|truncate:30:"...":true}</a></li>
 			{if $smarty.foreach.grandchildren.last}</ul>{/if}
 			{/foreach}		
 		</li>

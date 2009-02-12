@@ -13,27 +13,6 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- <style type="text/css" media="screen">
-     {*should go in stylesheet*}
-     {literal}
-     .navigationmodule.expanding-children-only .depth1 {
-         margin-left:10px;
-     }
-     .navigationmodule.expanding-children-only .depth2 {
-         margin-left:20px;
-     }
-     .navigationmodule.expanding-children-only .depth3 {
-         margin-left:30px;
-     }
-     .navigationmodule.expanding-children-only .depth4 {
-         margin-left:40px;
-     }
-     .navigationmodule.expanding-children-only .depth5 {
-         margin-left:50px;
-     }
-     {/literal}
- </style>
-
 <div class="navigationmodule expanding-children-only">
     <ul>
     {foreach from=$sections item=section}

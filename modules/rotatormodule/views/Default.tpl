@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- <div id="" class="contentrotatormodule rotate-default">
+ <div class="contentrotatormodule rotate-default">
      {if $moduletitle}<h1>{$moduletitle}</h1>{/if}
      {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
      {if $permissions.administrate == 1}
