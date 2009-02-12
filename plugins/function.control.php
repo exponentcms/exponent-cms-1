@@ -75,7 +75,17 @@ function smarty_function_control($params,&$smarty) {
 				$name = isset($params['name']) ? $params['name'].'Control\"' : "captchaControl\"";
 				echo '<div id="'.$name.' class="control"><label><span class="label">'.$params['label'].'</span>';
 				echo '<span class="captcha">'.sprintf($i18n['captcha_description'],'<img class="captcha-img" src="'.PATH_RELATIVE.'captcha.php" alt="captcha information" />');
-				echo '<a href="javascript:void(0)" class="captcha-why" onclick="window.open(\''.URL_FULL.'/captcha_why.php\',\'mywindow\',\'width=450,height=300\')">'.$i18n['why_do_this'].'</a></span>';
+
+				$infoFile = BASE.'subsystems/lang/'.LANG.'/subsystems/forms/captcha_why.php';
+				// If the language specific file is not found use the English
+				if (!is_file($infoFile)) {
+					$infoFile = URL_FULL.'subsystems/lang/eng_US/subsystems/forms/captcha_why.php';
+				} else {
+					// rewrite the base to full
+					$infoFile = URL_FULL.'subsystems/lang/'.LANG.'/subsystems/forms/captcha_why.php';
+				}
+				echo '<a href="javascript:void(0)" class="captcha-why" onclick="window.open(\''.$infoFile.'\',\'mywindow\',\'width=450,height=300\')">'.$i18n['why_do_this'].'</a></span>';
+
 				unset($params['label']);
 				$params['name'] = 'captcha_string';
 				$control = new textcontrol('',6);
