@@ -30,7 +30,7 @@ class validator {
         					$post['_formError'][] = exponent_lang_getText('Captcha Verification Failed');
 					}
 				break;
-				case 'presense_of':
+				case 'presence_of':
 					if (empty($post[$param])) $post['_formError'][] = $param.' is a required field.';
 				break;
 				case 'valid_email':
@@ -42,10 +42,10 @@ class validator {
 				break;
 			}
 		}
-		
+
 		if (count($post['_formError']) > 0) {
 			self::failAndReturnToForm($post['_formError'], $post);
-		} else { 
+		} else {
 			return true;
 		}
 	}
@@ -83,8 +83,8 @@ class validator {
 			}
 		}
 		return true;
-	}		
-	
+	}
+
 	public static function uploadSuccessful($file) {
 		global $db;
 	    if (is_object($file)) {
