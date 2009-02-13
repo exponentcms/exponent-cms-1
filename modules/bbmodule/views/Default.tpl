@@ -32,79 +32,83 @@
 
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
 
-	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-	<table cellspacing="0" cellpadding="0" border="1">
-	<tr>
-		<th>Forum</td>
-		<th>Topics</td>
-		<th>Last Post</td>
-	</tr>
-	{foreach from=$boards item=board}
-	<tr class="bbrow {cycle values='odd,even'}">
-		<td>
-			<b><a class="mngmntlink bb_mngmntlink" href="{link module="bbmodule" action="view_board" id=$board->id}">{$board->name}</a></b>
-			<br />		<span class="bb_boarddesc">{$board->description}</span> {permissions level=$smarty.const.UILEVEL_NORMAL}
-				<div class="bb_editcontrolls">{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1} <a style="border: 0px" href="{link action=edit_board id=$board->id}" title="Edit the name or description for this board">
-						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-				</a> {/if}
-				{if $permissions.delete_board == 1 || $board->permissions.delete_board == 1} <a style="border: 0px" href="{link action=delete_board id=$board->id}" title="Delete this board">
-						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-				</a>
-				{/if}
-				{/permissions}</div>	
-			</td>
-			<td align="center" class="">
-			{$board->num_topics}</td>
-		<td align="center" class="">
-			{if $board->last_post == null}
-				No Posts
-			{else}
-				<span class="bb_date">{$board->last_post->posted|format_date:"%D %T"}</span> <br /> 
-				<a href="{link action=showuserprofile module=loginmodule id=$board->last_post->poster->id}">{attribution user=$board->last_post->poster}</a>
-				<a href="{link action=view_thread id=$board->last_post->id}" title="View latest post"><img src="{$smarty.const.ICON_RELATIVE}expmode.png" title="{$_TR.alt_expmode}" alt="{$_TR.alt_expmode}" /></a>
-			{/if} 
-		</td>
-	</tr>
-	{foreachelse}
-	<tr>
-		<td><i>No bulletin boards were found</i></td>
-	</tr>
-	{/foreach}
+	<table>
+		{if $moduletitle != ""}<caption>{$moduletitle}</caption>{/if}
+		<tr>
+			<th>{$_TR.title}</th>
+			<th>{$_TR.topics}</th>
+			<th>{$_TR.lastpost}</th>
+		</tr>
+		{foreach from=$boards item=board}
+			<tr class="bbrow {cycle values='odd,even'}">
+				<td>
+					<strong><a class="mngmntlink bb_mngmntlink" href="{link module="bbmodule" action="view_board" id=$board->id}">{$board->name}</a></strong>
+					<div class="bb_boarddesc">{$board->description}</div>
+					{permissions level=$smarty.const.UILEVEL_NORMAL}
+						{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1 || $permissions.delete_board == 1 || $board->permissions.delete_board == 1} 
+							<div class="bb_editcontrols">
+								{if $permissions.edit_board == 1 || $board->permissions.edit_board == 1}
+									<a href="{link action=edit_board id=$board->id}" title="{$_TR.edit_board}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+								{/if}
+								{if $permissions.delete_board == 1 || $board->permissions.delete_board == 1}
+									<a href="{link action=delete_board id=$board->id}" title="{$_TR.del_board}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+								{/if}
+							</div>
+						{/if}
+					{/permissions}	
+				</td>
+				<td>{$board->num_topics}</td>
+				<td>
+					{if $board->last_post == null}
+						{$_TR.no_posts}
+					{else}
+						<span class="bb_date">{$board->last_post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</span>
+						<br /> 
+						<a href="{link action=showuserprofile module=loginmodule id=$board->last_post->poster->id}">{attribution user=$board->last_post->poster}</a>
+						<a href="{link action=view_thread id=$board->last_post->id}" title="View latest post"><img src="{$smarty.const.ICON_RELATIVE}expmode.png" title="{$_TR.alt_expmode}" alt="{$_TR.alt_expmode}" /></a>
+					{/if} 
+				</td>
+			</tr>
+		{foreachelse}
+			<tr>
+				<td><em>{$_TR.no_board}</em></td>
+			</tr>
+		{/foreach}
 	</table>
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	<div class="moduleactions">
-	{if $permissions.create_board == 1}
-		<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">New Board</a><br />
-	{/if}
-	{if $loggedin == 1}
-	{if $monitoring == 1}
-		<br /><br /><i>You are monitoring one or more boards from this forum for new threads.</i>
-		<br /><i><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=0}">Click here</a> to stop monitoring it.</i>
-	{else}
-		You are not monitoring this board.
-		<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=1}">Click here</a> to start monitoring it for new threads.</i>
-	{/if}
-	{/if}
-	</div>
+		{if $permissions.create_board == 1 || $loggedin == 1 || $monitoring == 1}
+			<div class="moduleactions">
+				{if $permissions.create_board == 1}
+					<a class="mngmntlink bb_mngmntlink" href="{link action=edit_board}">{$_TR.new_board}</a>
+					<br />
+				{/if}
+				{if $loggedin == 1}
+					{if $monitoring == 1}
+						<br /><br /><em>{$_TR.board_monitor}</em>
+						<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=0}">{$_TR.stop_monitoring}</a>
+					{else}
+						{$_TR.not_monitoring}
+						<br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_all_boards monitor=1}">{$_TR.start_monitor}</a>
+					{/if}
+				{/if}
+			</div>
+		{/if}
 	{/permissions}
-	
+
 	{if $show_users == true}
-	<div class="moduletitle bb_moduletitle" style="margin-top: 45px;">Who's Online</div>
-		<table cellspacing="1" cellpadding="5" style="border:none;" width="100%">
+		<div class="moduletitle bb_moduletitle whos_online">{$_TR.who_online}</div>
+		<table>
 			<tr class="bb_boardlist_header">
-				<td>{$total_users} visitors in the last 15 minutes: {$num_members} Members - {$anon_users} Guests</td>
+				<td>{$total_users} {$_TR.totalusers} {$num_members} {$_TR.members} {$anon_users} {$_TR.guests}</td>
 			</tr>
 			<tr>
 				<td>
-					<img class="mngmnt_icon" style="border:none; " src="{$smarty.const.ICON_RELATIVE}icon_world2.gif" title="{$_TR.alt_world2}" alt="{$_TR.alt_world2}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}icon_world2.gif" title="{$_TR.alt_world2}" alt="{$_TR.alt_world2}" />
 					{foreach from=$users_online item=user}
-						<a href="{link module=loginmodule action=showuserprofile id=$user->id}" title="View user profile">{$user->username}</a>&nbsp;
+						<a href="{link module=loginmodule action=showuserprofile id=$user->id}" title="{$_TR.view_profile}">{$user->username}</a>&nbsp;
 					{/foreach}
 				</td>
 			</tr>
 		</table>
-	</div>
 	{/if}
 </div>
-
-
