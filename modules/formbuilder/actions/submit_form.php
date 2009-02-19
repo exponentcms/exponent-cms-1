@@ -120,6 +120,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 				);
 				$mail = new exponentMail();
 				$mail->addHTML($emailHtml);
+				$mail->subject($f->subject);
 				foreach ($emaillist as $email) {
 					$mail->addTo($email);
 					$mail->send();

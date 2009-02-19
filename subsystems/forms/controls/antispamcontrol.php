@@ -48,7 +48,7 @@ class antispamcontrol extends formcontrol {
 	function isSimpleControl() { return true; }
 
 	function controlToHTML($name) {
-		$i18n = pathos_lang_loadFile('subsystems/forms/controls/antispamcontrol.php');
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/antispamcontrol.php');
 		$html = $i18n['title'];
 		switch ( rand(1,2) ) {
 			case 1:
