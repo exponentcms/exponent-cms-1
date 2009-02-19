@@ -14,62 +14,62 @@
 # License, or (at your option) any later version.
 #
 # GPL: http://www.gnu.org/licenses/gpl.txt
-# 
+#
 ##################################################
 
 class navigationmodule {
 	function name() { return exponent_lang_loadKey('modules/navigationmodule/class.php','module_name'); }
 	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/navigationmodule/class.php','module_description'); }
-	
+
 	function hasContent() { return false; }
 	function hasSources() { return false; }
 	function hasViews()   { return true; }
-	
+
 	function supportsWorkflow() { return false; }
-	
+
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/navigationmodule/class.php');
-		
+
 		return array(
 			'view'=>$i18n['perm_view'],
 			'manage'=>$i18n['perm_manage']
 		);
 	}
-	
+
 	function show($view,$loc = null,$title = '') {
 		global $db;
 		//$id = exponent_sessions_get('last_section');
 		global $sectionObj;
 		$id = $sectionObj->id;
 		$current = null;
-		
+
 		switch( $view )
 		{
-  			case "Breadcrumb":
+  			//case "Breadcrumb":
 				//Show not only the location of a page in the hierarchy but also the location of a standalone page
-				global $sections;
-				$current = $db->selectObject('section',' id= '.$id);
-			
-				if( $current->parent == -1 )
-				{
-					$sections = navigationmodule::levelTemplate(-1,0);
-					foreach ($sections as $section) {
-						if ($section->id == $id) {
-							$current = $section;
-							break;
-						}
-					}
-				} else {
-					$sections = navigationmodule::levelTemplate(0,0);
-					foreach ($sections as $section) {
-						if ($section->id == $id) {
-							$current = $section;
-							break;
-						}
-					}
-				}
-			break;
+			//	global $sections;
+			//	$current = $db->selectObject('section',' id= '.$id);
+			//
+			//	if( $current->parent == -1 )
+			//	{
+			//		$sections = navigationmodule::levelTemplate(-1,0);
+			//		foreach ($sections as $section) {
+			//			if ($section->id == $id) {
+			//				$current = $section;
+			//				break;
+			//			}
+			//		}
+			//	} else {
+			//		$sections = navigationmodule::levelTemplate(0,0);
+			//		foreach ($sections as $section) {
+			//			if ($section->id == $id) {
+			//				$current = $section;
+			//				break;
+			//			}
+			//		}
+			//	}
+			//break;
 			default:
 				//$sections = navigationmodule::levelTemplate(0,0);
 				global $sections;
@@ -96,15 +96,15 @@ class navigationmodule {
 		$template->assign('moduletitle',$title);
 		$template->output();
 	}
-	
+
 	function deleteIn($loc) {
 		// Do nothing, no content
 	}
-	
+
 	function copyContent($fromloc,$toloc) {
 		// Do nothing, no content
 	}
-	
+
 	function getChildren(&$i) {
 		global $sections;
 
@@ -119,14 +119,14 @@ class navigationmodule {
 				// start setting up the objects to return
 				$obj = null;
 				$obj->text = $sections[$i]->name;
-				
-				if ($sections[$i]->active == 1) { 
+
+				if ($sections[$i]->active == 1) {
 					$obj->url = $sections[$i]->link;
-				} else { 
+				} else {
 					$obj->url = "#";
 					$obj->onclick = "onclick: { fn: return false }";
 				}
-				
+
 				//echo "i=".$i."<br>";
 				if (navigationmodule::hasChildren($i)) {
 					$obj->submenu = null;
@@ -135,11 +135,11 @@ class navigationmodule {
 					$obj->submenu->itemdata = getChildren($i);
 					$ret_array[] = $obj;
 				} else {
-					$ret_array[] = $obj;	
+					$ret_array[] = $obj;
 				}
 
 				if (($i+1) >= count($sections) || $sections[$i+1]->depth <= $ret_depth) {
-					return $ret_array;		
+					return $ret_array;
 				}
 			}
 		}
@@ -159,27 +159,27 @@ class navigationmodule {
 			if ($sections[$i]->depth == 0) {
 				$obj = null;
 				$obj->id = $sections[$i]->name.$sections[$i]->id;
-				
-				/*if ($sections[$i]->active == 1) { 
+
+				/*if ($sections[$i]->active == 1) {
 					$obj->disabled = false;
-				} else { 
+				} else {
 					$obj->disabled = true;
 				}*/
-				
+
 				//$obj->disabled = true;
 				$obj->itemdata = navigationmodule::getChildren($i);
-			} 
+			}
 			$json_array[] = $obj;
 		}
-		
+
 		return json_encode($json_array);
 	}
-	
+
 	function spiderContent($item = null) {
 		global $db;
 		global $sections;
 		global $router;
-		
+
                 if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
 		$search = null;
                 $search->category = 'Webpages';
@@ -218,7 +218,7 @@ class navigationmodule {
 	function searchName() {
                 return "Page names and meta tags";
         }
-	
+
 	/*
 	 * Retrieve either the entire hierarchy, or a subset of the hierarchy, as an array suitable for use
 	 * in a dropdowncontrol.  This is used primarily by the section datatype for moving and adding
@@ -250,7 +250,7 @@ class navigationmodule {
 		}
 		return $html;
 	}
-	
+
 	/*
 	 * Returns a flat representation of the full site hierarchy.
 	 */
@@ -278,10 +278,10 @@ class navigationmodule {
 				}
 			}
 		}
-		
+
 		return $ar;
 	}
-	
+
 	function levelTemplate($parent, $depth = 0, $parents = array()) {
 		if ($parent != 0) $parents[] = $parent;
 		global $db, $user;
@@ -289,12 +289,12 @@ class navigationmodule {
 		$cache = exponent_sessions_getCacheValue('navigationmodule');
 		if (!isset($cache['kids'][$parent])) {
 			$kids = $db->selectObjects('section','parent='.$parent);
-			$cache['kids'][$parent] = $kids;			
+			$cache['kids'][$parent] = $kids;
 			exponent_sessions_setCacheValue('navigationmodule', $cache);
 		} else {
 			$kids = $cache['kids'][$parent];
-		}		
-			
+		}
+
         	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($kids,'exponent_sorting_byRankAscending');
 		for ($i = 0; $i < count($kids); $i++) {
@@ -309,7 +309,7 @@ class navigationmodule {
 				$child->canManage = (isset($user->is_acting_admin) && $user->is_acting_admin == 1 ? 1 : 0);
 				$child->canManageRank = $child->canManage;
 				if (!isset($child->sef_name)) {$child->sef_name = '';}
-				
+
 				// Generate the link attribute base on alias type.
 				if ($child->alias_type == 1) {
 					// External link.  Set the link to the configured website URL.
@@ -318,7 +318,7 @@ class navigationmodule {
 					$child->link = $child->external_link;
 				} else if ($child->alias_type == 2) {
 					// Internal link.
-					
+
 					// Need to check and see if the internal_id is pointing at an external link.
 					$dest = $db->selectObject('section','id='.$child->internal_id);
 					if ($dest->alias_type == 1) {
@@ -345,18 +345,18 @@ class navigationmodule {
 		return $nodes;
 	}
 
-	
+
 	function getTemplateHierarchyFlat($parent,$depth = 1) {
 		global $db;
-		
+
 		$arr = array();
 		$kids = $db->selectObjects('section_template','parent='.$parent);
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		usort($kids,'exponent_sorting_byRankAscending');
-		
+
 		for ($i = 0; $i < count($kids); $i++) {
 			$page = $kids[$i];
-			
+
 			$page->depth = $depth;
 			$page->first = ($i == 0 ? 1 : 0);
 			$page->last = ($i == count($kids)-1 ? 1 : 0);
@@ -365,10 +365,10 @@ class navigationmodule {
 		}
 		return $arr;
 	}
-	
+
 	function process_section($section,$template) {
 		global $db;
-		
+
 	        if (!is_object($template)) {
 			$template = $db->selectObject('section_template','id='.$template);
 			$section->subtheme = $template->subtheme;
@@ -377,33 +377,33 @@ class navigationmodule {
 
 		$prefix = '@st'.$template->id;
 		$refs = $db->selectObjects('locationref',"source LIKE '$prefix%'");
-		
+
 		// Copy all modules and content for this section
 		foreach ($refs as $ref) {
 			$src = substr($ref->source,strlen($prefix)) . $section->id;
-			
+
 			if (call_user_func(array($ref->module,'hasContent'))) {
 				$oloc = exponent_core_makeLocation($ref->module,$ref->source);
 				$nloc = exponent_core_makeLocation($ref->module,$src);
-		
-				if ($ref->module != "containermodule") {	
+
+				if ($ref->module != "containermodule") {
 					call_user_func(array($ref->module,'copyContent'),$oloc,$nloc);
 				} else {
 					call_user_func(array($ref->module,'copyContent'),$oloc,$nloc, $section->id);
 				}
 			}
 		}
-		
+
 		// Grab sub pages
 		foreach ($db->selectObjects('section_template','parent='.$template->id) as $t) {
 			navigationmodule::process_subsections($section,$t);
 		}
-		
+
 	}
-	
+
 	function process_subsections($parent_section,$subtpl) {
 		global $db, $router;
-		
+
 		$section = null;
 		$section->parent = $parent_section->id;
 		$section->name = $subtpl->name;
@@ -415,12 +415,12 @@ class navigationmodule {
 		$section->page_title = $subtpl->page_title;
 		$section->keywords = $subtpl->keywords;
 		$section->description = $subtpl->description;
-		
+
 		$section->id = $db->insertObject($section,'section');
-		
+
 		navigationmodule::process_section($section,$subtpl);
 	}
-	
+
 	function deleteLevel($parent) {
 		global $db;
 		$kids = $db->selectObjects('section','parent='.$parent);
@@ -431,7 +431,7 @@ class navigationmodule {
 		foreach ($secrefs as $secref) {
 			$loc = exponent_core_makeLocation($secref->module,$secref->source,$secref->internal);
 			exponent_core_decrementLocationReference($loc,$parent);
-			
+
 			foreach ($db->selectObjects('locationref',"module='".$secref->module."' AND source='".$secref->source."' AND internal='".$secref->internal."' AND refcount = 0") as $locref) {
 				if (class_exists($locref->module)) {
 					$modclass = $locref->module;
@@ -444,7 +444,7 @@ class navigationmodule {
 		$db->delete('sectionref','section='.$parent);
 		$db->delete('section','parent='.$parent);
 	}
-	
+
 	function removeLevel($parent) {
 		global $db;
 		$kids = $db->selectObjects('section','parent='.$parent);
@@ -454,7 +454,7 @@ class navigationmodule {
 			navigationmodule::removeLevel($kid->id);
 		}
 	}
-	
+
 	function canView($section) {
 		global $db;
 		if ($section == null) {return false;}
@@ -508,7 +508,7 @@ class navigationmodule {
 			$allgroups = array_merge($allgroups, $db->selectColumn('grouppermission', 'gid', "permission='manage' AND module='navigationmodule' AND internal=".$section->parent));
 			$section = $db->selectObject('section', 'id='.$section->parent);
 		}
-		
+
 		foreach ($branch as $section) {
 			$sloc = exponent_core_makeLocation('navigationmodule', null, $section->id);
 
@@ -520,25 +520,25 @@ class navigationmodule {
 				$u = exponent_users_getUserById($uid);
 				exponent_permissions_grant($u, 'manage', $sloc);
 			}
-			
+
 			foreach ($allgroups as $gid) {
         	        	$g = exponent_users_getGroupById($gid);
                 		exponent_permissions_grantGroup($g, 'manage', $sloc);
                 	}
-		}	
+		}
 	}
     /*
 	//Commented out per Hans and Tom
 	function isPublic($section) {
 		$hier = navigationmodule::levelTemplate(0,0);
-		
+
 		while (true) {
 			//echo "Section:<br>";
 			//echo "<xmp>";
 			//print_r($section);
 			//echo "</xmp>";
 			//dump_debug();
-			
+
 			if ($section->public == 0) {
 				// Not a public section.  Check permissions.
 				return false;

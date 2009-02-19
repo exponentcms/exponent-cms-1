@@ -22,33 +22,33 @@
 	<a href="{link action=configure _common=1}" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
 {/if}
 {/permissions}
-<table cellspacing="0" cellpadding="0" width="100%" style="border: 1px solid #DDD; border-collapse: collapse" rules="all" class="calendar_monthly">
+<table class="calendar_monthly">
 <tbody>
-<tr><td align="left">
+<tr><td>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
 </td>
-<td align="center" valign="top" colspan="5">{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B %Y"}</td>
-<td align="right">
+<td colspan="5">{if $moduletitle != ""}{$moduletitle} {/if}{$now|format_date:"%B %Y"}</td>
+<td>
 <a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" /></a>
 </td></tr>
 <tr>
-	<td align="center" style="font-weight:bold">{$_TR.sunday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.monday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.tuesday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.wednesday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.thursday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.friday}</td>
-	<td align="center" style="font-weight:bold">{$_TR.saturday}</td>
+	<td>{$_TR.sunday}</td>
+	<td>{$_TR.monday}</td>
+	<td>{$_TR.tuesday}</td>
+	<td>{$_TR.wednesday}</td>
+	<td>{$_TR.thursday}</td>
+	<td>{$_TR.friday}</td>
+	<td>{$_TR.saturday}</td>
 </tr>
 {math equation="x-86400" x=$now assign=dayts}
 {foreach from=$monthly item=week key=weeknum}
 	<tr class="{if $currentweek == $weeknum}calendar_currentweek{/if}">
 		{*foreach name=w from=$week key=day item=events*}
 		{foreach from=$week key=day item=dayinfo}
-			<td width="14%" align="left" valign="top" style="height: 100px; {if $dayinfo.number == -1}background-color: #EEE;{/if}">
+			<td class="daytitle{if $dayinfo.number == -1} notaday{/if}">
 				{if $number != -1}{math equation="x+86400" x=$dayts assign=dayts}{/if}
 				{if $dayinfo.number > -1}
-					<div style="border-bottom:1px solid lightgrey; padding: 2px; margin-bottom: .25em; background-color: #DDD">{$day}</div>
+					<div class="daycell">{$day}</div>
 				{/if}
 				{if $dayinfo.number > 0}
 					<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayinfo.ts}" title="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}" alt="{$dayinfo.ts|format_date:"%A, %B %e, %Y"}">

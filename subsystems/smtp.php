@@ -64,7 +64,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 	}
 	
 /*
-	debug('Current revision of file is $Id$');
+	debug('Current revision of file is $Id: smtp.php 2008 2007-12-14 18:37:38Z kessler44 $');
 
 	// Ugly kluge
 	if (!isset($from) || $from == "") $from = SMTP_FROMADDRESS; // For shared hosters

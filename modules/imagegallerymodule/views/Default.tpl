@@ -29,7 +29,6 @@
  * $Id: Gallery\040List.tpl,v 1.3 2005/02/24 20:14:35 filetreefrog Exp $
  *}
 
-
 <div class="imagegallerymodule default">
 
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
@@ -39,14 +38,18 @@
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if $permissions.create == 1}
 		<div class="moduleactions">
-				<a class="creategallery" href="{link action=edit_gallery}">
-					Create New Gallery
-				</a>
-		</div>
+			<a class="creategallery" href="{link action=edit_gallery}">
+				{$_TR.link_newgallery}
+			</a>
+    			{br}<a href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" />{$_TR.reorder_galleries}</a>{br}
+    		</div>
 	{/if}
 	{/permissions}
 	
 		{foreach key="key" name="gallery" from=$galleries item=gallery}
+			{assign var=boxw value=$gallery->box_size}
+			{assign var=boxh value=$gallery->box_size}
+
 		<div class="item">
 			<h2><a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a></h2>
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
@@ -59,7 +62,7 @@
 			<div class="bodycopy">
 				{if $gallery->images[0]->thumbnail}
 					<a href="{link action=view_gallery id=$gallery->id}">
-						<img class="firstimage" align="left" hspace="5px" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;constraint=1&amp;width=75&amp;height=1000">
+						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" />
 					</a>
 				{/if}
 				{$gallery->description}
@@ -67,7 +70,7 @@
 			{/if}
 		</div>
 		{foreachelse}
-			<div align="center"><i>No Galleries Found</i></div>
+			<p><em>{$_TR.no_galleries}</em></p>
 		{/foreach}
 	
 	

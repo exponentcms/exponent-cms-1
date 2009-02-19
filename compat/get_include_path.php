@@ -15,7 +15,7 @@
 // | Authors: Stephan Schmidt <schst@php.net>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: get_include_path.php 1212 2006-04-25 05:30:59Z maxxcorp $
 
 
 /**
@@ -25,7 +25,7 @@
  * @package     PHP_Compat
  * @link        http://php.net/function.get_include_path
  * @author      Stephan Schmidt <schst@php.net>
- * @version     $Revision$
+ * @version     $Revision: 1212 $
  * @since       PHP 4.3.0
  */
 if (!function_exists('get_include_path'))

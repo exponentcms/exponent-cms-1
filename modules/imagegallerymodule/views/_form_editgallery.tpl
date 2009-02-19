@@ -30,8 +30,8 @@
  *}
 <div class="imagegallery edit">
 	<div class="form_header">
-		<h1>{if $is_edit}Edit Gallery Properties{else}New Gallery{/if}</h1>
-		<p>Enter the name and description of the gallery below.</p>
+		<h1>{if $is_edit}{$_TR.edit_title}{else}{$_TR.new_title}{/if}</h1>
+		<p>{$_TR.enter_name}</p>
 	</div>
 	{form name="gallery" module="imagegallerymodule" int=2 action="save_gallery"}
 	{control type="hidden" name="id" value=$gallery->id}

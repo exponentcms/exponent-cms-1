@@ -33,21 +33,70 @@
 
 class listingmodule_config {
 	function form($object) {
+		$i18n = exponent_lang_loadFile('datatypes/listingmodule_config.php');
+
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
-		
+
 		$form = new form();
 		if (!isset($object->id)) {
-			//nothing to do here yet
+			$object->sort = 'asc_name';
+			$object->items_perpage = 10;
 		} else {
+			switch ($object->orderhow) {
+				case 0: // ascending
+					$object->sort = 'asc_'.$object->orderby;
+					break;
+				case 1: // descending
+					$object->sort = 'desc_'.$object->orderby;
+					break;
+				case 2: // rank
+					$object->sort = 'rank_';
+					break;
+				case 3: // random
+					$object->sort = 'random_';
+					break;
+				default:
+					$object->sort = 'asc_name';
+					break;
+			}
 			$form->meta('id',$object->id);
 		}
-		
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+
+		$order_options = array(
+			'asc_name'=>$i18n['sort_name_asc'],
+			'desc_name'=>$i18n['sort_name_desc'],
+			'rank_'=>$i18n['sort_rank'],
+			'random_'=>$i18n['sort_random']
+		);
+
+		$form->register('items_perpage',$i18n['items_perpage'],new textcontrol($object->items_perpage,5));
+		$form->register('orderby',$i18n['sort_entries'],new dropdowncontrol($object->sort,$order_options));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
-	
+
 	function update($values,$object) {
+
+		$object->items_perpage = $values['items_perpage'];
+
+		$toks = explode('_',$values['orderby']);
+		switch ($toks[0]) {
+			case 'asc':
+				$object->orderhow = 0;
+				break;
+			case 'desc':
+				$object->orderhow = 1;
+				break;
+			case 'rank':
+				$object->orderhow = 2;
+				break;
+			case 'random':
+				$object->orderhow = 3;
+				break;
+		}
+		$object->orderby = $toks[1];
+
 		return $object;
 	}
 }

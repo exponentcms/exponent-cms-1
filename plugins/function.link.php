@@ -23,7 +23,14 @@ function smarty_function_link($params,&$smarty) {
 	if (!isset($params['src']) && @call_user_func(array($loc->mod,'hasSources'))) $params['src'] = $loc->src;
 	if (!isset($params['int'])) $params['int'] = $loc->int;
 
-	echo exponent_core_makeLink($params);
+	//echo exponent_core_makeLink($params);
+	$link = exponent_core_makeLink($params);
+	$s = "&";
+	$r = "&amp;";
+	$link = str_replace($s, $r, $link);
+	$s = "&amp;amp;";
+	$link = str_replace($s, $r, $link);
+	echo $link;
 }
 
 ?>

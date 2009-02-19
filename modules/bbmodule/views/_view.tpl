@@ -31,7 +31,7 @@
 <div class="bbmodule view">
 	{capture assign=int}b{$board->id}{/capture}
 	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl" int=$int}
-	<a class="backtoboard" href="{link module=navigationmodule section=11}">Back to Discussion Boards</a>
+	{*<a class="backtoboard" href="{link module=navigationmodule section=11}">Back to Discussion Boards</a>*}
 	<h1>{$board->name}</h1>
 	<div class="bodycopy">
 			{$board->description}

@@ -16,12 +16,12 @@
 <div class="contactmodule default">
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
 	{if $numContacts != 0}
-		{form action=contact}
+		{form name=contact action=contact}
 			{control type=hidden name=msg value="_Default"}
-			{control type=text name=name label=$_TR.name size=30}
-			{control type=text name=email label=$_TR.email size=30}
-			{control type=text name=subject label=$_TR.subject size=50}
-			{control type=textarea name=message rows="8" cols="45" label=$_TR.message}
+			{control type=text name=name label=$_TR.name size=45}
+			{control type=text name=email label=$_TR.email size=45}
+			{control type=text name=subject label=$_TR.subject size=45}
+			{control type=textarea name=message rows="8" cols="43" label=$_TR.message}
 			{if $conf->use_captcha != 0}{control type=captcha name=captcha_string}{/if}
 			{control type=buttongroup submit=Send}
 		{/form}

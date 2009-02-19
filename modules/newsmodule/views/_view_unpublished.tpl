@@ -13,13 +13,14 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<b>{$_TR.expired_news}</b>
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<div class="newsmodule view-unpublished">
+<table>
+<caption>{$_TR.expired_news}</caption>
 	<tr>
-		<td class="header news_header" width="30%">{$_TR.title}</td>
-		<td class="header news_header" width="30%">{$_TR.expired_on}</td>
-		<td class="header news_header" width="30%">{$_TR.expired_for}</td>
-		<td class="header news_header" width="10%"></td>
+		<th scope="col" class="header news_header" abbr="{$_TR.title}" title="{$_TR.title}">{$_TR.title}</th>
+		<th scope="col" class="header news_header" abbr="{$_TR.expired_on}" title="{$_TR.expired_on}">{$_TR.expired_on}</th>
+		<th scope="col" class="header news_header" abbr="{$_TR.expired_for}" title="{$_TR.expired_for}">{$_TR.expired_for}</th>
+		<th scope="col" class="header news_header">{$_TR.actions}</th>
 	</tr>
 	{foreach from=$expired item=n}
 		<tr>
@@ -31,35 +32,35 @@
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 					{else}
-					<a onclick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+					<a onclick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 					{/if}
 				{/if}
 			</td>
 		</tr>
 	{foreachelse}
 		<tr>
-			<td colspan="3" align="center"><i>{$_TR.no_expired}</i></td>
+			<td colspan="4" align="center"><em>{$_TR.no_expired}</em></td>
 		</tr>
 	{/foreach}
 </table>
 
-<hr size="1" />
-<b>{$_TR.unpublished_news}</b>
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<hr />
+<table>
+<caption>{$_TR.unpublished_news}</caption>
 	<tr>
-		<td class="header news_header" width="30%">{$_TR.title}</td>
-		<td class="header news_header" width="30%">{$_TR.pub_date}</td>
-		<td class="header news_header" width="30%">{$_TR.time_to_pub}</td>
-		<td class="header news_header" width="10%"></td>
+		<th scope="col" class="header news_header">{$_TR.title}</th>
+		<th scope="col" class="header news_header">{$_TR.pub_date}</th>
+		<th scope="col" class="header news_header">{$_TR.time_to_pub}</th>
+		<th scope="col" class="header news_header">{$_TR.actions}</th>
 	</tr>
 	{foreach from=$unpublished item=n}
 		<tr>
@@ -71,23 +72,24 @@
 			<td>
 				{if $permissions.edit_item == 1 || $n->permissions.edit_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 					{else}
-					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$n->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 					{/if}
 				{/if}
 				{if $permissions.delete_item == 1 || $n->permissions.delete_item == 1}
 					{if $n->approved == 2} {* in ap *}
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 					{else}
-					<a onclick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+					<a onclick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$n->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 					{/if}
 				{/if}
 			</td>
 		</tr>
 	{foreachelse}
 		<tr>
-			<td colspan="3" align="center"><i>{$_TR.no_unpublished}</i></td>
+			<td colspan="4"><em>{$_TR.no_unpublished}</em></td>
 		</tr>
 	{/foreach}
 </table>
+</div>

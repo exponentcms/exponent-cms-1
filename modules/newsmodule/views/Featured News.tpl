@@ -16,11 +16,11 @@
 {selectObjects table="newsitem" where="is_featured=1 and location_data='`$news[0]->location_data`'" orderby="edited" item=featured_items}
 {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 {if $featured_items[0]->id!=""}
-<div id="newsmodule featured">	
+<div class="newsmodule featured">	
 
-	{if $enable_rss == true}<a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>{/if}
 	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-
+    {if $enable_rss == true}<a class="rsslink" href="{rsslink}">{$_TR.alt_rssfeed}</a>{/if}
+    
 {foreach from=$featured_items item=item}
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1 || $item->permissions.administrate == 1}
@@ -48,7 +48,7 @@
 			{/if}
 		{/if}
 		{if $permissions.manage_approval == 1}
-			<a href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}">
+			<a href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}">
 				<img src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
 			</a>
 		{/if}
@@ -67,8 +67,8 @@
 		<span class="date">{$sortdate|format_date:"%B %e"}</span>
 	</div>
 	<div class="bodycopy">
-		{$item->body|summarize:html:para}
-		<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}</a>
+		<p>{$item->body|summarize:html:para}</p>
+		<a class="readmore" href="{if $item->isRss}{$item->rss_link}{else}{link action=view id=$item->id}{/if}">{$_TR.read_more}<span> "{$item->title}"</span></a>
 	</div>
 </div>
 {/foreach}

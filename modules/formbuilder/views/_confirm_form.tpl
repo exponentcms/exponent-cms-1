@@ -15,10 +15,10 @@
  *}
 
 <div class="formbuilder confirm-form">
-        <h1>Please confirm your submission</h1>
+        <h1>{$_TR.confirm_header}</h1>
         <table width="90%">
-        <th>Field</th>
-        <th>Your Response</th>
+        <th>{$_TR.field}</th>
+        <th>{$_TR.response}</th>
         {foreach from=$responses item=response key=name}
                 <tr>
                         <td><strong>{$response.caption}: </strong>
@@ -28,9 +28,9 @@
         </table>
 
 	{if $smarty.const.SITE_USE_CAPTCHA == 1}
-		<p>If the information above looks correct, fill out the security question below and submit your form.</p>
+		<p>{$_TR.confirm_security}</p>
         {else}
-                <p>If the information above looks correct, submit your form below.</p>
+                <p>{$_TR.confirm}</p>
         {/if}
 
         {form action=submit_form}
@@ -38,6 +38,7 @@
                         {control type=hidden name=$name value=$data}
                 {/foreach}
                 {control type=captcha}
-                {control type=buttongroup submit="Submit Form" cancel="Change Responses"}
+
+		{control type=buttongroup submit=$_TR.submit_form cancel=$_TR.change_responses}
         {/form}
 </div>

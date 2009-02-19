@@ -57,16 +57,22 @@ class radiocontrol extends formcontrol {
 	
 	
 	function toHTML($label,$name) {
+		$html = '';
 		if(empty($this->flip)){
-			$html = '<label>';
+			$html .= '<table><tr><td><label for="'.$name.'">'.$this->controlToHTML($name).'</label></td>';
+			$html .= '<td>'.$label.'</td></tr></table>';
+			
+			/*$html .= '<label>';
 			$html .= $this->controlToHTML($name);
 			$html .= "<span class=\"radiobuttonlabel\">".$label."</span>";
-			$html .= "</label>";				
-		}else{
-			$html = '<label>';
+			$html .= "</label>";	*/			
+		}else{			
+			$html .= '<table><tr><td><label for="'.$name.'">'.$label.'</label></td>';
+			$html .= '<td>'.$this->controlToHTML($name).'</td></tr></table>';
+			/*$html = '<label>';
 			$html .= "<span class=\"radiobuttonlabel\">".$label."</span>";
 			$html .= $this->controlToHTML($name);
-			$html .= "</label>";				
+			$html .= "</label>";*/				
 		}
 		return $html;
 	}

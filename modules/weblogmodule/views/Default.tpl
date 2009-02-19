@@ -13,10 +13,10 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="weblogmodule summary">
+<div class="weblogmodule default">
 <h1>
 {if $enable_rss == true}
-        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+        <a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
 {if $moduletitle != ""}{$moduletitle}{/if}
 </h1>
@@ -49,15 +49,15 @@
 {/permissions}
 </div>
 <div class="attribution">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
-<div>{$post->body|summarize:html:para}</div>
-<p class="post-footer align-left">
-	<a class="readmore" href="{link module=weblogmodule action=findByTitle title=$post->title}">{$_TR.read_more}</a> |
+<p>{$post->body|summarize:html:para}</p>
+<div class="post-footer align-left">
+	<a class="readmore" href="{link module=weblogmodule action=findByTitle title=$post->title}">{$_TR.read_more}<span> "{$post->title}"</span></a> |
 	{if $config->allow_comments}
-		<a class="comments" href="{link action=findByTitle title=$post->title}">Comment{if $post->total_comments != 1}s{/if} ({$post->total_comments})</a> |
+		<a class="comments" href="{link action=findByTitle title=$post->title}">{if $post->total_comments != 1}{$_TR.comments}{else}{$_TR.comment}{/if}<span> {$_TR.on} "{$post->title}"</span> ({$post->total_comments})</a> |
 	{/if}
 	<span class="date">{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</span>
-</p>
-<hr size="1" />
+</div>
+<hr />
 </div>
 {/foreach}
 {if $total_posts > $config->items_per_page}

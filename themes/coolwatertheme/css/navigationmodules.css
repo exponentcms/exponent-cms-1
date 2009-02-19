@@ -28,7 +28,7 @@
 	text-decoration: none;	
 	color: #1773BC;				
 }
-#sidebar .navigationmodule.children-only ul li a:hover {	
+#sidebar .navigationmodule.children-only ul li a:hover, #sidebar .navigationmodule.children-only ul li a:focus {	
 	color: #333;
 }
 #sidebar .navigationmodule.children-only ul ul { margin: 0 0 0 5px; padding: 0; }

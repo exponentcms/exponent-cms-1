@@ -47,7 +47,7 @@ class slideshow_slide {
 		
 		$form->register('name','Name',new textcontrol($object->name));
 		$form->register('description','Description',new htmleditorcontrol($object->description));
-		$form->register('scale','Scale %',new textcontrol($object->scale));
+		//$form->register('scale','Scale %',new textcontrol($object->scale));
 		$form->register('file','Image',new uploadcontrol());
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
@@ -56,7 +56,7 @@ class slideshow_slide {
 	function update($values,$object) {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
-		$object->scale = $values['scale'];
+		//$object->scale = $values['scale'];
 		return $object;
 	}
 }

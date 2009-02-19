@@ -1,6 +1,6 @@
 /* Container Styles */
 
-div.containermodule{
+div.containermodule.main-wrapper {
 	border:1px solid #777777;
 	border-width:0 1px 1px 1px;
 	padding:0 0 5px 0;
@@ -352,7 +352,7 @@ body .yui-navset-right .yui-nav .selected{margin:0 0 0.16em -1px;}
 body .yui-navset-left .yui-nav a,body .yui-navset-right .yui-nav a{border-width:1px 0;}
 body .yui-navset-left .yui-nav a em,body .yui-navset .yui-navset-left .yui-nav a em,body .yui-navset-right .yui-nav a em{border-width:0 0 0 1px;padding:0.2em .75em;top:auto;left:-1px;}
 body .yui-navset-right .yui-nav a em{border-width:0 1px 0 0;left:auto;right:-1px;}
-body .yui-navset-left .yui-nav a,body .yui-navset-left .yui-nav .selected a,body .yui-navset-left .yui-nav a:hover,body .yui-navset-right .yui-nav a,body .yui-navset-right .yui-nav .selected a,body .yui-navset-right .yui-nav a:hover,body .yui-navset-bottom .yui-nav a,body .yui-navset-bottom .yui-nav .selected a,body .yui-navset-bottom .yui-nav a:hover{background-image:none;}
+body .yui-navset-left .yui-nav a,body .yui-navset-left .yui-nav .selected a,body .yui-navset-left .yui-nav a:hover,body .yui-navset-left .yui-nav a:focus,body .yui-navset-right .yui-nav a,body .yui-navset-right .yui-nav .selected a,body .yui-navset-right .yui-nav a:hover,body .yui-navset-right .yui-nav a:focus,body .yui-navset-bottom .yui-nav a,body .yui-navset-bottom .yui-nav .selected a,body .yui-navset-bottom .yui-nav a:hover{background-image:none;}
 body .yui-navset-left .yui-content{border:1px solid #808080;border-left-color:#243356;}
 body .yui-navset-bottom .yui-nav,body .yui-navset .yui-navset-bottom .yui-nav{border-width:5px 0 0;}
 body .yui-navset .yui-navset-bottom .yui-nav .selected,body .yui-navset-bottom .yui-nav .selected{margin:-1px 0.16em 0 0;}
@@ -618,10 +618,10 @@ ul.queue {
         padding: 10px 10px 10px 20px;
         margin-top: 5px;
         margin-bottom: 15px;
-        background: #f1a5a5;
+        background: #ffb9c0;
         background-image: none;
-        border: 2px solid #ff0000;
-        color: #ff0000;
+        border: 2px solid #8b0004;
+        color: #8b0004;
         font-weight: bold;
 }
 

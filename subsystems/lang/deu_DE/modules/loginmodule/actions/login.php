@@ -1,0 +1,7 @@
+<?php
+
+return array(
+	'login_error'=>'<b>Benutzername oder Paﬂwort falsch </b>',
+);
+
+?>

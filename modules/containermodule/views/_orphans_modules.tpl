@@ -14,7 +14,7 @@
  *
  *}
 {foreach from=$orphan_mods item=modname key=mod}
-<a class="navlink" href="{link module=$mod}">{$modname}</a><br />
+    <a class="navlink" href="{link module=$mod}">{$modname}</a><br />
 {foreachelse}
 <i>{$_TR.no_modules}</i>
 {/foreach}

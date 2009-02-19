@@ -13,19 +13,22 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-	<br />
-{/if}
-{/permissions}
-<div class="moduletitle rotator_moduletitle">{$moduletitle}</div>
-<div class="rotator_text">
-{$content->text}
-</div>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.manage == 1}
-<a href="{link action=manage}">{$_TR.manage}</a>
-{/if}
-{/permissions}
+ <div class="contentrotatormodule rotate-default">
+     {if $moduletitle}<h1>{$moduletitle}</h1>{/if}
+     {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+     {if $permissions.administrate == 1}
+     	<a href="{link action=userperms _common=1}" title="{$_TR.alt_userperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
+     	<a href="{link action=groupperms _common=1}" title="{$_TR.alt_groupperm}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+     	<br />
+     {/if}
+     {/permissions}
+     <div class="bodycopy">
+         {$content->text}
+     </div>
+     {permissions level=$smarty.const.UILEVEL_NORMAL}
+     {if $permissions.manage == 1}
+         <a href="{link action=manage}">{$_TR.manage}</a>
+     {/if}
+     {/permissions}
+    
+ </div>

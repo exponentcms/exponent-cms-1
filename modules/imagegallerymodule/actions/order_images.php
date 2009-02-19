@@ -34,7 +34,7 @@
 if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check("manage",$loc)) {
-	$db->switchValues('imagegallery_image', 'rank', $_GET['b'], $_GET['a'], "gallery_id=".$_GET['gid']);
+	$db->switchValues('imagegallery_image', 'rank', intval($_GET['a']), intval($_GET['b']), "gallery_id=".intval($_GET['gid']));
         exponent_flow_redirect();
 } else {
 	echo SITE_404_HTML;

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-function smarty_function_control($params,&$smarty) { 
+function smarty_function_control($params,&$smarty) {
 	if ( (isset($params['type']) && isset($params['name'])) || $params['type'] == 'buttongroup' || $params['type'] == 'captcha') {
 		$i18n = exponent_lang_loadFile('plugins/function_control.php');
 
@@ -72,9 +72,20 @@ function smarty_function_control($params,&$smarty) {
                         return;
 		} elseif ($params['type'] == 'captcha') {
 			if (SITE_USE_CAPTCHA && EXPONENT_HAS_GD) {
-				echo '<div id="'.$params['name'].'Control" class="control"><label><span class="label">'.$params['label'].'</span>';
-				echo '<div class="captcha">'.sprintf($i18n['captcha_description'],'<img class="captcha-img" src="'.PATH_RELATIVE.'captcha.php" />');
-				echo '<a href="javascript:void(0)" class="captcha-why" onclick="window.open(\''.URL_FULL.'/captcha_why.php\',\'mywindow\',\'width=450,height=300\')">'.$i18n['why_do_this'].'</a></div>';
+				$name = isset($params['name']) ? $params['name'].'Control\"' : "captchaControl\"";
+				echo '<div id="'.$name.' class="control"><label><span class="label">'.$params['label'].'</span>';
+				echo '<span class="captcha">'.sprintf($i18n['captcha_description'],'<img class="captcha-img" src="'.PATH_RELATIVE.'captcha.php" alt="captcha information" />');
+
+				$infoFile = BASE.'subsystems/lang/'.LANG.'/subsystems/forms/captcha_why.php';
+				// If the language specific file is not found use the English
+				if (!is_file($infoFile)) {
+					$infoFile = URL_FULL.'subsystems/lang/eng_US/subsystems/forms/captcha_why.php';
+				} else {
+					// rewrite the base to full
+					$infoFile = URL_FULL.'subsystems/lang/'.LANG.'/subsystems/forms/captcha_why.php';
+				}
+				echo '<a href="javascript:void(0)" class="captcha-why" onclick="window.open(\''.$infoFile.'\',\'mywindow\',\'width=450,height=300\')">'.$i18n['why_do_this'].'</a></span>';
+
 				unset($params['label']);
 				$params['name'] = 'captcha_string';
 				$control = new textcontrol('',6);
@@ -109,14 +120,14 @@ function smarty_function_control($params,&$smarty) {
                 	        if (!empty($params['value']) && !is_numeric($params['value']) && !is_array($params['value'])) {
                         	        $params['value'] = $db->selectValue('geo_region', 'id', 'name="'.$params['value'].'" OR code="'.$params['value'].'"');
 	                        }
-			} else { 
+			} else {
 				echo "NO TABLE"; exit();
 			}
 		} else {
 			$control = new genericcontrol($params['type']);
 		}
-	
-		//eDebug($smarty->_tpl_vars['formError']);	
+
+		//eDebug($smarty->_tpl_vars['formError']);
 		//Add the optional params in specified
 		if (isset($params['class'])) $control->class = $params['class'];
 		if (isset($params['required'])) $control->required = true;
@@ -158,9 +169,9 @@ function smarty_function_control($params,&$smarty) {
 		$control->id = isset($params['id']) && $params['id'] != "" ? $params['id'] : $params['name'];
 
 		/*$labelclass = isset($params['labelclass']) ? ' '.$params['labelclass'] : '';
-		
+
 		//container for the controll set, including labelSpan and input
-		if($params['type']!='hidden') echo '<label id="'.$control->id.'Control" class="control">'; 
+		if($params['type']!='hidden') echo '<label id="'.$control->id.'Control" class="control">';
 
 
 		//Write out the label for this control if the user specified a label and there is no label position or position is set to left
@@ -168,7 +179,7 @@ function smarty_function_control($params,&$smarty) {
 			echo '<span class="label'.$labelclass.'">'.$params['label'].'</span>';
 		}
 		*/
-		//write out the control itself...and then we're done. 
+		//write out the control itself...and then we're done.
 		if (isset($params['model'])) {
 			echo $control->toHTML($params['model'].'['.$params['name'].']');
 		} else {
@@ -179,7 +190,7 @@ function smarty_function_control($params,&$smarty) {
 		if (isset($params['label']) && $params['labelpos'] == 'right') {
 			echo '<span class="label'.$labelclass.'">'.$params['label'].'</span>';
 		}
-		
+
 		//close the control container div
 		if($params['type']!='hidden'){ echo '</label>'; }
 		*/

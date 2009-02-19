@@ -28,6 +28,9 @@
  *
  * $Id: _form_editarticle.tpl,v 1.2 2005/02/19 16:53:34 filetreefrog Exp $
  *}
-<div class="form_title">Module Configuration</div>
-<div class="form_header">Use this form to configure the behavior of the module.</div>
+
+<div class="form_header">
+    <h1>Module Configuration</h1>
+    <p>Use this form to configure the behavior of the module.</p>
+</div>
 {$form_html}

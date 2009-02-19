@@ -124,9 +124,9 @@
 {/foreach}
 </table>
 <div style="clear: both; border-top: 2px dashed lightgrey">
-{if $currentpage != 1}<a href="{link action=view_gallery id=$gallery->id page=$prevpage view=$__view}">&lt; {$_TR.previous}</a>{/if}
-{if $currentpage != 1 && $currentpage != $totalpages}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
-{if $currentpage != $totalpages}<a href="{link action=view_gallery id=$gallery->id page=$nextpage view=$__view}">{$_TR.next} &gt;</a>{/if}
+{if $gallery->currentpage != 1}<a href="{link action=view_gallery id=$gallery->id page=$gallery->prevpage view=$__view}">&lt; {$_TR.previous}</a>{/if}
+{if $gallery->currentpage != 1 && $gallery->currentpage != $gallery->totalpages}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
+{if $gallery->currentpage != $gallery->totalpages}<a href="{link action=view_gallery id=$gallery->id page=$gallery->nextpage view=$__view}">{$_TR.next} &gt;</a>{/if}
 {permissions level=$smarty.const.UI_LEVEL_NORMAL}
 {if $permissions.manage == 1}
 <br />

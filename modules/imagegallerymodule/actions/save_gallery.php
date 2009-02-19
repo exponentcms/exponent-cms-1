@@ -55,12 +55,18 @@ if (exponent_permissions_check('edit',$loc)) {
 	if (!empty($gallery->id)) {
 		$db->updateObject($gallery,'imagegallery_gallery');
 	} else {
-		$gallery->galleryorder = $db->countObjects('imagegallery_gallery','location_data='.serialize($loc)) + 1;
+		$gallery->galleryorder = $db->countObjects('imagegallery_gallery', "location_data='".serialize($loc)."'");
+		if ($gallery->galleryorder == null) {
+			$gallery->galleryorder = 0;
+		} else {
+			$gallery->galleryorder += 1;
+		}
+
 		$id = $db->insertObject($gallery,'imagegallery_gallery');
-	
+
 		$resizeimages = 0;
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
-		
+
 		$directory = 'files/imagegallerymodule/' . $loc->src . '/gallery'. $id;#.'/.thumbs';
 		if (!file_exists(BASE.$directory)) {
 			$err = exponent_files_makeDirectory($directory);
@@ -86,7 +92,7 @@ if (exponent_permissions_check('edit',$loc)) {
 		exponent_permissions_triggerSingleRefresh($user);
 	}
 
-	
+
 	if (!exponent_javascript_inAjaxAction()) {
 		exponent_flow_redirect();
 	} else {
@@ -99,10 +105,10 @@ if (exponent_permissions_check('edit',$loc)) {
 				$gal->images[$key]->thumb = $gallery->box_size;
 				$gal->images[$key]->pop = $gallery->pop_size;
 			}
-			echo json_encode($gal);			
+			echo json_encode($gal);
 		}else{
 			echo "no-resize";
-		}	
+		}
 		exit;
 	}
 	exponent_flow_redirect();

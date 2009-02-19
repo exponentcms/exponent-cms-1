@@ -1,5 +1,3 @@
-
-
 #sidebar .newsmodule h2 {
 	margin: 0px 5px 0px 5px;
 	padding-left:15px;
@@ -12,4 +10,56 @@
 	font-style:italic;
 	margin: 0px 5px 0px 5px;
 }
+/* 
+Make readmore links accessible using the techniques at
+http://www.maxdesign.com.au/presentation/more-links/ and
+http://www.knusperpixel.com/css/simple-accessible-more-links-v2/
+*/
 
+.bodycopy a.readmore span {
+/*
+Set span off screen
+*/
+	position: absolute;
+	left: -1000px;
+	width: 900px;
+}
+.bodycopy a.readmore:hover,
+.bodycopy a.readmore:focus,
+.bodycopy a.readmore:active {
+/*
+On 'hover' set the anchor to 'position:relative' to get a
+measuring point. Somehow IE doesn't like it when this is
+in the '.bodycopy a' declaration...
+*/
+	position: relative;
+	text-decoration: none; /* Google chrome needs this to be in the parent, so we define it here */
+}
+.bodycopy a.readmore:hover span,
+.bodycopy a.readmore:focus span,
+.bodycopy a.readmore:active span {
+/*
+Take the previously hidden span and display it near the anchor
+*/
+	left: 20px;
+	top: 20px;
+	width: 100px;
+/*
+This is just for looks...
+*/
+	padding: 5px;
+	line-height: 1.2em;
+	font-size: 80%;
+	border: 1px solid;
+	text-decoration: inherit;
+	background-color: #F6F6FF;
+	color: #000;
+}
+.bodycopy a.readmore:hover span:before,
+.bodycopy a.readmore:focus span:before,
+.bodycopy a.readmore:active span:before {
+/*
+IE doesn't show this - but others do.
+*/
+content: "Read more";
+}

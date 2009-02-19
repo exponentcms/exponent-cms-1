@@ -1,0 +1,7 @@
+Installationsvejledning for Exponent CMS 0.96.5 - Dansk sprogpakke version 1.0
+
+Filen dan_DA.php samt mappen dan_DA flyttes/kopieres ind i "din Exponent installations mappe"/subsystems/lang/
+
+Under "Configure site" under "Administrations Control Panel" vælg rediger profil. Under General Site Configuration vælg "Dansk -- ..."
+
+Gem dit valg og siden skulle nu køre med dansk sprog.

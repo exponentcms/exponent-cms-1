@@ -75,12 +75,22 @@ class yuicalendarcontrol extends formcontrol {
 	}
 
 	function controlToHTML($name) {
+		$i18n = exponent_lang_loadFile('subsystems/forms/controls/yuicalendarcontrol.php');
+		$translate_days = '';
+		$translate_months = '';
+		// If the language is english, use the default language of yui calendar
+		if (USE_LANG != 'eng_US') {
+			// Translate days of the week
+			$translate_days .= 'YAHOO.example.calendar.cal'.$name.'.cfg.setProperty("WEEKDAYS_SHORT",["'.$i18n['su'].'","'.$i18n['mo'].'","'.$i18n['tu'].'","'.$i18n['we'].'","'.$i18n['th'].'","'.$i18n['fr'].'","'.$i18n['sa'].'"]);';
+			// Translate months
+			$translate_months .= 'YAHOO.example.calendar.cal'.$name.'.cfg.setProperty("MONTHS_LONG",["'.$i18n['january'].'","'.$i18n['february'].'","'.$i18n['march'].'","'.$i18n['april'].'","'.$i18n['may'].'","'.$i18n['june'].'","'.$i18n['july'].'","'.$i18n['augost'].'","'.$i18n['september'].'","'.$i18n['october'].'","'.$i18n['november'].'","'.$i18n['december'].'"]);';
+		}
 		$html = "
 		<div class=\"yui-skin-sam\">
 			<div id=\"cal".$name."Container\"></div>
 			<div id=\"calinput\">
 				<input class=\"text\" type=\"text\" name=\"".$name."\" id=\"".$name."\" />
-				<button class=\"button\" type=\"button\" id=\"update-".$name."\">Update Calendar</button>
+				<button class=\"button\" type=\"button\" id=\"update-".$name."\">".$i18n['update_calendar']."</button>
 			</div>
 		</div>
 		<script type=\"text/javascript\">
@@ -123,6 +133,8 @@ class yuicalendarcontrol extends formcontrol {
 									YAHOO.util.Event.preventDefault(e);
 								}
 								YAHOO.example.calendar.cal".$name." = new YAHOO.widget.Calendar(\"cal".$name."\",\"cal".$name."Container\",{selected:'".date('m/d/Y',$this->default)."'});
+								YAHOO.example.calendar.cal".$name.".cfg.setProperty(\"start_weekday\",".DISPLAY_START_OF_WEEK.");
+								".$translate_days.$translate_months."
 								YAHOO.example.calendar.cal".$name.".selectEvent.subscribe(handleSelect, YAHOO.example.calendar.cal".$name.", true);
 								YAHOO.example.calendar.cal".$name.".select('".date('m/d/Y',$this->default)."');
 								YAHOO.example.calendar.cal".$name.".render();

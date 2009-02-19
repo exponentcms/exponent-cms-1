@@ -16,7 +16,7 @@
 // |          Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: array_walk_recursive.php 1212 2006-04-25 05:30:59Z maxxcorp $
 
 
 /**
@@ -27,7 +27,7 @@
  * @link        http://php.net/function.array_walk_recursive
  * @author      Tom Buskens <ortega@php.net>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision$
+ * @version     $Revision: 1212 $
  * @since       PHP 5
  * @require     PHP 4.0.6 (is_callable)
  */

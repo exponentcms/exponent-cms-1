@@ -13,6 +13,14 @@ return array(
 	'friday_short'=>'F',
 	'saturday_short'=>'S',
 
+	'sunday'=>'Sunday',
+	'monday'=>'Monday',
+	'tuesday'=>'Tuesday',
+	'wednesday'=>'Wednesday',
+	'thursday'=>'Thursday',
+	'friday'=>'Friday',
+	'saturday'=>'Saturday',
+
 	'alt_create'=>'Create a new Calendar Event',
 	'create'=>'Create Event',
 	'alt_approval'=>'View Calendar Events in Approval',

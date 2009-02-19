@@ -169,14 +169,20 @@ function exponent_datetime_startOfDayTimestamp($timestamp) {
  */
 function exponent_datetime_startOfWeekTimestamp($timestamp) {
 	$info = getdate($timestamp);
-	// FIXME: The following line will sometimes calculate negative dates,
-	// FIXME: which will not work on Windows platforms.
-	$firstOfWeek = $info['mday'] - $info['wday'];
-	// Calculate the timestamp at 8am, and then subtract 8 hours, for Daylight Savings
-	// Time.  If we are in those strange edge cases of DST, 12:00am can turn out to be
-	// of the previous day.
-	$ts = exponent_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));;
-	return exponent_datetime_startOfDayTimestamp($timestamp - ($info['wday'] * 86400));
+
+    // 0 (for Sunday) through 6 (for Saturday)
+    // on Sunday, if week starts on Monday, get last week through today.
+    $weekday = $info['wday'];
+    if ( ($weekday == 0) && (DISPLAY_START_OF_WEEK == 1) ){
+        $weekday = 7;
+    }
+
+    // calculate day offset to start of week
+    $days_to_week_start = 0 - $weekday + DISPLAY_START_OF_WEEK;
+
+	$week_start = mktime(12, 0, 0, date("m",$timestamp), date("d",$timestamp) + $days_to_week_start, date("Y",$timestamp));
+
+	return $week_start;
 }
 
 // Recurring Dates
@@ -324,27 +330,27 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
 	$dates = array();
 	// Date to start on.
 	$curdate = $start;
-	
+
 	// Get the date info, including the weekday.
 	$dateinfo = getdate($curdate);
-	
+
 	// Store the month day.  If we are not doing by day monthly recurrence,
 	// then this will be used unchanged throughout the do .. while loop.
 	$mdate = $dateinfo['mday'];
-		
+
 	$week = 0; // Only used for $by_day;
 	$wday = 0; // Only used for $by_day;
 	if ($by_day) {
 		// For by day recurrence, we need to know what week it is, and what weekday.
 		// (i.e. the 3rd Thursday of the month)
-		
+
 		// Calculate the Week Offset, as the ceilling value of date / DAYS_PER_WEEK
 		$week = ceil($mdate / 7);
 		// Store the weekday
 		$wday = $dateinfo['wday'];
 	}
 
-	eDebug($dateinfo);
+//	eDebug($dateinfo);
 	// Loop until we exceed the until date.
 	do {
 		// Append the current date to the list of dates.  $curdate will be updated
@@ -352,18 +358,18 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
 		// be checked in the while condition, and if it is still before the until date,
 		// the loop iterates back here again for another go.
 		$dates[] = $curdate;
-		
+
 		// Grab the date information for $curdate.  This gives us the current month
 		// information, for the next jump.
 		//$dateinfo = getdate($curdate);
-		
-		// Make the next month's timestamp, by adding frequency to the month. 
+
+		// Make the next month's timestamp, by adding frequency to the month.
 		// PHP can pick up on the fact that the 13th month of this year is the 1st
 		// month of the next year.
 		$curdate = mktime(8,0,0,$dateinfo['mon']+$freq,1,$dateinfo['year']);
 		$dateinfo = getdate($curdate);
 		//eDebug($dateinfo);
-		
+
 		// Manually update the month and monthday.
 		//eDebug($dateinfo);
 		//$dateinfo['mon'] += $freq;  	//Bump the month to next month
@@ -372,31 +378,31 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
 		//$dateinfo['mday'] = 1;		//Set the day of the month to the first.
 		//eDebug($dateinfo);
 		//exit();
-		
+
 		if ($by_day) {
 			if ($dateinfo['wday'] > $wday) {
-				$mdate = $wday - $dateinfo['wday'] + ( 7 * $week ) + 1;	
+				$mdate = $wday - $dateinfo['wday'] + ( 7 * $week ) + 1;
 				//echo "month day: ".$mdate."<br>";
 			} elseif ($dateinfo['wday'] <= $wday) {
 				$mdate = $wday - $dateinfo['wday'] + ( 7 * ( $week - 1 ) ) + 1;
 				//echo "month day: ".$mdate."<br>";
 			}
-		
+
 			// For by day recurrence (first tuesday of every month), we need to do a
 			// little more fancy footwork to determine the next timestamp, since there
 			// is no easy mathematical way to advance a whole month and land on
 			// the same week offset and weekday.
-			
+
 			// Calculate the next month date.
 			//echo "Weekday is: ".$wday."<br>";
 			//if ($dateinfo['wday'] > $wday) {
 				// The month starts on a week day that is after the target week day.
 				// For more detailed discussion of the following formula, see the
 				// analysis docs, sdk/analysis/subsystems/datetime.txt
-				
+
 				// TARGET_WDAY is $wday
 				// START_WDAY is $startmonthinfo['wday']
-				//eDebug($dateinfo); 
+				//eDebug($dateinfo);
 				//echo 'mdate = $wday - $dateinfo[\'wday\'] + ( 7 * $week ) + 1;<br>';
 				//echo "mdate = ".$wday." - ".$dateinfo['wday']." + ( 7 * ".$week." ) + 1<br>";
 				//$mdate = $wday - $dateinfo['wday'] + ( 7 * $week ) + 1;
@@ -407,14 +413,14 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
 				// except that we subtract one from the week offset
 				// For more detailed discussion of the following formula, see the
 				// analysis docs, sdk/analysis/subsystems/datetime.txt
-				
+
 				// TARGET_WDAY is $wday
 				// START_WDAY is $startmonthinfo['wday']
 				//$mdate = $wday - $dateinfo['wday'] + ( 7 * ( $week - 1 ) ) + 1;
 			//}
-			
+
 		}
-		
+
 		// Re-assemble the $curdate value, using the correct $mdate.  If not doing by_day
 		// recurrence, this value remains essentially unchanged.  Otherwise, it will be
 		// set to reflect the new day of the Nth weekday.
@@ -422,7 +428,7 @@ function exponent_datetime_recurringMonthlyDates($start,$end,$freq,$by_day=false
 		//echo "mdate: ".$mdate."<br>";
 		$curdate = exponent_datetime_startOfDayTimestamp(mktime(8,0,0,$dateinfo['mon'],$mdate,$dateinfo['year']));
 	} while ($curdate <= $end);
-	
+
 	//exit();
 	return $dates;
 }
@@ -453,42 +459,46 @@ function exponent_datetime_recurringYearlyDates($start,$end,$freq) {
 
 /* exdoc
  * Adapted from calendar module's minical view to be more modular.
- *	
+ *
  */
 
-function exponent_datetime_monthlyDaysTimestamp() {
+function exponent_datetime_monthlyDaysTimestamp($timestamp) {
 	global $db;
 	$monthly = array();
-	$info = getdate(time());
-	// Grab non-day numbers only (before end of month)
+	$info = getdate($timestamp);
 	$week = 0;
-		
+
 	$infofirst = getdate(mktime(12,0,0,$info['mon'],1,$info['year']));
-	
-	if ($infofirst['wday'] == 0) $monthly[$week] = array(); // initialize for non days
-	for ($i = 0 - $infofirst['wday']; $i < 0; $i++) {
+	$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
+
+	// Grab non-day numbers only (before end of month)
+	if ($weekday == (0+ DISPLAY_START_OF_WEEK)) $monthly[$week] = array(); // initialize for non days
+	$days_before = 0 - $weekday + DISPLAY_START_OF_WEEK;
+	if (($weekday == 0) && (DISPLAY_START_OF_WEEK == 1)) {
+		$days_before = -6;
+		$weekday = 7;
+	}
+	for ($i = $days_before; $i < 0; $i++) {
 		$monthly[0][$i] = array("ts"=>-1);
 	}
-			
-	$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
-	
-	$endofmonth = date('t', time());
-	
+
+	$endofmonth = date('t', $timestamp);
 	for ($i = 1; $i <= $endofmonth; $i++) {
 		$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 		if ($i == $info['mday']) $currentweek = $week;
-		
+
 		$monthly[$week][$i] = array("ts"=>$start);
-		if ($weekday >= 6) {
+		if ($weekday >= (6 + DISPLAY_START_OF_WEEK)) {
 			$week++;
 			$monthly[$week] = array(); // allocate an array for the next week
-			$weekday = 0;
+			$weekday = 0 + DISPLAY_START_OF_WEEK;
 		} else $weekday++;
 	}
-	
+
 	// Grab non-day numbers only (after end of month)
-	for ($i = 1; $weekday && $i <= (7-$weekday); $i++) $monthly[$week][$i+$endofmonth] = -1;
-	
+	if ($weekday != DISPLAY_START_OF_WEEK) {
+		for ($i = 1; $weekday && $i <= (7-$weekday)+DISPLAY_START_OF_WEEK; $i++) $monthly[$week][$i+$endofmonth] = -1;
+	}
 	return $monthly;
 }
 ?>

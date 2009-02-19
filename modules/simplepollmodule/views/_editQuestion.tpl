@@ -28,8 +28,7 @@
  *
  * $Id: _editQuestion.tpl,v 1.1 2005/04/10 23:24:02 filetreefrog Exp $
  *}
-<div class="form_title">Simple Poll Question</div>
-<div class="form_header">
-CHANGEME
+ <div class="form_header">
+     <h1>Simple Poll Question</h1>
+     {$form_html} 
 </div>
-{$form_html} 

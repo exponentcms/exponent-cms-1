@@ -103,7 +103,7 @@ class weblogmodule {
 
 		//If rss is enabled tell the view to show the RSS button
 		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
-		
+
 		$template->assign('enable_rss', $config->enable_rss);
 
 		//Get the tags that have been selected to be shown in the grouped by tag views
@@ -162,7 +162,7 @@ class weblogmodule {
 								$authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
 						}
 						$template->assign('authors', $authors);
-		} else if ($viewconfig['type'] == 'bytag') {					   
+		} else if ($viewconfig['type'] == 'bytag') {
 			$post_tags = $db->selectColumn('weblog_post', 'tags', $where);
 			$all_tags = $db->selectObjects('tags');
 			for ($i = 0; $i < count($post_tags); $i++) {
@@ -181,18 +181,27 @@ class weblogmodule {
 			$template->assign('tags', $all_tags);
 		} else if ($viewconfig['type'] == 'calendar') {
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
-			$month_days = exponent_datetime_monthlyDaysTimestamp(time());
+			$time = (isset($_GET['month']) ? $_GET['month'] : time());
+			$month_days = exponent_datetime_monthlyDaysTimestamp($time);
+			$endofmonth = date('t', $time);
 			for ($i = 0; $i < count($month_days); $i++) {
 				foreach ($month_days[$i] as $mday=>$timestamp) {
-					if ($mday > 0) {
+					if ( ($mday > 0) && ($mday <= $endofmonth) ) {
 						// Got a valid one.	 Go with it.
-						$month_days[$i][$mday]['number'] = $db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp .' AND posted < '.strtotime('+1 day',$timestamp['ts']));
+						$month_days[$i][$mday]['number'] = ($month_days[$i][$mday]['ts'] !=-1) ? $db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp['ts'] .' AND posted < '.strtotime('+1 day',$timestamp['ts'])) : -1;
 					}
 				}
 			}
 
+			$info = getdate($time);
+			$timefirst = mktime(12,0,0,$info['mon'],1,$info['year']);
+			$prevmonth = mktime(0, 0, 0, date("m",$timefirst)-1, date("d",$timefirst)+10,   date("Y",$timefirst));
+			$nextmonth = mktime(0, 0, 0, date("m",$timefirst)+1, date("d",$timefirst)+10,   date("Y",$timefirst));
+			$template->assign("now",$timefirst);
+			$template->assign("prevmonth",$prevmonth);
+			$template->assign("thismonth",$timefirst);
+			$template->assign("nextmonth",$nextmonth);
 			$template->assign('days',$month_days);
-			$template->assign('now',time());
 		} else {
 			$total = $db->countObjects('weblog_post',$where);
 			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
@@ -219,13 +228,13 @@ class weblogmodule {
 					$tag_ids = unserialize($posts[$i]->tags);
 					if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 				$posts[$i]->tags = $selected_tags;
-				$posts[$i]->selected_tags = $selected_tags;							
+				$posts[$i]->selected_tags = $selected_tags;
 			}
 			usort($posts,'exponent_sorting_byPostedDescending');
 			$template->assign('posts',$posts);
 			$template->assign('total_posts',$total);
 		}
-		
+
 		if (!empty($config->collections)) $template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 
 		$template->register_permissions(

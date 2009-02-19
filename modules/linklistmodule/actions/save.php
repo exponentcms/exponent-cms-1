@@ -39,12 +39,19 @@ if (isset($_POST['id'])) {
 	if ($link) {
 		$loc = unserialize($link->location_data);
 	}
+} else {
+	$link->rank = $db->max('linklist_link', 'rank', 'location_data', "location_data='".serialize($loc)."'");
+	if ($link->rank == null) {
+		$link->rank = 0;
+	} else {
+		$link->rank += 1;
+	}
 }
 
 if (($link && exponent_permissions_check('edit',$loc)) || (!$link && exponent_permissions_check('create',$loc))) {
 	$link = linklist_link::update($_POST,$link);
 	$link->location_data = serialize($loc);
-	
+
 	if (isset($link->id)) {
 		$db->updateObject($link,'linklist_link');
 	} else {

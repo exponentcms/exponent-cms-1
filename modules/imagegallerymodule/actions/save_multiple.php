@@ -47,38 +47,43 @@ if ($gallery) {
 		$image = null;
 		$image->gallery_id = $_POST['gid'];
 		$image->newwindow = 1;
-		
+
 		$directory = "files/imagegallerymodule/".$loc->src."/gallery".$gallery->id;
-		
+
 		$firstrank = $db->max('imagegallery_image','rank','gallery_id','gallery_id='.$gallery->id);
 		if ($firstrank == null) $firstrank = -1; // It will be incremented
-		
+
 		$success = true;
 		for ($i = 0; $i < $_POST['count']; $i++) {
 			$firstrank++;
 			$image->rank = $firstrank;
 			$image->name = $_POST["name$i"];
 			$image->alt = $_POST["alt$i"];
-			
+
 			if ($_FILES["file$i"]['tmp_name'] != "") {
 				$file = file::update("file$i",$directory,null);
 
-				if ($file == null) {
-					$success = false;
-					continue;
+				if (is_object($file)) {
+					$thumbname = imagegallerymodule::createThumbnailFile($file, $gallery->box_size);
+					$image->thumbnail = $thumbname;
+					$popname = imagegallerymodule::createEnlargedFile($file, $gallery->pop_size);
+					$image->enlarged = $popname;
+
+					$image->file_id = $db->insertObject($file,"file");
+
+
+					$db->insertObject($image,"imagegallery_image");
+				} else {
+					// If file::update() returns a non-object, it should be a string.  That string is the error message.
+					$post = $_POST;
+					$post['_formError'] = $file;
+					exponent_sessions_set('last_POST',$post);
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
 				}
-				
-				$image->file_id = $db->insertObject($file,"file");
-				
-				$thumbname = imagegallerymodule::createThumbnailFile($file, $gallery->box_size); 
-				$image->thumbnail = $thumbname; 
-				$popname = imagegallerymodule::createEnlargedFile($file, $gallery->pop_size); 
-				$image->enlarged = $popname; 
-				
-				$db->insertObject($image,"imagegallery_image");
+
 			}
 		}
-		
+
 		if ($success) {
 			exponent_flow_redirect();
 		}

@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *{math equation="x*20" x=$section->depth}
  *}
-<div class="navigationmodule yui-top-nav">
+<div class="navigationmodule yui-top-nav exp-yui-nav">
 <div id="yuimenubar" class="yuimenubar yuimenubarnav">
 	<div class="bd">
 		<ul class="first-of-type">

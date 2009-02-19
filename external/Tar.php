@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@blavet.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: Tar.php 1133 2006-03-03 23:13:17Z freddirkse $
 
 if (!defined('EXPONENT')) exit('');
 
@@ -26,7 +26,7 @@ require_once BASE.'external/PEAR.php';
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision$
+* @version  $Revision: 1133 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR

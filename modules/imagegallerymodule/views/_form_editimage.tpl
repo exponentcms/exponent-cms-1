@@ -28,8 +28,8 @@
  *
  * $Id: _form_editimage.tpl,v 1.3 2005/02/19 16:40:42 filetreefrog Exp $
  *}
-<div class="form_title">{if $is_edit}Edit Image Properties{else}New Image{/if}</div>
+<div class="form_title">{if $is_edit}{$_TR.edit_title}{else}{$_TR.new_title}{/if}</div>
 <div class="form_header">
-Enter the name and description of the image below.
+{$_TR.enter_name}
 </div>
 {$form_html}

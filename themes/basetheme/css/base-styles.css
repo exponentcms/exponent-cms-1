@@ -1,3 +1,20 @@
+
+#hd {
+	position:relative;
+	padding:50px 0 0 0;
+}
+
+#logo {
+	position:absolute;
+	left:0;
+	top:10px;
+	margin:0;
+}
+
+#bd {
+	padding-top:10px;
+}
+
 /*
 Copyright (c) 2008, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
@@ -76,19 +93,5 @@ p,fieldset,table,pre {
 }
 img {
 	border:none;
-}
-
-a.readmore {
-	padding-left: 15px;
-    background-image: url(../images/icons/readmore.gif);
-    background-repeat: no-repeat;
-}
-a.readmore:hover {
-	background-image: url(../images/icons/readmore.gif);
-	background-repeat: no-repeat;
-}
-
-a.rsslink img {
-	border: 0;
 }
 

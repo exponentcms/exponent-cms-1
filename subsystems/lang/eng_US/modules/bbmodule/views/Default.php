@@ -21,6 +21,8 @@ return array(
 	'del_board'=>'Delete this board',
 	'no_board'=>'No bulletin boards were found',
 	'new_board'=>'New Board',
+	'board_monitor'=>'You are monitoring one or more boards from this forum for new threads.',
+	'start_monitor'=>'Start monitoring board for new topics.',
 	'thread_monitor'=>'You are monitoring this thread for new replies.',
 	'stop_monitoring'=>'Stop monitoring',
 	'not_monitoring'=>'You are not monitoring this thread.',

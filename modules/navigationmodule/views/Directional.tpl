@@ -13,39 +13,39 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
- <div>
-{math equation="x-1" x=$current->rank assign="prevrank"}
-{if $prevrank < 0}
-	{$_TR.previous}
-{else}
-	{foreach from=$sections item=section}
-	{if $section->parent ==$current->parent && $section->rank==$prevrank}
-	<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$_TR.previous}</a>
-	{/if}
-	{/foreach}
-{/if}
+ <div class="navigationmodule directional">
+    {math equation="x-1" x=$current->rank assign="prevrank"}
+    {if $prevrank < 0}
+    	{$_TR.previous}
+    {else}
+    	{foreach from=$sections item=section}
+    	{if $section->parent ==$current->parent && $section->rank==$prevrank}
+    	<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$_TR.previous}</a>
+    	{/if}
+    	{/foreach}
+    {/if}
 
-&nbsp;|&nbsp;
+    &nbsp;|&nbsp;
 
-{if $current->parent == 0}
-	{$_TR.up}
-{else}
-	<a href="?section={$current->parent}">{$_TR.up}</a>
-	&nbsp;|&nbsp;
-	<a href="?section={$current->parents[0]}">{$_TR.top}</a>
-{/if}
+    {*if $current->parent == 0}
+    	{$_TR.up}
+    {else}
+    	<a href="?section={$current->parent}">{$_TR.up}</a>
+    	&nbsp;|&nbsp;
+    	<a href="?section={$current->parents[0]}">{$_TR.top}</a>
+    {/if*}
 
-&nbsp;|&nbsp;
+    &nbsp;|&nbsp;
 
-{math equation="x+1" x=$current->rank assign="nextrank"}
-{assign var=gotlink value=0}
-{foreach from=$sections item=section }
-{if $section->parent == $current->parent && $section->rank == $nextrank}
-<a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$_TR.next}</a>
-{assign var=gotlink value=1}
-{/if}
-{/foreach}
-{if $gotlink == 0}
-{$_TR.next}
-{/if}
+    {math equation="x+1" x=$current->rank assign="nextrank"}
+    {assign var=gotlink value=0}
+    {foreach from=$sections item=section }
+    {if $section->parent == $current->parent && $section->rank == $nextrank}
+    <a href="{$section->link}"{if $section->new_window} target="_blank"{/if}>{$_TR.next}</a>
+    {assign var=gotlink value=1}
+    {/if}
+    {/foreach}
+    {if $gotlink == 0}
+    {$_TR.next}
+    {/if}
 </div>

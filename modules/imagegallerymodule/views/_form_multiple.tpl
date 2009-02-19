@@ -28,8 +28,8 @@
  *
  * $Id: _form_multiple.tpl,v 1.3 2005/02/19 16:40:42 filetreefrog Exp $
  *}
-<div class="form_title">Upload Images</div>
+<div class="form_title">{$_TR.form_title}</div>
 <div class="form_header">
-Enter a name for each image you wish to upload, and then browse your hard drive for the file.
+{$_TR.image_upload}
 </div>
 {$form_html}

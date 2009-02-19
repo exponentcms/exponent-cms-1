@@ -25,7 +25,7 @@ class youtubemodule {
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
-	
+
 	function supportsWorkflow() { return false; }
 
 	function deleteIn($loc) {
@@ -34,12 +34,12 @@ class youtubemodule {
 		if ($youtube) {
 			//eDebug($text); exit();
 			$db->delete('youtube',"id=".$youtube->id);
-			
+
 			// Remove search key
 			$db->delete('search',"ref_module='youtubemodule' AND ref_type='youtubevideo' AND original_id=" . $youtube->id);
 		}
 	}
-	
+
 	function copyContent($oloc,$nloc) {
 	}
 
@@ -57,26 +57,31 @@ class youtubemodule {
 		global $db;
 		$template = new template('youtubemodule',$view,$loc);
 		$videos = $db->selectObjects('youtube',"location_data='".serialize($loc)."'");
+		for ($i = 0; $i < count($videos); $i++) {
+			$spliturl = split('v=',$videos[$i]->url);
+			$newurl = 'http://www.youtube.com/v/'.$spliturl[1];
+			$videos[$i]->url = $newurl;
+		}
 
 		$template->assign('videos',$videos);
 		$template->assign('moduletitle',$title);
-		
+
 		$template->register_permissions(array('administrate','edit'),$loc);
 		$template->output($view);
 	}
-	
+
 	function spiderContent($item=null) {
 		global $db;
-		
+
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
-		
+
 		$search = null;
 		$search->title = '';
 		$search->view_link = '';
 		$search->category = 'Video';
 		$search->ref_module = 'youtubemodule';
 		$search->ref_type = 'youtubevideo';
-		
+
 		if ($item) {
 			$db->delete('search',"ref_module='youtubemodule' AND ref_type='youtubevideo' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
@@ -92,10 +97,10 @@ class youtubemodule {
 				$db->insertObject($search,'search');
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	function searchName() {
 		return "Video";
 	}

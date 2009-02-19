@@ -34,12 +34,12 @@
                 <h1>{$_TR.reorder_images}</h1>
     </div>
 
-<table cellpadding="2" cellspacing="0" bgalleryorder="0" width="100%">
+<table>
 	<tr>
 		<th><strong>{$_TR.gallery_title}</strong></th>
 		<th><strong>{$_TR.arrange}</strong></th>
 	</tr>
-{foreach from=$galleries item=gallery}
+{foreach name=a from=$galleries item=gallery}
 {math equation="x+1" x=$gallery->galleryorder assign=nextrank}
 {math equation="x-1" x=$gallery->galleryorder assign=prevrank}
 <tr class="row {cycle values=odd_row,even_row}">
@@ -47,15 +47,15 @@
 <a href="{link action=view_gallery id=$gallery->id}" class="navlink">{$gallery->name}</a>&nbsp;
 </td>
 <td>
-{if $section->last == 0}
-	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$nextrank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.gif" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" /></a>
+{if $smarty.foreach.a.first == 0}
+	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$prevrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.gif" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" /></a>
 {else}
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 {/if}
-{if $section->first == 0}
-	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$prevrank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.gif" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" /></a>
+{if $smarty.foreach.a.last == 0}
+	<a href="{link action=reorder_galleries a=$gallery->galleryorder b=$nextrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.gif" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" /></a>
 {else}
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.gif" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.gif" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 {/if}
 </td></tr>
 {/foreach}

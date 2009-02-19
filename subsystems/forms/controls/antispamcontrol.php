@@ -48,15 +48,16 @@ class antispamcontrol extends formcontrol {
 	function isSimpleControl() { return true; }
 
 	function controlToHTML($name) {
-		$html = '<div class="antispam">To reduce spam, please answer the following question<br /><br />';
+		$i18n = pathos_lang_loadFile('subsystems/forms/controls/antispamcontrol.php');
+		$html = $i18n['title'];
 		switch ( rand(1,2) ) {
 			case 1:
-				$html .= '<label>I am not human: <input class="antispamcontrol" type="checkbox" id="checker" name="checker" value="1" checked="checked">(true)</label>';
+				$html .= $i18n['wrong1'];
 			break;
 			case 2:
-				$html .= '<label>I am a robot: <input class="antispamcontrol" type="radio" id="checker" name="checker" value="1" checked="checked"></label><br />';
-				$html .= '<label>I am a cat: <input class="antispamcontrol" type="radio" id="checker" name="checker" value="2"></label><br />';
-				$html .= '<label>I am a human: <input class="antispamcontrol" type="radio" id="checker" name="checker" value="0"></label>';
+				$html .= $i18n['wrong2'];
+				$html .= $i18n['wrong3'];
+				$html .= $i18n['correct'];
 			break;
 		}
 		$html .= '</div>';

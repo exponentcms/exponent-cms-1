@@ -16,7 +16,7 @@
 // |          Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: http_build_query.php 1212 2006-04-25 05:30:59Z maxxcorp $
 
 
 /**
@@ -27,7 +27,7 @@
  * @link        http://php.net/function.http-build-query
  * @author      Stephan Schmidt <schst@php.net>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision$
+ * @version     $Revision: 1212 $
  * @since       PHP 5
  * @require     PHP 4.0.1 (trigger_error)
  */

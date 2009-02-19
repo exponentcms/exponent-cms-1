@@ -28,7 +28,7 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id$
+# $Id: section_linked.php 1984 2007-11-27 22:51:14Z kessler44 $
 ##################################################
 
 #  Thanks to Daniel Grabert for this patch. - 1/12/05

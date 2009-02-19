@@ -74,7 +74,7 @@
 		{/foreach}
 	</div>
 {/if}
-<hr size="1" />
+<hr />
 </div>
 {/foreach}
 {permissions level=$smarty.const.UILEVEL_NORMAL}

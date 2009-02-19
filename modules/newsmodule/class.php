@@ -129,6 +129,7 @@ class newsmodule {
 			$config->sortorder = 'DESC';
 			$config->sortfield = 'posted';
 			$config->item_limit = 10;
+			$config->enable_pagination = 0;			
 			$config->enable_rss = false;
 			$config->group_by_tags = false;
 			$config->pull_rss = 0;
@@ -153,7 +154,7 @@ class newsmodule {
 		$canviewapproval = false;
 		if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
 		if (!$canviewapproval) { // still not able to view
-			foreach($db->selectObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ') AND approved != 0') as $post) {
+			foreach($db->selectObjects('newsitem', $locsql." AND (publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ') AND approved != 0') as $post) {
 				if ($user && $user->id == $post->poster) {
 					$canviewapproval = true;
 					break;
@@ -191,8 +192,21 @@ class newsmodule {
 			$ifloc = "location_data='" . serialize($loc) . "' AND ";
 		}*/			
 		
-		//Get the news items.
-		$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
+		
+		// pagination by item_limit
+		$total = $db->countObjects('newsitem', $locsql." AND (publish = 0 or publish <= " . 
+									time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0");
+		
+		if($config->enable_pagination == 0) {
+			//Get the news items.
+			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
+		} else {				
+			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . 
+						time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.
+						$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
+		}
+		
+		
 		$featured = $db->selectObjects('newsitem',$locsql." AND is_featured AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
 
 		for ($i = 0; $i < count($news); $i++) {
@@ -295,6 +309,13 @@ class newsmodule {
 		$template->assign('canview_approval_link',$canviewapproval);
 		$template->assign('in_approval',$in_approval);
 		if($config->group_by_tags == true) {$template->assign('news',$grouped_news);} else {$template->assign('news',$news);}
+
+
+		// pagination
+		$template->assign('enable_pagination', $config->enable_pagination);
+		$template->assign('total_news', $total);
+		$template->assign('item_limit', $config->item_limit);
+		
 
 		$template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 		$template->assign('featured', $featured);

@@ -153,11 +153,13 @@ $sections = exponent_core_initializeNavigation();
 
 // This causes about a half dozen bugs if its here and not in index.php.
 
-function eDebug($var){
+function eDebug($var, $halt=false){
 	if (DEVELOPMENT) {
 		echo "<xmp>";
 		print_r($var);
 		echo "</xmp>";
+		
+		if ($halt) die();
 	}
 }
 

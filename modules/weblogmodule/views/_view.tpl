@@ -21,55 +21,54 @@
 {permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 {if $permissions.administrate == 1 || $this_post->permissions.administrate == 1}
 <a href="{link action=userperms _common=1 int=$this_post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
 </a>
 <a href="{link action=groupperms _common=1 int=$this_post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
 </a>
 {/if}
 {/permissions}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1 || $this_post->permissions.edit == 1}
 <a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$this_post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 </a>
 {/if}
 {if $permissions.delete == 1 || $this_post->permissions.delete == 1}
 <a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$this_post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+	<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 </a>
 {/if}
 {/permissions}
 <div>
 {if $this_post->image!=""}<img style="align: left;" src="{$smarty.const.URL_FULL}/thumb.php?file={$this_post->image}&constraint=1&width=150&height=200" alt="{$this_post->title}">{/if}
-<h1>{$this_post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h1>
 {$this_post->body}
 </div>
 {if $config->allow_comments}
 	<div class="comments">
 	{if $post->is_draft}
-		<i>{$_TR.draft_desc}</i>
+		<em>{$_TR.draft_desc}</em>
 	{else}
     <br />
-    <div class="weblog_itemtitle"><a name="comments">{$this_post->total_comments} comment{if $this_post->total_comments != 1}s{/if} to "{$this_post->title}"</a></div>
+    <div class="weblog_itemtitle"><a class="comments">{$this_post->total_comments} comment{if $this_post->total_comments != 1}s{/if} to "{$this_post->title}"</a></div>
 		{foreach from=$this_post->comments item=comment}
 			<div class="weblog_comment_{cycle values="odd,even"}">
         <div class="weblog_comment_body">{$comment->body}
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit_comments == 1 || $this_post->permissions.edit_comments == 1}
 				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id parent_id=$this_post->id}">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_comment}" alt="{$_TR.alt_edit_comment}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_comment}" alt="{$_TR.alt_edit_comment}" />
 				</a>
 				{/if}
 				{if $permissions.delete_comments == 1 || $this_post->permissions.delete_comments == 1}
 				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_delete id=$comment->id parent_id=$this_post->id}" onclick="return confirm('{$_TR.delete_comment_confirm}');">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete_comment}" alt="{$_TR.alt_delete_comment}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete_comment}" alt="{$_TR.alt_delete_comment}" />
 				</a>
 				{/if}
 				{/permissions}
 				</div>
 				<div class="weblog_comment_attribution">
-          <img style="border:none;" src="{$smarty.const.ICON_RELATIVE}arrow_right.gif" title="{$_TR.alt_arrow_right}" alt="{$_TR.alt_arrow_right}" />
+          <img src="{$smarty.const.ICON_RELATIVE}arrow_right.gif" title="{$_TR.alt_arrow_right}" alt="{$_TR.alt_arrow_right}" />
           Posted by {$comment->name} on {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
         </div>
 			</div>
@@ -80,7 +79,7 @@
 {if $config->allow_comments != 0}
 	{if $config->require_login == 0 || ($config->require_login == 1 && $logged_in == 1)}
 		<h2>Leave a comment</h2>
-			{form action=comment_save}
+			{form name=weblogcomment action=comment_save}
 				{control type=hidden name=parent_id value=$this_post->id}
 				{control type=text name=name label=Name}
 				{control type=text name=email label=Email}

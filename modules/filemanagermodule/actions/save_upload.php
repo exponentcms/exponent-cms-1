@@ -28,7 +28,7 @@ $loc = exponent_core_makeLocation('filemanagermodule');
 if ($collection) {
 	// PERM CHECK
 		//$file = file::update('file','files.php',null);
-		$file = file::update('file',null,null);
+		$file = file::update('file','files',null);
 		if (is_object($file)) {
 			$file->name = $_POST['name'];
 			$file->collection_id = $collection->id;
