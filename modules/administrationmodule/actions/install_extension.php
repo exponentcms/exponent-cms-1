@@ -22,11 +22,11 @@
 if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
-	
+
 	$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/install_extension.php');
-		
+
 	if ($_FILES['mod_archive']['error'] != UPLOAD_ERR_OK) {
-		
+
 		switch($_FILES['mod_archive']['error']) {
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
@@ -61,12 +61,12 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 			$compression = 'zip';
 			$ext = '.zip';
 		}
-		
+
 		if ($ext == '') {
 			echo $i18n['bad_archive'].'<br />';
 		} else {
 			if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
-		
+
 			// Look for stale sessid directories:
 			$sessid = session_id();
 			if (file_exists(BASE."extensionuploads/$sessid") && is_dir(BASE."extensionuploads/$sessid")) exponent_files_removeDirectory("extensionuploads/$sessid");
@@ -75,7 +75,7 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 				switch ($return) {
 					case SYS_FILES_FOUNDFILE:
 					case SYS_FILES_FOUNDDIR:
-						echo $i18n['file_in_parh'].'<br />';
+						echo $i18n['file_in_path'].'<br />';
 						break;
 					case SYS_FILES_NOTWRITABLE:
 						echo $i18n['dest_not_w'].'<br />';
@@ -85,15 +85,15 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 						break;
 				}
 			}
-			
+
 			$dest = BASE."extensionuploads/$sessid/archive$ext";
 			move_uploaded_file($_FILES['mod_archive']['tmp_name'],$dest);
-			
+
 			if ($compression != 'zip') {// If not zip, must be tar
 				include_once(BASE.'external/Tar.php');
-				
+
 				$tar = new Archive_Tar($dest,$compression);
-				
+
 				PEAR::setErrorHandling(PEAR_ERROR_PRINT);
 				$return = $tar->extract(dirname($dest));
 				if (!$return) {
@@ -103,9 +103,9 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 				}
 			} else { // must be zip
 				include_once(BASE.'external/Zip.php');
-				
+
 				$zip = new Archive_Zip($dest);
-				
+
 				PEAR::setErrorHandling(PEAR_ERROR_PRINT);
 				if ($zip->extract(array('add_path'=>dirname($dest))) == 0) {
 					echo '<br />'.$i18n['error_zip'].':<br />';
