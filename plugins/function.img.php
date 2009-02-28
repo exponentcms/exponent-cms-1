@@ -20,16 +20,16 @@
 function smarty_function_img($params,&$smarty) {
 	$alt = isset($params['alt']) ? $params['alt'] : 'Image';
 	$closing = (XHTML==1) ? ' />' : '>';
-	
+
 	if (isset($params['width']) || isset($params['height']) || isset($params['square'])) {
 		$src = URL_FULL.'thumb.php';
-		
+
 		// figure out which file we're showing
 		if (isset($params['file'])) $src .= '?file='.$params['file'];
 		if (isset($params['file_id'])) $src .= '?id='.$params['file_id'];
 
 		// get the image dimensions
-		if (isset($params['constrain'])) $src .= '&amp;constraint=1'; 
+		if (isset($params['constraint'])) $src .= '&amp;constraint=1';
 		if (isset($params['square'])) $src .= '&amp;square='.$params['square'];
 		if (isset($params['width'])) $src .= '&amp;width='.$params['width'];
 		if (isset($params['height'])) $src .= '&amp;height='.$params['height'];
