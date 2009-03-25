@@ -27,6 +27,13 @@ function smarty_modifier_summarize($string, $strtype, $type) {
 			}
 			return strip_tags($string);
 			break;
+		case "paralinks":
+			foreach ($sep as $s) {
+				$para = explode($s,$string);
+				$string = $para[0];
+			}
+			return strip_tags($string,'<a>');
+			break;
 		default:
 			$words = split(" ",strip_tags($string));
 			return implode(" ",array_slice($words,0,$type+0));
