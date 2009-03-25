@@ -241,6 +241,7 @@ class weblogmodule {
 			array('administrate','configure','post','edit','delete','comment','edit_comments','delete_comments','view_private'),
 			$loc);
 		$template->assign('config',$config);
+		$template->assign('logged_in', exponent_users_isLoggedIn());
 		$template->assign('moduletitle',$title);
 		$template->output();
 	}
