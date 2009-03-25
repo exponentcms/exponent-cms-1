@@ -39,9 +39,9 @@
 	{if $permissions.create == 1}
 		<div class="moduleactions">
 			<a class="creategallery" href="{link action=edit_gallery}">
-				{$_TR.link_newgallery}
+				{$_TR.new_gallery}
 			</a>
-    			{br}<a href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" />{$_TR.reorder_galleries}</a>{br}
+    			{br}<a href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" alt="" />{$_TR.reorder_galleries}</a>{br}
     		</div>
 	{/if}
 	{/permissions}
@@ -62,7 +62,7 @@
 			<div class="bodycopy">
 				{if $gallery->images[0]->thumbnail}
 					<a href="{link action=view_gallery id=$gallery->id}">
-						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" />
+						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" alt="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}" />
 					</a>
 				{/if}
 				{$gallery->description}

@@ -1,6 +1,6 @@
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.edit == 1}
-	<a href="{link action=view_gallery id=$gallery->id}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" />{$_TR.add_reorder_images}</a><br>
+	<a href="{link action=view_gallery id=$gallery->id}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" alt="" />{$_TR.add_reorder_images}</a><br>
 {/if}
 {if $permissions.edit == 1}
 	<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_gallery id=$gallery->id}">
