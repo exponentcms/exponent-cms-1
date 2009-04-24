@@ -26,7 +26,7 @@
 * Suite 330,
 * Boston, MA 02111-1307  USA
 *
-* $Id: Default.tpl,v 1.4 2005/02/24 20:14:35 filetreefrog Exp $
+* $Id: Default.tpl,v 1.4 2009/02/13 20:14:35 maiagood Exp $
 *}
 <div class="imagegallerymodule thumbnails">
  {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
@@ -71,7 +71,7 @@
       {if $smarty.foreach.i.iteration <= $gallery->perpage }
       <li>
         <a  href="{$smarty.const.URL_FULL}{$file->file->directory}/{$file->enlarged}" onclick="eXp.popImage('{$file->id}',{$file->popwidth},{$file->popheight}); return false;">
-         <img src="{$smarty.const.URL_FULL}{$file->file->directory}/{$file->thumbnail}" alt="{$file->name}" />
+         <img src="{$smarty.const.URL_FULL}{$file->file->directory}/{$file->thumbnail}" alt="{$file->name}" width="{$file->twidth}px" height="{$file->theight}px" />
         </a>
        {if ($smarty.foreach.i.iteration mod $gallery->perrow) == 0}{br}{/if}
       </li>
@@ -79,18 +79,20 @@
      {/foreach}
     </ul>
    {/if}
-   <div class="paging">
-    <span class="previous">
-     {if $gallery->currentpage >= 1}<a href="{link action=view_gallery id=$gallery->id page=$gallery->currentpage-1 view=$__view}">&lt; {$_TR.previous}</a>
-     {else}&lt; {$_TR.previous}
-     {/if}
-    </span>
-    <span class="next">
-     {if $gallery->currentpage != $gallery->totalpages-1}<a href="{link action=view_gallery id=$gallery->id page=$gallery->currentpage+1 view=$__view}">{$_TR.next} &gt;</a>
-     {else}{$_TR.next} &gt;
-     {/if}
-    </span>
-   </div>
+   {if $gallery->totalpages > 1}
+    <div class="paging">
+     <span class="previous">
+      {if $gallery->currentpage >= 1}<a href="{link action=view_gallery id=$gallery->id page=$gallery->currentpage-1 view=$__view}">&lt; {$_TR.previous}</a>
+      {else}&lt; {$_TR.previous}
+      {/if}
+     </span>
+     <span class="next">
+      {if $gallery->currentpage != $gallery->totalpages-1}<a href="{link action=view_gallery id=$gallery->id page=$gallery->currentpage+1 view=$__view}">{$_TR.next} &gt;</a>
+      {else}{$_TR.next} &gt;
+      {/if}
+     </span>
+    </div>
+   {/if}
   </div>
  {foreachelse}
   <p><em>{$_TR.no_galleries}</em></p>
