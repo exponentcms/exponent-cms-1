@@ -49,7 +49,7 @@ class listing {
 
 		$form->register('name','Name',new textcontrol($object->name,50,false,200));
 		$form->register('url','URL',new textcontrol($object->url));
-		$form->register('opennew','Open in New Window',new checkboxcontrol($object->opennew,false));
+		$form->register('opennew','Open in New Window',new checkboxcontrol($object->opennew,true));
 		$form->register('summary','Summary',new texteditorcontrol($object->summary));
 		$form->register('body','Body',new htmleditorcontrol($object->body));
 		$form->register('upload','Upload Picture', new uploadcontrol());
