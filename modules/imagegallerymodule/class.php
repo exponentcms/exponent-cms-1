@@ -121,6 +121,12 @@ class imagegallerymodule {
 					$galleries[$i]->images[$y]->file = $db->selectObject("file","id=".$galleries[$i]->images[$y]->file_id);
 					//eDebug($galleries[$i]->images[$y]->file);
 					if(is_object($galleries[$i]->images[$y]->file)){
+						if (file_exists(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->thumbnail)) {
+							$tsize = getimagesize(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->thumbnail);
+							//eDebug($galleries[$i]->images[$y]);
+							$galleries[$i]->images[$y]->twidth = $tsize[0];
+							$galleries[$i]->images[$y]->theight = $tsize[1];
+						}
 						if (file_exists(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->enlarged)) {
 							$popsize = getimagesize(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->enlarged);
 							//eDebug($galleries[$i]->images[$y]);
