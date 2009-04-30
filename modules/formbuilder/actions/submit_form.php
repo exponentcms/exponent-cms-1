@@ -28,12 +28,14 @@ if (empty($_REQUEST['isedit'])){
 	}
 }
 
+$form_data = exponent_sessions_get('formmodule_data_'.$_POST['id']);
+
 if (!defined("SYS_USER")) require_once(BASE."subsystems/users.php");
 if (!defined("SYS_FORMS")) require_once(BASE."subsystems/forms.php");
 exponent_forms_initialize();
 global $user;
-$f = $db->selectObject("formbuilder_form","id=".intval($_POST['id']));
-$rpt = $db->selectObject("formbuilder_report","form_id=".intval($_POST['id']));
+$f = $db->selectObject("formbuilder_form","id=".intval($form_data['id']));
+$rpt = $db->selectObject("formbuilder_report","form_id=".intval($form_data['id']));
 $controls = $db->selectObjects("formbuilder_control","form_id=".$f->id." and is_readonly=0");
 if (!defined("SYS_SORTING")) require_once(BASE."subsystems/sorting.php");
 usort($controls,"exponent_sorting_byRankAscending");
@@ -46,22 +48,22 @@ foreach ($controls as $c) {
 	$control_type = get_class($ctl);
 	$def = call_user_func(array($control_type,"getFieldDefinition"));
 	if ($def != null) {
-		$value = call_user_func(array($control_type,'parseData'),$c->name,$_POST,true);
+		$value = call_user_func(array($control_type,'parseData'),$c->name,$form_data,true);
 		$varname = $c->name;
 		$db_data->$varname = $value;
 		$fields[$c->name] = call_user_func(array($control_type,'templateFormat'),$value,$ctl);
 		$captions[$c->name] = $c->caption;
 	}
 }
-if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissions_check("editdata",unserialize($f->location_data)))) {
+if (!isset($form_data['data_id']) || (isset($form_data['data_id']) && exponent_permissions_check("editdata",unserialize($f->location_data)))) {
 	if ($f->is_saved == 1) {	
-		if (isset($_POST['data_id'])) {
+		if (isset($form_data['data_id'])) {
 			//if this is an edit we remove the record and insert a new one.
-			$olddata = $db->selectObject('formbuilder_'.$f->table_name,'id='.intval($_POST['data_id']));
+			$olddata = $db->selectObject('formbuilder_'.$f->table_name,'id='.intval($form_data['data_id']));
 			$db_data->ip = $olddata->ip;
 			$db_data->user_id = $olddata->user_id;
 			$db_data->timestamp = $olddata->timestamp;
-			$db->delete('formbuilder_'.$f->table_name,'id='.intval($_POST['data_id']));
+			$db->delete('formbuilder_'.$f->table_name,'id='.intval($form_data['data_id']));
 		} 
 		else {
 			$db_data->ip = $_SERVER['REMOTE_ADDR'];
@@ -78,7 +80,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 	//Email stuff here...
 	//Don't send email if this is an edit.
 	require_once('subsystems/mail.php');
-	if ($f->is_email == 1 && !isset($_POST['data_id'])) {
+	if ($f->is_email == 1 && !isset($form_data['data_id'])) {
 		//Building Email List...
 		$emaillist = array();
 		foreach ($db->selectObjects("formbuilder_address","form_id=".$f->id) as $address) {
@@ -140,7 +142,7 @@ if (!isset($_POST['data_id']) || (isset($_POST['data_id']) && exponent_permissio
 	exponent_sessions_unset('formmodule_data_'.$f->id);
 
 	//If is a new post show response, otherwise redirect to the flow.
-	if (!isset($_POST['data_id'])) {
+	if (!isset($form_data['data_id'])) {
 		$template = new template("formbuilder","_view_response");
 		global $SYS_FLOW_REDIRECTIONPATH;
 		$SYS_FLOW_REDIRECTIONPATH = "editfallback";
