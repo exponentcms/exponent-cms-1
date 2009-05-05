@@ -53,10 +53,11 @@ class htmleditorcontrol extends formcontrol {
 	}
 	
 	
-	function htmleditorcontrol($default="",$module = "",$rows = 20,$cols = 60, $toolbar = "") {
+	function htmleditorcontrol($default="",$module = "",$rows = 20,$cols = 60, $toolbar = "", $height=300) {
 		$this->default = $default;
 		$this->module = $module; // For looking up templates.
 		$this->toolbar = $toolbar;
+		$this->height = $height;
 	}
 	
 	
@@ -99,6 +100,7 @@ class htmleditorcontrol extends formcontrol {
 			//assign the data models to the view object
 			$viewObj->assign("view", $view);
 			$viewObj->assign("content", $content);
+			$viewObj->assign('height', $this->height);
 			
 			//return the processed template to the caller for display
 			$html = $viewObj->render();

@@ -89,7 +89,7 @@
 		oFCKeditor.BasePath = "{$view->path_to_editor}";
 		oFCKeditor.Value = "{$content->value}";
 		
-		oFCKeditor.Height= '600';
+		oFCKeditor.Height= '{$height}';
 
 		oFCKeditor.Config['LinkUpload'] = "false";
 		oFCKeditor.Config['ImageUpload'] = "false";

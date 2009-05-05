@@ -63,6 +63,7 @@ function smarty_function_control($params,&$smarty) {
 			if (isset($params['module'])) $control->module = $params['module'];
 			if (isset($params['rows'])) $control->rows = $params['rows'];
 			if (isset($params['cols'])) $control->cols = $params['cols'];
+            if (isset($params['height'])) $control->height = $params['height'];
 			if (isset($params['toolbar'])) $control->toolbar = $params['toolbar'];
 		} elseif ($params['type'] == 'listbuilder') {
                         $default = isset($params['default']) ? $params['default'] : array();
