@@ -99,7 +99,21 @@ function exponent_sorting_byPostedAscending($a,$b) {
 function exponent_sorting_byPostedDescending($a,$b) {
 	return ($a->posted > $b->posted ? -1 : 1);
 }
+/* exdoc
+* Object sorting comparison function -- sorts by published attribute in ascending order.
+* @node Subsystems:Sorting
+*/
+function exponent_sorting_byPublishedAscending($a,$b) {
+	return ($a->publish < $b->publish ? -1 : 1);
+}
 
+/* exdoc
+* Object sorting comparison function -- sorts by published attribute in descending order.
+* @node Subsystems:Sorting
+*/
+function exponent_sorting_byPublishedDescending($a,$b) {
+	return ($a->publish > $b->publish ? -1 : 1);
+}
 function exponent_sorting_byEditedAscending($a,$b) {
 	return ($a->edited < $b->edited ? -1 : 1);
 }

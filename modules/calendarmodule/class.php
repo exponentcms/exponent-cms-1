@@ -166,13 +166,12 @@ class calendarmodule {
 			if ($viewconfig['range'] == "week") {
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
-			$template->assign("prev_timestamp",$startperiod - 3600);
-			$template->assign("next_timestamp",$startperiod+(($totaldays * 86400) + 3600));
 			} else {
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
 				$totaldays  = date('t', $time);
 			}
-
+			$template->assign("prev_timestamp",$startperiod - 3600);
+			$template->assign("next_timestamp",$startperiod+(($totaldays * 86400) + 3600));
 
 			$days = array();
 			// added per Ignacio
