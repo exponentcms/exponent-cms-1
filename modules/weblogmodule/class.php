@@ -177,6 +177,41 @@ class weblogmodule {
 					}
 				}
 			}
+			
+			// Let's group the tags by usage into 5 groupings for the Tag Cloud
+			
+			//First, we collect all of the counts for the tags into an array. Check as we go to prevent duplicates
+			$tag_counts = array();
+			foreach($all_tags as $tag){
+				if(isset($tag->cnt) && !in_array($tag->cnt, $tag_counts))
+					$tag_counts[] = $tag->cnt;
+			}
+			sort($tag_counts);
+			
+			//Next, we divide the array into 5 groupings
+			$group_size = floor(count($tag_counts) / 5);
+			$group1 = array_slice($tag_counts,0,$group_size);
+			$group2 = array_slice($tag_counts,$group_size,$group_size);
+			$group3 = array_slice($tag_counts,$group_size*2,$group_size);
+			$group4 = array_slice($tag_counts,$group_size*3,$group_size);
+			$group5 = array_slice($tag_counts,$group_size*4);
+			
+			//Now, we mark the all_tags array with their group
+			foreach($all_tags as $tag){
+				if(isset($tag->cnt)){
+					if(in_array($tag->cnt, $group1))
+						$tag->group = 1;
+					if(in_array($tag->cnt, $group2))
+						$tag->group = 2;
+					if(in_array($tag->cnt, $group3))
+						$tag->group = 3;
+					if(in_array($tag->cnt, $group4))
+						$tag->group = 4;
+					if(in_array($tag->cnt, $group5))
+						$tag->group = 5;
+				}
+			}
+
 			usort($all_tags, "exponent_sorting_byNameAscending");
 			$template->assign('tags', $all_tags);
 		} else if ($viewconfig['type'] == 'calendar') {
