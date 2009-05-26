@@ -67,6 +67,12 @@ if ($gallery) {
 		$gallery->images[$i]->file = $db->selectObject("file","id=".$gallery->images[$i]->file_id);
 		//eDebug($gallery->images[$i]->file);
 		if(is_object($gallery->images[$i]->file)){
+			if (file_exists(BASE.$gallery->images[$i]->file->directory."/".$gallery->images[$i]->thumbnail)) {
+				$tsize = getimagesize(BASE.$gallery->images[$i]->file->directory."/".$gallery->images[$i]->thumbnail);
+				//eDebug($gallery->images[$i]);
+				$gallery->images[$i]->twidth = $tsize[0];
+				$gallery->images[$i]->theight = $tsize[1];
+			}
 			if (file_exists(BASE.$gallery->images[$i]->file->directory."/".$gallery->images[$i]->enlarged)) {
 				$popsize = getimagesize(BASE.$gallery->images[$i]->file->directory."/".$gallery->images[$i]->enlarged);
 				//eDebug($gallery->images[$i]);

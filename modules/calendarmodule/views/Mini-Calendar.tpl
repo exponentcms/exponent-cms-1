@@ -47,7 +47,7 @@
 				{if $dayinfo.number == 0}
 					{$day}
 				{else}
-					<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayinfo.ts}" title="{$dayinfo.ts|format_date:'%A, %B %e, %Y'}" alt="{$dayinfo.ts|format_date:'%A, %B %e, %Y'}"><b>{$day}</b></a>
+					<a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$dayinfo.ts}" title="{$dayinfo.ts|format_date:'%A, %B %e, %Y'}"><em>{$day}</em></a>
 				{/if}
 			{else}
 				&nbsp;
@@ -61,10 +61,10 @@
 <br />
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
-<a class="mngmntlink calendar_mngmntlink" href="{link action=edit}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a><br />
+<a class="mngmntlink calendar_mngmntlink" href="{link action=edit}" title="{$_TR.alt_create}">{$_TR.create}</a><br />
 {/if}
 {if $in_approval != 0 && $canview_approval_link == 1}
-<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.view_approval}</a><br />
+<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}">{$_TR.view_approval}</a><br />
 {/if}
 {/permissions}
 <br />

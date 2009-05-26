@@ -28,55 +28,53 @@
  *
  * $Id: Default.tpl,v 1.7 2005/04/08 15:45:48 filetreefrog Exp $
  *}
+<h1>{$_TR.form_title|sprintf:$profile->firstname:$profile->lastname}</h1>
 
-<h2>User Profile for {$profile->firstname} {$profile->lastname}</h2>
-<table width="550" cellpadding="3" cellspacing="0" border="0">
+<table class="userprofile">
 <tr>
-  <td style="border-bottom: 1px solid black;">
+  <td class="label">
     {if $profile->image_url != ""}
-      <img src="{$profile->image_url}" border="0">
+      <img src="{$profile->image_url}" alt="{$_TR.alt_avatar}" />
     {else}
-      <img src="{$smarty.const.THEME_RELATIVE}images/not_available.jpeg" border="0">
+      <img src="{$smarty.const.URL_FULL}themes/common/images/icons/not_available.jpeg" alt="{$_TR.alt_no_avatar}" />
     {/if}
   </td>
-  <td style="border-bottom: 1px solid black;"><h2>{$profile->username}</h2></td>
+  <td><h2>{$profile->username}</h2></td>
 </tr>
 <tr>
-  <td style="padding-top: 5px">Email Address</td>
-  <td style="padding-top: 5px">{$profile->email}</td>
+  <td class="label">{$_TR.emailaddr}</td>
+  <td>{$profile->email}</td>
 </tr>
 <tr>
-  <td>ICQ Number</td>
+  <td class="label">{$_TR.icq_number}</td>
   <td>{$profile->icq_num}</td>
 </tr>
 <tr>
-  <td>AIM Address</td>
+  <td class="label">{$_TR.aim_addr}</td>
   <td>{$profile->aim_addy}</td>
 </tr>
 <tr>
-  <td>MSN Messenger</td>
+  <td class="label">{$_TR.msm_id}</td>
   <td>{$profile->msn_addy}</td>
 </tr>
 <tr>
-  <td>Yahoo Messenger</td>
+  <td class="label">{$_TR.yahoo_id}</td>
   <td>{$profile->yahoo_addy}</td>
 </tr>
 <tr>
-  <td>Website</td>
+  <td class="label">{$_TR.web_url}</td>
   <td>{$profile->website}</td>
 </tr>
 <tr>
-  <td>Location</td>
+  <td class="label">{$_TR.location}</td>
   <td>{$profile->location}</td>
 </tr>
 <tr>
-  <td>Occupation</td>
+  <td class="label">{$_TR.occupation}</td>
   <td>{$profile->occupation}</td>
 </tr>
 <tr>
-  <td>Interests</td>
+  <td class="label">{$_TR.interests}</td>
   <td>{$profile->interests}</td>
 </tr>
 </table>
-
-
