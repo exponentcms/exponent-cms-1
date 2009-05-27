@@ -34,7 +34,7 @@
 <tr>
   <td class="label">
     {if $profile->image_url != ""}
-      <img src="{$profile->image_url}" alt="{$_TR.alt_avatar}" />
+      <img src="{$smarty.const.URL_FULL}{$profile->image_url}" alt="{$_TR.alt_avatar}" />
     {else}
       <img src="{$smarty.const.URL_FULL}themes/common/images/icons/not_available.jpeg" alt="{$_TR.alt_no_avatar}" />
     {/if}
