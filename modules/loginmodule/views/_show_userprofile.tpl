@@ -30,51 +30,53 @@
  *}
 <h1>{$_TR.form_title|sprintf:$profile->firstname:$profile->lastname}</h1>
 
-<table class="userprofile">
+<table class="userprofile" summary="{$_TR.summary}">
+<tbody>
 <tr>
-  <td class="label">
+  <th scope="row" class="label">
     {if $profile->image_url != ""}
       <img src="{$smarty.const.URL_FULL}{$profile->image_url}" alt="{$_TR.alt_avatar}" />
     {else}
       <img src="{$smarty.const.URL_FULL}themes/common/images/icons/not_available.jpeg" alt="{$_TR.alt_no_avatar}" />
     {/if}
-  </td>
+  </th>
   <td><h2>{$profile->username}</h2></td>
 </tr>
 <tr>
-  <td class="label">{$_TR.emailaddr}</td>
+  <th scope="row" class="email">{$_TR.emailaddr}</th>
   <td>{$profile->email}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.icq_number}</td>
+  <th scope="row" class="icq">{$_TR.icq_number}</th>
   <td>{$profile->icq_num}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.aim_addr}</td>
+  <th scope="row" class="aim">{$_TR.aim_addr}</th>
   <td>{$profile->aim_addy}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.msm_id}</td>
+  <th scope="row" class="msm">{$_TR.msm_id}</th>
   <td>{$profile->msn_addy}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.yahoo_id}</td>
+  <th scope="row" class="yahoo">{$_TR.yahoo_id}</th>
   <td>{$profile->yahoo_addy}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.web_url}</td>
+  <th scope="row" class="web">{$_TR.web_url}</th>
   <td>{$profile->website}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.location}</td>
+  <th scope="row" class="location">{$_TR.location}</th>
   <td>{$profile->location}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.occupation}</td>
+  <th scope="row" class="occupation">{$_TR.occupation}</th>
   <td>{$profile->occupation}</td>
 </tr>
 <tr>
-  <td class="label">{$_TR.interests}</td>
+  <th scope="row" class="interests">{$_TR.interests}</th>
   <td>{$profile->interests}</td>
 </tr>
+</tbody>
 </table>
