@@ -36,19 +36,21 @@
 	{/if}
 	
 	{if $loggedin == false || $smarty.const.PREVIEW_READONLY == 1}
-	<form method="post" action="{$smarty.const.URL_FULL}index.php">
-	<input type="hidden" name="action" value="login" />
-	<input type="hidden" name="module" value="loginmodule" />
-	<span>{gettext str="Username"}</span>
-	<input class="text" type="text" name="username" id="login_username" />
-	<span>{gettext str="Password"}</span>
-	<input class="text" type="password" name="password" id="login_password" />
-	<input type="submit" class="button" value="{$_TR.login}" />
-	</form>
-	{if ($smarty.const.SITE_ALLOW_REGISTRATION == 1 && $smarty.const.MAINTENANCE_MODE != 1)}
-	<a href="{link action=createuser}">{$_TR.create_account}</a><br />
-	<a href="{link action=resetpass}">{$_TR.forgot_password}</a><br />
-	{/if}
+		<form id="logindefault" method="post" action="{$smarty.const.URL_FULL}index.php">
+			<div>
+				<input type="hidden" name="action" value="login" />
+				<input type="hidden" name="module" value="loginmodule" />
+				<label for="login_username">{$_TR.name}</label>
+				<input type="text" class="text" name="username" id="login_username" size="15" maxlength="30" value="{$_TR.enter_name}" onfocus="if (this.value==this.defaultValue) this.value=''; else this.select()" onblur="if (!this.value) this.value=this.defaultValue" />
+				<label for="login_password">{$_TR.passw}</label>
+				<input type="password" class="text" name="password" id="login_password" size="15" maxlength="32" value="{$_TR.enter_pw}" onfocus="if (this.value==this.defaultValue) this.value=''; else this.select()" onblur="if (!this.value) this.value=this.defaultValue"/>		
+				<input type="submit" class="button" value="{$_TR.login}" />
+			</div>
+		</form>
+		{if ($smarty.const.SITE_ALLOW_REGISTRATION == 1 && $smarty.const.MAINTENANCE_MODE != 1)}
+			<a href="{link action=createuser}">{$_TR.create_account}</a><br />
+			<a href="{link action=resetpass}">{$_TR.forgot_password}</a><br />
+		{/if}
 	{/if}
 
 </div>

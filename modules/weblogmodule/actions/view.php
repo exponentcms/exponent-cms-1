@@ -48,7 +48,7 @@ if ($this_post) {
 
 		$next_id = $db->min('weblog_post','id','location_data', $where.' AND id > '.$this_post->id);
 		$next_post = $db->selectObject('weblog_post','id = '.$next_id);
-		$prev_id = $db->max('weblog_post','id','location_data', $where."' AND id < ".$this_post->id);
+		$prev_id = $db->max('weblog_post','id','location_data', $where.' AND id < '.$this_post->id);
 		$prev_post = $db->selectObject('weblog_post','id = '.$prev_id);
 
 		if (!$next_post) {

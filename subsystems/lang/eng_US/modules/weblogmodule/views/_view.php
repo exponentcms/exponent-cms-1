@@ -15,17 +15,21 @@ return array(
 	'alt_delete'=>'Delete this Weblog Post',
 	'delete_confirm'=>'Are you sure you want to delete this Weblog Post?',
 
-	'draft'=>'Draft',
+	'draft'=>'(Draft)',
 	'draft_desc'=>'This is a draft. Commenting has been disabled.',
 
+	'leave_comment'=>'Leave a comment',
 	'comment'=>'Comment',
+	'plural'=>'s',
+	'need_login'=>'You must be logged in to post comments.',
+	'login'=>'Login to post comment',
 
 	'alt_edit_comment'=>'Edit this Comment',
 	'alt_delete_comment'=>'Delete this Comment',
 	'delete_comment_confirm'=>'Are you sure you want to delete this Comment?',
 
-	'next'=>'Next',
-	'previous'=>'Previous',
+	'next'=>'(Next)',
+	'previous'=>'(Previous)',
 
 	'new_post'=>'New Post',
 

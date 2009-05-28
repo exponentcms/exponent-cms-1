@@ -5,6 +5,9 @@ return array(
 	'alt_groupperm'=>'Assign group permissions on this Search Module',
 	'alt_configure'=>'Configure this Search Module',
 	'search'=>'Search',
+	'enter_keyword'=>'Enter term',
+	'keyword'=>'Search for:'
+
 );
 
 ?>
