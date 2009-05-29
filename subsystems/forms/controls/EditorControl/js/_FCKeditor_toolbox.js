@@ -120,5 +120,6 @@ eXp.WYSIWYG.toolbox =	{
 "TableInsertColumn" : ["Insert Column", "external/editors/images/FCKeditor/toolbar/tableinsertcolumn.gif", ""],
 "TableInsertRow" : ["Insert Row", "external/editors/images/FCKeditor/toolbar/tableinsertrow.gif", "tablecommands"],
 "TableMergeCells" : ["Merge Cells", "external/editors/images/FCKeditor/toolbar/tablemergecells.gif", ""],
-"TableSplitCell" : ["Split Cell", "external/editors/images/FCKeditor/toolbar/tablesplitcell.gif", ""]
-			};
+"TableSplitCell" : ["Split Cell", "external/editors/images/FCKeditor/toolbar/tablesplitcell.gif", ""],
+"FitWindow" : ["Split Cell", "external/editors/images/FCKeditor/toolbar/fillscreen.gif", ""]
+};
