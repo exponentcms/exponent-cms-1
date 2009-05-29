@@ -82,7 +82,7 @@ function exponent_theme_loadRequiredCSS() {
 /* exdoc
  * @function include_css()
  * checks for a css document to include on your page.
- * checks first in your theme/css/ folder, then in the 
+ * checks first in your theme/css/ folder, then in the
  * root of your theme, then in themes/common/css/
  * @node Subsystems:Theme
  */
@@ -136,13 +136,13 @@ function rebuild_css(){
 		global $css_files;
 		//eDebug($css_files);
 		//exit;
-		// Load the Minify library if needed.                 
-		include_once(BASE.'external/minify/minify.php');                 
-		// Create new Minify objects.                 
-		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
+		// Load the Minify library if needed.
+		include_once(BASE.'external/minify/minify.php');
+		// Create new Minify objects.
+		$minifyCSS = new Minify(Minify::TYPE_CSS);
 
-		// Specify the files to be minified. Full URLs are allowed as long as they point                 
-		// to the same server running Minify. 
+		// Specify the files to be minified. Full URLs are allowed as long as they point
+		// to the same server running Minify.
 	       	$minifyCSS->addFile($css_files);
 
 		// Establish the file where we will build the compiled CSS file
@@ -161,20 +161,20 @@ function exponent_theme_remove_css() {
 
 function exponent_theme_remove_smarty_cache() {
 	if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
-	return exponent_files_remove_files_in_directory(BASE.'tmp/views_c');	
+	return exponent_files_remove_files_in_directory(BASE.'tmp/views_c');
 }
 
 function exponent_theme_buildCSSFile($cssfile) {
 	if (DEVELOPMENT > 0 || !is_readable(BASE.$cssfile)) {
 		global $css_files;
 		define('MINIFY_CACHE_DIR',BASE.'tmp/minify'); 			// Define the cache dir first.
-		if (!is_dir(BASE.'tmp/minify')) mkdir(BASE.'tmp/minify');	//if the dir doesnt exist- create it  
-		include_once(BASE.'external/minify/minify.php');		// Load the Minify library if needed.                 
-		
-		// Create new Minify objects.                 
-		$minifyCSS = new Minify(Minify::TYPE_CSS);                         
+		if (!is_dir(BASE.'tmp/minify')) mkdir(BASE.'tmp/minify');	//if the dir doesnt exist- create it
+		include_once(BASE.'external/minify/minify.php');		// Load the Minify library if needed.
 
-		// Specify the files to be minified. Full URLs are allowed as long as they point to the same server running Minify. 
+		// Create new Minify objects.
+		$minifyCSS = new Minify(Minify::TYPE_CSS);
+
+		// Specify the files to be minified. Full URLs are allowed as long as they point to the same server running Minify.
 	       	$minifyCSS->addFile($css_files);
 
 		// Establish the file where we will build the compiled CSS file
@@ -188,7 +188,7 @@ function exponent_theme_buildCSSFile($cssfile) {
 
 function exponent_theme_includeCSS($cssfile) {
 	$str = "";
-	
+
 	if (DEVELOPMENT == 0 && DISPLAY_THEME==DISPLAY_THEME_REAL) {
 		$str = "\t".'<link rel="stylesheet" type="text/css" href="'.URL_FULL.$cssfile.'" '.XHTML_CLOSING.'>'."\r\n";
 	} else {
@@ -210,7 +210,7 @@ function exponent_theme_headerInfo($config) {
 }
 
 function headerInfo($config) {
-	
+
 	if (!is_array($config)){
 		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>
 		The exponent_theme_headerInfo() function only takes 1 parameter, and it MUST be an array (\$config). Please refer to the Exponent documentation for details:<br />
@@ -218,15 +218,15 @@ function headerInfo($config) {
 		</h1>";
 		die();
 	}
-	
+
 	global $sectionObj, $user, $validateTheme;
 	$validateTheme['headerinfo'] = true;
-	
+
 	$langinfo = include(BASE.'subsystems/lang/'.LANG.'.php');
 
 	if(!isset($config['include-common-css'])) $config['include-common-css']=false;
 	if(!isset($config['include-theme-css'])) $config['include-theme-css']=true;
-	if(empty($config['css-file'])) $cssfile = 'tmp/css/exp-styles-min.css';
+	if(empty($config['css-file'])) { $cssfile = 'tmp/css/exp-styles-min.css'; } else { $cssfile = $config['css-file']; };
 	if(empty($config['xhtml'])||($config['xhtml']==false)){ define("XHTML",0);define("XHTML_CLOSING","");} else {define("XHTML",1); define("XHTML_CLOSING","/");}
 
 	// load all the required CSS files for the user.
@@ -235,7 +235,7 @@ function headerInfo($config) {
 	if(!empty($config['reset-fonts-grids'])) exponent_theme_resetCSS();
 	if($config['include-common-css']!=false) exponent_theme_loadCommonCSS();
 	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS($config['include-theme-css']);
-	
+
 	// Build the CSS file
 	exponent_theme_buildCSSFile($cssfile);
 
@@ -246,11 +246,11 @@ function headerInfo($config) {
 		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" '.XHTML_CLOSING.'>' . "\n";
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" '.XHTML_CLOSING.'>'."\n";
-		
+
 		//the last little bit of IE 6 support
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
-		
-		$str .= exponent_theme_includeCSS($cssfile);	
+
+		$str .= exponent_theme_includeCSS($cssfile);
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'external/yui/build/yuiloader-dom-event/yuiloader-dom-event.js"></script>'."\r\n";
 		$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'exponent.js.php"></script>'."\r\n";
 		if($user->id!=0){
@@ -259,7 +259,7 @@ function headerInfo($config) {
 				exponent_permissions_checkOnModule("add_module","containermodule")||
 				exponent_permissions_checkOnModule("edit_module","containermodule")||
 				exponent_permissions_checkOnModule("delete_module","containermodule")||
-				exponent_permissions_checkOnModule("order_modules","containermodule") || 
+				exponent_permissions_checkOnModule("order_modules","containermodule") ||
 				exponent_permissions_check('manage', $secloc)
 				){
 				//$str .= "\t".'<script type="text/javascript" src="'.URL_FULL.'/themes/common/javascript/containermodule/containermenus.js"></script>'."\r\n";
@@ -285,7 +285,7 @@ function footerInfo() {
 	global $validateTheme;
 	$validateTheme['footerinfo'] = true;
 	exponent_javascript_outputJStoDOMfoot();
-	rebuild_css();	
+	rebuild_css();
 	exponent_sessions_unset("last_POST");  //ADK - putting this here so one form doesn't unset it before another form needs it.
 }
 
@@ -552,12 +552,12 @@ function exponent_theme_runAction() {
 		}
 
 		if (isset($_REQUEST['controller'])) {
-                      echo renderAction($_REQUEST); 
+                      echo renderAction($_REQUEST);
                 } else {
 			if ($_REQUEST['action'] == 'index') {
-				$view = empty($_REQUEST['view']) ? 'Default' : $_REQUEST['view'];			
-				$title = empty($_REQUEST['title']) ? '' : $_REQUEST['title'];	
-				$src = empty($_REQUEST['src']) ? null : $_REQUEST['src'];		
+				$view = empty($_REQUEST['view']) ? 'Default' : $_REQUEST['view'];
+				$title = empty($_REQUEST['title']) ? '' : $_REQUEST['title'];
+				$src = empty($_REQUEST['src']) ? null : $_REQUEST['src'];
 				exponent_theme_showModule($_REQUEST['module'], $view, $title, $src);
 				return true;
 			}
@@ -587,7 +587,7 @@ function exponent_theme_runAction() {
 }
 
 function exponent_theme_showAction($module, $action, $src="", $params="") {
-	
+
 	global $db, $user;
 
 		$loc = null;
@@ -737,7 +737,7 @@ function exponent_theme_satisfyThemeRequirements() {
 		</h1>";
 		die();
 	}
-	
+
 	if ($validateTheme['footerinfo']==false) {
 		echo "<h1 style='padding:10px;border:5px solid #992222;color:red;background:white;position:absolute;top:100px;left:300px;width:400px;z-index:999'>exponent_theme_footerInfo() is a required function in your theme.  Please refer to the Exponent documentation for details:<br />
 		<a href=\"http://docs.exponentcms.org/New_Themes_Guide\" target=\"_blank\">http://docs.exponentcms.org/</a>
