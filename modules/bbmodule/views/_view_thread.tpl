@@ -29,7 +29,7 @@
  * $Id: _view_thread.tpl,v 1.7 2005/04/08 15:45:49 filetreefrog Exp $
  *}
 <div class="bbmodule view-thread">
-	<div class="post" >
+	<div class="post">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1}
 				{assign var=divstarted value=1}
@@ -56,7 +56,7 @@
 		{if $divstarted == 1}{assign var=divstarted value=0}</div>{/if}
 		<a class="backtoboard" href="{link module=bbmodule action=view_board id=$board_id}">{$_TR.back_to} "{$board_name}"</a>
 		<h1>{$thread->subject}</h1>
-		<div class="bio" >
+		<div class="bio">
 			<strong>{$thread->poster->username}</strong>
 			{if $thread->poster->avatar_path != ""}
 				<div class="avatar">
@@ -80,7 +80,7 @@
 		</div>
 		<div class="author">
 			{if $user != ""}
-				{$_TR.user_anon}{$thread->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}:
+				{$_TR.user_anon}{$thread->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
 			{else}
 				<a href="{link module=loginmodule action=showuserprofile id=$thread->poster->id}" title="{$_TR.view_profile}">{$thread->poster->username}</a> {$_TR.posts_on} {$thread->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT} :
 			{/if}
@@ -88,14 +88,18 @@
 		<br />
 		<div class="postbody">{$thread->body}</div>
 	</div>	
-	<div class="quoteandreply">
-		{if $permissions.reply == 1}
-			<a href="{link action=edit_post parent=$thread->id }"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
-		{else}
-			<a href="{link module=loginmodule action=loginredirect redirecturl="index.php?module=bbmodule&action=view_thread&src=this"}">{$_TR.login_to_reply}</a>
-		{/if}
-	</div>
+	{if $loggedin && $permissions.reply == 1}
+		<div class="quoteandreply">
+			<a href="{link action=edit_post parent=$thread->id }"><img class="button" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif" title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$thread->id}"><img class="button" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
+		</div>
+	{elseif !$loggedin}
+		<a href="{link module=loginmodule action=loginredirect redirecturl="index.php?module=bbmodule&action=view_thread&src=this"}">{$_TR.login_to_reply}</a>
+	{else}
+		<div class="quoteandreply">
+		    {$_TR.not_allowed}
+		</div>
+	{/if}
 	
 	
 	<!-- replies  -->
@@ -103,17 +107,17 @@
 	{foreach from=$replies item=reply}
 	<div class="reply {cycle values="odd,even"}">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
-			{if $permissions.edit_post == 1 || $reply->poster->id == $currentuser->id}
+			{if $permissions.edit_post == 1 || $reply->poster->id == $currentuser->id || $permissions.administrate == 1}
 				{assign var=divstarted value=1}
 				<div class="editicons">
 					<a href="{link action=edit_post id=$reply->id}">
-						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+						<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_reply}" alt="{$_TR.alt_edit_reply}" />
 					</a>
 			{/if}
-			{if $permissions.delete_thread == 1 || $reply->poster->id == $currentuser->id}
+			{if $permissions.delete_thread == 1 || $reply->poster->id == $currentuser->id || $permissions.administrate == 1}
 				{if $divstarted != 1} {assign var=divstarted value=1}<div class="editicons">{/if}
 				<a href="{link action=delete_post id=$reply->id}">
-					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete_reply}" alt="{$_TR.alt_delete_reply}" />
 				</a>
 			{/if}
 		{/permissions}
@@ -157,23 +161,24 @@
 		</div><br />
 		<div class="quoteandreply">
 		{if $permissions.reply == 1}
-			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
+			<a href="{link module=bbmodule action=edit_post parent=$thread->id quote=$reply->id}"><img class="button" src="{$smarty.const.ICON_RELATIVE}btn_qtr.jpg" title="{$_TR.alt_btn_qtr}" alt="{$_TR.alt_btn_qtr}" /></a>
 		{/if}
 		</div>		
 	</div>
 {/foreach}
 
 {if $permissions.reply == 1}
-<br /><a href="{link action=edit_post parent=$thread->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
+<br /><a href="{link action=edit_post parent=$thread->id}"><img class="button" src="{$smarty.const.ICON_RELATIVE}btn_postreply.gif"  title="{$_TR.alt_postreply}" alt="{$_TR.alt_postreply}" /></a>
 {else}
-  {if $loggedin == 1}
+  {if $loggedin}
     {$_TR.not_allowed}
   {else}
     <br /><a href="{link module=loginmodule action=loginredirect redirecturl="index.php?module=bbmodule&action=view_thread&src=this"}">{$_TR.login}</a>
   {/if}
-{/if}<br /><br />
-{if $loggedin == 1}
-{if $monitoring == 1}
+{/if}
+<br /><br />
+{if $loggedin }
+{if $monitoring }
 {$_TR.thread_monitor}
 <br /><a class="mngmntlink bb_mngmntlink" href="{link action=monitor_thread id=$thread->id monitor=0}">{$_TR.stop_monitoring}</a>
 {else}
@@ -182,4 +187,3 @@
 {/if}
 {/if}
 </div>
-

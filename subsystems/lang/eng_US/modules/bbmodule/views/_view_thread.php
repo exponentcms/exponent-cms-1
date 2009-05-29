@@ -20,7 +20,15 @@ return array(
 	'stop_monitoring'=>'Stop monitoring this thread.',
 	'not_allowed'=>'You are not allowed to post to this topic.',
 	'login'=>'Login to reply to this topic.',
-	'avatar'=>'avatar'
+	'avatar'=>'avatar',
+	'alt_userperm'=>'Assign user permissions on this thread',
+	'alt_groupperm'=>'Assign group permissions on this thread',
+	'alt_edit'=>'Edit this thread',
+	'alt_delete'=>'Delete this thread',
+	'alt_postreply'=>'Post reply',
+	'alt_btn_qtr'=>'Quote this reply',
+	'alt_edit_reply'=>'Edit this reply',
+	'alt_delete_reply'=>'Delete this reply'
 );
 
 ?>
