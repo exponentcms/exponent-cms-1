@@ -4,7 +4,8 @@
 <head>
 	<?php 
 	$config = array(
-	"reset-fonts-grids"=>true,
+    //"reset-fonts-grids" is now deprecated in place of the following config, although some compatibility check are there for reset-fonts-grids as well
+	"css-primer"=>array(URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"),
 	"xhtml"=>false,
 	"include-common-css"=>true,
 	"include-theme-css"=>true

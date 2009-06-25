@@ -53,25 +53,14 @@ function exponent_theme_loadCommonCSS() {
 	}
 }
 
-function exponent_theme_resetCSS() {
-	global $css_files;
-	$css_files = array_merge(array("reset-fonts-grids"=>URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"), $css_files);
-}
-
-
-function exponent_theme_resetCSS_960($css_primer) {
+function exponent_theme_cssPrimer($css_primer) {
 	global $css_files;
 	
 	$i = 0;
-	foreach ($css_primer as $css_file) {
-  
-  $css_files = array_merge(array("css_primer".$i=>$css_file), $css_files);
-  
-  $i++;
-  
-}
-	
-	
+    foreach ($css_primer as $css_file) {
+        $css_files = array_merge(array("css_primer".$i=>$css_file), $css_files);  
+        $i++;
+    }
 }
 
 
@@ -230,39 +219,6 @@ function exponent_theme_headerInfo($config) {
 }
 
 
-/* exdoc
- * @config This is the config information. This section is useful if you want to add CSS at the
- * beginning of your page, before any css files. This can be useful if you have an external library you want to work with besides YUI, or if you just don't like YUI.
- * For example: Some like to use the 960.gs system, so you can, at the top of your SUBTHEME index.php file include an array like this, replaceing the YUI reset with a new one.
- 
- 
- <?php 
-	$config = array(
-	"css_primer"=> array(  URL_FULL."external/960.gs/960.css", URL_FULL."external/960.gs/reset.css", URL_FULL."external/960.gs/text.css" ),
-	"reset-fonts-grids"=>false,  //imported 960.gs reset & fonts into theme css because it matches the 960.css file.  remove YUI for no conflict
-	"xhtml"=>false,
-	"include-common-css"=>true,
-	"include-theme-css"=>true,
-	);
-	echo exponent_theme_headerInfo($config); 
-	?>
- 
- This assumes that you have 3 CSS files that you want to use, and that those files are in  the external/960.gs folder. You can, of course, put them wherever you like.
- The reason we put it here is so that the CSS goes at the top. We discoveres that by putting it in the theme or in cpommon would shuffle the files around and there was no guarantee they would be forced to the top,
- even after renaming the CSS files with an 'A' in front of them. 
- 
- Make sure that you turn the reset-fonts-grid off so that YUI will not conflict with the reset you want. In this way you can implement a new CSS scheme! How cool is that??
- 
- 
- 
- 
- 
- 
- 
- * @node Undocumented
- */
-
-
 function headerInfo($config) {
 	
 	if (!is_array($config)){
@@ -285,10 +241,38 @@ function headerInfo($config) {
 
 	// load all the required CSS files for the user.
 	exponent_theme_loadRequiredCSS();
-	//load all configs from user's theme
-	if(!empty($config['reset-fonts-grids'])) exponent_theme_resetCSS();
+
+    //backwards compat for 'reset-fonts-grids' for those using it	
+	if(empty($config['css-primer'])){
+	    $config['css-primer'] = array();
+	}
+	if(!empty($config['reset-fonts-grids'])) $config['css-primer'] = array_merge($config['css-primer'],array(URL_FULL."external/yui/build/reset-fonts-grids/reset-fonts-grids.css"));
+    // end reset-fonts-grids back compat
+
+    /* exdoc
+     * @config 
+     * $config['css-primer']=>array('file1.css','file2.css')
+     * The CSS primer configuration takes an array of CSS file to be placed at the top 
+     * of the $cssfiles array Exponent prints to the head of your document.
+     * The following assumes that you have 3 CSS files that you want to use, and that those files are in the /webroot/external/960.gs folder. 
+     * You can place your CSS files wherever you like, so long as the paths are correctly passed to css-primer
+
+
+     <?php 
+    	$config = array(
+    	"css_primer"=> array(  URL_FULL."external/960.gs/960.css", URL_FULL."external/960.gs/reset.css", URL_FULL."external/960.gs/text.css" ),
+    	"reset-fonts-grids"=>false,  //deprecated, and no longer needed. Was false by default anyhow
+    	"xhtml"=>false,
+    	"include-common-css"=>true,
+    	"include-theme-css"=>true,
+    	);
+    	echo exponent_theme_headerInfo($config); 
+    	?>
+
+     */
 	
-	if(!empty($config['css_primer'])) exponent_theme_resetCSS_960($config['css_primer']);
+	//Load primer CSS files. See above comments.
+	if(!empty($config['css-primer'])) exponent_theme_cssPrimer($config['css-primer']);
 	
 	if($config['include-common-css']!=false) exponent_theme_loadCommonCSS();
 	if($config['include-theme-css']!=false) exponent_theme_includeThemeCSS($config['include-theme-css']);
