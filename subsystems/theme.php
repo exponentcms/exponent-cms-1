@@ -229,6 +229,40 @@ function exponent_theme_headerInfo($config) {
 	echo headerInfo($config);
 }
 
+
+/* exdoc
+ * @config This is the config information. This section is useful if you want to add CSS at the
+ * beginning of your page, before any css files. This can be useful if you have an external library you want to work with besides YUI, or if you just don't like YUI.
+ * For example: Some like to use the 960.gs system, so you can, at the top of your SUBTHEME index.php file include an array like this, replaceing the YUI reset with a new one.
+ 
+ 
+ <?php 
+	$config = array(
+	"css_primer"=> array(  URL_FULL."external/960.gs/960.css", URL_FULL."external/960.gs/reset.css", URL_FULL."external/960.gs/text.css" ),
+	"reset-fonts-grids"=>false,  //imported 960.gs reset & fonts into theme css because it matches the 960.css file.  remove YUI for no conflict
+	"xhtml"=>false,
+	"include-common-css"=>true,
+	"include-theme-css"=>true,
+	);
+	echo exponent_theme_headerInfo($config); 
+	?>
+ 
+ This assumes that you have 3 CSS files that you want to use, and that those files are in  the external/960.gs folder. You can, of course, put them wherever you like.
+ The reason we put it here is so that the CSS goes at the top. We discoveres that by putting it in the theme or in cpommon would shuffle the files around and there was no guarantee they would be forced to the top,
+ even after renaming the CSS files with an 'A' in front of them. 
+ 
+ Make sure that you turn the reset-fonts-grid off so that YUI will not conflict with the reset you want. In this way you can implement a new CSS scheme! How cool is that??
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ * @node Undocumented
+ */
+
+
 function headerInfo($config) {
 	
 	if (!is_array($config)){
