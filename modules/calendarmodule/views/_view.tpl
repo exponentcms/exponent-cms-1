@@ -64,6 +64,9 @@
 	{else}
 	{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} - {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 	{/if}
+	{if $item->image_path}
+		<span class="eventimg"><img src="{$smarty.const.URL_FULL}{$item->image_path}" alt="{$item->title}" /></span>
+	{/if}
 	<div class="bodycopy">
 		{$item->body}
 	</div>

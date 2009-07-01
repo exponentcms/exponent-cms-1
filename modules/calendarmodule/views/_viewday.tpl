@@ -20,7 +20,6 @@
 {foreach from=$events item=event}
 	{assign var=count value=1}
 	<li>
-		<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}">{$event->title}</a>
 		{if $permissions.administrate == 1 || $event->permissions.administrate == 1}
 			<a href="{link action=userperms int=$event->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
 			<a href="{link action=groupperms int=$event->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
@@ -45,6 +44,15 @@
 		{/if}
 		{if $permissions.manage_approval == 1}
 			<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$event->id}" title="{$_TR.alt_revisions}">{$_TR.revisions}</a>
+		{/if}
+		{if $permissions.administrate == 1 || $event->permissions.administrate == 1 || 
+		    $permissions.edit == 1 || $event->permissions.edit == 1 ||
+		    $permissions.delete == 1 || $event->permissions.delete == 1 || $permissions.manage_approval == 1}
+		    <br />
+		{/if}
+		<span class="eventtitle"><a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}">{$event->title}</a></span>
+		{if $event->image_path}
+			<span class="eventimg"><img src="{$smarty.const.URL_FULL}{$event->image_path}" alt="{$event->title}" /></span>
 		{/if}
 		<p>
 			<span>{if $event->is_allday == 1}{$_TR.all_day}{else}

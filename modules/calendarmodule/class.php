@@ -148,7 +148,7 @@ class calendarmodule {
 					}
 				}
 			}
-
+//eDebug($monthly);
 			$template->assign("monthly",$monthly);
 			$template->assign("currentweek",$currentweek);
 			$template->assign("currentday",$currentday);
@@ -166,6 +166,10 @@ class calendarmodule {
 			if ($viewconfig['range'] == "week") {
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
+			} else if ($viewconfig['range'] == "twoweek") {
+				$time= time();
+				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
+				$totaldays = 14;
 			} else {
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
 				$totaldays  = date('t', $time);
@@ -180,16 +184,17 @@ class calendarmodule {
 			for ($i = 1; $i <= $totaldays; $i++) {
 				$info = getdate($time);
 
-        			if ($viewconfig['range'] == "week") {
+        		if ( $viewconfig['range'] == "week" ) {
           				$start = mktime(12,0,0,$info['mon'],$i,$info['year']);
-  //        				$start = $startperiod + ($i*86400);
+				} else if ( $viewconfig['range'] == "twoweek" ) {
+          				$start = mktime(12,0,0,$info['mon'],$info['mday']+($i-1),$info['year']);
+//          				$start = $startperiod + ($i*86400);
 				} else {
           				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				}
 
 				$edates = $db->selectObjects("eventdate",$locsql." AND date = '".$start."'");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
-
 				for ($j = 0; $j < count($days[$start]); $j++) {
 					$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$days[$start][$j]->id);
 					$days[$start][$j]->permissions = array(
@@ -261,6 +266,7 @@ class calendarmodule {
 				$monthly[$week][$i+$endofmonth] = array();
 				$counts[$week][$i+$endofmonth] = -1;
 			}
+//eDebug($monthly);
 			$template->assign("currentweek",$currentweek);
 			$template->assign("monthly",$monthly);
 			$template->assign("counts",$counts);
@@ -310,9 +316,9 @@ class calendarmodule {
 			if (!isset($viewconfig['range'])) $viewconfig['range'] = "all";
 
 			$limit = '';
-			if (isset($template->viewconfig) && isset($template->viewconfig['num_events']) && $template->viewconfig['num_events'] != 0) {
-				$limit = $db->limit($template->viewconfig['num_events'],0);
-			}
+//			if (isset($template->viewconfig) && isset($template->viewconfig['num_events']) && $template->viewconfig['num_events'] != 0) {
+//				$limit = $db->limit($template->viewconfig['num_events'],0);
+//			}
 			$items = null;
 			$dates = null;
 			$day = exponent_datetime_startOfDayTimestamp(time());
@@ -340,6 +346,13 @@ class calendarmodule {
 			}
 			$items = calendarmodule::_getEventsForDates($dates,$sort_asc);
 
+			// Upcoming events can be configured to show a specific number of events.
+			// The previous call gets all events in the future from today
+			// If configured, cut the array to the configured number of events
+			if ($viewconfig['num_events']) {
+				$items = array_slice($items, 0, $viewconfig['num_events']);
+//eDebug($items);
+			}
 			for ($i = 0; $i < count($items); $i++) {
 				$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
 				if ($user && $items[$i]->poster == $user->id) $canviewapproval = 1;

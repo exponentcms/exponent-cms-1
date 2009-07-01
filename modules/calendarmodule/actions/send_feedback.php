@@ -32,9 +32,16 @@ if (isset($_POST['id'])) {
 	$event = $db->selectObject('calendar','id='.intval($_POST['id']));
 	$email_addrs = array();
 	if ($event->feedback_email != '') {
-		$email_addrs = split(',', $event->feedback_email);
-		$email_addrs = array_map('trim', $email_addrs);
-		$ret = exponent_smtp_mail($email_addrs, SMTP_FROMADDRESS,$_POST['subject'],$msg);
+			$email_addrs = split(',', $event->feedback_email);
+			$email_addrs = array_map('trim', $email_addrs);
+		try {
+			$ret = exponent_smtp_mail($email_addrs, SMTP_FROMADDRESS,$_POST['subject'],$msg);
+		}catch (Exception $e){
+			$message = exponent_lang_getText("There has been an error with the mail server on this site. Please contact the site administrator. \n");
+			if (DEVELOPMENT != 0) $message .= $e->getMessage() . "\n";
+			flash('error', $message);
+		}
+
 	}
 }
 

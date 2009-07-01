@@ -16,7 +16,7 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
- 
+
 if (!defined("EXPONENT")) exit("");
 
 exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
@@ -31,10 +31,26 @@ $startweek = exponent_datetime_startOfWeekTimestamp($time);
 $days = array();
 $counts = array();
 $startinfo = getdate($startweek);
+
+$locsql = "(location_data='".serialize($loc)."'";
+$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
+if (!empty($config->aggregate)) {
+	$locations = unserialize($config->aggregate);
+	foreach ($locations as $source) {
+		$tmploc = null;
+		$tmploc->mod = 'calendarmodule';
+		$tmploc->src = $source;
+		$tmploc->int = '';
+		$locsql .= " OR location_data='".serialize($tmploc)."'";
+	}
+}
+$locsql .= ')';
+
+
 for ($i = 0; $i < 7; $i++) {
 	$start = mktime(0,0,0,$startinfo['mon'],$startinfo['mday']+$i,$startinfo['year']);
 	$days[$start] = array();
-	$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = $start");
+	$dates = $db->selectObjects("eventdate",$locsql." AND date = ". $start);
 	for ($j = 0; $j < count($dates); $j++) {
 		$o = $db->selectObject("calendar","id=".$dates[$j]->event_id);
 		$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$o->id);
@@ -46,6 +62,13 @@ for ($i = 0; $i < 7; $i++) {
 		$o->eventdate = $dates[$j];
 		$o->eventstart += $o->eventdate->date;
 		$o->eventend += $o->eventdate->date;
+
+		//Get the image file if there is one.
+		if (isset($o->file_id) && $o->file_id > 0) {
+			$file = $db->selectObject('file', 'id='.$o->file_id);
+			$o->image_path = $file->directory.'/'.$file->filename;
+		}
+
 		$days[$start][] = $o;
 	}
 	$counts[$start] = count($days[$start]);
