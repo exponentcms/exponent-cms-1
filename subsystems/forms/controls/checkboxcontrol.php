@@ -66,7 +66,7 @@ class checkboxcontrol extends formcontrol {
 		$this->required = $required;
 	}
 	
-	 function toHTML($label,$name) {
+	function toHTML($label,$name) {
 	 	if(empty($this->flip)){
 	 		$html = "<div id=\"".$name."Control\" class=\"control checkbox";
 	 		$html .= (!empty($this->required)) ? ' required">' : '">';
