@@ -18,7 +18,7 @@
 		{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 	</div>
 
-	<form id="searchform" method="post" action="{$smarty.const.URL_FULL}" enctype="">
+	<form id="searchform" method="post" action="{$smarty.const.URL_FULL}index.php" enctype="">
 	<div>
 		<input type="hidden" name="module" id="module" value="searchmodule" />
 		<input type="hidden" name="src" id="src" value="{$loc->src}" />
