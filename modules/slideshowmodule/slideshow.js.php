@@ -31,30 +31,34 @@
 # $Id: slideshow.js.php,v 1.5 2005/03/18 14:55:52 filetreefrog Exp $
 ##################################################
 
+
+$u = striptags($_GET['u']);
+
 ?>
-var g_<?php echo $_GET['u'];?>_img = document.getElementById("<?php echo $_GET['u'];?>_slideshowImg");
-var g_<?php echo $_GET['u'];?>_i = 0;
-var last_<?php echo $_GET['u'];?>_i = 0;
 
-g_<?php echo $_GET['u'];?>_img.setAttribute("src",<?php echo $_GET['u'];?>_images[0]);
+var g_<?php echo $u;?>_img = document.getElementById("<?php echo $u;?>_slideshowImg");
+var g_<?php echo $u;?>_i = 0;
+var last_<?php echo $u;?>_i = 0;
 
-function <?php echo $_GET['u'];?>_swap() {
-	while (g_<?php echo $_GET['u'];?>_i == last_<?php echo $_GET['u']?>_i) {
-		if (g_<?php echo $_GET['u'];?>_random) g_<?php echo $_GET['u'];?>_i = Math.floor(Math.random() * (<?php echo $_GET['u'];?>_images.length-1)+.5);
+g_<?php echo $u;?>_img.setAttribute("src",<?php echo $u;?>_images[0]);
+
+function <?php echo $u;?>_swap() {
+	while (g_<?php echo $u;?>_i == last_<?php echo $u?>_i) {
+		if (g_<?php echo $u;?>_random) g_<?php echo $u;?>_i = Math.floor(Math.random() * (<?php echo $u;?>_images.length-1)+.5);
 		else {
-			g_<?php echo $_GET['u'];?>_i++;
-			if (g_<?php echo $_GET['u'];?>_i >= <?php echo $_GET['u'];?>_images.length) g_<?php echo $_GET['u'];?>_i = 0;
+			g_<?php echo $u;?>_i++;
+			if (g_<?php echo $u;?>_i >= <?php echo $u;?>_images.length) g_<?php echo $u;?>_i = 0;
 		}
 	}
-	last_<?php echo $_GET['u'];?>_i = g_<?php echo $_GET['u'];?>_i;
-	g_<?php echo $_GET['u'];?>_img.setAttribute("src",<?php echo $_GET['u'];?>_images[g_<?php echo $_GET['u'];?>_i]);
-	setTimeout("<?php echo $_GET['u'];?>_swap()",g_<?php echo $_GET['u'];?>_delay);
+	last_<?php echo $u;?>_i = g_<?php echo $u;?>_i;
+	g_<?php echo $u;?>_img.setAttribute("src",<?php echo $u;?>_images[g_<?php echo $u;?>_i]);
+	setTimeout("<?php echo $u;?>_swap()",g_<?php echo $u;?>_delay);
 }
 
-if (<?php echo $_GET['u'];?>_images.length > 1) {
-	if (g_<?php echo $_GET['u'];?>_random) {
-		<?php echo $_GET['u'];?>_swap()
+if (<?php echo $u;?>_images.length > 1) {
+	if (g_<?php echo $u;?>_random) {
+		<?php echo $u;?>_swap()
 	} else {
-		setTimeout("<?php echo $_GET['u'];?>_swap()",g_<?php echo $_GET['u'];?>_delay);
+		setTimeout("<?php echo $u;?>_swap()",g_<?php echo $u;?>_delay);
 	}
 }
