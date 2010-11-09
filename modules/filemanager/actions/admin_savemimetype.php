@@ -22,18 +22,18 @@
 if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('files_subsystem',exponent_core_makeLocation('administrationmodule'))) {
-	$type = null;
+	$mimetype = null;
 	if (isset($_POST['oldmime'])) {
-		$type = $db->selectObject('mimetype',"mimetype='".$_POST['oldmime']."'");
+		$mimetype = $db->selectObject('mimetype',"id='".$_POST['oldmime']."'");
 	}
-	$is_existing = ($type != null);
+	$is_existing = ($mimetype != null);
 	
-	$type = mimetype::update($_POST,$type);
+	$mimetype = mimetype::update($_POST,$mimetype);
 	
 	if ($is_existing) {
-		$db->updateObject($type,'mimetype',"mimetype='".$type->mimetype."'");
+		$db->updateObject($mimetype,'mimetype',"id='".$mimetype->id."'");
 	} else {
-		$db->insertObject($type,'mimetype');
+		$db->insertObject($mimetype,'mimetype');
 	}
 	
 	exponent_flow_redirect();

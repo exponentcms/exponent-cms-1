@@ -18,10 +18,51 @@
 ##################################################
 
 return array(
-	'text/plain'=>'Plain Text',
-	'image/jpeg'=>'JPEG Image',
-	'image/gif'=>'GIF Image',
-	'image/png'=>'PNG (Portable Network Graphics) Image'
+	array(
+		'type'=>'text/plain',
+		'name'=>'Plain Text',
+		'icon'=>'mime_ascii.png'
+		),
+	array(
+		'type'=>'image/jpeg',
+		'name'=>'JPEG Image',
+		'icon'=>'jpeg.png'
+		),
+	array(
+		'type'=>'image/gif',
+		'name'=>'GIF Image',
+		'icon'=>'gif.png'
+		),
+	array(
+		'type'=>'image/png',
+		'name'=>'PNG (Portable Network Graphics) Image',
+		'icon'=>'png.png'
+		),
+	array(
+		'type'=>'audio/mpeg',
+		'name'=>'MPEG Audio',
+		'icon'=>'sound.png'
+		),
+	array(
+		'type'=>'application/pdf',
+		'name'=>'Acrobat Document',
+		'icon'=>'pdf.png'
+		),
+	array(
+		'type'=>'application/zip',
+		'name'=>'Zip Compressed Archive File',
+		'icon'=>'zip.png'
+		),	
+	array(
+		'type'=>'application/x-zip-compressed',
+		'name'=>'Zip Compressed Archive File',
+		'icon'=>'zip.png'
+		),
+	array(
+		'type'=>'application/octet-stream',
+		'name'=>'Application',
+		'icon'=>'exec_wine.png'
+		),
 );
 
 ?>

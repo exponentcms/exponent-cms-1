@@ -22,14 +22,19 @@
 if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('files_subsystem',exponent_core_makeLocation('administrationmodule'))) {
-	$type = null;
-	if (isset($_GET['type'])) {
-		$type = $db->selectObject('mimetype',"mimetype='".preg_replace('/[^A-Za-z0-9\/]/','',$_GET['type'])."'");
+	$mimetype = null;
+//	if (isset($_GET['type'])) {
+//		$mimetype = $db->selectObject('mimetype',"mimetype='".preg_replace('/[^A-Za-z0-9\/]/','',$_GET['type'])."'");
+//	}
+//	if ($mimetype) {
+//		$db->delete('mimetype',"mimetype='" . $mimetype->mimetype . "'");
+//	}
+	if (isset($_GET['id'])) {
+		$mimetype = $db->selectObject('mimetype',"id='".$_GET['id']."'");
 	}
-	if ($type) {
-		$db->delete('mimetype',"mimetype='" . $type->mimetype . "'");
-	}
-	
+	if ($mimetype) {
+		$db->delete('mimetype',"id='" . $mimetype->id . "'");
+	}	
 	exponent_flow_redirect();
 }
 

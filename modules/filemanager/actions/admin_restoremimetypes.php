@@ -25,13 +25,14 @@ if (exponent_permissions_check('files_subsystem',exponent_core_makeLocation('adm
 	$db->delete('mimetype');
 	$mimes = include(BASE.'subsystems/files/mimetypes.php');
 	$obj = null;
-	foreach ($mimes as $type=>$name) {
-		$obj->mimetype = $type;
-		$obj->name = $name;
+	foreach ($mimes as $type=>$mime) {
+		$obj->mimetype = $mime['type']; 
+		$obj->name = $mime['name']; 
+		$obj->icon = $mime['icon']; 
 		$db->insertObject($obj,'mimetype');
 	}
 	
-	exponent_flow_redirect();
+//	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

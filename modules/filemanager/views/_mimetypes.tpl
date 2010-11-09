@@ -14,8 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}
-<br /><br />
+<div class="form_header"><p>{$_TR.form_header}</p>
 <a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype}">{$_TR.create_new}</a>
 </div>
 <table cellpadding="2" cellspacing="0" style="border:none;" width="100%">
@@ -25,20 +24,20 @@
 	<td align="center" class="header administration_header">{$_TR.icon}</td>
 	<td class="header administration_header"></td>
 </tr>
-{foreach from=$types item=type}
+{foreach from=$mimetypes item=mimetype}
 <tr class="row {cycle values='odd,even'}_row">
-<td><b>{$type->mimetype}</b></td>
-<td>{$type->name}</td>
+<td><b>{$mimetype->mimetype}</b></td>
+<td>{$mimetype->name}</td>
 <td align ="center">
-	{if $type->icon != ""}
-	<img class="mngmnt_icon" src="{$smarty.const.MIMEICON_RELATIVE}{$type->icon}"/>
+	{if $mimetype->icon != ""}
+	<img class="mngmnt_icon" src="{$smarty.const.MIMEICON_RELATIVE}{$mimetype->icon}"/>
 	{else}
 	{$_TR.no_icon}
 	{/if}
 </td>
 <td>
-	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype type=$type->mimetype}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
-	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_deletemimetype type=$type->mimetype}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_editmimetype id=$mimetype->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+	<a class="mngmntlink administration_mngmntlink" href="{link module=filemanager action=admin_deletemimetype id=$mimetype->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
 </td>
 </tr>
 {/foreach}
