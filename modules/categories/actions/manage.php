@@ -5,6 +5,9 @@
 # Copyright (c) 2004-2006 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
+# Copyright (c) 2007 ACYSOS S.L. Modified by Ignacio Ibeas
+# Added subcategory function
+#
 # This file is part of Exponent
 #
 # Exponent is free software; you can redistribute
@@ -23,17 +26,21 @@ $mloc = exponent_core_makeLocation($_GET['orig_module'], $loc->src, $loc->int);
 
 if (exponent_permissions_check('manage_categories',$mloc)) {
 	exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
+	
+	$categories = category::levelTemplate($mloc,0,0);
 
-	$categories = $db->selectObjects("category","location_data='".serialize($mloc)."'");
-	/*if (exponent_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
+	for ($i = 0; $i < count($categories); $i++) {
+		$categories[$i]->file = $db->selectObject("file","id=".$categories[$i]->file_id);
+	}
+
+	if (exponent_template_getModuleViewFile($mloc->mod,"_cat_manageCategories",false) == TEMPLATE_FALLBACK_VIEW) {
 		$template = new template("categories","_cat_manageCategories",$loc);
 	} else {
 		$template = new template($mloc->mod,"_cat_manageCategories",$loc);
-	}*/
-	$template = new template("categories","_cat_manageCategories",$mloc);	
-	if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	usort($categories, "exponent_sorting_byRankAscending");
+	}	
+
 	$template->assign("origmodule", $_GET['orig_module']);
+	$template->assign('loc', $loc);
 	$template->assign("categories",$categories);
 	$template->output();
 } else {

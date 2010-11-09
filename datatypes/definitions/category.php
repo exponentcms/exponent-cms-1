@@ -5,6 +5,9 @@
 # Copyright (c) 2004-2006 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
+# Copyright (c) 2007 ACYSOS S.L. Modified by Ignacio Ibeas
+# Added subcategory function
+#
 # This file is part of Exponent
 #
 # Exponent is free software; you can redistribute
@@ -33,6 +36,10 @@ return array(
 	'color'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>7),
+	'file_id'=>array(
+		DB_FIELD_TYPE=>DB_DEF_ID),
+	'parent'=>array(
+		DB_FIELD_TYPE=>DB_DEF_ID),
 	'rank'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );

@@ -5,6 +5,9 @@
 # Copyright (c) 2004-2006 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
+# Copyright (c) 2007 ACYSOS S.L. Modified by Ignacio Ibeas
+# Added subcategory function
+#
 # This file is part of Exponent
 #
 # Exponent is free software; you can redistribute
@@ -27,7 +30,9 @@ if (isset($_GET['id'])) {
 if ($cat) {
 	$loc = unserialize($cat->location_data);
 } else {
+	$cat->parent = intval($_GET['parent']);
 	$loc->mod = $_GET['orig_module']; // Update module in location
+	$cat->location_data = serialize($loc);
 }
 if (exponent_permissions_check('manage_categories',$loc)) {
 	$form = category::form($cat);
