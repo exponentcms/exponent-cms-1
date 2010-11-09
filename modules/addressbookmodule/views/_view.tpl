@@ -13,6 +13,8 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+ 
+<div class="addressbookmodule">
 <h3>{$_TR.contact_info} : {$contact->firstname} {$contact->lastname}</h3>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1}
@@ -28,43 +30,44 @@
 {/permissions}
 <hr size='1'/>
 <table cellpadding="3" cellspacing="0" border="0" width="100%" />
-<tr>
-	<td valign="top" width="5%"><b>{$_TR.full_name}</b></td>
-	<td valign="top" width="95%">{$contact->firstname} {$contact->lastname}</td>
-</tr>
-<tr>
-	<td valign="top"><b>{$_TR.address}</b></td>
-	<td valign="top">{$contact->address1}<br />{if $contact->address2 != ''}{$contact->address2}<br />{/if}{$contact->city}, {$contact->state} {$contact->zip}</td>
-</tr>
-<tr><td colspan="2"><hr size='1'/></td></tr>
-<tr>
-	<td valign="top"><b>{$_TR.email}</b></td>
-	<td valign="top">{$contact->email|hide_email}</td>
-</tr>
-<tr>
-	<td valign="top"><b>{$_TR.homepage}</b></td>
-	<td valign="top"><a href="{$contact->webpage}" target="_blank">{$contact->webpage}</a></td>
-</tr>
-<tr><td colspan="2"><hr size='1'/></td></tr>
-<tr>
-	<td valign="top"><b>{$_TR.phone}</b></td>
-	<td valign="top">{$contact->phone}</td>
-</tr>
-<tr>
-	<td valign="top"><b>{$_TR.cell}</b></td>
-	<td valign="top">{$contact->cell}</td>
-</tr>
-<tr>
-	<td valign="top"><b>{$_TR.fax}</b></td>
-	<td valign="top">{$contact->fax}</td>
-</tr>
-<tr>
-	<td valign="top"><b>{$_TR.pager}</b></td>
-	<td valign="top">{$contact->pager}</td>
-</tr>
-<tr><td colspan="2"><hr size='1'/></td></tr>
-<tr>
-	<td valign="top"><b>{$_TR.notes}</b></td>
-	<td valign="top">{$contact->notes|nl2br}</td>
-</tr>
+	<tr>
+		<td valign="top" width="5%"><b>{$_TR.full_name}</b></td>
+		<td valign="top" width="95%">{$contact->firstname} {$contact->lastname}</td>
+	</tr>
+	<tr>
+		<td valign="top"><b>{$_TR.address}</b></td>
+		<td valign="top">{$contact->address1}<br />{if $contact->address2 != ''}{$contact->address2}<br />{/if}{$contact->city}, {$contact->state} {$contact->zip}</td>
+	</tr>
+	<tr><td colspan="2"><hr size='1'/></td></tr>
+	<tr>
+		<td valign="top"><b>{$_TR.email}</b></td>
+		<td valign="top">{$contact->email|hide_email}</td>
+	</tr>
+	<tr>
+		<td valign="top"><b>{$_TR.homepage}</b></td>
+		<td valign="top"><a href="{$contact->webpage}" target="_blank">{$contact->webpage}</a></td>
+	</tr>
+	<tr><td colspan="2"><hr size='1'/></td></tr>
+	<tr>
+		<td valign="top"><b>{$_TR.phone}</b></td>
+		<td valign="top">{$contact->phone}</td>
+	</tr>
+	<tr>
+		<td valign="top"><b>{$_TR.cell}</b></td>
+		<td valign="top">{$contact->cell}</td>
+	</tr>
+	<tr>
+		<td valign="top"><b>{$_TR.fax}</b></td>
+		<td valign="top">{$contact->fax}</td>
+	</tr>
+	<tr>
+		<td valign="top"><b>{$_TR.pager}</b></td>
+		<td valign="top">{$contact->pager}</td>
+	</tr>
+	<tr><td colspan="2"><hr size='1'/></td></tr>
+	<tr>
+		<td valign="top"><b>{$_TR.notes}</b></td>
+		<td valign="top">{$contact->notes|nl2br}</td>
+	</tr>
 </table>
+</div>
