@@ -13,13 +13,12 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<title>{$smarty.const.SITE_TITLE} -- {$_TR.title}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset={$smarty.const.LANG_CHARSET}" />
-		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}style.css" />
-		<link rel="stylesheet" href="{$smarty.const.THEME_RELATIVE}editor.css" />
+		<link rel="stylesheet" type="text/css" href="{$smarty.const.PATH_RELATIVE}tmp/css/exp-styles-min.css" />
 		<meta name="Generator" value="Exponent Content Management System" />
 	</head>
 	
@@ -48,10 +47,13 @@
 			</td>
 			
 			<td width="80%" valign="top" style="border-left: 1px dashed #666;">
+			{clear}
+			<div style="text-align: left;">
 			{if $error == ''}{$main_output}
 			{elseif $error == 'needmodule'}{$_TR.select_mod}
 			{elseif $error == 'nomodule'}<i>{$_TR.no_modules}</i>
 			{/if}
+			</div>
 			</td>
 		</tr>
 	</table>
