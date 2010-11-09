@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {$_TR.form_header}
-</div>
+</p></div>
 {$form_html}

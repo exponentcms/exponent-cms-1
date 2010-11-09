@@ -201,7 +201,7 @@
 						<a href="{link action=delete id=$file->id module=filemanagermodule}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
 					</td>
 					{foreachelse}
-					<td><i>{$_TR.no_files}</i></td>
+						<td><i>{$_TR.no_files}</i></td>
 					{/foreach}
 				</tr>
 			</table>

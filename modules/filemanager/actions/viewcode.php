@@ -19,10 +19,10 @@
 
 if (!defined('EXPONENT')) exit('');
 
-//$i18n = exponent_lang_loadFile('modules/filemanager/actions/viewcode.php');
+$i18n = exponent_lang_loadFile('modules/filemanager/actions/viewcode.php');
 
-/*
-$file = $_GET['file'];
+
+$file = url_decode($_GET['file']);
 $path = realpath(BASE.$file);
 if (strpos($path,BASE) !== 0) {
 	echo $i18n['security'];
@@ -36,10 +36,10 @@ if (strpos($path,BASE) !== 0) {
 			if (!defined('SYS_INFO')) include_once(BASE.'subsystems/info.php');	
 			echo exponent_info_highlightPHP($contents);
 		} else {
-			echo '<xmp>'.$contents.'</xmp>';
+			echo '<pre>'.$contents.'</pre>';
 		}
 	}
 
 }
-*/
+
 ?>

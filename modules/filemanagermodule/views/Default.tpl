@@ -15,7 +15,7 @@
  *}
 <ul>
 	{foreach from=$collections item=collection}
-	<li><a href="{link action=view_collection id=$collection->id}">{$collection->name}</a></li>
+		<li><a href="{link action=view_collection id=$collection->id}">{$collection->name}</a></li>
 	{/foreach}
 </ul>
 
