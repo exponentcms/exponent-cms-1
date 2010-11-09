@@ -40,6 +40,8 @@ return array(
 	"location_data"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	"category_id"=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),		
 	"file_id"=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	"name"=>array(
@@ -48,6 +50,9 @@ return array(
 	'url'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>512),
+	"urltitle"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),		
 	'opennew'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'summary'=>array(

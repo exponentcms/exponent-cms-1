@@ -40,6 +40,8 @@ class listingmodule_config {
 
 		$form = new form();
 		if (!isset($object->id)) {
+			$object->enable_categories = 0;
+			$object->description = "";
 			$object->sort = 'asc_name';
 			$object->items_perpage = 10;
 		} else {
@@ -70,8 +72,11 @@ class listingmodule_config {
 			'random_'=>$i18n['sort_random']
 		);
 
-		$form->register('items_perpage',$i18n['items_perpage'],new textcontrol($object->items_perpage,5));
+		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['categories'].'</h3><hr size="1" />'));	
+		$form->register('enable_categories',$i18n['enable_categories'],new checkboxcontrol($object->enable_categories,true));
 		$form->register('orderby',$i18n['sort_entries'],new dropdowncontrol($object->sort,$order_options));
+		$form->register('items_perpage',$i18n['items_perpage'],new textcontrol($object->items_perpage,5));
+		$form->register('description',$i18n['list_description'], new htmleditorcontrol($object->description));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
@@ -79,6 +84,8 @@ class listingmodule_config {
 	function update($values,$object) {
 
 		$object->items_perpage = $values['items_perpage'];
+		$object->enable_categories = empty($values['enable_categories']) ? 0 : 1;
+		$object->description = preg_replace("/[\n\r]/","",$values['description']);
 
 		$toks = explode('_',$values['orderby']);
 		switch ($toks[0]) {

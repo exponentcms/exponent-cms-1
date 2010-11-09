@@ -40,6 +40,7 @@ class listing {
 		if (!isset($object->id)) {
 			$object->name = '';
 			$object->url = 'http://';
+			$object->urltitle = '';			
 			$object->opennew = 0;
 			$object->summary = '';
 			$object->body = '';
@@ -49,6 +50,7 @@ class listing {
 
 		$form->register('name','Name',new textcontrol($object->name,50,false,200));
 		$form->register('url','URL',new textcontrol($object->url));
+		$form->register('urltitle','Url title',new textcontrol($object->urltitle,50,false,200));
 		$form->register('opennew','Open in New Window',new checkboxcontrol($object->opennew,true));
 		$form->register('summary','Summary',new texteditorcontrol($object->summary));
 		$form->register('body','Body',new htmleditorcontrol($object->body));
@@ -70,6 +72,7 @@ class listing {
 		    (strlen($object->url) == 7) ) {
 			$object->url = '';
 		}
+		$object->urltitle = $values['urltitle'];
 		$object->summary = $values['summary'];
 		$object->body = $values['body'];
 		return $object;

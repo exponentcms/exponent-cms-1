@@ -30,7 +30,20 @@
  *}
 
 <div class="listingmodule viewlisting">
-	<h1>{$listing->name}</h1>
+	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
+	<h3>
+		{$listing->name}
+		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}							
+			{if $permissions.configure == 1 or $permissions.administrate == 1}
+				<a href="{link action=edit_listing id=$listing->id}" title="{$_TR.alt_edit}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+				</a>
+				<a href="{link action=delete_listing id=$listing->id}" title="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_confirm}');">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+				</a>	
+			{/if}							
+		{/permissions}	
+	</h3>
 	<div class="bodycopy">
 		{if $listing->file_id}
 		<img class="listingimage" src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$listing->file_id}&constraint=1&width=225&height=275" alt="{$listing->name}" />

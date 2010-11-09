@@ -41,6 +41,7 @@ if (!defined("EXPONENT")) exit("");
 	}
 	
 	if (exponent_permissions_check("manage",$loc)) {
+		$i18n = exponent_lang_loadFile('modules/listingmodule/actions/edit_listing.php');
 		$config = $db->selectObject('listingmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
 			//do nothing here yes.  
@@ -50,6 +51,17 @@ if (!defined("EXPONENT")) exit("");
 		$form->meta("action","save_listing");
 				
 		$template = new template("listingmodule","_form_editlisting",$loc);
+		if ($config->enable_categories) {
+			$allcats = $db->selectObjects('category', "location_data='".serialize($loc)."'");
+			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+			usort($allcats, "exponent_sorting_byRankAscending");
+			$catarray = array();
+			$catarray[0] = $i18n['no_category'];
+			foreach ($allcats as $cat) {
+				$catarray[$cat->id] = $cat->name;
+			}			
+			$form->registerBefore('name', 'categories', 'Select Category', new dropdowncontrol($listing->category_id, $catarray));
+		}		
 		$template->assign("listing",$listing);
 		$template->assign("is_edit",(isset($listing->id) ? 1 : 0));
 		$template->assign("form_html",$form->toHTML());

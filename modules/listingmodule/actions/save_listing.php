@@ -88,13 +88,16 @@ $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php')
 				$listing->file_id = 0;
 			}
 		}
-
+		if (isset($_POST['categories'])) {
+			$listing->category_id = $_POST['categories'];
+		}
+		
 		if (isset($listing->id)) {
 			$db->updateObject($listing,'listing');
 		} else {
 			$db->insertObject($listing,'listing');
 		}
-
+		
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;

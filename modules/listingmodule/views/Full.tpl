@@ -11,7 +11,7 @@
 	{if $config->description}
 		{$config->description}
 	{/if}
-	
+
 	{if $__viewconfig.show_category_jump}
 		<script type="text/javascript" charset="utf-8">
 			function go()
@@ -45,7 +45,7 @@
 				{/foreach}
 			</select>
 		</form>
-	{/if}	
+	{/if}
 	
 	{assign var=listing_number value=0}
 	{foreach name=c from=$data key=catid item=listings}
@@ -79,42 +79,42 @@
 				<div class="item {cycle values='odd,even'}">		
 					<div class="text">
 						<h4>
-						<a href="{link action=view_listing id=$listing->id}">{$listing->name}</a>				
+						<a href="{link action=view_listing id=$listing->id}">{$listing->name}</a>					
 						{permissions level=$smarty.const.UILEVEL_PERMISSIONS}							
-							{if $permissions.configure == 1 or $permissions.administrate == 1}
-								<a href="{link action=edit_listing id=$listing->id}" title="{$_TR.alt_edit}">
-									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-								</a>
-								<a href="{link action=delete_listing id=$listing->id}" title="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_confirm}');">
-									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-								</a>	
-								{if !$hasCategories && $config->orderhow == 2}
-									{if $smarty.foreach.a.first == 0}
-									<a href="{link action=rank_switch a=$listing->rank b=$prev id=$listing->id category_id=$catid}">			
-										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
+								{if $permissions.configure == 1 or $permissions.administrate == 1}
+									<a href="{link action=edit_listing id=$listing->id}" title="{$_TR.alt_edit}">
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 									</a>
-									{else}
-									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
+									<a href="{link action=delete_listing id=$listing->id}" title="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_confirm}');">
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+									</a>	
+									{if !$hasCategories && $config->orderhow == 2}
+										{if $smarty.foreach.a.first == 0}
+										<a href="{link action=rank_switch a=$listing->rank b=$prev id=$listing->id category_id=$catid}">			
+											<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
+										</a>
+										{else}
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
+										{/if}
+										
+										{if $smarty.foreach.a.last == 0}
+										<a href="{link action=rank_switch a=$next b=$listing->rank id=$listing->id category_id=$catid}">
+											<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
+										</a>
+										{else}
+										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
+										{/if}	
 									{/if}
-									
-									{if $smarty.foreach.a.last == 0}
-									<a href="{link action=rank_switch a=$next b=$listing->rank id=$listing->id category_id=$catid}">
-										<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
-									</a>
-									{else}
-									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
-									{/if}	
-								{/if}
-							{/if}							
+								{/if}							
 						{/permissions}	
-						</h4>							
+						</h4>						
 						<div class="bodycopy">
 							{if $listing->picpath != ""}					
 								<a href="{link action=view_listing id=$listing->id}">
 									<img class="listingimage" src="{$smarty.const.URL_FULL}/thumb.php?base={$smarty.const.BASE}&amp;file={$listing->picpath}&amp;width=100&amp;height=150" alt="{$listing->name}" />
 								</a>					
 							{/if}
-							{$listing->summary}
+							{$listing->body}
 						</div>						
 					</div>
 				</div>
@@ -175,7 +175,7 @@
 			<div class="moduleactions">
 				<a class="mngmntlink additem"  href="{link action=edit_listing}">{$_TR.create_item}</a>
 				{if $config->enable_categories == 1}
-					{br}<a class="mngmntlink cats"  href="{link module=categories action=manage orig_module=listingmodule src=$loc->src}">{$_TR.manage_categories}</a>
+					{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=listingmodule src=$loc->src}">{$_TR.manage_categories}</a>
 				{/if}			
 			</div>
 		{/if}

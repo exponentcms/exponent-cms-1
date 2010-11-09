@@ -50,7 +50,10 @@ if (!defined("EXPONENT")) exit("");
 		$listing->picpath = "";
 	}
 	
+	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");	
 	$template = new template("listingmodule","_viewlisting",$loc);
+	$template->register_permissions(array('administrate','manage','configure','edit','delete','order'),$loc);
 	$template->assign('listing', $listing);
+	$template->assign('moduletitle',$title);	
 	$template->output();
 ?>

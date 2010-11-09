@@ -58,79 +58,122 @@ class listingmodule {
 		global $db;
 
 		$template = new template('listingmodule',$view,$loc);
-
+//		$viewconfig = $template->viewparams;
+		
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		if (!defined('SYS_PAGING')) { define('SYS_PAGING','paging'); require (BASE."subsystems/pagingObject.php");}
 
 		$config = $db->selectObject('listingmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
+			$config->enable_categories = 0;
 			$config->orderby = 'name';
 			$config->orderhow = 0; // Ascending
          	$itemsperpage = 10;
 		} else {
-		 $itemsperpage = isset($config->items_perpage) ? $config->items_perpage : 10;
+			$itemsperpage = isset($config->items_perpage) ? $config->items_perpage : 10;
 		}
-
-       switch ($config->orderhow) {
+		
+		switch ($config->orderhow) {
 			// Four options, alphabetical, ascending and descending, by user selected rank, and random
 			case 0:
 				//usort($listings,'exponent_sorting_byNameAscending');
-				$orderby = ' ORDER BY name ASC ';
+//				$orderby = ' ORDER BY name ASC ';
+				$sortby = 'exponent_sorting_byNameAscending';
 				break;
 			case 1:
 				//usort($listings,'exponent_sorting_byNameDescending');
-				$orderby = ' ORDER BY name DESC ';
+//				$orderby = ' ORDER BY name DESC ';
+				$sortby = 'exponent_sorting_byNameDescending';
 				break;
 			case 2:
             //sort the listings by their rank
-            //usort($listings, 'exponent_sorting_byRankAscending');
-				$orderby = ' ORDER BY rank ASC ';
+				//usort($listings, 'exponent_sorting_byRankAscending');
+//				$orderby = ' ORDER BY rank ASC ';
+				$sortby = 'exponent_sorting_byRankAscending';
             break;
 			case 3:
 				//shuffle($listings);
-				$orderby = '';
+//				$orderby = '';
+				$sortby = '';
 				break;
 		}
 
 		// Calculate pages and get page count
 		$itemcount = $db->countObjects('listing', "location_data='".serialize($loc)."'");
-		$listingPaging = new PagingObject(
-		  isset($_GET['page']) ? (int) $_GET['page'] : 1,
-        $itemcount,$itemsperpage
-		);
+		$listingPaging = new PagingObject(isset($_GET['page']) ? (int) $_GET['page'] : 1, $itemcount, $itemsperpage);
+//		$pageid = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+//		$pageid--;
+		$pageid = $listingPaging->GetCurrentPage() - 1;	
+		
+//		$where = "location_data='".serialize($loc)."'";
+//		$where .= $orderby;
+//		$where .= " LIMIT " . $listingPaging->GetOffSet();
 
-		$pageid = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-		$pageid--;
-      $where = "location_data='".serialize($loc)."'";
-      $where .= $orderby;
-      $where .= " LIMIT " . $listingPaging->GetOffSet();
-
-		// Get listings
-		$listings = $db->selectObjects('listing',$where);
-		if ($config->orderhow == 3) { shuffle($listings);}
-
-		$directory = 'files/listingmodule/' . $loc->src;
-		if (!file_exists(BASE.$directory)) {
-			$err = exponent_files_makeDirectory($directory);
-			if ($err != SYS_FILES_SUCCESS) {
-				$template->assign('noupload',1);
-				$template->assign('uploadError',$err);
-			}
-		}
-
-		for($i=0; $i<count($listings); $i++) {
-			if ($listings[$i]->file_id == 0) {
-				$listings[$i]->picpath = '';
+		// Get all of the categories for this Listing module:
+		$cats = array();
+		$cats = $db->selectObjectsIndexedArray('category', "location_data='".serialize($loc)."'");
+		if ($config->enable_categories) {
+			if (count($cats) != 0) {
+				$template->assign('hasCategories', 1);				
 			} else {
-				$file = $db->selectObject('file', 'id='.$listings[$i]->file_id);
-				$listings[$i]->picpath = $file->directory.'/'.$file->filename;
+				$template->assign('hasCategories', 0);
 			}
+		} else {
+			$template->assign('hasCategories', 0);
 		}
+		
+		$c->name = '';
+		$c->id = 0;
+		uasort($cats, "exponent_sorting_byRankAscending");
+		$cats[0] = $c;
+		$template->assign('categories', $cats);
+		
+		$data = array();
+		if ($config->enable_categories == true) {
+			foreach ($cats as $id=>$c) {
+				//Get all the questions & answers for this listing module. ($qnas stands for "Questions 'n Answers")
+				$tmp = $db->selectObjects("listing","location_data='".serialize($loc)."' AND category_id=".$id);
+				$catids = array_keys($cats); // for in_array check only
+				for ($i = 0; $i < count($tmp); $i++) {
+					if (!in_array($tmp[$i]->category_id,$catids)) {
+//						echo 'Setting cat id to 0<br />';
+						$tmp[$i]->category_id = 0;
+					}
+					if ($tmp[$i]->file_id == 0) {
+						$tmp[$i]->picpath = '';
+					} else {
+						$file = $db->selectObject('file', 'id='.$tmp[$i]->file_id);
+						$tmp[$i]->picpath = $file->directory.'/'.$file->filename;
+					}					
+				}
+				usort($tmp, $sortby);
+//				if ($config->orderhow == 3) { shuffle($tmp);}				
+				$data[$id] = $tmp;
+			}
+		} else {
+//			$tmp = $db->selectObjects("listing",$where);
+			$tmp = $db->selectObjects("listing","location_data='".serialize($loc)."'");
+			$catids = array_keys($cats); // for in_array check only
+			for ($i = 0; $i < count($tmp); $i++) {
+				if (!in_array($tmp[$i]->category_id,$catids)) {
+//					echo 'Setting cat id to 0<br />';
+					$tmp[$i]->category_id = 0;
+				}
+				if ($tmp[$i]->file_id == 0) {
+					$tmp[$i]->picpath = '';
+				} else {
+					$file = $db->selectObject('file', 'id='.$tmp[$i]->file_id);
+					$tmp[$i]->picpath = $file->directory.'/'.$file->filename;
+				}					
+			}		
+			usort($tmp, $sortby);
+			if ($config->orderhow == 3) { shuffle($tmp);}				
+			$data[0] = $tmp;
+		}		
 
-		//sort the listings by their rank
-		//usort($listings, 'exponent_sorting_byRankAscending');
-
+		$last = ($config->items_perpage * $listingPaging->GetCurrentPage());
+		if (!$last) { $last = 9999; }
 		$template->register_permissions(array('administrate','manage','configure','edit','delete','order'),$loc);
         // Assign page data
         $template->assign("curpage", $listingPaging->GetCurrentPage());
@@ -138,8 +181,14 @@ class listingmodule {
         $template->assign("uplimit", $listingPaging->GetUpperLimit());
         $template->assign("downlimit", $listingPaging->GetLowerLimit());
 
-		$template->assign('listings', $listings);
+        $template->assign("first", ($config->items_perpage * $pageid));
+        $template->assign("last", $last);
+		
+//		$template->assign('listings', $listings);
+		$template->assign('data',$data);		
 		$template->assign('moduletitle', $title);
+		$template->assign('config', $config);	
+		$template->assign('list', $config->id);
 		$template->output();
 	}
 
@@ -189,7 +238,7 @@ class listingmodule {
 	}
 
 	function searchName() {
-		return 'Listed Elements';
+		return 'Other Listings';
 	}
 
 	function spiderContent($item = null) {

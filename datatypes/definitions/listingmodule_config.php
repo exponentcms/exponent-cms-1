@@ -40,13 +40,18 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	"enable_categories"=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	"description"=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>200),		
 	'orderby'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
 	'orderhow'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
   	'items_perpage'=>array(
-    DB_FIELD_TYPE=>DB_DEF_INTEGER)
+		DB_FIELD_TYPE=>DB_DEF_INTEGER)
 );
 
 ?>
