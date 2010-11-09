@@ -20,7 +20,8 @@
 if (!defined('EXPONENT')) exit('');
 
 if (class_exists($loc->mod)) {
-	call_user_func(array($loc->mod,'show'),$_GET['view'],$loc);
+	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+	call_user_func(array($loc->mod,'show'),$_GET['view'],$loc, $title);
 }
 
 ?>

@@ -15,8 +15,10 @@
  *}
 
 <div class="common grouppermissions">
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
 	<div class="form_header">
-        	<h1>{$_TR.form_title}</h1>
 	        <p>{$_TR.form_header}</p>
 	</div>
 	{capture assign="file"}{$smarty.const.BASE}modules/common/views/_permissions.tpl{/capture}
