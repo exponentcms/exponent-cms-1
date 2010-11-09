@@ -18,7 +18,7 @@
 ##################################################
 
 function smarty_modifier_summarize($string, $strtype, $type) {
-	$sep = ($strtype == "html" ? array("<br />","</p>","</div>") : array("\r\n","\n","\r"));
+	$sep = ($strtype == "html" ? array("</p>","</div>") : array("\r\n","\n","\r"));
 	switch ($type) {
 		case "para":
 			foreach ($sep as $s) {
@@ -33,9 +33,9 @@ function smarty_modifier_summarize($string, $strtype, $type) {
 				$string = $para[0];
 			}
 			return strip_tags($string,'<a>');
-			break;
+			break;			
 		default:
-			$words = split(" ",strip_tags($string));
+			$words = explode(" ",strip_tags($string));
 			return implode(" ",array_slice($words,0,$type+0));
 			break;
 	}

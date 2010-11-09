@@ -21,7 +21,7 @@ function smarty_function_printer_friendly_link($params,&$smarty) {
 	global $router;
 
 	// initialize a couple of variables
-	$text = isset($params['text']) ? $params['text'] : 'View Printer Friendly';
+	$text = isset($params['text']) ? $params['text'] : 'Printer Friendly Version';
 
 	// spit out the link
 	$class = isset($params['class']) ? $params['class'] : 'printer-friendly-link';
