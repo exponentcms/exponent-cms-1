@@ -216,6 +216,7 @@ function exponent_theme_includeCSS($cssfile) {
  */
 function exponent_theme_headerInfo($config) {
 	echo headerInfo($config);
+	echo exponent_theme_advertiseRSS();
 }
 
 
@@ -316,6 +317,60 @@ function headerInfo($config) {
 		}
 	}
 	return $str;
+}
+
+/* exdoc
+ * Output <link /> elements for each module with an RSS feed on the current page
+ * If viewing a module, considers only the current module
+ *
+ * @param Object or Int $section the section to make <link />s for. Defaults to current
+ * @node Subsystems:Core
+ */
+function exponent_theme_advertiseRSS($section=null) {
+  global $db;
+  // if ($section == null) $section = $GLOBALS['section'];
+
+  // if (is_object($section)) {
+    // $sid = intval($section->id);
+  // }
+  // else {
+    // $sid = intval($section);
+  // }
+
+  // if (isset($_REQUEST['module'])) {
+  // // if we're viewing a module, just check that module
+    // $module->module = $_REQUEST['module'];
+    // $module->source = isset ($_REQUEST['src']) ? $_REQUEST['src'] : '';
+    // $module->internal = isset($_REQUEST['int']) ? $_REQUEST['int'] : '';
+    // $modules[0] = $module;
+  // }
+  // else {
+  // // otherwise check all modules in the current section
+    // $modules = $db->selectObjects("sectionref", "section=" . $sid . " AND refcount > 0");
+  // }
+
+  $modules = $db->selectObjects("sectionref", "refcount > 0");  // get all the modules being using
+  $feeds = array();
+
+  foreach ($modules as $module) {
+	if (isset($feeds[$module->source])) continue;
+    $location->mod = $module->module;
+    $location->src = $module->source;
+    $location->int = $module->internal;
+
+    //get the module's config data
+    $config = $db->selectObject($module->module."_config", "location_data='".serialize($location)."'");
+
+    if (!empty($config->enable_rss)) {
+      $title = empty($config->feed_title) ? 'RSS' : htmlspecialchars($config->feed_title, ENT_QUOTES);
+      $params['module'] = $module->module;
+      $params['src'] = $module->source;
+      if (!empty($module->internal)) $params['int'] = $module->internal;
+
+      echo '  <link rel="alternate" type="application/rss+xml" title="' . $title . '" href="' . exponent_core_makeRSSLink($params) . "\" />\n";
+	  $feeds[$module->source] = $title;
+    }
+  }
 }
 
 function exponent_theme_footerInfo() {
@@ -747,17 +802,39 @@ function exponent_theme_getTheme() {
 	global $sectionObj;
 	$action_maps = exponent_theme_loadActionMaps();
 
-	if (exponent_theme_inAction() && !empty($action_maps[$_REQUEST['module']]) && array_key_exists($_REQUEST['action'], $action_maps[$_REQUEST['module']])) {
-		if ($action_maps[$_REQUEST['module']][$_REQUEST['action']]=="default"){
-			$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
+	if (exponent_theme_inAction() && (!empty($action_maps[$_REQUEST['module']]) || !empty($action_maps['*']))) {
+		if (array_key_exists($_REQUEST['action'], $action_maps[$_REQUEST['module']])) {
+			if ($action_maps[$_REQUEST['module']][$_REQUEST['action']]=="default") {
+				$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
+			} elseif (is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php')) {
+				$theme = BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php';
+			} else {
+				if ($sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php')) {
+					$theme = BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php';
+				} else {
+					$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
+				}
+			}
+		} elseif (array_key_exists($_REQUEST['action'], $action_maps['*'])) {
+			if ($action_maps['*'][$_REQUEST['action']]=="default") {
+				$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
+			} elseif (is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps['*'][$_REQUEST['action']].'.php')) {
+				$theme = BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps['*'][$_REQUEST['action']].'.php';
+			} else {
+				if ($sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php')) {
+					$theme = BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php';
+				} else {
+					$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
+				}
+			}
 		} else {
-			$theme = BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php';
+			$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
 		}
 		return $theme;
 	} elseif ($sectionObj->subtheme != '' && is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php')) {
-                return BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php';
+		return BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$sectionObj->subtheme.'.php';
 	} else {
-                return BASE.'themes/'.DISPLAY_THEME.'/index.php';
+		return BASE.'themes/'.DISPLAY_THEME.'/index.php';
 	}
 }
 
