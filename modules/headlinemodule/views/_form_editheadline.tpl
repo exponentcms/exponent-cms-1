@@ -29,9 +29,9 @@
  * $Id: _form_editlisting.tpl,v 1.2 2005/02/19 16:53:36 filetreefrog Exp $
  *}
 <div class="form_title">{if $is_edit}Edit Listing{else}New Listing{/if}</div>
-<div class="form_header">
+<div class="form_header"><p>
 	Enter your headline below.
-</div>
+</p></div>
 {form action="save_listing"}
 {control type="hidden" name="id" value=$headline->id}
 {control type=text name="headline" value=$headline->headline}

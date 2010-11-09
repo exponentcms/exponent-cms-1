@@ -14,36 +14,36 @@
  *
  *}
 
-
 <div class="textmodule message">
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	<div class="moduleactions">
-		{if $permissions.edit == 1}
-			{if $textitem->approved != 1}
-				<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
-			{else}
-				<a href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
-			{/if}
+		{if ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1) }
+			<div class="moduleactions">
+				{if $permissions.edit == 1}
+					{if $textitem->approved != 1}
+						<img src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+					{else}
+						<a href="{link action=edit id=$textitem->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+					{/if}
+				{/if}
+				{if $textitem->approved != 1 && ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1)}
+					<a href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=summary}">{$_TR.link_viewap}</a>
+				{/if}
+				{if $permissions.manage_approval == 1 && ($textitem->id != 0 && $textitem->approved != 0)}
+					<a href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=revisions_view id=$textitem->id}" title="{$_TR.link_manageap}" >
+						<img src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
+					</a>
+				{/if}
+			</div>
 		{/if}
-		{if $textitem->approved != 1 && ($permissions.approve == 1 || $permissions.manage_approval == 1 || $permissions.edit == 1)}
-		<a href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=summary}">{$_TR.link_viewap}</a>
-		{/if}
-		{if $permissions.manage_approval == 1 && ($textitem->id != 0 && $textitem->approved != 0)}
-			<a href="{link module=workflow datatype=textitem m=textmodule s=$__loc->src action=revisions_view id=$textitem->id}" title="{$_TR.link_manageap}" >
-				<img src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /> 
-			</a>
-		{/if}
-	</div>
 	{/permissions}		
 	<div class="bodycopy">
 		{if $textitem->approved != 0}
 			<ul class="queue message">
-                        	<li>{$textitem->text}</li>
-        		</ul>
+				{if $moduletitle != ""}
+					<div style="font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 14px; font-weight: bold;">{$moduletitle}</div>
+				{/if}
+				<p>{$textitem->text}</p>
+        	</ul>
 		{/if}
 	</div>
 </div>
-
-
