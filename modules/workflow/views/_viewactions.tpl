@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+<div class="form_header"><p>{$_TR.form_header}</p></div>
 <table cellpadding="0" cellspacing="4" width="100%" border="0">
 {foreach from=$names item=name key=type}
 {capture assign=linkend}&policy_id={$policy_id}&type={$type}{/capture}

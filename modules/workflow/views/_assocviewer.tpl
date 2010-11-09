@@ -15,9 +15,11 @@
  *}
 <br /><br />
 <hr size="1" />
+<div class="form_title">
+	{$_TR.form_title}
+</div>
 <div class="form_header">
-        <h1>{$_TR.form_title}</h1>
-        <p>{$_TR.form_header}</p>
+	<p>{$_TR.form_header}</p>
 	<a href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}source_selector.php?&dest='+escape('{$smarty.const.PATH_RELATIVE}modules/workflow/assoc_edit.php?dummy')+'&vmod=workflow&vview=_sourcePicker','picker','title=no,toolbar=no,width=640,height=480,scrollbars=yes'); return false">{$_TR.single_link}</a>
 </div>
 {if $policy_count == 0}
@@ -37,7 +39,7 @@
 	<td>{if $def != 0}{$policies[$def]->name}{else}<em>{$_TR.no_policy}</em>{/if}</td>
 	<td>
 		{if $policy_count != 0}
-			{icon action=assoc_edit m=$module p=$def img=edit}
+			{icon action=assoc_edit m=$module p=$def img=edit.png}
 		{else}
 			{img src="`$smarty.const.ICON_RELATIVE`edit.disabled.png" title=$_TR.alt_edit_disabled alt=$_TR.alt_edit_disabled}
 		{/if}

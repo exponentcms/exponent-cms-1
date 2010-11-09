@@ -16,9 +16,11 @@
 
 <div class="module workflow policymanager">
 
+<div class="form_title">
+	{$_TR.form_title}
+</div>
 <div class="form_header">
-        <h1>{$_TR.form_title}</h1>
-        <p>{$_TR.form_header}</p>
+	<p>{$_TR.form_header}</p>
 </div>
 
 <table cellpadding="2" cellspacing="0" width="100%" border="0">
@@ -35,8 +37,8 @@
 		</td>
 		<td valign="top">{$policy->description}</td>
 		<td valign="top">
-			{icon action=admin_editpolicy id=$policy->id img=edit}
-			{icon action=admin_confirmdeletepolicy id=$policy->id img=delete}
+			{icon action=admin_editpolicy id=$policy->id img=edit.png}
+			{icon action=admin_confirmdeletepolicy id=$policy->id img=delete.png}
 			<a class="mngmntlink administration_mngmntlink" href="{link action=admin_viewactions id=$policy->id}">{$_TR.manage_actions}</a>
 			<br />
 		</td>
