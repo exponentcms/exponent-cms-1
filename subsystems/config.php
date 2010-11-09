@@ -85,7 +85,7 @@ function exponent_config_parseFile($file) {
 		if ($line != "" && substr($line,0,2) != "<?" && substr($line,-2,2) != "?>") {
 			$line = str_replace(array("<?php","?>","<?",),"",$line);
 						
-			$opts = split("[\"'],",$line);
+			$opts = preg_split("/[\"'],/",$line);
 			
 			
 			if (count($opts) == 2) {
@@ -146,7 +146,7 @@ function exponent_config_configurationForm($configname,$database=false) {
 					foreach ($arr[1] as $directive=>$info) {
 						
 						if ($info['description'] != '') {
-							$form->register(null,'',new htmlcontrol('<br /><br />'.$info['description'],false));
+							$form->register(null,'',new htmlcontrol($info['description'],false));
 						}
 						if (is_a($info['control'],"checkboxcontrol")) {
 							$form->meta("opts[$directive]",1);
