@@ -15,11 +15,9 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header_1}
-<br /><br />
-{$_TR.form_header_2}
-<br /><br />
-{$_TR.form_header_3} <a class="mngmntlink administration_mngmntlink" href="{link action=htmlarea_editconfig id=0}">{$_TR.form_header_4}
+<div class="form_header"><p>{$_TR.form_header_1}</p>
+<p>{$_TR.form_header_2}</p>
+<p>{$_TR.form_header_3}</p> <a class="mngmntlink administration_mngmntlink" href="{link action=htmlarea_editconfig id=0}">{$_TR.form_header_4}
 </div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>

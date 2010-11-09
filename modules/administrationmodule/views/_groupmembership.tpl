@@ -14,8 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header|sprintf:$group->name}</div>
-
+<div class="form_header"><p>{$_TR.form_header|sprintf:$group->name}</p></div>
 
 {paginate objects=$users}
 	{literal}

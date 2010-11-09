@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+<div class="form_header"><p>{$_TR.form_header}</p></div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td class="header administration_header">{$_TR.extension_name}</td>
@@ -56,7 +56,7 @@
 <br /><br />
 <hr size="1" />
 <div class="form_title">{$_TR.form_title_inactive}</div>
-<div class="form_header">{$_TR.form_header_inactive}</div>
+<div class="form_header"><p>{$_TR.form_header_inactive}</p></div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td class="header administration_header">{$_TR.extension_name}</td>

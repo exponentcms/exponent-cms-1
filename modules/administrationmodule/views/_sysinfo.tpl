@@ -15,8 +15,7 @@
  *}
 {if $override_style == 1}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}
-<br /><br />
+<div class="form_header"><p>{$_TR.form_header}</p>
 <a href="{link action=sysinfo_download}">{$_TR.export}</a>
 </div>
 <style type="text/css">

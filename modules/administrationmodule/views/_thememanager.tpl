@@ -15,8 +15,10 @@
  *}
 
 <div class="administrationmodule thememanager">
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
 	<div class="form_header">
-		<h1>{$_TR.form_title}</h1>
 		<p>{$_TR.form_header}</p>
 		<a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension}">{$_TR.new_theme}</a>.
 	</div>

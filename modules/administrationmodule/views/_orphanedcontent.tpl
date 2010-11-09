@@ -14,7 +14,9 @@
  *
  *}
 <div class="administrationmodule orphanedcontent">
-	<h1>{$_TR.form_title}</h1>
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
 	{foreach from=$modules key=class item=data}
 		<div style="padding-left: 5px; border-top: 1px dashed #DDD; margin-top: 1em;">
 			{$data.name}

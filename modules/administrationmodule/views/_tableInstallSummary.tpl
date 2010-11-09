@@ -14,8 +14,10 @@
  *
  *}
 
+<div class="form_title">
+	{$_TR.form_title}
+</div>
 <div class="form_header">
-	<h1>{$_TR.form_title}</h1>
 	<p>{$_TR.form_header}</p>
 </div>
 <table cellpadding="2" cellspacing="0" width="100%" border="0">

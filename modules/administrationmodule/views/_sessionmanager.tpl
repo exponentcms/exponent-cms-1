@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+<div class="form_header"><p>{$_TR.form_header}</p></div>
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	{foreach from=$sessions item=session}
 	<tr>

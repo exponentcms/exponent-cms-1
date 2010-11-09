@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title} "{$user->firstname} {$user->lastname} ({$user->username})"</div>
-<div class="form_caption">{$_TR.form_header}</div>
+<div class="form_caption"><p>{$_TR.form_header}</p></div>
 {* Lock / Unlock Account *}
 {if $user->is_locked}
 <div style="background-color: #CCC; padding: 5px;">

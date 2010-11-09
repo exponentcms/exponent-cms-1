@@ -14,8 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}
-<br /><br />
+<div class="form_header"><p>{$_TR.form_header}</p>
 <a class="mngmntlink administration_mngmntlink" href="{link action=upload_extension}">{$_TR.upload_subsystem}</a></div>
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 {foreach from=$info key=subsys item=meta}

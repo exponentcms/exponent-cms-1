@@ -15,9 +15,11 @@
  *}
 
 <div class="administrationmodule usermanager">
+<div class="form_title">
+    {$_TR.form_title}
+</div>
 <div class="form_header">
-        <h1>{$_TR.form_title}</h1>
-        <p>{$_TR.form_header}</p>
+	<p>{$_TR.form_header}</p>
 	{if $smarty.const.SITE_ALLOW_REGISTRATION == 0}
 		<blockquote class="error"><i>{$_TR.no_registration}</i></blockquote>
 	{/if}

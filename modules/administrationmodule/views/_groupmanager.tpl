@@ -14,9 +14,8 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}
+<div class="form_header"><p>{$_TR.form_header}</p>
 {if $perm_level == 2}
-<br /><br />
 <a class="mngmntlink administration_mngmntlink" href="{link action=gmgr_editprofile id=0}">{$_TR.new_group}</a>
 {/if}
 </div>

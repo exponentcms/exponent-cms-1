@@ -51,7 +51,6 @@
 		var addmes = YAHOO.util.Dom.getElementsByClassName("addmodule","a");
 		var togglelink = YAHOO.util.Dom.get("addmodulelink",true);
 
-
 		YAHOO.util.Event.on(togglelink,"click",addmoduletoggle);
 
 		function addmoduletoggle() {
@@ -68,7 +67,6 @@
 
 	YAHOO.util.Event.onContentReady("expadminpanel", adminpanelinit);
 	
-
 {/literal}
 {/script}
 

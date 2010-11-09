@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}: {$user->firstname} {$user->lastname} ({$user->username})</div>
-<div class="form_header">{$_TR.form_header}</div>
+<div class="form_header"><p>{$_TR.form_header}</p></div>
 
 
 {paginate objects=$groups}
