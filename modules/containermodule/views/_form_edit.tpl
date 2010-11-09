@@ -28,9 +28,11 @@ if (!document.body.appendChild) {
 {if $nomodules == 1}
     <b>{$_TR.deactivated_all}</b>
 {else}
+    <div class="form_title">
+        {if $is_edit}Edit Module{else}Add a Module{/if}
+	</div>
     <div class="form_header">
-        <h1>{if $is_edit}Edit Module{else}Add a Module{/if}</h1>
-        {if $can_activate_modules == 1 && $is_edit == 0}
+       {if $can_activate_modules == 1 && $is_edit == 0}
         <p>{$_TR.been_deactivated}<br>
             <a class="managemodules" href="{link module=administrationmodule action=managemodules}">{$_TR.access_manager}</a>
         </p>
@@ -41,7 +43,9 @@ if (!document.body.appendChild) {
     <form name="form" method="post" action="{$smarty.const.SCRIPT_RELATIVE}{$smarty.const.SCRIPT_FILENAME}?" enctype="">
         
     {if $is_edit}<input type="hidden" name="id" value="{$container->id}" />{/if}
-    {if $rerank == 1}<input type="hidden" name="rerank" value="1" />{/if}
+    {if $rerank == 1}<input type="hidden" name="rerank" value="1" />
+	{else}<input type="hidden" name="rerank" value="0" />
+	{/if}
     {if $is_edit == 1}<input type="hidden" id="existing_source" name="existing_source" value="{$container->internal->src}" />{/if}
     
     <input type="hidden" name="rank" value="{$container->rank}" />
@@ -103,7 +107,3 @@ sourcePicked("{$container->internal->src}","{$locref->description|escape:"javasc
 
 {/if}
 </div>
-
-
-
-

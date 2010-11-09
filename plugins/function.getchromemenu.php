@@ -34,6 +34,12 @@ function smarty_function_getchromemenu($params,&$smarty) {
 		}
 	}
 
+	$rerank = $params['rerank'];
+	if ($rerank == 'false') {
+		$rerank = 0;
+	} else {
+		$rerank = 1;
+	}
 	if ($module->permissions['administrate'] == 1) {
 		$userlink = $router->makeLink(array('module'=>$module->info['class'], 'src'=>$module->info['source'], 'action'=>'userperms', '_common'=>1));
 		$grouplink = $router->makeLink(array('module'=>$module->info['class'], 'src'=>$module->info['source'], 'action'=>'groupperms', '_common'=>1));
@@ -52,7 +58,7 @@ function smarty_function_getchromemenu($params,&$smarty) {
 	}
 
 	if (!empty($module->id) && exponent_permissions_check('delete_module', $cloc)) {
-		$deletelink = $router->makeLink(array('module'=>'containermodule', 'id'=>$module->id, 'action'=>'delete', 'rerank'=>1));
+		$deletelink = $router->makeLink(array('module'=>'containermodule', 'id'=>$module->id, 'action'=>'delete', 'rerank'=>$rerank));
 		$menu[] = array("text"=>$smarty->_tpl_vars['_TR']['menu_deletemod'], "classname"=>"deletemod", "url"=>$deletelink);
 	}
 

@@ -70,7 +70,7 @@
 {else}
 	{permissions level=$smarty.const.UILEVEL_STRUCTURE}
 	{if $permissions.add_module == 1 && $hidebox == 0}
-		<a href="{link action=edit rank=$rank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
+		<a class="addmodule" href="{link action=edit rank=$rank}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.png" title="{$_TR.add_new}" alt="{$_TR.add_new}" /></a>
 	{/if}
 	{/permissions}
 {/if}
