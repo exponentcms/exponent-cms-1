@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+<div class="form_header"><p>{$_TR.form_header}</p></div>
 <table cellspacing="0" cellpadding="2" border="0" width="100%">
 	<tr>
 		<td class="header importer_header">{$_TR.status}</td>

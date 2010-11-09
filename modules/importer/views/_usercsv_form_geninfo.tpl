@@ -15,7 +15,7 @@
  *}
 
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {$_TR.form_header}
-</div>
+</p></div>
 {$form_html}
