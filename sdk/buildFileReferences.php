@@ -138,12 +138,6 @@ if ($vars['action'] == "list") {
 	
 }
 
-
-
-
-
-
-
 function processArguments($args,$validator_callback = "") {
 	$vars = array(
 		"action"=>"",
@@ -222,7 +216,6 @@ function validateArguments($vars) {
 	return $vars;
 }
 
-
 function getManifestFile($type,$name) {
 	if ($type == "system") return BASE."manifest.php";
 	$dir = BASE.$type."s/$name/";
@@ -262,8 +255,8 @@ function writeArrayToFile($arr,$file) {
 		}
 	}
 	fwrite($fh,");\n\n?>");
+	fclose($fh);
 }
-
 
 function directoryChecksum($dir,$arr) {
 	if (is_readable(BASE.$dir)) {
@@ -277,6 +270,5 @@ function directoryChecksum($dir,$arr) {
 	}
 	return $arr;
 }
-
 
 ?>
