@@ -14,7 +14,7 @@
  *}
 
 <div class="contactmodule default">
-	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	{if $numContacts != 0}
 		{form name=contact action=contact}
 			{control type=hidden name=msg value="_Default"}
@@ -33,7 +33,7 @@
 
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.configure == 1}
-			<a href="{link action=manage_contacts}">{$_TR.manage_contacts}</a>
+			<a class="mngmntlink"  href="{link action=manage_contacts}">{$_TR.manage_contacts}</a>
 		{/if}
 	{/permissions}
 </div>
