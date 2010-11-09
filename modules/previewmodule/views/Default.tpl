@@ -14,12 +14,11 @@
  *
  *}
 
-{if $editMode == 1}
-	<a class="preview" href="{link action=preview}">{$_TR.preview}</a>
-{/if}
-{if $previewMode == 1}
-	<a class="edit" href="{link action=normal}">{$_TR.edit_mode}</a>
-{/if}	
-
-
-
+<div class="previewmodule default">
+	{if $editMode == 1}
+		<a class="preview" href="{link action=preview}">{$_TR.preview}</a>
+	{/if}
+	{if $previewMode == 1}
+		<a class="edit" href="{link action=normal}">{$_TR.edit_mode}</a>
+	{/if}	
+</div>

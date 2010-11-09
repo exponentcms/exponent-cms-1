@@ -14,9 +14,9 @@
  *
  *}
 <div class="form_title">{$form_title}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {$form_header}
-</div>
+</p></div>
 <form name="form" method="post" action="{$smarty.const.PATH_RELATIVE}index.php" enctype="">
 <input type="hidden" name="collection_id" id="collection_id" value="{$tag_collection}" />
 <input type="hidden" name="module" id="module" value="tags" />
@@ -34,7 +34,7 @@
 </tr>
 </table>
 </form>
-<br /><br />
+{br}
 <div align="center">
 <table cellspacing="0" cellpadding="0" border="0" width="75%">
 <tr>
@@ -58,4 +58,3 @@
 {/foreach}
 </table>
 </div>
-

@@ -14,8 +14,10 @@
  *
  *}
 <div class="tags manage-collection">
-	<div class="form-header">
-		<h1>{$_TR.form_title}</h1>
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
+	<div class="form_header">
 		<p>{$_TR.form_header}</p>
 	</div>
 	<table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -36,13 +38,13 @@
 			{$collection->description}		
 		</td>
 		<td align="right" style="padding-right: 5px;">
-			<a href="{link module=tags action=add_tags id=$collection->id}" title="Add tags to this collection" style="border: 0px solid black;">
+			<a href="{link module=tags action=add_tags id=$collection->id}" title="{$_TR.alt_tag}" style="border: 0px solid black;">
 				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}tag.png" title="{$_TR.alt_tag}" alt="{$_TR.alt_tag}" />
 			</a>
-			<a href="{link module=tags action=edit_collection id=$collection->id}" title="Edit this tag collection" style="border: 0px solid black;">
+			<a href="{link module=tags action=edit_collection id=$collection->id}" title="{$_TR.alt_edit}" style="border: 0px solid black;">
 				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 			</a>
-			<a href="{link module=tags action=delete_collection id=$collection->id}" title="Delete this tag collection" style="border: 0px solid black;">
+			<a href="{link module=tags action=delete_collection id=$collection->id}" title="{$_TR.alt_delete}" style="border: 0px solid black;">
 				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 			</a>	
 		</td>
@@ -53,6 +55,6 @@
 	</tr>
 	{/foreach}
 	</table>
-	<br /><br />
+	{br}
 	<a href="{link module=tags action=edit_collection}" class="mngmntlink mngmntlink">{$_TR.new_collection}</a>
 </div>

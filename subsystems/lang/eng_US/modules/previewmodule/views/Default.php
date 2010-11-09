@@ -1,8 +1,8 @@
 <?php
 
 return array(
-	'preview'=>'Preview',
-	'edit_mode'=>'Edit Mode',
+	'preview'=>'Enter Preview Mode',
+	'edit_mode'=>'Back to Edit Mode',
 );
 
 ?>
