@@ -15,9 +15,7 @@
  *}
 
 <div class="youtubemodule default">
-	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-
+	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	<script language="javascript">
         {literal}
                 function FlashInstalled()
@@ -75,3 +73,4 @@
 	{/if}
 	{/permissions}
 </div>
+

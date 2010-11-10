@@ -58,7 +58,7 @@ class youtubemodule {
 		$template = new template('youtubemodule',$view,$loc);
 		$videos = $db->selectObjects('youtube',"location_data='".serialize($loc)."'");
 		for ($i = 0; $i < count($videos); $i++) {
-			$spliturl = split('v=',$videos[$i]->url);
+			$spliturl = explode('v=',$videos[$i]->url);
 			$newurl = 'http://www.youtube.com/v/'.$spliturl[1];
 			$videos[$i]->url = $newurl;
 		}
@@ -102,7 +102,7 @@ class youtubemodule {
 	}
 
 	function searchName() {
-		return "Video";
+		return "Videos";
 	}
 }
 

@@ -15,8 +15,7 @@
  *}
 
 <div class="youtubemodule default">
-	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
+	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.edit == 1}
 		<a href="{link action=edit id=$youtube->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
