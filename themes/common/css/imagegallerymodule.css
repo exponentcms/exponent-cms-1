@@ -9,9 +9,11 @@ ul.thumbbox li, .view-all-galleries ul li {
 	display: inline;
 	width: 28%;
 }
+
 .view-all-galleries ul li br {
 	clear: both;
 }
+
 .view-all-galleries ul li.imagegallery_picbox a {
 	border: 1px solid;
 	float: left;
@@ -20,22 +22,27 @@ ul.thumbbox li, .view-all-galleries ul li {
 	text-align: center;
 	width: 100px;	
 }
+
 .view-all-galleries ul li.imagegallery_picbox a img {
 	float: left;
 }
+
 ul.thumbbox li img {
 	border: 1px solid;
 	padding: .3em;
 }
+
 div.paging {
 	width: 99%;
 	margin: 0 auto;
 	clear: both;
 }
+
 .paging .previous {
 	float: left;
 	display: inline;
 }
+
 .paging .next {
 	float: right;
 	display: inline;

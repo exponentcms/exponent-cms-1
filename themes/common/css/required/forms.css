@@ -1,34 +1,39 @@
 .form_header h1 {
 	margin:0;
 }
+
 .form_header p {
 	font-style:italic;
 	border-left:3px solid #53708e;
 	padding:0 0 0 10px;
 	margin:10px 0 10px 10px;
 }
+
 .form_header p .managemodules {
 	font-family:"Trebuchet MS";
 	padding:3px 0 2px 15px;
 	background:url(../../images/icons/admin/managemodules.png) no-repeat 0 50%;
 }
+
 #source_table td {
     border:0;
     padding:2px;
 }
-/* control (wrapers for input and other form fields) and label styles */
 
+/* control (wrapers for input and other form fields) and label styles */
 .control {
 	display:block;
 	margin:0 0 5px 0;
 	padding:5px;
 }
+
 .control legend {
 	background:#ffffff;
 	font-size:1.1em;
 	font-weight:bold;
 	padding:0px 3px;
 }
+
 .control .label {
 	font-weight:bold;
 	text-transform:uppercase;
@@ -41,12 +46,15 @@
 	font-weight:bold;
 	margin-left:5px;
 }
+
 .control.flipped .checkbox {
 	margin-left:5px;
 }
+
 .control.flipped .checkboxlabel {
 	margin-left:0px;
 }
+
 .control .label a {
 	font-family:"Trebuchet MS";
 	color:#883333;
@@ -90,16 +98,17 @@ input.text,
 }
 
 /* yui calendar control */
-
 #calinput{
 	float:left;
 	clear:left;
 }
+
 #calinput .text{
 	width:60px;
 	float:left;
 	margin-top:3px;
 }
+
 #calinput .button{
 	margin-top:3px;
 	margin-left:2px;
@@ -107,16 +116,11 @@ input.text,
 	width:108px;
 	float:left;
 }
+
 .yuitime {
 	margin-top:3px;
 }
+
 .yuitime .text {
 	margin-right:2px;
 }
-
-
-
-
-
-
-
