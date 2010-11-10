@@ -33,40 +33,98 @@
 
 class resourcesmodule_config {
 	function form($object) {
+		$i18n = exponent_lang_loadFile('datatypes/resourcesmodule_config.php');
 		if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 		exponent_forms_initialize();
 		
 		$form = new form();
 		if (!isset($object->id)) {
+			$object->enable_categories = 0;
+			$object->sort = 'desc_posted';
 			$object->allow_anon_downloads = 1;
-			$object->enable_podcasting = 0;
+			$object->description = "";
+			$object->enable_rss = 0;
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->require_agreement = 0;
 			$object->agreement_body = "";
 		} else {
+			switch ($object->orderhow) {
+				case 0: // ascending
+					$object->sort = 'asc_'.$object->orderby;
+					break;
+				case 1: // descending
+					$object->sort = 'desc_'.$object->orderby;
+					break;
+				case 2: // rank
+					$object->sort = 'rank_';
+					break;
+				case 3: // random
+					$object->sort = 'random_';
+					break;
+				default:
+					$object->sort = 'desc_posted';
+					break;
+			}
 			$form->meta('id',$object->id);
 		}
 		
-		$form->register('allow_anon_downloads','Allow anonymous downloads?',new checkboxcontrol($object->allow_anon_downloads,true));
-		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Confidentiality Agreement</div><hr size="1" />'));
-		$form->register('require_agreement','Require Confidentiality Agreement',new checkboxcontrol($object->require_agreement,true));
-		$form->register('agreement_body',"Enter Confidentiality Agreement",new htmleditorcontrol($object->agreement_body));
-		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">Podcasting Configuration</div><hr size="1" />'));
-		$form->register('enable_podcasting','Enable Podcasting?', new checkboxcontrol($object->enable_podcasting,true));
-		$form->register('feed_title',"Podcast Title",new textcontrol($object->feed_title,35,false,75));
-		$form->register('feed_desc',"Podcast Description",new texteditorcontrol($object->feed_desc));
-		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
+		$order_options = array(
+			'asc_posted'=>$i18n['sort_dateposted_asc'],
+			'desc_posted'=>$i18n['sort_dateposted_desc'],
+			'asc_edited'=>$i18n['sort_dateedited_asc'],
+			'desc_edited'=>$i18n['sort_dateedited_desc'],
+			'asc_downloads'=>$i18n['sort_downloads_asc'],
+			'desc_downloads'=>$i18n['sort_downloads_desc'],			
+			'asc_name'=>$i18n['sort_name_asc'],
+			'desc_name'=>$i18n['sort_name_desc'],
+			'rank_'=>$i18n['sort_rank'],
+			'random_'=>$i18n['sort_random']
+		);
+		
+		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['categories'].'</h3><hr size="1" />'));	
+		$form->register('enable_categories',$i18n['enable_categories'],new checkboxcontrol($object->enable_categories,true));		
+		$form->register('orderby',$i18n['sort_entries'],new dropdowncontrol($object->sort,$order_options));
+		$form->register('description',$i18n['list_description'], new htmleditorcontrol($object->description));
+		$form->register('allow_anon_downloads',$i18n['allows_anonymous_downloads'],new checkboxcontrol($object->allow_anon_downloads,true));
+		$form->register(null,'',new htmlcontrol('<h3>'.$i18n['confidentiality_agreement'].'</h3><hr size="1" />'));
+		$form->register('require_agreement',$i18n['require_confidentiality_agreement'],new checkboxcontrol($object->require_agreement,true));
+		$form->register('agreement_body',$i18n['enter_confidentiality_agreement'],new htmleditorcontrol($object->agreement_body));
+		$form->register(null,'',new htmlcontrol('<h3>'.$i18n['podcasting_configuration'].'</h3><hr size="1" />'));
+		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss,true));
+		$form->register('feed_title',$i18n['podcast_title'],new textcontrol($object->feed_title,35,false,75));
+		$form->register('feed_desc',$i18n['podcast_description'],new texteditorcontrol($object->feed_desc));
+		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
 	
 	function update($values,$object) {
+		$object->enable_categories = empty($values['enable_categories']) ? 0 : 1;
+		$object->description = preg_replace("/[\n\r]/","",$values['description']);
 		$object->allow_anon_downloads = isset($values['allow_anon_downloads']);
-		$object->enable_podcasting = isset($values['enable_podcasting']);
+		$object->enable_rss = isset($values['enable_rss']);
 		$object->require_agreement = isset($values['require_agreement']);
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
 		$object->agreement_body = $values['agreement_body'];
+		
+		$toks = explode('_',$values['orderby']);
+		switch ($toks[0]) {
+			case 'asc':
+				$object->orderhow = 0;
+				break;
+			case 'desc':
+				$object->orderhow = 1;
+				break;
+			case 'rank':
+				$object->orderhow = 2;
+				break;
+			case 'random':
+				$object->orderhow = 3;
+				break;
+		}
+		$object->orderby = $toks[1];
+		
 		return $object;
 	}
 }

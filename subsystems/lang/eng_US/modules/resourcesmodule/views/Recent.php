@@ -15,7 +15,7 @@ return array(
 	'delete_confirm'=>'Are you sure you want to delete this Resource?',
 	'alt_up'=>'Move this Resource Item Up',	
 	'alt_down'=>'Move this Resource Item Down',
-
+	
 	'upload'=>'Upload Resource',
 	'uploaded'=>'Uploaded',
 	'times'=>'times',	
@@ -47,6 +47,8 @@ return array(
 	
 	'revisions'=>'Revisions',	
 	'alt_revisions'=>'View Revision History for this Resource',
+	
+	'more_resources'=>'More Items',
 );
 
 ?>

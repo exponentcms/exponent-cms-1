@@ -25,7 +25,7 @@
 {if $config->enable_rss == 1}
 	<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}podcast_small.gif" height="20" width="20" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
-{if $moduletitle != ""}{$moduletitle}{/if}
+{if $moduletitle != ""}Recent {$moduletitle}{/if}
 </h2>
 <div class="itemactions">
 {permissions level=$smarty.const.UILEVEL_NORMAL}
@@ -40,34 +40,22 @@
 	{$config->description}
 {/if}
 
-<table cellspacing="0" cellpadding="4" border="1" bordercolor="lightgrey" width="100%" rules="rows" frame="above" >
+<ul>
 {assign var=listing_number value=0}
 {foreach name=c from=$data key=catid item=resources}
 	{assign var=category_printed value=0}
 	{assign var=listing_found value=0}
 	{if $hasCategories != 0}
-		<tr><td>
-		<hr size="1">
-		{if $catid != 0}
-			<a name="#{$categories[$catid]->name}"></a>
-			<h3>{$categories[$catid]->name}</h3>
-			<h5>{$_TR.total_files}: ({$cat_count[$catid]})</h5>
-		{elseif $resources}
-			<h3>{$_TR.no_category}</h3>
-			<h5>{$_TR.total_files}: ({$cat_count[$catid]})</h5>
-		{/if}	
-		</td></tr>
 		{assign var=category_printed value=1}
-	{else}
-		<tr><td><h5>{$_TR.total_files}: ({$resource_count})</h5></td></tr>
 	{/if}		
 	{foreach name=a from=$resources item=resource}
+{if $listing_number < $__viewconfig.num_posts}	
 		{assign var=id value=$resource->id}
 		{assign var=fid value=$resource->file_id}
 		{math equation="x-1" x=$resource->rank assign=prev}
 		{math equation="x+1" x=$resource->rank assign=next}
-		<tr><td  style="padding-left: 20px;">
-		<h4>
+		<li>
+		<h3>
 		{if $__viewconfig.show_icons && ($resource->mimetype->icon != "")}
 			<img src="{$smarty.const.MIMEICON_RELATIVE}{$resource->mimetype->icon}" title="{$resource->mimetype->name}" alt="{$resource->mimetype->name}" />
 		{/if}
@@ -79,7 +67,7 @@
 		{if !$resource->fileexists}
 			<p><b><i>(File is Missing)</i></b></p>
 		{/if}		
-		</h4>
+		</h3>
 		<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
@@ -117,8 +105,13 @@
 			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 			{/if}	
 		{/if}
+		</div>
+		{if $resource->category_id != 0 && $__viewconfig.show_category}
+			{assign var=cat1id value=$resource->category_id}
+			<div>from &quot;{$categories[$cat1id]->name}&quot;</div>
+		{/if}
+		<div class="itemactions">
 		{if $__viewconfig.show_player && $resource->filename != "" && $resource->fileexists && $resource->mimetype->mimetype == "audio/mpeg"}
-			<div>
 			<p id="snd{$resource->id}">mp3 file<p>
 			{literal}
 				<script type="text/javascript"> 
@@ -126,7 +119,6 @@
 				</script> 
 			{/literal}
 			<i>Length (mm:ss) - {$resource->duration}</i>
-			</div>
 		{/if}
 		{if $__viewconfig.direct_download}	
 			<div class="attribution">		
@@ -175,42 +167,44 @@
 				{$resource->description}
 			</div>
 		{/if}
-		</td></tr>
+		</li>
+		
+{/if}		
+		
 		{assign var=listing_found value=1}
 		{assign var=listing_number value=$listing_number+1}	
 	{foreachelse}
 		{ if (($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)) && (($listing_number >= $first) && ($listing_number <= $last)) && !$listing_found}	
 			{if ($hasCategories != 0) && !$category_printed}
 				<hr size="1">
-				<tr><td>
+				<li>
 				{if $catid != 0}
 					<h3>{$categories[$catid]->name}</h3>
 				{else}
 					<h3>{$_TR.no_category}</h3>
 				{/if}	
-				</td></tr>
+				</li>
 				{assign var=category_printed value=1}
 			{/if}			
-			<tr><td style="padding-left: 20px;"><em>{$_TR.no_resources}</em></td></tr>
+			<li><em>{$_TR.no_resources}</em></li>
 		{/if}	
 	{/foreach}
 {foreachelse}
 {/foreach}
-</table>
-<hr>
+</ul>
 <div class="itemactions">
+<p><a class="moreposts mngmntlink" href="{link _common=1 view='Default' action='show_view'}">{$_TR.more_resources} in &quot;{$moduletitle}&quot;</a></p>
 {permissions level=$smarty.const.UILEVEL_NORMAL}
-	{br}
 	{if $permissions.post == 1 && $noupload != 1}
 		<a class="mngmntlink additem" href="{link action=edit}">{$_TR.upload}</a>{br}
-		{*<a class="mngmntlink resources_mngmntlink" href="{link action=upload_zip}">{$_TR.zipfile}</a><br/>*}
+		{*<a class="mngmntlink resources_mngmntlink" href="{link action=upload_zip}">{$_TR.zipfile}</a>{br}*}
 	{/if}
 	{if $permissions.manage_approval == 1}
 		<a class="mngmntlink resources_mngmntlink" href="{link module=filemanager action=admin_mimetypes}">{$_TR.manage_filetypes}</a>{br}
 	{/if}
 	{if $permissions.administrate == 1}
 		{if $config->enable_categories == 1}
-			<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=resourcesmodule}">{$_TR.manage_categories}</a>
+			<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=resourcesmodule}">{$_TR.manage_categories}</a>{br}
 		{/if}			
 	{/if}
 {/permissions}
@@ -224,4 +218,5 @@
 		{/if}
 	</div>
 {/if}
+<hr>
 </div>

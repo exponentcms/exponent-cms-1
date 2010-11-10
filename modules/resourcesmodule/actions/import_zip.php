@@ -20,9 +20,11 @@
 if (!defined('EXPONENT')) exit('');
 
 include_once(BASE.'subsystems/files.php');
-
+echo "1";
+echo $_FILES['file']['tmp_name'];
 //check file to be sure it's a valid zip file
 $checkMime = mime_content_type($_FILES['file']['tmp_name']);
+echo "2";
 echo $checkMime;
 if ($checkMime == "application/x-zip"){
 	$post = $_POST;

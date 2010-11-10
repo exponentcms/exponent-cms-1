@@ -34,6 +34,9 @@ class resourceitem {
 		
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		$form->register('description',$i18n['description'],new htmleditorcontrol($object->description));
+		$form->register(null,'',new htmlcontrol('<h3>'.$i18n['posting_information'].'</h3><hr size="1" />'));
+		$checked = empty($object->posted) ? true : false;
+		$form->register('posted',$i18n['posted'],new yuidatetimecontrol($object->posted,$i18n['nopublish'], true, true, false, $checked));
 		
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
@@ -43,7 +46,10 @@ class resourceitem {
 	function update($values,$object) {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
-		
+		$object->posted = yuidatetimecontrol::parseData('posted',$values);
+		if (empty($object->posted)) {
+			$object->posted = time();
+		}
 		return $object;
 	}
 }

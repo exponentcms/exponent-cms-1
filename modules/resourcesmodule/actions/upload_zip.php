@@ -26,6 +26,7 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 	($resource != null && exponent_permissions_check('edit',$loc)) ||
 	($iloc != null && exponent_permissions_check('edit',$iloc))
 ) {
+	if (!defined('SYS_FORMS')) require_once(BASE.'subsystems/forms.php');
 	exponent_forms_initialize();
 	$form = new form();
 	$form->location($loc);
@@ -33,17 +34,17 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
  	$form->meta('referrer',$_SERVER['HTTP_REFERER']);	
 	$template = new template('resourcesmodule','_form_edit',$loc);
 	
-		$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/edit.php');
-		$form->register('submit','',new buttongroupcontrol('Upload', '', 'Cancel'));
-		$form->registerBefore('submit','file',$i18n['file'],new uploadcontrol());
-		
-		$dir = 'tmp/';
-		if (!is_really_writable(BASE.$dir)) {
-			$template->assign('dir_not_readable',1);
-			$form->controls['submit']->disabled = true;
-		} else {
-			$template->assign('dir_not_readable',0);
-		}
+	$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/edit.php');
+	$form->register('submit','',new buttongroupcontrol('Upload', '', 'Cancel'));
+	$form->registerBefore('submit','file',$i18n['file'],new uploadcontrol());
+	
+	$dir = 'tmp/';
+	if (!is_really_writable(BASE.$dir)) {
+		$template->assign('dir_not_readable',1);
+		$form->controls['submit']->disabled = true;
+	} else {
+		$template->assign('dir_not_readable',0);
+	}
 	$template->assign('form_html',$form->toHTML());
 	$template->assign('is_edit', 0);
 	$template->output();

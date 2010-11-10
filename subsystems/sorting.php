@@ -135,7 +135,21 @@ function exponent_sorting_byUpdatedAscending($a,$b) {
 function exponent_sorting_byUpdatedDescending($a,$b) {
 	return ($a->updated > $b->updated ? -1 : 1);
 }
+	
+/* exdoc
+ * Object sorting comparison function -- sorts by downloads in ascending order.
+ */
+function exponent_sorting_byDownloadsAscending($a,$b) {
+	return ($a->num_downloads < $b->num_downloads ? -1 : 1);
+}
 
+/* exdoc
+ * Object sorting comparison function -- sorts by downloads in descending order.
+ */
+function exponent_sorting_byDownloadsDescending($a,$b) {
+	return ($a->num_downloads > $b->num_downloads ? -1 : 1);
+}
+	
 /* exdoc
  * Object sorting comparison function -- sorts by name method return value in ascending order.
  * Uses a natural order, case-insensitive comparison algorithm (strnatcasecmp)

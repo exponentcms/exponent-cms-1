@@ -17,7 +17,6 @@
 #
 ##################################################
 
-
 if (!defined('EXPONENT')) exit('');
 
 //exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
@@ -38,7 +37,7 @@ if ($resource != null) {
 
 	// if the admin/user hasn't configured this module yet we'll allow anon-downloads
 	if (empty($config)) { 
-	if (empty($config)) $config->allow_anon_downloads = true;
+		if (empty($config)) $config->allow_anon_downloads = true;
 		$config->require_agreement = false;
 	}
 
@@ -50,10 +49,10 @@ if ($resource != null) {
 	}
 
 	if (!isset($config) || $config == null || $config->allow_anon_downloads != true) {
-    		if ( !exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
-      			echo '<div class="error">You do not have permissions to download this file.</div>';
-      			exit();
-    		}
+		if ( !exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
+			echo '<div class="error">You do not have permissions to download this file.</div>';
+			exit();
+		}
 	}
   
 	if ($resource->flock_owner != 0) {
@@ -73,40 +72,40 @@ if ($resource != null) {
 
         $filenametest = $file->directory . "/" . $file->filename;
 	
-    if (file_exists($filenametest)) {			
-	//increment the download counter
-      $db->increment("resourceitem","num_downloads",1,'id='.$resource->id);
-      ob_end_clean();
-      
-      // NO buffering from here on out or things break unexpectedly. - RAM
-      
-      // This code was lifted from phpMyAdmin, but this is Open Source, right?
-      // 'application/octet-stream' is the registered IANA type but
-      //        MSIE and Opera seems to prefer 'application/octetstream'
-     // It seems that other headers I've added make IE prefer octet-stream again. - RAM
+		if (file_exists($filenametest)) {			
+		//increment the download counter
+			$db->increment("resourceitem","num_downloads",1,'id='.$resource->id);
+			ob_end_clean();
 
-      $mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octet-stream;' : $file->mimetype;
+			// NO buffering from here on out or things break unexpectedly. - RAM
 
-      header('Content-Type: ' . $mime_type);
-      header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-      header("Content-length: ".filesize($filenametest));
-      header('Content-Transfer-Encoding: binary');
-      header('Content-Encoding:');
-      header('Content-Disposition: attachment; filename="' . $file->filename . '"');
-      // IE need specific headers
-      if (EXPONENT_USER_BROWSER == 'IE') {
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Pragma: public');
-		header('Vary: User-Agent');
-      } else {
-        header('Pragma: no-cache');
-      }
-      //Read the file out directly
-      readfile($filenametest);
-      exit();
-    } else {
-            echo SITE_404_HTML;
-         }
+			// This code was lifted from phpMyAdmin, but this is Open Source, right?
+			// 'application/octet-stream' is the registered IANA type but
+			//        MSIE and Opera seems to prefer 'application/octetstream'
+			// It seems that other headers I've added make IE prefer octet-stream again. - RAM
+
+			$mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octet-stream;' : $file->mimetype;
+
+			header('Content-Type: ' . $mime_type);
+			header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+			header("Content-length: ".filesize($filenametest));
+			header('Content-Transfer-Encoding: binary');
+			header('Content-Encoding:');
+			header('Content-Disposition: attachment; filename="' . $file->filename . '"');
+			// IE need specific headers
+			if (EXPONENT_USER_BROWSER == 'IE') {
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			header('Vary: User-Agent');
+			} else {
+			header('Pragma: no-cache');
+			}
+			//Read the file out directly
+			readfile($filenametest);
+			exit();
+		} else {
+			echo SITE_404_HTML;
+		}
 	} else {
 		echo SITE_404_HTML;
 	}

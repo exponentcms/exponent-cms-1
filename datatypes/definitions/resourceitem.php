@@ -33,7 +33,7 @@ return array(
 	'location_data'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>250,
-                DB_INDEX=>10),
+        DB_INDEX=>10),
 	'file_id'=>array(
 		DB_FIELD_TYPE=>DB_DEF_ID),
 	'flock_owner'=>array(
@@ -52,6 +52,8 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	'num_downloads'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	"category_id"=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),	
 );
 
 ?>

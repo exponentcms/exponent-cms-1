@@ -21,6 +21,8 @@ if (!defined('EXPONENT')) exit('');
 
 $resource = null;
 $iloc = null;
+$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/edit.php');
+
 if (isset($_GET['id'])) {
 	$resource = $db->selectObject('resourceitem','id='.intval($_GET['id']));
 	if ($resource) {
@@ -33,11 +35,27 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 	($resource != null && exponent_permissions_check('edit',$loc)) ||
 	($iloc != null && exponent_permissions_check('edit',$iloc))
 ) {
+	$config = $db->selectObject('resourcesmodule_config',"location_data='".serialize($loc)."'");
+	if ($config == null) {
+		//do nothing here yes.  
+	}
 	$form = resourceitem::form($resource);
 	$form->location($loc);
 	$form->meta('action','save');
 	
 	$template = new template('resourcesmodule','_form_edit',$loc);
+	
+	if ($config->enable_categories) {
+		$allcats = $db->selectObjects('category', "location_data='".serialize($loc)."'");
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		usort($allcats, "exponent_sorting_byRankAscending");
+		$catarray = array();
+		$catarray[0] = $i18n['no_category'];
+		foreach ($allcats as $cat) {
+			$catarray[$cat->id] = $cat->name;
+		}			
+		$form->registerBefore('name', 'categories', 'Select Category', new dropdowncontrol($resource->category_id, $catarray));
+	}	
 	
 	if (!isset($resource->id)) {
 		$ranks = array();
@@ -50,9 +68,8 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 	}
 	
 	if (!isset($resource->file_id)) {
-		$i18n = exponent_lang_loadFile('modules/resourcesmodule/actions/edit.php');
-		
-		$form->registerBefore('submit','file',$i18n['file'],new uploadcontrol());
+		$form->registerBefore('submit','file',"Upload a New ".$i18n['file'],new uploadcontrol());
+		$form->registerBefore('submit', 'fileexists', '(or) Select an Existing File', new customcontrol("<input class=\"kfm\" id=\"fileexists\" type=\"text\" name=\"fileexists\" size=\"80\" maxlength=\"200\">"));	
 		
 		$dir = 'files/resourcesmodule/'.$loc->src;
 		if (!is_really_writable(BASE.$dir)) {
@@ -62,7 +79,6 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 			$template->assign('dir_not_readable',0);
 		}
 	}
-	
 	$template->assign('form_html',$form->toHTML());
 	$template->assign('is_edit', (isset($_GET['id']) ? 1 : 0) );
 	$template->output();

@@ -60,6 +60,9 @@ class resourcesmodule {
 	
 	function show($view,$loc,$title = '') {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
+		include(BASE.'external/mp3file.php');
 		
 		$template = new template('resourcesmodule',$view,$loc);
 		
@@ -73,44 +76,230 @@ class resourcesmodule {
 		}
 		
 		global $db;
-		$location = serialize($loc);		
-		$cache = exponent_sessions_getCacheValue('resourcesmodule');
+		global $user;
+		$location = serialize($loc);	
+//+		
+		// $cache = exponent_sessions_getCacheValue('resourcesmodule');
 		
-        if(!isset($cache[$location])){
-			$resources = $db->selectObjects('resourceitem',"location_data='".$location."'");			
-			$cache[$location] = $resources;
-			exponent_sessions_setCacheValue('resourcesmodule', $cache);
-		} else {
-			$resources = $cache[$location];
-		}		
+        // if(!isset($cache[$location])){
+			// $resources = $db->selectObjects('resourceitem',"location_data='".$location."'");			
+			// $cache[$location] = $resources;
+			// exponent_sessions_setCacheValue('resourcesmodule', $cache);
+		// } else {
+			// $resources = $cache[$location];
+		// }		
+//-				
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
-		for ($i = 0; $i < count($resources); $i++) {
-			$iloc->int = $resources[$i]->id;
-			$resources[$i]->permissions = array(
-				'administrate'=>exponent_permissions_check('administrate',$iloc),
-				'edit'=>exponent_permissions_check('edit',$iloc),
-				'delete'=>exponent_permissions_check('delete',$iloc),
-			);
-		}
-		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-		usort($resources,'exponent_sorting_byRankAscending');
-		
-		$rfiles = array();
-		foreach ($db->selectObjects('file',"directory='$directory'") as $file) {
-			$file->mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
-			$rfiles[$file->id] = $file;
+				
+		$viewparams = $template->viewparams;
+		if ($viewparams == null) {
+			$viewparams = array('type'=>"default");
 		}
 		
+		// Get all of the categories for this Resources module:
+		$config = $db->selectObject('resourcesmodule_config',"location_data='".serialize($loc)."'");
+		if ($config == null) {
+			$config->enable_categories = 0;
+		} 
+		$cats = array();
+		$cats = $db->selectObjectsIndexedArray('category', "location_data='".serialize($loc)."'");
+		if ($config->enable_categories) {
+			if (count($cats) != 0) {
+				$template->assign('hasCategories', 1);				
+			} else {
+				$template->assign('hasCategories', 0);
+			}
+		} else {
+			$template->assign('hasCategories', 0);
+		}
+		$c->name = '';
+		$c->id = 0;
+		uasort($cats, "exponent_sorting_byRankAscending");
+		$cats[0] = $c;
+		$template->assign('categories', $cats);		
+
+		switch($config->orderby) {
+        	case "posted":
+				$field = "Posted";
+                break;
+			case "edited":
+				$field = "Edited";
+                break;
+			case "downloads":
+				$field = "Downloads";
+                break;
+			case "name":
+				$field = "Name";
+                break;
+			default:
+				$field = "Posted";
+                break;
+        }
+        
+		switch ($config->orderhow) {
+			// Four options, ascending, descending, by user selected rank, and random
+			case 0:
+				//usort($listings,'exponent_sorting_byNameAscending');
+				$sortFunc = 'exponent_sorting_by'.$field.'Ascending';
+				break;
+			case 1:
+				//usort($listings,'exponent_sorting_byNameDescending');
+				$sortFunc = 'exponent_sorting_by'.$field.'Descending';
+				break;
+			case 2:
+				//sort the listings by their rank
+				//usort($listings, 'exponent_sorting_byRankAscending');
+				$sortFunc = 'exponent_sorting_byRankAscending';
+				break;
+			case 3:
+				//shuffle($listings);
+				$sortFunc = '';
+				break;
+		}    
+
+		$data = array();
+		$cat_count = array();
+		$resource_count = 0;
+		if ($config->enable_categories == false || $viewparams['type'] == 'recent') {
+			$tmp = $db->selectObjects("resourceitem","location_data='".serialize($loc)."'");
+			$catids = array_keys($cats); // for in_array check only
+			for ($i = 0; $i < count($tmp); $i++) {
+				if (!in_array($tmp[$i]->category_id,$catids)) {
+					$tmp[$i]->category_id = 0;
+				}
+				if ($tmp[$i]->file_id == 0) {
+					$tmp[$i]->mimetype = '';
+					$tmp[$i]->filename = '';
+					$tmp[$i]->filesize = 0;
+					$tmp[$i]->duration = '0:0';
+				} else {
+					$file = $db->selectObject('file', 'id='.$tmp[$i]->file_id);
+					$tmp[$i]->mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
+//					$tmp[$i]->filename = URL_BASE.'/'.$file->directory.'/'.$file->filename;
+					$tmp[$i]->filename = URL_FULL.$file->directory.'/'.$file->filename;
+					$tmp[$i]->fileexists = file_exists(BASE.$file->directory.'/'.$file->filename);
+					$tmp[$i]->filesize = resourcesmodule::formatBytes(filesize(BASE.$file->directory.'/'.$file->filename));
+					if ($file->mimetype == "audio/mpeg"){
+						$mp3 = new mp3file(BASE.$file->directory.'/'.$file->filename);
+						$id3 = $mp3->get_metadata();
+						if (($id3['Encoding']=='VBR') || ($id3['Encoding']=='CBR')) {
+							$tmp[$i]->duration = $id3['Length mm:ss'];
+						} 
+					} else {
+						$tmp[$i]->duration = 'Unknown';
+					}
+				}	
+				$iloc->int = $tmp[$i]->id;
+				$tmp[$i]->permissions = array(
+					'administrate'=>exponent_permissions_check('administrate',$iloc),
+					'edit'=>exponent_permissions_check('edit',$iloc),
+					'delete'=>exponent_permissions_check('delete',$iloc),
+					'manage_approval'=>exponent_permissions_check('manage_approval',$iloc),	
+				);	
+				if ($tmp[$i]->flock_owner != 0) {
+					$tmp[$i]->lock_owner = exponent_users_getUserById($tmp[$i]->flock_owner);
+					$tmp[$i]->locked = 1;
+				} else {
+					$tmp[$i]->locked = 0;
+				}
+				if ($tmp[$i]->edited == 0) {
+					$tmp[$i]->edited = $tmp[$i]->posted;
+				}				
+			}	
+			if ($viewparams['type'] == 'recent') {
+				usort($tmp, 'exponent_sorting_byEditedDescending');
+			} elseif ($config->orderhow == 3) {
+				shuffle($tmp);
+			} else {				
+				usort($tmp, $sortFunc);
+			}
+			$data[0] = $tmp;
+			$resource_count = count($tmp);
+		} else {
+			foreach ($cats as $id=>$c) {
+				//Get all the questions & answers for this resources module. 
+				$tmp = $db->selectObjects("resourceitem","location_data='".serialize($loc)."' AND category_id=".$id);
+				$catids = array_keys($cats); // for in_array check only
+				for ($i = 0; $i < count($tmp); $i++) {
+					if (!in_array($tmp[$i]->category_id,$catids)) {
+						$tmp[$i]->category_id = 0;
+					}
+					if ($tmp[$i]->file_id == 0) {
+						$tmp[$i]->mimetype = '';
+						$tmp[$i]->filename = '';
+						$tmp[$i]->filesize = 0;
+						$tmp[$i]->duration = '0:0';
+					} else {
+						$file = $db->selectObject('file', 'id='.$tmp[$i]->file_id);
+						$tmp[$i]->mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
+//						$tmp[$i]->filename = URL_BASE.'/'.$file->directory.'/'.$file->filename;
+						$tmp[$i]->filename = URL_FULL.$file->directory.'/'.$file->filename;
+						$tmp[$i]->fileexists = file_exists(BASE.$file->directory.'/'.$file->filename);
+						$tmp[$i]->filesize = resourcesmodule::formatBytes(filesize(BASE.$file->directory.'/'.$file->filename));
+						if ($file->mimetype == "audio/mpeg"){
+							$mp3 = new mp3file(BASE.$file->directory.'/'.$file->filename);
+							$id3 = $mp3->get_metadata();
+							if (($id3['Encoding']=='VBR') || ($id3['Encoding']=='CBR')) {
+								$tmp[$i]->duration = $id3['Length mm:ss'];
+							} 
+						} else {
+							$tmp[$i]->duration = 'Unknown';
+						}
+					}
+					$iloc->int = $tmp[$i]->id;
+					$tmp[$i]->permissions = array(
+						'administrate'=>exponent_permissions_check('administrate',$iloc),
+						'edit'=>exponent_permissions_check('edit',$iloc),
+						'delete'=>exponent_permissions_check('delete',$iloc),
+						'manage_approval'=>exponent_permissions_check('manage_approval',$iloc),	
+					);		
+					if ($tmp[$i]->flock_owner != 0) {
+						$tmp[$i]->lock_owner = exponent_users_getUserById($tmp[$i]->flock_owner);
+						$tmp[$i]->locked = 1;
+					} else {
+						$tmp[$i]->locked = 0;
+					}	
+					if ($tmp[$i]->edited == 0) {
+						$tmp[$i]->edited = $tmp[$i]->posted;
+					}					
+				}
+				usort($tmp, $sortFunc);
+				$data[$id] = $tmp;
+				$cat_count[$id] = count($tmp);
+				$resource_count += count($tmp);
+			}
+		}		
+//+		
+		// for ($i = 0; $i < count($resources); $i++) {
+			// $iloc->int = $resources[$i]->id;
+			// $resources[$i]->permissions = array(
+				// 'administrate'=>exponent_permissions_check('administrate',$iloc),
+				// 'edit'=>exponent_permissions_check('edit',$iloc),
+				// 'delete'=>exponent_permissions_check('delete',$iloc),
+				// 'manage_approval'=>exponent_permissions_check('manage_approval',$iloc),				
+			// );
+		// }
+		// if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+		// usort($resources,'exponent_sorting_byRankAscending');
+		
+		// $rfiles = array();
+		// foreach ($db->selectObjects('file',"directory='$directory'") as $file) {
+			// $file->mimetype = $db->selectObject('mimetype',"mimetype='".$file->mimetype."'");
+			// $rfiles[$file->id] = $file;
+		// }
+//-		
 		$template->assign('moduletitle',$title);
-		$template->assign('resources',$resources);
-		$template->assign('files',$rfiles);
-		$template->assign('config',$db->selectObject('resourcesmodule_config', "location_data='".serialize($loc)."'"));
+//		$template->assign('resources',$resources);
+//		$template->assign('files',$rfiles);
+		$template->assign('data',$data);	
+		$template->assign('user',$user);		
+		$template->assign('cat_count',$cat_count);	
+		$template->assign('resource_count',$resource_count);			
+		$template->assign('config',$config);
 		$template->register_permissions(
-			array('administrate','configure','post','edit','delete'),
-			$loc);
-		
-		$template->output($view);
-		
+			array('administrate','configure','post','edit','delete','manage_approval','can_download'),
+			$loc);	
+		$template->output($view);		
 	}
 	
 	function deleteIn($loc) {
@@ -202,7 +391,7 @@ class resourcesmodule {
 		$items = array();
 		$items = $db->selectObjects("resourceitem", "location_data='".serialize($loc)."' AND approved='1'", 'posted DESC');
 		
-		//Convert the newsitems to rss items
+		//Convert the resource items to rss items
 		$rssitems = array();
 		foreach ($items as $key => $item) {	
 			$file = $db->selectObject('file', 'id='.$item->file_id);
@@ -232,6 +421,16 @@ class resourcesmodule {
 		}
 		return $rssitems;
 	}
+	
+	function formatBytes($bytes, $precision = 2) { 
+		$units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+		$bytes = max($bytes, 0); 
+		$pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+		$pow = min($pow, count($units) - 1); 
+		$bytes /= pow(1024, $pow); 
+		return round($bytes, $precision) . ' ' . $units[$pow]; 
+	} 
+
 }
 
 ?>

@@ -11,13 +11,17 @@ return array(
 	'locked_by'=>'This file is locked by %s',
 	'no_change'=>'You will not be able to edit or update it.',
 	'you_locked'=>'You have locked this file.  Other users will not be able to update it until you unlock it.',
-	
+
+	'uploaded'=>'Uploaded',	
 	'download'=>'Download',
+	'downloaded'=>'Downloaded',
+	'times'=>'times',
 	'update'=>'Update File',
 	'lock'=>'Lock',
 	'unlock'=>'Unlock',
 	
 	'revisions'=>'Revisions',
+	'alt_revisions'=>'View Revision History for this Resource',
 );
 
 ?>

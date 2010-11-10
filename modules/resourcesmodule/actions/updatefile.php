@@ -42,6 +42,7 @@ if ($item) {
 		if ($item->flock_owner != 0 && ($user->is_acting_admin == 1 || $user->id == $item->flock_owner)) {
 			$form->register('checkin',$i18n['unlock'],new checkboxcontrol(false,true));
 		}
+		$form->register('fileexists', '(or) Select an Existing File', new customcontrol("<input class=\"kfm\" id=\"fileexists\" type=\"text\" name=\"fileexists\" size=\"80\" maxlength=\"200\">"));	
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		$template = new template('resourcesmodule','_form_checkIn',$loc);

@@ -1,4 +1,6 @@
+num_posts			"Number of Resources on Initial View"	text
 show_icons			"Show File Type Icons"	checkbox
 show_descriptions	"Show Descriptions"		checkbox
+show_category		"Show Category"			checkbox
 direct_download		"Direct Download"		checkbox
 show_player			"Show Audio Player for mp3 files"		checkbox
