@@ -28,8 +28,10 @@
  *
  * $Id: _form_editfaq.tpl,v 1.2 2005/02/19 16:53:35 filetreefrog Exp $
  *}
+<div class="form_title">
+    {if $is_edit}Edit FAQ Entry{else}New FAQ Entry{/if}
+</div>
  <div class="form_header">
-    <h1>{if $is_edit}Edit FAQ Entry{else}New FAQ Entry{/if}</h1>
     <p>Enter Question and Answer Below.</p>
     {$form_html}
 </div>
