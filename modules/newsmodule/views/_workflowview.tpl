@@ -15,7 +15,7 @@
  *}
 <div class="fullitem news_fullitem">
 <div class="itemtitle news_itemtitle">{$item->title}</div>
-<div class="itembody news_itembody">
-{$item->body}
-</div>
+	<div class="itembody news_itembody">
+		{$item->body}
+	</div>
 </div>

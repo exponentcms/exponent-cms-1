@@ -17,7 +17,7 @@
 <div class="newsmodule default">
 	<h2>
 	{if $enable_rss == true}
-			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
@@ -56,9 +56,9 @@
 					</div>
 				{/permissions}
 			{*/if*}
-			<div class="bodycopy">
+			<div class="bodycopyfull">
 				{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}		
-				{$newsitem->body|summarize:"html":"para"}
+				{$newsitem->body}
 			</div>
 			<div class="post-footer">
 				{if $newsitem->edited == 0 || $config->sortfield == "publish" || $config->sortfield == "posted"}
@@ -70,7 +70,7 @@
 					{assign var='sortdate' value=$newsitem->edited}
 					{assign var='typepost' value=$_TR.updated}
 					{assign var='whopost'  value=$newsitem->editor}
-				{/if}			
+				{/if}
 				<a class="readmore" href="{if $newsitem->isRss}{$newsitem->rss_link}{else}{link action=view id=$newsitem->id}{/if}">{$_TR.read_more}<span> {$_TR.on} "{$newsitem->title}"</span></a>
 				| Read {$newsitem->reads} times |
 				{if $newsitem->posted > $smarty.now}
@@ -92,7 +92,7 @@
 	{assign var=more_news value=1}
 {/if}	
 	{foreachelse}
-		<p align="center"><i>{$_TR.no_news}No recent news</i></p>	
+		<p align="center"><i>{$_TR.no_news}No recent news</i></p>		
 	{/foreach}
 {br}	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}

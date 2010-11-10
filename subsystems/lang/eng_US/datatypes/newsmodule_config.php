@@ -1,7 +1,8 @@
 <?php
 
 return array(
-	'item_limit'=>'How Many Posts',
+	'item_limit'=>'How Many Items Per Page',
+	'show_poster'=>'Show Item Author',
 	'enable_pagination'=>'Enable pagination',
 	'sortorder'=>'Sort Order',
 	'sortfield'=>'Sort on',

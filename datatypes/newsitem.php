@@ -44,7 +44,7 @@ class newsitem {
 		$form->register('title',$i18n['title'],new textcontrol($object->title));
 		$form->register('body',$i18n['body'],new htmleditorcontrol($object->body));
 
-		$form->register(null,'',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['publish_information'].'</div><hr size="1" />'));
+		$form->register(null,'',new htmlcontrol('<h3>'.$i18n['publish_information'].'</h3><hr size="1" />'));
 		//$form->register('publish',$i18n['publish'],new popupdatetimecontrol($object->publish,$i18n['nopublish']));
 		$checked = empty($object->publish) ? true : false;
 		$form->register('publish',$i18n['publish'],new yuidatetimecontrol($object->publish,$i18n['nopublish'], true, true, false, $checked));
@@ -52,13 +52,13 @@ class newsitem {
 		$checked = empty($object->unpublish) ? true : false;
 		$form->register('unpublish',$i18n['unpublish'],new yuidatetimecontrol($object->unpublish,$i18n['nounpublish'], true, true, false, $checked));
 
-		$form->register('featured_header','',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['featured_info'].'</div><hr size="1" />'));
-                $form->register('is_featured',$i18n['feature'],new checkboxcontrol($object->is_featured,true));
+		$form->register('featured_header','',new htmlcontrol('<h3>'.$i18n['featured_info'].'</h3><hr size="1" />'));
+		$form->register('is_featured',$i18n['feature'],new checkboxcontrol($object->is_featured,true));
 
-                $form->register('image_header','',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['upload_file'].'</div><hr size="1" />'));
-                $form->register('file',$i18n['upload_image'],new uploadcontrol());
+		$form->register('image_header','',new htmlcontrol('<h3>'.$i18n['upload_file'].'</h3><hr size="1" />'));
+		$form->register('file',$i18n['upload_image'],new uploadcontrol());
 
-		$form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['tags'].'</div><hr size="1" />'));
+		$form->register('tag_header','',new htmlcontrol('<h3>'.$i18n['tags'].'</h3><hr size="1" />'));
 
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 

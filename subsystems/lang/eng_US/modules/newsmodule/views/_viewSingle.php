@@ -9,6 +9,16 @@ return array(
 	'alt_delete'=>'Delete this News Item',
 	'delete_confirm'=>'Are you sure you want to delete this News Item?',
 	'attribution'=>'posted by',
+	
+	'posted'=>'Posted',
+	'posted_by'=>'Posted by',
+	'updated'=>'Updated',
+	'by'=>'by',
+	'on'=>'on',
+	'to'=>'to',
+	'will_be'=>'Will be',
+	'was'=>'Was',
+	'now_unpublished'=>'Now Unpublished',	
 );
 
 ?>

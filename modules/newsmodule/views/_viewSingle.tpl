@@ -15,39 +15,60 @@
  *}
 
 <div class="newsmodule viewsingle">
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-	<div class="itempermissions">	
+	{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
+	{br}
+	<h2>{$newsitem->title}</h2>
+	<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $newsitem->permissions.edit_item == 1}
-			{if $newsitem->approved == 2} {* in ap *}
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
-			{else}
-			<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$newsitem->id}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-			</a>
+			{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
+				<a href="{link action=userperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
+				<a href="{link action=groupperms int=$newsitem->id _common=1}"><img src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" /></a>
 			{/if}
-		{/if}
-		{if $newsitem->permissions.delete_item == 1}
-			{if $newsitem->approved == 2} {* in ap *}
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
-			{else}
-			<a class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}" onclick="return confirm('{$_TR.delete_confirm}');">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-			</a>
+			{if $permissions.edit_item == true || $newsitem->permissions.edit_item == true}
+				{if $newsitem->approved == 2} {* in approval *}
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+				{else}
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit id=$newsitem->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+				{/if}
 			{/if}
-		{/if}
-		{/permissions}
+			{if $permissions.delete_item == true || $newsitem->permissions.delete_item == true}
+				{if $newsitem->approved == 2} {* in ap *}
+					<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+				{else}
+					<a onclick="return confirm('{$_TR.delete_confirm}');" class="mngmntlink news_mngmntlink" href="{link action=delete id=$newsitem->id}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+				{/if}
+			{/if}
+			{if $permissions.manage_approval == 1 || $newsitem->permissions.manage_approval == true}
+				<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=revisions_view id=$newsitem->id}" title="{$_TR.alt_revisions}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"/></a>
+			{/if}
+		{/permissions}	
 	</div>
-	<h1>{$newsitem->title}</h1>
-	<div class="bodycopy"> 
+	<div class="post-footer">
+		{if $newsitem->edited eq 0 || $config->sortfield == "publish"}
+			{*assign var='sortdate' value=$newsitem->real_posted*}
+			{assign var='sortdate' value=$newsitem->posted}
+			{assign var='typepost' value=$_TR.posted}
+			{assign var='whopost'  value=$newsitem->poster}
+		{else}
+			{assign var='sortdate' value=$newsitem->edited}
+			{assign var='typepost' value=$_TR.updated}
+			{assign var='whopost'  value=$newsitem->editor}
+		{/if}	
+		Read {$newsitem->reads} times |
+		{if $newsitem->posted > $smarty.now}
+			<b><u>{$_TR.will_be}&nbsp;
+		{elseif ($newsitem->unpublish != 0) && $newsitem->unpublish <= $smarty.now}
+			<b><u>{$_TR.was}&nbsp;
+		{/if}
+		{$typepost}{if $config->show_poster} {$_TR.by} {attribution user_id=$whopost} {$_TR.on} {/if}&nbsp;{$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+		{if $newsitem->posted > $smarty.now}
+			</u></b>&nbsp;
+		{elseif ($newsitem->unpublish != 0) && $newsitem->unpublish <= $smarty.now}
+			{$_TR.now_unpublished}</u></b>&nbsp;
+		{/if}
+	</div>		
+	<div class="bodycopyfull"> 
 		{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=250&height=300" alt="{$newsitem->title}">{/if}
-		{if $newsitem->edited eq 0}
-                        {assign var='sortdate' value=$newsitem->real_posted}
-                {else}
-                        {assign var='sortdate' value=$newsitem->edited}
-                {/if}
-
-		<span class="date">{$sortdate|format_date:"%B %e"}</span>
 		{$newsitem->body}
 	</div>
 </div>

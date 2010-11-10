@@ -59,6 +59,8 @@ return array(
 		DB_FIELD_LEN=>10000),
 	'is_featured'=>array(
                 DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'reads'=>array(
+                DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	'file_id'=>array(
                 DB_FIELD_TYPE=>DB_DEF_ID)
 );

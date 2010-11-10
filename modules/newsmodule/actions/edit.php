@@ -36,7 +36,7 @@ if ($news != null) {
 if (($news != null && exponent_permissions_check("edit_item",$loc)) || 
 	($news == null && exponent_permissions_check("add_item",$loc)) ||
 	($iloc != null   && exponent_permissions_check("edit_item",$iloc)) 
-) {
+	) {
 	$form = newsitem::form($news);
 	$form->location($loc);
 	$form->meta("action","save");
@@ -87,7 +87,6 @@ if (($news != null && exponent_permissions_check("edit_item",$loc)) ||
 		} else {
 			$form->registerAfter('tag_header','tags', '',new htmlcontrol('<br /><div>'.$i18n['no_tags_assigned'].'</div>'));
 		}
-
 	}	
 	$template = new template("newsmodule","_form_edit",$loc);
 	$template->assign("form_html",$form->toHTML());

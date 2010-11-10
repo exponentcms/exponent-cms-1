@@ -21,12 +21,12 @@ class newsmodule {
 	function name() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_name'); }
 	function author() { return 'OIC Group, Inc'; }
 	function description() { return exponent_lang_loadKey('modules/newsmodule/class.php','module_description'); }
-
+	
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
 	function getRSSType() { return "news"; }
-
+	
 	function supportsWorkflow() { return true; }
 
 	function permissions($internal = '') {
@@ -46,14 +46,16 @@ class newsmodule {
 			return array(
 				'administrate'=>$i18n['perm_administrate'],
 				'delete_item'=>$i18n['perm_delete_item'],
-				'edit_item'=>$i18n['perm_edit_item']
+				'edit_item'=>$i18n['perm_edit_item'],
+				'approve'=>$i18n['perm_approve'],
+				'manage_approval'=>$i18n['perm_manage_approval']
 			);
 		}
 	}
 
 	function getRSSContent($loc) {
 		global $db;
-
+	
 		//Get this modules configuration data
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 
@@ -68,10 +70,10 @@ class newsmodule {
 		$items = array();
 		//$items = $db->selectObjects("newsitem", "location_data='".serialize($loc)."'");
 		$items = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder);
-
+		
 		//Convert the newsitems to rss items
 		$rssitems = array();
-		foreach ($items as $key => $item) {
+		foreach ($items as $key => $item) {	
 			$rss_item = new FeedItem();
 			$rss_item->title = $item->title;
 			$rss_item->description = $item->body;
@@ -81,7 +83,7 @@ class newsmodule {
 		}
 		return $rssitems;
 	}
-
+	
 	function getLocationHierarchy($loc) {
 		if ($loc->int == '') {
 			return array($loc);
@@ -89,7 +91,7 @@ class newsmodule {
 			return array($loc,exponent_core_makeLocation($loc->mod,$loc->src));
 		}
 	}
-
+	
 	function deleteIn($location) {
 		global $db;
 		$refcount = $db->selectValue('sectionref', 'refcount', "source='".$loc->src."'");
@@ -102,16 +104,16 @@ class newsmodule {
 			$db->delete('newsitem',"location_data='".serialize($location)."'");
 		}
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
 		foreach ($db->selectObjects('newsitem',"location_data='".serialize($oloc)."'") as $n) {
 			$revs = $db->selectObjects('newsitem_wf_revision','wf_original='.$n->id);
-
+			
 			$n->location_data = serialize($nloc);
 			unset($n->id);
 			$n->id = $db->insertObject($n,'newsitem');
-
+			
 			foreach ($revs as $rev) {
 				unset($rev->id);
 				$rev->wf_original = $n->id;
@@ -120,35 +122,35 @@ class newsmodule {
 			}
 		}
 	}
-
+	
 	function show($view,$loc = null,$title = '') {
 		global $db, $user;
-
+		
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 		if (empty($config)) {
 			$config->sortorder = 'DESC';
 			$config->sortfield = 'posted';
 			$config->item_limit = 10;
-			$config->enable_pagination = 0;
+			$config->enable_pagination = 0;			
 			$config->enable_rss = false;
 			$config->group_by_tags = false;
 			$config->pull_rss = 0;
 			$config->aggregate = array();
 			$config->collections = serialize(array());
 		}
-
+	
 		$locsql = "(location_data='".serialize($loc)."'";
-                if (!empty($config->aggregate)) {
-                        $locations = unserialize($config->aggregate);
-                        foreach ($locations as $source) {
-                                $tmploc = null;
-                                $tmploc->mod = 'newsmodule';
-                                $tmploc->src = $source;
-                                $tmploc->int = '';
-                                $locsql .= " OR location_data='".serialize($tmploc)."'";
-                        }
-                }
-                $locsql .= ')';
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'newsmodule';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
+		}
+		$locsql .= ')';
 
 		// Check permissions for AP link
 		$canviewapproval = false;
@@ -162,84 +164,89 @@ class newsmodule {
 			}
 		}
 
-		if ($config->group_by_tags == true) {
-			$view = "_group_by_tags";
-		}
+		if ($config->group_by_tags == true) {	
+			$view = "_group_by_tags";	
+		} 
 
 		$template = new template('newsmodule',$view,$loc);
-
+		
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(
 			array('administrate','configure','add_item','delete_item','edit_item','manage_approval','view_unpublished'),
 			$loc
 		);
-
-		//If rss is enabled tell the view to show the RSS button
+	
+		//If rss is enabled tell the view to show the RSS button	
 		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
 		$template->assign('enable_rss', $config->enable_rss);
-
+		
 		//Get the tags that have been selected to be shown in the grouped by tag views
 		if (isset($config->show_tags)) {
-        		$available_tags = unserialize($config->show_tags);
-        	} else {
-        		$available_tags = array();
-        	}
+			$available_tags = unserialize($config->show_tags);
+		} else {
+			$available_tags = array();
+		}
 
 		//If this module was configured as an aggregant, then turn off check for the location_data
 		/*if (isset($config->aggregate) && $config->aggregate == true) {
 			$ifloc = '';
 		} else {
 			$ifloc = "location_data='" . serialize($loc) . "' AND ";
-		}*/
-
-
+		}*/			
+			
 		// pagination by item_limit
-		$total = $db->countObjects('newsitem', $locsql." AND (publish = 0 or publish <= " .
-									time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0");
+		$total = $db->countObjects('newsitem', $locsql." AND (publish = 0 or publish <= " . 
+			time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0");
 
+		if ($template->viewconfig['featured_only']) {
+			$locsql .= " AND is_featured=1 ";
+		}			
 		if($config->enable_pagination == 0) {
 			//Get the news items.
-			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
-		} else {
-			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " .
-						time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.
-						$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
+			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . time() . 
+				') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . 
+				$config->sortorder ); //. $db->limit($config->item_limit,0));
+		} else {				
+			$news = $db->selectObjects('newsitem',$locsql." AND (publish = 0 or publish <= " . 
+				time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.
+				$config->sortfield.' ' . $config->sortorder . $db->limit($config->item_limit,0));
 		}
-
-
-		$featured = $db->selectObjects('newsitem',$locsql." AND is_featured AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
+			
+//		$featured = $db->selectObjects('newsitem',$locsql." AND is_featured AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder ); //. $db->limit($config->item_limit,0));
 
 		for ($i = 0; $i < count($news); $i++) {
-			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
+//			$news[$i]->real_posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
+			$news[$i]->posted = ($news[$i]->publish != 0 ? $news[$i]->publish : $news[$i]->posted);
+			if ($news[$i]->publish == 0) {$news[$i]->publish = $news[$i]->posted;}
 			$nloc = exponent_core_makeLocation($loc->mod,$loc->src,$news[$i]->id);
 			$news[$i]->permissions = array(
 				'edit_item'=>((exponent_permissions_check('edit_item',$loc) || exponent_permissions_check('edit_item',$nloc)) ? 1 : 0),
 				'delete_item'=>((exponent_permissions_check('delete_item',$loc) || exponent_permissions_check('delete_item',$nloc)) ? 1 : 0),
 				'administrate'=>((exponent_permissions_check('administrate',$loc) || exponent_permissions_check('administrate',$nloc)) ? 1 : 0)
 			);
-
+			
 			//Get the image file if there is one.
-                       	if (isset($news[$i]->file_id) && $news[$i]->file_id > 0) {
-                               	$file = $db->selectObject('file', 'id='.$news[$i]->file_id);
-                                $news[$i]->image_path = $file->directory.'/'.$file->filename;
-       	                }
-
+			if (isset($news[$i]->file_id) && $news[$i]->file_id > 0) {
+				$file = $db->selectObject('file', 'id='.$news[$i]->file_id);
+				$news[$i]->image_path = $file->directory.'/'.$file->filename;
+			}
+	
 			//Get the tags for this newsitem
 			$selected_tags = array();
-	        	$tag_ids = unserialize($news[$i]->tags);
-	        	if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+			$tag_ids = unserialize($news[$i]->tags);
+			if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 			$news[$i]->tags = $selected_tags;
-
+	
 			//If this module was configured to group the newsitems by tags, then we need to change the data array a bit
 			if ($config->group_by_tags == true) {
 				$grouped_news = array();
 				foreach($news[$i]->tags as $tag) {
 					if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
-						if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();}
+						if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();} 
 						array_push($grouped_news[$tag->name],$news[$i]);
 					}
 				}
-			}
+			}	
 		}
 
 		foreach ($news as $item){
@@ -251,7 +258,7 @@ class newsmodule {
 		}
 
 // Pull in RSS feeds. -RAM
-        if (!empty($config->pull_rss)) {
+        if (!empty($config->pull_rss)) {	
             if ($config->rss_cachetime != 3600) {
                 define('MAGPIE_CACHE_AGE', $config->rss_cachetime);
             }
@@ -276,33 +283,33 @@ class newsmodule {
                 }
             }
         }
-
-	switch($config->sortfield) {
+       
+		switch($config->sortfield) {
         	case "posted":
-                    $field = "Posted";
+				$field = "Posted";
                 break;
-                case "publish":
-                    $field = "Published";
+			case "publish":
+				$field = "Published";
                 break;
-                case "edited":
-                    $field = "Edited";
+			case "edited":
+				$field = "Edited";
                 break;
-                default:
-                    $field = "Posted";
+			default:
+				$field = "Posted";
                 break;
         }
-
-	if ($config->sortorder == "ASC") {
+        
+		if ($config->sortorder == "ASC") {
         	$order = "Ascending";
         } else {
         	$order = "Descending";
         }
-
-	$sortFunc = 'exponent_sorting_by'.$field.$order;
-
-	if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
+        
+		$sortFunc = 'exponent_sorting_by'.$field.$order;
+        
+		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
         usort($news,$sortFunc);
-        usort($featured,$sortFunc);
+//      usort($featured,$sortFunc);
         $news = array_slice($news, 0, $config->item_limit);
 		// EVIL WORKFLOW
 		$in_approval = $db->countObjects('newsitem_wf_info',"location_data='".serialize($loc)."'");
@@ -310,37 +317,35 @@ class newsmodule {
 		$template->assign('in_approval',$in_approval);
 		if($config->group_by_tags == true) {$template->assign('news',$grouped_news);} else {$template->assign('news',$news);}
 
-
 		// pagination
 		$template->assign('enable_pagination', $config->enable_pagination);
 		$template->assign('total_news', $total);
 		$template->assign('item_limit', $config->item_limit);
-
-
+		
 		$template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
-		$template->assign('featured', $featured);
-		$template->assign('config', $config);
-		$template->assign('morenews',count($news) < $db->countObjects('newsitem',"location_data='" . serialize($loc) . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
-
+//		$template->assign('featured', $featured);
+		$template->assign('config', $config);		
+//		$template->assign('morenews',count($news) < $db->countObjects('newsitem',$locsql . "' AND (publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0'));
+		$template->assign('morenews', count($news) < $total);	
 		$template->output();
 	}
 
 	function searchName() {
-                return "News Listings";
-        }
-
+		return "News Listings";
+	}
+	
 	function spiderContent($item = null) {
 		global $db;
-
+		
 		$i18n = exponent_lang_loadFile('modules/newsmodule/class.php');
-
+		
 		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
-
+		
 		$search = null;
 		$search->category = $i18n['search_category'];
 		$search->ref_module = 'newsmodule';
 		$search->ref_type = 'newsitem';
-
+		
 		if ($item) {
 			$db->delete('search',"ref_module='newsmodule' AND ref_type='newsitem' AND original_id=" . $item->id);
 			$search->original_id = $item->id;
@@ -360,7 +365,7 @@ class newsmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-
+		
 		return true;
 	}
 

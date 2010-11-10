@@ -20,8 +20,21 @@
 if (!defined("EXPONENT")) exit("");
 
 exponent_flow_set(SYS_FLOW_PROTECTED,SYS_FLOW_ACTION);
-$news = $db->selectObject("newsitem","id=" . intval($_GET['id']));
+if (isset($_GET['id'])) {
+	$news = $db->selectObject("newsitem","id=" . intval($_GET['id']));
+} else if (isset($_GET['title'])) {
+	$news = $db->selectObject("newsitem","title='" . router::decode($_REQUEST['title'])."'");
+} else if (isset($_GET['internal_name'])) {
+	$news = $db->selectObject("newsitem","internal_name='".$_GET['internal_name']."'".$where);
+}
+
 if ($news != null) {
+	#Added to count reads of each story
+	$old_read_count = $news->reads;
+	$new_read_count = $old_read_count + 1;
+	$news->reads = $new_read_count;
+	$db->updateObject($news,"newsitem");
+
 	$loc = unserialize($news->location_data);
 	$iloc = $loc;
 	$iloc->int = $news->id;
@@ -29,7 +42,8 @@ if ($news != null) {
 	$news->permissions = array(
 		"edit_item"=>((exponent_permissions_check("edit_item",$loc) || exponent_permissions_check("edit_item",$iloc)) ? 1 : 0),
 		"delete_item"=>((exponent_permissions_check("delete_item",$loc) || exponent_permissions_check("delete_item",$iloc)) ? 1 : 0),
-		"administrate"=>((exponent_permissions_check("administrate",$loc) || exponent_permissions_check("administrate",$iloc)) ? 1 : 0)
+		"administrate"=>((exponent_permissions_check("administrate",$loc) || exponent_permissions_check("administrate",$iloc)) ? 1 : 0),
+		"manage_approval"=>((exponent_permissions_check("manage_approval",$loc) || exponent_permissions_check("manage_approval",$iloc)) ? 1 : 0)
 	);
 	$file = $db->selectObject("file","id=".$news->file_id);
 	if(!empty($file)){
@@ -37,15 +51,31 @@ if ($news != null) {
 		//$item->image = URL_FULL.$file->directory.'/'.$file->filename;
 	}
 	
-	
-	$news->real_posted = ($news->publish != 0 ? $news->publish : $news->posted);
+//	$news->real_posted = ($news->publish != 0 ? $news->publish : $news->posted);
+	$news->posted = ($news->publish != 0 ? $news->publish : $news->posted);
+	if ($news->publish == 0) {$news->publish = $news->posted;}
 	
 	$view = (isset($_GET['view']) ? $_GET['view'] : "_viewSingle");
+	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+
+	// Check permissions for AP link
+	$canviewapproval = false;
+	if ($user) $canviewapproval = exponent_permissions_check('approve',$loc) || exponent_permissions_check('manage_approval',$loc);
+	if (!$canviewapproval) { // still not able to view
+		if ($user && $user->id == $news->poster) {
+			$canviewapproval = true;
+			break;
+		}
+	}
+	
 	$template = new template("newsmodule",$view,$loc);
 	
 	$template->assign("newsitem",$news);
+	$template->assign('canview_approval_link',$canviewapproval);
+	$template->assign('config', $config);		
 	$template->assign("loc",$loc);
-	
+	$template->assign('moduletitle',$title);
+
 	$template->output();
 } else {
 	echo SITE_404_HTML;
