@@ -13,24 +13,28 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-{/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-{if $moduletitle != ""}<div class="moduletitle calendar_moduletitle">{$moduletitle}</div>{/if}
-<table cellspacing="0" cellpadding="4" border="0" width="100%">
-{foreach from=$items item=item}
-	<tr>
-		<td><a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$item->id date_id=$item->eventdate->id}">{$item->title}</a></td>
-		<td align="right">
+ 
+<div class="calendarmodule upcoming">
+	<div class="itemactions">
+		<a class="monthviewlink" href="{link action=viewmonth time=$time}">{$_TR.calendar_view}</a>
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
+			{if $permissions.administrate == 1}
+				&nbsp;&nbsp;|&nbsp;&nbsp;<a class="adminviewlink mngmntlink" href="{link _common=1 view='Administration' action='show_view' time=$time}">{$_TR.administration_view}</a>
+			{/if}
+		{/permissions}
+		&nbsp;&nbsp;|&nbsp;&nbsp;{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
+	</div>
+	<h2>
+	{if $enable_rss == true}
+		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+	{/if}
+	{if $moduletitle != ""}{$moduletitle}{/if}
+	</h2>
+	<dl class="viewweek">
+	{foreach from=$items item=item}
+		<dt>
+			<b><a class="itemtitle" href="{link action=view id=$item->id date_id=$item->eventdate->id}">{$item->title}</a></b>
+			<div class="itemactions">
 			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 				{if $permissions.administrate == 1 || $item->permissions.administrate == 1}
 					<a class="mngmntlink calendar_mngmntlink" href="{link action=userperms int=$item->id _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>
@@ -60,41 +64,45 @@
 					<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=revisions_view id=$item->id}" title="{$_TR.alt_revisions}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}" /></a>
 				{/if}
 			{/permissions}
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		{if $item->is_allday == 1}
-			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
-		{else}
-			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} - {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
-		{/if}
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
+			</div>
+		</dt>
+		<dd>
+			<strong>
+			{if $item->is_allday == 1}
+				{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+			{else}
+				{if $item->eventstart != $item->eventend}
+					{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @  {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
+				{else}
+					{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @  {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
+				{/if}
+			{/if}
+			</strong>
+		</dd>
+		<dd>
 			{$item->body|summarize:html:para}
-		</td>
-	</tr>
-{foreachelse}
-	<tr><td align="center"><i>{$_TR.no_event}</i></td></tr>
-{/foreach}
-</table>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.post == 1}
-<a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a>
-{/if}
-<br />
-{if $in_approval != 0 && $canview_approval_link == 1}
-<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.approval}</a>
-{/if}
-{if $modconfig->enable_categories == 1}
-{if $permissions.administrate == 1}
-<br />
-<a href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">{$_TR.manage_categories}</a>
-{else}
-<br />
-<a class="mngmntlink calendar_mngmntlink" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>
-{/if}
-{/if}
-{/permissions}
+		</dd>
+	{foreachelse}
+		<<dd><em>{$_TR.no_events}</em></dd>
+	{/foreach}
+	</dl>
+	
+	<div class="itemactions">
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.post == 1}
+			<p><a class="addevent mngmntlink" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a></p>
+		{/if}
+		{if $in_approval != 0 && $canview_approval_link == 1}
+			<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.approval}</a>
+			{br}
+		{/if}
+		{if $config->enable_categories == 1}
+			{if $permissions.manage_categories == 1}
+				<a class="mngmntlinkcats" href="{link module=categories orig_module=calendarmodule action=manage}" class="mngmntlink calendar_mngmntlink">{$_TR.manage_categories}</a>
+			{else}
+				<a class="cats" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>
+			{/if}
+		{/if}
+	{/permissions}
+	</div>
+</div>

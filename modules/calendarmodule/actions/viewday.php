@@ -16,7 +16,7 @@
 # GPL: http://www.gnu.org/licenses/gpl.txt
 #
 ##################################################
-
+ 
 if (!defined("EXPONENT")) exit("");
 
 exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
@@ -24,10 +24,12 @@ exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 $time = (isset($_GET['time']) ? $_GET['time'] : time());
 $info = getdate(intval($time));
 $start = mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
+$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 
 $template = new template("calendarmodule","_viewday",$loc,false,$loc);
 
 $locsql = "(location_data='".serialize($loc)."'";
+// look for possible aggregate
 $config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
 if (!empty($config->aggregate)) {
 	$locations = unserialize($config->aggregate);
@@ -40,37 +42,49 @@ if (!empty($config->aggregate)) {
 	}
 }
 $locsql .= ')';
-
-$dates = $db->selectObjects("eventdate",$locsql." AND date = " . $start);
+//$dates = $db->selectObjects("eventdate","location_data='".serialize($loc)."' AND date = '" . $start . "'");
+$dates = $db->selectObjects("eventdate",$locsql." AND date = '" . $start . "'");
 $events = array();
 foreach ($dates as $d) {
 	$o = $db->selectObject("calendar","id=".$d->event_id);
-	$o->eventstart += $d->date;
-	$o->eventend += $d->date;
-	$o->eventdate = $d;
-	$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$o->id);
-	$o->permissions = array(
-		"administrate"=>(exponent_permissions_check("administrate",$thisloc) || exponent_permissions_check("administrate",$loc)),
-		"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
-		"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
-	);
-	//Get the image file if there is one.
-	if (isset($o->file_id) && $o->file_id > 0) {
-		$file = $db->selectObject('file', 'id='.$o->file_id);
-		$o->image_path = $file->directory.'/'.$file->filename;
+	if ($o != null) {
+		$o->eventdate = $d;
+		$o->eventstart += $d->date;
+		$o->eventend += $d->date;
+		$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$o->id);
+		$o->permissions = array(
+			"administrate"=>(exponent_permissions_check("administrate",$thisloc) || exponent_permissions_check("administrate",$loc)),
+			"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
+			"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
+		);
+		//Get the image file if there is one.
+		if (isset($o->file_id) && $o->file_id > 0) {
+			$file = $db->selectObject('file', 'id='.$o->file_id);
+			$o->image_path = $file->directory.'/'.$file->filename;
+		}
+		
+		$events[] = $o;
 	}
-
-	$events[] = $o;
 }
 
 $template->register_permissions(
 	array("manage_approval"),
 	$loc);
 
+if (!$config) {
+	$config->enable_categories = 0;
+	$config->enable_rss = 0;
+}
+
+$template->assign("config",$config);
+if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+$template->assign("enable_rss", $config->enable_rss);
+
 $template->assign("events",$events);
 $template->assign("now",$time);
 $template->assign("nextday",$time+86400);
 $template->assign("prevday",$time-86400);
+$template->assign('moduletitle',$title);
 
 $template->output();
 

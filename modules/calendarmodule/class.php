@@ -28,24 +28,49 @@ class calendarmodule {
 	function supportsWorkflow() { return true; }
 
 	function getRSSContent($loc) {
-                global $db;
+		global $db;
 
-                //Get this modules items
-                $items = array();
-                $items = $db->selectObjects("calendar", "location_data='".serialize($loc)."'");
+		//Get this modules configuration data
+		$config = $db->selectObject('calendarmodule_config',"location_data='".serialize($loc)."'");
+	
+		//If this module was configured as an aggregator, then turn off check for the location_data
+		$locsql = "(location_data='".serialize($loc)."'";
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'calendarmodule';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
+		}
+		$locsql .= ')';
+							
+		$items = array();
+		$dates = null;
+		if (!function_exists("exponent_datetime_startOfDayTimestamp")) {
+			if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");               
+		}
+		$day = exponent_datetime_startOfDayTimestamp(time());
+		$sort_asc = true; // For the getEventsForDates call 
+			
+		$dates = $db->selectObjects("eventdate", $locsql." AND date >= $day ORDER BY date ASC ");                   
+		$items = calendarmodule::_getEventsForDates($dates, $sort_asc);           
 
-                //Convert the newsitems to rss items
-                $rssitems = array();
-                foreach ($items as $key => $item) {
-                        $rss_item = new FeedItem();
-                        $rss_item->title = $item->title;
-                        $rss_item->description = $item->body;
-                        $rss_item->date = date('r', $item->posted);
-                        $rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
-                        $rssitems[$key] = $rss_item;
-                }
-                return $rssitems;
-        }
+		//Convert the events to rss items
+		$rssitems = array();
+		foreach ($items as $key => $item) {
+			$rss_item = new FeedItem();
+			$rss_item->title = $item->title;
+			$rss_item->description = $item->body;
+			$rss_item->date = $item->eventstart;
+//          $rss_item->date = date('r', $item->posted);
+			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
+			$rssitems[$key] = $rss_item;
+		}
+		return $rssitems;
+	}
 
 	function copyContent($oloc,$nloc) {
 
@@ -100,6 +125,9 @@ class calendarmodule {
 		$locsql .= ')';
 
 		$template = new template('calendarmodule',$view,$loc);
+		if ($title == '') {
+			$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+		}
 		$template->assign('moduletitle',$title);
 
 		$canviewapproval = false;
@@ -118,9 +146,9 @@ class calendarmodule {
 
 		$template->assign("time",$time);
 
-		$viewconfig = $template->viewparams;
-		if ($viewconfig === null) {
-			$viewconfig = array("type"=>"default");
+		$viewparams = $template->viewparams;
+		if ($viewparams === null) {
+			$viewparams = array("type"=>"default");
 		}
 
 		if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
@@ -131,7 +159,7 @@ class calendarmodule {
 				return ($a->eventstart < $b->eventstart ? -1 : 1);
 			}
 		}
-		if ($viewconfig['type'] == "minical") {
+		if ($viewparams['type'] == "minical") {
 			$monthly = exponent_datetime_monthlyDaysTimestamp($time);
 			$info = getdate($time);
 			$timefirst = mktime(12,0,0,$info['mon'],1,$info['year']);
@@ -148,7 +176,7 @@ class calendarmodule {
 					}
 				}
 			}
-//eDebug($monthly);
+//eDebug($monthly);			
 			$template->assign("monthly",$monthly);
 			$template->assign("currentweek",$currentweek);
 			$template->assign("currentday",$currentday);
@@ -158,19 +186,19 @@ class calendarmodule {
 			$template->assign("prevmonth",$prevmonth);
 			$template->assign("thismonth",$timefirst);
 			$template->assign("nextmonth",$nextmonth);
-		} else if ($viewconfig['type'] == "byday") {
+		} else if ($viewparams['type'] == "byday") {
 		  // Remember this is the code for weekly view and monthly listview
 		  // Test your fixes on both views before submitting your changes to cvs
    			$startperiod = 0;
 			$totaldays = 0;
-			if ($viewconfig['range'] == "week") {
+			if ($viewparams['range'] == "week") {
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
-			} else if ($viewconfig['range'] == "twoweek") {
+			} else if ($viewparams['range'] == "twoweek") {
 				$time= time();
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
-				$totaldays = 14;
-			} else {
+				$totaldays = 14;				
+			} else {  // range = month
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
 				$totaldays  = date('t', $time);
 			}
@@ -179,20 +207,17 @@ class calendarmodule {
 
 			$days = array();
 			// added per Ignacio
-
 			$endofmonth = date('t', $time);
 			for ($i = 1; $i <= $totaldays; $i++) {
 				$info = getdate($time);
-
-        		if ( $viewconfig['range'] == "week" ) {
-          				$start = mktime(12,0,0,$info['mon'],$i,$info['year']);
-				} else if ( $viewconfig['range'] == "twoweek" ) {
-          				$start = mktime(12,0,0,$info['mon'],$info['mday']+($i-1),$info['year']);
-//          				$start = $startperiod + ($i*86400);
-				} else {
-          				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
+				if ( $viewparams['range'] == "week" ) {
+					$start = mktime(12,0,0,$info['mon'],$i,$info['year']);
+				} else if ( $viewparams['range'] == "twoweek" ) {
+       				$start = mktime(12,0,0,$info['mon'],$info['mday']+($i-1),$info['year']);
+//          		$start = $startperiod + ($i*86400);
+				} else {  // range = month
+					$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				}
-
 				$edates = $db->selectObjects("eventdate",$locsql." AND date = '".$start."'");
 				$days[$start] = calendarmodule::_getEventsForDates($edates);
 				for ($j = 0; $j < count($days[$start]); $j++) {
@@ -203,34 +228,28 @@ class calendarmodule {
 						"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 					);
 				}
-
 				usort($days[$start],"exponent_sorting_byEventStartAscending");
 			}
 			$template->assign("days",$days);
-		} else if ($viewconfig['type'] == "monthly") {
+		} else if ($viewparams['type'] == "monthly") {
 			$monthly = array();
 			$counts = array();
-
 			$info = getdate($time);
 			$nowinfo = getdate(time());
 			if ($info['mon'] != $nowinfo['mon']) $nowinfo['mday'] = -10;
 			// Grab non-day numbers only (before end of month)
 			$week = 0;
 			$currentweek = -1;
-
 			$timefirst = mktime(12,0,0,$info['mon'],1,$info['year']);
 			$infofirst = getdate($timefirst);
-
 			$monthly[$week] = array(); // initialize for non days
 			$counts[$week] = array();
-
 			if ( ($infofirst['wday'] == 0) && (DISPLAY_START_OF_WEEK == 1) ) {
 				for ($i = -6; $i < (1-DISPLAY_START_OF_WEEK); $i++) {
 					$monthly[$week][$i] = array();
 					$counts[$week][$i] = -1;
 				}
 				$weekday = $infofirst['wday']+7; // day number in grid.  if 7+, switch weeks
-
 			} else {
 				for ($i = 1 - $infofirst['wday']; $i < (1-DISPLAY_START_OF_WEEK); $i++) {
 					$monthly[$week][$i] = array();
@@ -238,21 +257,16 @@ class calendarmodule {
 				}
 				$weekday = $infofirst['wday']; // day number in grid.  if 7+, switch weeks
 			}
-
 			// Grab day counts (deprecated, handled by the date function)
 			// $endofmonth = exponent_datetime_endOfMonthDay($time);
-
 			$endofmonth = date('t', $time);
-
 			for ($i = 1; $i <= $endofmonth; $i++) {
 				$start = mktime(0,0,0,$info['mon'],$i,$info['year']);
 				if ($i == $nowinfo['mday']) $currentweek = $week;
 				#$monthly[$week][$i] = $db->selectObjects("calendar","location_data='".serialize($loc)."' AND (eventstart >= $start AND eventend <= " . ($start+86399) . ") AND approved!=0");
-
 				//$dates = $db->selectObjects("eventdate",$locsql." AND date = $start");
 				$dates = $db->selectObjects("eventdate",$locsql." AND date = '".$start."'");
 				$monthly[$week][$i] = calendarmodule::_getEventsForDates($dates);
-
 				$counts[$week][$i] = count($monthly[$week][$i]);
 				if ($weekday >= (6+DISPLAY_START_OF_WEEK)) {
 					$week++;
@@ -266,30 +280,30 @@ class calendarmodule {
 				$monthly[$week][$i+$endofmonth] = array();
 				$counts[$week][$i+$endofmonth] = -1;
 			}
-//eDebug($monthly);
+//eDebug($monthly);			
 			$template->assign("currentweek",$currentweek);
 			$template->assign("monthly",$monthly);
 			$template->assign("counts",$counts);
 			$template->assign("nextmonth",$timefirst+(86400*45));
 			$template->assign("prevmonth",$timefirst-(86400*15));
 			$template->assign("now",$timefirst);
-		} else if ($viewconfig['type'] == "administration") {
+			$template->assign("today",strtotime('today')-39600);
+		} else if ($viewparams['type'] == "administration") {
 			// Check perms and return if cant view
-			if ($viewconfig['type'] == "administration" && !$user) return;
-
-			$continue = (	exponent_permissions_check("administrate",$loc) ||
-					exponent_permissions_check("post",$loc) ||
-					exponent_permissions_check("edit",$loc) ||
-					exponent_permissions_check("delete",$loc) ||
-					exponent_permissions_check("approve",$loc) ||
-					exponent_permissions_check("manage_approval",$loc)
+			if ($viewparams['type'] == "administration" && !$user) return;
+			$continue = (exponent_permissions_check("administrate",$loc) ||
+						exponent_permissions_check("post",$loc) ||
+						exponent_permissions_check("edit",$loc) ||
+						exponent_permissions_check("delete",$loc) ||
+						exponent_permissions_check("approve",$loc) ||
+						exponent_permissions_check("manage_approval",$loc)
 				) ? 1 : 0;
-			$dates = $db->selectObjects("eventdate",$locsql. "'");
+			$dates = $db->selectObjects("eventdate",$locsql);
 			$items = calendarmodule::_getEventsForDates($dates);
 			if (!$continue) {
 				foreach ($items as $i) {
 					$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$i->id);
-					if (	exponent_permissions_check("edit",$iloc) ||
+					if (exponent_permissions_check("edit",$iloc) ||
 						exponent_permissions_check("delete",$iloc) ||
 						exponent_permissions_check("administrate",$iloc)
 					) {
@@ -298,7 +312,6 @@ class calendarmodule {
 				}
 			}
 			if (!$continue) return;
-
 			for ($i = 0; $i < count($items); $i++) {
 				$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
 				if ($user && $items[$i]->poster == $user->id) $canviewapproval = 1;
@@ -307,31 +320,27 @@ class calendarmodule {
 					"edit"=>(exponent_permissions_check("edit",$thisloc) || exponent_permissions_check("edit",$loc)),
 					"delete"=>(exponent_permissions_check("delete",$thisloc) || exponent_permissions_check("delete",$loc))
 				);
-
 			}
 			usort($items,"exponent_sorting_byEventStartAscending");
-
 			$template->assign("items",$items);
-		} else if ($viewconfig['type'] == "default") {
-			if (!isset($viewconfig['range'])) $viewconfig['range'] = "all";
-
-			$limit = '';
-//			if (isset($template->viewconfig) && isset($template->viewconfig['num_events']) && $template->viewconfig['num_events'] != 0) {
-//				$limit = $db->limit($template->viewconfig['num_events'],0);
-//			}
+		} else if ($viewparams['type'] == "default") {
+			if (!isset($viewparams['range'])) $viewparams['range'] = "all";
 			$items = null;
 			$dates = null;
 			$day = exponent_datetime_startOfDayTimestamp(time());
 			$sort_asc = true; // For the getEventsForDates call
-			switch ($viewconfig['range']) {
+			$moreevents = false;
+			switch ($viewparams['range']) {
 				case "all":
-					$dates = $db->selectObjects("eventdate",$locsql. "'");
+					$dates = $db->selectObjects("eventdate",$locsql);
 					break;
 				case "upcoming":
-					$dates = $db->selectObjects("eventdate",$locsql." AND date >= $day ORDER BY date ASC ".$limit);
+					$dates = $db->selectObjects("eventdate",$locsql." AND date >= $day ORDER BY date ASC ");
+//					$moreevents = count($dates) < $db->countObjects("eventdate",$locsql." AND date >= $day");					
 					break;
 				case "past":
-					$dates = $db->selectObjects("eventdate",$locsql." AND date < $day ORDER BY date DESC ".$limit);
+					$dates = $db->selectObjects("eventdate",$locsql." AND date < $day ORDER BY date DESC ");
+//					$moreevents = count($dates) < $db->countObjects("eventdate",$locsql." AND date < $day");					
 					$sort_asc = false;
 					break;
 				case "today":
@@ -344,15 +353,20 @@ class calendarmodule {
 					$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfMonthTimestamp(time()) . " AND date <= " . exponent_datetime_endOfMonthTimestamp(time()));
 					break;
 			}
-			$items = calendarmodule::_getEventsForDates($dates,$sort_asc);
-
+			$items = calendarmodule::_getEventsForDates($dates,$sort_asc,$template->viewconfig['featured_only'] ? true : false);
 			// Upcoming events can be configured to show a specific number of events.
 			// The previous call gets all events in the future from today
 			// If configured, cut the array to the configured number of events
-			if ($viewconfig['num_events']) {
-				$items = array_slice($items, 0, $viewconfig['num_events']);
+//			if ($template->viewconfig['num_events']) {
+//				switch ($viewparams['range']) {
+//					case "upcoming":
+//					case "past":
+//						$moreevents = $template->viewconfig['num_events'] < count($items);	
+//						break;
+//				}
+//				$items = array_slice($items, 0, $template->viewconfig['num_events']);
 //eDebug($items);
-			}
+//			}			
 			for ($i = 0; $i < count($items); $i++) {
 				$thisloc = exponent_core_makeLocation($loc->mod,$loc->src,$items[$i]->id);
 				if ($user && $items[$i]->poster == $user->id) $canviewapproval = 1;
@@ -362,19 +376,17 @@ class calendarmodule {
 					'delete'=>(exponent_permissions_check('delete',$thisloc) || exponent_permissions_check('delete',$loc))
 				);
 			}
-
 			//Get the image file if there is one.
 			for ($i = 0; $i < count($items); $i++) {
-			if (isset($items[$i]->file_id) && $items[$i]->file_id > 0) {
-				$file = $db->selectObject('file', 'id='.$items[$i]->file_id);
-				$items[$i]->image_path = $file->directory.'/'.$file->filename;
+				if (isset($items[$i]->file_id) && $items[$i]->file_id > 0) {
+					$file = $db->selectObject('file', 'id='.$items[$i]->file_id);
+					$items[$i]->image_path = $file->directory.'/'.$file->filename;
 				}
 			}
 			//eDebug($items);
-
 			$template->assign('items',$items);
+			$template->assign('moreevents',$moreevents);
 		}
-
 		$template->assign('in_approval',$inapproval);
 		$template->assign('canview_approval_link',$canviewapproval);
 		$template->register_permissions(
@@ -382,8 +394,8 @@ class calendarmodule {
 			$loc
 		);
 
-
-		$cats = $db->selectObjectsIndexedArray("category","location_data='".serialize($loc)."'");
+//		$cats = $db->selectObjectsIndexedArray("category","location_data='".serialize($loc)."'");
+		$cats = $db->selectObjectsIndexedArray("category");
 		$cats[0] = null;
 		$cats[0]->name = '<i>'.$i18n['no_category'].'</i>';
 		$cats[0]->color = "#000000";
@@ -394,39 +406,37 @@ class calendarmodule {
 			$config->enable_rss = 0;
 		}
 
-
-		$template->assign("modconfig",$config);
+		$template->assign("config",$config);
 		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
 		$template->assign("enable_rss", $config->enable_rss);
 
 		//Get the tags that have been selected to be shown in the grouped by tag views
-                if (isset($config->show_tags)) {
-                        $available_tags = unserialize($config->show_tags);
-                } else {
-                        $available_tags = array();
-                }
+		if (isset($config->show_tags)) {
+			$available_tags = unserialize($config->show_tags);
+		} else {
+			$available_tags = array();
+		}
 
-                if (isset($items) && is_array($items)) {
-                        for ($i = 0; $i < count($items); $i++) {
-                                //Get the tags for this calendar event
-                                $selected_tags = array();
-                                $tag_ids = unserialize($items[$i]->tags);
-                                if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
-                                $items[$i]->tags = $selected_tags;
+		if (isset($items) && is_array($items)) {
+			for ($i = 0; $i < count($items); $i++) {
+				//Get the tags for this calendar event
+				$selected_tags = array();
+				$tag_ids = unserialize($items[$i]->tags);
+				if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+				$items[$i]->tags = $selected_tags;
 
-                                //If this module was configured to group the newsitems by tags, then we need to change the data array a bit
-                                if (isset($config->group_by_tags) && $config->group_by_tags == true) {
-                                        $grouped_news = array();
-                                        foreach($items[$i]->tags as $tag) {
-                                                if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
-                                                        if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();}
-                                                        array_push($grouped_news[$tag->name],$items[$i]);
-                                                }
-                                        }
-                                }
-                        }
-                }
-
+				//If this module was configured to group the newsitems by tags, then we need to change the data array a bit
+				if (isset($config->group_by_tags) && $config->group_by_tags == true) {
+					$grouped_news = array();
+					foreach($items[$i]->tags as $tag) {
+						if (in_array($tag->id, $available_tags) || count($available_tags) == 0) {
+							if (!isset($grouped_news[$tag->name])) { $grouped_news[$tag->name] = array();}
+							array_push($grouped_news[$tag->name],$items[$i]);
+						}
+					}
+				}
+			}
+		}
 		$template->output();
 	}
 
@@ -444,8 +454,8 @@ class calendarmodule {
 	}
 
 	function searchName() {
-                return "Calendar Events";
-        }
+		return "Calendar Events";
+	}
 
 	function spiderContent($item = null) {
 		global $db;
@@ -477,13 +487,12 @@ class calendarmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-
 		return true;
 	}
 
 	// The following functions are internal helper functions
 
-	function _getEventsForDates($edates,$sort_asc = true) {
+	function _getEventsForDates($edates,$sort_asc = true,$featuredonly = false) {
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		if ($sort_asc && !function_exists('exponent_sorting_byEventStartAscending')) {
 			function exponent_sorting_byEventStartAscending($a,$b) {
@@ -498,14 +507,16 @@ class calendarmodule {
 
 		global $db;
 		$events = array();
+		$featuresql = "";
+		if ($featuredonly) $featuresql = " AND is_featured=1";
 		foreach ($edates as $edate) {
-			$o = $db->selectObject("calendar","id=".$edate->event_id);
-			$o->eventdate = $edate;
-			$o->eventstart += $edate->date;
-			$o->eventend += $edate->date;
-			$events[] = $o;
-
-
+			$o = $db->selectObject("calendar","id=".$edate->event_id.$featuresql);
+			if ($o != null) {
+				$o->eventdate = $edate;
+				$o->eventstart += $edate->date;
+				$o->eventend += $edate->date;
+				$events[] = $o;
+			}
 		}
 		if ($sort_asc == true) {
 			usort($events,'exponent_sorting_byEventStartAscending');

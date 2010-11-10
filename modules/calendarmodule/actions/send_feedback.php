@@ -22,7 +22,7 @@ if (!defined('EXPONENT')) exit('');
 if (!defined('SYS_SMTP')) require_once(BASE.'subsystems/smtp.php');
 
 //filter the message thru the form template for formatting
-$msgtemplate = new formtemplate('email', '_'.$_POST['formname']);
+$msgtemplate = new formtemplate('forms/email', '_'.$_POST['formname']);
 $msgtemplate->assign('post', $_POST);
 $msg = $msgtemplate->render();
 $ret = false;
@@ -41,7 +41,6 @@ if (isset($_POST['id'])) {
 			if (DEVELOPMENT != 0) $message .= $e->getMessage() . "\n";
 			flash('error', $message);
 		}
-
 	}
 }
 

@@ -85,14 +85,13 @@ class calendar {
 			$form->meta('date_id',$object->eventdate->id); // Will be 0 if we are creating.
 		}
 
-		$form->register('featured_header','',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['featured_event_info'].'</div><hr size="1" />'));
+		$form->register('featured_header','',new htmlcontrol('<h3>'.$i18n['featured_event_info'].'</h3><hr size="1" />'));
 		$form->register('is_featured',$i18n['feature_this_event'],new checkboxcontrol($object->is_featured,true));
 /* Why was this even here?  No views have it. 6/23/09 Time to implement it - Maia*/
-		$form->register('image_header','',new htmlcontrol('<br /><div class="moduletitle">Upload Image File</div><hr size="1" />'));
+		$form->register('image_header','',new htmlcontrol('<h3>Upload Image File</h3><hr size="1" />'));
 		$form->register('file','Upload Image',new uploadcontrol());
 
-
-		$form->register('tag_header','',new htmlcontrol('<br /><div class="moduletitle">'.$i18n['tags'].'</div><hr size="1" />'));
+		$form->register('tag_header','',new htmlcontrol('<h3>'.$i18n['tags'].'</h3><hr size="1" />'));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 
 		return $form;

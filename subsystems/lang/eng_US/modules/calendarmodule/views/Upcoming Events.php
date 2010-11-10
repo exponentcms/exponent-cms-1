@@ -19,6 +19,13 @@ return array(
 	'revisions'=>'Revisions',
 
 	'no_event'=>'No upcoming events.',
+	'more_events'=>'More Events...',	
+	
+	'calendar_view'=>'Calendar View',
+	'view_month'=>'Month View',
+	'alt_view_month'=>'View Entire Month',	
+	'administration_view'=>'Administration View',	
+	'printer_friendly'=>'Printer-friendly',	
 
 	'alt_create'=>'Create a new Calendar Event',
 	'create'=>'Create Event',
@@ -29,6 +36,7 @@ return array(
 	'manage_categories'=>'Manage Categories',
 	'view_categories'=>'View Categories',
 	'alt_view_cat'=>'View Event Categories',
+	'alt_rssfeed'=>'Subscribe to this Event RSS Feed',
 );
 
 ?>

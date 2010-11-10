@@ -8,6 +8,10 @@ return array(
 	'event_title'=>'Event Title',
 	'when'=>'When',
 	'category'=>'Category',
+	'calendar_view'=>'Calendar View',
+	'list_view'=>'List View',	
+	'administration_view'=>'Administration View',	
+	'printer_friendly'=>'Printer-friendly',	
 
 	'alt_userperm_one'=>'Assign user permissions on this Calendar Event',
 	'alt_groupperm_one'=>'Assign group permissions on this Calendar Event',
@@ -31,6 +35,7 @@ return array(
 
 	'view_categories'=>'View Categories',
 	'alt_view_cat'=>'View Event Categories',
+	'alt_rssfeed'=>'Subscribe to this Event RSS Feed',
 
 	'revisions'=>'Revisions',
 );

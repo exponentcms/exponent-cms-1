@@ -19,6 +19,8 @@ return array(
 	'revisions'=>'Revisions',
 
 	'no_event'=>'No past events.',
+	
+	'administration_view'=>'Administration View',	
 
 	'alt_create'=>'Create a new Calendar Event',
 	'create'=>'Create Event',
