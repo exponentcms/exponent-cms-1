@@ -1,0 +1,77 @@
+/* overwrite rules creted in the themes/common/required/forms.css file by adding them here */
+/* Any rules added here will be combined with those in common */
+
+/* control (wrapers for input and other form fields) and label styles */
+
+.control {
+	border:1px dotted #cccccc;
+	display:block;
+	margin:0 0 5px 0;
+	padding:5px;
+}
+
+.control legend {
+	background:#ffffff;
+	color:#53708e;
+	font-family:"Trebuchet MS","Arial";
+	font-size:1.1em;
+	font-weight:bold;
+	padding:0px 3px;
+}
+
+.control .label {
+	font-size:14px;
+	font-family:"Trebuchet MS","Arial";
+	color:#724e4e;
+	font-weight:bold;
+	text-transform:uppercase;
+	display:block;
+}
+
+.control .checkboxlabel {
+	font-size:12px;
+	font-family:"Trebuchet MS","Arial";
+	color:#444444;
+	font-weight:bold;
+}
+
+.control .label a {
+	font-family:"Trebuchet MS","Arial";
+	color:#883333;
+}
+
+/* input styles */
+button,
+input.button { 
+	font: bold 12px Arial, Sans-serif; 
+	height: 28px;
+	margin: 0;
+	padding: 2px 3px; 
+	color: #fff;
+	background: #306bc1 url(../../images/button-bg.jpg) repeat-x 0 0; 
+	border: 1px solid #306bc1;
+	margin-right:3px;
+}
+
+input.radiobutton {
+	float:left;
+	margin-right:5px;
+}
+
+input.text {
+	padding:3px;
+	border: 1px solid #4289d7; 
+	font: normal 1em Verdana, sans-serif;
+	color:#777;	
+
+select.select {
+	padding:3px;
+	border: 1px solid #4289d7; 
+	font: normal 1em Verdana, sans-serif;
+	color:#777;	
+
+.textarea {
+	font: normal 1em Verdana, sans-serif;
+	border: 1px solid #4289d7; 
+	color:#777;
+}

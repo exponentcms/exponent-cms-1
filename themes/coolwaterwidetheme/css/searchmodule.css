@@ -1,0 +1,52 @@
+/* search form */
+.searchmodule.searchdefault form {
+	background-color: transparent;
+	border: none;	
+	margin: 0; 
+	padding: 5px 0 5px 0;	
+}
+
+.searchmodule.searchdefault p { 
+	margin: 0; 
+	padding: 0; 
+}
+
+.searchmodule.searchdefault input.text { 
+	width: 110px;
+	color: #777; 
+	height: 20px;
+	padding: 2px;	
+	border: 1px solid #D2E8F7; 
+	float:left;
+}
+
+.searchmodule.searchdefault input.button { 
+	width: 55px;
+	height: 26px;
+	margin:0 0 0 3px;
+}
+
+/* results styles */
+
+.searchmodule.results .searched_for{
+	display:block;
+	padding:5px;
+	border-top:1px dotted #999;
+	border-bottom:1px dotted #999;
+	margin:0 0 15px 0;
+}
+.searchmodule.results .item {
+	padding:5px;
+	margin: 0 0 10px 0;
+	border:1px dotted #999;
+}
+
+.searchmodule.results .item .summary {
+	color:#888;
+}
+.searchmodule.results .item .summary b {
+	background:#ffe39c;
+	border:1px dotted #fdb827 ;
+	color:#444;
+}
+

@@ -1,0 +1,121 @@
+/* Gets rid of the border applied to management icons */
+/* If needed, add borders to images on a lower level */
+a img {
+	border:none;
+}
+
+a.readmore {
+/*	padding-left: 15px;
+    background-image: url(../images/icons/readmore.gif);
+    background-repeat: no-repeat; */
+}
+
+a.readmore:hover {
+/*	background-image: url(../images/icons/readmore.gif);
+	background-repeat: no-repeat; */
+}
+
+a.addnews{
+/*	padding:2px 0 2px 20px;
+	background:url(../images/icons/addnews.png) no-repeat 0 50%; */
+}
+
+a.expirednews{
+/*	padding:2px 0 2px 20px;
+	background:url(../images/icons/expirednews.png) no-repeat 0 50%; */
+}
+
+a.viewmorenews{
+/*	padding:2px 0 2px 20px;
+	background:url(../images/icons/viewallnews.png) no-repeat 0 50%;
+	_background:url(../images/icons/viewallnews.gif) no-repeat 0 50%; */
+}
+
+a.rsslink {
+/*        background:url(../images/icons/feed-icon.png) no-repeat 3px 50%;
+        padding-left:18px; */
+}
+
+a.comments, a.replys {
+/*	padding-left: 20px;
+    background-image: url(../images/icons/comments.gif);
+	background-repeat: no-repeat; */
+}
+
+a.addpost {
+/*	padding-left: 20px;
+    background-image: url(../images/icons/add.png);
+	background-repeat: no-repeat; */
+}
+
+a.moreposts {
+/*	padding-left: 20px;
+    background-image: url(../images/icons/view_latest_post.gif);
+	background-repeat: no-repeat; */
+}
+
+a.printer-friendly-link {
+/*	padding-left: 20px;
+    background-image: url(../images/icons/print.png);
+	background-repeat: no-repeat; */
+}
+
+/* BASIC EXP CALENDAR STYLES */
+.mini-cal {
+	border:none; 
+	width:10em; 
+	text-align: center;
+}
+
+.mini-cal caption, .viewweek caption, .viewday caption, p.caption {
+	line-height: 2.5em;
+	text-align: center;
+	font-weight: bold;
+	border-top: 1px solid;
+}
+
+.viewweek td  {
+	padding: .1em .1em .1em 0;
+}
+
+.mini-cal th, .mini-cal td {
+	padding: .1em .2em;
+	text-align: right;
+}
+
+.viewweek, .viewday {
+	border: none;
+	width:100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mini-cal th {
+	text-align: center;
+}
+.viewweek dt {
+	line-height: 2em;
+}
+
+.divider, .viewday li, .viewweek dt {
+	border-top: 1px solid;
+}
+
+/* BASIC NEWSMODULE STYLES */
+/* unpublished news */
+.newsmodule.view-unpublished table {
+	width: 100%;
+	margin-bottom: 1.5em;
+}
+
+.newsmodule.view-unpublished table th {
+	border-bottom: 1px solid;
+}
+
+.newsmodule.view-unpublished caption {
+	line-height: 2.5em;
+	text-align: center;
+	font-weight: bold;
+	text-transform: uppercase;
+}
