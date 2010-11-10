@@ -1,7 +1,6 @@
 /* overwrite rules creted in the themes/common/required/forms.css file by adding them here */
 /* Any rules added here will be combined with those in common */
 
-
 /* control (wrapers for input and other form fields) and label styles */
 
 .control {
@@ -10,6 +9,7 @@
 	margin:0 0 5px 0;
 	padding:5px;
 }
+
 .control legend {
 	background:#ffffff;
 	color:#53708e;
@@ -18,6 +18,7 @@
 	font-weight:bold;
 	padding:0px 3px;
 }
+
 .control .label {
 	font-size:14px;
 	font-family:"Trebuchet MS","Arial";
@@ -33,6 +34,7 @@
 	color:#444444;
 	font-weight:bold;
 }
+
 .control .label a {
 	font-family:"Trebuchet MS","Arial";
 	color:#883333;
@@ -61,19 +63,15 @@ input.text {
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
-}
+
 select.select {
 	padding:3px;
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
-}
+
 .textarea {
 	font: normal 1em Verdana, sans-serif;
 	border: 1px solid #4289d7; 
 	color:#777;
 }
-
-
-
-

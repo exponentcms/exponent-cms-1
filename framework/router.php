@@ -153,8 +153,10 @@ class router {
 			// if we hit this it's an old school url coming in and we're trying to use SEF's. 
 			// we will send a permanent redirect so the search engines don't freak out about 2 links pointing
 			// to the same page.
-			header("Location: ".$this->makeLink(array('section'=>intval($_REQUEST['section']))),TRUE,301);
-			
+			$printtag = PRINTER_FRIENDLY == 1 ? "?printerfriendly=1" : "";
+//			$printtag = PRINTER_FRIENDLY == 1 ? "/printerfriendly" : "";
+			header("Location: ".$this->makeLink(array('section'=>intval($_REQUEST['section']))).$printtag,TRUE,301);
+
 		}
 
 		// if this is a valid URL then we build out the current_url var which is used by flow, and possibly other places too
@@ -481,7 +483,7 @@ class router {
 
 	public function getSection() {
 		// Check if this was a printer friendly link request
-			define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
+//			define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
 
 			if (isset($_REQUEST['action']) && isset($_REQUEST['module'])) {
 				if (isset($_REQUEST['section'])) {

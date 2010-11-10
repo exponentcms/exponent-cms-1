@@ -29,12 +29,3 @@
 
 #sidebar .linklistmodule.quick-links ul ul { margin: 0 0 0 5px; padding: 0; }
 #sidebar .linklistmodule.quick-links ul ul li { border: none; }
-
-#sidebar .linklistmodule.quick-links a {
-	text-decoration: none;	
-	color: #1773BC;				
-}
-
-#sidebar .linklistmodule.quick-links a:hover, #sidebar .linklistmodule.quick-links a:focus {	
-	color: #333;
-}

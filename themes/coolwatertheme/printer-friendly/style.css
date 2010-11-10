@@ -1,0 +1,299 @@
+/* standard styles from other exponent themes? */
+
+a.navigation {
+	font-weight: bold;
+}
+
+/* put this here to prioritize style */
+a.addmodule{
+	display:block;
+	background:#dedede;
+	clear:both;
+	padding:2px 0;
+	float:left;
+	width:100%;
+	text-align:center;
+	text-decoration:none;
+	color:blue;
+}
+
+.cap {
+	font-weight:bold;
+	font-size:11px;
+	padding-left:30px;
+	padding-right:30px;
+	padding-top:7px;
+}
+
+.left {
+	font-weight:bold;
+	font-size:10px;
+	padding-left:30px;
+	padding-right:30px;
+	padding-top:5px;
+}
+
+.footer {
+	font-weight:bold;
+	color:#FF2A00;
+	text-decoration:none;
+}
+
+input {
+	border-width: 1px;
+}
+
+img {
+}
+
+img.left {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+img.right {
+	float: right;
+	margin: 0 0 0 20px;
+}
+
+/*a.mngmntlink {
+	color: #9c3;
+}*/
+
+a.navigation_link {
+	color: #000;
+}
+
+a.disabled {
+	font-style:italic;
+	font-weight: normal;
+}
+
+div.moduletitle {
+	font-weight: bold;
+	font-size: 1.25em;
+}
+
+.summarytitle {
+	font-weight: bold;
+}
+
+/* Error Message Style */
+div.error {
+	font-weight: bold;
+	color: #F00;
+	padding-bottom: 1em;
+}
+
+/* Container Styles */
+div.container_box {
+	padding: 6px;
+	margin: 2px;
+}
+
+div.container_editbox {
+	border: 2px dashed #CCC;
+	margin: 2px;
+}
+
+div.container_editheader {
+	padding: 3px;
+	background-color: #ccc;
+}
+
+div.container_editheader table tr td.info {
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+div.itemtitle {
+	font-family: Arial, Verdana;
+	font-weight: bold;
+	color: #88ac0b;
+}
+
+/* popup date / time control */
+span.datefield {
+	
+}
+
+span.datefield_disabled {
+	color: #DDD;
+	font-style: italic;
+	text-decoration: line-through;
+}
+
+/* Workflow */
+div.workflow_action {
+	border: 1px solid #DDD;
+	margin-bottom: 1em;
+}
+
+div.workflow_inapproval {
+	margin-left: 35px;
+}
+
+div.workflow_approved {
+	border: 2px solid #030;
+	background-color: #DDD;
+}
+
+div.workflow_action_restored {
+	border: 2px dashed #030;
+	background-color: #FFF;
+}
+
+div.workflow_action_posted {
+	border: 2px solid black;
+}
+
+td.header, td.header a {
+	background-color: #aaa;
+	color: #fff;
+	font-weight: bold;
+	font-size: 15px;
+	padding: 2px;
+}
+
+/* Themable Forms */
+div.form_title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.form_header {
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	margin-bottom: 1em;
+}
+
+tr.even_row {
+	background-color: #DDD;
+}
+
+tr.row:hover td, tr.row:hover td a,tr.row:focus td, tr.row:focus td a {
+	background-color: #666;
+	color: #fff;
+}
+
+tr.odd_row {
+	
+}
+
+/** Admin Module Quicklinks Styles **/
+
+.administrationmodule.default h4 {
+}
+
+#expadminquick-links .container-close {
+/*	background:url(../../images/icons/exp1icons.png) 100% -575px no-repeat; */
+	margin:0 -5px 0 0;
+}
+
+#expadminquick-links.closed .container-close {
+/*	background:url(../../images/icons/exp1icons.png) 100% -597px no-repeat; */
+	margin:0 -10px 5px 0;
+}
+
+#expadminquick-links.closed {
+	border:1px dotted #444;
+	border-width:0 1px 1px 0;
+}
+
+#expadminquick-links.closed .hd {
+	background:none;
+}
+
+.administrationmodule.quicklinks {
+	border-width:0 1px;
+	margin-bottom:10px;
+}
+
+.administrationmodule.quicklinks a {
+	display: block;
+	font-size: 95%;
+	color: #555;
+	font-weight:bold;
+	padding:3px 0 0 25px;
+	font-family:"Trebuchet MS",arial;
+	border-bottom:1px dotted #999999;
+	border-right:1px dotted #999999;
+	border-left:1px dotted #efefef;
+	border-top:1px dotted #efefef;
+/*	background-color:#dedfde; */
+	background-color:#ECF3FB;
+	text-decoration: none;
+	text-transform:uppercase;
+	min-height:18px;
+	*height:18px;
+	background-position:3px 50%;
+	margin:1px;
+}
+
+.administrationmodule.quicklinks a:hover {
+	border-left:1px dotted #999;
+	border-top:1px dotted #999;
+	text-decoration: none;
+	background-color:#cdcddd;
+	color: #333333;
+}
+
+.administrationmodule.quicklinks .hd {
+	text-align:center;
+	color: #555;
+	border-top:1px solid #888;
+/*	background-color:#caced1; */
+/*	background:url(../images/menu.jpg) repeat-x 0 0; */
+}
+
+.administrationmodule.quicklinks .bd {
+	border-left:1px dotted #777;
+	border-width:1px 0 0 0;
+	padding:0;
+/*	background:#999; */
+	background-color:#caced1;
+}
+
+/** Debugger Styles **/
+table.debug_null,table.debug_null tr td, div.debug_null {
+	background-color: #000;
+	color: #fff;
+	font-weight: bold;
+}
+
+table.debug_object, table.debug_object tr td {
+	background-color: #a00;
+	color: #fff;
+}
+
+table.debug_array, table.debug_array tr td {
+	background-color: #0a0;
+	color: #fff;
+}
+
+table.debug_scalar, table.debug_scalar tr td, div.debug_scalar {
+	background-color: #00a;
+	color: #fff;
+}
+
+td.debug_attribute {
+	font-family: monospace;
+	font-size: 10px;
+}
+
+td.debug_varname {
+	font-weight: bold;
+}
+
+td.debug_type {
+	background-color: #aaa;
+	color: #fff;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+td.debug_value {
+	font-family: monospace;
+	font-size: 11px;
+	color: #fff;
+}

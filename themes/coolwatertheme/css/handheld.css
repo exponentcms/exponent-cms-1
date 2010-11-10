@@ -6,7 +6,23 @@
    VERSION:          1.0     
 	DATE:					November-07-2007     	
  *******************************************/
- 
+
+@import "bbmodule.css"; 
+@import "calendarmodule.css";
+@import "common.css";
+@import "linklistmodule.css";
+@import "listingmodule.css";
+@import "loginmodule.css";
+@import "menubar.css";
+@import "navigationmodule.css";
+@import "newsmodule.css";
+@import "resourcemodule.css";
+@import "searchmodule.css";
+@import "slideshow.css";
+@import "style.css";
+@import "textmodule.css";
+@import "weblogmodule.css";
+
 /********************************************
    HTML ELEMENTS
 ********************************************/ 
@@ -18,12 +34,16 @@ html{
 }
 
 body {
-	background: #caced1;
-	font: 70%/1.5em Verdana, Tahoma, arial, sans-serif;
-	color: #777;
-	text-align: center;
-	margin: 0;
-	padding:0;
+/*	background: #caced1; */
+	background: #fff; 
+ 	font: 70%/1.5em Verdana, Tahoma, arial, sans-serif;
+/*	color: #777; */
+	color: #000;
+/*	text-align: center; */
+	text-align: left; 
+/*	margin: 0;
+	padding:0; */
+	margin: 5px 0; padding: 0px; 	
 }
 
 /* links */
@@ -31,6 +51,7 @@ a, a:visited {
 	text-decoration: none;
 	background-color: transparent;
 	color: #CC0000;  
+/*	color: #2666c3; */
 }
 
 a:hover, a:focus {
@@ -48,9 +69,13 @@ h1 {
 }
 
 h2 {
-	font-size: 160%;
+/*	font-size: 160%;
 	color: #88ac0b;
-	font-weight: normal;
+	font-weight: normal; */
+	font: normal 180% 'Trebuchet MS', Tahoma, Arial, Sans-serif;
+	padding: 0; 	
+	margin-bottom: 0;		
+	color: #2666c3;	
 }
 
 h3 {
@@ -81,26 +106,27 @@ div.bodycopy ul, ol {
 	font-style:italic;
 }
 
-#main div.bodycopy{
+#main div.bodycopy, div.bodycopy{
 	font-size:110%;
 	line-height:20px;
-	margin-left: 0px;
-	margin-right: 25px;
-	margin-bottom: 25px;
-}
-
-#main div.bodycopyfull{
 	margin-left: 0px;
 	margin-right: 15px;
 	margin-bottom: 15px;
 }
 
-.fullbody #main {
-	width: 715px;
-	background: url(../images/box-full.jpg) no-repeat; 	
+#main div.bodycopyfull, div.bodycopyfull{
+	margin-left: 0px;
+	margin-right: 15px;
+	margin-bottom: 15px;
 }
 
-#main div.text p{
+.fullbody #main{
+/*	width: 900px; */
+	width: 100%; 
+/*	background: url(../images/box-full.jpg) no-repeat; 	*/
+}
+
+#main div.text p, div.text p{
 
 	margin-bottom: 15px;
 }
@@ -116,23 +142,23 @@ div.bodycopy ul, ol {
 }
 
 #wrap {
-	width: 790px;
-	background: #fff url(../images/content.jpg) repeat-y center top ;
+/*	width: 970px; */
+/*	background: #fff url(../images/content-full.jpg) repeat-y center top ; */
 	margin: 0 auto;
 	text-align: left;
 }
 
 #wrap.fullbody {
-	width: 790px;
-	background: #CCC url(../images/content.jpg) repeat-y center top;
+/*	width: 970px; */
+/*	background: #fff url(../images/content-full.jpg) repeat-y center top; */
 	margin: 0 auto;
 	text-align: left;
 }
 
 #content-wrap {
 	clear: both;
-	width: 760px;
-	margin: 5px auto;
+/*	width: 940px;	*/
+	margin: auto;
 	padding: 0; 
 }
 
@@ -154,8 +180,7 @@ div.bodycopy ul, ol {
 	text-decoration: none;
 	padding:0 0 0 40px;
 	_padding:0 0 0 20px;
-/*	background-image: url(../images/exp.png); */
-	background-image: url(../images/HHLogoSm.gif);
+	background-image: url(../images/exp.png);
 	_background-image:none;
 	background-repeat: no-repeat ;
 
@@ -169,6 +194,7 @@ div.bodycopy ul, ol {
 }
 
 #header p#slogan {
+	display: none;
 	position: absolute;
 	margin: 0; padding: 0;
 	font: bold 13px 'Trebuchet MS', Arial, Sans-serif;
@@ -181,6 +207,7 @@ div.bodycopy ul, ol {
 
 /* header links */
 #header #header-links {
+	display: none;
 	position: absolute;
 	font: bold 14px"Trebuchet MS", Arial, Tahoma, Sans-serif;
 	top: 30px; right: 20px;	
@@ -189,6 +216,7 @@ div.bodycopy ul, ol {
 }
 
 #header #header-login {
+	display: none;
 	position: absolute;
 	font: bold 14px"Trebuchet MS", Arial, Tahoma, Sans-serif;
 	top: 60px; right: 20px;	
@@ -196,31 +224,37 @@ div.bodycopy ul, ol {
 }
 
 #header #header-login a {
+	display: none;
 	color: #93C600;
 	background-color: transparent;
 }
 
 #header #header-login a:hover, #header #header-login a:focus {
+	display: none;
 	color: #D76D0D;
 	background-color: transparent;
 }
 
 #header #header-links a {	
+	display: none;
 	color: #fff;
 	text-decoration: none;	
 }
 
 #header #header-links a:hover,#header #header-links a:focus {
+	display: none;
 	color: #D4FF55;	
 }
 
 /* Main Column */
 #main {
 	float: left;
-	width: 515px;
-	margin: 5px 0; padding: 20px;
+/*	width: 650px; */
+	width: 100%; 
+	margin: 5px 0; padding: 0px; 
 	display: inline;
-	background: url(../images/box.jpg) no-repeat; 	
+/*	background: url(../images/box.jpg) no-repeat; 	*/
+	background: none; 	
 }
 
 #main h2 {
@@ -237,21 +271,24 @@ div.bodycopy ul, ol {
 
 /* Sidebar */	
 #sidebar {
+	display: none;
 	float: right;
-	width: 195px;
-	padding: 0; margin: 10px 0 0 0;
+/*	width: 220px; */
+	padding: 0px 10px 0px 10px; margin: 0px 5px 0px 5px;
 	color: #777;	
 /*	background: #F4F8FD;	*/
 	background: #ECF3FB;	
 }
 	
 #sidebar h2 {
+	display: none;
 	margin: 15px 5px 10px 5px;
 	font: bold 1.4em 'Trebuchet MS', Tahoma, Sans-serif;
 	color: #555;	
 }
 
 #sidebar p {
+	display: none;
 	margin-left: 5px;
 }
 
@@ -260,7 +297,7 @@ div.bodycopy ul, ol {
 	color: #C6DDEE;
 	background: #caced1 url(../images/footer.jpg) no-repeat center top;
 	clear: both;
-	width: 790px;
+/*	width: 970px; */
 	height: 57px;
 	text-align: center;	
 	font-size: 90%;	
@@ -276,13 +313,16 @@ div.bodycopy ul, ol {
 	text-decoration: none; 
 }
 
+.itemactions, div.itemactions, .itemactions a, div.itemactions a {
+	display: none;
+}
+
 /* post footer */
 .post-footer {
 	background: #F4F8FD;
-	padding: 5px; margin: 20px 25px 0 25px;
+	padding: 5px; margin: 10px 25px 0 25px;
 	border: 1px solid #E5F0FB; 
 	font-size: 95%;	
-	text-align: left;
 }
 .post-footer .date {	padding-left: 0px; margin: 0 5px; }
 

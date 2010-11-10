@@ -21,6 +21,9 @@
 define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','index.php');
 
+// Check if this was a printer friendly link request
+define('PRINTER_FRIENDLY', isset($_REQUEST['printerfriendly']) ? 1 : 0);
+
 ob_start("ob_gzhandler");
 $microtime_str = explode(' ',microtime());
 $i_start = $microtime_str[0] + $microtime_str[1];
@@ -31,6 +34,7 @@ require_once('exponent.php');
 // if the user has turned on sef_urls then we need to route the request, otherwise we can just 
 // skip it and default back to the old way of doing things.
 $router->routeRequest();
+if (isset($_GET['id']) && !is_numeric($_GET['id'])) $_GET['id'] = intval($_GET['id']);
 $section = $router->getSection();
 $sectionObj = $router->getSectionObj($section);
 

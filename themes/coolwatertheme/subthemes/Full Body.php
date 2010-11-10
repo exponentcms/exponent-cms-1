@@ -1,3 +1,6 @@
+<?php
+if (!defined('EXPONENT')) exit('');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -13,6 +16,7 @@
 	?>
 </head>
 <body>
+<?php exponent_theme_sourceSelectorInfo(); //this will be deprecated by copy 'n paste in the 0.98 ?>
 <!-- wrap starts here -->
 <div id="wrap" class="fullbody">
 	<!--header -->
@@ -30,7 +34,8 @@
 	</div>
 	<!-- navigation -->
 	<div  id="menu">
-		<?php exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
+		<?php //exponent_theme_showModule("navigationmodule","YUI Top Nav","","@top"); ?>
+		<?php exponent_theme_showModule("navigationmodule","YUI Top Nav"); ?>
 	</div>
 	<!-- content-wrap starts here -->
 	<div id="content-wrap">
@@ -42,7 +47,8 @@
 	</div>
 	<!--footer starts here-->
 	<div id="footer">
-		<?php exponent_theme_showModule("containermodule","Default","","@footer"); ?>
+		<?php //exponent_theme_showModule("containermodule","Default","","@footer"); ?>
+		<?php exponent_theme_showModule("textmodule","Default","","footer"); ?>
 	</div>
 
 		<?php

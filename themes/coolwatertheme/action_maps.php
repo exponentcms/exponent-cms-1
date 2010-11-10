@@ -18,12 +18,19 @@
 
 if (!defined('EXPONENT')) exit('');
 
-// return array(
+ return array(
 //         'newsmodule'=>array(
-// //                'view'=>'_test',
-//                 'view_all_news'=>'Full Body'),
-//         'calendarmodule'=>array(
-//                 ''=>'Full Body')
-// );
+//                'view'=>'_test',
+//                'view_all_news'=>'Full Body'),
+         'calendarmodule'=>array(
+				'viewmonth'=>'Full Body'),
+         'imagegallerymodule'=>array(
+				'Slideshow'=>'Full Body'),
+         '*'=>array(
+                'groupperms'=>'Full Body',
+				'userperms'=>'Full Body'),				 
+         'formbuilder'=>array(
+                'view_data'=>'Full Body'),
+	);
 
 ?>

@@ -1,0 +1,30 @@
+/********************************************
+   AUTHOR:  			Erwin Aligam 
+   WEBSITE:   			http://www.styleshout.com/
+	TEMPLATE NAME:		CoolWater
+   TEMPLATE CODE: 	S-0019
+   VERSION:          1.0     
+	DATE:					November-07-2007     	
+ *******************************************/
+
+@import "css/bbmodule.css"; 
+@import "css/base-styles.css"; 
+@import "css/calendarmodule.css";
+@import "css/linklistmodule.css";
+@import "css/listingmodule.css";
+@import "css/loginmodule.css";
+@import "css/menubar.css";
+@import "css/navigationmodule.css";
+@import "css/newsmodule.css";
+@import "css/resourcemodule.css";
+@import "css/searchmodule.css";
+@import "css/slideshow.css";
+@import "css/style.css";
+@import "css/textmodule.css";
+@import "css/weblogmodule.css";
+
+/* top elements */
+html{
+	padding:0;
+	margin:0;
+}

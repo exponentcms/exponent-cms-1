@@ -1,4 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<?php
+if (!defined('EXPONENT')) exit('');
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<?php 
@@ -38,14 +41,17 @@
 			<?php exponent_theme_main(); ?>
 		</div>
 		<div id="sidebar">
-			<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>			
+			<?php exponent_theme_showModule("searchmodule","Default"); ?>
+			<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>
+			<?php exponent_theme_showModule("containermodule","Default","","@right"); ?>
 		</div>
 	<!-- content-wrap ends here -->	
 	</div>
 	<!--footer starts here-->
 	<div id="footer">
-		<?php exponent_theme_showModule("textmodule","Default","","textmodulesrc1"); ?>				
-	</div>	
+		<?php //exponent_theme_showModule("textmodule","Default","","textmodulesrc1"); ?>
+		<?php exponent_theme_showModule("textmodule","Default","","footer"); ?>
+	</div>
 </div>
 	<?php 
 		echo exponent_theme_footerInfo(); 
