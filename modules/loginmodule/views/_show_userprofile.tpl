@@ -28,7 +28,7 @@
  *
  * $Id: Default.tpl,v 1.7 2005/04/08 15:45:48 filetreefrog Exp $
  *}
-<h1>{$_TR.form_title|sprintf:$profile->firstname:$profile->lastname}</h1>
+{$_TR.form_title|sprintf:$profile->firstname:$profile->lastname}
 
 <table class="userprofile" summary="{$_TR.summary}">
 <tbody>

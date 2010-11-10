@@ -14,6 +14,8 @@
  *
  *}
 <div class="loginmodule login-redirect">	
-	<h2>{$_TR.form_title}</h2>
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
 	{$output}
 </div>

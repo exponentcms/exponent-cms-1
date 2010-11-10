@@ -13,8 +13,11 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
-	<div class="loginmodule logout-only">
-		<a href="{link action=logout}">{$_TR.logout}</a>
-	</div>
-{/if}	
+ 
+<div class="loginmodule logout-only">
+	{if $loggedin == true || $smarty.const.PREVIEW_READONLY == 1}
+		<div class="loginmodule logout-only">
+			<a href="{link action=logout}">{$_TR.logout}</a>
+		</div>
+	{/if}	
+</div>

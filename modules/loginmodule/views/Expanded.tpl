@@ -37,9 +37,9 @@
 			<input type="hidden" name="action" value="login" />
 			<input type="hidden" name="module" value="loginmodule" />
 			<label for="login_username">{$_TR.name}</label>
-			<input type="text" class="text" name="username" id="login_username" size="15" maxlength="30" value="{$_TR.enter_name}" onfocus="if (this.value==this.defaultValue) this.value=''; else this.select()" onblur="if (!this.value) this.value=this.defaultValue" />
+			<input type="text" class="text" name="username" id="login_username" size="13" maxlength="30" value="{$_TR.enter_name}" onfocus="if (this.value==this.defaultValue) this.value=''; else this.select()" onblur="if (!this.value) this.value=this.defaultValue" />
 			<label for="login_password">{$_TR.passw}</label>
-			<input type="password" class="text" name="password" id="login_password" size="15" maxlength="32" value="{$_TR.enter_pw}" onfocus="if (this.value==this.defaultValue) this.value=''; else this.select()" onblur="if (!this.value) this.value=this.defaultValue"/>		
+			<input type="password" class="text" name="password" id="login_password" size="10" maxlength="32" value="{$_TR.enter_pw}" onfocus="if (this.value==this.defaultValue) this.value=''; else this.select()" onblur="if (!this.value) this.value=this.defaultValue"/>		
 			<input type="submit" class="button" value="{$_TR.login}" /><br />
 			{if $smarty.const.SITE_ALLOW_REGISTRATION == 1}
 				<a href="{link action=createuser}">{$_TR.create_account}</a>&nbsp;|&nbsp;

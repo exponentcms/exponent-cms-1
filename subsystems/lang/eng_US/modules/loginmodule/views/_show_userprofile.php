@@ -2,7 +2,7 @@
 
 return array(
 	'form_title'=>'User Profile for %s %s',
-	'summary'=>'Table displaying a user\'s IDs for different communications tools.',
+	'summary'=>'Table displaying a user\'s IDs for different communications tools.',	
 	'alt_avatar'=>'avatar',
 	'alt_no_avatar'=>'picture not available',
 	'emailaddr'=>'Email Address',

@@ -13,5 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<h1>{$_TR.form_title}</h1>
+<div class="form_title">
+	{$_TR.form_title}
+</div>
 {$form_html}
