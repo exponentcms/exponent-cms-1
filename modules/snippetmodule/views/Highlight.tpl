@@ -38,7 +38,9 @@
 	{/permissions}
 	<div class="bodycopy">
 		{if $textitem->approved != 0}
-			{$textitem->text}
+			<pre>
+			{$highlight}
+			</pre>
 		{/if}
 		<div style="clear:both"></div>
 	</div>

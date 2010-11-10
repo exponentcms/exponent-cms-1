@@ -14,7 +14,7 @@
  *
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">{$_TR.form_header}</div>
+<div class="form_header"><p>{$_TR.form_header}</p></div>
 {form action=save}
 	{control type=hidden name=id value=$textitem->id}
 	{control type=textarea name=text value=$textitem->text}

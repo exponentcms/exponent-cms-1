@@ -77,14 +77,28 @@ class snippetmodule {
 			}
 			$cache[$location] = $textitem;
 			exponent_sessions_setCacheValue('textmodule', $cache);
-		}else{
+		} else {
 			$textitem = $cache[$location];
 		}
+		
+		$highlight = highlight_string($textitem->text, true); 
+		
+		ob_start();
+		$tempfile = 'tempfile.php';
+		unlink($tempfile); 
+		$out = "<?php ".$textitem->text." ?>";
+		file_put_contents($tempfile,$out); 
+//		include($tempfile);
+		$output = ob_get_clean();
+		unlink($tempfile); 
+
 		$template->assign('textitem',$textitem);
+		$template->assign('highlight',$highlight);
+		$template->assign('output',$output);
 		$template->assign('moduletitle',$title);
 		
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
-	    	unset($textitem);	
+		unset($textitem);	
 		$template->output($view);
 	}
 	
@@ -122,7 +136,7 @@ class snippetmodule {
 	}
 	
 	function searchName() {
-		return "Text on web pages";
+		return "Other web pages";
 	}
 }
 
