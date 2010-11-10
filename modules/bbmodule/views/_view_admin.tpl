@@ -28,23 +28,26 @@
  *
  * $Id: _view_thread.tpl,v 1.7 2005/04/08 15:45:49 filetreefrog Exp $
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-<div align="center">
-<table width="85%" cellpadding="0" cellspacing="1" border="0">
-	<tr>
-		<td class="header bb_header">General Administration</td>
-		<td class="header bb_header">User Administration</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td >
-			<ul>
-				<li><a href="{link module=bbmodule action=view_rank}">Configure Ranks</a></li>
-			</ul>
-		</td>
-	</tr>
-</table>
+ 
+<div class="bbmodule view-admin"> 
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+		{if $permissions.administrate == 1}
+			<div align="center">
+				<table width="85%" cellpadding="0" cellspacing="1" border="0">
+					<tr>
+						<td class="header bb_header">General Administration</td>
+						<td class="header bb_header">User Administration</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td >
+							<ul>
+								<li><a href="{link module=bbmodule action=view_rank}">Configure Ranks</a></li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+			</div>
+		{/if}
+	{/permissions}
 </div>
-{/if}
-{/permissions}

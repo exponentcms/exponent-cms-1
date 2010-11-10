@@ -28,16 +28,9 @@
  *
  * $Id: _view.tpl,v 1.7 2005/04/08 15:45:49 filetreefrog Exp $
  *}
+ 
 <div class="bbmodule view">
 	{capture assign=int}b{$board->id}{/capture}
-	{if $permissions.configure == 1 || $permissions.administrate == 1}
-		<div class="modulepermissions">
-			{if $permissions.administrate == 1}
-			        <a href="{link action=userperms _common=1 int=$int}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>
-			        <a href="{link action=groupperms _common=1 int=$int}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
-			{/if}
-		</div>
-	{/if}
 	{* If you want to link your different forum back to the main forum page *}
 	{* Find the section number for your forum page and put it in the section number below *}
 	{* and uncomment the next line *}
@@ -93,9 +86,7 @@
 		<td colspan="5"><em>{$_TR.no_posts}</em></td>
 	{/foreach}
 	</table>
-	
-	
-	
+		
 	<div class="moduleactions">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.create_thread == 1}
@@ -143,5 +134,6 @@
 			{$_TR.not_logged}
 			<a href="{$smarty.const.URL_FULL}login.php">{$_TR.login}</a>
 		{/if}	
+	
 	</div>
 </div>

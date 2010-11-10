@@ -30,13 +30,13 @@
  *}
  <div class="pad">
 <div class="form_title">{if $is_edit == 1}Edit Post{elseif $is_reply == 1}Post Reply{else}Start Thread{/if}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {if $is_edit == 1}
 Please be considerate and respect the rights of others when editting posts.
 {else}
 Please be considerate of others when posting.
 {/if}
-</div>
+</p></div>
 {if $quote_text != "" }
 <br /><br />
  <span>quote:</span><br />

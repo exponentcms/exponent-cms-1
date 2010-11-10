@@ -29,11 +29,11 @@
  * $Id: _form_editBoard.tpl,v 1.3 2005/02/19 16:42:19 filetreefrog Exp $
  *}
 <div class="form_title">{if $is_edit == 1}Edit Board{else}Create Board{/if}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {if $is_edit == 1}
 Use this form to edit the name and description of an existing bulletin board.
 {else}
 Use this form to create a new bulletin board.
 {/if}
-</div>
+</p></div>
 {$form_html}

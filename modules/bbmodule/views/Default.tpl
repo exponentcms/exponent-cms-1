@@ -28,12 +28,10 @@
  *
  * $Id: Default.tpl,v 1.7 2005/04/08 15:45:48 filetreefrog Exp $
  *}
+ 
 <div class="bbmodule default">
-
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-
 	<table>
-		{if $moduletitle != ""}<caption>{$moduletitle}</caption>{/if}
+		{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 		<tr>
 			<th>{$_TR.title}</th>
 			<th>{$_TR.topics}</th>
@@ -96,7 +94,7 @@
 	{/permissions}
 
 	{if $show_users == true}
-		<div class="moduletitle bb_moduletitle whos_online">{$_TR.who_online}</div>
+		<div class="moduletitle bb_moduletitle whos_online"><h2>{$_TR.who_online}</h2></div>
 		<table>
 			<tr class="bb_boardlist_header">
 				<td>{$total_users} {$_TR.totalusers} {$num_members} {$_TR.members} {$anon_users} {$_TR.guests}</td>

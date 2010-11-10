@@ -28,32 +28,35 @@
  *
  * $Id: _view_thread.tpl,v 1.7 2005/04/08 15:45:49 filetreefrog Exp $
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-<div align="center">
-<table width="85%" cellpadding="0" cellspacing="1" border="0">
-	<tr>
-		<td class="header bb_header">Rank Title</td>
-		<td class="header bb_header">Minimum Posts</td>
-		<td class="header bb_header">Set as Special</td>
-		<td class="header bb_header">Edit</td>
-		<td class="header bb_header">Delete</td>
-	</tr>
-{foreach from=$ranks item=rank}
-	<tr style="border-bottom: 1px solid black; ">
-		<td class="bb_boardposts" style="border-bottom: 1px solid black;">{$rank->title}</td>
-		<td class="bb_boardposts" style="border-bottom: 1px solid black;">{$rank->minimum_posts}</td>
-		<td class="bb_boardposts" style="border-bottom: 1px solid black;">{if $rank->is_special == 0}No{else}Yes{/if}</td>
-		<td class="bb_boardposts" style="border-bottom: 1px solid black;">
-			<a href="{link module=bbmodule action=edit_rank id=$rank->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
-		</td>
-		<td class="bb_boardposts" style="border-bottom: 1px solid black;">
-			<a href="{link module=bbmodule action=delete_rank id=$rank->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
-		</td>
-	</tr>
-{/foreach}
-<tr><td align="left"><br /><br /><a href="{link module=bbmodule action=edit_rank}">Create a new rank</a></td></tr>
-</table>
+ 
+<div class="bbmodule view-rank">
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+		{if $permissions.administrate == 1}
+			<div align="center">
+				<table width="85%" cellpadding="0" cellspacing="1" border="0">
+					<tr>
+						<td class="header bb_header">Rank Title</td>
+						<td class="header bb_header">Minimum Posts</td>
+						<td class="header bb_header">Set as Special</td>
+						<td class="header bb_header">Edit</td>
+						<td class="header bb_header">Delete</td>
+					</tr>
+					{foreach from=$ranks item=rank}
+						<tr style="border-bottom: 1px solid black; ">
+							<td class="bb_boardposts" style="border-bottom: 1px solid black;">{$rank->title}</td>
+							<td class="bb_boardposts" style="border-bottom: 1px solid black;">{$rank->minimum_posts}</td>
+							<td class="bb_boardposts" style="border-bottom: 1px solid black;">{if $rank->is_special == 0}No{else}Yes{/if}</td>
+							<td class="bb_boardposts" style="border-bottom: 1px solid black;">
+								<a href="{link module=bbmodule action=edit_rank id=$rank->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+							</td>
+							<td class="bb_boardposts" style="border-bottom: 1px solid black;">
+								<a href="{link module=bbmodule action=delete_rank id=$rank->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+							</td>
+						</tr>
+					{/foreach}
+					<tr><td align="left"><br /><br /><a href="{link module=bbmodule action=edit_rank}">Create a new rank</a></td></tr>
+				</table>
+			</div>
+		{/if}
+	{/permissions}
 </div>
-{/if}
-{/permissions}

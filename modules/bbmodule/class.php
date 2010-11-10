@@ -35,13 +35,13 @@ class bbmodule {
 	function name() { return "Bulletin Board"; }
 	function description() { return "A lightweight bulletin board system that manages a set of boards, and flat-threads."; }
 	function author() { return "OIC Group, Inc"; }
-
+	
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-
+	
 	function supportsWorkflow() { return false; }
-
+	
 	function permissions($internal = "") {
 		if ($internal == "") {
 			return array(
@@ -76,14 +76,14 @@ class bbmodule {
 			);
 		}
 	}
-
+	
 	function show($view,$loc = null, $title = "") {
 		global $db;
     global $user;
 
 		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
-
+		
 		$directory = 'files/bbmodule/avatars/';
 		if (!file_exists(BASE.$directory)) {
 			$err = exponent_files_makeDirectory($directory);
@@ -92,7 +92,7 @@ class bbmodule {
 				$template->assign('uploadError',$err);
 			}
 		}
-
+		
 		$boards = $db->selectObjects("bb_board","location_data='".serialize($loc)."'");
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($boards); $i++) {
@@ -109,7 +109,7 @@ class bbmodule {
 				$boards[$i]->last_post = null;
 			}
 
-	if ($user && ($user->id!=0)) {
+      if ($user && ($user->id!=0)) {
         $last_visit = null;
         $last_visit = $db->selectObject('bb_user_board_visit', "board_id=".$boards[$i]->id." AND user_id=".$user->id);
           if ($last_visit == null) {
@@ -135,24 +135,24 @@ class bbmodule {
               $board->num_posts_since_last_visit = $db->countObjects('bb_post', "board_id=".$board->id);
             }
         }
-    } else {
+    } else { 
         $board->num_posts_since_last_visit = "N/A";
-    }
+    } 
 
 
 		$template = new template("bbmodule",$view,$loc);
 		$template->assign("moduletitle",$title);
 		$template->assign("boards",$boards);
-	    $template->assign("monitoring", $monitoring);
-	    $template->assign("loggedin", $loggedin);
+		$template->assign("monitoring", $monitoring);
+		$template->assign("loggedin", $loggedin);
 		$template->register_permissions(
 			array("administrate","configure","create_board","edit_board","delete_board"),
 			$loc
 		);
-
+    
     //If the option to show online users is enabled, get the user data
     $show_users = false;
-    $bbmod_config = $db->selectObject("bbmodule_config", "location_data='".serialize($loc)."'");
+    $bbmod_config = $db->selectObject("bbmodule_config", "location_data='".serialize($loc)."'");  
     if ($bbmod_config != null && $bbmod_config->whos_online == true) {
       $users_online = $this->whoisOnline();
       $num_members = count($users_online);
@@ -193,10 +193,10 @@ class bbmodule {
 		$anonymous = $db->countObjects("sessionticket", 'uid=0 and browser not like "%bot%" AND browser not like "%perl%" AND browser not like "%webmin%" and browser not like "%validator%" and browser not like "%Akregator%" and browser not like "%Slurp%" and browser not like "%google%" and browser not like "%wget%" and browser not like "%rss%" and browser not like "%newsgator%" and browser not like "%webmonitor%" and browser not like "%shelob%" and last_active >'.$timeout);
     	return $anonymous;
   }
-
+  
 	function deleteIn($loc) {
 		global $db;
-
+		
 		foreach ($db->selectObjects("bb_board","location_data='".serialize($loc)."'") as $board) {
 			$threads = $db->selectObjects("bb_post","board_id=".$board->id . " AND parent = 0");
 			foreach ($threads as $thread) {
@@ -207,36 +207,36 @@ class bbmodule {
 		}
 		$db->delete("bb_board","location_data='".serialize($loc)."'");
 	}
-
+	
 	function copyContent($oloc,$nloc) {
 		global $db;
-
+		
 		foreach ($db->selectObjects("bb_board","location_data='".serialize($oloc)."'") as $board) {
 			$board->location_data = $board->location_data = serialize($nloc);
 			$old_id = $board->id;
 			unset($board->id);
 			$board->id = $db->insertObject($board,'bb_board');
-
+			
 			$threads = $db->selectObjects("bb_post","board_id=".$old_id . " AND parent = 0");
 			foreach ($threads as $thread) {
 				$thread->board_id = $board->id;
 				$old_thread_id = $thread->id;
 				unset($thread->id);
-
+				
 				$thread->id = $db->insertObject($thread,'bb_post');
 				foreach ($db->selectObjects('bb_post','parent='.$old_thread_id) as $reply) {
 					unset($reply->id);
 					$reply->parent = $thread->id;
 					$db->insertObject($reply,'bb_post');
 				}
-
+				
 				foreach ($db->selectObjects('bb_threadmonitor','thread_id='.$old_thread_id) as $thread_monitor) {
 					unset($thread_monitor->id);
 					$thread_monitor->thread_id = $thread->id;
 					$db->insertObject($thread_monitor,'bb_threadmonitor');
 				}
 			}
-
+			
 			foreach ($db->selectObjects('bb_boardmonitor','board_id='.$old_id) as $board_monitor) {
 				unset($board_monitor->id);
 				$board_monitor->board_id = $board->id;
@@ -248,37 +248,37 @@ class bbmodule {
 	function searchName() {
                 return "Forums";
         }
-
+	
 	function spiderContent($item = null) {
 		global $db;
-
+		
 		if (!defined('SYS_SEARCH')) require_once(BASE.'subsystems/search.php');
-
+		
 		$search = null;
 		$search->ref_module = 'bbmodule';
-
+		
 		if ($item) {
-
+		
 			$search->original_id = $item->id;
-
+		
 			if (isset($item->board_id)) {
 				// Forum post
 				$search->category = 'Bulletin Board Post';
 				$search->ref_type = 'bb_post';
 				$db->delete('search',"ref_module='bbmodule' AND ref_type='bb_post' AND original_id=" . $item->id);
-
+				
 				$search->title = ' ' . $item->subject . ' ';
 				$search->body = ' ' . exponent_search_removeHTML($item->body) . ' ';
 				$search->view_link = 'index.php?module=bbmodule&action=view_thread&id='.$item->id;
-
+				
 				$board = $db->selectObject('bb_board','id='.$item->board_id);
-				$search->location_data = $board->location_data;
+				$search->location_data = $board->location_data;	
 			} else {
 				// Forum
 				$search->category = 'Bulletin Board';
 				$search->ref_type = 'bb_board';
 				$db->delete('search',"ref_module='bbmodule' AND ref_type='bb_board' AND original_id=" . $item->id);
-
+				
 				$search->title = " " . $item->name . " ";
 				$search->body = " " . exponent_search_removeHTML($item->description) . " ";
 				$search->location_data = $item->location_data;
@@ -288,12 +288,12 @@ class bbmodule {
 		} else {
 			$db->delete('search',"ref_module='bbmodule' AND ref_type='bb_post'");
 			$db->delete('search',"ref_module='bbmodule' AND ref_type='bb_board'");
-
+			
 			$search->category = 'Bulletin Board';
 			$search->ref_type = 'bb_board';
-
+			
 			$boards = $db->selectObjectsIndexedArray('bb_board');
-
+			
 			foreach ($boards as $item) {
 				$search->original_id = $item->id;
 				$search->title = ' ' . $item->name . ' ';
@@ -302,10 +302,10 @@ class bbmodule {
 				$search->view_link = 'index.php?module=bbmodule&action=view_board&id='.$item->id;
 				$db->insertObject($search,'search');
 			}
-
+			
 			$search->category = 'Bulletin Board Post';
 			$search->ref_type = 'bb_post';
-
+			
 			foreach ($db->selectObjects('bb_post') as $post) {
 				$search->original_id = $post->id;
 
@@ -314,9 +314,9 @@ class bbmodule {
 					$title = ' ' . $post->subject . ' ';
 				} elseif ( (!isset($post->subject) || $post->subject='') && (isset($post->parent)) ) {
 					$title = $db->selectCol('bb_post', 'subject', 'id='.$post->parent);
-				}
+				} 
 
-				if ($title == '') {
+				if ($title == '') {	
 					$search->title = substr($post->body,0,35);
 				} else {
   					$search->title = $title;
@@ -330,7 +330,7 @@ class bbmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-
+		
 		return true;
 	}
 }
