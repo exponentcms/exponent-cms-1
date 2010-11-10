@@ -68,8 +68,10 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		}
 		$post->poster = $user->id;
 		$post->posted = time();
-		$post->id = $db->insertObject($post,'weblog_post');
-
+				
+		$id = $db->insertObject($post,'weblog_post');
+		$post->id = $id;
+		
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
 
 		// New, so asign full perms.
@@ -80,6 +82,95 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		exponent_permissions_grant($user,'delete_comments',$iloc);
 		exponent_permissions_grant($user,'view_private',$iloc);
 		exponent_permissions_triggerSingleRefresh($user);
+	}
+		
+	if ($post->is_draft == 0 && ($was_draft || $newpost)) {
+		$blogname = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");	
+		$toneloc = exponent_core_makeLocation($loc->mod,$loc->src);
+		//$config = $db->selectObject("bbmodule_config","location_data='".serialize($loc)."'");
+		$config = $db->selectObject("weblogmodule_config","location_data='".serialize($toneloc)."'");
+		//eDebug($config);
+//      exit();
+
+		if (!isset($config->id)) {
+			$config->email_title_post = "Weblog : New Post Added";
+			$config->email_from_post = "Weblog Manager";
+			$config->email_address_post = "weblog@".HOSTNAME;
+			$config->email_reply_post = "weblog@".HOSTNAME;
+			$config->email_showpost_post = 0;
+			$config->email_signature = "--\nThanks, Webmaster";
+		}
+
+		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+		//$title = $config->email_title_thread;
+		$title = "[".$config->email_title_post." - $blogname] ".$post->title;
+		$from_addr = $config->email_address_post;
+		$headers = array(
+			"From"=>$from = $config->email_from_post,
+			"Reply-to"=>$reply = $config->email_reply_post
+			);
+
+		//  set up the html message
+		$template = new template("weblogmodule","_email_newpost_html",$loc);
+		$template->assign("showpost",$config->email_showpost_post);
+		$template->assign('viewlink',URL_FULL.'index.php?module=weblogmodule&action=view&id='.$id.'&src='.$loc->src);
+		$template->assign("signature",$config->email_signature);
+		$template->assign("post",$post);
+		$template->assign("poster",exponent_users_getUserById($post->poster));
+		$template->assign("blogname",$blogname);
+		$htmlmsg = $template->render();
+
+		// now the same thing for the text message	
+		$template = new template("weblogmodule","_email_newpost",$loc);
+		$template->assign("showpost",$config->email_showpost_post);
+		$template->assign('viewlink',URL_FULL.'index.php?module=weblogmodule&action=view&id='.$id.'&src='.$loc->src);
+		$template->assign("signature",$config->email_signature);
+		$post->body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\n",$post->body)));
+		$template->assign("post",$post);
+		$template->assign("poster",exponent_users_getUserById($post->poster));
+		$template->assign("blogname",$blogname);
+		$msg = $template->render();
+
+		
+		// Saved.  do notifs
+		$notifs = $db->selectObjects("weblog_monitor","weblog_id=".$config->id);
+		/*
+		$emails = array();
+		if (!defined("SYS_USERS")) require_once(BASE."subsystems/users.php");
+		foreach ($notifs as $n) {
+			if ($n->user_id != $user->id) {
+				$u = exponent_users_getUserById($n->user_id);
+				if ($u->email != "") $emails[] = $u->email;
+			}
+		}
+
+		if (!defined("SYS_SMTP")) require(BASE."subsystems/smtp.php");
+		exponent_smtp_mail($emails,$from_addr,$title,$msg,$headers);
+		*/
+		$emails = array();
+		foreach ($notifs as $n) {
+//			if ($n->user_id != $user->id) {
+				$u = exponent_users_getUserById($n->user_id);
+				if ($u->email != "" && !in_array($u->email,$emails)) $emails[] = $u->email;
+//			}
+		}
+	
+		require_once(BASE."subsystems/mail.php");
+		$mail = new exponentMail();
+		$mail->subject($title);
+		$mail->addText($msg);
+		$mail->addHTML($htmlmsg);
+		$mail->addFrom($config->email_address_post,$config->email_from_post);
+//		$mail->addTo($emails);
+//		$mail->send();
+		foreach($emails as $recip) {	// to keep other recepients hidden
+			try {
+				$mail->addTo($recip);
+				$mail->send();
+			} catch (Error $e) {
+			}
+			$mail->flushRecipients();
+		}
 	}
 
 	exponent_flow_redirect();

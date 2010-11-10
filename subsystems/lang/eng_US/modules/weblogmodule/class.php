@@ -10,6 +10,7 @@ return array(
 	'perm_edit'=>'Edit Posts',
 	'perm_delete'=>'Delete Posts',
 	'perm_comment'=>'Comment',
+	'perm_approve_comments'=>'Approve Comments',
 	'perm_edit_comments'=>'Edit Comments',
 	'perm_delete_comments'=>'Delete Comments',
 	'perm_view_private'=>'View Private Posts',

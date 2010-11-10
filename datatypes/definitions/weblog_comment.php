@@ -42,7 +42,9 @@ return array(
 	'edited'=>array(
 		DB_FIELD_TYPE=>DB_DEF_TIMESTAMP),
 	'editor'=>array(
-		DB_FIELD_TYPE=>DB_DEF_ID)
+		DB_FIELD_TYPE=>DB_DEF_ID),
+	'approved'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),		
 );
 
 ?>

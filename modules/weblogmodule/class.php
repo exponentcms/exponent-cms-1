@@ -29,25 +29,46 @@ class weblogmodule {
 	function supportsWorkflow() { return false; }
 
 	function getRSSContent($loc) {
-				global $db;
+		global $db;
 
-				//Get this modules items
-				$items = array();
-				$items = $db->selectObjects("weblog_post", "location_data='".serialize($loc)."' AND is_private != 1", 'posted DESC');
+		//Get this modules configuration data
+		$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 
-				//Convert the newsitems to rss items
-				$rssitems = array();
-				foreach ($items as $key => $item) {
-						$rss_item = new FeedItem();
-						$rss_item->title = $item->title;
-						$rss_item->description = $item->body;
-						$rss_item->date = date('r', $item->posted);
-						//$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
-						$rss_item->link = exponent_core_makeLink(array('module'=>'weblogmodule', 'action'=>'view', 'id'=>$item->id));
-						$rssitems[$key] = $rss_item;
-				}
-				return $rssitems;
+		//If this module was configured as an aggregator, then turn off check for the location_data
+		$locsql = "(location_data='".serialize($loc)."'";
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'weblogmodule';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
 		}
+		$locsql .= ')';
+		$locsql .= " AND (publish = 0 or publish <= " . time() . 
+			') AND (unpublish = 0 or unpublish > ' . time() . ') '; 
+		
+		//Get this modules items
+		$items = array();
+		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1", 'posted DESC');
+
+		//Convert the blog posts to rss items
+		$rssitems = array();
+		foreach ($items as $key => $item) {
+			$item->posted = ($item->publish != 0 ? $item->publish : $item->posted);
+			if ($item->publish == 0) {$item->publish = $item->posted;}			
+			$rss_item = new FeedItem();
+			$rss_item->title = $item->title;
+			$rss_item->description = $item->body;
+			$rss_item->date = date('r', $item->posted);
+			//$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
+			$rss_item->link = exponent_core_makeLink(array('module'=>'weblogmodule', 'action'=>'view', 'id'=>$item->id));
+			$rssitems[$key] = $rss_item;
+		}
+		return $rssitems;
+	}
 
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/weblogmodule/class.php');
@@ -60,6 +81,7 @@ class weblogmodule {
 				'edit'=>$i18n['perm_edit'],
 				'delete'=>$i18n['perm_delete'],
 				'comment'=>$i18n['perm_comment'],
+				'approve_comments'=>$i18n['perm_approve_comments'],
 				'edit_comments'=>$i18n['perm_edit_comments'],
 				'delete_comments'=>$i18n['perm_delete_comments'],
 				'view_private'=>$i18n['perm_view_private']
@@ -70,6 +92,7 @@ class weblogmodule {
 				'edit'=>$i18n['perm_edit_one'],
 				'delete'=>$i18n['perm_delete_one'],
 				'comment'=>$i18n['perm_comment'],
+				'approve_comments'=>$i18n['perm_approve_comments'],
 				'edit_comments'=>$i18n['perm_edit_comments'],
 				'delete_comments'=>$i18n['perm_delete_comments'],
 				'view_private'=>$i18n['perm_view_private_one']
@@ -87,10 +110,8 @@ class weblogmodule {
 
 	function show($view,$loc = null, $title = '') {
 		$template = new template('weblogmodule',$view,$loc);
-
 		global $db;
 		global $user;
-
 		$user_id = ($user ? $user->id : -1);
 
 		$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
@@ -113,30 +134,43 @@ class weblogmodule {
 	//			$available_tags = array();
 	//		}
 
-		$viewconfig = array('type'=>'default');
-		if (is_readable($template->viewdir."/$view.config")) {
-			$viewconfig = include($template->viewdir."/$view.config");
+		// $viewconfig = array('type'=>'default');
+		// if (is_readable($template->viewdir."/$view.config")) {
+			// $viewconfig = include($template->viewdir."/$view.config");
+		// }
+		$viewparams = $template->viewparams;
+		if ($viewparams === null) {
+			$viewparams = array('type'=>"default");
 		}
-
+		$viewconfig = $template->viewconfig;
+		if ($viewconfig === null) {
+			$viewconfig = array('num_posts'=>"0");
+		}
+		
 		// If this module has been configured to aggregate then setup the where clause to pull
 		// posts from the proper blogs.
 		$locsql = "(location_data='".serialize($loc)."'";
-				if (!empty($config->aggregate)) {
-						$locations = unserialize($config->aggregate);
-						foreach ($locations as $source) {
-								$tmploc = null;
-								$tmploc->mod = 'weblogmodule';
-								$tmploc->src = $source;
-								$tmploc->int = '';
-								$locsql .= " OR location_data='".serialize($tmploc)."'";
-						}
-				}
-				$locsql .= ')';
-
-		$where = '(is_draft = 0 OR poster = '.$user_id.") AND ".$locsql;
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'weblogmodule';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
+		}
+		$locsql .= ')';
+		$locsql .= " AND (publish = 0 or publish <= " . time() . " or poster=" . $user_id .
+			') AND (unpublish = 0 or unpublish > ' . time() . " or poster=" . $user_id . ') '; 
+		if ($user->is_admin || $user->is_acting_admin) {
+			$where = $locsql;
+		} else {
+			$where = '(is_draft = 0 OR poster = '.$user_id.") AND ".$locsql;
+		}
 		if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
-
-		if ($viewconfig['type'] == 'monthlist') {
+		
+		if ($viewparams['type'] == 'monthlist') {
 			$months = array();
 
 			$min_date = $db->min('weblog_post','posted','location_data',$where);
@@ -155,14 +189,14 @@ class weblogmodule {
 				$end_month = exponent_datetime_endOfMonthTimestamp($start_month)+86399;
 			} while ($start_month < $max_date);
 			$template->assign('months',array_reverse($months,true));
-		} else if ($viewconfig['type'] == 'byauthor') {
-						$users = $db->selectColumn('weblog_post', 'distinct(poster)', $where);
-						$authors = $db->selectObjectsInArray('user', $users, 'username');
-						for($i=0; $i < count($authors); $i++) {
-								$authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
-						}
-						$template->assign('authors', $authors);
-		} else if ($viewconfig['type'] == 'bytag') {
+		} else if ($viewparams['type'] == 'byauthor') {
+			$users = $db->selectColumn('weblog_post', 'distinct(poster)', $where);
+			$authors = $db->selectObjectsInArray('user', $users, 'username');
+			for($i=0; $i < count($authors); $i++) {
+				$authors[$i]->count = $db->countObjects('weblog_post', 'poster='.$authors[$i]->id);
+			}
+			$template->assign('authors', $authors);
+		} else if ($viewparams['type'] == 'bytag') {
 			$post_tags = $db->selectColumn('weblog_post', 'tags', $where);
 			$all_tags = $db->selectObjects('tags');
 			for ($i = 0; $i < count($post_tags); $i++) {
@@ -211,10 +245,10 @@ class weblogmodule {
 						$tag->group = 5;
 				}
 			}
-
+			
 			usort($all_tags, "exponent_sorting_byNameAscending");
 			$template->assign('tags', $all_tags);
-		} else if ($viewconfig['type'] == 'calendar') {
+		} else if ($viewparams['type'] == 'calendar') {
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 			$time = (isset($_GET['month']) ? $_GET['month'] : time());
 			$month_days = exponent_datetime_monthlyDaysTimestamp($time);
@@ -224,6 +258,7 @@ class weblogmodule {
 					if ( ($mday > 0) && ($mday <= $endofmonth) ) {
 						// Got a valid one.	 Go with it.
 						$month_days[$i][$mday]['number'] = ($month_days[$i][$mday]['ts'] !=-1) ? $db->countObjects('weblog_post',$where.' AND posted >= '.$timestamp['ts'] .' AND posted < '.strtotime('+1 day',$timestamp['ts'])) : -1;
+						if ($month_days[$i][$mday]['number']) $posted = true;
 					}
 				}
 			}
@@ -233,15 +268,23 @@ class weblogmodule {
 			$prevmonth = mktime(0, 0, 0, date("m",$timefirst)-1, date("d",$timefirst)+10,   date("Y",$timefirst));
 			$nextmonth = mktime(0, 0, 0, date("m",$timefirst)+1, date("d",$timefirst)+10,   date("Y",$timefirst));
 			$template->assign("now",$timefirst);
+			$template->assign("posted",$posted);
 			$template->assign("prevmonth",$prevmonth);
 			$template->assign("thismonth",$timefirst);
 			$template->assign("nextmonth",$nextmonth);
 			$template->assign('days',$month_days);
-		} else {
+		} else {	// default view
+			$limit = '';
+			if (isset($viewconfig) && isset($viewconfig['num_posts']) && $viewconfig['num_posts'] != 0) {
+				$limit = $db->limit($viewconfig['num_posts'],0);
+			}	
 			$total = $db->countObjects('weblog_post',$where);
-			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
+//			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,0));
+			$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$limit);			
 			if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 			for ($i = 0; $i < count($posts); $i++) {
+				$posts[$i]->posted = ($posts[$i]->publish != 0 ? $posts[$i]->publish : $posts[$i]->posted);
+				if ($posts[$i]->publish == 0) {$posts[$i]->publish = $posts[$i]->posted;}
 				$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$posts[$i]->id);
 
 				$posts[$i]->permissions = array(
@@ -249,19 +292,24 @@ class weblogmodule {
 					'edit'=>exponent_permissions_check('edit',$ploc),
 					'delete'=>exponent_permissions_check('delete',$ploc),
 					'comment'=>exponent_permissions_check('comment',$ploc),
+					'approve_comments'=>exponent_permissions_check('approve_comments',$ploc),
 					'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
 					'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
 					'view_private'=>exponent_permissions_check('view_private',$ploc),
 				);
-				$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);
+				if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {
+					$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id." AND approved=1");
+				} else {
+					$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);
+				}
 				usort($comments,'exponent_sorting_byPostedDescending');
 				$posts[$i]->comments = $comments;
 				$posts[$i]->total_comments = count($comments);
 
 				//Get the tags for this weblogitem
 				$selected_tags = array();
-					$tag_ids = unserialize($posts[$i]->tags);
-					if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+				$tag_ids = unserialize($posts[$i]->tags);
+				if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 				$posts[$i]->tags = $selected_tags;
 				$posts[$i]->selected_tags = $selected_tags;
 			}
@@ -272,10 +320,22 @@ class weblogmodule {
 
 		if (!empty($config->collections)) $template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 
+		$monitoring = false;
+		if ($user && ($user->id!=0)) {
+			$weblog_monitor = null;
+			$weblog_monitor = $db->selectObject("weblog_monitor","weblog_id=".$config->id." AND user_id=".$user->id);
+			if ($weblog_monitor != null) $monitoring = true;
+		}
+		$template->assign("monitoring", $monitoring);
+		
 		$template->register_permissions(
-			array('administrate','configure','post','edit','delete','comment','edit_comments','delete_comments','view_private'),
+			array('administrate','configure','post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private'),
 			$loc);
 		$template->assign('config',$config);
+//		$template->assign('viewconfig',$template->viewconfig);
+//		$template->assign('num_posts',$viewconfig['num_posts']);
+//		$template->assign('paging',$viewconfig['paging']);		
+//		$template->assign('show_author',$viewconfig['show_author']);		
 		$template->assign('logged_in', exponent_users_isLoggedIn());
 		$template->assign('moduletitle',$title);
 		$template->output();

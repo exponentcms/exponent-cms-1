@@ -13,91 +13,115 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1}
-	<a href="{link action=userperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm}" alt="{$_TR.alt_userperm}" /></a>&nbsp;
-	<a href="{link action=groupperms _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm}" alt="{$_TR.alt_groupperm}" /></a>
+
+<div class="weblogmodule default">
+<h2>
+{if $enable_rss == true}
+	<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
 {/if}
-{if $permissions.configure == 1}
-	<a href="{link action=configure _common=1}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}configure.png" title="{$_TR.alt_configure}" alt="{$_TR.alt_configure}" /></a>
-{/if}
-{if $permissions.configure == 1 or $permissions.administrate == 1}
-	<br />
-{/if}
-{/permissions}
-{if $moduletitle != ""}<div class="moduletitle weblog_moduletitle">{$moduletitle}</div>{/if}
+{if $moduletitle != ""}{$moduletitle}{/if}
+</h2>
 {foreach from=$posts item=post}
-<div>
-<div class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">({$_TR.draft})</span>{/if}
-{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-{if $permissions.administrate == 1 || $post->permissions.administrate == 1}
-<a href="{link action=userperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
-</a>
-<a href="{link action=groupperms _common=1 int=$post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
-</a>
-{/if}
-{/permissions}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.edit == 1 || $post->permissions.edit == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$post->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-</a>
-{/if}
-{if $permissions.delete == 1 || $post->permissions.delete == 1}
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-</a>
-{/if}
-{/permissions}
-</div>
-<div class="subheader weblog_subheader">{$_TR.posted_by} {attribution user_id=$post->poster} {$_TR.on} {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
-<div>{$post->body}</div>
-{if $config->allow_comments}
-	<div class="comments" style="padding-left: 35px;">
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.comment == 1 || $post->permissions.comment == 1}
-		<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit parent_id=$post->id}">{$_TR.comment}</a>
+	<div class="item {cycle values='odd,even'}">
+		{if $view != 2}
+			<h3 class="itemtitle weblog_itemtitle"><a href="{link module=weblogmodule action=view id=$post->id}">{$post->title}</a>{if $post->is_draft} <span class="draft"><em>({$_TR.draft})</em></span>{/if}</h3>
+			<div class="itemactions">
+		{else}
+			<b>{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</b>&nbsp;
+			{br}- <a href="{link module=weblogmodule action=view id=$post->id}">{$post->title}</a>{if $post->is_draft} <span class="draft"><em>({$_TR.draft})</em></span>{/if}
+		{/if}
+		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+		{if $permissions.administrate == 1 || $post->permissions.administrate == 1}
+		<a href="{link action=userperms _common=1 int=$post->id}">
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
+		</a>
+		<a href="{link action=groupperms _common=1 int=$post->id}">
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
+		</a>
 		{/if}
 		{/permissions}
-		{foreach from=$post->comments item=comment}
-			<div class="weblog_comment">
-				<div class="weblog_comment_title">{$comment->title}
-				<br />
-				{permissions level=$smarty.const.UILEVEL_NORMAL}
-				{if $permissions.edit_comments == 1 || $post->permissions.edit_comments == 1}
-				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_edit id=$comment->id}">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_comment}" alt="{$_TR.alt_edit_comment}" />
-				</a>
-				{/if}
-				{if $permissions.delete_comments == 1 || $post->permissions.delete_comments == 1}
-				<a class="mngmntlink weblog_mngmntlink" href="{link action=comment_delete id=$comment->id parent_id=$post->id}" onclick="return confirm('{$_TR.delete_comment_confirm}');">
-					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete_comment}" alt="{$_TR.alt_delete_comment}" />
-				</a>
-				{/if}
-				{/permissions}
-				</div>
-				<div class="weblog_comment_attribution">{$_TR.posted_by} {attribution user_id=$comment->poster} {$_TR.on} {$comment->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
-				<div class="weblog_comment_body">{$comment->body}</div>
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.edit == 1 || $post->permissions.edit == 1}
+		<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$post->id}">
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+		</a>
+		{/if}
+		{if $permissions.delete == 1 || $post->permissions.delete == 1}
+		<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+		</a>
+		{/if}
+		{/permissions}
+		{if $view != 2}
 			</div>
-		{/foreach}
+		{/if}
+		{if $view == 1}
+			<div class="bodycopyfull">
+		{if $post->image!=""}<img class="weblogimg" src="{$smarty.const.URL_FULL}/thumb.php?file={$post->image}&amp;constraint=1&amp;width=150&amp;height=200" alt="{$post->title}" />{/if}
+			<p>{$post->body}</p>
+			</div>
+		{elseif $view == 0}
+			<div class="bodycopy">
+		{if $post->image!=""}<img class="weblogimg" src="{$smarty.const.URL_FULL}/thumb.php?file={$post->image}&amp;constraint=1&amp;width=150&amp;height=200" alt="{$post->title}" />{/if}
+			<p>{$post->body|summarize:html:para}</p>
+			</div>
+		{/if}
+		<div class="post-footer">
+			<a class="readmore" href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}<span> "{$post->title}"</span></a>
+			| Read {$post->reads} times
+			{if $config->allow_comments != 0}
+				| <a class="comments" href="{link module=weblogmodule action=view id=$post->id}#comments">{$post->total_comments} {$_TR.comment}{if $post->total_comments != 1}{$_TR.plural}{/if}<span> {$_TR.on} "{$post->title}"</span></a>
+			{elseif $config->allow_replys != 0}
+				| <a class="replys" href="{link module=weblogmodule action=view id=$post->id}#reply">{$_TR.reply}<span> {$_TR.to} "{$post->title}"</span></a>
+			{/if}
+			 |
+			{if $post->posted > $smarty.now}
+				<b><u>{$_TR.will_be}&nbsp;
+			{elseif ($post->unpublish != 0) && $post->unpublish <= $smarty.now}
+				<b><u>{$_TR.was}&nbsp;
+			{/if}
+			{$_TR.posted}{if $config->show_poster} {$_TR.by} {attribution user_id=$post->poster} {$_TR.on} {/if}&nbsp;{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+			{if $post->posted > $smarty.now}
+				</u></b>&nbsp;
+			{elseif ($post->unpublish != 0) && $post->unpublish <= $smarty.now}
+				{$_TR.now_unpublished}</u></b>&nbsp;
+			{/if}
+		</div>
+		{if $view != 2}
+			<hr />
+		{/if}	
 	</div>
-{/if}
-<hr />
-</div>
 {/foreach}
+{if $view == 2}
+	<hr />
+{/if}
 {if $page != 0}
 	{math equation="x-1" x=$page assign=prevpage}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.previous}</a>&nbsp;&nbsp;
+	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=$prevpage view=$view}">&lt; {$_TR.previous}</a>&nbsp;&nbsp;
+	{if $shownext}
+	|&nbsp;
+	{/if}
 {/if}
 {if $shownext}
 	{math equation="x+1" x=$page assign=nextpage}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>
+	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=$nextpage view=$view}">{$_TR.next} &gt;</a>
 {/if}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
-<br />
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a>
+<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
 {/if}
 {/permissions}
+{if $logged_in == 1 || $monitoring == 1}
+	<div class="moduleactions">
+		{if $logged_in == 1}
+			{if $monitoring == 1}
+				<em>{$_TR.blog_monitor}</em>
+				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+			{else}
+				<em>{$_TR.not_monitoring}</em>
+				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+			{/if}
+		{/if}
+	</div>
+{/if}
+</div>

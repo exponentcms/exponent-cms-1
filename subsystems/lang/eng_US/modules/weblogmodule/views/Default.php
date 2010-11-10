@@ -15,6 +15,8 @@ return array(
 
 	'comment'=>'Comment',
 	'comments'=>'Comments',
+	'reply'=>'Reply',
+	'plural'=>'s',
 
 	'alt_edit_comment'=>'Edit this Comment',
 	'alt_delete_comment'=>'Delete this Comment',
@@ -22,14 +24,27 @@ return array(
 
 	'next'=>'Next',
 	'read_more'=>'Read More',
+	'view_all'=>'More Posts',
 	'new_post'=>'New Post',
 
 	'draft'=>'Draft',
 
+	'posted'=>'Posted',
 	'posted_by'=>'Posted by',
+	'by'=>'by',
 	'on'=>'on',
-
+	'to'=>'to',
+	'will_be'=>'Will be',
+	'was'=>'Was',
+	'now_unpublished'=>'Now Unpublished',
+	
 	'alt_rssfeed'=>'Subscribe to this Weblog RSS feed',
+	
+	'click_here'=>'Click Here',
+	'blog_monitor'=>'You are monitoring this weblog for new posts.',
+	'stop_monitoring'=>' to stop monitoring it.',
+	'not_monitoring'=>'You are not monitoring this weblog.',
+	'start_monitor'=>' to start monitoring it for new posts.',
 );
 
 ?>

@@ -15,11 +15,33 @@
  *}
 
 <div class="weblogmodule by-author">
-{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
-
+<h2>
+{if $enable_rss == true}
+	<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+{/if}
+{if $moduletitle != ""}{$moduletitle}{/if}
+</h2>
 <ul>
 {foreach from=$authors item=author}
 	<li><a href="{link action=view_byauthor id=$author->id}">{attribution user=$author} ({$author->count})</a></li>
 {/foreach}
 </ul>
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.post == 1}
+		<a class="addpost" href="{link action=post_edit}">{$_TR.create}</a>
+	{/if}
+{/permissions}
+{if $logged_in == 1 || $monitoring == 1}
+	<div class="moduleactions">
+		{if $logged_in == 1}
+			{if $monitoring == 1}
+				{br}<em>{$_TR.blog_monitor}</em>
+				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+			{else}
+				{br}<em>{$_TR.not_monitoring}</em>
+				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+			{/if}
+		{/if}
+	</div>
+{/if}
 </div>

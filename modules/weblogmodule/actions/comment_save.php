@@ -19,8 +19,6 @@
 
 if (!defined('EXPONENT')) exit('');
 
-
-
 require_once(BASE.'subsystems/mail.php');
 
 $i18n = exponent_lang_loadFile('modules/weblogmodule/actions/comment_save.php');
@@ -53,53 +51,70 @@ if ($post && $post->is_draft == 0) {
 	}
 		
 	$comment = weblog_comment::update($_POST,$comment);
+	if ($config->approve_comments && ($user->id == $post->poster || $user->id == $post->editor)) {
+		$comment->approved = 1;  // only auto-approve comments by original poster or editor
+	} else {
+		$comment->approved = 0;  // dis-approve all other comments, including those approved earlier, but now edited
+	}
 
 	if (isset($comment->id)) {
 		$comment->editor = $user->id;
 		$comment->edited = time();
 		$db->updateObject($comment,'weblog_comment');
+		$typecomment = "edited their reply";
 	} else {
 		$comment->posted = time();
-      
       		if (isset($user) && $user->id != 0) {
-			$comment->poster = $user->id;
+				$comment->poster = $user->id;
         		$comment->name = $user->username;
 	      	} elseif (isset($_POST['name'])) {
         		$comment->name = $_POST['name'];
       		} else {
         		$comment->name = 'Anonymous';
       		}
-
 		$comment->parent_id = intval($_POST['parent_id']);
 		$db->insertObject($comment,'weblog_comment');
+		$typecomment = "replied";
 	}
 		
 	// Send email to addresses corresponding to users listed in comments_notify
 	// 1.23.08 rkq
 
-	$users = unserialize($config->comments_notify);
-	if (!empty($users)) {
+	$userlist = unserialize($config->comments_notify);
+	if (!empty($userlist)) {
 		try {
-			$userlist = array();
 			$j=0;
 			$emailaddresses = array();
-			foreach($users as $i)
+			foreach($userlist as $userid)
 			{
-				if($user->email!="")
+				$notify = exponent_users_getUserById($userid);
+				if($notify->email!="")  // valid e-mail address?
+//				if(($notify->email!="") && ($userid != $user->id))  // valid e-mail address?
 				{
-					$emailaddresses[$j] = $user->email;
+					$emailaddresses[$j] = $notify->email;
 					++$j;
 				}
 			}
+			$textmessage = $comment->name."(".$comment->email.") has ".$typecomment." to your blog post, '".$post->title."'. They wrote:\r\n\r\n '".$comment->body."'";
+			$htmlmessage = "<a href=\"mailto:".$comment->email."\">".$comment->name."</a> has ".$typecomment." to your blog post, '".$post->title."'. They wrote:<br /><br /> <blockquote>'".$comment->body."'</blockquote>";
+
+			if ($config->approve_comments && !$comment->approved) {
+				$textmessage .= "\r\n\r\n This comment requires approval before it can be viewed!\r\n".URL_FULL."index.php?module=weblogmodule&action=view&id=".$post->id."&src=".$loc->src."#comments";
+				$htmlmessage .= "<br /><br /><b>This comment requires <a href=".URL_FULL."index.php?module=weblogmodule&action=view&id=".$post->id."&src=".$loc->src."#comments>approval</a> before it can be viewed!</b>";
+			}
+
+			if ($config->email_showpost_post) {
+				$textmessage .= "\r\n--------\r\n".chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\n",$comment->body)));
+				$htmlmessage .= "<br /><hr><br />".$comment->body;
+			}
 			
-			$textmessage = $comment->name."(".$comment->email.") has replied to your blog post, '".$post->title."'. He or she wrote: '".$comment->body."'";
-			$htmlmessage = "<a href=\"mailto:".$comment->email."\">".$comment->name."</a> has replied to your blog post, '".$post->title."'. He or she wrote: '".$comment->body."'";
-			$params = array("text_message"=>$textmessage,
-					"html_message"=>$htmlmessage,
-					"subject"=>"Blog Post Comment",
-					"to"=>"email",
-					"from"=>SMTP_FROMADDRESS,
-					);
+			$params = array(
+				"text_message"=>$textmessage,
+				"html_message"=>$htmlmessage,
+				"subject"=>"Blog Post Comment - ".$post->title,
+				"to"=>"email",
+				"from"=>SMTP_FROMADDRESS,
+				);
 			$mail = new exponentMail($params);	
 			$i=0;		
 			while($i<$j)
@@ -114,12 +129,12 @@ if ($post && $post->is_draft == 0) {
 			flash('error', $message); 
 		}
 	}
+	if(!empty($comment) && (empty($comment->approved) || $comment->approved == 0)) {
+		flash('message', "Your comment was saved, however is must first be approved");
+	}	
 	exponent_flow_redirect();
 } else {
 	echo SITE_404_HTML;
 }
-
-
-
 
 ?>

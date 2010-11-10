@@ -25,6 +25,8 @@ if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 
 $config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 if ($config == null) $config->allow_comments = 1;
+global $user;
+$user_id = ($user ? $user->id : -1);
 
 // If this module has been configured to aggregate then setup the where clause to pull
 // posts from the proper blogs.
@@ -40,13 +42,21 @@ if (!empty($config->aggregate)) {
         }
 }
 $locsql .= ')';
-$where = '(is_draft = 0 OR poster = '.$user->id.") AND ".$locsql;
+$locsql .= " AND (publish = 0 or publish <= " . time() . " or poster=" . $user_id .
+	') AND (unpublish = 0 or unpublish > ' . time() . " or poster=" . $user_id . ') '; 
+if ($user->is_admin || $user->is_acting_admin) {
+	$where = $locsql;
+} else {	
+	$where = '(is_draft = 0 OR poster = '.$user->id.") AND ".$locsql;
+}
 
 $all_posts = $db->selectObjects('weblog_post', $where);
 $viewing_tag = $db->selectObject('tags', "id=".intval($_REQUEST['id']));
 $posts = array();
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($all_posts); $i++) {
+	$posts[$i]->posted = ($posts[$i]->publish != 0 ? $posts[$i]->publish : $posts[$i]->posted);
+	if ($posts[$i]->publish == 0) {$posts[$i]->publish = $posts[$i]->posted;}
 	$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$all_posts[$i]->id);
 	$not_there = true;
 	$tags = unserialize($all_posts[$i]->tags);
@@ -63,12 +73,16 @@ for ($i = 0; $i < count($all_posts); $i++) {
 			'edit'=>exponent_permissions_check('edit',$ploc),
 			'delete'=>exponent_permissions_check('delete',$ploc),
 			'comment'=>exponent_permissions_check('comment',$ploc),
+			'approve_comments'=>exponent_permissions_check('approve_comments',$ploc),
 			'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
 			'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
 			'view_private'=>exponent_permissions_check('view_private',$ploc),
 		);
-		$comments = $db->selectObjects('weblog_comment','parent_id='.$all_posts[$i]->id);
-		
+		if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {
+			$comments = $db->selectObjects('weblog_comment','parent_id='.$all_posts[$i]->id." AND approved=1");
+		} else {
+			$comments = $db->selectObjects('weblog_comment','parent_id='.$all_posts[$i]->id);
+		}
 		usort($comments,'exponent_sorting_byPostedDescending');
 		$post->comments = $comments;
 		$post->total_comments = count($comments);
@@ -77,12 +91,26 @@ for ($i = 0; $i < count($all_posts); $i++) {
 }
 usort($posts,'exponent_sorting_byPostedDescending');
 $title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
-$template = new template('weblogmodule','Summary',$loc);
+//$template = new template('weblogmodule','Summary',$loc);
+$template = new template('weblogmodule','Default',$loc);
+//If rss is enabled tell the view to show the RSS button
+if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+$template->assign('enable_rss', $config->enable_rss);
 $template->assign('posts',$posts);
+
+$monitoring = false;
+if ($user && ($user->id!=0)) {
+	$weblog_monitor = null;
+	$weblog_monitor = $db->selectObject("weblog_monitor","weblog_id=".$config->id." AND user_id=".$user->id);
+	if ($weblog_monitor != null) $monitoring = true;
+}
+$template->assign("monitoring", $monitoring);
+$template->assign('logged_in', exponent_users_isLoggedIn());
+
 $template->assign('moduletitle',$title);
 $template->assign('viewing_tag',$viewing_tag);
 $template->register_permissions(
-	array('administrate'/*,'configure'*/,'post','edit','delete','comment','edit_comments','delete_comments','view_private'),
+	array('administrate'/*,'configure'*/,'post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private'),
 	$loc);
 $template->assign('config',$config);
 $template->output();

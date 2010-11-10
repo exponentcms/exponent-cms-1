@@ -14,8 +14,8 @@
  *
  *}
 <div class="weblog postedit">
-	<div class="form_header">
-		<h1>{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</h1>
+	<div class="form_title">
+		{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}
 	</div>
 	<hr size="1" />
 	{$form_html}

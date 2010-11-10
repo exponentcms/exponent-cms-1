@@ -13,59 +13,98 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+ 
 <div class="weblogmodule default">
-<h1>
-{if $enable_rss == true}
-        <a class="rsslink" href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-{/if}
-{if $moduletitle != ""}{$moduletitle}{/if}
-</h1>
-{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-{foreach from=$posts item=post}
-	<div class="item {cycle values='odd,even'}">
-		<div>
-			<h2 class="itemtitle weblog_itemtitle">{$post->title}{if $post->is_draft} <span class="draft">(Draft)</span>{/if}</h2>
-			<div class="attribution">Posted by {attribution user_id=$post->poster} on {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
-			<br />
-			{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-			{if $permissions.administrate == 1 || $post->permissions.administrate == 1}
-			<a href="{link action=userperms _common=1 int=$post->id}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
-			</a>
-			<a href="{link action=groupperms _common=1 int=$post->id}">
-				<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
-			</a>
-			{/if}
-			{/permissions}
-			{permissions level=$smarty.const.UILEVEL_NORMAL}
-			{if $permissions.edit == 1 || $post->permissions.edit == 1}
-			<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$post->id}">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-			</a>
-			{/if}
-			{if $permissions.delete == 1 || $post->permissions.delete == 1}
-			<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
-			<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-			</a>
-			{/if}
-			{/permissions}
-		</div>
-		<div class="bodycopy">{$post->body}</div>
-		{if $config->allow_comments}
-			<div class="post-footer">
-    				<a class="comments" href="{link action=findByTitle title=$post->title}">Comment{if $post->total_comments != 1}s{/if}<span> on "{$post->title}"</span> ({$post->total_comments})</a>
+	<h2>
+	{if $enable_rss == true}
+		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+	{/if}
+	{if $moduletitle != ""}{$moduletitle}{/if}
+	</h2>
+	{foreach from=$posts item=post}
+		<div class="item {cycle values='odd,even'}">
+			<h3 class="itemtitle weblog_itemtitle"><a href="{link module=weblogmodule action=view id=$post->id}">{$post->title}</a>{if $post->is_draft} <span class="draft"><em>({$_TR.draft})</em></span>{/if}</h3>
+			<div class="itemactions">
+				{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+				{if $permissions.administrate == 1 || $post->permissions.administrate == 1}
+				<a href="{link action=userperms _common=1 int=$post->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" />
+				</a>
+				<a href="{link action=groupperms _common=1 int=$post->id}">
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}groupperms.png" title="{$_TR.alt_groupperm_one}" alt="{$_TR.alt_groupperm_one}" />
+				</a>
+				{/if}
+				{/permissions}
+				{permissions level=$smarty.const.UILEVEL_NORMAL}
+				{if $permissions.edit == 1 || $post->permissions.edit == 1}
+				<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit id=$post->id}">
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+				</a>
+				{/if}
+				{if $permissions.delete == 1 || $post->permissions.delete == 1}
+				<a class="mngmntlink weblog_mngmntlink" href="{link action=post_delete id=$post->id}" onclick="return confirm('{$_TR.delete_confirm}');">
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+				</a>
+				{/if}
+				{/permissions}
 			</div>
+			<div class="bodycopyfull">
+				{if $post->image!=""}<img class="weblogimg" src="{$smarty.const.URL_FULL}/thumb.php?file={$post->image}&amp;constraint=1&amp;width=150&amp;height=200" alt="{$post->title}" />{/if}
+				{$post->body}
+			</div>
+			<div class="post-footer">
+				<a class="readmore" href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}<span> "{$post->title}"</span></a>
+				| Read {$post->reads} times
+				{if $config->allow_comments != 0}
+					| <a class="comments" href="{link module=weblogmodule action=view id=$post->id}#comments">{$post->total_comments} {$_TR.comment}{if $post->total_comments != 1}{$_TR.plural}{/if}<span> {$_TR.on} "{$post->title}"</span></a>
+				{elseif $config->allow_replys != 0}
+					| <a class="replys" href="{link module=weblogmodule action=view id=$post->id}#reply">{$_TR.reply}<span> {$_TR.to} "{$post->title}"</span></a>
+				{/if}
+				 |
+				{if $post->posted > $smarty.now}
+					<b><u>{$_TR.will_be}&nbsp;
+				{elseif ($post->unpublish != 0) && $post->unpublish <= $smarty.now}
+					<b><u>{$_TR.was}&nbsp;
+				{/if}
+				{$_TR.posted}{if $config->show_poster} {$_TR.by} {attribution user_id=$post->poster} {$_TR.on} {/if}&nbsp;{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+				{if $post->posted > $smarty.now}
+					</u></b>&nbsp;
+				{elseif ($post->unpublish != 0) && $post->unpublish <= $smarty.now}
+					{$_TR.now_unpublished}</u></b>&nbsp;
+				{/if}
+			</div>
+			{if $__viewconfig.num_posts > 1}
+			<hr />
+			{/if}
+		</div>
+	{/foreach}
+
+	{if $total_posts > $__viewconfig.num_posts}
+		{if $__viewconfig.num_posts > 1}
+			<p><a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1 view=1}">{$_TR.next} &gt;</a></p>
+		{else}
+			<p><a class="moreposts mngmntlink" href="{link action=view_page page=0 view=1 }">{$_TR.view_all}{if $moduletitle != ""} in &quot;{$moduletitle}&quot;{/if}</a></p>
 		{/if}
-		<hr />
-	</div>
-{/foreach}
-{if $total_posts > $config->items_per_page}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>
-{/if}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.post == 1}
-<br />
-<a class="mngmntlink weblog_mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a>
-{/if}
-{/permissions}
+	{/if}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.post == 1}
+			<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
+		{/if}
+	{/permissions}
+	{if ($logged_in == 1 || $monitoring == 1) && $__viewconfig.num_posts > 1}
+		<div class="moduleactions">
+			{if $logged_in == 1}
+				{if $monitoring == 1}
+					<em>{$_TR.blog_monitor}</em>
+					{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+				{else}
+					<em>{$_TR.not_monitoring}</em>
+					{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+				{/if}
+			{/if}
+		</div>
+	{/if}
+	{if $__viewconfig.num_posts == 1}
+	<hr />
+	{/if}
 </div>

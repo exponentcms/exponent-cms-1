@@ -5,22 +5,6 @@ return array(
 	'alt_groupperm'=>'Assign group permissions on this Weblog',
 	'alt_configure'=>'Change the configuration of this Weblog',
 
-	'sunday_short'=>'S',
-	'monday_short'=>'M',
-	'tuesday_short'=>'T',
-	'wednesday_short'=>'W',
-	'thursday_short'=>'T',
-	'friday_short'=>'F',
-	'saturday_short'=>'S',
-
-	'sunday'=>'Sunday',
-	'monday'=>'Monday',
-	'tuesday'=>'Tuesday',
-	'wednesday'=>'Wednesday',
-	'thursday'=>'Thursday',
-	'friday'=>'Friday',
-	'saturday'=>'Saturday',
-
 	'alt_create'=>'Create a new Post',
 	'create'=>'New Post',
 	'alt_approval'=>'View Posts in Approval',

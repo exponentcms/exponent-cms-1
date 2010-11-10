@@ -13,12 +13,10 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="form_title">{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</div>
-{if $is_edit == 0}
-<div class="form_header"><p>
-{$_TR.gotm_header}
-</p></div>
+{if $message == ''}
+{$_TR.default_message}
 {else}
-<hr size="1" />
+{$message}
 {/if}
-{$form_html}
+{br}{br}
+<a href="index.php">{$_TR.back}</a>
