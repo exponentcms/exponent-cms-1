@@ -1,5 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
- "http://www.w3.org/TR/html4/strict.dtd">
+<?php
+if (!defined('EXPONENT')) exit('');
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <html>
 <head>
 	<?php 
@@ -24,6 +27,7 @@
 		<div id="bd">
 			<div class="yui-b">
 				<?php exponent_theme_showModule("containermodule","Default","","@left"); ?>			
+				<?php exponent_theme_showModule("containermodule","Default","","@right"); ?>
 			</div>
 			<div id="yui-main">
 				<div class="yui-b">
@@ -35,7 +39,8 @@
 			</div>
 		</div>
 		<div id="ft">
-			<?php exponent_theme_showModule("textmodule","Default","","@basetheme"); ?>
+			<?php //exponent_theme_showModule("textmodule","Default","","@basetheme"); ?>
+			<?php exponent_theme_showModule("textmodule","Default","","footer"); ?>
 		</div>
 	</div>
 <?php echo exponent_theme_footerInfo(); ?>
