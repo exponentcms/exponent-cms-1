@@ -103,6 +103,7 @@ if (!isset($form_data['data_id']) || (isset($form_data['data_id']) && exponent_p
 		}
 		$template->assign("fields",$fields);
 		$template->assign("captions",$captions);
+		$template->assign('title',$rpt->name);		
 		$template->assign("is_email",1);
 		$emailHtml = $template->render();
 		
@@ -122,9 +123,9 @@ if (!isset($form_data['data_id']) || (isset($form_data['data_id']) && exponent_p
 				);
 				$mail = new exponentMail();
 				$mail->addHTML($emailHtml);
-				$mail->subject($f->subject);
 				foreach ($emaillist as $email) {
 					$mail->addTo($email);
+					$mail->subject($f->subject);
 					$mail->send();
 					$mail->flushRecipients();
 				}

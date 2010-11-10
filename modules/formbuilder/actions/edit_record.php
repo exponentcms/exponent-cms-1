@@ -45,11 +45,13 @@ if ($f && $data && $controls) {
 			$ctl->_readonly = $c->is_readonly;
 			if ($c->is_readonly == 0) {
 				$name = $c->name;
-				$ctl->default = $data->$name;
+				if ($c->is_static == 0) {
+					$ctl->default = $data->$name;
+				}
 			}
 			$form->register($c->name,$c->caption,$ctl);
 		}
-		$form->register(uniqid(''),'', new htmlcontrol('<br /><br />'));
+		//$form->register(uniqid(''),'', new htmlcontrol('<br /><br />'));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		$form->meta('action','submit_form');
 		$form->meta('m',$loc->mod);

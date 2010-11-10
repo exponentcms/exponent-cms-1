@@ -108,7 +108,7 @@ class formmodule {
 				if(!empty($data[$c->name])) $ctl->default = $data[$c->name];
 				$form->register($c->name,$c->caption,$ctl);
 			}
-			$form->register(uniqid(""),"", new htmlcontrol("<br /><br />"));
+			//$form->register(uniqid(""),"", new htmlcontrol("<br /><br />"));
 			$form->register("submit","",new buttongroupcontrol($f->submitbtn,$f->resetbtn,""));
 			
 			//$form->meta("action","submit_form");

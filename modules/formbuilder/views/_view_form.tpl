@@ -15,13 +15,11 @@
  *}
  
 <div class="formmodule view-form">
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
 	<div class="form_header">
-		<h1>
-			{$_TR.form_title}
-		</h1>
-		<p>
-			{$_TR.form_header}
-		</p>
+		<p>{$_TR.form_header}</p>
 	</div>
 
 {$form_html}
@@ -31,28 +29,28 @@
 	 {rdelim}
 </script>
 {if $edit_mode != 1}
-<table cellpadding="5" cellspacing="0" border="0">
-<tr>
-<td>
-	<form method="post" action="{$smarty.const.URL_FULL}index.php">
-	<input type="hidden" name="module" value="formbuilder" />
-	<input type="hidden" name="action" value="edit_control" />
-	<input type="hidden" name="form_id" value="{$form->id}" />
-	{$_TR.add_a} <select name="control_type" onchange="this.form.submit()">
-	{foreach from=$types key=value item=caption}
-		<option value="{$value}">{$caption}</option>
-	{/foreach}
-	</select>
-	</form>
-</td>
-<td>
-	<a href="{$backlink}">{$_TR.done}</a>
-</td>
-<td>
-	<a href="JavaScript: pickSource();">{$_TR.append_existing}</a>
-</td>
-</tr>
-</table>
+	<table cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td>
+				<form method="post" action="{$smarty.const.URL_FULL}index.php">
+					<input type="hidden" name="module" value="formbuilder" />
+					<input type="hidden" name="action" value="edit_control" />
+					<input type="hidden" name="form_id" value="{$form->id}" />
+					{$_TR.add_a} <select name="control_type" onchange="this.form.submit()">
+						{foreach from=$types key=value item=caption}
+							<option value="{$value}">{$caption}</option>
+						{/foreach}
+					</select>
+				</form>
+			</td>
+			<td>
+				<a href="{$backlink}">{$_TR.done}</a>
+			</td>
+			<td>
+				<a href="JavaScript: pickSource();">{$_TR.append_existing}</a>
+			</td>
+		</tr>
+	</table>
 {/if}
 
 </div>

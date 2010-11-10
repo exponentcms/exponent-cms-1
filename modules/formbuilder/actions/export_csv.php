@@ -33,11 +33,8 @@ if (isset($_GET['id'])) {
 	
 	$f = $db->selectObject("formbuilder_form","id=".$_GET['id']);
 	$rpt = $db->selectObject("formbuilder_report","form_id=".$_GET['id']);
-	
-	
-	
+		
 	$items = $db->selectObjects("formbuilder_".$f->table_name);
-	
 		
 	if (exponent_permissions_check("viewdata",unserialize($f->location_data))) {
 		$columndef = "paginate.columns = new Array(";
@@ -53,9 +50,7 @@ if (isset($_GET['id'])) {
 				$rpt->column_names .= $control->name;
 			}
 		}
-		
-	
-		
+			
 		foreach (explode("|!|",$rpt->column_names) as $column_name) {
 			if ($column_name == "ip") {
 				$columndef .= 'new cColumn("'.$i18n['ip'].'","ip",null,null),';
@@ -73,8 +68,7 @@ if (isset($_GET['id'])) {
 			} elseif ($column_name == "timestamp") {
 				$srt = $column_name."_srt";
 				foreach ($items as $key=>$item) {
-				
-				
+							
 					$item->$srt = $item->$column_name;
 					$item->$column_name = strftime(DISPLAY_DATETIME_FORMAT,$item->$column_name);
 					$items[$key] = $item;
@@ -106,22 +100,17 @@ if (isset($_GET['id'])) {
 			}
 		}
 		
-
 		/* Tyler's additions --
 		
 		Here I want to add a section that runs through items, which has the first row as headers, and creates a new array which it will then push out as a CSV download.
-		
-		
+				
 		*/ 
-		
-		
+				
 $file = "";	
 
-$file .= "\r\n\r\nCSV Export\r\n\r\n";
+//$file .= "\r\n\r\nCSV Export\r\n\r\n";
 
 $file .= sql2csv($items);
-
-
 
 //CODE FOR LATER CREAATING A TEMP FILE
 $tmpfname = tempnam(getcwd(), "rep"); // Rig
@@ -130,20 +119,11 @@ $handle = fopen($tmpfname, "w");
 fwrite($handle,$file);
 fclose($handle);
 
-
-
-
-
-
 if(file_exists($tmpfname))
 {
 
-
-
       ob_end_clean();
-
-
-      
+     
       // This code was lifted from phpMyAdmin, but this is Open Source, right?
       // 'application/octet-stream' is the registered IANA type but
       //        MSIE and Opera seems to prefer 'application/octetstream'
@@ -166,16 +146,11 @@ if(file_exists($tmpfname))
         header('Pragma: no-cache');
       }
       //Read the file out directly
-	
-	  
+		  
       readfile($tmpfname);
       exit();
 
-
-
 unlink($tmpfname);
-
-
 
 }
 else
@@ -183,23 +158,12 @@ else
 error_log("error file doesn't exist",0);
 }
 
-
-
-
-		
-		
-
-
-
 	} else {
 		echo SITE_403_HTML;
 	}
 } else {
 	echo SITE_404_HTML;
 }
-
-
-
 
 /*
 This converts the sql statement into a nice CSV.
@@ -216,42 +180,29 @@ ITEMS
 {[id]=>myID4, [Name]=>name4, [Address]=>myaddr4} 
 {[id]=>myID5, [Name]=>name5, [Address]=>myaddr5} 
 
-
 So by nature of the array, the keys are repetated in each line (id, name, etc)
 So if we want to make a header row, we just run through once at the beginning and 
 use the array_keys function to strip out a functional header
 
-
 */
 
-
-
 function sql2csv($items) {
- 
-	
+ 	
 		$str = "";
-		
-		
-	
+
 	foreach ($items as $key=>$item)  {
-	
-	
-	
+
 	if($str == "")
 	{
 		$header_Keys = array_keys((array)$item);
-		
-		
-			
+	
 		foreach ($header_Keys as $individual_Header)
 		{
 				$str .= $individual_Header.",";
-				
-		
+						
 		}
 		$str .= "\r\n";
-		
-	
+			
 	}
 	
 		foreach ($item as $bob=>$rowitem)
@@ -260,29 +211,16 @@ function sql2csv($items) {
 		 	$rowitem = str_replace(",", " ", $rowitem);
 		 
 			$str .= $rowitem.",";
-
-
-			
-			
+		
 	}//foreach rowitem	
-	
 			
 			$str = substr($str,0,strlen($str)-1);
 			$str .= "\r\n";
 		
 	}//end of foreach loop
 	
-	
-	
-	
-	
-	
-	
 	return $str;
- 
- 
+
 }
-
-
 
 ?>

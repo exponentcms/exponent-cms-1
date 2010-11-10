@@ -109,6 +109,7 @@ if (isset($_GET['id'])) {
 		
 		$template->assign('columdef',$columndef);
 		$template->assign('sortfuncs',$sortfuncts);
+		$template->assign('title',$rpt->name);
 		$template->output();
 	} else {
 		echo SITE_403_HTML;

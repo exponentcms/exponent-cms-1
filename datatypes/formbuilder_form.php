@@ -45,10 +45,10 @@ class formbuilder_form {
 		$form->register('description',$i18n['description'],new texteditorcontrol($object->description));
 		$form->register('response',$i18n['response'], new htmleditorcontrol($object->response));
 		
-		$form->register(null,'', new htmlcontrol('<br><br><b>'.$i18n['button_header'].'</b><br><hr><br>'));
+		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['button_header'].'</h3><hr size="1" />'));
 		$form->register('submitbtn',$i18n['submitbtn'], new textcontrol($object->submitbtn));
 		$form->register('resetbtn',$i18n['resetbtn'], new textcontrol($object->resetbtn));
-		$form->register(null,'', new htmlcontrol('<br><br><b>'.$i18n['email_header'].'</b><br><hr><br>'));
+		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['email_header'].'</h3><hr size="1" />'));
 		$form->register('is_email',$i18n['is_email'],new checkboxcontrol($object->is_email,false));
 		
 		$userlist = array();
@@ -85,14 +85,14 @@ class formbuilder_form {
 		
 		$form->register('addresses',$i18n['addresses'],new listbuildercontrol($defaults,null));
 		$form->register('subject',$i18n['subject'],new textcontrol($object->subject));
-		$form->register(null,'', new htmlcontrol('<br /><br /><b>'.$i18n['database_header'].'</b><br /><hr size="1" /><br />'));
+		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['database_header'].'</h3><hr size="1" />'));
 		$form->register('is_saved',$i18n['is_saved'],new checkboxcontrol($object->is_saved,false));
-		$form->register(null,'', new htmlcontrol('<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$i18n['warning_data_loss'].'<br />'));
+		$form->register(null,'', new htmlcontrol('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$i18n['warning_data_loss'].'<br />'));
 		if ($object->is_saved == 1) {
 			$form->controls['is_saved']->disabled = true;
 			$form->meta('is_saved','1');
 		}
-		$form->register(null,'', new htmlcontrol('<br /><br /><br />'));
+//		$form->register(null,'', new htmlcontrol('<br /><br /><br />'));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;
