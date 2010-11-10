@@ -36,9 +36,8 @@ class searchmodule_config {
 		
 		$form->register('is_categorized',$i18n['is_categorized'],new checkboxcontrol($object->is_categorized,true));
 		
-		$form->register(null,'',new htmlcontrol('<br><br><div class="moduletitle">Searchable Modules</div><hr size="1" />'));	
+		$form->register(null,'',new htmlcontrol('<h3>Searchable Modules</h3><hr size="1" />'));	
 		$form->register(null,'',new htmlcontrol('Select which parts of your site will be searchable by users using this search module.'));	
-		$form->register(null,'',new htmlcontrol('<hr size="1" />'));	
 		//eDebug(exponent_modules_list()); exit();
 		
 		$mod_list = getModuleNames(null);

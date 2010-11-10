@@ -20,24 +20,26 @@
 <input type="hidden" name="src" value="{$loc->src}" />
 <input type="hidden" name="msg" value="_Default" />
 <input type="hidden" name="id" value="{$id}" />
+<input type="hidden" name="eventtitle" value="{$item->title}" />
+<input type="hidden" name="eventdate" value="{$item->eventstart|format_date:"%B %e, %Y, %l:%M %P"} - {$item->eventend|format_date:"%l:%M %P"}" />
 <table cellpadding="2" cellspacing="0" border="0">
 <tr>
-	<td width="10" style="width: 10px" valign="top" colspan="2"><b>{$_TR.submit_feedback}</b></td>
+	<td width="10" style="width: 10px" valign="top" colspan="2"><b>Contact Us About This Event</b></td>
 </tr>
 <tr>
-	<td valign="top">{$_TR.email}</td>
+	<td valign="top">Your E-Mail Address:</td>
 	<td>
 		<input type="text" name="email" />
 	</td>
 </tr>
 <tr>
-	<td valign="top">{$_TR.subject}</td>
+	<td valign="top">Message Subject:</td>
 	<td>
 		<input type="text" name="subject" />
 	</td>
 </tr>
 <tr>
-	<td valign="top">{$_TR.message}</td>
+	<td valign="top">Your Message:</td>
 	<td>
 		<textarea name="message"></textarea>
 	</td>

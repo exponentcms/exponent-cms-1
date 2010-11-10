@@ -54,7 +54,7 @@ class imagegallery_image {
 		$imagenames = array();
 		if (!isset($object->rank) || $object->rank != 0) $imagenames[0] = 'At the Beginning';
 		foreach ($db->selectObjects('imagegallery_image','gallery_id='.$object->gallery_id . ' ORDER BY rank ASC') as $i) {
-			if ($object->rank == $i->rank) $imagenames[$i->rank+1] = '------------';
+			if ($object->rank == $i->rank) $imagenames[$i->rank+1] = '(current place)';
 			else if ($object->rank != $i->rank+1) $imagenames[$i->rank+1] = 'After "' . $i->name . '"';
 		}
 		if (!isset($object->id)) $object->rank = count($imagenames)-1;

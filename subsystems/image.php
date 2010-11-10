@@ -104,7 +104,7 @@ function exponent_image_createFromFile($filename,$sizeinfo) {
 
 	$info = gd_info();
 
-	if ($sizeinfo['mime'] == 'image/jpeg' && $info['JPG Support'] == true) {
+	if ($sizeinfo['mime'] == 'image/jpeg' && ((isset($info['JPG Support']) && $info['JPG Support'] == true) || (isset($info['JPEG Support']) && $info['JPEG Support'] == true))) {
 		$img = imagecreatefromjpeg($filename);
 	} else if ($sizeinfo['mime'] == 'image/png' && $info['PNG Support'] == true) {
 		$img = imagecreatefrompng($filename);

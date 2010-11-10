@@ -13,12 +13,14 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+<p>
 RSVP for event: 
 {$post.eventtitle}
 {$post.eventdate}
+</p>
 
-Name:  {$post.name}
-Email:    {$post.email}
-Phone:    {$post.phone}
-Attendees: {$post.attendees}
+Name:  {$post.name} <br />
+Email:    {$post.email} <br />
+Phone:    {$post.phone} <br />
+Attendees: {$post.attendees} <br />
 Comments:  {$post.comments}

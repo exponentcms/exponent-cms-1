@@ -41,6 +41,7 @@ class imagegallery_gallery {
 			$object->name = '';
 			$object->description = '';
 			$object->box_size = 100;
+			$object->pop_size = 600;
 			$object->perpage = 25;
 			$object->perrow = 5;
 		} else {
@@ -52,6 +53,7 @@ class imagegallery_gallery {
 		$form->register('name','Name',new textcontrol($object->name));
 		$form->register('description','Description',new htmleditorcontrol($object->description));
 		$form->register('box_size','Box Size (pixels)',new textcontrol($object->box_size));
+		$form->register('pop_size','Enlarged Size (pixels)',new textcontrol($object->pop_size));
 		$form->register('perrow','Images per Row',new textcontrol($object->perrow));
 		$form->register('perpage','Images per Page',new textcontrol($object->perpage));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));

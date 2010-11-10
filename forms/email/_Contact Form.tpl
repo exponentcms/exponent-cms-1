@@ -13,8 +13,10 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-MESSAGE:
-
-Email:    {$post.email}
-Subject:  {$post.subject}
+<p>
+MESSAGE: {$post.eventtitle}
+{$post.eventdate}
+</p>
+Email:    {$post.email} <br />
+Subject:  {$post.subject} <br />
 Message:  {$post.message}

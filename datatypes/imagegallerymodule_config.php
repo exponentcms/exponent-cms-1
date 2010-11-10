@@ -40,17 +40,17 @@ class imagegallerymodule_config {
 		if (!isset($object->id)) {
 			$object->multiple_galleries = 0;
 			$object->random_single_gallery = 0;
-			//$object->show_pic_desc = 0;
+			$object->show_pic_desc = 0;
 		} else {
 			$form->meta('id',$object->id);
 		}
 	
-		$form->register(null,'',new htmlcontrol('Select whether would like to show the images from all the galleries on one page or if you would prefer '));	
-		$form->register(null,'',new htmlcontrol('each gallery to display on it\'s own page.<br /><br />'));	
+		$form->register(null,'',new htmlcontrol('Select whether would like to show the images from all the galleries on one page or if you would prefer each gallery to display on it\'s own page.'));	
+//		$form->register(null,'',new htmlcontrol('each gallery to display on it\'s own page.<br /><br />'));	
 		$form->register('multiple_galleries','Show each gallery on it\'s own page?',new checkboxcontrol($object->multiple_galleries,true));
-		$form->register(null,'',new htmlcontrol('<span style="color: red">This feature is turned off due to bugs</span><br /><br />'));	
+		$form->register(null,'',new htmlcontrol('<span style="color: red">This feature is turned off due to bugs</span>'));	
 		$form->register('random_single_gallery','Show a single randomly chosen gallery?',new checkboxcontrol($object->random_single_gallery,true));
-		//$form->register('show_pic_desc','Show picture descriptions',new checkboxcontrol($object->show_pic_desc,true));
+		$form->register('show_pic_desc','Show picture descriptions',new checkboxcontrol($object->show_pic_desc,true));
 		$form->register('submit','',new buttongroupcontrol('Save','','Cancel'));
 		return $form;
 	}
@@ -58,7 +58,7 @@ class imagegallerymodule_config {
 	function update($values,$object) {
 		$object->multiple_galleries = (isset($values['multiple_galleries']) ? 1 : 0);
 		$object->random_single_gallery = (isset($values['random_single_gallery']) ? 1 : 0);
-		//$object->show_pic_desc = (isset($values['show_pic_desc']) ? 1 : 0);;
+		$object->show_pic_desc = (isset($values['show_pic_desc']) ? 1 : 0);;
 		return $object;
 	}
 }
