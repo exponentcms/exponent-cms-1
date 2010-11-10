@@ -28,8 +28,7 @@
  *
  * $Id: _editAnswer.tpl,v 1.1 2005/04/10 23:24:02 filetreefrog Exp $
  *}
- <div class="form_header">
-     <h1>Simple Poll Answer</h1>
+ <div class="form_title">
+     Simple Poll Answer
     {$form_html} 
 </div>
-
