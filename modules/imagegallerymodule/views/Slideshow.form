@@ -1,0 +1,8 @@
+captions	"Show Captions"		checkbox
+controller	"Show Controller"	checkbox
+thumbnails	"Show Thumbnails"	checkbox
+random	"Random Sequence"	checkbox
+delay		"Slide delay in ms"	text
+linked		"Link to Full-size Image"	checkbox
+overlap		"Overlap images"	checkbox
+showtype	"Type of Show"   	dropdown	Standard	Ken Burns effect	Push effect	Fold effect	Flash effect

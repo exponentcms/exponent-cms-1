@@ -4,9 +4,10 @@ return array(
 	'new_gallery'=>'New Gallery',
 	'no_galleries'=>'No Galleries Found',
 	'reorder_galleries'=>'Reorder Galleries',
-	'add_reorder_images'=>'Add/Reorder Images',
-	'edit_gallery'=>'Edit Gallery Settings',
-	'delete_gallery'=>'Delete this Gallery',
+	'alt_manage'=>'Add/Reorder Images',
+	'alt_edit'=>'Edit Gallery Settings',
+	'alt_delete'=>'Delete this Gallery',
+	'photo'=>'Photo',
 );
 
 ?>

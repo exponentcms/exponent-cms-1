@@ -29,11 +29,8 @@
  * $Id: Default.tpl,v 1.4 2005/02/24 20:14:35 filetreefrog Exp $
  *}
 
-
 <div class="imagegallerymodule with-thumbnails">
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
-
-	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.create == 1}
@@ -46,12 +43,9 @@
 
 	{foreach from=$galleries item=gallery}
 		<div class="item">
-			<h2>{$gallery->name}</h2>
-			{permissions level=$smarty.const.UILEVEL_NORMAL}
-			<div class="itemactions">
+			<h3>{$gallery->name}
 				{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
-			</div>
-			{/permissions}
+			</h3>
 			<p>{$gallery->description}</p>
 			<div class="thumbbox">
 				{foreach key="key" from=$gallery->images item=file}
@@ -61,7 +55,7 @@
 						width:{$gallery->box_size}px;
 						height:{$gallery->box_size}px;
 						float:left;
-						">
+						" alt="{$file->name}" title="{$file->alt}">
 					</a>
 				{/foreach}
 			</div>
@@ -75,16 +69,16 @@
 {script unique="imagepanelpopper" yuimodules='"animation","connection","json","container"'}
 {literal}
 imagepanel = new YAHOO.widget.Panel("imagepanel", {
-											zIndex:90000,
-											constraintoviewport:true,
-											fixedcenter:true,
-											draggable:true,
-											modal:true,
-											underlay:"shadow",
-											close:true,
-											visible:false,
-											effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.25}
-											} );
+				zIndex:90000,
+				constraintoviewport:true,
+				fixedcenter:true,
+				draggable:true,
+				modal:true,
+				underlay:"shadow",
+				close:true,
+				visible:false,
+				effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.25}
+				} );
 imagepanel.setHeader('{/literal}{$_TR.photo}{literal}'); 
 imagepanel.setBody('&nbsp;');
 imagepanel.setFooter('&nbsp;');
@@ -115,4 +109,3 @@ eXp.popImage = function(id,width,height) {
 
 {/literal}	
 {/script}
-

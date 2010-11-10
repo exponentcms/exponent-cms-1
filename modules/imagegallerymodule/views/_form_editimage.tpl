@@ -29,7 +29,7 @@
  * $Id: _form_editimage.tpl,v 1.3 2005/02/19 16:40:42 filetreefrog Exp $
  *}
 <div class="form_title">{if $is_edit}{$_TR.edit_title}{else}{$_TR.new_title}{/if}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {$_TR.enter_name}
-</div>
+</p></div>
 {$form_html}

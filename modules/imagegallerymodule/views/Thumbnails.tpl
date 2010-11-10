@@ -28,10 +28,9 @@
 *
 * $Id: Default.tpl,v 1.4 2009/02/13 20:14:35 maiagood Exp $
 *}
-<div class="imagegallerymodule thumbnails">
- {include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}	
 
- {if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+<div class="imagegallerymodule thumbnails">
+ {if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 
  {permissions level=$smarty.const.UILEVEL_NORMAL}
   {if $permissions.create == 1}
@@ -44,26 +43,9 @@
 
  {foreach from=$galleries item=gallery}
   <div class="item">
-   {if $gallery->name !=""}<h2>{$gallery->name}</h2>{/if}
-   {permissions level=$smarty.const.UILEVEL_NORMAL}
-    <div class="itemactions">
-     {permissions level=$smarty.const.UILEVEL_NORMAL}
-      {if $permissions.edit == 1}
-       <a href="{link action=view_gallery id=$gallery->id}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" />{$_TR.add_reorder_images}</a>{br}
-      {/if}
-      {if $permissions.edit == 1}
-       <a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_gallery id=$gallery->id}">
-        <img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />{$_TR.edit_gallery}
-       </a>{br}
-      {/if}
-      {if $permissions.delete == 1}
-       <a class="mngmntlink imagegallery_mngmntlink" href="{link action=delete_gallery id=$gallery->id}">
-        <img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />{$_TR.delete_gallery}
-       </a>
-      {/if}
-     {/permissions}
-    </div>
-   {/permissions}
+	<h3>{if $gallery->name !=""}{$gallery->name}{/if}
+		{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
+    </h3>
    {$gallery->description}
    {if $gallery->images !=""}
     <ul class="thumbbox">
@@ -71,7 +53,7 @@
       {if $smarty.foreach.i.iteration <= $gallery->perpage }
       <li>
         <a  href="{$smarty.const.URL_FULL}{$file->file->directory}/{$file->enlarged}" onclick="eXp.popImage('{$file->id}',{$file->popwidth},{$file->popheight}); return false;">
-         <img src="{$smarty.const.URL_FULL}{$file->file->directory}/{$file->thumbnail}" alt="{$file->name}" width="{$file->twidth}px" height="{$file->theight}px" />
+         <img src="{$smarty.const.URL_FULL}{$file->file->directory}/{$file->thumbnail}" alt="{$file->name}" title="{$file->alt}" width="{$file->twidth}px" height="{$file->theight}px" />
         </a>
        {if ($smarty.foreach.i.iteration mod $gallery->perrow) == 0}{br}{/if}
       </li>

@@ -12,6 +12,8 @@ return array(
 	'sort_images'=>'Order Images',
 	'previous'=>'Previous',
 	'next'=>'Next',
+	'alt_edit'=>'Edit',
+	'alt_delete'=>'Delete',	
 	'upload_files'=>'Upload images to',
 	'upload'=>'Upload',
 	'whole_number'=>'Please enter only positive, whole numbers.',

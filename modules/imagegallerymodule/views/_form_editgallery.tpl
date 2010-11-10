@@ -29,8 +29,10 @@
  * $Id: _form_editgallery.tpl,v 1.3 2005/02/19 16:40:42 filetreefrog Exp $
  *}
 <div class="imagegallery edit">
+	<div class="form_title">
+		{if $is_edit}{$_TR.edit_title}{else}{$_TR.new_title}{/if}
+	</div>
 	<div class="form_header">
-		<h1>{if $is_edit}{$_TR.edit_title}{else}{$_TR.new_title}{/if}</h1>
 		<p>{$_TR.enter_name}</p>
 	</div>
 	{form name="gallery" module="imagegallerymodule" int=2 action="save_gallery"}
@@ -120,13 +122,7 @@ YAHOO.util.Event.on("gallery","submit",function(e){
 
 	}
 
-
-
 });
 {/literal}
 
 {/script}
-
-
-
-

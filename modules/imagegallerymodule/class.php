@@ -126,7 +126,7 @@ class imagegallerymodule {
 							//eDebug($galleries[$i]->images[$y]);
 							$galleries[$i]->images[$y]->twidth = $tsize[0];
 							$galleries[$i]->images[$y]->theight = $tsize[1];
-						}
+						}					
 						if (file_exists(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->enlarged)) {
 							$popsize = getimagesize(BASE.$galleries[$i]->images[$y]->file->directory."/".$galleries[$i]->images[$y]->enlarged);
 							//eDebug($galleries[$i]->images[$y]);

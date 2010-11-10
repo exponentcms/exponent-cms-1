@@ -30,10 +30,10 @@
  *}
  
  <div class="imagegallerymodule reorder_galleries">
-	<div class="form_header">
-                <h1>{$_TR.reorder_images}</h1>
+	<div class="form_title">
+		{$_TR.reorder_images}
     </div>
-
+{br}
 <table>
 	<tr>
 		<th><strong>{$_TR.gallery_title}</strong></th>
@@ -44,7 +44,7 @@
 {math equation="x-1" x=$gallery->galleryorder assign=prevrank}
 <tr class="row {cycle values=odd_row,even_row}">
 <td>
-<a href="{link action=view_gallery id=$gallery->id}" class="navlink">{$gallery->name}</a>&nbsp;
+<a href="{link action=view_gallery id=$gallery->id}" class="navlink" title="{$gallery->description|strip_tags:false}" >{$gallery->name}</a>&nbsp;
 </td>
 <td>
 {if $smarty.foreach.a.first == 0}

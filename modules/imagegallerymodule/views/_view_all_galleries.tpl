@@ -28,6 +28,7 @@
  *
  * $Id: _view_gallery.tpl,v 1.11 2005/06/22 22:15:23 filetreefrog Exp $
  *}
+ 
 <div class="imagegallerymodule view-all-galleries">
 	{foreach from=$galleries item=gallery}
 		{assign var=boxw value=$gallery->box_size}
@@ -85,19 +86,19 @@
 		{foreach name=a from=$gallery->images item=image}
 			<td class="imagegallery_picbox">
 					<a href="{link action=view_image id=$image->id}">
-						<img src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->name}" />
+						<img src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->alt}" />
 					</a>
 					<div>
 						<a href="{link action=view_image id=$image->id}">{$image->name}</a>
 					</div>
 					<table>
-					{permissions level=$smarty.const.UI_LEVEL_NORMAL}
+					{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 					{if $permissions.manage == 1}
 					<tr>
 					{if $smarty.foreach.a.first == false}
 					{math equation="x-1" x=$image->rank assign=prevrank}
 					<td>
-						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$prevrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" /></a>
+						<a class="mngmntlink imagegallery_mngmntlink" href="{link action=order_images gid=$gallery->id a=$image->rank b=$prevrank}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.previous}" alt="{$_TR.previous}" /></a>
 					</td>
 					{/if}
 					<td>

@@ -29,7 +29,7 @@
  * $Id: _form_multiple.tpl,v 1.3 2005/02/19 16:40:42 filetreefrog Exp $
  *}
 <div class="form_title">{$_TR.form_title}</div>
-<div class="form_header">
+<div class="form_header"><p>
 {$_TR.image_upload}
-</div>
+</p></div>
 {$form_html}

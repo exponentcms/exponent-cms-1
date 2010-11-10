@@ -28,19 +28,22 @@
  *
  * $Id: _view_image.tpl,v 1.4 2005/03/03 23:43:03 filetreefrog Exp $
  *}
-{$image->name}
-<br />
-{if $permissions.manage == 1}
-<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}">
-	<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-</a>
-<br />
-{/if}
-(in <a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a>)
-{if $image->description != ""}
-<hr size="1" />
-{$image->description}
-<hr size="1" />
-{/if}
-<br />
-<img alt="{$image->alt}" src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->file->filename}" />
+ 
+<div class="imagegallerymodule view-image"> 
+	{$image->name}
+	<br />
+	{if $permissions.manage == 1}
+		<a class="mngmntlink imagegallery_mngmntlink" href="{link action=edit_image id=$image->id}">
+			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+		</a>
+		<br />
+	{/if}
+	(in <a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a>)
+	{if $image->description != ""}
+		<hr size="1" />
+		{$image->description}
+		<hr size="1" />
+	{/if}
+	<br />
+	<img alt="{$image->alt}" src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->file->filename}" />
+</div>

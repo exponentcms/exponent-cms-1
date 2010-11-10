@@ -30,48 +30,44 @@
  *}
 
 <div class="imagegallerymodule default">
-
-	{include file="`$smarty.const.BASE`modules/common/views/_permission_icons.tpl"}
-
-	{if $moduletitle != ""}<h1>{$moduletitle}</h1>{/if}
+	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if $permissions.create == 1}
 		<div class="moduleactions">
-			<a class="creategallery" href="{link action=edit_gallery}">
-				{$_TR.new_gallery}
-			</a>
-    			{br}<a href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" alt="" />{$_TR.reorder_galleries}</a>{br}
-    		</div>
+			<a class="creategallery mngmntlink" href="{link action=edit_gallery}">{$_TR.new_gallery}</a>
+			{br}<a class="mngmntlink" href="{link action=reorder_galleries}"><img src="{$smarty.const.ICON_RELATIVE}manage_images.png" alt="" />{$_TR.reorder_galleries}</a>{br}
+		</div>
 	{/if}
 	{/permissions}
-	
-		{foreach key="key" name="gallery" from=$galleries item=gallery}
-			{assign var=boxw value=$gallery->box_size}
-			{assign var=boxh value=$gallery->box_size}
-
-		<div class="item">
-			<h2><a href="{link action=view_gallery id=$gallery->id}">{$gallery->name}</a></h2>
-			{permissions level=$smarty.const.UILEVEL_NORMAL}
-			<div class="itemactions">
-				{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
-			</div>
-			{/permissions}
-			
-			{if $gallery->description}
-			<div class="bodycopy">
-				{if $gallery->images[0]->thumbnail}
-					<a href="{link action=view_gallery id=$gallery->id}">
-						<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" alt="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}" />
-					</a>
-				{/if}
-				{$gallery->description}
-			</div>
-			{/if}
+<table>	
+	{foreach key="key" name="gallery" from=$galleries item=gallery}
+		{assign var=boxw value=$gallery->box_size}
+		{assign var=boxh value=$gallery->box_size}
+	<tr>
+	<div class="item">
+		<td>
+		{if $gallery->images[0]->thumbnail}
+			<a href="{link action=view_gallery id=$gallery->id}">
+				<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" alt="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}{/if}" title="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}{/if}" />
+			</a>
+		{/if}
+		</td>
+		<td>
+		<h3>
+		<a href="{link action=view_gallery id=$gallery->id}"  title="{$gallery->description|strip_tags:false}" >{$gallery->name}</a>
+			{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
+		</h3>
+		{if $gallery->description}
+		<div class="bodycopy">
+			{$gallery->description}
 		</div>
-		{foreachelse}
-			<p><em>{$_TR.no_galleries}</em></p>
-		{/foreach}
-	
-	
+		{/if}
+		</td>
+	</div>
+	</tr>
+	{foreachelse}
+		<tr><p><em>{$_TR.no_galleries}</em></p></tr>
+	{/foreach}
+</table>
 </div>
