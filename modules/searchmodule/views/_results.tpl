@@ -15,35 +15,32 @@
  *}
 
 <div class="searchmodule results">
-	
-<h1>Search Results</h1>
+		
+	<h1>Search Results</h1>
 
-<span class="searched_for">
-{$_TR.search_returned|sprintf:$query:$num_results}<br />
-{if $have_excluded_terms != 0}<span class="search_results_excludes">{$_TR.ignored_terms}: {', '|join:$excluded_terms}</span>{/if}
-</span>
+	<span class="searched_for">
+	{$_TR.search_returned|sprintf:$query:$num_results}<br />
+	{if $have_excluded_terms != 0}<span class="search_results_excludes">{$_TR.ignored_terms}: {', '|join:$excluded_terms}</span>{/if}
+	</span>
 
-{if $config->is_categorized == 0}
-	{foreach from=$results item=result}
-		<div class="item {cycle values="odd,even"}">
-			<a href="{$result->view_link}">{$result->title}</a>
-			{if $result->sum != ""}<br /><span class="summary">{$result->sum}</span>{/if}
-			{*if $result->view_link != ""}<br /><span class="search_result_item_link">{$result->view_link}</span>{/if*}
-		</div>
-	{/foreach}
-{else}{* categorized, list of crap is two levels deep *}
-	{foreach from=$results key=category item=subresults}
-		<h2><a name="#{$category}">{$category} matching "{$query}":</a></h2>
-		{foreach from=$subresults item=result}
+	{if $config->is_categorized == 0}
+		{foreach from=$results item=result}
 			<div class="item {cycle values="odd,even"}">
 				<a href="{$result->view_link}">{$result->title}</a>
 				{if $result->sum != ""}<br /><span class="summary">{$result->sum}</span>{/if}
-				{*<br /><span class="search_result_item_link">{$result->view_link}</span>*}
+				{*if $result->view_link != ""}<br /><span class="search_result_item_link">{$result->view_link}</span>{/if*}
 			</div>
 		{/foreach}
-	{/foreach}
-{/if}
+	{else}{* categorized, list of crap is two levels deep *}
+		{foreach from=$results key=category item=subresults}
+			<h2><a name="#{$category}">{$category} matching "{$query}":</a></h2>
+			{foreach from=$subresults item=result}
+				<div class="item {cycle values="odd,even"}">
+					<a href="{$result->view_link}">{$result->title}</a>
+					{if $result->sum != ""}<br /><span class="summary">{$result->sum}</span>{/if}
+					{*<br /><span class="search_result_item_link">{$result->view_link}</span>*}
+				</div>
+			{/foreach}
+		{/foreach}
+	{/if}
 </div>
-
-
-

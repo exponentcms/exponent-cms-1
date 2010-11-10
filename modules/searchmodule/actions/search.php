@@ -45,7 +45,7 @@ if ($search_string == "") {
 }
 
 $term_status = exponent_search_cleanSearchQuery(
-	array_map("addslashes",array_map("trim",split(" ",$search_string)))
+	array_map("addslashes",array_map("trim",explode(" ",$search_string)))
 );
 
 $terms = $term_status['valid'];
