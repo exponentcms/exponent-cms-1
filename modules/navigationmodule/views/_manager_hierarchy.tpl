@@ -25,12 +25,14 @@
 
 <div class="navigationmodule manager-hierarchy">
 
-		<div class="form_header">
-				<h1>{$_TR.form_title}</h1>
-				<p>{$_TR.form_header}</p>
-		</div>
-		<a class="newpage" href="{link action=add_section parent=0}">{$_TR.new_top_level}</a>
-		<div id="navtree"><img src="{$smarty.const.ICON_RELATIVE}ajax-loader.gif">	<strong>Loading Navigation</strong></div>
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
+	<div class="form_header">
+		<p>{$_TR.form_header}</p>
+	</div>
+	<a class="newpage" href="{link action=add_section parent=0}">{$_TR.new_top_level}</a>
+	<div id="navtree"><img src="{$smarty.const.ICON_RELATIVE}ajax-loader.gif">	<strong>Loading Navigation</strong></div>
 </div>
 
 {script yuimodules="'treeview','menu','animation','dragdrop','json','container','connection'" unique="DDTreeNav" yuideptype="js"}

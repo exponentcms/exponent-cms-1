@@ -14,11 +14,13 @@
  *}
 
 <div class="navigationmodule manager-pagesets">
-        <div class="form_header">
-                <h1>{$_TR.form_title}</h1>
-                <p>{$_TR.form_header}</p>
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
+	<div class="form_header">
+		<p>{$_TR.form_header}</p>
 		<a class="newpage" href="{link action=edit_template}">{$_TR.new}</a>
-        </div>
+	</div>
 
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>

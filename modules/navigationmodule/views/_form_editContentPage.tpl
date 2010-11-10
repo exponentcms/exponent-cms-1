@@ -16,9 +16,11 @@
 
 <div class="navigationmodule form-editContentPage"> 
 <div class="administrationmodule usermanager">
+<div class="form_title">
+	{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}
+</div>
 <div class="form_header">
-        <h1>{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}</h1>
-        <p>{if $is_edit == 1}{$_TR.form_header_edit}{else}{$_TR.form_header_new}{/if}</p>
+	<p>{if $is_edit == 1}{$_TR.form_header_edit}{else}{$_TR.form_header_new}{/if}</p>
 </div>
 </div>
 {$form_html}

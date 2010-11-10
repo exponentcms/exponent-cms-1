@@ -17,7 +17,7 @@
 {assign var=sectiondepth value=-1}
 {assign var=menustarted value=0}
 {assign var=titlepresent value=0}
-{if $moduletitle != ""}<h1>{$moduletitle}{assign var=titlepresent value=1}</h1>{/if}
+{if $moduletitle != ""}<h2>{$moduletitle}{assign var=titlepresent value=1}</h2>{/if}
 {foreach from=$sections item=section}
  {if $section->depth > $sectiondepth}
   <ul{if !$menustarted} class="site-map"{assign var=menustarted value=1}{assign var=openlist value=0}{/if}>
@@ -58,6 +58,6 @@
 {/section}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
  {if $canManage == 1}
-  <p class="managelink"><a class="navlink" href="{link action=manage}">{$_TR.manage}</a></p>
+  <p class="managelink"><a class="navlink mngmntlink" href="{link action=manage}">{$_TR.manage}</a></p>
  {/if}
 {/permissions}

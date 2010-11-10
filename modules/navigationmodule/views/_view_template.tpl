@@ -13,7 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="moduletitle">{$template->name}</div>
+<div class="moduletitle"><h2>{$template->name}</h2></div>
 <hr size="1" />
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>

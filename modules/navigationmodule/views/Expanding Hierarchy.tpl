@@ -17,7 +17,7 @@
 {assign var=sectiondepth value=-1}
 {assign var=menustarted value=0}
 {assign var=titlepresent value=0}
-{if $moduletitle != ""}<h1>{$moduletitle}{assign var=titlepresent value=1}</h1>{/if}
+{if $moduletitle != ""}<h2>{$moduletitle}{assign var=titlepresent value=1}</h2>{/if}
 {foreach from=$sections item=section}
  {assign var=commonParent value=0}
  {foreach from=$current->parents item=parentId}

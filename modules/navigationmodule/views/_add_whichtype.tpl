@@ -13,12 +13,13 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="navigationmodule add-whichtype">
-<div class="form_header">
-        <h1>{$_TR.form_title}</h1>
-        <p>
-		{if $parent->id == 0}{$_TR.new_top_level}{else}{$_TR.new_sub_level|sprintf:$parent->name}{/if}
-		{$_TR.form_header}
+<div class="navigationmodule add-whichtype form_title">
+	{$_TR.form_title}
+</div>
+ <div class="form_header">
+   <p>
+	{if $parent->id == 0}{$_TR.new_top_level}{else}{$_TR.new_sub_level|sprintf:$parent->name}{/if}
+	{$_TR.form_header}
 	</p>
 </div>
 <div style="background-color: #CCC; padding: 5px;">

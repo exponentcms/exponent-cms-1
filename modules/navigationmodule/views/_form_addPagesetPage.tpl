@@ -14,10 +14,12 @@
  *
  *}
 <div class="navigationmodule add-pageset-page">
-       <div class="form_header">
-                <h1>{$_TR.form_title}</h1>
-                <p>{$_TR.form_header}</p>
-        </div>
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
+    <div class="form_header">
+		<p>{$_TR.form_header}</p>
+	</div>
 
 	{$_TR.note}
 	{$form_html}

@@ -15,8 +15,10 @@
  *}
 
 <div class="navigationmodule manager-standalone">
+	<div class="form_title">
+		{$_TR.form_title}
+	</div>
 	<div class="form_header">
-		<h1>{$_TR.form_title}</h1>
 		<p>{$_TR.form_header}</p>
 		<a class="newpage" href="{link action=edit_contentpage parent=-1}">{$_TR.new}</a>
 	</div>

@@ -14,6 +14,7 @@
  *
  *}
 <div class="navigationmodule children-and-grandchildren">
+	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
 	<ul>
 	{foreach from=$sections item=section}
 	{if $section->parent==$current->id}
