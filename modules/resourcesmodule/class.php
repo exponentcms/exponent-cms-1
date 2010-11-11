@@ -179,7 +179,7 @@ class resourcesmodule {
 					$tmp[$i]->filename = URL_FULL.$file->directory.'/'.$file->filename;
 					$tmp[$i]->fileexists = file_exists(BASE.$file->directory.'/'.$file->filename);
 					$tmp[$i]->filesize = resourcesmodule::formatBytes(filesize(BASE.$file->directory.'/'.$file->filename));
-					if ($file->mimetype == "audio/mpeg"){
+					if (($file->mimetype == "audio/mpeg") && ($tmp[$i]->fileexists)){
 						$mp3 = new mp3file(BASE.$file->directory.'/'.$file->filename);
 						$id3 = $mp3->get_metadata();
 						if (($id3['Encoding']=='VBR') || ($id3['Encoding']=='CBR')) {
@@ -236,7 +236,7 @@ class resourcesmodule {
 						$tmp[$i]->filename = URL_FULL.$file->directory.'/'.$file->filename;
 						$tmp[$i]->fileexists = file_exists(BASE.$file->directory.'/'.$file->filename);
 						$tmp[$i]->filesize = resourcesmodule::formatBytes(filesize(BASE.$file->directory.'/'.$file->filename));
-						if ($file->mimetype == "audio/mpeg"){
+						if (($file->mimetype == "audio/mpeg") && ($tmp[$i]->fileexists)) {
 							$mp3 = new mp3file(BASE.$file->directory.'/'.$file->filename);
 							$id3 = $mp3->get_metadata();
 							if (($id3['Encoding']=='VBR') || ($id3['Encoding']=='CBR')) {
