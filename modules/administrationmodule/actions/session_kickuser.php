@@ -27,7 +27,7 @@ if (isset($_GET['id']) && exponent_permissions_check('user_management',exponent_
 	if ($u->is_acting_admin == 0 || ($user->is_admin == 1 && $u->is_admin == 0)) {
 		$db->delete('sessionticket','uid='.$u->id);
 	}
-	
+	if (isset($_GET['id']) && $_GET['id'] == 0) $db->delete('sessionticket','uid=0');
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

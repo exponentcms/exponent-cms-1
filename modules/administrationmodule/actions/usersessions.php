@@ -33,9 +33,12 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
 	$sessions = $db->selectObjects('sessionticket');
 	for ($i = 0; $i < count($sessions); $i++) {
 		$sessions[$i]->user = exponent_users_getUserById($sessions[$i]->uid);
+		if ($sessions[$i]->uid == 0) {
+			$sessions[$i]->user->id = 0;
+		}
 		$sessions[$i]->duration = exponent_datetime_duration($sessions[$i]->last_active,$sessions[$i]->start_time);
 	}
-	
+
 	$template = new template('administrationmodule','_sessionmanager',$loc);
 	$template->assign('sessions',$sessions);
 	$template->assign('user',$user);

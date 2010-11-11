@@ -18,9 +18,9 @@
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	{foreach from=$sessions item=session}
 	<tr>
-		<td style="background-color: lightgrey">{$session->user->username}</td>
+		<td style="background-color: lightgrey"><strong>{$session->user->username}</strong></td>
 		<td style="background-color: lightgrey">{$_TR.ip}: {$session->ip_address}</td>
-		<td style="background-color: lightgrey">{$_TR.duration}: {foreach name=d from=$session->duration key=tag item=number}{$number}{if $smarty.foreach.d.last == false}:{/if}{/foreach}</td>
+		<td style="background-color: lightgrey">{$_TR.duration}: {foreach name=d from=$session->duration key=tag item=number}{$number} {$tag}{if $smarty.foreach.d.last == false},{/if}{/foreach}</td>
 	</tr>
 	<tr>
 		<td colspan="3" style="padding-left: 10px; border: 1px solid lightgrey;">
@@ -37,7 +37,8 @@
 				<tr>
 					<td></td>
 					<td>{$_TR.last_active}: </td>
-					<td>{$session->last_active|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</td>
+					<td>{$session->last_active|format_date:$smarty.const.DISPLAY_DATETIME_FORMAT}</td>
+				</tr>
 				<tr>
 					<td></td>
 					<td>{$_TR.browser}: </td>

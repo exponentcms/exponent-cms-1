@@ -22,7 +22,8 @@
 if (!defined('EXPONENT')) exit('');
 
 if (exponent_permissions_check('user_management',exponent_core_makeLocation('administrationmodule'))) {
-	$ticket = $db->selectObject('sessionticket',"ticket='".preg_replace('/[^A-Za-z0-9]/','',$_GET['ticket'])."'");
+//	$ticket = $db->selectObject('sessionticket',"ticket='".preg_replace('/[^A-Za-z0-9]/','',$_GET['ticket'])."'");
+	$ticket = $db->selectObject('sessionticket',"ticket='".$_GET['ticket']."'");
 	if ($ticket) {
 		if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 		$u = exponent_users_getUserById($ticket->uid);
@@ -30,8 +31,8 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
 			// We can only kick the user if they are A) not an acting admin, or B) The current user is a super user and the kicked user is not.
 			$db->delete('sessionticket',"ticket='".$ticket->ticket."'");
 		}
+		if ($ticket->uid == 0) $db->delete('sessionticket',"ticket='".$ticket->ticket."'");
 	}
-	
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
