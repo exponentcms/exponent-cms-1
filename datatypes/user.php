@@ -46,9 +46,9 @@ class user {
 		// Register the basic user profile controls.
 		$form->register('firstname',$i18n['firstname'],new textcontrol($object->firstname));
 		$form->register('lastname',$i18n['lastname'],new textcontrol($object->lastname));
-		$form->register(null,'',new htmlcontrol('<br />'));
+//		$form->register(null,'',new htmlcontrol('<br />'));
 		$form->register('email',$i18n['email'],new textcontrol($object->email));
-		$form->register(null,'',new htmlcontrol('<br />'));
+//		$form->register(null,'',new htmlcontrol('<br />'));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		
 		return $form;

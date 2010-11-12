@@ -15,6 +15,7 @@
  *}
 <div class="form_title">{$_TR.form_title}</div>
 <div class="form_header"><p>{$_TR.form_header}</p></div>
+<p><a href="{link action=usersessions id=$filter}">{if $filter != 0}Show all Sessions{else}Restrict list to Logged-In Users{/if}</a></p>
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	{foreach from=$sessions item=session}
 	<tr>

@@ -30,7 +30,13 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
 	if (!defined('SYS_USERS')) require_once(BASE.'subsystems/users.php');
 	if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 	
-	$sessions = $db->selectObjects('sessionticket');
+	if (isset($_GET['id']) && $_GET['id'] == 0) {
+		$sessions = $db->selectObjects('sessionticket', "uid<>0");
+		$filtered = 1;
+	} else {
+		$sessions = $db->selectObjects('sessionticket');
+		$filtered = 0;
+	}
 	for ($i = 0; $i < count($sessions); $i++) {
 		$sessions[$i]->user = exponent_users_getUserById($sessions[$i]->uid);
 		if ($sessions[$i]->uid == 0) {
@@ -42,6 +48,7 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
 	$template = new template('administrationmodule','_sessionmanager',$loc);
 	$template->assign('sessions',$sessions);
 	$template->assign('user',$user);
+	$template->assign('filter',$filtered);
 	$template->output();
 } else {
 	echo SITE_403_HTML;
