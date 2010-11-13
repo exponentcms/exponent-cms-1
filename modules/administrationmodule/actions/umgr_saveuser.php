@@ -56,7 +56,8 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
         	    validator::failAndReturnToForm(sprintf($i18n['strength_failed'],$strength_error), $_POST);
 			} else {
 				validator::validate(array('valid_email'=>'email'), $_POST);
-
+				$u->is_locked = false;	// don't auto-lock admin created accounts
+				
 				$u = exponent_users_create($_POST,null);
 				$u = exponent_users_saveProfileExtensions($_POST,$u,true);
 				exponent_flow_redirect();

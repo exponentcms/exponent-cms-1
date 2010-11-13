@@ -281,6 +281,7 @@ function exponent_users_form($user = null) {
 	foreach ($exts as $ext) {
 		// Modify the form object by passing it through each profile extension,
 		// each of which may or may not register new controls.
+		$form->register(null,'',new htmlcontrol('<br />'));
 		$form = call_user_func(array($ext->extension,'modifyForm'),$form,$tmpu);
 	}
 
@@ -421,34 +422,43 @@ function exponent_users_create($formvalues) {
 		$db->insertObject($memb,'groupmembership');
 	}
 
+	// should we automatically lock all new accounts?
+  	if (USER_REGISTRATION_AUTO_LOCK){
+		$u->is_locked = true;
+	}
+
 	//signup email stuff
   	if (USER_REGISTRATION_SEND_WELCOME){
-    		//email user
-    		//their username is: $formvalues['username'];
-    		//their password is: $formvalues['pass1'];
-    		//their email is: $formvalues['email'] or $u->email;
-    		$headers = ''; //define email specific headers here if you'd like
-    		$from = SMTP_FROMADDRESS;
-    		$to = $u->email;
-    		$subject = USER_REGISTRATION_WELCOME_SUBJECT;
-    		$msg = $u->firstname . ", \n\n";
+		//email user
+		//their username is: $formvalues['username'];
+		//their password is: $formvalues['pass1'];
+		//their email is: $formvalues['email'] or $u->email;
+		$headers = ''; //define email specific headers here if you'd like
+		$from = SMTP_FROMADDRESS;
+		if (USER_REGISTRATION_AUTO_LOCK){
+			$from = USER_REGISTRATION_ADMIN_EMAIL; //put admin email here.
+		}
+		$to = $u->email;
+		$subject = USER_REGISTRATION_WELCOME_SUBJECT;
+		$msg = $u->firstname . ", \n\n";
 		$msg .= USER_REGISTRATION_WELCOME_MSG;
 
-    		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
-    		if (!exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
+		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+		if (!exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
 	}
 
 	if (USER_REGISTRATION_SEND_NOTIF){
-    		//email admin
-    		$headers = ''; //define email specific headers here if you'd like
-    		$from = SMTP_FROMADDRESS;
-    		$to = USER_REGISTRATION_ADMIN_EMAIL; //put admin email here.
-    		$subject = USER_REGISTRATION_NOTIF_SUBJECT;
-    		$msg = "When: " . date("F j, Y, g:i a") ."\n\n";
-    		$msg .= "Their name is: " . $u->firstname . " " . $u->lastname . "\n\n";
+		//email admin
+		$headers = ''; //define email specific headers here if you'd like
+		$from = SMTP_FROMADDRESS;
+		$to = USER_REGISTRATION_ADMIN_EMAIL; //put admin email here.
+		$subject = USER_REGISTRATION_NOTIF_SUBJECT;
+		$msg = "When: " . date("F j, Y, g:i a") ."\n\n";
+		$msg .= "Their name is: " . $u->firstname . " " . $u->lastname . "\n\n";
+		$msg .= "Their e-mail is: " . $u->email . "\n\n";
 
-    		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
-    		if (exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
+		if (!defined("SYS_SMTP")) include_once(BASE."subsystems/smtp.php");
+		if (exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
   	}
 	// Return the newly created user object (complete with ID) to the caller.
 	return $u;

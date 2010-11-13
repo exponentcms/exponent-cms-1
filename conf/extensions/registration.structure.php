@@ -30,6 +30,11 @@ $stuff = array(
 			'description'=>$i18n['allow_registration_desc'],
 			'control'=>new checkboxcontrol()
 		),
+		'USER_REGISTRATION_AUTO_LOCK'=>array(
+			'title'=>$i18n['user_registration_auto_lock'],
+			'description'=>$i18n['user_registration_auto_lock_desc'],
+			'control'=>new checkboxcontrol()
+		),
 		'SITE_USE_CAPTCHA'=>array(
 			'title'=>$i18n['use_captcha'],
 			'description'=>$i18n['use_captcha_desc'],
