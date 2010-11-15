@@ -37,14 +37,14 @@ require_once('exponent.php');
 	// $config = $db->selectObject("calendarmodule_config","id='".$id."'");
 
 // let's select a calendar by its source to make it easier to find and harder to spoof	
-	$src = intval($_GET['src']);
+	$src = $_GET['src'];
 	if (!$src) {
 		print_r("<br><b><i>Exponent - No Calendar Selected!</i></b><br>");	
 		exit();
 	}	
 	$loc = null;
 	$loc->mod = 'calendarmodule';
-	$loc->src = $source;
+	$loc->src = $src;
 	$loc->int = '';	
 	$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
 	
