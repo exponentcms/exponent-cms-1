@@ -21,7 +21,8 @@ if (!defined("EXPONENT")) exit("");
 
 $item = null;
 $iloc = null;
-if (isset($_POST['id'])) {
+
+if (isset($_POST['id']) && !isset($_POST['submitNew'])) {
 	$item = $db->selectObject("calendar","id=".intval($_POST['id']));
 	$loc = unserialize($item->location_data);
 	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$item->id);
@@ -31,6 +32,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 	($item != null && exponent_permissions_check("edit",$loc)) ||
 	($iloc != null && exponent_permissions_check("edit",$iloc))
 ) {
+
 	$item = calendar::update($_POST,$item);
 	$item->location_data = serialize($loc);
 
@@ -118,8 +120,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 		//$stop_recur  = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("untildate",$_POST));
 		$stop_recur  = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("untildate",$_POST));
 
-
-		if ($_POST['recur'] != "recur_none") {
+		if (($_POST['recur'] != "recur_none") && isset($_POST['recur'])) {
 			// Do recurrence
 			$freq = $_POST['recur_freq_'.$_POST['recur']];
 

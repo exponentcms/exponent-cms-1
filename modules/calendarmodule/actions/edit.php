@@ -114,6 +114,16 @@ if (($item == null && exponent_permissions_check('post',$loc)) ||
 		$form->registerAfter('feedback_form', 'feedback_email', $i18n['feedback_email'], new textcontrol($item->feedback_email, 20));
 		$form->registerBefore('feedback_form', null, '', new htmlcontrol('<hr size="1" />'));
 	}
+
+	if ($_GET['id'] != 0) {
+		$form->unregister('submit');
+//		$buttons = "<div id=\"submitControl\" class=\"control buttongroup\"> ";
+		$buttons .= "<input name=\"submitSubmit\" class=\"button\" type=\"submit\" value=\"Save\" onclick=\"if (checkRequired(this.form)) { if (validate(this.form)) { return true; } else { return false; } } else { return false; }\" /> ";
+		$buttons .= "<input name=\"submitNew\" class=\"button\" type=\"submit\" value=\"Save as New Event\" onclick=\"if (checkRequired(this.form)) { if (validate(this.form)) { return true; } else { return false; } } else { return false; }\" /> ";
+		$buttons .= "<input class=\"button\" type=\"button\" value=\"Cancel\" onclick=\"document.location.href=\'".exponent_flow_get()."\'\" /> ";
+//		$buttons .= "</div>";
+		$form->register(null,'',new htmlcontrol($buttons));
+	}
 	
 	if (!defined('SYS_MODULES')) include_once(BASE.'subsystems/modules.php');
 	$form->validationScript = exponent_modules_getJSValidationFile('calendarmodule','postedit');
