@@ -5,6 +5,7 @@ return array(
 	'module_author'=>'James Hunt',
 	'module_description'=>'Allows users to navigate through pages on the site, and allows Administrators to manage the site page structure / hierarchy.',
 
+	'perm_administrate'=>'Administrate',
 	'perm_view'=>'View Section',
 	'perm_manage'=>'Manage Section',
 

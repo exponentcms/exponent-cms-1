@@ -32,6 +32,7 @@ class navigationmodule {
 		$i18n = exponent_lang_loadFile('modules/navigationmodule/class.php');
 
 		return array(
+			'administrate'=>$i18n['perm_administrate'],
 			'view'=>$i18n['perm_view'],
 			'manage'=>$i18n['perm_manage']
 		);
