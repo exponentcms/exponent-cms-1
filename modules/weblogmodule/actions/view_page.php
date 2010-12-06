@@ -68,8 +68,9 @@ if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private
 //if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';;
 
 $total = $db->countObjects('weblog_post',$where);
-$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,($_GET['page']*$config->items_per_page)));
+//$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($config->items_per_page,($_GET['page']*$config->items_per_page)));
 //$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY posted DESC '.$db->limit($viewconfig->num_posts,($_GET['page']*$viewconfig->num_posts)));
+$posts = $db->selectObjects('weblog_post',$where . ' ORDER BY publish DESC '.$db->limit($config->items_per_page,($_GET['page']*$config->items_per_page)));
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($posts); $i++) {
 	$posts[$i]->posted = ($posts[$i]->publish != 0 ? $posts[$i]->publish : $posts[$i]->posted);
@@ -95,7 +96,8 @@ for ($i = 0; $i < count($posts); $i++) {
 	$posts[$i]->comments = $comments;
 	$posts[$i]->total_comments = count($comments);
 }
-usort($posts,'exponent_sorting_byPostedDescending');
+//usort($posts,'exponent_sorting_byPostedDescending');
+usort($posts,'exponent_sorting_byPublishedDescending');
 $title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 
 //If rss is enabled tell the view to show the RSS button

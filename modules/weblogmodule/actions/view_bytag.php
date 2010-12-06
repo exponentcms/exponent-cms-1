@@ -89,7 +89,8 @@ for ($i = 0; $i < count($all_posts); $i++) {
 		array_push($posts, $post);
 	}
 }
-usort($posts,'exponent_sorting_byPostedDescending');
+//usort($posts,'exponent_sorting_byPostedDescending');
+usort($posts,'exponent_sorting_byPublishedDescending');
 $title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 //$template = new template('weblogmodule','Summary',$loc);
 $template = new template('weblogmodule','Default',$loc);

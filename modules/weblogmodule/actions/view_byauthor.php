@@ -76,7 +76,8 @@ for ($i = 0; $i < count($posts); $i++) {
 	$posts[$i]->comments = $comments;
 	$posts[$i]->total_comments = count($comments);
 }
-usort($posts,'exponent_sorting_byPostedDescending');
+//usort($posts,'exponent_sorting_byPostedDescending');
+usort($posts,'exponent_sorting_byPublishedDescending');
 		
 $title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 $template = new template('weblogmodule','Default',$loc);

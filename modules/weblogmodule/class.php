@@ -313,7 +313,8 @@ class weblogmodule {
 				$posts[$i]->tags = $selected_tags;
 				$posts[$i]->selected_tags = $selected_tags;
 			}
-			usort($posts,'exponent_sorting_byPostedDescending');
+//			usort($posts,'exponent_sorting_byPostedDescending');
+			usort($posts,'exponent_sorting_byPublishedDescending');
 			$template->assign('posts',$posts);
 			$template->assign('total_posts',$total);
 		}
