@@ -44,19 +44,19 @@ if ((isset($news->id) && exponent_permissions_check("edit_item",$loc)) ||
 
 	//Get and save the image
 	if ($_FILES['file']['name'] != '') {
-			$dir = 'files/newsmodule/'.$loc->src;
-			$file = file::update('file',$dir,null);
-	//eDebug($file);
-			if (is_object($file)) {
-					$news->file_id = $db->insertObject($file,'file');
-			} else {
-					// If file::update() returns a non-object, it should be a string.  That string is the error message.
-					$post = $_POST;
-					$post['_formError'] = $file;
-					exponent_sessions_set('last_POST',$post);
-					header('Location: ' . $_SERVER['HTTP_REFERER']);
-		exit();
-			}
+		$dir = 'files/newsmodule/'.$loc->src;
+		$file = file::update('file',$dir,null);
+//eDebug($file);
+		if (is_object($file)) {
+			$news->file_id = $db->insertObject($file,'file');
+		} else {
+			// If file::update() returns a non-object, it should be a string.  That string is the error message.
+			$post = $_POST;
+			$post['_formError'] = $file;
+			exponent_sessions_set('last_POST',$post);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			exit();
+		}
 	}
 
 	//Get and add the tags selected by the user

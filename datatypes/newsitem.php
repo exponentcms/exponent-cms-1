@@ -75,6 +75,9 @@ class newsitem {
 		$object->body = $values['body'];
 		//$object->publish = popupdatetimecontrol::parseData('publish',$values);
 		$object->publish = yuidatetimecontrol::parseData('publish',$values);
+		if ($object->publish == null || $object->publish == 0) {
+			$object->publish = $object->posted;
+		}
 		//$object->unpublish = popupdatetimecontrol::parseData('unpublish',$values);
 		$object->unpublish = yuidatetimecontrol::parseData('unpublish',$values);
 		$object->is_featured = (isset($values['is_featured']) ? 1 : 0);

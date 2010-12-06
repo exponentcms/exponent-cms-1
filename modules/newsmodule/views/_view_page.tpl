@@ -25,7 +25,7 @@
 	{foreach from=$news item=newsitem}
 		{*if $newsitem->is_featured!=1*}
 			<div class="item {cycle values='odd,even'}">
-			{if $newsitem->title != ""}<h3>{$newsitem->title}</h3>{/if}
+			{if $newsitem->title != ""}<h3><a href="{link action=view id=$newsitem->id}">{$newsitem->title}</a></h3>{/if}
 			{if $newsitem->isRss != true}
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
 					<div class="itemactions">
