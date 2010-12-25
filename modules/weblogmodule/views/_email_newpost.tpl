@@ -30,7 +30,7 @@
  *}
 Hello,
 
-You are receiving this email because you are monitoring the weblog "{$blogname}" at "{$smarty.const.SITE_TITLE}".  Someone has posted a new entry titled "{$post->subject}".
+You are receiving this email because you are monitoring the weblog "{$blogname}" at "{$smarty.const.SITE_TITLE}".  Someone has posted a new entry titled "{$post->title}".
 
 {if $showpost == 1}
 ------------------------------
