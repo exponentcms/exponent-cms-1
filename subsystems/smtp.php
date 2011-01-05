@@ -51,7 +51,7 @@ function exponent_smtp_mail($to_r,$from,$subject,$message,$headers=array(), $pre
 	}
 	$mail->subject($subject);
 	$mail->addHeaders($headers);
-	$mail->addHTML($message);
+	$mail->addHTML(nl2br($message));  // convert the text newlines \n to html breaks <br>
 	try {
 		if ($mail->send() > 0) {
 			return true;
