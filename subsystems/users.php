@@ -428,7 +428,7 @@ function exponent_users_create($formvalues) {
 	}
 
 	//signup email stuff
-  	if (USER_REGISTRATION_SEND_WELCOME){
+  	if (USER_REGISTRATION_SEND_WELCOME && !$user->is_admin){
 		//email user
 		//their username is: $formvalues['username'];
 		//their password is: $formvalues['pass1'];
@@ -447,7 +447,7 @@ function exponent_users_create($formvalues) {
 		if (!exponent_smtp_mail($to, $from ,$subject,$msg,$headers));
 	}
 
-	if (USER_REGISTRATION_SEND_NOTIF){
+	if (USER_REGISTRATION_SEND_NOTIF && !$user->is_admin){
 		//email admin
 		$headers = ''; //define email specific headers here if you'd like
 		$from = SMTP_FROMADDRESS;
