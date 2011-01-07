@@ -5,6 +5,9 @@ return array(
 
 	'allow_registration'=>'Allow Registration?',
 	'allow_registration_desc'=>'Whether or not new users should be allowed to create accounts for themselves.',
+	'user_registration_auto_lock'=>'Lock new user accounts until verified?',
+	'user_registration_auto_lock_desc'=>'Automatically lockout all new users after registration until you can verify (and unlock) them.',
+
 
 	'use_captcha'=>'Use CAPTCHA Test?',
 	'use_captcha_desc'=>'A CAPTCHA (Computer Automated Public Turing Test to Tell Computers and Humans Apart) is a means to prevent massive account registration.  When registering a new user account, the visitor will be required to enter a series of letters and numbers appearing in an image.  This prevents scripted bots from registering a large quantity of accounts.',
