@@ -400,6 +400,11 @@ function exponent_users_create($formvalues) {
 	global $user;
 	$u->is_acting_admin = ((isset($formvalues['is_acting_admin']) && $user->is_admin == 1) ? 1 : 0);
 
+	// should we automatically lock all new accounts?
+  	if (USER_REGISTRATION_AUTO_LOCK){
+		$u->is_locked = true;
+	}
+	
 	// Insert the user object into the database, and save the ID.
 	global $db;
 	$u->created_on = time();
@@ -420,11 +425,6 @@ function exponent_users_create($formvalues) {
 	foreach($db->selectObjects('group','inclusive=1'.$code_where) as $g) {
 		$memb->group_id = $g->id;
 		$db->insertObject($memb,'groupmembership');
-	}
-
-	// should we automatically lock all new accounts?
-  	if (USER_REGISTRATION_AUTO_LOCK){
-		$u->is_locked = true;
 	}
 
 	//signup email stuff
