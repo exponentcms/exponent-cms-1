@@ -102,13 +102,14 @@
 								{/permissions}
 							</div>
 							<div>
-								<strong>{if $event->is_allday == 1}All Day{else}
+								{if $event->is_allday == 1}- All Day{else}
 									{if $event->eventstart != $event->eventend}
-										{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
+										- {$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 									{else}
-										{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
+										- {$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 									{/if}
-								{/if}</strong>{br}
+								{/if}
+								{br}
 								{$event->summary}
 							</div>
 						</div>

@@ -72,15 +72,13 @@
 					</div>
 					<a class="itemtitle calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}" title="{$event->body|summarize:"html":"para"}">{$event->title}</a>
 					<div>
-						<strong>
-							{if $event->is_allday == 1}All Day{else}
-								{if $event->eventstart != $event->eventend}
-									{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
-								{else}
-									{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
-								{/if}
+						{if $event->is_allday == 1}- All Day{else}
+							{if $event->eventstart != $event->eventend}
+								- {$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
+							{else}
+								- {$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 							{/if}
-						</strong>
+						{/if}
 						{br}
 						{$event->summary}
 					</div>
