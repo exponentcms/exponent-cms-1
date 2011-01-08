@@ -43,7 +43,7 @@ $SYS_FLOW_REDIRECTIONPATH = 'loginredirect';
 if (exponent_sessions_loggedIn()) {
 	$url = exponent_sessions_get('redirecturl');
 	if ($url . '' == '') {
-		$SYS_FLOW_REDIRECTIONPATH = 'default';
+		$SYS_FLOW_REDIRECTIONPATH = 'exponent_default';
 		exponent_flow_redirect();
 	}
 	header('Location: ' . $url);

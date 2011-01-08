@@ -20,6 +20,7 @@
 if (!defined("EXPONENT")) exit("");
 
 exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+
 $title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 
 $template = new template("calendarmodule","_viewweek",$loc,false);
