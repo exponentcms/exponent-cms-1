@@ -63,12 +63,14 @@ input.text {
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
+}
 
 select.select {
 	padding:3px;
 	border: 1px solid #4289d7; 
 	font: normal 1em Verdana, sans-serif;
 	color:#777;	
+}
 
 .textarea {
 	font: normal 1em Verdana, sans-serif;
