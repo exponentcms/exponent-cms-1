@@ -17,6 +17,7 @@ return array(
 
 	'read_more'=>'Read More',
 	'next'=>'Next',
+	'view_all'=>'More Posts',
 	'new_post'=>'New Post',
 
 	'posted'=>'Posted',
