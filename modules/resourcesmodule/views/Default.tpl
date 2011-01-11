@@ -66,6 +66,13 @@
 		{assign var=fid value=$resource->file_id}
 		{math equation="x-1" x=$resource->rank assign=prev}
 		{math equation="x+1" x=$resource->rank assign=next}
+		{if $resource->edited != 0 && $config->sortfield == "edited"}
+			{assign var='sortdate' value=$resource->edited}
+			{assign var='whopost'  value=$resource->editor}
+		{else}
+			{assign var='sortdate' value=$resource->posted}
+			{assign var='whopost'  value=$resource->poster}
+		{/if}
 		<tr><td  style="padding-left: 20px;">
 		<h4>
 		{if $__viewconfig.show_icons && ($resource->mimetype->icon != "")}
@@ -80,6 +87,7 @@
 			<p><b><i>(File is Missing)</i></b></p>
 		{/if}		
 		</h4>
+		<div>{$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
@@ -130,13 +138,6 @@
 		{/if}
 		{if $__viewconfig.direct_download}	
 			<div class="attribution">		
-				{if $resource->edited != 0 && $config->sortfield == "edited"}
-					{assign var='sortdate' value=$resource->edited}
-					{assign var='whopost'  value=$resource->editor}
-				{else}
-					{assign var='sortdate' value=$resource->posted}
-					{assign var='whopost'  value=$resource->poster}
-				{/if}
 				Size: {$resource->filesize} - {$_TR.uploaded} on {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT} - <em>({$_TR.downloaded} {$resource->num_downloads} {$_TR.times})</em>
 				{if !$resource->fileexists}
 					<p><b><i>File is Missing</i></b></p>

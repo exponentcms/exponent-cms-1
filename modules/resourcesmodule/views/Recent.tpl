@@ -106,9 +106,16 @@
 			{/if}	
 		{/if}
 		</div>
+		{if $resource->edited != 0 && $config->sortfield == "edited"}
+			{assign var='sortdate' value=$resource->edited}
+			{assign var='whopost'  value=$resource->editor}
+		{else}
+			{assign var='sortdate' value=$resource->posted}
+			{assign var='whopost'  value=$resource->poster}
+		{/if}
 		{if $resource->category_id != 0 && $__viewconfig.show_category}
 			{assign var=cat1id value=$resource->category_id}
-			<div>from &quot;{$categories[$cat1id]->name}&quot;</div>
+			<div>from &quot;{$categories[$cat1id]->name}&quot; {$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		{/if}
 		<div class="itemactions">
 		{if $__viewconfig.show_player && $resource->filename != "" && $resource->fileexists && $resource->mimetype->mimetype == "audio/mpeg"}
@@ -122,13 +129,6 @@
 		{/if}
 		{if $__viewconfig.direct_download}	
 			<div class="attribution">		
-				{if $resource->edited != 0 && $config->sortfield == "edited"}
-					{assign var='sortdate' value=$resource->edited}
-					{assign var='whopost'  value=$resource->editor}
-				{else}
-					{assign var='sortdate' value=$resource->posted}
-					{assign var='whopost'  value=$resource->poster}
-				{/if}
 				Size: {$resource->filesize} - {$_TR.uploaded} on {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT} - <em>({$_TR.downloaded} {$resource->num_downloads} {$_TR.times})</em>
 				{if !$resource->fileexists}
 					<p><b><i>File is Missing</i></b></p>
