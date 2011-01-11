@@ -30,6 +30,7 @@
  *}
  
 <div class="imagegallerymodule view-gallery">
+{foreach from=$galleries item=gallery}
 	{assign var=boxw value=$gallery->box_size}
 	{assign var=boxh value=$gallery->box_size}
 	{math equation="x+10" x=$gallery->box_size assign=boxtop}
@@ -73,13 +74,13 @@
 					<td valign="bottom" align="center" style="padding: 1em">
 						{if $image->newwindow == 0}
 							<a href="{link action=view_image id=$image->id}">
-								<img style="border:none;" src="thumb.php?base={$smarty.const.BASE}&amp;file={$image->file->directory}/{$image->file->filename}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" title="{$image->alt}" alt="{$image->alt}" />
+								<img style="border:none;" src="{$smarty.const.URL_FULL}thumb.php?base={$smarty.const.BASE}&amp;file={$image->file->directory}/{$image->file->filename}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" title="{$image->alt}" alt="{$image->alt}" />
 							</a>
 							<br />
 							<a href="{link action=view_image id=$image->id}">{$image->name}</a>
 						{else}
 							<a href="#" onclick="window.open('{$image->file->directory}/{$image->file->filename}','image','title=no,status=no,scrollbars=yes'); return false;">
-								<img style="border:none;" src="thumb.php?base={$smarty.const.BASE}&amp;file={$image->file->directory}/{$image->file->filename}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" title="{$image->alt}" alt="{$image->alt}" />
+								<img style="border:none;" src="{$smarty.const.URL_FULL}thumb.php?base={$smarty.const.BASE}&amp;file={$image->file->directory}/{$image->file->filename}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" title="{$image->alt}" alt="{$image->alt}" />
 							</a>
 							<br />
 							<a href="#" onclick="window.open('{$image->file->directory}/{$image->file->filename}','image','title=no,status=no,scrollbars=yes'); return false;">{$image->name}</a>
@@ -148,4 +149,5 @@
 		{/if}
 	{/permissions}
 	</div>
+{/foreach}
 </div>

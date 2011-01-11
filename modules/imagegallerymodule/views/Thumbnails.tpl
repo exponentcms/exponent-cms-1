@@ -31,7 +31,6 @@
 
 <div class="imagegallerymodule thumbnails">
  {if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
-
  {permissions level=$smarty.const.UILEVEL_NORMAL}
   {if $permissions.create == 1}
    <div class="moduleactions">
@@ -43,7 +42,7 @@
 
  {foreach from=$galleries item=gallery}
   <div class="item">
-	<h3>{if $gallery->name !=""}{$gallery->name}{/if}
+	<h3><a href="{link action=view_gallery id=$gallery->id view=Slideshow}" title="View {$gallery->name} Slideshow" >{$gallery->name}</a>
 		{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
     </h3>
    {$gallery->description}
@@ -58,6 +57,8 @@
        {if ($smarty.foreach.i.iteration mod $gallery->perrow) == 0}{br}{/if}
       </li>
       {/if}
+	 {foreachelse}	  
+		<b><i>No Images in this Gallery</i></b>
      {/foreach}
     </ul>
    {/if}
@@ -123,4 +124,3 @@
 
 {/literal}	
 {/script}
-

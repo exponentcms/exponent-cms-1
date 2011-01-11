@@ -31,7 +31,6 @@
 
 <div class="imagegallerymodule default">
 	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
-	
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 	{if $permissions.create == 1}
 		<div class="moduleactions">
@@ -40,34 +39,34 @@
 		</div>
 	{/if}
 	{/permissions}
-<table>	
-	{foreach key="key" name="gallery" from=$galleries item=gallery}
-		{assign var=boxw value=$gallery->box_size}
-		{assign var=boxh value=$gallery->box_size}
-	<tr>
-	<div class="item">
-		<td>
-		{if $gallery->images[0]->thumbnail}
-			<a href="{link action=view_gallery id=$gallery->id}">
-				<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" alt="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}{/if}" title="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}{/if}" />
-			</a>
-		{/if}
-		</td>
-		<td>
-		<h3>
-		<a href="{link action=view_gallery id=$gallery->id}"  title="{$gallery->description|strip_tags:false}" >{$gallery->name}</a>
-			{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
-		</h3>
-		{if $gallery->description}
-		<div class="bodycopy">
-			{$gallery->description}
-		</div>
-		{/if}
-		</td>
-	</div>
-	</tr>
-	{foreachelse}
-		<tr><p><em>{$_TR.no_galleries}</em></p></tr>
-	{/foreach}
-</table>
+	<table>	
+		{foreach key="key" name="gallery" from=$galleries item=gallery}
+			{assign var=boxw value=$gallery->box_size}
+			{assign var=boxh value=$gallery->box_size}
+			<tr>
+				<div class="item">
+					<td>
+					{if $gallery->images[0]->thumbnail}
+						<a href="{link action=view_gallery id=$gallery->id}">
+							<img class="firstimage" src="{$smarty.const.URL_FULL}thumb.php?file={$gallery->images[0]->file->directory}/{$gallery->images[0]->thumbnail}&amp;height={$boxw}&amp;width={$boxw}&amp;constraint=1" alt="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}{/if}" title="{if $gallery->images[0]->name !=""}{$gallery->images[0]->name}{else}{$_TR.first_image}{/if}" />
+						</a>
+					{/if}
+					</td>
+					<td>
+						<h3>
+							<a href="{link action=view_gallery id=$gallery->id}"  title="{$gallery->description|strip_tags:false}" >{$gallery->name}</a>
+							{include file="`$smarty.const.BASE`modules/imagegallerymodule/views/_edit_delete.tpl"}
+						</h3>
+						{if $gallery->description}
+							<div class="bodycopy">
+								{$gallery->description}
+							</div>
+						{/if}
+					</td>
+				</div>
+			</tr>
+		{foreachelse}
+			<tr><p><em>{$_TR.no_galleries}</em></p></tr>
+		{/foreach}
+	</table>
 </div>

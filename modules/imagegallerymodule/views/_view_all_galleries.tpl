@@ -74,7 +74,7 @@
 					{foreach name=a from=$gallery->images item=image}
 						<li class="imagegallery_picbox">
 							<a href="{link action=view_image id=$image->id}">
-								<img src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />{$image->name}
+								<img src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />{$image->name}
 							</a>
 							{if $smarty.foreach.a.iteration mod $gallery->perrow == 0}{br}{/if}			
 						</li>
@@ -86,7 +86,7 @@
 		{foreach name=a from=$gallery->images item=image}
 			<td class="imagegallery_picbox">
 					<a href="{link action=view_image id=$image->id}">
-						<img src="{$smarty.const.PATH_RELATIVE}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->alt}" />
+						<img src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->thumbnail}" alt="{$image->alt}" title="{$image->alt}" />
 					</a>
 					<div>
 						<a href="{link action=view_image id=$image->id}">{$image->name}</a>

@@ -97,7 +97,8 @@ class imagegallerymodule {
 
 		if (isset($_GET['id'])) { $where = " AND id='" . intval($_GET['id']) ."' "; }
 
-		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'" .$where,'galleryorder DESC');
+//		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'" .$where,'galleryorder DESC');
+		$galleries = $db->selectObjects('imagegallery_gallery',"location_data='".serialize($loc)."'" .$where,'galleryorder ASC');
 
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src);
 		for ($i = 0; $i < count($galleries); $i++) {
@@ -135,14 +136,12 @@ class imagegallerymodule {
 						}
 					}
 				}
-
-			$galleries[$i]->currentpage = 0;
-//			$galleries[$i]->nextpage = 1;
-//			$galleries[$i]->prevpage = -1;
-			$galleries[$i]->totalimages = count($galleries[$i]->images);
-			$galleries[$i]->totalpages = ceil($galleries[$i]->totalimages/$galleries[$i]->perpage);
-			if ($galleries[$i]->totalpages == 0) $galleries[$i]->totalpages = 1;
-
+				$galleries[$i]->currentpage = 0;
+	//			$galleries[$i]->nextpage = 1;
+	//			$galleries[$i]->prevpage = -1;
+				$galleries[$i]->totalimages = count($galleries[$i]->images);
+				$galleries[$i]->totalpages = ceil($galleries[$i]->totalimages/$galleries[$i]->perpage);
+				if ($galleries[$i]->totalpages == 0) $galleries[$i]->totalpages = 1;
 			}
 		}
 		if ( $config->random_single_gallery && (count($galleries) > 0) ) {

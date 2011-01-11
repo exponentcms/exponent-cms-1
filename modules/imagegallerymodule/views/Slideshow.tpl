@@ -66,15 +66,24 @@
  *
  * Maia Good - v1.01 - 2009-05-24
  *}
-{* For this view the following configuration options can be modified here *}
+{* For this view the following default configuration options can be modified here *}
 {assign var=captions value=$__viewconfig.captions}
+{if $captions == ""}{assign var=captions value=0}{/if}
 {assign var=controller value=$__viewconfig.controller}
+{if $controller == ""}{assign var=controller value=1}{/if}
 {assign var=thumbnails value=$__viewconfig.thumbnails}
+{if $thumbnails == ""}{assign var=thumbnails value=1}{/if}
 {assign var=random value=$__viewconfig.random}
+{if $random == ""}{assign var=random value=0}{/if}
 {assign var=delay value=$__viewconfig.delay}
+{if $delay == ""}{assign var=delay value=5000}{/if}
 {assign var=linked value=$__viewconfig.linked}
+{if $linked == ""}{assign var=linked value=1}{/if}
 {assign var=overlap value=$__viewconfig.overlap}
+{if $overlap == ""}{assign var=overlap value=1}{/if}
 {assign var=showtype value=$__viewconfig.showtype}
+{if $showtype == ""}{assign var=showtype value=1}{/if}
+{assign var=commondir value='/themes/common/js/'}
 
 <div class="imagegallerymodule default">
 	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
@@ -114,27 +123,27 @@
 
 	{* Start slideshow code *}
 	{literal}
-	<script type="text/javascript" src="{/literal}{$smarty.const.THEME_RELATIVE}{literal}js/mootools.js"></script>
-	<script type="text/javascript" src="{/literal}{$smarty.const.THEME_RELATIVE}{literal}js/slideshow.js"></script>
+	<script type="text/javascript" src="{/literal}{$commondir}{literal}mootools.js"></script>
+	<script type="text/javascript" src="{/literal}{$commondir}{literal}slideshow.js"></script>
 	{/literal}
 	{if $showtype == 1}
 	{literal}
-	<script type="text/javascript" src="{/literal}{$smarty.const.THEME_RELATIVE}{literal}js/slideshow.kenburns.js"></script>
+	<script type="text/javascript" src="{/literal}{$commondir}{literal}slideshow.kenburns.js"></script>
 	{/literal}
 	{assign var=showtypename value="Slideshow.KenBurns"}
 	{elseif $showtype == 2}
 	{literal}
-	<script type="text/javascript" src="{/literal}{$smarty.const.THEME_RELATIVE}{literal}js/slideshow.push.js"></script>
+	<script type="text/javascript" src="{/literal}{$commondir}{literal}slideshow.push.js"></script>
 	{/literal}
 	{assign var=showtypename value="Slideshow.Push"}
 	{elseif $showtype == 3}
 	{literal}
-	<script type="text/javascript" src="{/literal}{$smarty.const.THEME_RELATIVE}{literal}js/slideshow.fold.js"></script>
+	<script type="text/javascript" src="{/literal}{$commondir}{literal}slideshow.fold.js"></script>
 	{/literal}
 	{assign var=showtypename value="Slideshow.Fold"}
 	{elseif $showtype == 4}
 	{literal}
-	<script type="text/javascript" src="{/literal}{$smarty.const.THEME_RELATIVE}{literal}js/slideshow.flash.js"></script>
+	<script type="text/javascript" src="{/literal}{$commondir}{literal}slideshow.flash.js"></script>
 	{/literal}
 	{assign var=showtypename value="Slideshow.Flash"}
 	{else}
@@ -152,7 +161,8 @@
 			{literal}
 		};
 		// Note: you can add other options to the slideshow here.  Don't forget to enclose smarty variables in brackets of literals.
-		var myShow = new {/literal}{$showtypename}{literal}('show', data, { captions: {/literal}{$captions}{literal}, controller: {/literal}{$controller}{literal}, thumbnails: {/literal}{$thumbnails}{literal}, delay: {/literal}{$delay}{literal}, width: {/literal}{$slidewidth}{literal}, height: {/literal}{$slideheight}{literal}, hu: '{/literal}{$smarty.const.URL_FULL}{$gallery->images[0]->file->directory}{literal}', linked: {/literal}{$linked}{literal}, overlap: {/literal}{$overlap}{literal} , random: {/literal}{$random}{literal}});
+//		var myShow = new {/literal}{$showtypename}{literal}('show', data, { captions: {/literal}{$captions}{literal}, controller: {/literal}{$controller}{literal}, thumbnails: {/literal}{$thumbnails}{literal}, delay: {/literal}{$delay}{literal}, width: {/literal}{$slidewidth}{literal}, height: {/literal}{$slideheight}{literal}, hu: '{/literal}{$smarty.const.URL_FULL}{$gallery->images[0]->file->directory}{literal}', linked: {/literal}{$linked}{literal}, overlap: {/literal}{$overlap}{literal} , random: {/literal}{$random}{literal}});
+		var myShow = new {/literal}{$showtypename}{literal}('show', data, { captions: {/literal}{$captions}{literal}, controller: {/literal}{$controller}{literal}, thumbnails: {/literal}{$thumbnails}{literal}, delay: {/literal}{$delay}{literal}, width: 400, height: 300, hu: '{/literal}{$smarty.const.URL_FULL}{$gallery->images[0]->file->directory}{literal}', linked: {/literal}{$linked}{literal}, overlap: {/literal}{$overlap}{literal} , random: {/literal}{$random}{literal}});
 		});
 
 	//]]>
@@ -189,9 +199,12 @@
 					{foreach name="i" from=$gallery->images item=image}
 						<li>
 							<a href="#g{$gallery->id}i{$smarty.foreach.i.iteration}">
-								<img src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->thumbnail}" 
+								<img src="{$smarty.const.URL_FULL}thumb.php?file={$image->file->directory}/{$image->thumbnail}&amp;height=40&amp;width=50&amp;constraint=1" 
+							{*	<img src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->thumbnail}" 
 									width="{$thumbwidth}px"
-									height="{$thumbheight}px"
+									height="{$thumbheight}px"  *}
+									width="50"
+									height="40"  
 									alt="{if $image->name != ''}Thumbnail for {$image->name|strip_tags:false}{else}thumbnail for slide number {$smarty.foreach.i.iteration}{/if}" 
 								/>
 							</a>

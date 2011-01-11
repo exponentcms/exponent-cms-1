@@ -22,6 +22,11 @@ Notes:
 	You can override any of them with the !important keyword but the slideshow probably will not work as intended.
 */
 
+/* Slideshow customized for imagegallery pics */
+.slideshowwrapper {	/* the height is the sum of the show + thumbnails + margins */
+	height: 750px; /* if the slideshow is the longest column in a theme it may need a height */
+}
+
 .slideshow {
 	display: block;
 	position: relative;

@@ -51,10 +51,10 @@
 					<div style="width: {$boxtop}; height:{$boundingbox};">
 					<div class="imagegallery_picbox" style="width: {$boxtop}; height:{$boxtop}; vertical-align: middle;">
 						<a href="{link action=view_image id=$image->id}">
-							<img src="{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />
+							<img src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->thumbnail}" alt="{$image->name}" title="{$image->name}" />
 						<span>
 							<div>
-								<img align="center" src="{$image->file->directory}/{$image->file->filename}" height=240 width=320 />
+								<img align="center" src="{$smarty.const.URL_FULL}{$image->file->directory}/{$image->file->filename}" height=240 width=320 />
 							</div>
 							<div>
 								{$image->description}
