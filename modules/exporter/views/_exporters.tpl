@@ -24,7 +24,7 @@
 		<td class="administration_modmgrbody">
 			{$exporter.description}
 			<hr size='1'/>
-			<a class="mngmntlink administration_mngmntlink" href="{link module=exporter action=page page=start exporter=$impname}">{$_TR.run}</a>
+			<a class="mngmntlink administration_mngmntlink" href="{link module=exporter action=page page=start exporter=$impname}">{$_TR.run} {$exporter.name}</a>
 		</td>
 	</tr>
 	<tr><td></td></tr>

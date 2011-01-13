@@ -6,7 +6,7 @@ return array(
 	
 	'by'=>'by %s',
 	
-	'run'=>'Run Data Importer',
+	'run'=>'Run',
 	'no_importers'=>'No importers are installed.',
 );
 

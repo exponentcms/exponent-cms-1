@@ -6,7 +6,7 @@ return array(
 	
 	'by'=>'by %s',
 	
-	'run'=>'Run Data Exporter',
+	'run'=>'Run',
 	'no_exporters'=>'No exporters are installed.',
 );
 
