@@ -28,6 +28,7 @@
 						<a class="files" href="{$smarty.const.URL_FULL}modules/filemanagermodule/actions/picker.php">{$_TR.manage_files}</a>
 						<a class="admin" href="{link module=administrationmodule action=index}">{$_TR.site_administration}</a>
 						<a class="recycle" href="{link module=administrationmodule action=orphanedcontent}">{$_TR.recycle_bin}</a>
+						<a class="announce" href="{link module=administrationmodule action=edit_announcement}">{$_TR.edit_announcement}</a>
 					{/if}
 				{/permissions}
 				{chain module=previewmodule view=Default}		

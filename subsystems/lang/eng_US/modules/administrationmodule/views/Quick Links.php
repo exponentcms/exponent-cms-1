@@ -10,6 +10,7 @@ return array(
 	'site_administration'=>'Site Administration',
 	'add_module'=>'Add Module',
 	'recycle_bin'=>'Recycle Bin',
+	'edit_announcement'=>'Edit Site Announcement',
 	'change_password'=>'Change Password',
 	'edit_profile'=>'Edit Profile',
 	'logout'=>'Log Out',

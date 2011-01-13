@@ -9,7 +9,7 @@ return array(
 	'profile_definitions'=>'Profile Definitions',
 		
 	'subscriptions'=>'Subscriptions',
-        'manage_subscriptions'=>'Manage Subscriptions',
+	'manage_subscriptions'=>'Manage Subscriptions',
 	
 	'extensions'=>'Extensions',
 	
@@ -20,7 +20,6 @@ return array(
 	'manage_subsystems'=>'Subsystems',
 	'upload_extension'=>'Upload Extension',
 	
-	
 	'database'=>'Database',
 	
 	'archived_modules'=>'Archived Modules',
@@ -30,13 +29,14 @@ return array(
 	'import_data'=>'Import Data',
 	'export_data'=>'Export Data',
 	
-		
 	'configuration'=>'Configuration',
 
 	'configure_site'=>'Configure Site',
 	'file_types'=>'File Types',
 	'workflow_policies'=>'Workflow Policies',
 	'system_info'=>'System Info',
+	'edit_announcement'=>'Edit Site Announcement',
+	'delete_announcement'=>'Delete Site Announcement',
 
 	'development'=>'Development',
 	'rebuild_css'=>'Rebuild CSS File',

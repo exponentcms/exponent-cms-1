@@ -518,6 +518,11 @@ body .yui-navset-bottom .yui-content,body .yui-navset .yui-navset-bottom .yui-co
     	background-repeat:no-repeat;
 }
 
+.administrationmodule.quicklinks a.announce {
+	background-image:url(../../images/icons/announce16x16.gif);
+    	background-repeat:no-repeat;
+}
+
 .administrationmodule.quicklinks a.logout  {
 	background-image:url(../../images/icons/logout.png);
     background-repeat:no-repeat;
@@ -635,7 +640,7 @@ body .yui-navset-bottom .yui-content,body .yui-navset .yui-navset-bottom .yui-co
 }
 
 ul.queue {
-        width: 85%;
+/*        width: 85%; */
         padding: 10px 10px 10px 20px;
         margin-top: 5px;
         margin-bottom: 15px;
@@ -654,9 +659,23 @@ ul.queue.error {
 }
 
 ul.queue.message {
-
         background: #c6f6c6;
         border: 2px solid #2e6b2e;
+        color: #2e6b2e;
+}
+
+ul.queue.announce-error {
+}
+
+ul.queue.announce-message {
+        background: #c6f6c6;
+        border: 2px solid #2e6b2e;
+        color: #2e6b2e;
+}
+
+ul.queue.announce-hint {
+        background: #FFFFCC;
+        border: 2px solid #F2E0A2;
         color: #2e6b2e;
 }
 

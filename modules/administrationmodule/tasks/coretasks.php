@@ -124,31 +124,41 @@ $stuff = array(
 			'module'=>'administrationmodule',
 			'action'=>'sysinfo',
 			'icon'=>ICON_RELATIVE."system-info.png"),
+		'edit_announcement'=>array(
+			'title'=>$i18n['edit_announcement'],
+			'module'=>'administrationmodule',
+			'action'=>'edit_announcement',
+			'icon'=>ICON_RELATIVE."announce16x16.gif"),
+		'delete_announcement'=>array(
+			'title'=>$i18n['delete_announcement'],
+			'module'=>'administrationmodule',
+			'action'=>'delete_announcement',
+			'icon'=>ICON_RELATIVE."mail_delete.png"),
 		'icon'=>ICON_RELATIVE."admin/config.png",
 	),
 	$i18n['development']=>array(
-                'toggledev'=>array(
-                        'title'=>$i18n['toggle_dev'],
-                        'module'=>'administrationmodule',
-                        'action'=>'toggle_dev',
-                        'icon'=>ICON_RELATIVE."filetypes.png"),
-                'rebuildcss'=>array(
-                        'title'=>$i18n['rebuild_css'],
-                        'module'=>'administrationmodule',
-                        'action'=>'remove_css',
-                        'icon'=>ICON_RELATIVE."configure.png"),
-                'clearsmarty'=>array(
-                        'title'=>$i18n['clear_smarty'],
-                        'module'=>'administrationmodule',
-                        'action'=>'clear_smarty_cache',
-                        'icon'=>ICON_RELATIVE."filetypes.png"),
-                'maintmode'=>array(
-                        'title'=>$i18n['toggle_maint'],
-                        'module'=>'administrationmodule',
-                        'action'=>'toggle_maintenance',
-                        'icon'=>ICON_RELATIVE."filetypes.png"),
-                'icon'=>ICON_RELATIVE."admin/developer.png",
-        ),
+		'toggledev'=>array(
+				'title'=>$i18n['toggle_dev'],
+				'module'=>'administrationmodule',
+				'action'=>'toggle_dev',
+				'icon'=>ICON_RELATIVE."filetypes.png"),
+		'rebuildcss'=>array(
+				'title'=>$i18n['rebuild_css'],
+				'module'=>'administrationmodule',
+				'action'=>'remove_css',
+				'icon'=>ICON_RELATIVE."configure.png"),
+		'clearsmarty'=>array(
+				'title'=>$i18n['clear_smarty'],
+				'module'=>'administrationmodule',
+				'action'=>'clear_smarty_cache',
+				'icon'=>ICON_RELATIVE."filetypes.png"),
+		'maintmode'=>array(
+				'title'=>$i18n['toggle_maint'],
+				'module'=>'administrationmodule',
+				'action'=>'toggle_maintenance',
+				'icon'=>ICON_RELATIVE."filetypes.png"),
+		'icon'=>ICON_RELATIVE."admin/developer.png",
+	),
 );
 global $user;
 if (!isset($user) || (isset($user->is_admin) && $user->is_admin == 0) ) {

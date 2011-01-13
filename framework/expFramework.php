@@ -112,7 +112,17 @@ function handleErrors($errno, $errstr, $errfile, $errline) {
 	}
 }
 
+function get_announcement() {
+	global $db;
+	$where .= "(publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ")"; 
+	$announcement = $db->selectObject('announcement', $where);  // set where to check publish on/off against current time
+	if (!empty($announcement)) {
+		flash("announce-" . $announcement->type, $announcement->text); 
+	} 
+}
+
 function show_msg_queue() {
+	get_announcement();
 	$queues = exponent_sessions_get('flash');
 	if (!empty($queues)) {
 		$template = new template('common','_msg_queue');
