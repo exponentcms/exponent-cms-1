@@ -70,7 +70,7 @@ FCKConfig.ProcessNumericEntities = false ;
 
 FCKConfig.AdditionalNumericEntities = ''  ;		// Single Quote: "'"
 
-FCKConfig.FillEmptyBlocks	= true ;
+FCKConfig.FillEmptyBlocks	= false ;
 
 FCKConfig.FormatSource		= true ;
 FCKConfig.FormatOutput		= true ;
@@ -160,10 +160,11 @@ FCKConfig.FontSizes		= 'smaller;larger;xx-small;x-small;small;medium;large;x-lar
 FCKConfig.StylesXmlPath		= FCKConfig.EditorPath + 'fckstyles.xml' ;
 FCKConfig.TemplatesXmlPath	= FCKConfig.EditorPath + 'fcktemplates.xml' ;
 
-FCKConfig.SpellChecker			= 'WSC' ;	// 'WSC' | 'SCAYT' | 'SpellerPages' | 'ieSpell'
+FCKConfig.SpellChecker			= 'SCAYT' ;	// 'WSC' | 'SCAYT' | 'SpellerPages' | 'ieSpell'
 FCKConfig.IeSpellDownloadUrl	= 'http://www.iespell.com/download.php' ;
 FCKConfig.SpellerPagesServerScript = 'server-scripts/spellchecker.php' ;	// Available extension: .php .cfm .pl
-FCKConfig.FirefoxSpellChecker	= false ;
+FCKConfig.FirefoxSpellChecker	= true ;
+FCKConfig.ScaytAutoStartup = true;
 
 FCKConfig.MaxUndoLevels = 15 ;
 
