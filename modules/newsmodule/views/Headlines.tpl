@@ -76,7 +76,7 @@
 </div>
 <div class="newsmodule headlines">
 	{if $morenews == 1 || $more_news == 1}
-		<p><a class="viewmorenews mngmntlink" href="{link action=view_page page=1}">{$_TR.view_all}</a></p>
+		<p><a class="viewmorenews mngmntlink" href="{link action=view_page page=0}">{$_TR.view_all}</a></p>
 	{else}
 		{br}
 	{/if}
