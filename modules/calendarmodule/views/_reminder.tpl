@@ -29,7 +29,11 @@
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
 	<center><h4>
-	<a href="{link module=calendarmodule action=viewweek time=$start}">{$_TR.view_week} {$time|format_date:"%B %e, %Y"}</a>
+	{if $totaldays == 1}
+		<a href="{link module=calendarmodule action=viewmonth time=$start}">{$_TR.view1} {$start|format_date:"%B %e, %Y"}</a>
+	{else}
+		<a href="{link module=calendarmodule action=viewmonth time=$start}">{$_TR.view1}{$_TR.view2}{$totaldays}{$_TR.view3} {$start|format_date:"%B %e, %Y"}</a>
+	{/if}
 	</h4></center>
 	<dl class="viewweek">
 		{foreach from=$days item=events key=ts}
