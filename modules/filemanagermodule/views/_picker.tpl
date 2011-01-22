@@ -157,46 +157,55 @@
 				{/foreach}
 			</ul>
 		</div-->
+		<div class="imagecollection_upload">
+			<form method="post" action="upload_standalone.php" enctype="multipart/form-data">
+				<input type="hidden" name="collection_id" value="{$collection->id}" />
+				<input type="hidden" name="name" value="" />
+				{$_TR.img_upload} 
+				<input type="file" name="file" />
+				<input type="submit" value="Go" />
+			</form>
+		</div>
 		<div class="imagecollection_previews">
 			<h2>{gettext str="File Manager"} ({$numfiles} {plural singular=file plural=files count=$numfiles})</h2>
 			<!--div style="padding-left: 2em; margin-bottom: 1em; border-bottom: 2px solid black;">{$collection->description}</div-->
-			<div class="scroller">
-			<table>
+			<!--div class="scroller"-->
+			<table width="100%">
 				<tr>
 					{foreach name=i from=$files item=file}
-					{if ($smarty.foreach.i.iteration - 1) mod 5 == 0}
+					{if ($smarty.foreach.i.iteration - 1) mod 4 == 0}
 						</tr>
 						<tr>
 					{/if}
-					<td width="110" height="110" valign="top" align="center"{if $highlight_file == $file->id} id="highlight"{/if}>
+					<td height="110" valign="top" align="center"{if $highlight_file == $file->id} id="highlight"{/if}>
 						{if $file->is_image}
-						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
-							{if $file->name == ''}
-							{$file->filename}
-							{else}
-								{$file->name}
-							{/if}
-						</a>
-						<br />
-						<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">
-
-							<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" title="Click to select" alt="Click to select" border="0"/>
-						</a>
-						<br />
-						<a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank">
-							{$_TR.show_full}
-						</a>
-						<br />
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">
+								<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" title="Click to select" alt="Click to select" border="0"/>
+							</a>
+							{br}
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="Click to select">
+								{if $file->name == ''}
+									{$file->filename}
+								{else}
+									{$file->name}
+								{/if}
+							</a>
+							<p><a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank" title="Click to view Full Size">
+								{$_TR.show_full}
+							</a></p>
 						{else}
-						{getfileicon id=$file->id}
-						<br />
-							{if $file->name == ''}
-							{$file->filename}
-							{else}
-								{$file->name}
-							{/if}
-							<br />
-							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">Use</a>
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="Click to select">
+								{getfileicon id=$file->id}
+							</a>
+							{br}
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="Click to select">
+								{if $file->name == ''}
+									{$file->filename}
+								{else}
+									{$file->name}
+								{/if}
+							</a>
+							{br}{br}
 						{/if}
 						<a href="{link action=delete id=$file->id module=filemanagermodule}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.delete_desc}" alt="{$_TR.delete_desc}" /></a>
 					</td>
@@ -205,15 +214,7 @@
 					{/foreach}
 				</tr>
 			</table>
-			</div>
-		</div>
-		<div class="imagecollection_upload">
-			<form method="post" action="upload_standalone.php" enctype="multipart/form-data">
-			<input type="hidden" name="collection_id" value="{$collection->id}" />
-			<input type="hidden" name="name" value="" />
-			{$_TR.img_upload} <input type="file" name="file" />
-			<input type="submit" value="Go" />
-			</form>
+			<!--/div-->
 		</div>
 	</body>
 </html>
