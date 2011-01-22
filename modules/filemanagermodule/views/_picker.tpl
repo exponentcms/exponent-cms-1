@@ -167,7 +167,7 @@
 			</form>
 		</div>
 		<div class="imagecollection_previews">
-			<h2>{gettext str="File Manager"} ({$numfiles} {plural singular=file plural=files count=$numfiles})</h2>
+			<h2>{$_TR.form_title} ({$numfiles} {plural singular=file plural=files count=$numfiles})</h2>
 			<!--div style="padding-left: 2em; margin-bottom: 1em; border-bottom: 2px solid black;">{$collection->description}</div-->
 			<!--div class="scroller"-->
 			<table width="100%">
@@ -180,25 +180,25 @@
 					<td height="110" valign="top" align="center"{if $highlight_file == $file->id} id="highlight"{/if}>
 						{if $file->is_image}
 							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;">
-								<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" title="Click to select" alt="Click to select" border="0"/>
+								<img src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$file->id}&constraint=1&width=100&height=100" title="{$_TR.select}" alt="{$_TR.select}" border="0"/>
 							</a>
 							{br}
-							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="Click to select">
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="{$_TR.select}">
 								{if $file->name == ''}
 									{$file->filename}
 								{else}
 									{$file->name}
 								{/if}
 							</a>
-							<p><a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank" title="Click to view Full Size">
-								{$_TR.show_full}
+							<p><a href="{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}" onclick="return openWindow('{$smarty.const.PATH_RELATIVE}{$file->directory}/{$file->filename}',{$file->image_width},{$file->image_height});" target="_blank" title="{$_TR.show_full}">
+								{$_TR.show_full} ({$file->image_width}x{$file->image_height})
 							</a></p>
 						{else}
-							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="Click to select">
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="{$_TR.select}">
 								{getfileicon id=$file->id}
 							</a>
 							{br}
-							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="Click to select">
+							<a href="#" onclick="window.opener.efm_pickedFile({$file->id},'{$file->directory}/{$file->filename}'); window.close(); return false;" title="{$_TR.select}">
 								{if $file->name == ''}
 									{$file->filename}
 								{else}

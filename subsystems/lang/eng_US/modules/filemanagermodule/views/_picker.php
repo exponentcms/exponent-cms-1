@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'form_title'=>'Testing Image Collections',
+	'form_title'=>'File Manager',
 
 	'uncategorized'=>'Uncategorized',
 	'no_files'=>'No files found.',
@@ -9,6 +9,7 @@ return array(
 	'delete_confirm'=>'Click OK to delete file, otherwise press cancel.',
 	'delete_desc'=>'Click to delete file.',
 	'show_full'=>'Show Full-Size',
+	'select'=>'Click to select',
 	
 );
 
