@@ -13,31 +13,17 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
-<div class="container_editbox">
 
-	<div class="container_editheader">
-		{* I.E. requires a 'dummy' div inside of the above div, so that it
-		   doesn't just 'lose' the margins and padding. jh 8/23/04 *}
-		<div style="width: 100%">
-		<table width="100%" cellpadding="0" cellspacing="3" border="0" class="container_editheader">
-			<tr>
-				<td valign="top" class="info">
-					{$container->info.module}
-					{if $container->view != ""}<br />{$_TR.shown_in_view|sprintf:$container->view}{/if}
-				</td>
-				<td align="right" valign="top">
-					<a class="mngmntlink container_mngmnltink" href="{$dest}&cid={$container->id}">
-						<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}add.gif" title="{$_TR.link_to_module}" alt="{$_TR.link_to_module}" />
-					</a>
-				</td>
-			</tr>
-		</table>
-		</div>
+{if $container->info.clickable}
+<div id="module{$container->id}" class="container_modulewrapper">
+	<div class="container_moduleheader">
+		{* <a style="text-align:center;display:block;color:#114;font-size:11px;padding-top:2px" href="{$dest}&ss={$container->info.source}&sm={$container->info.class}"> *}
+		<a style="text-align:center;display:block;color:#114;font-size:11px;padding-top:2px" href="{$dest}&cid={$container->id}">
+			* {$container->info.module} - {$_TR.link_to_module}Link to this Module *
+		</a>
 	</div>
-	<div class="container_box">
-		<div style="width: 100%">
-		{$container->output}
-		</div>
-	</div>
+	{$container->output}
 </div>
-<br /><br />
+{else}
+	{$container->output}
+{/if}

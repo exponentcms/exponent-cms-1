@@ -23,6 +23,15 @@
 			
 			
 			
+			function onPageSelect(section) {
+				
+				// FCKeditor integration
+				window.opener.SetUrl(section);
+
+				window.close();
+				return false;
+			};
+
 			function onOK() {
 				
 				// FCKeditor integration
@@ -45,6 +54,7 @@
 
 			function openContentLinker() {
 				window.open("../../../content_selector.php?dest="+escape("external/editors/connector/content_linked.php?dummy")+"&vview=_linkPicker&vmod=containermodule&showmodules=all","contentlinker","toolbar=no,title=no,width=640,height=480,scrollbars=yes");
+//				window.open("../../../content_selector.php?dest="+escape("external/editors/connector/content_linked.php?dummy")+"&vview=_sourcePicker&vmod=containermodule&showmodules=all","contentlinker","toolbar=no,title=no,width=640,height=480,scrollbars=yes");
 			}
 		/* ]]> */
 		</script>
@@ -74,7 +84,7 @@
 				text-align: right;
 				font-weight: normal;
 				vertical-align: top;
-				width: 8em;
+				width: 12em;
 			}
 
 			.title {
@@ -97,7 +107,7 @@
 
 			#buttons {
 				margin-top: 1em;
-				border-top: 1px
+/*				border-top: 1px */
 				solid #999;
 				padding: 2px;
 				text-align: right;
@@ -118,20 +128,23 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="label">Internal Links</td>
-					<td align="center">
-						<a href="#" onclick="openSectionLinker(); return false;">Link to a Page</a>&nbsp;|&nbsp;<a href="#" onclick="openContentLinker(); return false;">Link to Content</a>
+					<td class="label"><br />Select a Page below</td>
+					<td align="right">
+						<a href="#" onclick="openContentLinker(); return false;">Link to Content</a>
 						<input id="f_href" type="hidden"/>
 						<input id="f_extern" checked="checked" type="hidden"/>
 						<input id="f_title" type="hidden"/>
+						<div id="buttons">
+							<button type="button" name="ok" onclick="return onOK();">OK</button>
+							<button type="button" name="cancel" onclick="return onCancel();">Cancel</button>
+						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-
-		<div id="buttons">
-			<button type="button" name="ok" onclick="return onOK();">OK</button>
-			<button type="button" name="cancel" onclick="return onCancel();">Cancel</button>
-		</div>
+		
+<?PHP
+include(BASE.'modules/navigationmodule/nav.php');
+?>		
 	</body>
 </html>

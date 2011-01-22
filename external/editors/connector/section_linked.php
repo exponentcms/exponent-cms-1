@@ -64,7 +64,7 @@
 	f_extern.checked = false;
 
 	// set title
-	f_title.value = "<?php echo 'Link to section ' .  $_REQUEST['section_name']; ?>";
+	f_title.value = "<?php echo 'Link to page ' .  $_REQUEST['section_name']; ?>";
 	
 	window.close();
 	</script>
