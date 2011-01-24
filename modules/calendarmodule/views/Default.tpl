@@ -97,7 +97,8 @@
 						{assign var=catid value=0}
 						{if $__viewconfig.colorize == 1 && $config->enable_categories}{assign var=catid value=$event->category_id}{/if}
 						<div class="calevent">
-						<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}"{if $catid != 0} style="color: {$categories[$catid]->color};"{/if} title="{if $event->is_allday == 1}All Day{else}{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}{/if} - {$event->body|summarize:"html":"para"}">{$event->title}</a>
+						<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$event->eventdate->id}"{if $catid != 0} style="color: {$categories[$catid]->color};"{/if}
+							title="{if $event->is_allday == 1}All Day{elseif $event->eventstart != $event->eventend}{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$event->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}{else}{$event->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}{/if} - {$event->body|summarize:"html":"para"}">{$event->title}</a>
 						<div class="itemactions">
 							{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 								{if $permissions.administrate == 1 || $event->permissions.administrate == 1}

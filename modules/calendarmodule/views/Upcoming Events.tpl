@@ -70,12 +70,10 @@
 			<strong>
 			{if $item->is_allday == 1}
 				{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+			{elseif $item->eventstart != $item->eventend}
+				{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @ {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 			{else}
-				{if $item->eventstart != $item->eventend}
-					{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @  {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT} to {$item->eventend|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
-				{else}
-					{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @  {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
-				{/if}
+				{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @ {$item->eventstart|format_date:$smarty.const.DISPLAY_TIME_FORMAT}
 			{/if}
 			</strong>
 		</dd>
