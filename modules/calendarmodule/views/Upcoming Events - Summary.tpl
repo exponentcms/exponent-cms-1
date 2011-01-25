@@ -16,10 +16,10 @@
  
 <div class="linklistmodule quick-links">
 	<h2>
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if}
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
 	<ul>
 	{assign var=more_events value=0}	
@@ -27,12 +27,6 @@
 	{foreach from=$items item=item}
 {if (!$__viewconfig.num_events || $item_number < $__viewconfig.num_events) }	
 		<li>
-		{if $item->is_allday == 1}
-			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
-		{else}
-			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @ {$item->eventstart|format_date:"%l:%M %p"}
-		{/if}
-		{br}
 		<div class="itemtitle cal_itemtitle">
 		<a href="{link action=view id=$item->id date_id=$item->eventdate->id}" title="{$item->body|summarize:"html":"para"}">{$item->title}</a>
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -44,20 +38,20 @@
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.edit == 1 || $item->permissions.edit == 1}
 				{if $item->approved == 1}
-				<a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=$item->id date_id=$item->eventdate->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
+					<a class="mngmntlink calendar_mngmntlink" href="{link action=edit id=$item->id date_id=$item->eventdate->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>
 				{else}
-				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />
 				{/if}
 			{/if}
 			{if $permissions.delete == 1 || $item->permissions.delete == 1}
 				{if $item->approved == 1}
-				{if $item->is_recurring == 0}
-				<a class="mngmntlink calendar_mngmntlink" href="{link action=delete id=$item->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+					{if $item->is_recurring == 0}
+						<a class="mngmntlink calendar_mngmntlink" href="{link action=delete id=$item->id}" onclick="return confirm('{$_TR.delete_confirm}');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+					{else}
+						<a class="mngmntlink calendar_mngmntlink" href="{link action=delete_form id=$item->id date_id=$item->eventdate->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
+					{/if}
 				{else}
-				<a class="mngmntlink calendar_mngmntlink" href="{link action=delete_form id=$item->id date_id=$item->eventdate->id}"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>
-				{/if}
-				{else}
-				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
+					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.disabled.png" title="{$_TR.alt_delete_disabled}" alt="{$_TR.alt_delete_disabled}" />
 				{/if}
 			{/if}
 			{if $permissions.manage_approval == 1}
@@ -65,6 +59,11 @@
 			{/if}
 		{/permissions}
 		</div>
+		{if $item->is_allday == 1}
+			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
+		{else}
+			{$item->eventstart|format_date:$smarty.const.DISPLAY_DATE_FORMAT} @ {$item->eventstart|format_date:"%l:%M %p"}
+		{/if}
 		</li>
 		{assign var=item_number value=$item_number+1}
 {else}
@@ -76,25 +75,27 @@
 	</ul>
 </div>
 <div class="calendarmodule cal-summary">	
-	{if $more_events == 1}
-		<p><a class="mngmntlink monthviewlink" href="{link _common=1 view='Upcoming Events' action='show_view' time=$time}">{$_TR.more_events}</a></p>
-	{/if}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.post == 1}
-	<a class="addevent mngmntlink" href="{link action=edit id=0}" title="{$_TR.alt_create}">{$_TR.create}</a>{br}
-	{/if}
-	{if $in_approval != 0 && $canview_approval_link == 1}
-	<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.approval}</a>{br}
-	{/if}
-	{if $config->enable_categories == 1}
-	{if $permissions.administrate == 1}
-	<a class="mngmntlink cats" href="{link module=categories orig_module=calendarmodule action=manage}">{$_TR.manage_categories}</a>{br}
-	{else}
-	<a class="cats" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>{br}
-	{/if}
-	{/if}
-	{if $permissions.administrate == 1}
-	<a class="adminviewlink mngmntlink" href="{link _common=1 view='Administration' action='show_view' time=$time}">{$_TR.administration_view}</a>
-	{/if}
-	{/permissions}
+	<p>
+		{if $more_events == 1}
+			<a class="mngmntlink monthviewlink" href="{link _common=1 view='Upcoming Events' action='show_view' time=$time}">{$_TR.more_events}</a>{br}
+		{/if}
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
+			{if $permissions.post == 1}
+				<a class="addevent mngmntlink" href="{link action=edit id=0}" title="{$_TR.alt_create}">{$_TR.create}</a>{br}
+			{/if}
+			{if $in_approval != 0 && $canview_approval_link == 1}
+				<a class="mngmntlink calendar_mngmntlink" href="{link module=workflow datatype=calendar m=calendarmodule s=$__loc->src action=summary}" title="{$_TR.alt_approval}" alt="{$_TR.alt_approval}">{$_TR.approval}</a>{br}
+			{/if}
+			{if $config->enable_categories == 1}
+				{if $permissions.administrate == 1}
+					<a class="mngmntlink cats" href="{link module=categories orig_module=calendarmodule action=manage}">{$_TR.manage_categories}</a>{br}
+				{else}
+					<a class="cats" href="#" onclick="window.open('{$smarty.const.PATH_RELATIVE}popup.php?module=categories&m={$__loc->mod}&action=view&src={$__loc->src}','legend','width=200,height=200,title=no,status=no'); return false" title="{$_TR.alt_view_cat}" alt="{$_TR.alt_view_cat}">{$_TR.view_categories}</a>{br}
+				{/if}
+			{/if}
+			{if $permissions.administrate == 1}
+				<a class="adminviewlink mngmntlink" href="{link _common=1 view='Administration' action='show_view' time=$time}">{$_TR.administration_view}</a>
+			{/if}
+		{/permissions}
+	</p>
 </div>

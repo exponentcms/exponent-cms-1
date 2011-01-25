@@ -81,9 +81,9 @@
 
 	{if $total_posts > $__viewconfig.num_posts}
 		{if $__viewconfig.num_posts > 1}
-			<p><a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=1 view=1}">{$_TR.next} &gt;</a></p>
+			<p><a class="weblog_mngmntlink" href="{link action=view_page page=1 view=1}">{$_TR.next} &gt;</a></p>
 		{else}
-			<p><a class="moreposts mngmntlink" href="{link action=view_page page=0 view=1 }">{$_TR.view_all}{if $moduletitle != ""} in &quot;{$moduletitle}&quot;{/if}</a></p>
+			<p><a class="moreposts" href="{link action=view_page page=0 view=1 }">{$_TR.view_all}{if $moduletitle != ""} in &quot;{$moduletitle}&quot;{/if}</a></p>
 		{/if}
 	{/if}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
@@ -96,10 +96,10 @@
 			{if $logged_in == 1}
 				{if $monitoring == 1}
 					<em>{$_TR.blog_monitor}</em>
-					{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+					{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
 				{else}
 					<em>{$_TR.not_monitoring}</em>
-					{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+					{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
 				{/if}
 			{/if}
 		</div>

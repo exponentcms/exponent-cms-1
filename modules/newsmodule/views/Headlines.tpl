@@ -28,13 +28,6 @@
 {if (!$__viewconfig.num_items || $item_number < $__viewconfig.num_items) }	
 		<li>
 		<div>
-			{if $newsitem->edited == 0 || $config->sortfield == "publish"}
-				{*assign var='sortdate' value=$newsitem->real_posted*}
-				{assign var='sortdate' value=$newsitem->posted}
-			{else}
-				{assign var='sortdate' value=$newsitem->edited}
-			{/if}		
-			{$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{br}
 			<div class="itemtitle news_itemtitle">
 				<a href="{link action=view id=$newsitem->id}" title="{$newsitem->body|summarize:"html":"para"}">{$newsitem->title}</a>
 				{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -63,6 +56,13 @@
 					{/if}
 				{/permissions}
 			</div>
+			{if $newsitem->edited == 0 || $config->sortfield == "publish"}
+				{*assign var='sortdate' value=$newsitem->real_posted*}
+				{assign var='sortdate' value=$newsitem->posted}
+			{else}
+				{assign var='sortdate' value=$newsitem->edited}
+			{/if}		
+			{$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}
 		</div>
 		</li>
 		{assign var=item_number value=$item_number+1}
@@ -75,20 +75,22 @@
 	</ul>
 </div>
 <div class="newsmodule headlines">
-	{if $morenews == 1 || $more_news == 1}
-		<p><a class="viewmorenews mngmntlink" href="{link action=view_page page=0}">{$_TR.view_all}</a></p>
-	{else}
-		{br}
-	{/if}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.add_item == true}
-			<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+	<p>
+		{if $morenews == 1 || $more_news == 1}
+			<a class="viewmorenews mngmntlink" href="{link action=view_page page=0}">{$_TR.view_all}</a>{br}
+		{else}
+			{br}
 		{/if}
-		{if $in_approval > 0 && $canview_approval_link == 1}
-			<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
-		{/if}
-		{if $permissions.view_unpublished == 1}
-			<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
-		{/if}
-	{/permissions}
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
+			{if $permissions.add_item == true}
+				<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+			{/if}
+			{if $in_approval > 0 && $canview_approval_link == 1}
+				<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
+			{/if}
+			{if $permissions.view_unpublished == 1}
+				<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+			{/if}
+		{/permissions}
+	</p>
 </div>

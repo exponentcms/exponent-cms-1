@@ -193,21 +193,21 @@
 {/foreach}
 </ul>
 <div class="itemactions">
-<p><a class="moreposts mngmntlink" href="{link _common=1 view='Default' action='show_view'}">{$_TR.more_resources} in &quot;{$moduletitle}&quot;</a></p>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.post == 1 && $noupload != 1}
-		<a class="mngmntlink additem" href="{link action=edit}">{$_TR.upload}</a>{br}
-		{*<a class="mngmntlink resources_mngmntlink" href="{link action=upload_zip}">{$_TR.zipfile}</a>{br}*}
-	{/if}
-	{if $permissions.manage_approval == 1}
-		<a class="mngmntlink resources_mngmntlink" href="{link module=filemanager action=admin_mimetypes}">{$_TR.manage_filetypes}</a>{br}
-	{/if}
-	{if $permissions.administrate == 1}
-		{if $config->enable_categories == 1}
-			<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=resourcesmodule}">{$_TR.manage_categories}</a>{br}
-		{/if}			
-	{/if}
-{/permissions}
+	<p><a class="moreposts" href="{link _common=1 view='Default' action='show_view'}">{$_TR.more_resources} in &quot;{$moduletitle}&quot;</a></p>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.post == 1 && $noupload != 1}
+			<a class="mngmntlink additem" href="{link action=edit}">{$_TR.upload}</a>{br}
+			{*<a class="mngmntlink resources_mngmntlink" href="{link action=upload_zip}">{$_TR.zipfile}</a>{br}*}
+		{/if}
+		{if $permissions.manage_approval == 1}
+			<a class="mngmntlink resources_mngmntlink" href="{link module=filemanager action=admin_mimetypes}">{$_TR.manage_filetypes}</a>{br}
+		{/if}
+		{if $permissions.administrate == 1}
+			{if $config->enable_categories == 1}
+				<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=resourcesmodule}">{$_TR.manage_categories}</a>{br}
+			{/if}			
+		{/if}
+	{/permissions}
 </div>
 {if $noupload == 1}
 	<div class="error">

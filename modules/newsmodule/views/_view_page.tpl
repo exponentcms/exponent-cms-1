@@ -92,17 +92,17 @@
 				<p>
 					{if $page != 0}
 						{math equation="x-1" x=$page assign=prevpage}
-						<a class="mngmntlink news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>&nbsp;&nbsp;
+						<a class="news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>&nbsp;&nbsp;
 					{/if}
 					{if $shownext}
 						{math equation="x+1" x=$page assign=nextpage}
-						<a class="mngmntlink news_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>
+						<a class="news_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>
 					{/if}
 				</p>
 			{/if}
 		
 			{if $morenews == 1}
-				<p><a class="viewmorenews mngmntlink" href="{link action=view_page page=1}">{$_TR.view_all}</a></p>
+				<p><a class="viewmorenews" href="{link action=view_page page=1}">{$_TR.view_all}</a></p>
 			{else}
 				{br}
 			{/if}
