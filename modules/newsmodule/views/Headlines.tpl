@@ -78,8 +78,6 @@
 	<p>
 		{if $morenews == 1 || $more_news == 1}
 			<a class="viewmorenews mngmntlink" href="{link action=view_page page=0}">{$_TR.view_all}</a>{br}
-		{else}
-			{br}
 		{/if}
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.add_item == true}
