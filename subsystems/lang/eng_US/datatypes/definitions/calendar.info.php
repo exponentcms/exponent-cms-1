@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'calendar_post_table'=>'Calendar post table.',
+	'calendar_post_table'=>'Holds calendar posts',
 );
 
 ?>

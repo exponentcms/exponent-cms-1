@@ -20,24 +20,23 @@
 if (!defined('EXPONENT')) exit('');
 
 if (isset($_POST['id'])) {
-	$textitem = $db->selectObject('resourcesmodule_config','id='.intval($_POST['id']));
-	if ($textitem) {
-		$loc = unserialize($textitem->location_data);
+	$resourceconfig = $db->selectObject('resourcesmodule_config','id='.intval($_POST['id']));
+	if ($resourceconfig) {
+		$loc = unserialize($resourceconfig->location_data);
 	}
 }
 
 if (exponent_permissions_check('edit',$loc)) {
-	$textitem = resourcesmodule_config::update($_POST,$textitem);
-//	$db->updateObject($listing,'listing');
-	$textitem->location_data = serialize($loc);
-//	if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-//	exponent_workflow_post($textitem,'resourcesmodule_config',$loc);
-	if (isset($textitem->id)) {
-		$db->updateObject($textitem,'resourcesmodule_config');
+	$resourceconfig = resourcesmodule_config::update($_POST,$resourceconfig);
+	$resourceconfig->location_data = serialize($loc);
+	if (isset($resourceconfig->id)) {
+		$db->updateObject($resourceconfig,'resourcesmodule_config');
 	} else {
-		$db->insertObject($textitem,'resourcesmodule_config');
+		$db->insertObject($resourceconfig,'resourcesmodule_config');
 	}
 	exponent_flow_redirect();
+	// if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
+	// exponent_workflow_post($resourceconfig,'resourcesmodule_config',$loc);
 } else {
 	echo SITE_403_HTML;
 }

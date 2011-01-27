@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'text_items'=>'Text Items',
+	'text_items'=>'Holds text items',
 );
 
 ?>
