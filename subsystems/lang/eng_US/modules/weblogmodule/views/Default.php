@@ -13,6 +13,9 @@ return array(
 	'alt_delete'=>'Delete this Weblog Post',
 	'delete_confirm'=>'Are you sure you want to delete this Weblog Post?',
 
+	'alt_revisions'=>'View Revision History for this News Item',
+	'revisions'=>'Revisions',
+
 	'comment'=>'Comment',
 	'comments'=>'Comments',
 	'reply'=>'Reply',

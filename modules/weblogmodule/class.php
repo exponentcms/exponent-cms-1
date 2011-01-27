@@ -26,7 +26,7 @@ class weblogmodule {
 	function hasSources() { return true; }
 	function hasViews() { return true; }
 
-	function supportsWorkflow() { return false; }
+	function supportsWorkflow() { return true; }
 
 	function getRSSContent($loc) {
 		global $db;
@@ -84,7 +84,8 @@ class weblogmodule {
 				'approve_comments'=>$i18n['perm_approve_comments'],
 				'edit_comments'=>$i18n['perm_edit_comments'],
 				'delete_comments'=>$i18n['perm_delete_comments'],
-				'view_private'=>$i18n['perm_view_private']
+				'view_private'=>$i18n['perm_view_private'],
+				'manage_approval'=>$i18n['perm_manage_approval']
 			);
 		} else {
 			return array(
@@ -95,7 +96,8 @@ class weblogmodule {
 				'approve_comments'=>$i18n['perm_approve_comments'],
 				'edit_comments'=>$i18n['perm_edit_comments'],
 				'delete_comments'=>$i18n['perm_delete_comments'],
-				'view_private'=>$i18n['perm_view_private_one']
+				'view_private'=>$i18n['perm_view_private_one'],
+				'manage_approval'=>$i18n['perm_manage_approval']
 			);
 		}
 	}
@@ -296,6 +298,7 @@ class weblogmodule {
 					'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
 					'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
 					'view_private'=>exponent_permissions_check('view_private',$ploc),
+					'manage_approval'=>exponent_permissions_check('manage_approval',$ploc),
 				);
 				if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {
 					$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id." AND approved=1");
@@ -330,7 +333,7 @@ class weblogmodule {
 		$template->assign("monitoring", $monitoring);
 		
 		$template->register_permissions(
-			array('administrate','configure','post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private'),
+			array('administrate','configure','post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private','manage_approval'),
 			$loc);
 		$template->assign('config',$config);
 //		$template->assign('viewconfig',$template->viewconfig);

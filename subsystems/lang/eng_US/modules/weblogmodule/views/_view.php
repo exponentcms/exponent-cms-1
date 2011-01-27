@@ -5,7 +5,6 @@ return array(
 	'alt_groupperm'=>'Assign group permissions on this Weblog',
 
 	'alt_change_config'=>'Change the configuration of this Weblog',
-
 	'alt_configure'=>'Configure this Weblog',
 
 	'alt_userperm_one'=>'Assign user permissions on this Weblog Post',
@@ -15,11 +14,14 @@ return array(
 	'alt_delete'=>'Delete this Weblog Post',
 	'delete_confirm'=>'Are you sure you want to delete this Weblog Post?',
 
+	'alt_revisions'=>'View Revision History for this News Item',
+	'revisions'=>'Revisions',
+
 	'draft'=>'(Draft)',
 	'draft_desc'=>'This is a draft. Commenting has been disabled.',
 
 	'send_response'=>'Send a private response',
-	'leave_comment'=>'Leave a comment',
+	'leave_comment'=>'Leave a public comment',
 	'comment'=>'Comment',
 	'commented'=>'Commented',
 	'reply'=>'Reply',

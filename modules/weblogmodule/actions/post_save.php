@@ -56,7 +56,6 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		}
 		$db->updateObject($post,'weblog_post');
 	} else {
-
         if ($newpost < 1) {
             if ($db->countObjects('weblog_post',"internal_name='".$post->internal_name."'")) {
 	    		$_POST['_formError'] = 'That Internal Name is already in use.  Please choose another.';
@@ -70,6 +69,7 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		$post->posted = time();
 				
 		$id = $db->insertObject($post,'weblog_post');
+
 		$post->id = $id;
 		
 		$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
@@ -173,7 +173,9 @@ if (($post != null && exponent_permissions_check('edit',$loc)) ||
 		}
 	}
 
-	exponent_flow_redirect();
+	if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
+	exponent_workflow_post($post,"weblog_post",$loc);		
+//	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }

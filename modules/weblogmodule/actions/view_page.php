@@ -86,6 +86,7 @@ for ($i = 0; $i < count($posts); $i++) {
 		'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
 		'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
 		'view_private'=>exponent_permissions_check('view_private',$ploc),
+		'manage_approval'=>exponent_permissions_check('manage_approval',$ploc),
 	);
 	if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {
 		$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id." AND approved=1");
@@ -122,7 +123,7 @@ if (isset($_GET['view'])) {
 }
 $template->assign("view", $view);
 $template->register_permissions(
-	array('administrate','configure','post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private'),
+	array('administrate','configure','post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private','manage_approval'),
 	$loc);
 $template->assign('moduletitle',$title);
 $template->assign('config',$config);

@@ -14,6 +14,7 @@ return array(
 	'perm_edit_comments'=>'Edit Comments',
 	'perm_delete_comments'=>'Delete Comments',
 	'perm_view_private'=>'View Private Posts',
+	'perm_manage_approval'=>'Manage Approval',
 	
 	'perm_edit_one'=>'Edit Post',
 	'perm_delete_one'=>'Delete Post',

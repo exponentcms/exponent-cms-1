@@ -95,7 +95,7 @@ $template->assign("thismonth",$timefirst);
 $template->assign("nextmonth",$nextmonth);
 $template->assign('days',$month_days);
 $template->register_permissions(
-	array('administrate'/*,'configure'*/,'post','edit','delete','comment','edit_comments','delete_comments','view_private'),
+	array('administrate'/*,'configure'*/,'post','edit','delete','comment','edit_comments','delete_comments','view_private','manage_approval'),
 	$loc);
 $template->assign('moduletitle',$title);
 $template->output();

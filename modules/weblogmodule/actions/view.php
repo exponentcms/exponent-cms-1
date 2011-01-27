@@ -82,6 +82,7 @@ if ($this_post) {
 			'edit_comments'=>exponent_permissions_check('edit_comments',$ploc),
 			'delete_comments'=>exponent_permissions_check('delete_comments',$ploc),
 			'view_private'=>exponent_permissions_check('view_private',$ploc),
+			'manage_approval'=>exponent_permissions_check('manage_approval',$ploc),
 		);
 		
 		if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {

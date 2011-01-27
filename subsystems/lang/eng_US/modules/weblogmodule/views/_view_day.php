@@ -15,6 +15,9 @@ return array(
 	'alt_delete'=>'Delete this Weblog Post',
 	'delete_confirm'=>'Are you sure you want to delete this Weblog Post?',
 
+	'alt_revisions'=>'View Revision History for this News Item',
+	'revisions'=>'Revisions',
+
 	'draft'=>'Draft',
 	'draft_desc'=>'This is a draft. Commenting has been disabled.',
 
