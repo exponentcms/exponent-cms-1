@@ -1,4 +1,4 @@
-<div class="listingmodule default">
+<div class="listingmodule listings">
 	<a name="#top"></a>
 	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
@@ -111,11 +111,12 @@
 						<div class="bodycopy">
 							{if $listing->picpath != ""}					
 								<a href="{link action=view_listing id=$listing->id}">
-									<img class="listingimage" src="{$smarty.const.URL_FULL}/thumb.php?base={$smarty.const.BASE}&amp;file={$listing->picpath}&amp;width=100&amp;height=150" alt="{$listing->name}" />
+									<img class="listingimage{if $__viewconfig.image_right}-right{/if}" src="{$smarty.const.URL_FULL}/thumb.php?base={$smarty.const.BASE}&amp;file={$listing->picpath}&amp;width=100&amp;height=150" alt="{$listing->name}" />
 								</a>					
 							{/if}
 							{$listing->summary}
-						</div>						
+							<BR CLEAR="all"> 
+						</div>	
 					</div>
 				</div>
 			{elseif $listing_number == $last && $smarty.foreach.a.index && ($smarty.foreach.a.index != $smarty.foreach.a.total)}

@@ -46,7 +46,7 @@
 	</h3>
 	<div class="bodycopy">
 		{if $listing->file_id}
-		<img class="listingimage" src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$listing->file_id}&constraint=1&width=225&height=275" alt="{$listing->name}" />
+			<img class="listingimage" src="{$smarty.const.PATH_RELATIVE}thumb.php?id={$listing->file_id}&constraint=1&width=225&height=275" title="{$listing->summary} alt="{$listing->name}" />
 		{/if}
 		<p>{$listing->body}</p>
 	</div>

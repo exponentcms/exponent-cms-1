@@ -1,4 +1,4 @@
-<div class="listingmodule default">
+<div class="listingmodule listings">
 	<a name="#top"></a>
 	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
