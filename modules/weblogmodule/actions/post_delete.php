@@ -30,6 +30,8 @@ if ($post) {
 	if (exponent_permissions_check('delete',$loc) || exponent_permissions_check('delete',$iloc)) {
 		$db->delete('weblog_post','id='.$_GET['id']);
 		$db->delete('weblog_comment','parent_id='.$_GET['id']);
+		$db->delete("weblog_post_wf_info","real_id=".$_GET['id']);
+		$db->delete("weblog_post_revision","wf_original=".$_GET['id']);
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
