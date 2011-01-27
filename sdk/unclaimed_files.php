@@ -57,13 +57,13 @@ $count = 0;
 foreach ($unclaimed as $file) {
 	echo "'".$file."'=>";
 	if (substr($file,-12,12) == 'manifest.php') {
-		echo "1,"."\r\n";
+		echo "1,"."<br>\r\n";
 	} else {
-		echo "'',"."\r\n";
+		echo "'',"."<br>\r\n";
 	}
 	$count++;
 }
 
-echo "$count file(s) unaccounted for\r\n";
+echo "<br>$count file(s) unaccounted for\r\n";
 
 ?>

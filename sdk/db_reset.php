@@ -25,7 +25,7 @@ include_once(dirname(realpath(__FILE__)).'/../exponent.php');
 
 exponent_lang_loadDictionary('standard','dbrecover');
 
-#exit(TR_DBRECOVER_RECOVERYDISABLED);
+exit(TR_DBRECOVER_RECOVERYDISABLED);
 
 // If we made it here, the user has enabled the Database Recovery Script manually.
 

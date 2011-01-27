@@ -32,7 +32,7 @@ foreach ($files as $f) {
 		echo '<span style="color: green">passed</span><br />';
 		$succeed++;
 	} else {
-		echo '<span style="color: red">failes</span><br />';
+		echo '<span style="color: red">failed</span><br />';
 		$fail++;
 	}
 }
