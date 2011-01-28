@@ -30,6 +30,8 @@
  *}
 
 <div class="listingmodule viewlisting">
+	{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
+	{br}
 	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
 	<h3>
 		{$listing->name}
@@ -42,6 +44,9 @@
 					<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 				</a>	
 			{/if}							
+			{if $permissions.approve == 1 || $listing->permissions.approve == true}
+				<a class="mngmntlink listing_mngmntlink" href="{link module=workflow datatype=listing m=listingmodule s=$__loc->src action=revisions_view id=$listing->id}" title="{$_TR.alt_revisions}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"/></a>
+			{/if}
 		{/permissions}	
 	</h3>
 	<div class="bodycopy">
