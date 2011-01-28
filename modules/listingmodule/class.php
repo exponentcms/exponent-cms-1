@@ -40,7 +40,7 @@ class listingmodule {
 	function hasContent() { return true; }
 	function hasViews() { return true; }
 
-	function supportsWorkflow() { return false; }
+	function supportsWorkflow() { return true; }
 
 	function permissions($internal = '') {
 		$i18n = exponent_lang_loadFile('modules/listingmodule/class.php');
@@ -51,6 +51,7 @@ class listingmodule {
 			'edit'=>$i18n['perm_edit_listing'],
 			'delete'=>$i18n['perm_delete_listing'],
 			'order'=>$i18n['perm_order_listing'],
+			'approve'=>$i18n['perm_manage_approval'],
 		);
 	}
 
@@ -174,7 +175,7 @@ class listingmodule {
 
 		$last = ($config->items_perpage * $listingPaging->GetCurrentPage());
 		if (!$last) { $last = 9999; }
-		$template->register_permissions(array('administrate','manage','configure','edit','delete','order'),$loc);
+		$template->register_permissions(array('administrate','manage','configure','edit','delete','order','approve'),$loc);
         // Assign page data
         $template->assign("curpage", $listingPaging->GetCurrentPage());
         $template->assign("pagecount",$listingPaging->GetPageCount());

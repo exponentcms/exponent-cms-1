@@ -88,6 +88,9 @@
 								<a href="{link action=delete_listing id=$listing->id}" title="{$_TR.alt_delete}" onclick="return confirm('{$_TR.delete_confirm}');">
 									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 								</a>	
+								{if $permissions.approve == 1 || $listing->permissions.approve == true}
+									<a class="mngmntlink listing_mngmntlink" href="{link module=workflow datatype=listing m=listingmodule s=$__loc->src action=revisions_view id=$listing->id}" title="{$_TR.alt_revisions}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"/></a>
+								{/if}
 								{if !$hasCategories && $config->orderhow == 2}
 									{if $smarty.foreach.a.first == 0}
 									<a href="{link action=rank_switch a=$listing->rank b=$prev id=$listing->id category_id=$catid}">			

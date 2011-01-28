@@ -98,7 +98,9 @@ $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php')
 			$db->insertObject($listing,'listing');
 		}
 		
-		exponent_flow_redirect();
+		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
+		exponent_workflow_post($listing,"listing",$loc);		
+//		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}

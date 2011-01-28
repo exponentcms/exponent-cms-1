@@ -10,6 +10,7 @@ return array(
 	'perm_edit_listing'=>'Edit Listing',
 	'perm_delete_listing'=>'Delete Listing',
 	'perm_order_listing'=>'Order listings',
+	'perm_manage_approval'=>'Manage Approval',
 
 	'search_category'=>'Listings Elements'
 

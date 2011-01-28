@@ -19,6 +19,9 @@
 						<a href="{link action=delete_listing id=$listing->id}" title="Delete this entry">
 							<img src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 						</a>
+						{if $permissions.approve == 1 || $listing->permissions.approve == true}
+							<a class="mngmntlink listing_mngmntlink" href="{link module=workflow datatype=listing m=listingmodule s=$__loc->src action=revisions_view id=$listing->id}" title="{$_TR.alt_revisions}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"/></a>
+						{/if}
 						{if $smarty.foreach.a.last == 0}
 							<a href="{link action=rank_switch a=$next b=$listing->rank id=$listing->id}">
 								<img src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" />

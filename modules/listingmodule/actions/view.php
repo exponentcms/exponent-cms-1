@@ -158,7 +158,7 @@ if ($config) {
 
 	$last = ($config->items_perpage * $listingPaging->GetCurrentPage());
 	if (!$last) { $last = 9999; }
-	$template->register_permissions(array('administrate','manage','configure','edit','delete','order'),$loc);
+	$template->register_permissions(array('administrate','manage','configure','edit','delete','order','approve'),$loc);
 	// Assign page data
 	$template->assign("curpage", $listingPaging->GetCurrentPage());
 	$template->assign("pagecount",$listingPaging->GetPageCount());
