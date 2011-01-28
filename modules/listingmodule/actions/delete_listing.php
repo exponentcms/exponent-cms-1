@@ -51,6 +51,8 @@ if ($listing) {
       }
 		$db->delete('listing', 'id='.$_GET['id']);
 		$db->decrement('listing', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$listing->rank);
+		$db->delete("listing_wf_info","real_id=".$_GET['id']);
+		$db->delete("listing_revision","wf_original=".$_GET['id']);		
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
