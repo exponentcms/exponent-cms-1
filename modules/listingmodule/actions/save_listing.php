@@ -92,11 +92,11 @@ $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php')
 			$listing->category_id = $_POST['categories'];
 		}
 		
-		if (isset($listing->id)) {
-			$db->updateObject($listing,'listing');
-		} else {
-			$db->insertObject($listing,'listing');
-		}
+		// if (isset($listing->id)) {
+			// $db->updateObject($listing,'listing');
+		// } else {
+			// $db->insertObject($listing,'listing');
+		// }
 		
 		if (!defined("SYS_WORKFLOW")) require_once(BASE."subsystems/workflow.php");
 		exponent_workflow_post($listing,"listing",$loc);		
