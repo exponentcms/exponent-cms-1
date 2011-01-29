@@ -66,7 +66,8 @@ class calendarmodule {
 			$rss_item->description = $item->body;
 			$rss_item->date = $item->eventstart;
 //          $rss_item->date = date('r', $item->posted);
-			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
+//			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
+			$rss_item->link = exponent_core_makeLink(array('module'=>'calendarmodule', 'action'=>'view', 'id'=>$item->id));
 			$rssitems[$key] = $rss_item;
 		}
 		return $rssitems;
