@@ -34,7 +34,7 @@ class weblogmodule {
 		//Get this modules configuration data
 		$config = $db->selectObject('weblogmodule_config',"location_data='".serialize($loc)."'");
 
-		//If this module was configured as an aggregator, then turn off check for the location_data
+		//If this module was configured as an aggregator, then add those their location_data
 		$locsql = "(location_data='".serialize($loc)."'";
 		if (!empty($config->aggregate)) {
 			$locations = unserialize($config->aggregate);
@@ -52,17 +52,20 @@ class weblogmodule {
 		
 		//Get this modules items
 		$items = array();
-		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1", 'posted DESC');
+//		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1", 'posted DESC');
+//		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 AND approved != 0", 'publish DESC');
+		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 ORDER BY publish DESC");
 
 		//Convert the blog posts to rss items
 		$rssitems = array();
 		foreach ($items as $key => $item) {
-			$item->posted = ($item->publish != 0 ? $item->publish : $item->posted);
+//			$item->posted = ($item->publish != 0 ? $item->publish : $item->posted);
 			if ($item->publish == 0) {$item->publish = $item->posted;}			
 			$rss_item = new FeedItem();
 			$rss_item->title = $item->title;
 			$rss_item->description = $item->body;
-			$rss_item->date = date('r', $item->posted);
+//			$rss_item->date = date('r', $item->posted);
+			$rss_item->date = date('r', $item->publish);
 			//$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=weblogmodule&action=view&id=".$item->id."&src=".$loc->src;
 			$rss_item->link = exponent_core_makeLink(array('module'=>'weblogmodule', 'action'=>'view', 'id'=>$item->id));
 			$rssitems[$key] = $rss_item;
