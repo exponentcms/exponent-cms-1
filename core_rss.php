@@ -32,7 +32,8 @@ define("SYS_RSS",1);
 define('SYS_PODCASTING', 1);
 
 // your local timezone, set to "" to disable or for GMT
-define("TIME_ZONE","-0600");
+//define("TIME_ZONE","-0500");
+define("TIME_ZONE",date('O',time()));
 
 /**
  * Version string.
