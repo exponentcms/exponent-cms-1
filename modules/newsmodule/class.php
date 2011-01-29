@@ -59,26 +59,37 @@ class newsmodule {
 		//Get this modules configuration data
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 
-		//If this module was configured as an aggregator, then turn off check for the location_data
-                if (isset($config->aggregate) && $config->aggregate == true) {
-                        $ifloc = '';
-                } else {
-                        $ifloc = "location_data='" . serialize($loc) . "' AND ";
-                }
-
+		//If this module was configured as an aggregator, then add those their location_data
+		$locsql = "(location_data='".serialize($loc)."'";
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'newsitem';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
+		}
+		$locsql .= ')';
+		$locsql .= " AND (publish = 0 or publish <= " . time() . 
+			') AND (unpublish = 0 or unpublish > ' . time() . ') '; 
+		
 		//Get this modules items
 		$items = array();
-		//$items = $db->selectObjects("newsitem", "location_data='".serialize($loc)."'");
-		$items = $db->selectObjects('newsitem',$ifloc."(publish = 0 or publish <= " . time() . ') AND (unpublish = 0 or unpublish > ' . time() . ') AND approved != 0 ORDER BY '.$config->sortfield.' ' . $config->sortorder);
+		$items = $db->selectObjects("newsitem", $locsql." AND approved != 0 ORDER BY " .$config->sortfield . ' ' . $config->sortorder);
 		
 		//Convert the newsitems to rss items
 		$rssitems = array();
 		foreach ($items as $key => $item) {	
+			if ($item->publish == 0) {$item->publish = $item->posted;}			
 			$rss_item = new FeedItem();
 			$rss_item->title = $item->title;
 			$rss_item->description = $item->body;
-			$rss_item->date = date('r',$item->posted);
-			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=newsmodule&action=view&id=".$item->id."&src=".$loc->src;
+//			$rss_item->date = date('r',$item->posted);
+			$rss_item->date = date('r',$item->publish);
+//			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=newsmodule&action=view&id=".$item->id."&src=".$loc->src;
+			$rss_item->link = exponent_core_makeLink(array('module'=>'newsmodule', 'action'=>'view', 'id'=>$item->id));
 			$rssitems[$key] = $rss_item;
 		}
 		return $rssitems;
