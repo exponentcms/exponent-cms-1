@@ -53,8 +53,6 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		$Filename = "Events" . $_GET['src'] . ".ics";
 	}	
 
-	ob_end_clean();
-
 	$tz = date('O',time());
 //	$tz = 0;
 	$msg = "BEGIN:VCALENDAR\015\012";
@@ -108,9 +106,25 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	$msg .= "END:VCALENDAR\015\012";			
 
 	// Kick it out as a file download
-	header("Content-Type: text/x-vCalendar");
+	ob_end_clean();
+
+//	$mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octet-stream;' : "text/x-vCalendar";
+	$mime_type = "text/x-vCalendar";
+	header('Content-Type: ' . $mime_type);
+	header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header("Content-length: ".strlen($msg));
-	header("Content-Disposition: inline; filename=$Filename");
+	header('Content-Transfer-Encoding: binary');
+	header('Content-Encoding:');
+//	header("Content-Disposition: inline; filename=$Filename");
+	header('Content-Disposition: attachment; filename="' . $Filename . '"');
+	// IE need specific headers
+	if (EXPONENT_USER_BROWSER == 'IE') {
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+		header('Vary: User-Agent');
+	} else {
+		header('Pragma: no-cache');
+	}
 	echo $msg;
 	exit();
 } else {
