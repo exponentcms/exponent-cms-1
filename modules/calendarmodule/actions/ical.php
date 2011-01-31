@@ -95,12 +95,12 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		$title = $items[$i]->title;
 
 		$msg .= "BEGIN:VEVENT\015\012";
-		$msg .= "DTSTART:$dtstart\015\012";
-		if($items[$i]->eventend) { $msg .= "DTEND:$dtend\015\012";}
-		if($title) { $msg .= "SUMMARY:$title\015\012";}
+		$msg .= "DTSTART: $dtstart\015\012";
+		if($items[$i]->eventend) { $msg .= "DTEND: $dtend\015\012";}
+		if($title) { $msg .= "SUMMARY: $title\015\012";}
 		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE: $body\015\012";}
-	//	if($link_url) { $msg .= "URL:$link_url\015\012";}
-	//	if ($topic_id) { $msg .= "CATEGORIES:APPOINTMENT;$topic[$topic_id]\015\012";}
+	//	if($link_url) { $msg .= "URL: $link_url\015\012";}
+	//	if ($topic_id) { $msg .= "CATEGORIES: APPOINTMENT;$topic[$topic_id]\015\012";}
 		$msg .= "END:VEVENT\015\012";      
 	}
 	$msg .= "END:VCALENDAR\015\012";			
