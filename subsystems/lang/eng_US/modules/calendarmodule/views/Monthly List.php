@@ -21,6 +21,9 @@ return array(
 	'alt_revisions'=>'View Revision History for this Calendar Event',	
 	'revisions'=>'Revisions',
 
+	'alt_ical'=>'iCalendar Feed',
+	'ical'=>'',
+	
 	'no_events'=>'No Events.',
 	'create_event'=>'Create Event',
 	'view_approval'=>'View Approval',

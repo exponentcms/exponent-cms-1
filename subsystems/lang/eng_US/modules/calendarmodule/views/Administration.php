@@ -23,7 +23,11 @@ return array(
 	'delete_confirm'=>'Are you sure you want to delete this Calendar Event?',
 	'alt_delete_disabled'=>'Deleting Disabled - Calendar Event In Approval',
 	'alt_revisions'=>'View Revision History for this Calendar Event',
+	'revisions'=>'Revisions',
 
+	'alt_ical'=>'iCalendar Feed',
+	'ical'=>'',
+	
 	'no_events'=>'No events were found.',
 	'create'=>'Create Event',
 	'alt_create'=>'Create a new Calendar Event',
@@ -36,8 +40,6 @@ return array(
 	'view_categories'=>'View Categories',
 	'alt_view_cat'=>'View Event Categories',
 	'alt_rssfeed'=>'Subscribe to this Event RSS Feed',
-
-	'revisions'=>'Revisions',
 );
 
 ?>

@@ -27,6 +27,9 @@ return array(
 	'alt_delete_disabled'=>'Deleting Disabled - Calendar Event In Approval',
 	'alt_revisions'=>'View Revision History for this Calendar Event',
 	
+	'alt_ical'=>'iCalendar Feed',
+	'ical'=>'',
+	
 	'view_approval'=>'View Approval',
 	'alt_approval'=>'View Calendar Events in Approval',
 

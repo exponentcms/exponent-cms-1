@@ -21,7 +21,8 @@
 			{if $permissions.administrate == 1}
 				&nbsp;&nbsp;|&nbsp;&nbsp;<a class="adminviewlink mngmntlink" href="{link _common=1 view='Administration' action='show_view' time=$time}">{$_TR.administration_view}</a>
 			{/if}
-			&nbsp;&nbsp;|&nbsp;&nbsp;{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
+			&nbsp;&nbsp;|&nbsp;&nbsp;
+			{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
 			{br}
 			{if $permissions.post == 1}
 				{br}
@@ -42,10 +43,11 @@
 		{/permissions}
 	</div>
 	<h2>
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if}
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
+		<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
 	</h2>
 	<p class="caption">
 		<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$prev_timestamp}"><img class="mngmnt_icon itemactions" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.previous}" alt="{$_TR.previous}" /></a>

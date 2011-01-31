@@ -100,6 +100,13 @@ a.printer-friendly-link {
 	padding-left: 18px;
 }
 
+.calendarmodule .icallink {
+	background-image: url(../../common/images/icons/ical.gif);
+	background-repeat: no-repeat;
+	background-position: 0% 50%;
+	padding-left: 37px;
+}
+
 .mini-cal {
 	border:none; 
 	width:10em; 

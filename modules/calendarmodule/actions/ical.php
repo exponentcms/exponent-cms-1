@@ -30,7 +30,19 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		$Filename = "Event" . $_GET['date_id'] . ".ics";
 	} else {
 		$loc = exponent_core_makeLocation('calendarmodule',$_GET['src'],'');
-		$locsql = "(location_data='".serialize($loc)."')";
+		$locsql = "(location_data='".serialize($loc)."'";
+		$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
+		if (!empty($config->aggregate)) {
+			$locations = unserialize($config->aggregate);
+			foreach ($locations as $source) {
+				$tmploc = null;
+				$tmploc->mod = 'calendarmodule';
+				$tmploc->src = $source;
+				$tmploc->int = '';
+				$locsql .= " OR location_data='".serialize($tmploc)."'";
+			}
+		}
+		$locsql .= ')';
 		if (isset($_GET['time'])) {
 			$time = $_GET['time'];
 			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfMonthTimestamp($time) . " AND date <= " . exponent_datetime_endOfMonthTimestamp($time));
@@ -86,7 +98,7 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 
 		$msg .= "BEGIN:VEVENT\015\012";
 		$msg .= "DTSTART:$dtstart\015\012";
-		if($dtend) { $msg .= "DTEND:$dtend\015\012";}
+		if($items[$i]->eventend) { $msg .= "DTEND:$dtend\015\012";}
 		if($title) { $msg .= "SUMMARY:$title\015\012";}
 		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE: $body\015\012";}
 	//	if($link_url) { $msg .= "URL:$link_url\015\012";}
