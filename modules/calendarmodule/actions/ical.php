@@ -54,12 +54,13 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	}	
 
 	$tz = date('O',time());
+	$tz = substr($tz,0,3).":".substr($tz,3,2);
 //	$tz = 0;
 	$msg = "BEGIN:VCALENDAR\015\012";
-	$msg .= "METHOD:PUBLISH\015\012";  
-	$msg .= "PRODID:-//ExponentCMS//EN\015\012";
-	$msg .= "VERSION:" . "0.98.1" . "\015\012";
-	$msg .= "TZ:$tz\015\012";
+	$msg .= "VERSION:2.0\015\012";
+//	$msg .= "METHOD: PUBLISH\015\012";  
+	$msg .= "PRODID:<-//ExponentCMS//EN>\015\012";
+//	$msg .= "TZ: $tz\015\012";
 	
 	$items = calendarmodule::_getEventsForDates($dates);
 
@@ -86,45 +87,54 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		// $items[$i]->eventstart += ($eventdate->date + $adjustStart); 
 		// $items[$i]->eventend += ($eventdate->date + $adjustEnd); 
 	//	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
-			
-		$dtstart = date("Ymd\THi00", $items[$i]->eventstart);
-		$dtend = date("Ymd\THi00", $items[$i]->eventend);
+
+		$dtend = "";
+		if ($items[$i]->is_allday) {
+			$dtstart = "DTSTART;VALUE=DATE: " . date("Ymd", $items[$i]->eventstart) . "\015\012";			
+		} else {
+			$dtstart = "DTSTART;VALUE=DATE-TIME: " . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
+			if($items[$i]->eventend) {
+				$dtend = "DTEND;VALUE=DATE-TIME: " . date("Ymd\THi00", $items[$i]->eventend) . "\015\012";
+			}
+		}
 		// remove all formatting from body text
 		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
 		$body = str_replace("\r", "=0D=0A=", $body);
 		$title = $items[$i]->title;
 
 		$msg .= "BEGIN:VEVENT\015\012";
-		$msg .= "DTSTART: $dtstart\015\012";
-		if($items[$i]->eventend) { $msg .= "DTEND: $dtend\015\012";}
-		if($title) { $msg .= "SUMMARY: $title\015\012";}
-		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE: $body\015\012";}
+		$msg .= $dtstart . $dtend;
+		$msg .= "UID:" . $items[$i]->eventdate->id . "\015\012";
+		$msg .= "DTSTAMP: " . date("Ymd\THis", time()) . "Z\015\012";
+		if($title) { $msg .= "SUMMARY:$title\015\012";}
+		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:$body\015\012";}
 	//	if($link_url) { $msg .= "URL: $link_url\015\012";}
 	//	if ($topic_id) { $msg .= "CATEGORIES: APPOINTMENT;$topic[$topic_id]\015\012";}
 		$msg .= "END:VEVENT\015\012";      
 	}
-	$msg .= "END:VCALENDAR\015\012";			
+	$msg .= "END:VCALENDAR";			
 
 	// Kick it out as a file download
 	ob_end_clean();
 
 //	$mime_type = (EXPONENT_USER_BROWSER == 'IE' || EXPONENT_USER_BROWSER == 'OPERA') ? 'application/octet-stream;' : "text/x-vCalendar";
-	$mime_type = "text/x-vCalendar";
+//	$mime_type = "text/x-vCalendar";
+	$mime_type = "text/Calendar";
 	header('Content-Type: ' . $mime_type);
 	header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header("Content-length: ".strlen($msg));
 	header('Content-Transfer-Encoding: binary');
 	header('Content-Encoding:');
-//	header("Content-Disposition: inline; filename=$Filename");
-	header('Content-Disposition: attachment; filename="' . $Filename . '"');
+	header("Content-Disposition: inline; filename=$Filename");
+//	header('Content-Disposition: attachment; filename="' . $Filename . '"');
 	// IE need specific headers
-	if (EXPONENT_USER_BROWSER == 'IE') {
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+//	if (EXPONENT_USER_BROWSER == 'IE') {
+		header('Cache-Control: no-cache, must-revalidate');
 		header('Pragma: public');
 		header('Vary: User-Agent');
-	} else {
+//	} else {
 		header('Pragma: no-cache');
-	}
+//	}
 	echo $msg;
 	exit();
 } else {
