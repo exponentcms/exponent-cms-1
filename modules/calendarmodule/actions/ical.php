@@ -53,14 +53,36 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		$Filename = "Events" . $_GET['src'] . ".ics";
 	}	
 
-	$tz = date('O',time());
-	$tz = substr($tz,0,3).":".substr($tz,3,2);
-//	$tz = 0;
+//	$tz = date('O',time());
+//	$tz = substr($tz,0,3).":".substr($tz,3,2);
+//	$tz = "America/New_York";
+	$tz = DISPLAY_DEFAULT_TIMEZONE;
 	$msg = "BEGIN:VCALENDAR\015\012";
 	$msg .= "VERSION:2.0\015\012";
-//	$msg .= "METHOD: PUBLISH\015\012";  
+	$msg .= "CALSCALE:GREGORIAN\015\012";
+	$msg .= "METHOD: PUBLISH\015\012";  
 	$msg .= "PRODID:<-//ExponentCMS//EN>\015\012";
+	$msg .= "X-WR-CALNAME:$Filename\015\012";
 //	$msg .= "TZ: $tz\015\012";
+	$msg .= "X-WR-TIMEZONE:$tz\015\012";
+	$msg .= "BEGIN:VTIMEZONE\015\012";
+	$msg .= "TZID:$tz\015\012";
+	$msg .= "X-LIC-LOCATION:$tz\015\012";
+	$msg .= "BEGIN:DAYLIGHT\015\012";
+	$msg .= "TZOFFSETFROM:-0500\015\012";
+	$msg .= "TZOFFSETTO:-0400\015\012";
+	$msg .= "TZNAME:EDT\015\012";
+	$msg .= "DTSTART:19700308T020000\015\012";
+	$msg .= "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\015\012";
+	$msg .= "END:DAYLIGHT\015\012";
+	$msg .= "BEGIN:STANDARD\015\012";
+	$msg .= "TZOFFSETFROM:-0400\015\012";
+	$msg .= "TZOFFSETTO:-0500\015\012";
+	$msg .= "TZNAME:EST\015\012";
+	$msg .= "DTSTART:19701101T020000\015\012";
+	$msg .= "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\015\012";
+	$msg .= "END:STANDARD\015\012";
+	$msg .= "END:VTIMEZONE\015\012";
 	
 	$items = calendarmodule::_getEventsForDates($dates);
 
@@ -88,24 +110,30 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		// $items[$i]->eventend += ($eventdate->date + $adjustEnd); 
 	//	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 
-		$dtend = "";
+//		$dtend = "";
 		if ($items[$i]->is_allday) {
-			$dtstart = "DTSTART;VALUE=DATE: " . date("Ymd", $items[$i]->eventstart) . "\015\012";			
+			$dtstart = "DTSTART;VALUE=DATE:" . date("Ymd", $items[$i]->eventstart) . "\015\012";			
+			$dtend = "DTEND;VALUE=DATE:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "\015\012";			
+//			$dtstart = "DTSTART;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", $items[$i]->eventstart) . "T000000\015\012";
+//			$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", $items[$i]->eventstart) . "T235959\015\012";
+//			$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "T000000\015\012";
 		} else {
-			$dtstart = "DTSTART;VALUE=DATE-TIME: " . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
+			$dtstart = "DTSTART;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
 			if($items[$i]->eventend) {
-				$dtend = "DTEND;VALUE=DATE-TIME: " . date("Ymd\THi00", $items[$i]->eventend) . "\015\012";
+				$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventend) . "\015\012";
+			} else {
+				$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
 			}
 		}
 		// remove all formatting from body text
 		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
-		$body = str_replace("\r", "=0D=0A=", $body);
+		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
 		$title = $items[$i]->title;
 
 		$msg .= "BEGIN:VEVENT\015\012";
 		$msg .= $dtstart . $dtend;
 		$msg .= "UID:" . $items[$i]->eventdate->id . "\015\012";
-		$msg .= "DTSTAMP: " . date("Ymd\THis", time()) . "Z\015\012";
+		$msg .= "DTSTAMP:" . date("Ymd\THis", time()) . "Z\015\012";
 		if($title) { $msg .= "SUMMARY:$title\015\012";}
 		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:$body\015\012";}
 	//	if($link_url) { $msg .= "URL: $link_url\015\012";}
@@ -125,8 +153,8 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	header("Content-length: ".strlen($msg));
 	header('Content-Transfer-Encoding: binary');
 	header('Content-Encoding:');
-	header("Content-Disposition: inline; filename=$Filename");
-//	header('Content-Disposition: attachment; filename="' . $Filename . '"');
+//	header("Content-Disposition: inline; filename=$Filename");
+	header('Content-Disposition: attachment; filename="' . $Filename . '"');
 	// IE need specific headers
 //	if (EXPONENT_USER_BROWSER == 'IE') {
 		header('Cache-Control: no-cache, must-revalidate');
