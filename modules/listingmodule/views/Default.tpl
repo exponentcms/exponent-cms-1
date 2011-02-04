@@ -32,7 +32,7 @@
 						{if ($listing_number >= $first) && ($listing_number < $last)}
 							<option value="#{$categories[$catid]->name}" >
 						{else}
-							<option value="{link action=view view=Simple page=$page_number}" >
+							<option value="{link action=view view=Default page=$page_number}" >
 						{/if}
 							{$categories[$catid]->name}		
 						</option>
