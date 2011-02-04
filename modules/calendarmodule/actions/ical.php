@@ -43,13 +43,21 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 			}
 		}
 		$locsql .= ')';
+		
+		if ($config->rss_limit > 0) {
+			$rsslimit = $db->limit($config->rss_limit,0);
+		} else {
+			$rsslimit = "";
+		}
+		
 		if (isset($_GET['time'])) {
 			$time = $_GET['time'];
-			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfMonthTimestamp($time) . " AND date <= " . exponent_datetime_endOfMonthTimestamp($time));
+			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfMonthTimestamp($time)." AND date <= ".exponent_datetime_endOfMonthTimestamp($time));
 		} else {
 //			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()) . " AND date <= " . exponent_datetime_endOfMonthTimestamp(time()));
-			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()));
+			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()).$rsslimit);
 		}
+//		$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 		$Filename = "Events" . $_GET['src'] . ".ics";
 	}	
 
