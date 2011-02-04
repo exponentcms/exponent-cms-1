@@ -33,7 +33,7 @@
 
 class slideshowmodule {
 	function name() { return "Slideshow Manager"; }
-	function description() { return ""; }
+	function description() { return "A simple way to display a slideshow of graphics"; }
 	function author() { return ""; }
 	
 	function hasSources() { return true; }

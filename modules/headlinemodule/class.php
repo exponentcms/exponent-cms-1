@@ -32,7 +32,7 @@
 ##################################################
 
 class headlinemodule {
-	function name() { return 'Headline Module'; }
+	function name() { return 'Headline'; }
 	function description() { return 'All about the headlines'; }
 	function author() { return 'Phillip Ball'; }
 	

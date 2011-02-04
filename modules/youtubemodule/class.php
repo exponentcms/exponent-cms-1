@@ -18,9 +18,9 @@
 ##################################################
 
 class youtubemodule {
-	function name()		{ return 'YouTube Video Module'; }
+	function name()		{ return 'YouTube Video'; }
 	function author()	{ return 'OIC Group, Inc'; }
-	function description()	{ return 'This Module allows you to embed YouTube Video into you site\'s pages'; }
+	function description()	{ return 'Allows you to embed YouTube Video into you site\'s pages'; }
 
 	function hasContent() { return true; }
 	function hasSources() { return true; }

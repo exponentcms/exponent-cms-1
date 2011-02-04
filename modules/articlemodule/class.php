@@ -32,8 +32,8 @@
 ##################################################
 
 class articlemodule {
-	function name() { return "Article Module"; }
-	function description() { return "Manages Articles"; }
+	function name() { return "Article Manager"; }
+	function description() { return "Manages Articles submitted by users"; }
 	function author() { return "Adam Kessler"; }
 	
 	function hasSources() { return true; }

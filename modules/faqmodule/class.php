@@ -32,7 +32,7 @@
 ##################################################
 
 class faqmodule {
-	function name() { return 'FAQ Module'; }
+	function name() { return 'Frequently Asked Questions'; }
 	function description() { return 'Manages Frequently Asked Questions'; }
 	function author() { return 'Adam Kessler'; }
 	
@@ -96,6 +96,8 @@ class faqmodule {
 		// Create the template
 		$template = new template("faqmodule",$view,$loc);
 		$template->assign("config",$config);
+
+		$i18n = exponent_lang_loadFile('modules/faqmodule/class.php');
 		
 		// Get all of the categories for this FAQ module:
 		$cats = array();
@@ -111,8 +113,9 @@ class faqmodule {
 			$template->assign('hasCategories', 0);
 		}
 		
-		$c->name = '';
+		$c->name = $i18n['no_category'];
 		$c->id = 0;
+		$c->color = "#000000";
 		uasort($cats, "exponent_sorting_byRankAscending");
 		$cats[0] = $c;
 		$template->assign('categories', $cats);

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'module_name'=>'Container Module',
+	'module_name'=>'Container',
 	'module_description'=>'Contains other modules',
 	
 	'perm_administrate'=>'Administrate',

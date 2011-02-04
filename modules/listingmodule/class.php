@@ -32,8 +32,8 @@
 ##################################################
 
 class listingmodule {
-	function name() { return 'Listing Module'; }
-	function description() { return 'A module for creating listings.  For example you could use this module to create personal bio pages for employees, or house listings for a realator'; }
+	function name() { return 'Listing'; }
+	function description() { return 'Manages a set of listings.  For example you could use this to create personal bio pages for employees, or house listings for a realator'; }
 	function author() { return 'Adam Kessler'; }
 
 	function hasSources() { return true; }

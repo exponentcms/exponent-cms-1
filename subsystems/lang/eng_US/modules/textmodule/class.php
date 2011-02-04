@@ -1,8 +1,8 @@
 <?php
 
 return array(
-	'module_name'=>'Text Module',
-	'module_description'=>'Manages text.',
+	'module_name'=>'Text',
+	'module_description'=>'Manages text using a WYSIWYG editor.',
 	
 	'perm_administrate'=>'Administrate',
 	'perm_edit'=>'Edit',

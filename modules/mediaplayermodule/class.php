@@ -18,7 +18,7 @@
 ##################################################
 
 class mediaplayermodule {
-	function name() { return 'Media Player Module'; }
+	function name() { return 'Media Player'; }
 	function author() { return 'Ron Miller'; }
 	function description() { return 'Display Internet-Friendly media content using FlowPlayer'; }
 	

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'module_name'=>'Flash Animation Module',
+	'module_name'=>'Flash Animation',
 	'module_description'=>'Manages a Flash Animation.',
 	
 	'perm_administrate'=>'Administrate',

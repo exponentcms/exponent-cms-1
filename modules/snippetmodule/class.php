@@ -18,7 +18,7 @@
 ##################################################
 
 class snippetmodule {
-	function name()		{ return 'Code Snippet Module'; }
+	function name()		{ return 'Code Snippet'; }
 	function author()		{ return 'Ron Miller, OIC Group, Inc'; }
 	function description()	{ return 'Text module without the rich text editor -- Perfect for inserting HTML code snippets.'; }
 
@@ -90,7 +90,7 @@ class snippetmodule {
 		file_put_contents($tempfile,$out); 
 //		include($tempfile);
 		$output = ob_get_clean();
-		unlink($tempfile); 
+//		unlink($tempfile); 
 
 		$template->assign('textitem',$textitem);
 		$template->assign('highlight',$highlight);
