@@ -27,7 +27,7 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 
 	if (isset($_GET['date_id'])) {
 		$dates = array($db->selectObject("eventdate","id=".intval($_GET['date_id'])));
-		$Filename = "Event-" . $_GET['date_id'] . ".ics";
+		$Filename = "Event-" . $_GET['date_id'];
 	} else {
 		$loc = exponent_core_makeLocation('calendarmodule',$_GET['src'],'');
 		$locsql = "(location_data='".serialize($loc)."'";
@@ -62,13 +62,15 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()).$rsslimit);
 		}
 		$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
-		$Filename = preg_replace('/\s+/','',$title) . ".ics";
+		$Filename = preg_replace('/\s+/','',$title);
 	}	
 
 //	$tz = date('O',time());
 //	$tz = substr($tz,0,3).":".substr($tz,3,2);
 //	$tz = "America/New_York";
 	$tz = DISPLAY_DEFAULT_TIMEZONE;
+//	$localTimezone = new DateTimeZone($tz);
+//	$gmtTimezone = new DateTimeZone('GMT');
 	$msg = "BEGIN:VCALENDAR\015\012";
 	$msg .= "VERSION:2.0\015\012";
 	$msg .= "CALSCALE:GREGORIAN\015\012";
@@ -77,25 +79,25 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	$msg .= "X-PUBLISHED-TTL:PT".$config->rss_cachetime."M\015\012";
 	$msg .= "X-WR-CALNAME:$Filename\015\012";
 //	$msg .= "TZ: $tz\015\012";
-	$msg .= "X-WR-TIMEZONE:$tz\015\012";
-	$msg .= "BEGIN:VTIMEZONE\015\012";
-	$msg .= "TZID:$tz\015\012";
-	$msg .= "X-LIC-LOCATION:$tz\015\012";
-	$msg .= "BEGIN:DAYLIGHT\015\012";
-	$msg .= "TZOFFSETFROM:-0500\015\012";
-	$msg .= "TZOFFSETTO:-0400\015\012";
-	$msg .= "TZNAME:EDT\015\012";
-	$msg .= "DTSTART:19700308T020000\015\012";
-	$msg .= "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\015\012";
-	$msg .= "END:DAYLIGHT\015\012";
-	$msg .= "BEGIN:STANDARD\015\012";
-	$msg .= "TZOFFSETFROM:-0400\015\012";
-	$msg .= "TZOFFSETTO:-0500\015\012";
-	$msg .= "TZNAME:EST\015\012";
-	$msg .= "DTSTART:19701101T020000\015\012";
-	$msg .= "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\015\012";
-	$msg .= "END:STANDARD\015\012";
-	$msg .= "END:VTIMEZONE\015\012";
+	// $msg .= "X-WR-TIMEZONE:$tz\015\012";
+	// $msg .= "BEGIN:VTIMEZONE\015\012";
+	// $msg .= "TZID:$tz\015\012";
+	// $msg .= "X-LIC-LOCATION:$tz\015\012";
+	// $msg .= "BEGIN:DAYLIGHT\015\012";
+	// $msg .= "TZOFFSETFROM:-0500\015\012";
+	// $msg .= "TZOFFSETTO:-0400\015\012";
+	// $msg .= "TZNAME:EDT\015\012";
+	// $msg .= "DTSTART:19700308T020000\015\012";
+	// $msg .= "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\015\012";
+	// $msg .= "END:DAYLIGHT\015\012";
+	// $msg .= "BEGIN:STANDARD\015\012";
+	// $msg .= "TZOFFSETFROM:-0400\015\012";
+	// $msg .= "TZOFFSETTO:-0500\015\012";
+	// $msg .= "TZNAME:EST\015\012";
+	// $msg .= "DTSTART:19701101T020000\015\012";
+	// $msg .= "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\015\012";
+	// $msg .= "END:STANDARD\015\012";
+	// $msg .= "END:VTIMEZONE\015\012";
 	
 	$items = calendarmodule::_getEventsForDates($dates);
 
@@ -124,6 +126,10 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	//	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 
 //		$dtend = "";
+		$eventstart = new DateTime(date('r',$items[$i]->eventstart),new DateTimeZone($tz));
+		$eventstart->setTimezone(new DateTimeZone('GMT')); 
+		$eventend = new DateTime(date('r',$items[$i]->eventend),new DateTimeZone($tz));
+		$eventend->setTimezone(new DateTimeZone('GMT')); 
 		if ($items[$i]->is_allday) {
 			$dtstart = "DTSTART;VALUE=DATE:" . date("Ymd", $items[$i]->eventstart) . "\015\012";			
 			$dtend = "DTEND;VALUE=DATE:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "\015\012";			
@@ -131,11 +137,17 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 //			$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", $items[$i]->eventstart) . "T235959\015\012";
 //			$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "T000000\015\012";
 		} else {
-			$dtstart = "DTSTART;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
+			// $dtstart = "DTSTART;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
+			// if($items[$i]->eventend) {
+				// $dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventend) . "\015\012";
+			// } else {
+				// $dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
+			// }
+			$dtstart = "DTSTART;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\015\012";
 			if($items[$i]->eventend) {
-				$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventend) . "\015\012";
+				$dtend = "DTEND;VALUE=DATE-TIME:" . $eventend->format("Ymd\THi00") . "Z\015\012";
 			} else {
-				$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
+				$dtend = "DTEND;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\015\012";
 			}
 		}
 		// remove all formatting from body text
@@ -166,8 +178,8 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	header("Content-length: ".strlen($msg));
 	header('Content-Transfer-Encoding: binary');
 	header('Content-Encoding:');
-//	header("Content-Disposition: inline; filename=$Filename");
-	header('Content-Disposition: attachment; filename="' . $Filename . '"');
+//	header("Content-Disposition: inline; filename=".$Filename.".ics");
+	header('Content-Disposition: attachment; filename="' . $Filename . '.ics"');
 	// IE need specific headers
 //	if (EXPONENT_USER_BROWSER == 'IE') {
 		header('Cache-Control: no-cache, must-revalidate');
