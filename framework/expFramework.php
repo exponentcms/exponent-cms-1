@@ -114,8 +114,7 @@ function handleErrors($errno, $errstr, $errfile, $errline) {
 
 function get_announcement() {
 	global $db;
-	$where .= "(publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ")"; 
-	$announcement = $db->selectObject('announcement', $where);  // set where to check publish on/off against current time
+	$announcement = $db->selectObject('announcement',"(publish = 0 or publish <= " . time() . ") AND (unpublish = 0 or unpublish > " . time() . ")");
 	if (!empty($announcement)) {
 		flash("announce-" . $announcement->type, $announcement->text); 
 	} 
