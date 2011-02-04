@@ -13,12 +13,12 @@
  *}
 
 <div class="linklistmodule condensed">
-	{if $moduletitle != ""}
-		<div class="moduletitle"><h2>{$moduletitle}</h2></div>
-	{/if}
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rss}" /></a>
-	{/if}
+	<h2>
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rss}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
+	</h2>
 
 	{foreach from=$data key=catid item=articles}
 	   {if $catid != 0}
