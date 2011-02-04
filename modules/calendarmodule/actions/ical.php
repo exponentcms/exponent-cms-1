@@ -27,7 +27,7 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 
 	if (isset($_GET['date_id'])) {
 		$dates = array($db->selectObject("eventdate","id=".intval($_GET['date_id'])));
-		$Filename = "Event" . $_GET['date_id'] . ".ics";
+		$Filename = "Event-" . $_GET['date_id'] . ".ics";
 	} else {
 		$loc = exponent_core_makeLocation('calendarmodule',$_GET['src'],'');
 		$locsql = "(location_data='".serialize($loc)."'";
@@ -43,9 +43,13 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 			}
 		}
 		$locsql .= ')';
-		
+
+		if (!function_exists("exponent_datetime_startOfDayTimestamp")) {
+			if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");               
+		}		
+		$day = exponent_datetime_startOfDayTimestamp(time());
 		if ($config->rss_limit > 0) {
-			$rsslimit = $db->limit($config->rss_limit,0);
+			$rsslimit = " AND date <= " . ($day + ($config->rss_limit * 86400));
 		} else {
 			$rsslimit = "";
 		}
@@ -57,8 +61,8 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 //			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()) . " AND date <= " . exponent_datetime_endOfMonthTimestamp(time()));
 			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()).$rsslimit);
 		}
-//		$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
-		$Filename = "Events" . $_GET['src'] . ".ics";
+		$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+		$Filename = preg_replace('/\s+/','',$title) . ".ics";
 	}	
 
 //	$tz = date('O',time());
