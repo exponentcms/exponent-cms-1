@@ -47,15 +47,26 @@ class calendarmodule {
 		}
 		$locsql .= ')';
 							
-		$items = array();
-		$dates = null;
 		if (!function_exists("exponent_datetime_startOfDayTimestamp")) {
 			if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");               
 		}
 		$day = exponent_datetime_startOfDayTimestamp(time());
+		
+		if ($config->rss_limit > 0) {
+			$rsslimit = " AND date <= " . ($day + ($config->rss_limit * 86400));
+		} else {
+			$rsslimit = "";
+		}
+		
+		$cats = $db->selectObjectsIndexedArray("category");
+		$cats[0] = null;
+		$cats[0]->name = 'None';
+		
+		//Get this modules items
+		$items = array();
+		$dates = null;
 		$sort_asc = true; // For the getEventsForDates call 
-			
-		$dates = $db->selectObjects("eventdate", $locsql." AND date >= $day ORDER BY date ASC ");                   
+		$dates = $db->selectObjects("eventdate", $locsql." AND date >= ".$day.$rsslimit." ORDER BY date ASC ");                   
 		$items = calendarmodule::_getEventsForDates($dates, $sort_asc);           
 
 		//Convert the events to rss items
@@ -68,6 +79,9 @@ class calendarmodule {
 //          $rss_item->date = date('r', $item->posted);
 //			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
 			$rss_item->link = exponent_core_makeLink(array('module'=>'calendarmodule', 'action'=>'view', 'id'=>$item->id));
+			if ($config->enable_categories == 1) {
+				$rss_item->category = array($cats[$item->category_id]->name);
+			}
 			$rssitems[$key] = $rss_item;
 		}
 		return $rssitems;

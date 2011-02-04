@@ -42,6 +42,8 @@ class calendarmodule_config {
 			$object->aggregate = array();
 			$object->feed_title = "";
 			$object->feed_desc = "";
+			$object->rss_limit = 365;
+			$object->rss_cachetime = 24;
 			$object->reminder_notify = serialize(array());
 			$object->email_title_reminder = "Calendar Reminder";
 			$object->email_from_reminder = "Calendar Manager";
@@ -131,6 +133,8 @@ class calendarmodule_config {
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
    		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
    		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
+		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
+		$form->register('rss_limit', $i18n['rss_limit'], new textcontrol($object->rss_limit));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 
 		$form->register(null,'',new htmlcontrol('<h3>Tagging</h3><hr size="1" />'));
@@ -163,6 +167,8 @@ class calendarmodule_config {
 		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
+		$object->rss_cachetime = $values['rss_cachetime'];
+		$object->rss_limit = $values['rss_limit'];
 		return $object;
 	}
 }

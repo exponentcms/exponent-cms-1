@@ -8,9 +8,6 @@ return array(
 	'sortfield'=>'Sort on',
 
 	'general_conf'=>'General Configuration',
-	'merge_news'=>'Merge News',
-	'pull_news'=>'Pull News from These Other News Modules',
-	'tagging'=>'Tagging',
 	'rss_configuration'=>'RSS Configuration',
 
 	'save'=>'Save',
@@ -22,18 +19,23 @@ return array(
 	'publishdate'=>'Publication Date',
 
   	'enable_tags'=>'Enable Tags',
+	'tagging'=>'Tagging',
 	'tag_collections'=>'Tag Collections',
   	'group_by_tags'=>'Group posts by tags',
   	'show_tags'=>'Tags to show',
   	'show_tags_desc'=>'<br />If you choose to have this module group posts by tags, then you must select which tags are to be displayed.<br /><div style="color:red;">*** Currently you must first choose your collections and save this module configuration, then come back in and choose your tags.</div>',
 
+	'merge_news'=>'Merge News',
+	'pull_news'=>'Pull News from These Other News Modules',
+    'aggregate'=>'Combine news from all news modules on this site into this news module.<br /><br />',
+    'pull_rss'=>'Pull external RSS feeds into this News Module.',
+    'rss_feed'=>'RSS feed URLs to read.',
+	
   	'enable_rss'=>'Enable RSS',
     'feed_title'=>'Title for this RSS feed',
     'feed_desc'=>'Description for this RSS feed',
-    'aggregate'=>'Combine news from all news modules on this site into this news module.<br /><br />',
-    'pull_rss'=>'Read external RSS feeds into this news module.',
-    'rss_feed'=>'RSS feed URLs to read.',
-    'rss_cachetime'=>'Time to cache RSS feed data in seconds (3600 = 1 hour)',
+    'rss_cachetime'=>'Recommended RSS feed update interval in hours',
+    'rss_limit'=>'Maximum number of RSS items to publish (0 = all)',
 
 );
 

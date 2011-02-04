@@ -75,9 +75,15 @@ class newsmodule {
 		$locsql .= " AND (publish = 0 or publish <= " . time() . 
 			') AND (unpublish = 0 or unpublish > ' . time() . ') '; 
 		
+		if ($config->rss_limit > 0) {
+			$rsslimit = $db->limit($config->rss_limit,0);
+		} else {
+			$rsslimit = "";
+		}
+		
 		//Get this modules items
 		$items = array();
-		$items = $db->selectObjects("newsitem", $locsql." AND approved != 0 ORDER BY " .$config->sortfield . ' ' . $config->sortorder);
+		$items = $db->selectObjects("newsitem", $locsql." AND approved != 0 ORDER BY " .$config->sortfield . ' ' . $config->sortorder . $rsslimit);
 		
 		//Convert the newsitems to rss items
 		$rssitems = array();

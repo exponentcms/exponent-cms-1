@@ -46,15 +46,21 @@ class weblogmodule {
 				$locsql .= " OR location_data='".serialize($tmploc)."'";
 			}
 		}
-		$locsql .= ')';
+		$locsql .= ")";
 		$locsql .= " AND (publish = 0 or publish <= " . time() . 
 			') AND (unpublish = 0 or unpublish > ' . time() . ') '; 
-		
+
+		if ($config->rss_limit > 0) {
+			 $rsslimit = $db->limit($config->rss_limit,0);
+		} else {
+			$rsslimit = "";
+		}
+
 		//Get this modules items
 		$items = array();
 //		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1", 'posted DESC');
 //		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 AND approved != 0", 'publish DESC');
-		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 ORDER BY publish DESC");
+		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 ORDER BY publish DESC".$rsslimit);
 
 		//Convert the blog posts to rss items
 		$rssitems = array();

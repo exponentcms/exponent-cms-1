@@ -118,56 +118,55 @@ class linkmodule {
 		$template->output();
 	}
 
-   function getRSSContent($loc) {
+    function getRSSContent($loc) {
 		global $db;
       
-      $config = $db->selectObject('linkmodule_config',"location_data='".serialize($loc)."'");
-      if(!$config) {
-         $config->rss_categories = true;
-         $config->rss_add_category_name = true;
-      } 
+		$config = $db->selectObject('linkmodule_config',"location_data='".serialize($loc)."'");
+		if(!$config) {
+			$config->rss_categories = true;
+			$config->rss_add_category_name = true;
+		} 
       
-      $category_rss=NULL;
-      if(isset($_GET['category'])) 
-         if(is_numeric($_GET['category']))
-            $category_rss=$_GET['category'];
+		$category_rss=NULL;
+		if(isset($_GET['category'])) 
+			if(is_numeric($_GET['category']))
+				$category_rss=$_GET['category'];
          
-      if($config->rss_categories OR $category_rss) {
-         $categories=$this->tools_getCategories($loc);
-         $categories_for_display_only=$categories;
-         $data=$this->tools_getCategorizedLinks($loc,$categories);      
-      }
-      else  {
-         $categories[0]="";
-         $data=$this->tools_getLinks($loc);      
-      }
+		if($config->rss_categories OR $category_rss) {
+			$categories=$this->tools_getCategories($loc);
+			$categories_for_display_only=$categories;
+			$data=$this->tools_getCategorizedLinks($loc,$categories);      
+		} else  {
+			$categories[0]="";
+			$data=$this->tools_getLinks($loc);      
+		}
          
-      if($config->rss_add_category_name and !isset($categories_for_display_only)) 
-         $categories_for_display_only=$this->tools_getCategories($loc);
+		if($config->rss_add_category_name and !isset($categories_for_display_only)) 
+			$categories_for_display_only=$this->tools_getCategories($loc);
       
 		//Convert the links to rss items
 		$rssitems = array();
-      foreach ($categories as $id=>$category) {
-         if($category_rss==NULL OR $id==$category_rss)
-            foreach($data[$id] as $item) {
-               $rss_item = new FeedItem();
-               $rss_item->title = $item->name;
-               if($config->rss_add_category_name AND !$category_rss) {
-                  if($config->rss_categories) {
-                     if($category->name)
-                        $rss_item->title = $category->name." : ".$rss_item->title;
-                  }
-                  else {
-                     // note : item may have an invalid category (delected category)
-                     if($categories_for_display_only[$item->category_id]->name)
-                        $rss_item->title = $categories_for_display_only[$item->category_id]->name." : ".$rss_item->title;
-                  }
-               }
-               $rss_item->description = $item->description;
-               $rss_item->link = $item->url;
-               $rssitems[] = $rss_item;
-            }
-     }
+		foreach ($categories as $id=>$category) {
+			if($category_rss==NULL OR $id==$category_rss) {
+				foreach($data[$id] as $item) {
+					$rss_item = new FeedItem();
+					$rss_item->title = $item->name;
+					if($config->rss_add_category_name AND !$category_rss) {
+						if($config->rss_categories) {
+							if($category->name)
+								$rss_item->title = $category->name." : ".$rss_item->title;
+						} else {
+						// note : item may have an invalid category (delected category)
+							if($categories_for_display_only[$item->category_id]->name)
+								$rss_item->title = $categories_for_display_only[$item->category_id]->name." : ".$rss_item->title;
+						}
+					}
+					$rss_item->description = $item->description;
+					$rss_item->link = $item->url;
+					$rssitems[] = $rss_item;
+				}
+			}
+		}
 		return $rssitems;
 	}
    

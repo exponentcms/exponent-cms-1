@@ -65,6 +65,10 @@ return array(
 	'feed_desc'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),
+	'rss_limit'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'rss_cachetime'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	'aggregate'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>1000),
@@ -91,6 +95,8 @@ return array(
 	'final_message'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>10000),
+	'require_login_comments'=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 );
 
 ?>

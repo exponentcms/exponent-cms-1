@@ -44,6 +44,7 @@ class weblogmodule_config {
 			$object->final_message = $i18n['default_final_message'];
 			$object->use_captcha = 1;
 			$object->require_login = 0;
+			$object->require_login_comments = 0;
 			$object->enable_tags = false;
 			$object->collections = array();
 			//$object->group_by_tags = 0;
@@ -58,6 +59,8 @@ class weblogmodule_config {
 			$object->enable_rss = false;
 			$object->feed_title = "";
 			$object->feed_desc = "";
+			$object->rss_limit = 25;
+			$object->rss_cachetime = 24;
 		} else {
 			$form->meta('id',$object->id);
 			$cols = unserialize($object->collections);
@@ -127,8 +130,9 @@ class weblogmodule_config {
 		$form->register('allow_replys',$i18n['allow_replys'],new checkboxcontrol($object->allow_replys));
 		$form->register('reply_title',$i18n['reply_subject_prefix'],new textcontrol($object->reply_title,45));
 		$form->register('final_message',$i18n['final_message'],new htmleditorcontrol($object->final_message));
-		$form->register('use_captcha',exponent_lang_getText('Require CAPTCHA for comments/replys?'),new checkboxcontrol($object->use_captcha));
-		$form->register('require_login',exponent_lang_getText('Require users to be logged in to post comments/replys?'),new checkboxcontrol($object->require_login));
+		$form->register('use_captcha',$i18n['use_captcha'],new checkboxcontrol($object->use_captcha));
+		$form->register('require_login',$i18n['require_login'],new checkboxcontrol($object->require_login));
+		$form->register('require_login_comments',$i18n['require_login_comments'],new checkboxcontrol($object->require_login_comments));
 
 		$form->register(null,'',new htmlcontrol('<h3>"New Post" Monitoring Email</h3><hr size="1" />'));
 		$form->register('email_title_post',$i18n['message_subject_prefix'],new textcontrol($object->email_title_post,45));
@@ -152,6 +156,8 @@ class weblogmodule_config {
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
 		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
 		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
+		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
+		$form->register('rss_limit', $i18n['rss_limit'], new textcontrol($object->rss_limit));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
@@ -168,6 +174,7 @@ class weblogmodule_config {
 		$object->final_message = htmleditorcontrol::parseData('final_message',$values);
 		$object->use_captcha = (isset($values['use_captcha']) ? 1 : 0);
 		$object->require_login = (isset($values['require_login']) ? 1 : 0);
+		$object->require_login_comments = (isset($values['require_login_comments']) ? 1 : 0);
 		
 		$object->email_title_post = $values['email_title_post'];
 		$object->email_from_post = $values['email_from_post'];
@@ -186,6 +193,9 @@ class weblogmodule_config {
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
+		$object->rss_cachetime = $values['rss_cachetime'];
+		$object->rss_limit = $values['rss_limit'];
+
 		return $object;
 	}
 }

@@ -386,10 +386,19 @@ class resourcesmodule {
 	
 		//Get this modules configuration data
 		$config = $db->selectObject('resourcesmodule_config',"location_data='".serialize($loc)."'");
-
+		if ($config->rss_limit > 0) {
+			$rsslimit = $db->limit($config->rss_limit,0);
+		} else {
+			$rsslimit = "";
+		}
+		
+		$cats = $db->selectObjectsIndexedArray("category");
+		$cats[0] = null;
+		$cats[0]->name = 'None';
+		
 		//Get this modules items
 		$items = array();
-		$items = $db->selectObjects("resourceitem", "location_data='".serialize($loc)."' AND approved='1'", 'posted DESC');
+		$items = $db->selectObjects("resourceitem", "location_data='".serialize($loc)."' AND approved='1'", 'posted DESC'.$rsslimit);
 		
 		//Convert the resource items to rss items
 		$rssitems = array();
@@ -416,7 +425,10 @@ class resourcesmodule {
 		   	$rss_item->enclosure->length = filesize(BASE.$file->directory.'/'.$file->filename);
 			$rss_item->enclosure->type = $file->mimetype;
 			if ($rss_item->enclosure->type == 'audio/mpeg') $rss_item->enclosure->type = 'audio/mpg';
-		// Add the item to the array.
+			if ($config->enable_categories == 1) {
+				$rss_item->category = array($cats[$item->category_id]->name);
+			}
+			// Add the item to the array.
 			$rssitems[$key] = $rss_item;
 		}
 		return $rssitems;

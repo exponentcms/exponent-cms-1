@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'module_name'=>'News Module',
+	'module_name'=>'News',
 	'module_description'=>'Manages news / announcements.',
 	
 	'perm_administrate'=>'Administrate',

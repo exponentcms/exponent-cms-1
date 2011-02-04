@@ -46,6 +46,8 @@ class resourcesmodule_config {
 			$object->enable_rss = 0;
 			$object->feed_title = "";
 			$object->feed_desc = "";
+			$object->rss_limit = 25;
+			$object->rss_cachetime = 24;
 			$object->require_agreement = 0;
 			$object->agreement_body = "";
 		} else {
@@ -94,6 +96,8 @@ class resourcesmodule_config {
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss,true));
 		$form->register('feed_title',$i18n['podcast_title'],new textcontrol($object->feed_title,35,false,75));
 		$form->register('feed_desc',$i18n['podcast_description'],new texteditorcontrol($object->feed_desc));
+		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
+		$form->register('rss_limit', $i18n['rss_limit'], new textcontrol($object->rss_limit));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
@@ -102,11 +106,13 @@ class resourcesmodule_config {
 		$object->enable_categories = empty($values['enable_categories']) ? 0 : 1;
 		$object->description = preg_replace("/[\n\r]/","",$values['description']);
 		$object->allow_anon_downloads = isset($values['allow_anon_downloads']);
-		$object->enable_rss = isset($values['enable_rss']);
 		$object->require_agreement = isset($values['require_agreement']);
+		$object->agreement_body = $values['agreement_body'];
+		$object->enable_rss = isset($values['enable_rss']);
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
-		$object->agreement_body = $values['agreement_body'];
+		$object->rss_cachetime = $values['rss_cachetime'];
+		$object->rss_limit = $values['rss_limit'];
 		
 		$toks = explode('_',$values['orderby']);
 		switch ($toks[0]) {

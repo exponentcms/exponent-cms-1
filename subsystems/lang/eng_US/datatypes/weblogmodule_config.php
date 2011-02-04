@@ -9,6 +9,9 @@ return array(
 	'allow_replys'=>'Allow Inline Replys on Posts',
 	'reply_subject_prefix'=>'Reply Subject Prefix',
 	'final_message'=>'Reply Confirmation Message',
+	'use_captcha'=>'Require CAPTCHA for comments/replys?',
+	'require_login'=>'Require users to be logged in to post comments/replys?',
+	'require_login_comments'=>'Require users to be logged in to view comments?',
 	'default_final_message'=>'Thank you for your submission.',
 
 	'message_subject_prefix'=>'Message Subject Prefix',
@@ -28,6 +31,8 @@ return array(
   	'enable_rss'=>'Enable RSS',
 	'feed_title'=>'Title for this RSS feed',
 	'feed_desc'=>'Description for this RSS feed',
+    'rss_cachetime'=>'Recommended RSS feed update interval in hours',
+    'rss_limit'=>'Maximum number of RSS items to publish (0 = all)',
 	
 	'save'=>'Save',
 	'cancel'=>'Cancel',

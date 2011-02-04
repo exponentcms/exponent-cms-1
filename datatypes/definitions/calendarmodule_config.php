@@ -74,7 +74,11 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	"email_signature"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
-		DB_FIELD_LEN=>500),				
+		DB_FIELD_LEN=>500),	
+	'rss_limit'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'rss_cachetime'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER)		
 );
 
 ?>
