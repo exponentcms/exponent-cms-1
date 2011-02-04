@@ -25,7 +25,7 @@ if (!defined("EXPONENT")) exit("");
 if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	if (!defined("SYS_DATETIME")) include_once(BASE."subsystems/datetime.php");
 
-	if (isset($_GET['date_id'])) {
+	if (isset($_GET['date_id'])) {  // get specific event only
 		$dates = array($db->selectObject("eventdate","id=".intval($_GET['date_id'])));
 		$Filename = "Event-" . $_GET['date_id'];
 	} else {
@@ -55,115 +55,93 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		}
 		
 		if (isset($_GET['time'])) {
-			$time = $_GET['time'];
+			$time = $_GET['time'];  // get current month's events
 			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfMonthTimestamp($time)." AND date <= ".exponent_datetime_endOfMonthTimestamp($time));
 		} else {
-//			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()) . " AND date <= " . exponent_datetime_endOfMonthTimestamp(time()));
-			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp(time()).$rsslimit);
+			$time = date('U',strtotime("midnight -1 month",time()));  // previous month also
+			$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".exponent_datetime_startOfDayTimestamp($time).$rsslimit);
 		}
 		$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
-		$Filename = preg_replace('/\s+/','',$title);
+		$Filename = preg_replace('/\s+/','',$title);  // without whitespace
 	}	
 
-//	$tz = date('O',time());
-//	$tz = substr($tz,0,3).":".substr($tz,3,2);
+	$search = array ('/"/',
+					 '/,/',
+					 '/\n/',
+					 '/\r/',
+					 '/:/',
+					 '/;/',
+					 '/\\//');                    // evaluate as php
+
+	$replace = array ('\"',
+					 '\\,',
+					 '\\n',
+					 '',
+					 '\:',
+					 '\\;',
+					 '\\\\');
+
 //	$tz = "America/New_York";
 	$tz = DISPLAY_DEFAULT_TIMEZONE;
-//	$localTimezone = new DateTimeZone($tz);
-//	$gmtTimezone = new DateTimeZone('GMT');
-	$msg = "BEGIN:VCALENDAR\015\012";
-	$msg .= "VERSION:2.0\015\012";
-	$msg .= "CALSCALE:GREGORIAN\015\012";
-	$msg .= "METHOD: PUBLISH\015\012";  
-	$msg .= "PRODID:<-//ExponentCMS//EN>\015\012";
-	$msg .= "X-PUBLISHED-TTL:PT".$config->rss_cachetime."M\015\012";
-	$msg .= "X-WR-CALNAME:$Filename\015\012";
-//	$msg .= "TZ: $tz\015\012";
-	// $msg .= "X-WR-TIMEZONE:$tz\015\012";
-	// $msg .= "BEGIN:VTIMEZONE\015\012";
-	// $msg .= "TZID:$tz\015\012";
-	// $msg .= "X-LIC-LOCATION:$tz\015\012";
-	// $msg .= "BEGIN:DAYLIGHT\015\012";
-	// $msg .= "TZOFFSETFROM:-0500\015\012";
-	// $msg .= "TZOFFSETTO:-0400\015\012";
-	// $msg .= "TZNAME:EDT\015\012";
-	// $msg .= "DTSTART:19700308T020000\015\012";
-	// $msg .= "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\015\012";
-	// $msg .= "END:DAYLIGHT\015\012";
-	// $msg .= "BEGIN:STANDARD\015\012";
-	// $msg .= "TZOFFSETFROM:-0400\015\012";
-	// $msg .= "TZOFFSETTO:-0500\015\012";
-	// $msg .= "TZNAME:EST\015\012";
-	// $msg .= "DTSTART:19701101T020000\015\012";
-	// $msg .= "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\015\012";
-	// $msg .= "END:STANDARD\015\012";
-	// $msg .= "END:VTIMEZONE\015\012";
+	$msg = "BEGIN:VCALENDAR\n";
+	$msg .= "VERSION:2.0\n";
+	$msg .= "CALSCALE:GREGORIAN\n";
+	$msg .= "METHOD: PUBLISH\n";  
+	$msg .= "PRODID:<-//ExponentCMS//EN>\n";
+	$msg .= "X-PUBLISHED-TTL:PT".$config->rss_cachetime."M\n";
+	$msg .= "X-WR-CALNAME:$Filename\n";
 	
 	$items = calendarmodule::_getEventsForDates($dates);
 
 	for ($i = 0; $i < count($items); $i++) {
 
-		//FJD - Goofy-ass daylight savings time hack.  Should be improved at some point.
-		//need to do some comparisons on the timestamp and value returned from strftime and adjust accordingly up or down 
-		//to correct output.  This will still cause one display bug: if your times are within an hour of the change in one
-		//direction, it will display incorrectly.  
-		//US does the switch at 2AM, European union at 1AM.
-		
-		//get interger for hours from eventstart and end divided by 3600, then
-		//get interger for hour of time returned from strtime, which should take DST from locale into consideration, 
-		//(so our data should be portable).  If they are off, then create the adjustment +/- and correct
-		//eventstart and eventend
-		// $timeHourStart =  intval($items[$i]->eventstart / 3600);
-		// $strHourStart = intval(strftime("%H", $eventdate->date + $items[$i]->eventstart));
-		// $timeHourEnd =  intval($items[$i]->eventend / 3600);
-		// $strHourEnd = intval(strftime("%H", $eventdate->date + $items[$i]->eventend));
-		
-		// $adjustStart = (($timeHourStart - $strHourStart) * 3600); //could be + or - or 0 (most of the time);
-		// $adjustEnd = (($timeHourEnd - $strHourEnd) * 3600); //could be + or - or 0 (most of the time);
-		
-		// $items[$i]->eventstart += ($eventdate->date + $adjustStart); 
-		// $items[$i]->eventend += ($eventdate->date + $adjustEnd); 
-	//	$title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
-
-//		$dtend = "";
 		$eventstart = new DateTime(date('r',$items[$i]->eventstart),new DateTimeZone($tz));
 		$eventstart->setTimezone(new DateTimeZone('GMT')); 
 		$eventend = new DateTime(date('r',$items[$i]->eventend),new DateTimeZone($tz));
 		$eventend->setTimezone(new DateTimeZone('GMT')); 
 		if ($items[$i]->is_allday) {
-			$dtstart = "DTSTART;VALUE=DATE:" . date("Ymd", $items[$i]->eventstart) . "\015\012";			
-			$dtend = "DTEND;VALUE=DATE:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "\015\012";			
-//			$dtstart = "DTSTART;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", $items[$i]->eventstart) . "T000000\015\012";
-//			$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", $items[$i]->eventstart) . "T235959\015\012";
-//			$dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "T000000\015\012";
+			$dtstart = "DTSTART;VALUE=DATE:" . date("Ymd", $items[$i]->eventstart) . "\n";			
+			$dtend = "DTEND;VALUE=DATE:" . date("Ymd", strtotime("midnight +1 day",$items[$i]->eventstart)) . "\n";			
 		} else {
-			// $dtstart = "DTSTART;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
-			// if($items[$i]->eventend) {
-				// $dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventend) . "\015\012";
-			// } else {
-				// $dtend = "DTEND;TZID=$tz;VALUE=DATE-TIME:" . date("Ymd\THi00", $items[$i]->eventstart) . "\015\012";
-			// }
-			$dtstart = "DTSTART;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\015\012";
+			$dtstart = "DTSTART;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\n";
 			if($items[$i]->eventend) {
-				$dtend = "DTEND;VALUE=DATE-TIME:" . $eventend->format("Ymd\THi00") . "Z\015\012";
+				$dtend = "DTEND;VALUE=DATE-TIME:" . $eventend->format("Ymd\THi00") . "Z\n";
 			} else {
-				$dtend = "DTEND;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\015\012";
+				$dtend = "DTEND;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\n";
 			}
 		}
 		// remove all formatting from body text
-		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
-		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
+//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","\r","\n"),"\r\n",$items[$i]->body)));
+//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
+//		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
+		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"), "\n",$items[$i]->body)));
+		$body = str_replace(array("\r"), "", $body);
+		$body = str_replace(array("&#160;"), " ", $body);
+		$body = str_replace(array("\n"), "=0D=0A", $body);
+
+		// $body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
+		// $body = preg_replace($search, $replace, $body);
+		// $body = wordwrap($body);
+		// $body = str_replace("\n","\n  ",$body);
+
+//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
+//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\n",$items[$i]->body)));
+//		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
+//		$body = str_replace(array("\r"), "=0D=0A=", $body);
+//		$body = str_replace(array("\r","\n"), "\r\n", $body);
+
 		$title = $items[$i]->title;
 
-		$msg .= "BEGIN:VEVENT\015\012";
+		$msg .= "BEGIN:VEVENT\n";
 		$msg .= $dtstart . $dtend;
-		$msg .= "UID:" . $items[$i]->eventdate->id . "\015\012";
-		$msg .= "DTSTAMP:" . date("Ymd\THis", time()) . "Z\015\012";
-		if($title) { $msg .= "SUMMARY:$title\015\012";}
-		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:$body\015\012";}
-	//	if($link_url) { $msg .= "URL: $link_url\015\012";}
-	//	if ($topic_id) { $msg .= "CATEGORIES: APPOINTMENT;$topic[$topic_id]\015\012";}
-		$msg .= "END:VEVENT\015\012";      
+		$msg .= "UID:" . $items[$i]->eventdate->id . "\n";
+		$msg .= "DTSTAMP:" . date("Ymd\THis", time()) . "Z\n";
+		if($title) { $msg .= "SUMMARY:$title\n";}
+		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:$body\n";}
+//		if($body) { $msg .= "DESCRIPTION:$body\n";}
+	//	if($link_url) { $msg .= "URL: $link_url\n";}
+	//	if ($topic_id) { $msg .= "CATEGORIES: APPOINTMENT;$topic[$topic_id]\n";}
+		$msg .= "END:VEVENT\n";      
 	}
 	$msg .= "END:VCALENDAR";			
 
