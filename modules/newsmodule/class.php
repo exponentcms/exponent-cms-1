@@ -25,7 +25,6 @@ class newsmodule {
 	function hasContent() { return true; }
 	function hasSources() { return true; }
 	function hasViews()   { return true; }
-	function getRSSType() { return "news"; }
 	
 	function supportsWorkflow() { return true; }
 

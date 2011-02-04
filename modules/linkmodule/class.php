@@ -26,7 +26,6 @@ class linkmodule {
 	function hasSources() { return true; }
 	function hasContent() { return true; }
 	function hasViews() { return true; }
-	function getRSSType() { return "links"; }
 	
 	function supportsWorkflow() { return false; }
 	
