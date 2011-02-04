@@ -47,7 +47,7 @@ class resourcesmodule_config {
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->rss_limit = 25;
-			$object->rss_cachetime = 24;
+			$object->rss_cachetime = 1440;
 			$object->require_agreement = 0;
 			$object->agreement_body = "";
 		} else {

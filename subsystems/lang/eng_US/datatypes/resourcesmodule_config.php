@@ -21,7 +21,7 @@ return array(
 	'enter_confidentiality_agreement'=>'Enter Confidentiality Agreement',
 	'podcasting_configuration'=>'Podcasting Configuration',
 	'enable_rss'=>'Enable Podcasting?',
-    'rss_cachetime'=>'Recommended RSS feed update interval in hours',
+    'rss_cachetime'=>'Recommended RSS feed update interval in minutes (1440 = 1 day)',
     'rss_limit'=>'Maximum number of RSS items to publish (0 = all)',
 	'podcast_title'=>'Podcast Title',
 	'podcast_description'=>'Podcast Description',

@@ -18,7 +18,7 @@ class linkmodule_config {
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->rss_limit = 25;
-			$object->rss_cachetime = 24;
+			$object->rss_cachetime = 1440;
 			$object->sort = 'asc_name';
 		} else {
 			switch ($object->orderhow) {

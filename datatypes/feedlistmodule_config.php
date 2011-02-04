@@ -42,7 +42,7 @@ class feedlistmodule_config {
             $object->enable_rss = false;
             $object->feed_title = "";
             $object->feed_desc = "";           
-			$object->rss_cachetime = 24;
+			$object->rss_cachetime = 1440;
 		} else {
             $form->meta("id",$object->id);
         }

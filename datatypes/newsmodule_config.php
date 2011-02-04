@@ -49,7 +49,7 @@ class newsmodule_config {
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->rss_limit = 25;
-			$object->rss_cachetime = 24;
+			$object->rss_cachetime = 1440;
 		} else {
 			$cols = unserialize($object->collections);
 			$object->collections = array();
