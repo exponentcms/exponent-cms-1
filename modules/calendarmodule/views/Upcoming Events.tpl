@@ -25,10 +25,11 @@
 		&nbsp;&nbsp;|&nbsp;&nbsp;{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
 	</div>
 	<h2>
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if}
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
+		<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
 	</h2>
 	<dl class="viewweek">
 	{foreach from=$items item=item}
