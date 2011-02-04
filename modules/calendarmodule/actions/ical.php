@@ -62,6 +62,7 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	$msg .= "CALSCALE:GREGORIAN\015\012";
 	$msg .= "METHOD: PUBLISH\015\012";  
 	$msg .= "PRODID:<-//ExponentCMS//EN>\015\012";
+	$msg .= "X-PUBLISHED-TTL:PT".$config->rss_cachetime."M\015\012";
 	$msg .= "X-WR-CALNAME:$Filename\015\012";
 //	$msg .= "TZ: $tz\015\012";
 	$msg .= "X-WR-TIMEZONE:$tz\015\012";
