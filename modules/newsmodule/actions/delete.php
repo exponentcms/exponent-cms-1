@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -33,7 +33,8 @@ if ($news != null) {
 		$db->delete("newsitem","id=" . $_GET['id']);
 		$db->delete("newsitem_wf_info","real_id=".$_GET['id']);
 		$db->delete("newsitem_wf_revision","wf_original=".$_GET['id']);
-		
+		//Delete search entries
+		$db->delete('search',"ref_module='newsmodule' AND ref_type='newsitem' AND original_id=".$item->id);		
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
