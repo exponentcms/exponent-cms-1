@@ -30,6 +30,8 @@ if (!defined("EXPONENT")) exit("");
 		if (exponent_permissions_check("edit",$loc)) {
 			$db->delete('link', 'id='.$_GET['id']);
 			$db->decrement('link', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$link->rank." AND category_id=".$link->category_id);
+			//Delete search entries
+			$db->delete('search',"ref_module='linkmodule' AND ref_type='link' AND original_id=".$link->id);
 			exponent_flow_redirect();
 		} else {
 			echo SITE_403_HTML;

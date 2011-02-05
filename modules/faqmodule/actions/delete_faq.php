@@ -45,6 +45,8 @@ if (!defined("EXPONENT")) exit("");
 		if (exponent_permissions_check("manage",$loc)) {
 			$db->delete('faq', 'id='.$_GET['id']);
 			$db->decrement('faq', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$qna->rank." AND category_id=".$qna->category_id);
+			//Delete search entries
+			$db->delete('search',"ref_module='faqmodule' AND ref_type='faq' AND original_id=".$qna->id);
 			exponent_flow_redirect();
 		} else {
 			echo SITE_403_HTML;
