@@ -34,7 +34,7 @@ if (exponent_permissions_check('edit',$loc)) {
 	} else {
 		$db->insertObject($youtube,'youtube');
 	}
-
+	youtubemodule::spiderContent($youtube);
 	exponent_flow_redirect();	
 } else {
 	echo SITE_403_HTML;
