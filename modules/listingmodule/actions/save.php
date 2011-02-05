@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -35,8 +35,6 @@ if (exponent_permissions_check('edit',$loc)) {
 		$db->insertObject($listingconfig,'listingmodule_config');
 	}
 	exponent_flow_redirect();
-	// if (!defined('SYS_WORKFLOW')) include_once(BASE.'subsystems/workflow.php');
-	// exponent_workflow_post($listingconfig,'listingmodule_config',$loc);
 } else {
 	echo SITE_403_HTML;
 }

@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: class.php,v 1.8 2005/07/01 05:19:56 filetreefrog Exp $
 ##################################################
 
 class listingmodule {
@@ -71,25 +70,54 @@ class listingmodule {
 			$config->orderby = 'name';
 			$config->orderhow = 0; // Ascending
          	$itemsperpage = 10;
-		} else {
-			$itemsperpage = isset($config->items_perpage) ? $config->items_perpage : 10;
+			$config->recalc = 0; // No need to recalculate, no categories
+		} else  if ($config->recalc == 1) {
+			// We need to recaculate the rankings.
+			if ($config->enable_categories == 1) {
+				// Recalc, keeping in mind the category structure.
+				$cats = $db->selectObjects('category',"location_data='".serialize($loc)."'");
+				$c = null;
+				$c->id = 0;
+				$cats[] = $c;
+				foreach ($cats as $c) {
+					// Loop over each category.
+					$rank = 0;
+					foreach ($db->selectObjects('listing',"location_data='".serialize($loc)."' AND category_id=".$c->id) as $listing) {
+						$listing->rank = $rank;
+						$db->updateObject($listing,'listing');
+						$rank++;
+					}
+				}
+			} else {
+				// Recaculate blindly, ignoring categories.
+				$listings = $db->selectObjects('listing',"location_data='".serialize($loc)."'");
+				usort($listings, 'exponent_sorting_byRankAscending');
+				$rank = 0;
+				foreach ($listings as $listing) {
+					$listing->rank = $rank;
+					$listing->category_id = 0;
+					$db->updateObject($listing,'listing');
+					$rank++;
+				}
+			}
+			$config->recalc = 0;
+			$db->updateObject($config,'listingmodule_config',"location_data='".serialize($loc)."'");
 		}
+
+		$itemsperpage = isset($config->items_perpage) ? $config->items_perpage : 10;
 		
 		switch ($config->orderhow) {
 			// Four options, alphabetical, ascending and descending, by user selected rank, and random
 			case 0:
-				//usort($listings,'exponent_sorting_byNameAscending');
 //				$orderby = ' ORDER BY name ASC ';
 				$sortby = 'exponent_sorting_byNameAscending';
 				break;
 			case 1:
-				//usort($listings,'exponent_sorting_byNameDescending');
 //				$orderby = ' ORDER BY name DESC ';
 				$sortby = 'exponent_sorting_byNameDescending';
 				break;
 			case 2:
             //sort the listings by their rank
-				//usort($listings, 'exponent_sorting_byRankAscending');
 //				$orderby = ' ORDER BY rank ASC ';
 				$sortby = 'exponent_sorting_byRankAscending';
             break;

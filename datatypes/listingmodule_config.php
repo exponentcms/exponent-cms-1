@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: listingmodule_config.php,v 1.3 2005/04/25 19:02:16 filetreefrog Exp $
 ##################################################
 
 class listingmodule_config {
@@ -103,7 +102,7 @@ class listingmodule_config {
 				break;
 		}
 		$object->orderby = $toks[1];
-
+		$object->recalc = 1;
 		return $object;
 	}
 }

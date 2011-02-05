@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: listing.php,v 1.4 2005/05/10 18:32:30 filetreefrog Exp $
 ##################################################
 if (!defined('EXPONENT')) exit('');
 

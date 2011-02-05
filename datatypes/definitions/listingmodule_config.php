@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: listingmodule_config.php,v 1.3 2005/02/19 16:53:34 filetreefrog Exp $
 ##################################################
 if (!defined('EXPONENT')) exit('');
 
@@ -51,7 +50,9 @@ return array(
 	'orderhow'=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
   	'items_perpage'=>array(
-		DB_FIELD_TYPE=>DB_DEF_INTEGER)
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	"recalc"=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 
 ?>

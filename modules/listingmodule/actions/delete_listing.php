@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: delete_listing.php,v 1.2 2005/02/19 16:53:35 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
@@ -50,9 +49,11 @@ if ($listing) {
         $db->delete('file','id='.$file->id);
       }
 		$db->delete('listing', 'id='.$_GET['id']);
-		$db->decrement('listing', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$listing->rank);
+		$db->decrement('listing', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$listing->rank." AND category_id=".$listing->category_id);
 		$db->delete("listing_wf_info","real_id=".$_GET['id']);
 		$db->delete("listing_revision","wf_original=".$_GET['id']);		
+		//Delete search entries
+		$db->delete('search',"ref_module='listingmodule' AND ref_type='listing' AND original_id=".$listing->id);
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;

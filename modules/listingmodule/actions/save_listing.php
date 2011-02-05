@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,7 +28,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: save_listing.php,v 1.4 2005/04/12 16:06:11 filetreefrog Exp $
 ##################################################
 
 if (!defined('EXPONENT')) exit('');
@@ -36,13 +35,18 @@ if (!defined('EXPONENT')) exit('');
 $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php');
 
 	$listing = null;
+	if (isset($_POST['categories'])) {
+		$cat = $_POST['categories'];
+	} else {
+		$cat = 0;
+	}
 	if (!empty($_POST['id'])) {
 		$listing = $db->selectObject('listing', 'id='.$_POST['id']);
 		if ($listing != null) {
 			$loc = unserialize($listing->location_data);
 		}
 	} else {
-		$listing->rank = $db->max('listing', 'rank', 'location_data', "location_data='".serialize($loc)."'");
+		$listing->rank = $db->max('listing', 'rank', 'location_data', "location_data='".serialize($loc)."' AND category_id=".$cat);
 		if ($listing->rank == null) {
 			$listing->rank = 0;
 		} else {
@@ -79,6 +83,7 @@ $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php')
 			}
 		}
 
+		$oldcatid = $listing->category_id;
 		$listing = listing::update($_POST, $listing);
 		$listing->location_data = serialize($loc);
 		if ($file != null) {
@@ -88,10 +93,16 @@ $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php')
 				$listing->file_id = 0;
 			}
 		}
-		if (isset($_POST['categories'])) {
-			$listing->category_id = $_POST['categories'];
-		}
-		
+		$listing->category_id = $cat;
+		if (($oldcatid != $listing->category_id) && isset($listing->id)) {
+			$db->decrement('listing', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$listing->rank." AND category_id=".$oldcatid);
+			$listing->rank = $db->max('listing', 'rank', 'location_data', "location_data='".serialize($loc)."' AND category_id=".$listing->category_id);
+			if ($listing->rank == null) {
+				$listing->rank = 0;
+			} else { 
+				$listing->rank += 1;
+			}
+		}		
 		// if (isset($listing->id)) {
 			// $db->updateObject($listing,'listing');
 		// } else {
@@ -104,6 +115,5 @@ $i18n = exponent_lang_loadFile('modules/listingmodule/actions/save_listing.php')
 	} else {
 		echo SITE_403_HTML;
 	}
-
 
 ?>

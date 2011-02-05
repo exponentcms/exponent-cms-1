@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # Copyright (c) 2007 ACYSOS S.L. by Ignacio Ibeas
 #
@@ -30,7 +30,6 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: view.php,v 1.5 2005/02/24 20:14:14 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");

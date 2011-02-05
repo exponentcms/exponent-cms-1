@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,24 +28,12 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: rank_switch.php,v 1.2 2005/02/19 16:53:35 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check("manage",$loc)) {
-	
-/*	$action_a = $db->selectObject("listing","location_data='".serialize($loc)."' AND rank=".$_GET['a']);
-	$action_b = $db->selectObject("listing","location_data='".serialize($loc)."' AND rank=".$_GET['b']);
-	
-	$action_a->rank = $_GET['b'];
-	$action_b->rank = $_GET['a'];
-	
-	$db->updateObject($action_a,"listing");
-	$db->updateObject($action_b,"listing"); */
-	
-	$db->switchValues('listing', 'rank', $_GET['a'], $_GET['b'], "location_data='".serialize($loc)."'");
-	
+	$db->switchValues('listing','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']);
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
