@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -112,7 +112,7 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 			$eventdate->date = exponent_datetime_startOfDayTimestamp(yuicalendarcontrol::parseData("eventdate",$_POST));
 			$db->updateObject($eventdate,'eventdate');
 		}
-		calendarmodule::spiderContent($item);
+//		calendarmodule::spiderContent($item);
 	} else {
 		exponent_forms_initialize();
 		//$start_recur = exponent_datetime_startOfDayTimestamp(popupdatetimecontrol::parseData("eventdate",$_POST));
@@ -161,11 +161,11 @@ if (($item == null && exponent_permissions_check("post",$loc)) ||
 			$edate->date = $d;
 			$db->insertObject($edate,"eventdate");
 		}
-		calendarmodule::spiderContent($item);
+//		calendarmodule::spiderContent($item);
 	}
 
 	exponent_workflow_post($item,'calendar',$loc);
-	exponent_flow_redirect();
+//	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
 }
