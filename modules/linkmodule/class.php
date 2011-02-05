@@ -58,7 +58,40 @@ class linkmodule {
 			$config->open_in_a_new_window=1;
 			$config->enable_rss = false;
 			$config->enable_rss_categories = false;
+			$config->recalc = 0; // No need to recalculate, no categories
+		} else  if ($config->recalc == 1) {
+			// We need to recaculate the rankings.
+			if ($config->enable_categories == 1) {
+				// Recalc, keeping in mind the category structure.
+				$cats = $db->selectObjects('category',"location_data='".serialize($loc)."'");
+				$c = null;
+				$c->id = 0;
+				$cats[] = $c;
+				foreach ($cats as $c) {
+					// Loop over each category.
+					$rank = 0;
+					foreach ($db->selectObjects('link',"location_data='".serialize($loc)."' AND category_id=".$c->id) as $link) {
+						$link->rank = $rank;
+						$db->updateObject($link,'link');
+						$rank++;
+					}
+				}
+			} else {
+				// Recaculate blindly, ignoring categories.
+				$links = $db->selectObjects('link',"location_data='".serialize($loc)."'");
+				usort($links, 'exponent_sorting_byRankAscending');
+				$rank = 0;
+				foreach ($links as $link) {
+					$link->rank = $rank;
+					$link->category_id = 0;
+					$db->updateObject($link,'link');
+					$rank++;
+				}
+			}
+			$config->recalc = 0;
+			$db->updateObject($config,'linkmodule_config',"location_data='".serialize($loc)."'");
 		}
+		
 		if($config->open_in_a_new_window==1)
 			$template->assign("target","_blank");
 		else
@@ -67,16 +100,13 @@ class linkmodule {
 		switch ($config->orderhow) {
 			// Four options, ascending, descending, by user selected rank, and random
 			case 0:
-				//usort($listings,'exponent_sorting_byNameAscending');
 				$sortFunc = 'exponent_sorting_byNameAscending';
 				break;
 			case 1:
-				//usort($listings,'exponent_sorting_byNameDescending');
 				$sortFunc = 'exponent_sorting_byNameDescending';
 				break;
 			case 2:
 				//sort the listings by their rank
-				//usort($listings, 'exponent_sorting_byRankAscending');
 				$sortFunc = 'exponent_sorting_byRankAscending';
 				break;
 			case 3:
@@ -187,7 +217,7 @@ class linkmodule {
 		// Prepare arrays
 		$data = array();
 		foreach($categories as $id=>$category) {
-			$data[$id]=array();   // I did'nt find a better method to order $data[] like $categories[]
+			$data[$id]=array();   // I didn't find a better method to order $data[] like $categories[]
 		}
 		// Get links
 		$links = $db->selectObjects("link","location_data='".serialize($loc)."' ");
@@ -204,7 +234,6 @@ class linkmodule {
 		}
 		// Sort links
 		foreach ($categories as $id=>$category) {
-//			usort($data[$id], "exponent_sorting_byNameAscending");
 			usort($data[$id], $sortFunc);
 		}
 		return($data);
@@ -219,7 +248,6 @@ class linkmodule {
 		$links = $db->selectObjects("link","location_data='".serialize($loc)."' ");
 		usort($links, $sortFunc);
 		$data[0]=$links;
-//		usort($data[0], "exponent_sorting_byNameAscending");
 
 		return($data);
    }

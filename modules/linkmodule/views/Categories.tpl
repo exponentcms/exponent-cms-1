@@ -35,14 +35,18 @@
 					{/if}
 					{if $orderhow == 2}
 						{if $smarty.foreach.links.first == 0}
-							<a href="{link action=rank_switch a=$link->rank b=$prev id=$link->id}">			
+							<a href="{link action=rank_switch a=$link->rank b=$prev id=$link->id category_id=$catid}}">			
 								<img src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_previous}" alt="{$_TR.alt_previous}" />
 							</a>
+						{else}
+							<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 						{/if}
 						{if $smarty.foreach.links.last == 0}
-							<a href="{link action=rank_switch a=$next b=$link->rank id=$link->id}">
+							<a href="{link action=rank_switch a=$next b=$link->rank id=$link->id category_id=$catid}}">
 								<img src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_next}" alt="{$_TR.alt_next}" />
 							</a>
+						{else}
+							<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 						{/if}
 					{/if}
 				</div>
@@ -67,14 +71,16 @@
 </ul>
 
 {permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.edit == 1}
-    <a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
-{/if}
-{if $permissions.import == 1}
-    {br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
-{/if}
-{if ($permissions.manage_categories == 1 && $enable_categories == 1)}
-	{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
-{/if}
+	<div class="itemactions">							
+		{if $permissions.edit == 1}
+			<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
+		{/if}
+		{if $permissions.import == 1}
+			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
+		{/if}
+		{if ($permissions.manage_categories == 1 && $enable_categories == 1)}
+			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
+		{/if}
+	</div>
 {/permissions}
 </div>

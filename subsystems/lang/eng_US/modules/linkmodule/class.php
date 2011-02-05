@@ -9,7 +9,7 @@ return array(
 	'perm_edit'=>'Edit links',
 	'perm_import'=>'Import links',
 	'perm_configure'=>'Configure',
-   'perm_manage_categories'=>'Manage categories',	
+	'perm_manage_categories'=>'Manage categories',	
 	'search_post_type'=>'Links',
 );
 

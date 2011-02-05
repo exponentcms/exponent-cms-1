@@ -35,13 +35,17 @@ if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check("configure",$loc)) {
 
-//	$db->switchValues('link', 'rank', intval($_GET['a']), intval($_GET['b']), "location_data='".serialize($loc)."'");
+//	$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."'");
+//	$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']);
 	
-	$object_a = $db->selectObject('link',"rank='".$_GET['a']."' AND location_data='".serialize($loc)."'");
-	$object_b = $db->selectObject('link',"rank='".$_GET['b']."' AND location_data='".serialize($loc)."'");
+	// $object_a = $db->selectObject('link',"rank='".$_GET['a']."' AND location_data='".serialize($loc)."'");
+	// $object_b = $db->selectObject('link',"rank='".$_GET['b']."' AND location_data='".serialize($loc)."'");
+	$object_a = $db->selectObject("link","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['a']);
+	$object_b = $db->selectObject("link","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['b']);
+	
 
 	if ($object_a && $object_b) {
-		$db->switchValues('link','rank',$_GET['a'],$_GET['b'],"location_data='".serialize($loc)."'");
+		$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."'");
 	} else {
 		if ($object_a) {
 			$object_a->rank = $_GET['b'];

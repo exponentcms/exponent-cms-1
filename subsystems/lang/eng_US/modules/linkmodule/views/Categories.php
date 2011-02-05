@@ -8,7 +8,9 @@ return array(
 	'alt_edit'=>'Edit this link',
 	'alt_delete'=>'Delete this link',
 	'alt_previous'=>'Move this link Up',
+	'alt_up_disabled'=>'Move up disabled',
 	'alt_next'=>'Move this link Down',
+	'alt_down_disabled'=>'Move down disabled',
 	'alt_rss'=>'Subscribe to this link manager',
 
 	'delete_confirm'=>'Are you sure you want to delete this link?',

@@ -61,7 +61,6 @@ class linkmodule_config {
 		$form->register('rss_categories',$i18n['rss_categories'], new checkboxcontrol($object->rss_categories));
 		$form->register('rss_add_category_name',$i18n['rss_add_category_name'], new checkboxcontrol($object->rss_add_category_name));
 		$form->register('enable_rss_categories',$i18n['enable_rss_categories'], new checkboxcontrol($object->enable_rss_categories));
-
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
@@ -93,7 +92,7 @@ class linkmodule_config {
 		$object->feed_desc = $values['feed_desc'];
 		$object->rss_cachetime = $values['rss_cachetime'];
 		$object->rss_limit = $values['rss_limit'];
-
+		$object->recalc = 1;
 		return $object;
 	}
 }

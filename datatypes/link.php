@@ -23,7 +23,6 @@ class link {
 		$form->register('opennew',$i18n['opennew'],new checkboxcontrol($object->opennew,true));
 		$form->register("description",$i18n['description'],new texteditorcontrol($object->description,5,60));
 		$form->register("submit","",new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
-		
 		exponent_forms_cleanup();
 		return $form;
 	}
@@ -33,7 +32,6 @@ class link {
 		$object->url = $values['url'];
 		$object->opennew = (isset($values['opennew']) ? 1 : 0);
 		$object->description = $values['description'];
-		
 		return $object;
 	}
 }

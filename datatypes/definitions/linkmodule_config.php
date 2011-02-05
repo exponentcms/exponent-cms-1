@@ -37,6 +37,8 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),  
 	"enable_categories"=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),		
+	"recalc"=>array(
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN)
 );
 
 ?>
