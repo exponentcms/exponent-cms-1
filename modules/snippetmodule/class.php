@@ -103,6 +103,7 @@ class snippetmodule {
 	}
 	
 	function spiderContent($item=null) {
+// done in navigation module	
 		/*	
 		global $db;
 		
@@ -130,13 +131,13 @@ class snippetmodule {
 				$db->insertObject($search,'search');
 			}
 		}
-		
-		return true;
-		*/
+
+		*/		
+		return true;  // provide comfort factor for spider site
 	}
 	
 	function searchName() {
-		return "Other web pages";
+//		return "Other web pages";
 	}
 }
 

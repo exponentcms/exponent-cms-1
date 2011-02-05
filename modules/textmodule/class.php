@@ -83,11 +83,12 @@ class textmodule {
 		$template->assign('moduletitle',$title);
 		
 		$template->register_permissions(array('administrate','edit','approve','manage_approval'),$loc);
-	    unset($textitem);	
+	    unset($textitem);
 		$template->output($view);
 	}
 	
 	function spiderContent($item=null) {
+// now done in navigation module
 		/*	
 		global $db;
 		
@@ -116,12 +117,12 @@ class textmodule {
 			}
 		}
 		
-		return true;
-		*/
+		*/		
+		return true;  // provide comfort factor for spider site
 	}
 	
 	function searchName() {
-		return "Text on web pages";
+//		return "Text on web pages";
 	}
 }
 

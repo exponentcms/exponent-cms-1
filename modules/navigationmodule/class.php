@@ -217,8 +217,8 @@ class navigationmodule {
 	}
 
 	function searchName() {
-                return "Page names and meta tags";
-        }
+		return "Page names and text";
+	}
 
 	/*
 	 * Retrieve either the entire hierarchy, or a subset of the hierarchy, as an array suitable for use

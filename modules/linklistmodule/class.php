@@ -73,16 +73,16 @@ class linklistmodule {
 				usort($links,'exponent_sorting_byNameDescending');
 				break;
 			case 2:
-				shuffle($links);
-				break;
-			case 3:
 				//sort the listings by their rank
 				usort($links, 'exponent_sorting_byRankAscending');
 				break;
+			case 3:
+				shuffle($links);
+				break;
 		}
 
-
 		$template = new template('linklistmodule',$view,$loc);
+		$template->assign('orderhow', $config->orderhow);
 		$template->assign('links',$links);
 		$template->assign('moduletitle',$title);
 		$template->register_permissions(array('administrate','configure','create','edit','delete'),$loc);
@@ -102,7 +102,7 @@ class linklistmodule {
 	}
 
 	function searchName() {
-		return 'Web Links';
+		return 'Link Lists';
 	}
 
 	function spiderContent($item = null) {
