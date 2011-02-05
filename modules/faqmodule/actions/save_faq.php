@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,19 +28,23 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: save_faq.php,v 1.4 2005/02/19 16:53:35 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
 
 	$qna = null;		
+	if (isset($_POST['categories'])) {
+		$cat = $_POST['categories'];
+	} else {
+		$cat = 0;
+	}
 	if (isset($_POST['id'])) {
 		$qna = $db->selectObject('faq', 'id='.$_POST['id']);
 		if ($qna != null) {
 			$loc = unserialize($qna->location_data);
 		} 
 	} else {
-		$qna->rank = $db->max('faq', 'rank', 'location_data', "location_data='".serialize($loc)."'");
+		$qna->rank = $db->max('faq', 'rank', 'location_data', "location_data='".serialize($loc)."' AND category_id=".$cat);
 		if ($qna->rank == null) {
 			$qna->rank = 0;
 		} else { 
@@ -52,23 +56,25 @@ if (!defined("EXPONENT")) exit("");
 		$oldcatid = $qna->category_id;
 		$qna = faq::update($_POST, $qna);
 		$qna->location_data = serialize($loc);
-		if (isset($_POST['categories'])) {
-			$qna->category_id = $_POST['categories'];
+		$qna->category_id = $cat;
+		if (($oldcatid != $qna->category_id) && isset($qna->id)) {
+			$db->decrement('faq', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$qna->rank." AND category_id=".$oldcatid);
+			$qna->rank = $db->max('faq', 'rank', 'location_data', "location_data='".serialize($loc)."' AND category_id=".$qna->category_id);
+			if ($qna->rank == null) {
+				$qna->rank = 0;
+			} else { 
+				$qna->rank += 1;
+			}
 		}
 		if (isset($qna->id)) {
 			$db->updateObject($qna,"faq");
 		} else {
 			$db->insertObject($qna,"faq");
 		}		
-		
-		if ($oldcatid != $qna->category_id) {
-			$db->decrement('faq', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$qna->rank." AND category_id=".$qna->category_id);
-		}
-		
+		faqmodule::spiderContent($qna);
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
 	}
 	
-
 ?>

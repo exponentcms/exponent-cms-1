@@ -1,6 +1,6 @@
 {*
  *
- * Copyright (c) 2004-2005 James Hunt and the OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  *
  * This file is part of Exponent
  *
@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: Default.tpl,v 1.4 2005/03/13 18:57:53 filetreefrog Exp $
  *}
  
 <div class="faqmodule default">
@@ -37,13 +36,15 @@
 		{if $hasCategories != 0}
 			{if $categories[$catid]->name!=""}<a href="#cat{$catid}"><h4>{$categories[$catid]->name}</a></h4>{/if}
 		{/if}
-		<ul>
+		<ol>
 			{foreach name=a from=$qnas item=qna}
-				<li><a href="#{$qna->rank}">{$qna->question}</a></li>
+				<li><a href="#cat{$catid}q{$qna->rank}" title="{$qna->answer|summarize:"html":"para"}">{$qna->question}</a></li>
+			{foreachelse}
+				<i>{$_TR.no_entry}</i>				
 			{/foreach}
-		</ul>
+		</ol>
 	{/foreach}
-	<hr/>
+	{br}<hr/>
 	{foreach name=c from=$data key=catid item=qnas}
 
 		{if $hasCategories != 0}
@@ -85,8 +86,8 @@
 					{/permissions}
 				</div>
 				<div class="bodycopy">
-					<a name="{$qna->rank}"></a>
-					<h4>{$qna->question}</h4>
+					<a name="cat{$catid}q{$qna->rank}"></a>
+					<h4>Q{$smarty.foreach.a.iteration}. {$qna->question}</h4>
 					<div class="answer">
 						{$qna->answer}
 					</div>
