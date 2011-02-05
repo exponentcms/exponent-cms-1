@@ -33,18 +33,14 @@
 if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check("manage",$loc)) {
+	// $action_a = $db->selectObject("faq","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['a']);
+	// $action_b = $db->selectObject("faq","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['b']);
+	// $action_a->rank = $_GET['b'];
+	// $action_b->rank = $_GET['a'];
+	// $db->updateObject($action_a,"faq");
+	// $db->updateObject($action_b,"faq");
 
-//	$db->switchValues('faq','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']);
-	
-	$action_a = $db->selectObject("faq","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['a']);
-	$action_b = $db->selectObject("faq","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['b']);
-	
-	$action_a->rank = $_GET['b'];
-	$action_b->rank = $_GET['a'];
-	
-	$db->updateObject($action_a,"faq");
-	$db->updateObject($action_b,"faq");
-	
+	$db->switchValues('faq','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']);
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;

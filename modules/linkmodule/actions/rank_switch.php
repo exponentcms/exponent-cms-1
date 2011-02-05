@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2005 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 #
 # This file is part of Exponent
 #
@@ -28,34 +28,28 @@
 # Suite 330,
 # Boston, MA 02111-1307  USA
 #
-# $Id: rank_switch.php,v 1.2 2005/02/19 16:53:35 filetreefrog Exp $
 ##################################################
 
 if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check("configure",$loc)) {
-
-//	$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."'");
-//	$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']);
+	// $object_a = $db->selectObject("link","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['a']);
+	// $object_b = $db->selectObject("link","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['b']);
+	// if ($object_a && $object_b) {
+		// $db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."'");
+	// } else {
+		// if ($object_a) {
+			// $object_a->rank = $_GET['b'];
+			// $db->updateObject($object_a,'link');
+		// }
+		// if ($object_b) {
+			// $object_b->rank = $_GET['a'];
+			// $db->updateObject($object_b,'link');
+		// }
+	// }
+	//	$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."'");
 	
-	// $object_a = $db->selectObject('link',"rank='".$_GET['a']."' AND location_data='".serialize($loc)."'");
-	// $object_b = $db->selectObject('link',"rank='".$_GET['b']."' AND location_data='".serialize($loc)."'");
-	$object_a = $db->selectObject("link","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['a']);
-	$object_b = $db->selectObject("link","location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']." AND rank=".$_GET['b']);
-	
-
-	if ($object_a && $object_b) {
-		$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."'");
-	} else {
-		if ($object_a) {
-			$object_a->rank = $_GET['b'];
-			$db->updateObject($object_a,'link');
-		}
-		if ($object_b) {
-			$object_b->rank = $_GET['a'];
-			$db->updateObject($object_b,'link');
-		}
-	}	
+	$db->switchValues('link','rank',intval($_GET['a']),intval($_GET['b']),"location_data='".serialize($loc)."' AND category_id=".$_GET['category_id']);
 	exponent_flow_redirect();
 } else {
 	echo SITE_403_HTML;
