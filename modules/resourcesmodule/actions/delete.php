@@ -31,11 +31,11 @@ if ($resource != null) {
 			$db->delete('file','id='.$file->id);
 		}
 		$db->delete('resourceitem','id='.$resource->id);
-		$db->delete('resourceitem_wf_revision','wf_original='.$resource->id);
 		$db->decrement('resourceitem', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$resource->rank." AND category_id=".$resource->category_id);
+		$db->delete('resourceitem_wf_revision','wf_original='.$resource->id);
+		$db->delete("resourceitem_wf_info","real_id=".$_GET['id']);
 		//Delete search entries
 		$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=".$resource->id);
-		
 		exponent_sessions_clearAllUsersSessionCache('resourcesmodule');
 		exponent_flow_redirect(SYS_FLOW_SECTIONAL);
 	} else {
