@@ -29,8 +29,8 @@
  * $Id: Default.tpl,v 1.4 2005/03/13 18:57:53 filetreefrog Exp $
  *}
  
-<div class="faqmodule default">
-	<h2>{$moduletitle}</h2>
+<div class="faqmodule default-with-toc">
+	{if $moduletitle!=""}<h2>{$moduletitle}</h2>{/if}
 	<div style="margin: 25px 0px 45px 0px;">
 		<ul>
 			<a name="top"></a>
@@ -39,20 +39,15 @@
 			{/foreach}
 		</ul>
 	</div>
-	<br />
 	<table cellspacing="0" cellpadding="0" style="border:none;" width="100%">
 		{foreach name=c from=$data key=catid item=qnas}
 
-			{if $hasCategories != 0 && $catid != 0}
-			<tr><td><hr size="1"></td></tr>
-			<tr>
-				{if $categories[$catid]->name == ""}
-				<td colspan="2" class="category_title">Not Categorized</td>
-				{else}
-				<td colspan="2" class="category_title">{$categories[$catid]->name}</td>
-				{/if}
-			</tr>
-			<tr><td>&nbsp;</td></tr>
+			{if $hasCategories != 0}
+				<tr><td><hr size="1"></td></tr>
+				<tr>
+					<td colspan="2" class="category_title"><h3>{$categories[$catid]->name}</h3></td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
 			{/if}
 
 			{*
@@ -68,15 +63,15 @@
 					<td colspan="2"><hr size="1"></td></tr-->
 				<tr>
 					<td style="padding-left:1.5em" class="question">
-						<a name="{$qna->rank}" href="#top">{$qna->question}</a><br />
+						<h4><a name="{$qna->rank}" href="#top">{$qna->question}</a></h4>{br}
 					</td>
 					{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 						{if $permissions.configure == 1 or $permissions.administrate == 1}
 							<td align="right">
-								<a href="{link action=edit_faq id=$qna->id}" title="Edit this entry">
+								<a href="{link action=edit_faq id=$qna->id}" title="{$_TR.alt_edit}">
 									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 								</a>
-								<a href="{link action=delete_faq id=$qna->id}" title="Delete this entry">
+								<a href="{link action=delete_faq id=$qna->id}" onclick="return confirm('{$_TR.delete_confirm}');" title="{$_TR.alt_delete}">
 									<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 								</a>	
 								{if $smarty.foreach.a.first == 0}
@@ -101,7 +96,7 @@
 				</tr>
 				<tr>
 					<td style="padding-left:1.5em" colspan="2">
-						<b>A.</b>&nbsp;&nbsp;{$qna->answer}
+						{$qna->answer}
 					</td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
@@ -110,7 +105,7 @@
 			{foreachelse}
 				{ if ($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)}
 					<tr>
-						<td align="center"><i>No Questions or Answers were found for this FAQ.</i></td>
+						<td align="center"><i>&nbsp;&nbsp;{$_TR.no_entry}</i></td>
 					</tr>
 				{/if}
 			{/foreach}
@@ -120,12 +115,14 @@
 	</table>
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1}
-			<br />
-			<a href="{link action=edit_faq}">New FAQ Entry</a>
-			<br />
-			{if $config->enable_categories == 1}
-				<a href="{link module=categories action=manage orig_module=faqmodule}">Manage Categories</a>
-			{/if}
+			<div class="itemactions">
+				{br}
+				<a class="addfaq additem mngmntlink" href="{link action=edit_faq}">{$_TR.new_entry}</a>
+				{if $config->enable_categories == 1}
+					{br}
+					<a class="mngmntlink" href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
+				{/if}
+			</div>
 		{/if}
 	{/permissions}
 </div>

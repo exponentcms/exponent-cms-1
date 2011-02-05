@@ -113,11 +113,13 @@ class faqmodule {
 			$template->assign('hasCategories', 0);
 		}
 		
-		$c->name = $i18n['no_category'];
+//		$c->name = $i18n['no_category'];
+		$c->name = '';
 		$c->id = 0;
+		$c->rank = -1;
 		$c->color = "#000000";
-		uasort($cats, "exponent_sorting_byRankAscending");
 		$cats[0] = $c;
+		uasort($cats, "exponent_sorting_byRankAscending");
 		$template->assign('categories', $cats);
 		
 		$data = array();
@@ -129,7 +131,8 @@ class faqmodule {
 				$data[$id] = $tmp;
 			}
 		} else {
-			$tmp = $db->selectObjects("faq","location_data='".serialize($loc)."' AND category_id=0");
+//			$tmp = $db->selectObjects("faq","location_data='".serialize($loc)."' AND category_id=0");
+			$tmp = $db->selectObjects("faq","location_data='".serialize($loc)."'");
 			usort($tmp, "exponent_sorting_byRankAscending");
 			$data[0] = $tmp;
 		}

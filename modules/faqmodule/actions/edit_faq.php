@@ -46,20 +46,22 @@ if (exponent_permissions_check('manage',$loc)) {
 	if ($config == null) {
 		$config->enable_categories = 0;
 	}
+
+	$i18n = exponent_lang_loadFile('modules/faqmodule/actions/edit_faq.php');
+
 	$form = faq::form($qna);
 	$form->location($loc);
 	$form->meta('action','save_faq');
 			
 	$template = new template('faqmodule','_form_editfaq',$loc);
 	if ($config->enable_categories) {
-		$allcats = $db->selectObjects('category', "location_data='".serialize($loc)."'");
-		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
-		usort($allcats, 'exponent_sorting_byRankAscending');
-		$catarray = array();
-		foreach ($allcats as $cat) {
-			$catarray[$cat->id] = $cat->name;
-		}			
-		$form->registerBefore('question', 'categories', 'Select Category', new dropdowncontrol('', $catarray));
+		$ddopts = array();
+		$ddopts[0] = '<i>'.$i18n['no_category'].'</i>';
+		foreach ($db->selectObjects('category',"location_data='".serialize($loc)."' ORDER BY rank ASC") as $opt) {
+			$ddopts[$opt->id] = $opt->name;
+		}
+		if (!isset($item->category_id)) $item->category_id = null;
+		$form->registerBefore('question','categories',$i18n['categories'],new dropdowncontrol($qna->category_id,$ddopts));
 	}
 	$template->assign('is_edit',(isset($qna->id) ? 1 : 0));
 	$template->assign('form_html',$form->toHTML());

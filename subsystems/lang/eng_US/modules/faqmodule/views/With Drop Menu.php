@@ -16,6 +16,7 @@ return array(
 	'alt_down'=>'Move entry down',
 	'alt_down_disabled'=>'Move down disabled',
 
+	'plesase_select'=>'Please Select a Question...',
 	'no_category'=>'Other Questions',
 	'no_entry'=>'No Questions or Answers were found.',
 	'to_the_top'=>'Back to the top',

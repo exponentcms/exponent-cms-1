@@ -28,10 +28,13 @@
  *
  * $Id: _form_editfaq.tpl,v 1.2 2005/02/19 16:53:35 filetreefrog Exp $
  *}
-<div class="form_title">
-    {if $is_edit}Edit FAQ Entry{else}New FAQ Entry{/if}
-</div>
- <div class="form_header">
-    <p>Enter Question and Answer Below.</p>
-    {$form_html}
+
+<div class="calendarmodule edit">
+	<div class="form_title">
+		{if $is_edit}Edit FAQ Entry{else}New FAQ Entry{/if}
+	</div>
+	<div class="form_header">
+		<p>Enter Question and Answer Below.</p>
+	</div>
+	{$form_html}
 </div>

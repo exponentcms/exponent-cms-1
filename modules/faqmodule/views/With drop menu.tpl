@@ -43,16 +43,11 @@ if (destination) location.href = destination;
 {/literal}
 <div class="faqmodule default-with-drop-menu">
 	{if $moduletitle!=""}<h2>{$moduletitle}</h2>{/if}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.administrate == 1}
-			<br /><a class="addfaq" href="{link action=edit_faq}">New FAQ Entry</a><br />
-		{/if}
-	{/permissions}	
 	
 	<a name="top"></a>
 	<form name="faqdrop">
 	<select id="quicklinks" name="quicklinks" onchange="go()">
-		<option selected>Please Select a Service...</option>
+		<option selected>{$_TR.plesase_select}</option>
 		{foreach from=$qnalist item=qna}
 		  <option value="#{$qna->rank}">{$qna->question}</option>
 		{/foreach}
@@ -61,12 +56,8 @@ if (destination) location.href = destination;
 	<hr/>
 	{foreach name=c from=$data key=catid item=qnas}
 
-		{if $hasCategories != 0 && $catid != 0}
-			{if $categories[$catid]->name == ""}
-				<h2>Not Categorized</h2>
-			{else}
-				<h2>{$categories[$catid]->name}</h2>
-			{/if}
+		{if $hasCategories != 0}
+			<h3>{$categories[$catid]->name}</h3>
 		{/if}
 
 		{foreach name=a from=$qnas item=qna}
@@ -77,10 +68,10 @@ if (destination) location.href = destination;
 				<div class="itemactions">
 					{permissions level=$smarty.const.UILEVEL_NORMAL}
 						{if $permissions.configure == 1 or $permissions.administrate == 1}
-							<a href="{link action=edit_faq id=$qna->id}" title="Edit this entry">
+							<a href="{link action=edit_faq id=$qna->id}" title="{$_TR.alt_edit}">
 								<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
 							</a>
-							<a href="{link action=delete_faq id=$qna->id}" title="Delete this entry">
+							<a href="{link action=delete_faq id=$qna->id}" onclick="return confirm('{$_TR.delete_confirm}');" title="{$_TR.alt_delete}">
 								<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
 							</a>	
 							{if $smarty.foreach.a.first == 0}
@@ -103,11 +94,11 @@ if (destination) location.href = destination;
 				</div>
 				<div class="bodycopy">
 					<a name="{$qna->rank}"></a>
-					<h2>{$qna->question}</h2>
+					<h4>{$qna->question}</h4>
 					<div class="answer">
 						{$qna->answer}
 					</div>
-					<div class="back-to-top"><a href="#top" title="Follow this link to go back to the top.">Back to top</a></div>
+					<div class="back-to-top"><a href="#top" title="{$_TR.alt_to_the_top}">{$_TR.to_the_top}</a></div>
 				</div>
 			</div>
 
@@ -115,7 +106,7 @@ if (destination) location.href = destination;
 
 		{foreachelse}
 			{ if ($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)}
-				<i>No Questions or Answers were found for this FAQ category.</i>
+				<i>&nbsp;&nbsp;{$_TR.no_entry}</i>
 			{/if}
 		{/foreach}
 	{foreachelse}
@@ -124,12 +115,14 @@ if (destination) location.href = destination;
 
 	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 		{if $permissions.administrate == 1}
-			<br />
-			<a class="addfaq" href="{link action=edit_faq}">New FAQ Entry</a>
-			<br />
-			{if $config->enable_categories == 1}
-				<a href="{link module=categories action=manage orig_module=faqmodule}">Manage Categories</a>
-			{/if}
+			<div class="itemactions">
+				{br}
+				<a class="addfaq additem mngmntlink" href="{link action=edit_faq}">{$_TR.new_entry}</a>
+				{if $config->enable_categories == 1}
+					{br}
+					<a class="mngmntlink" href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
+				{/if}
+			</div>
 		{/if}
 	{/permissions}
 </div>
