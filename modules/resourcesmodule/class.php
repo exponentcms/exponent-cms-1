@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -96,11 +96,44 @@ class resourcesmodule {
 			$viewparams = array('type'=>"default");
 		}
 		
-		// Get all of the categories for this Resources module:
 		$config = $db->selectObject('resourcesmodule_config',"location_data='".serialize($loc)."'");
 		if ($config == null) {
 			$config->enable_categories = 0;
+			$config->recalc = 0; // No need to recalculate, no categories
+		} else  if ($config->recalc == 1) {
+			// We need to recaculate the rankings.
+			if ($config->enable_categories == 1) {
+				// Recalc, keeping in mind the category structure.
+				$cats = $db->selectObjects('category',"location_data='".serialize($loc)."'");
+				$c = null;
+				$c->id = 0;
+				$cats[] = $c;
+				foreach ($cats as $c) {
+					// Loop over each category.
+					$rank = 0;
+					foreach ($db->selectObjects('resourceitem',"location_data='".serialize($loc)."' AND category_id=".$c->id) as $resource) {
+						$resource->rank = $rank;
+						$db->updateObject($resource,'resourceitem');
+						$rank++;
+					}
+				}
+			} else {
+				// Recaculate blindly, ignoring categories.
+				$resources = $db->selectObjects('resourceitem',"location_data='".serialize($loc)."'");
+				usort($resources, 'exponent_sorting_byRankAscending');
+				$rank = 0;
+				foreach ($resources as $resource) {
+					$resource->rank = $rank;
+					$resource->category_id = 0;
+					$db->updateObject($resource,'resourceitem');
+					$rank++;
+				}
+			}
+			$config->recalc = 0;
+			$db->updateObject($config,'resourcemodule_config',"location_data='".serialize($loc)."'");
 		} 
+
+		// Get all of the categories for this Resources module:
 		$cats = array();
 		$cats = $db->selectObjectsIndexedArray('category', "location_data='".serialize($loc)."'");
 		if ($config->enable_categories) {

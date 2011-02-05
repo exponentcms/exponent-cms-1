@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -110,19 +110,19 @@
 		{/permissions}
 		{if !$hasCategories && $config->orderhow == 2}
 			{if $smarty.foreach.a.first == 0}
-			<a href="{link action=order a=$resource->rank b=$prev id=$resource->id}">			
+			<a href="{link action=order a=$resource->rank b=$prev id=$resource->id} category_id=$catid}">			
 				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
 			</a>
 			{else}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
 			{/if}
 			
 			{if $smarty.foreach.a.last == 0}
-			<a href="{link action=order a=$next b=$resource->rank id=$resource->id}">
+			<a href="{link action=order a=$next b=$resource->rank id=$resource->id} category_id=$catid}">
 				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
 			</a>
 			{else}
-			<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
+				<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
 			{/if}	
 		{/if}
 		{if $__viewconfig.show_player && $resource->filename != "" && $resource->fileexists && $resource->mimetype->mimetype == "audio/mpeg"}

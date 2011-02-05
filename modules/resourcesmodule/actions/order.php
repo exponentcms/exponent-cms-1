@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -20,7 +20,7 @@
 if (!defined("EXPONENT")) exit("");
 
 if (exponent_permissions_check('edit',$loc)) {
-	$db->switchValues('resourceitem','rank',intval($_GET['a']),intval($_GET['b']),"location_data='" . serialize($loc) . "'");
+	$db->switchValues('resourceitem','rank',intval($_GET['a']),intval($_GET['b']),"location_data='" . serialize($loc) . "' AND category_id=".$_GET['category_id']);
 	exponent_flow_redirect();
 }
 

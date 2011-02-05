@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -32,6 +32,7 @@ if ($resource != null) {
 		}
 		$db->delete('resourceitem','id='.$resource->id);
 		$db->delete('resourceitem_wf_revision','wf_original='.$resource->id);
+		$db->decrement('resourceitem', 'rank', 1, "location_data='".serialize($loc)."' AND rank > ".$resource->rank." AND category_id=".$resource->category_id);
 		//Delete search entries
 		$db->delete('search',"ref_module='resourcesmodule' AND ref_type='resourceitem' AND original_id=".$resource->id);
 		

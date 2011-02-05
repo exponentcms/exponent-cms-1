@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -57,15 +57,15 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 		$form->registerBefore('name', 'categories', 'Select Category', new dropdowncontrol($resource->category_id, $catarray));
 	}	
 	
-	if (!isset($resource->id)) {
-		$ranks = array();
-		foreach ($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $item) {
-			$ranks[$item->rank+1] = 'After "'.$item->name.'"';
-		}
-		$ranks[0] = 'At The Top';
-		ksort($ranks);
-		$form->registerBefore('submit','rank','Position',new dropdowncontrol(count($ranks)-1,$ranks));
-	}
+	// if (!isset($resource->id)) {
+		// $ranks = array();
+		// foreach ($db->selectObjects('resourceitem',"location_data='".serialize($loc)."'") as $item) {
+			// $ranks[$item->rank+1] = 'After "'.$item->name.'"';
+		// }
+		// $ranks[0] = 'At The Top';
+		// ksort($ranks);
+		// $form->registerBefore('submit','rank','Position',new dropdowncontrol(count($ranks)-1,$ranks));
+	// }
 	
 	if (!isset($resource->file_id)) {
 		$form->registerBefore('submit','file',"Upload a New ".$i18n['file'],new uploadcontrol());
