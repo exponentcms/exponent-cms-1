@@ -32,6 +32,8 @@ if ($post) {
 		$db->delete('weblog_comment','parent_id='.$_GET['id']);
 		$db->delete("weblog_post_wf_info","real_id=".$_GET['id']);
 		$db->delete("weblog_post_revision","wf_original=".$_GET['id']);
+		//Delete search entries
+		$db->delete('search',"ref_module='weblogmodule' AND ref_type='weblog_post' AND original_id=".$item->id);		
 		exponent_flow_redirect();
 	} else {
 		echo SITE_403_HTML;
