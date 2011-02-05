@@ -181,37 +181,37 @@ class navigationmodule {
 		global $sections;
 		global $router;
 
-                if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
-		$search = null;
-                $search->category = 'Webpages';
-                $search->ref_module = 'navigationmodule';
-                $search->ref_type = 'section';
+		if (!defined('SYS_SEARCH')) include_once(BASE.'subsystems/search.php');
+			$search = null;
+			$search->category = 'Webpages';
+			$search->ref_module = 'navigationmodule';
+			$search->ref_type = 'section';
 
-	 	$db->delete('search',"ref_module='navigationmodule' AND ref_type='section'");
-                foreach ($sections as $section) {
+			$db->delete('search',"ref_module='navigationmodule' AND ref_type='section'");
+			foreach ($sections as $section) {
 	        	$search->original_id = $section->id;
-                	$search->title = $section->name;
-	                $search->view_link = $router->buildUrlByPageId($section->id);
-			$search->body = $section->description;
-			$search->keywords = $section->keywords;
-			// now we're going to grab all the textmodules on this page and build the body for the page based off the content
-			// of all the text module added together.
-			$loc->mod = 'textmodule';
-			foreach($db->selectObjects('sectionref', "module='textmodule' AND section=".$section->id) as $textmodule) {
-				$loc->src = $textmodule->source;
-				$loc->int = '';
-				$textitem = $db->selectObject('textitem', "location_data='".serialize($loc)."'");
-				if (!empty($textitem)) {
-					$search->body .= ' ' . exponent_search_removeHTML($textitem->text) . ' ';
-					$search->keywords .= " ".$db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+				$search->title = $section->name;
+				$search->view_link = $router->buildUrlByPageId($section->id);
+				$search->body = $section->description;
+				$search->keywords = $section->keywords;
+				// now we're going to grab all the textmodules on this page and build the body for the page based off the content
+				// of all the text module added together.
+				$loc->mod = 'textmodule';
+				foreach($db->selectObjects('sectionref', "module='textmodule' AND section=".$section->id) as $textmodule) {
+					$loc->src = $textmodule->source;
+					$loc->int = '';
+					$textitem = $db->selectObject('textitem', "location_data='".serialize($loc)."'");
+					if (!empty($textitem)) {
+						$search->body .= ' ' . exponent_search_removeHTML($textitem->text) . ' ';
+						$search->keywords .= " ".$db->selectValue('container', 'title', "internal='".serialize($loc)."'");
+					}
 				}
-			}
-                        //$search->body = ' ' . exponent_search_removeHTML($item->text) . ' ';
-                        //$search->location_data = $item->location_data;
+				//$search->body = ' ' . exponent_search_removeHTML($item->text) . ' ';
+				//$search->location_data = $item->location_data;
 
 			//eDebug($search);
-                        $db->insertObject($search,'search');
-                }
+				$db->insertObject($search,'search');
+			}
 
 		return true;
 	}
