@@ -58,9 +58,6 @@ class linkmodule_config {
 		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
 		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
 		$form->register('rss_limit', $i18n['rss_limit'], new textcontrol($object->rss_limit));
-		$form->register('rss_categories',$i18n['rss_categories'], new checkboxcontrol($object->rss_categories));
-		$form->register('rss_add_category_name',$i18n['rss_add_category_name'], new checkboxcontrol($object->rss_add_category_name));
-		$form->register('enable_rss_categories',$i18n['enable_rss_categories'], new checkboxcontrol($object->enable_rss_categories));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
 		return $form;
 	}
@@ -85,9 +82,6 @@ class linkmodule_config {
 		$object->orderby = $toks[1];	
 		$object->open_in_a_new_window = isset($values['open_in_a_new_window']);
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
-		$object->rss_categories = (isset($values['rss_categories']) ? 1 : 0);
-		$object->rss_add_category_name = (isset($values['rss_add_category_name']) ? 1 : 0);
-		$object->enable_rss_categories = (isset($values['enable_rss_categories']) ? 1 : 0);
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
 		$object->rss_cachetime = $values['rss_cachetime'];
