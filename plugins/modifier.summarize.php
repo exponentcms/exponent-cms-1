@@ -19,12 +19,14 @@
 
 function smarty_modifier_summarize($string, $strtype, $type) {
 	$sep = ($strtype == "html" ? array("</p>","</div>") : array("\r\n","\n","\r"));
+	$origstring = $string;
 	switch ($type) {
 		case "para":
 			foreach ($sep as $s) {
 				$para = explode($s,$string);
 				$string = $para[0];
 			}
+			if (strlen($string) < strlen($origstring)-4) {$string .= " ...";}
 			return strip_tags($string);
 			break;
 		case "paralinks":
@@ -32,11 +34,14 @@ function smarty_modifier_summarize($string, $strtype, $type) {
 				$para = explode($s,$string);
 				$string = $para[0];
 			}
+			if (strlen($string) < strlen($origstring)-4) {$string .= " ...";}
 			return strip_tags($string,'<a>');
 			break;			
 		default:
 			$words = explode(" ",strip_tags($string));
-			return implode(" ",array_slice($words,0,$type+0));
+			$string = implode(" ",array_slice($words,0,$type+0));
+			if (strlen($string) < strlen($origstring)-4) {$string .= " ...";}
+			return $string;
 			break;
 	}
 }
