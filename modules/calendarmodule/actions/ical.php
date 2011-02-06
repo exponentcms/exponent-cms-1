@@ -53,6 +53,10 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		} else {
 			$rsslimit = "";
 		}
+
+		$cats = $db->selectObjectsIndexedArray("category");
+		$cats[0] = null;
+		$cats[0]->name = 'None';
 		
 		if (isset($_GET['time'])) {
 			$time = $_GET['time'];  // get current month's events
@@ -114,10 +118,11 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 //		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","\r","\n"),"\r\n",$items[$i]->body)));
 //		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
 //		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
-		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"), "\n",$items[$i]->body)));
+		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"),"\n",$items[$i]->body)));
 		$body = str_replace(array("\r"), "", $body);
 		$body = str_replace(array("&#160;"), " ", $body);
-		$body = str_replace(array("\n"), "=0D=0A", $body);
+		$body = convert_smart_quotes($body);
+//		$body = str_replace(array("\n"), "=0D=0A", $body);
 
 		// $body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
 		// $body = preg_replace($search, $replace, $body);
@@ -137,10 +142,11 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 		$msg .= "UID:" . $items[$i]->eventdate->id . "\n";
 		$msg .= "DTSTAMP:" . date("Ymd\THis", time()) . "Z\n";
 		if($title) { $msg .= "SUMMARY:$title\n";}
-		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:$body\n";}
+//		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:".$body."\n";}
+		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:".quoted_printable_encode($body)."\n";}
 //		if($body) { $msg .= "DESCRIPTION:$body\n";}
 	//	if($link_url) { $msg .= "URL: $link_url\n";}
-	//	if ($topic_id) { $msg .= "CATEGORIES: APPOINTMENT;$topic[$topic_id]\n";}
+		$msg .= "CATEGORIES:".$cats[$items[$i]->category_id]->name."\n";
 		$msg .= "END:VEVENT\n";      
 	}
 	$msg .= "END:VCALENDAR";			
@@ -172,4 +178,19 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	echo SITE_404_HTML;
 }
 
+function convert_smart_quotes($string) {
+     $search = array(chr(145),
+                     chr(146),
+                     chr(147),
+                     chr(148),
+                     chr(150),
+                     chr(151));
+     $replace = array("'",
+                      "'",
+                      '"',
+                      '"',
+                      '-',
+                      '-');
+     return str_replace($search, $replace, $string); }
+	 
 ?>
