@@ -58,7 +58,7 @@
 			{*/if*}
 			<div class="bodycopy">
 				{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=150&height=200" alt="{$newsitem->title}">{/if}		
-				{$newsitem->body|summarize:"html":"para"}
+				{$newsitem->body|summarize:"html":"paralinks"}
 			</div>
 			<div class="post-footer">
 				{if $newsitem->edited == 0 || $config->sortfield == "publish" || $config->sortfield == "posted"}

@@ -53,7 +53,7 @@
 	</div>
 	<div class="bodycopyfull">
 		{if $post->image!=""}<img class="weblogimg" src="{$smarty.const.URL_FULL}/thumb.php?file={$post->image}&amp;constraint=1&amp;width=150&amp;height=200" alt="{$post->title}" />{/if}
-		<p>{$post->body|summarize:html:para}</p>
+		<p>{$post->body|summarize:html:paralinks}</p>
 	</div>
 	<div class="post-footer">
 		<a class="readmore" href="{link module=weblogmodule action=view id=$post->id}">{$_TR.read_more}<span> "{$post->title}"</span></a>

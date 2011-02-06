@@ -42,7 +42,7 @@
 				</tr>
 				<tr>
 							<td colspan="2">
-									{$item->body|summarize:html:para}
+									{$item->body|summarize:html:paralinks}
 							</td>
 					</tr>
 				<tr>

@@ -82,7 +82,7 @@
 						{/if}
 					</b></span>
 					{br}
-					{$event->body|summarize:"html":"para"}
+					{$event->body|summarize:"html":"paralinks"}
 				</p>
 			</dd>
 		{/foreach}

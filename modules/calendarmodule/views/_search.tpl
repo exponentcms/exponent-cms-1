@@ -66,7 +66,7 @@
 						{if $event->is_allday == 1}All Day{else}
 							{$dates->eventstart|format_date:"%l:%M %P"} - {$dates->eventend|format_date:"%l:%M %P"}
 						{/if}</b><br/>
-						{$event->body|summarize:"html":"para"}</br>
+						{$event->body|summarize:"html":"paralinks"}</br>
 						&nbsp;&nbsp;<a class="mngmntlink calendar_mngmntlink" href="{link action=view id=$event->id date_id=$dates->id}">Click here for more information or to register.</a>
 					</div><br/>
 				</td></tr>

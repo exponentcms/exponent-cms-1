@@ -61,7 +61,7 @@
 								{/if}
 							{/if}
 							{if $showdetail == 1}
-								&nbsp-&nbsp{$event->body|summarize:"html":"para"}
+								&nbsp-&nbsp{$event->body|summarize:"html":"paralinks"}
 							{/if}
 							{br}
 						</span></div>
