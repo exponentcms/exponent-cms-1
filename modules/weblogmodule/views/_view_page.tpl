@@ -100,14 +100,14 @@
 {/if}
 {if $page != 0}
 	{math equation="x-1" x=$page assign=prevpage}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=$prevpage view=$view}">&lt; {$_TR.previous}</a>&nbsp;&nbsp;
+	<a class="weblog_mngmntlink" href="{link action=view_page page=$prevpage view=$view}">&lt; {$_TR.previous}</a>&nbsp;&nbsp;
 	{if $shownext}
 	|&nbsp;
 	{/if}
 {/if}
 {if $shownext}
 	{math equation="x+1" x=$page assign=nextpage}
-	<a class="mngmntlink weblog_mngmntlink" href="{link action=view_page page=$nextpage view=$view}">{$_TR.next} &gt;</a>
+	<a class="weblog_mngmntlink" href="{link action=view_page page=$nextpage view=$view}">{$_TR.next} &gt;</a>
 {/if}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
@@ -119,10 +119,10 @@
 		{if $logged_in == 1}
 			{if $monitoring == 1}
 				<em>{$_TR.blog_monitor}</em>
-				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+				{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
 			{else}
 				<em>{$_TR.not_monitoring}</em>
-				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+				{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
 			{/if}
 		{/if}
 	</div>

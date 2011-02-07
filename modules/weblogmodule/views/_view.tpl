@@ -174,16 +174,17 @@
 		{/if}
 		{if $prev_post != 0 || $next_post != 0}
 			<div class="paging">
+				<hr>
 				<span class="previous">
 					{if $prev_post != 0} 
-						<a class="mngmntlink weblog_mngmntlink" href="{link action=view id=$prev_post->id}">{$prev_post->title}</a>&nbsp;{$_TR.previous}
+						<a class="weblog_mngmntlink" href="{link action=view id=$prev_post->id}">{$prev_post->title}</a>&nbsp;{$_TR.previous}
 					{else}
 						&nbsp;
 					{/if}
 				</span>
 				<span class="next">
 					{if $next_post!=0}
-						{$_TR.next}&nbsp;<a class="mngmntlink weblog_mngmntlink" href="{link action=view id=$next_post->id}">{$next_post->title}</a>
+						{$_TR.next}&nbsp;<a class="weblog_mngmntlink" href="{link action=view id=$next_post->id}">{$next_post->title}</a>
 					{else}
 						&nbsp;
 					{/if}

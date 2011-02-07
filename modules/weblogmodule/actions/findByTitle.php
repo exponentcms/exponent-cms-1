@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -58,9 +58,9 @@ if ($this_post) {
 //		$next_post = $db->selectObject('weblog_post',$where.' AND posted >= '.$this_post->posted.' AND id != '.$this_post->id);
 //		$prev_post = $db->selectObject('weblog_post',$where.' AND posted <= '.$this_post->posted.' AND id != '.$this_post->id, 'posted DESC');
 
-		$next_id = $db->min('weblog_post','id','location_data', $where.' AND id > '.$this_post->id);
+		$next_id = $db->min('weblog_post','id','location_data', "location_data='".$this_post->location_data."'".$where.' AND publish > '.$this_post->publish);
 		$next_post = $db->selectObject('weblog_post','id = '.$next_id);
-		$prev_id = $db->max('weblog_post','id','location_data', $where.' AND id < '.$this_post->id);
+		$prev_id = $db->max('weblog_post','id','location_data', "location_data='".$this_post->location_data."'".$where.' AND publish < '.$this_post->publish);
 		$prev_post = $db->selectObject('weblog_post','id = '.$prev_id);
 		if (!$next_post) {
 			$next_post = 0;
