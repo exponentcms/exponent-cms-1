@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -44,6 +44,7 @@ if ( (!$user || $user->id==0) && SITE_ALLOW_REGISTRATION == 1) {
 			unset($_POST['pass2']);
 			validator::failAndReturnToForm(sprintf($i18n['not_strong_enough'],$strength_error), $_POST);
 		} else {
+			validator::validate(array('valid_email'=>'email'), $_POST);
 			// Finally, check the captcha
 			validator::validate(array('captcha'=>'captcha_string'), $_POST);
 			exponent_sessions_unset('captcha_string');

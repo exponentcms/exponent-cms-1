@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -34,19 +34,19 @@ if (exponent_permissions_check('user_management',exponent_core_makeLocation('adm
 		exponent_users_saveUser($u);
 		exponent_flow_redirect();
 	} else {
+echo "<br>help me Lord<br>";
 		$i18n = exponent_lang_loadFile('modules/administrationmodule/actions/umgr_saveuser.php');
 		$_POST['username'] = trim($_POST['username']);
 		if (exponent_users_getUserByName($_POST['username']) != null) {
 			unset($_POST['username']);
-	                validator::failAndReturnToForm($i18n['name_taken'], $_POST);
+			validator::failAndReturnToForm($i18n['name_taken'], $_POST);
 		} else if ($_POST['pass1'] != $_POST['pass2']) {
 			unset($_POST['pass1']);
-	                unset($_POST['pass2']);
-	                validator::failAndReturnToForm($i18n['unmatched_passwords'], $_POST);
+			unset($_POST['pass2']);
+			validator::failAndReturnToForm($i18n['unmatched_passwords'], $_POST);
 		} else {
 			$username_error = exponent_security_checkUsername($_POST['username']);
 			$strength_error = exponent_security_checkPasswordStrength($_POST['username'],$_POST['pass1']);
-
 			if ($username_error != ''){
 				unset($_POST['username']);
 		        validator::failAndReturnToForm(sprintf($i18n['username_failed'],$username_error), $_POST);
