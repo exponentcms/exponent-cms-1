@@ -57,7 +57,6 @@ class linkmodule {
 			$config->orderhow = 0; // Ascending
 			$config->open_in_a_new_window=1;
 			$config->enable_rss = false;
-			$config->enable_rss_categories = false;
 			$config->recalc = 0; // No need to recalculate, no categories
 		} else  if ($config->recalc == 1) {
 			// We need to recaculate the rankings.
@@ -142,7 +141,6 @@ class linkmodule {
       
       //If rss is enabled tell the view to show the RSS button	
 		$template->assign('enable_rss', $config->enable_rss);
-		$template->assign('enable_rss_categories', $config->enable_rss_categories AND $config->enable_rss);
 
 		$template->output();
 	}
