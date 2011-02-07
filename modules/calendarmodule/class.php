@@ -78,7 +78,7 @@ class calendarmodule {
 			$rss_item->date = date('r', $item->eventstart);
 //          $rss_item->date = date('r', $item->posted);
 //			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;
-			$rss_item->link = exponent_core_makeLink(array('module'=>'calendarmodule', 'action'=>'view', 'id'=>$item->id));
+			$rss_item->link = exponent_core_makeLink(array('module'=>'calendarmodule', 'action'=>'view', 'id'=>$item->id, 'date_id'=>$item->eventdate->id));
 			if ($config->enable_categories == 1) {
 				$rss_item->category = array($cats[$item->category_id]->name);
 			}
