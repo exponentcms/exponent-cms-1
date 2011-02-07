@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'username_failed'=>'Your username has errors : %s'
+	'username_failed'=>'Your username has errors : %s',
 	'username_taken'=>'That username is already taken.',
 	'unmatched_passwords'=>'Passwords do not match.',
 	'not_strong_enough'=>'Your password is not strong enough : %s',
