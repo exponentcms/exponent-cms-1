@@ -41,10 +41,10 @@ if (isset($_POST['id'])) {
 	}
 }
 
+include(BASE.'external/mimetype.php');
 // we're using a file already on the server, fool system into thinkin it's just been uploaded
 if ($_POST['fileexists']) {
 	$filename = $_SERVER['DOCUMENT_ROOT'].$_POST['fileexists'];
-	include(BASE.'external/mimetype.php');
 	$mimetype = new mimetype();
 	$mimetype = $mimetype->getType($filename);
 	$_FILES['file']['name'] = end(explode("/", $_POST['fileexists']));
@@ -149,8 +149,12 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 			}
 			
 			// At this point, we are good to go.
-			
-			$file->mimetype = $_FILES[$name]['type'];
+			if ($_FILES[$name]['type'] != "application/octet-stream") {
+				$file->mimetype = $_FILES[$name]['type'];
+			} else {
+				$mimetype = new mimetype();
+				$file->mimetype = $mimetype->getType($_FILES[$name]['name']);
+			}
 			$file->directory = $dest;
 			//$file->accesscount = 0;
 			$file->filesize = $_FILES[$name]['size'];

@@ -71,8 +71,13 @@ class file {
 		}
 		
 		// At this point, we are good to go.
-		
-		$object->mimetype = $_FILES[$name]['type'];
+		include(BASE.'external/mimetype.php');
+		if ($_FILES[$name]['type'] != "application/octet-stream") {
+			$file->mimetype = $_FILES[$name]['type'];
+		} else {
+			$mimetype = new mimetype();
+			$file->mimetype = $mimetype->getType($_FILES[$name]['name']);
+		}
 		$object->directory = $dest;
 		//$object->accesscount = 0;
 		$object->filesize = $_FILES[$name]['size'];
@@ -118,10 +123,10 @@ class file {
                 return $db->selectObjects('file', 'id IN (SELECT file_id FROM '.DB_TABLE_PREFIX.'_file_details WHERE item_type="'.$item_type.'")');
         }
 
-        function findFilesForItem($item_type, $item_id) {
-                global $db;
-                return $db->selectObjects('file', 'id IN (SELECT file_id FROM '.DB_TABLE_PREFIX.'_file_details WHERE item_type="'.$item_type.'" AND item_id='.$item_id.')');
-        }
+	function findFilesForItem($item_type, $item_id) {
+			global $db;
+			return $db->selectObjects('file', 'id IN (SELECT file_id FROM '.DB_TABLE_PREFIX.'_file_details WHERE item_type="'.$item_type.'" AND item_id='.$item_id.')');
+	}
 }
 
 ?>

@@ -19,9 +19,9 @@
 
 if (!defined('EXPONENT')) exit('');
 
+include(BASE.'external/mimetype.php');
 if ($_POST['fileexists']) {
 	$filename = $_SERVER['DOCUMENT_ROOT'].$_POST['fileexists'];
-	include(BASE.'external/mimetype.php');
 	$mimetype = new mimetype();
 	$mimetype = $mimetype->getType($filename);
 	$_FILES['file']['name'] = end(explode("/", $_POST['fileexists']));
@@ -109,8 +109,12 @@ if ($_POST['fileexists']) {
 		}
 		
 		// At this point, we are good to go.
-		
-		$file->mimetype = $_FILES[$name]['type'];
+		if ($_FILES[$name]['type'] != "application/octet-stream") {
+			$file->mimetype = $_FILES[$name]['type'];
+		} else {
+			$mimetype = new mimetype();
+			$file->mimetype = $mimetype->getType($_FILES[$name]['name']);
+		}
 		$file->directory = $dest;
 		//$file->accesscount = 0;
 		$file->filesize = $_FILES[$name]['size'];
