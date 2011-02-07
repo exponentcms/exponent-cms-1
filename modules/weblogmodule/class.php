@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -60,7 +60,7 @@ class weblogmodule {
 		$items = array();
 //		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1", 'posted DESC');
 //		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 AND approved != 0", 'publish DESC');
-		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 ORDER BY publish DESC".$rsslimit);
+		$items = $db->selectObjects("weblog_post", $locsql." AND is_private != 1 AND is_draft != 1 ORDER BY publish DESC".$rsslimit);
 
 		//Convert the blog posts to rss items
 		$rssitems = array();
