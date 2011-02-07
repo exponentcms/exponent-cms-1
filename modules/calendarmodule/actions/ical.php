@@ -119,8 +119,8 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 //		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
 //		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
 		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"),"\n",$items[$i]->body)));
-		$body = str_replace(array("\r"), "", $body);
-		$body = str_replace(array("&#160;"), " ", $body);
+		$body = str_replace(array("\r"),"",$body);
+		$body = str_replace(array("&#160;")," ",$body);
 		$body = convert_smart_quotes($body);
 //		$body = str_replace(array("\n"), "=0D=0A", $body);
 
@@ -178,19 +178,42 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 	echo SITE_404_HTML;
 }
 
-function convert_smart_quotes($string) {
-     $search = array(chr(145),
-                     chr(146),
-                     chr(147),
-                     chr(148),
-                     chr(150),
-                     chr(151));
-     $replace = array("'",
-                      "'",
-                      '"',
-                      '"',
-                      '-',
-                      '-');
-     return str_replace($search, $replace, $string); }
+function convert_smart_quotes($str) {
+	 // $search = array(chr(145),
+					 // chr(146),
+					 // chr(147),
+					 // chr(148),
+					 // chr(150),
+					 // chr(151),
+					 // chr(133),
+					 // chr(149));
+	 // $replace = array("'z",
+					  // "'z",
+					  // "\"z",
+					  // "\"z",
+					  // "-z",
+					  // "-z",
+					  // "...",
+					  // "&bull;");
+	 // return str_replace($search, $replace, $str);
+
+	$find[] = '“';  // left side double smart quote
+	$find[] = '”';  // right side double smart quote
+	$find[] = '‘';  // left side single smart quote
+	$find[] = '’';  // right side single smart quote
+	$find[] = '…';  // elipsis
+	$find[] = '—';  // em dash
+	$find[] = '–';  // en dash
+
+	$replace[] = '"';
+	$replace[] = '"';
+	$replace[] = "'";
+	$replace[] = "'";
+	$replace[] = "...";
+	$replace[] = "-";
+	$replace[] = "-";
+
+	return str_replace($find, $replace, $str);
+}
 	 
 ?>
