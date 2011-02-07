@@ -19,6 +19,9 @@ return array(
 	'will_be'=>'Will be',
 	'was'=>'Was',
 	'now_unpublished'=>'Now Unpublished',	
+	
+	'next'=>'(Next)',
+	'previous'=>'(Previous)',	
 );
 
 ?>

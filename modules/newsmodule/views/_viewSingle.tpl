@@ -71,4 +71,25 @@
 		{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=250&height=300" alt="{$newsitem->title}">{/if}
 		{$newsitem->body}
 	</div>
+	<div class="itemactions">
+		{if $prev_item != 0 || $next_item != 0}
+			<div class="paging">
+				<hr>
+				<span class="previous">
+					{if $prev_item != 0} 
+						<a class="weblog_mngmntlink" href="{link action=view id=$prev_item->id}">{$prev_item->title}</a>&nbsp;{$_TR.previous}
+					{else}
+						&nbsp;
+					{/if}
+				</span>
+				<span class="next">
+					{if $next_item!=0}
+						{$_TR.next}&nbsp;<a class="weblog_mngmntlink" href="{link action=view id=$next_item->id}">{$next_item->title}</a>
+					{else}
+						&nbsp;
+					{/if}
+				</span>
+			</div>
+		{/if}	
+	</div>
 </div>

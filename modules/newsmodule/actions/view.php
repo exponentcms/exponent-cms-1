@@ -27,13 +27,14 @@ if (isset($_GET['id'])) {
 } else if (isset($_GET['internal_name'])) {
 	$news = $db->selectObject("newsitem","internal_name='".$_GET['internal_name']."'".$where);
 }
-
 if ($news != null) {
 	#Added to count reads of each story
 	$old_read_count = $news->reads;
 	$new_read_count = $old_read_count + 1;
 	$news->reads = $new_read_count;
 	$db->updateObject($news,"newsitem");
+
+	$config = $db->selectObject('newsmodule_config',"location_data='".$news->location_data."'");
 
 	$loc = unserialize($news->location_data);
 	$iloc = $loc;
@@ -68,9 +69,22 @@ if ($news != null) {
 		}
 	}
 	
+	$next_id = $db->min('newsitem','id','location_data', "location_data='".$news->location_data."' AND publish > ".$news->publish);
+	$next_item = $db->selectObject('newsitem','id = '.$next_id);
+	$prev_id = $db->max('newsitem','id','location_data', "location_data='".$news->location_data."' AND publish < ".$news->publish);
+	$prev_item = $db->selectObject('newsitem','id = '.$prev_id);
+	if (!$next_item) {
+		$next_item = 0;
+	}
+	if (!$prev_item) {
+		$prev_item = 0;
+	}
+		
 	$template = new template("newsmodule",$view,$loc);
 	
 	$template->assign("newsitem",$news);
+	$template->assign('next_item',$next_item);
+	$template->assign('prev_item',$prev_item);
 	$template->assign('canview_approval_link',$canviewapproval);
 	$template->assign('config', $config);		
 	$template->assign("loc",$loc);
