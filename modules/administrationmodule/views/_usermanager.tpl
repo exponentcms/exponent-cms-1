@@ -34,9 +34,11 @@
 			out = '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','umgr_edit','id',object.var_id) +'"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" /></a>'+
 			  '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','umgr_delete','id',object.var_id) +'" onclick="return confirm(\'{$_TR.sure_delete_user} \\\'' + object.var_firstname + ' ' + object.var_lastname + ' ('+object.var_username+')\\\'?\');"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" /></a>';
 			if (object.var_is_locked == 1) {ldelim}
-			   out += '<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}lock.png" title="{$_TR.alt_lock}" alt="{$_TR.alt_lock}" />';
+			   out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','umgr_lockuser','id',object.var_id,'value',0) +'"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}lock.png" title="{$_TR.alt_unlock}" alt="{$_TR.alt_unlock}" />';
+			{rdelim} else {ldelim}
+			   out += '<a class="mngmntlink administration_mngmntlink" href="'+eXp.makeLink('module','administrationmodule','action','umgr_lockuser','id',object.var_id,'value',1) +'"><img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}unlock.png" title="{$_TR.alt_lock}" alt="{$_TR.alt_lock}" />';
 			{rdelim}
-		{literal}
+		   {literal}
 		} else {
 		{/literal}
 			out = '<img class="mngmnt_icon" style="border:none;" src="{$smarty.const.ICON_RELATIVE}edit.disabled.png" title="{$_TR.alt_edit_disabled}" alt="{$_TR.alt_edit_disabled}" />' +

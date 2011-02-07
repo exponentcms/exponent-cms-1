@@ -7,7 +7,13 @@ return array(
 
 	'new_user'=>'Create a New User',
 
-	'sure_delete_user'=>'Are you sure you want to delete the user',
+	'alt_edit'=>'Edit User Account',
+	'alt_delete'=>'Delete User Account',
+	'alt_edit_disabled'=>'Unable to Edit User Account',
+	'alt_delete_disabled'=>'Unable to Delete User Account',
+	'sure_delete_user'=>'Are you sure you want to delete this user',
+	'alt_unlock'=>'Unlock this User Account',
+	'alt_lock'=>'Lock this User Account',
 
 	'real_name'=>'Real Name',
 	'username'=>'Username',
@@ -16,6 +22,7 @@ return array(
 	'hide_admins'=>'Hide Administrators',
 	'hide_empty_emails'=>'Hide Empty Emails',
 	'filtering'=>'Filtering',
+		
 );
 
 ?>
