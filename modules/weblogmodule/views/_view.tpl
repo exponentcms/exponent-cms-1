@@ -172,6 +172,19 @@
 				{/if}
 			</div>
 		{/if}
+		{if $logged_in == 1 || $monitoring == 1}
+			<div class="moduleactions">
+				{if $logged_in == 1}
+					{if $monitoring == 1}
+						<em>{$_TR.blog_monitor}</em>
+						{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+					{else}
+						<em>{$_TR.not_monitoring}</em>
+						{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+					{/if}
+				{/if}
+			</div>
+		{/if}		
 		{if $prev_post != 0 || $next_post != 0}
 			<div class="paging">
 				<hr>

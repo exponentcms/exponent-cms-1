@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -120,7 +120,7 @@ $template->assign("monitoring", $monitoring);
 $template->assign('logged_in', exponent_users_isLoggedIn());
 if (isset($_GET['view'])) {
 	$view = $_GET['view']? $_GET['view'] : 0;
-}
+} else $view = 0;
 $template->assign("view", $view);
 $template->register_permissions(
 	array('administrate','configure','post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private','manage_approval'),
