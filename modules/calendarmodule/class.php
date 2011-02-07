@@ -350,7 +350,12 @@ class calendarmodule {
 					$dates = $db->selectObjects("eventdate",$locsql);
 					break;
 				case "upcoming":
-					$dates = $db->selectObjects("eventdate",$locsql." AND date >= $day ORDER BY date ASC ");
+					if ($config->rss_limit > 0) {
+						$eventlimit = " AND date <= " . ($day + ($config->rss_limit * 86400));
+					} else {
+						$eventlimit = "";
+					}				
+					$dates = $db->selectObjects("eventdate",$locsql." AND date >= ".$day.$eventlimit." ORDER BY date ASC ");
 //					$moreevents = count($dates) < $db->countObjects("eventdate",$locsql." AND date >= $day");					
 					break;
 				case "past":
