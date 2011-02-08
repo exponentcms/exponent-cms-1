@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -22,10 +22,7 @@ if (!defined('EXPONENT')) exit('');
 $collection = null;
 if (isset($_GET['id'])) {
 	$collection = $db->selectObject('tag_collections','id='.intval($_GET['id']));
-	$form_title = "Edit Tag Collection";
-} else {
-	$form_title = "New Tag Collection";
-}
+} 
 
 if (exponent_permissions_check('extensions',exponent_core_makeLocation('administrationmodule'))) {
 	$form = tag_collections::form($collection);
@@ -33,8 +30,8 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 	$form->meta('action','save_collection');
 	
 	$template = new template("tags","_edit_collection");
-	$template->assign('form_title', $form_title);
 	$template->assign('form_html', $form->toHTML());
+	$template->assign('is_edit',($collection == null ? 0 : 1));
 	$template->output();
 } else {
 	echo SITE_403_HTML;

@@ -75,7 +75,8 @@ if (($item == null && exponent_permissions_check('post',$loc)) ||
 			$used_tags = array();
 			if (isset($item->id)) {
 				$tag_ids = unserialize($item->tags);
-				if (is_array($tag_ids)) {  //If it's not an array, we don't have any tags.
+//				if (is_array($tag_ids) && count($tag_ids)>0) {  //If it's not an array, we don't have any tags.
+				if (!empty($tag_ids)) {  //If it's not an array, we don't have any tags.
 					$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');
 					foreach ($selected_tags as $selected_tag) {
 							$used_tags[$selected_tag->id] = $selected_tag->name;

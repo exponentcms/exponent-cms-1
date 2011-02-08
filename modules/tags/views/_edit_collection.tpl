@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -16,10 +16,10 @@
 
 <div class="tags edit-collection">
 	<div class="form_title">
-		{$form_title}
+		{if $is_edit == 1}{$_TR.form_title_edit}{else}{$_TR.form_title_new}{/if}
 	</div>
 	<div class="form_header">
-		<p>{$form_header}</p>
+		<p>{$_TR.form_header}</p>
 	</div>
 	{$form_html}
 </div>

@@ -2,7 +2,7 @@
 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
+# Copyright (c) 2004-2011 OIC Group, Inc.
 # Written and Designed by James Hunt
 #
 # This file is part of Exponent
@@ -19,8 +19,6 @@
 
 if (!defined('EXPONENT')) exit('');
 
-$i18n = exponent_lang_loadFile('modules/tags/actions/add_tags.php');
-
 $collection = null;
 if (!isset($_GET['id'])) {
 	exponent_flow_redirect();
@@ -36,10 +34,7 @@ if (exponent_permissions_check('extensions',exponent_core_makeLocation('administ
 
 	$template = new template("tags","_add_tags");
 	$template->assign('tag_collection', $_GET['id']);
-	
 	$template->assign('existing_tags', $existing_tags);
-	$template->assign('tag_label', $i18n['tag']);
-	$template->assign('form_title', 'Add Tags');
 	$template->output();
 } else {
 	echo SITE_403_HTML;
