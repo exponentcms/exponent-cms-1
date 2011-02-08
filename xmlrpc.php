@@ -1,9 +1,8 @@
 <?php 
 ##################################################
 #
-# Copyright (c) 2004-2006 OIC Group, Inc.
-# Copyright (c) 2006 Maxim Mueller
-# Written and Designed by James Hunt
+# Copyright (c) 2004-2011 OIC Group, Inc.
+# Written and Designed by Dave Leffler
 #
 # This file is part of Exponent
 #
@@ -19,10 +18,6 @@
 
 define('SCRIPT_EXP_RELATIVE','');
 define('SCRIPT_FILENAME','xmlrpc.php');
-
-//ob_start('ob_gzhandler');
-//$microtime_str = explode(' ',microtime());
-//$i_start = $microtime_str[0] + $microtime_str[1];
 
 // Initialize the Exponent Framework
 require_once('exponent.php');
@@ -40,22 +35,33 @@ class xmlrpc_server_methods_container
 
 // Internal User Login function	
 function userLogin($username, $password, $src, $area) {
+	global $db;
 
     // This is where you would check to see if the username and password are valid
     // and whether the user has rights to perform this action ($area) 'post' or 'edit' or 'delete'
     // Return true if so. Or false if the login info is wrong.
 	
-//	if (!defined('EXPONENT')) exit('');
-//	$i18n = exponent_lang_loadFile('modules/loginmodule/actions/login.php');
-
 	if (!defined('SYS_USERS')) require_once('subsystems/users.php');
-//	exponent_users_logout();  // not sure if this is needed?
-	exponent_users_login($username, $password);
 
-//	if (!isset($_SESSION[SYS_SESSION_KEY]['user'])) {
+	// Retrieve the user object from the database.  This may be null, if the username is non-existent.
+	$user = $db->selectObject('user', "username='" . $username . "'");	
+	$authenticated = exponent_users_authenticate($user, $password);
 
+	if($authenticated) {		
+		//Update the last login timestamp for this user.
+		$user->last_login = time();
+		$db->updateObject($user, 'user');
+
+		// Retrieve the full profile, complete with all Extension data.
+		$user = exponent_users_getFullProfile($user);
+	
+		// Call on the Sessions subsystem to log the user into the site.
+		exponent_sessions_login($user);
+	}
+
+//	exponent_users_login($username, $password);
 	if (exponent_users_isLoggedIn()) {
-		 return true;
+		return true;
 	} else {
 		return false;
 	}
@@ -82,11 +88,11 @@ function getUsersBlogs($xmlrpcmsg)
 			$page = $db->selectObject('section', 'id="'.$section->section.'"');
 			if (exponent_permissions_check('post',$loc) || (exponent_permissions_check('edit',$loc))) {
 				$structArray[] = new xmlrpcval(array(
-				  'isAdmin'        => new xmlrpcval(true, 'boolean'),
+				  'isAdmin'    => new xmlrpcval(true, 'boolean'),
 				  'url'        => new xmlrpcval(URL_FULL . $page->sef_name, 'string'), 
-				  'blogid'    => new xmlrpcval($src, 'string'),
-				  'blogName'    => new xmlrpcval($blog_name, 'string'),
-				  'xmlrpc'    => new xmlrpcval(URL_FULL . 'xmlrpc.php', 'string')
+				  'blogid'     => new xmlrpcval($src, 'string'),
+				  'blogName'   => new xmlrpcval($blog_name, 'string'),
+				  'xmlrpc'     => new xmlrpcval(URL_FULL . 'xmlrpc.php', 'string')
 				  ), 'struct');  
 			} 
 		}
@@ -101,7 +107,7 @@ $newPost_sig=array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcSt
 $newPost_doc='Post a new item to the blog.';
 function newPost($xmlrpcmsg)
 {
-    global $db;
+    global $db, $user;
     $src = $xmlrpcmsg->getParam(0)->scalarval();
     $username = $xmlrpcmsg->getParam(1)->scalarval();
     $password = $xmlrpcmsg->getParam(2)->scalarval();
@@ -118,7 +124,6 @@ function newPost($xmlrpcmsg)
 //				$categories = $content->structMem('categories')->arrayMem(0)->scalarval();
 //			}
 			$published = $xmlrpcmsg->getParam(4)->scalarval();
-
 			
 			// Put your DB queries in here to store the new post.       
 			$post = null;
@@ -126,7 +131,7 @@ function newPost($xmlrpcmsg)
 
 			$post->title = $title;
 //			$post->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$title));
-			$post->body = $description;
+			$post->body = htmlspecialchars_decode(htmlentities($description,ENT_NOQUOTES));
 			$post->is_private = 0;
 			$post->is_draft = (($published) ? 0 : 1);			
 			
@@ -136,6 +141,7 @@ function newPost($xmlrpcmsg)
 
 			$post->poster = $user->id;
 			$post->posted = time();
+			$post->publish = time();
 			$post->id = $db->insertObject($post,'weblog_post');
 
 			$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);
@@ -147,9 +153,8 @@ function newPost($xmlrpcmsg)
 			exponent_permissions_grant($user,'edit_comments',$iloc);
 			exponent_permissions_grant($user,'delete_comments',$iloc);
 			exponent_permissions_grant($user,'view_private',$iloc);
-			exponent_permissions_triggerSingleRefresh($user);
+//			exponent_permissions_triggerSingleRefresh($user);
 
-			
 			return new xmlrpcresp(new xmlrpcval($post->id,'string')); // Return the id of the post just inserted into the DB. See mysql_insert_id() in the PHP manual.
 		} else {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
@@ -164,7 +169,7 @@ $editPost_sig=array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcS
 $editPost_doc='Edit an item on the blog.';
 function editPost($xmlrpcmsg)
 {
-    global $db;
+    global $db, $user;
     $postid = $xmlrpcmsg->getParam(0)->scalarval();
     $username = $xmlrpcmsg->getParam(1)->scalarval();
     $password = $xmlrpcmsg->getParam(2)->scalarval();
@@ -223,7 +228,7 @@ function editPost($xmlrpcmsg)
 
 				$post->title = $title;
 	//			$post->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$title));
-				$post->body = $description;
+				$post->body = htmlspecialchars_decode(htmlentities($description,ENT_NOQUOTES));
 				$post->is_private = 0;
 				$post->is_draft = (($published) ? 0 : 1);			
 				
@@ -390,9 +395,9 @@ function getRecentPosts($xmlrpcmsg)
 }
     
 // Get a List of Categories function	
-    $getCategories_sig=array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString));
-    $getCategories_doc='Get the categories on the blog.';
-    function getCategories($xmlrpcmsg) {
+$getCategories_sig=array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString));
+$getCategories_doc='Get the categories on the blog.';
+function getCategories($xmlrpcmsg) {
     
     $src=$xmlrpcmsg->getParam(0)->scalarval();
     $username=$xmlrpcmsg->getParam(1)->scalarval();
@@ -412,9 +417,9 @@ function getRecentPosts($xmlrpcmsg)
       return new xmlrpcresp(new xmlrpcval($structArray , 'array')); // Return type is struct[] (array of struct)
     } else {
       return new xmlrpcresp(0, $xmlrpcerruser+1, 'Login Failed');
-        }
-        
-    }
+	}
+	
+}
     
 // Upload a Media File function	
 $newMediaObject_sig=array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcStruct));
@@ -432,11 +437,17 @@ function newMediaObject($xmlrpcmsg)
 		$bits = $file->structMem('bits')->serialize();
 		$bits = str_replace("<value><base64>","",$bits);
 		$bits = str_replace("</base64></value>","",$bits);
-		$uploaddir = BASE.'files/weblogmodule/'; // Make sure this folder has been chmoded to 777.
+		$dest = 'files/weblogmodule/';
+		$uploaddir = BASE.$dest; 
+		//Check to see if the directory exists.  If not, create the directory structure.
+		if (!defined('SYS_FILES')) include_once(BASE.'subsystems/files.php');
+		if (!file_exists(BASE.$dest)) {
+			exponent_files_makeDirectory($dest);
+		}	
 		if(fwrite(fopen($uploaddir . $filename, "wb"), base64_decode($bits)) == false) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "File Failed to Write");
 		} else {
-			return new xmlrpcresp(new xmlrpcval(array('url' => new xmlrpcval(URL_FULL.'files/weblogmodule/'.urlencode($filename), 'string')),'struct'));
+			return new xmlrpcresp(new xmlrpcval(array('url' => new xmlrpcval(URL_FULL.$dest.urlencode($filename), 'string')),'struct'));
 		}
 	} else {
 		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
