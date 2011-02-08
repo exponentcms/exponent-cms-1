@@ -71,7 +71,7 @@ class file {
 		}
 		
 		// At this point, we are good to go.
-		include(BASE.'external/mimetype.php');
+		if (!class_exists('mimetype')) include_once(BASE.'external/mimetype.php');
 		if ($_FILES[$name]['type'] != "application/octet-stream") {
 			$file->mimetype = $_FILES[$name]['type'];
 		} else {

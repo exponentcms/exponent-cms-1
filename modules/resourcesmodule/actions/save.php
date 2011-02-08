@@ -41,7 +41,7 @@ if (isset($_POST['id'])) {
 	}
 }
 
-include(BASE.'external/mimetype.php');
+if (!class_exists('mimetype')) include_once(BASE.'external/mimetype.php');
 // we're using a file already on the server, fool system into thinkin it's just been uploaded
 if ($_POST['fileexists']) {
 	$filename = $_SERVER['DOCUMENT_ROOT'].$_POST['fileexists'];
