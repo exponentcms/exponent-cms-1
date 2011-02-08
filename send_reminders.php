@@ -378,7 +378,7 @@ $template->assign("config",$config);
 	// //Get the tags for this calendar event
 		// $selected_tags = array();
 		// $tag_ids = unserialize($items[$i]->tags);
-		// if(is_array($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+		// if(!empty($tag_ids)) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
 		// $items[$i]->tags = $selected_tags;
 
 	// //If this module was configured to group the newsitems by tags, then we need to change the data array a bit

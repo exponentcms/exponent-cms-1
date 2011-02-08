@@ -26,18 +26,19 @@ release.
 
 At this point, you have two options. You can unpack the archive locally and 
 upload all of the files to the server, or you can upload the archive, and unpack 
-it on the server. 
+it on the server.  It is recommended you install to the root web directory, 
+but can be installed to test within a directory.
 
 If you are running on a UNIX box, you can unpack the .zip archive like this: 
 
 unzip -d /var/www/ exponent-VERSION.zip 
 
 Exponent requires certain files and directories to be writable by the web server, 
-and the standard tar-based distributions have this permission information preset. 
+and the standard distributions have this permission information preset. 
 If you have root access to your webserver, you should also change ownership of the 
 Exponent files to whatever user your webserver is running as. For example: 
 
-chown -R apache:apache exponent-VERSION 
+chown -R apache:apache /var/www/ 
 
 If you are unable to do this, you will have to adjust your file permissions in 
 order to allow your webserver to write to certain directories (identified in the 
@@ -52,28 +53,35 @@ http://www.7-zip.org/.
 The .zip archives have not yet been tested with Windows XP's built in zip 
 support. 
 
-Each archive will create a directory named exponent-VERSION. This directory 
-contains all of the files used by Exponent. 
+Each archive will create the directory structure and contains all of the files 
+used by Exponent. 
 
 3. Database Creation & Setup
 
 For security reasons, the Exponent Install Wizard is not able to create a 
 database for you. This must be done outside of the system, before the wizard is 
-run. However you do this is up to you (through command-line database client, 
-phpMyAdmin, phpPgAdmin, etc.). The installer will ask you for name of the 
-database to use, as well as a username and password for accessing the database. 
-The user account you specify must have enough rights to perform normal database 
-operations (like running SELECT, INSERT, UPDATE, DELETE queries, etc.). The 
-installation wizard will ensure that the provided account has these privileges. 
+run. How you do this is up to you (through command-line database client, 
+phpMyAdmin, phpPgAdmin, etc.). 
+
+It is recommended you create a new database for exponent.  If you've not already
+created a database user account, go ahead and also do that.  The installer will 
+ask you for name of the database to use, as well as a username and password for 
+accessing the database. The user account you specify must have enough rights to 
+perform normal database operations (like running SELECT, INSERT, UPDATE, DELETE 
+queries, etc.). The installation wizard will ensure that the provided account 
+has these privileges. 
 
 4. Running the Install Wizard 
 
-Once the directory is on the server, in the website's directory, the web-based 
-installer takes over the process of configuring and setting up the CMS. To 
+Once you've completed the steps above, you need to start the web-based installer 
+The program takes over the process of configuring and setting up the CMS. To 
 access the installer and finish setting up, visit your website, and go to the 
 directory that was unpacked. For instance, if your website (www.example.com) 
 stores its files in /www/www.example.com/, and you unpacked the archive there, 
-go to http://www.example.com/exponent-VERSION/) 
+go to (http://www.example.com/) You'll need to also include the directory name 
+if it was installed into a directory.  
 
 From there, just follow the instructions and the Exponent Install Wizard will 
-configure and set up your new Exponent site. 
+configure and set up your new Exponent site. It will help you through any
+problems you may encounter along the way and then take you to your new web
+site.

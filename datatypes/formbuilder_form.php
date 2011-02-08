@@ -51,33 +51,39 @@ class formbuilder_form {
 		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['email_header'].'</h3><hr size="1" />'));
 		$form->register('is_email',$i18n['is_email'],new checkboxcontrol($object->is_email,false));
 		
+		// Get User list
+		$defaults = array();
 		$userlist = array();
 		$users = exponent_users_getAllUsers();
-		foreach ($users as $locuser) {
-			$userlist[$locuser->id] = $locuser->username;
-		}
-		$defaults = array();
 		foreach ($db->selectObjects('formbuilder_address','form_id='.$object->id.' and user_id != 0') as $address) {
 			$locuser =  exponent_users_getUserById($address->user_id);
-			$defaults[$locuser->id] = $locuser->username;
+			$defaults[$locuser->id] = $locuser->firstname . ' ' . $locuser->lastname . ' (' . $locuser->username . ')';
 		} 
-		
-		$form->register('users',$i18n['users'],new listbuildercontrol($defaults,$userlist));
-		$groups = exponent_users_getAllGroups();
-		$grouplist = array();
-		$defaults = array();
-		foreach ($groups as $group) {
-			$grouplist[$group->id] = $group->name;
+		foreach ($users as $locuser) {
+			if(!array_key_exists($locuser->id, $defaults)) {
+				$userlist[$locuser->id] = $locuser->firstname . ' ' . $locuser->lastname . ' (' . $locuser->username . ')';
+			}
 		}
-		if ($grouplist != null) {
+		$form->register('users',$i18n['users'],new listbuildercontrol($defaults,$userlist));
+
+		// Get Group list	
+		$defaults = array();
+		$grouplist = array();
+		$groups = exponent_users_getAllGroups();
+		if ($groups != null) {
 			foreach ($db->selectObjects('formbuilder_address','form_id='.$object->id.' and group_id != 0') as $address) {
 				$group =  exponent_users_getGroupById($address->group_id);
 				$defaults[$group->id] = $group->name;
 			}
-			
+			foreach ($groups as $group) {
+				if(!array_key_exists($group->id, $defaults)) {
+					$grouplist[$group->id] = $group->name;
+				}			
+			}
 			$form->register('groups',$i18n['groups'],new listbuildercontrol($defaults,$grouplist));
 		}
-		
+
+		// Get Freeform list
 		$defaults = array();
 		foreach ($db->selectObjects('formbuilder_address','form_id='.$object->id." and email != ''") as $address) {
 			$defaults[$address->email] = $address->email;
