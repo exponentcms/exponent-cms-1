@@ -1,14 +1,14 @@
 Exponent Content Management System
-Copyright (c) 2004-2007 OIC Group, Inc.
+Copyright (c) 2004-2011 OIC Group, Inc.
 ===============================================
 
 Introduction
 ============
 
 The Exponent Team is pleased to announce the GA release of Exponent Content Management System 
-version 0.96.6 - Content Management Made Simple.   
+version 0.98.0 - Content Management Made Simple.   
 
-The culmination of over 3 years of R&D and user community input, 
+The culmination of over several years of R&D and user community input, 
 Exponent offers many features found in other systems (both open source and 
 proprietary). 
 
@@ -64,10 +64,12 @@ Exponent is the next generation CMS for everyone
 
 
 
-New in Exponent 0.96.6
+New in Exponent 0.98.0
 ======================
 
-Please refer to the CHANGELOG for a full list of new Exponent 0.96.6 features, and 
-a list of features coming up in future releases.
+This release is a maintenance and security release, patching a handful of bugs 
+and other extraneous issues.  Please refer to the CHANGELOG for a full list of 
+changes for previous versions up to Exponent 0.97.0 features, and a list of 
+features coming up in future releases.
 
 Thank you for using Exponent!
