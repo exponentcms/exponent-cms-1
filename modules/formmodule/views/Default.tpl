@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -22,11 +22,14 @@
 		{if $permissions.editform == 1}|&nbsp;&nbsp;<a class="addnew mngmntlink" href="{link action=view_form module=formbuilder id=$form->id}">{$_TR.edit_form}</a>&nbsp;&nbsp;{/if}
 		{if $permissions.editreport == 1}|&nbsp;&nbsp;<a class="addnew mngmntlink" href="{link action=edit_report module=formbuilder id=$form->id}">{$_TR.edit_report}</a>&nbsp;&nbsp;{/if}		
 	{/permissions}
-	<h2>{$moduletitle}</h2>
+	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	{if $formmsg != "" }
 		<br /><br />
 		{$formmsg}
 	{/if}
+	{if $description != ""}
+		{$description}
+	{/if}	
 	 <div style="border: padding: 1em;">
 		{$form_html}
 	</div>
