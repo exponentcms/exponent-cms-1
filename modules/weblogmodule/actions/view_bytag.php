@@ -55,8 +55,8 @@ $viewing_tag = $db->selectObject('tags', "id=".intval($_REQUEST['id']));
 $posts = array();
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($all_posts); $i++) {
-	$posts[$i]->posted = ($posts[$i]->publish != 0 ? $posts[$i]->publish : $posts[$i]->posted);
-	if ($posts[$i]->publish == 0) {$posts[$i]->publish = $posts[$i]->posted;}
+	$all_posts[$i]->posted = ($all_posts[$i]->publish != 0 ? $all_posts[$i]->publish : $all_posts[$i]->posted);
+	if ($all_posts[$i]->publish == 0) {$all_posts[$i]->publish = $all_posts[$i]->posted;}
 	$ploc = exponent_core_makeLocation($loc->mod,$loc->src,$all_posts[$i]->id);
 	$not_there = true;
 	$tags = unserialize($all_posts[$i]->tags);
@@ -109,7 +109,7 @@ if ($user && ($user->id!=0)) {
 $template->assign("monitoring", $monitoring);
 $template->assign('logged_in', exponent_users_isLoggedIn());
 
-$template->assign('moduletitle',$title);
+$template->assign('moduletitle',$title." (<em>tagged with '".$viewing_tag->name."'</em>)");
 $template->assign('viewing_tag',$viewing_tag);
 $template->register_permissions(
 	array('administrate'/*,'configure'*/,'post','edit','delete','comment','approve_comments','edit_comments','delete_comments','view_private','manage_approval'),

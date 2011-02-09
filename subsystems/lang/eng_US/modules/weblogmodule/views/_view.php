@@ -26,6 +26,8 @@ return array(
 	'commented'=>'Commented',
 	'reply'=>'Reply',
 	'plural'=>'s',
+
+	'view_tag'=>'View other posts tagged with',
 	
 	'need_login'=>'You must be logged in to post comments.',
 	'login'=>'Login to post comment',	

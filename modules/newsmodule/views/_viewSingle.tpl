@@ -72,7 +72,7 @@
 		{$newsitem->body}
 	</div>
 	{if $tagcnt > 0}
-		<div style="border: 1px solid gray; padding: 10px;;">
+		<div style="border: 1px solid LightGray; padding: 10px;;">
 			<b>Tags:</b> 
 			{foreach from=$tags item=tag}
 				{$tag->name};

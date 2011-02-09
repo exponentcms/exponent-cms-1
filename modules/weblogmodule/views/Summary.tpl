@@ -23,7 +23,6 @@
 	</h2>
 	<div>
 	{foreach from=$posts item=post}
-		{$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{br}
 		<div class="itemtitle weblog_itemtitle">
 		<a href="{link module=weblogmodule action=view id=$post->id}" title="{$post->body|summarize:html:para}">{$post->title}</a>{if $post->is_draft} <span class="draft"><em>({$_TR.draft})</em></span>{/if}
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
@@ -52,6 +51,7 @@
 			{/if}
 		{/permissions}
 		</div>
+		- {$post->posted|format_date:$smarty.const.DISPLAY_DATE_FORMAT}{br}
 	{/foreach}
 	</div>
 </div>

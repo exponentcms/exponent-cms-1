@@ -109,7 +109,11 @@ if ($this_post) {
 		}
 		$template->assign("monitoring", $monitoring);
 		$tags = unserialize($this_post->tags);
-		$selected_tags = $db->selectObjectsInArray('tags', $tags);
+		if (!empty($tags)) {
+			$selected_tags = $db->selectObjectsInArray('tags', $tags);
+		} else {
+			$selected_tags = array();
+		}
 		$template->assign('tags',$selected_tags);
 		$template->assign('tagcnt',count($selected_tags));
 

@@ -81,7 +81,11 @@ if ($item) {
 	}
 
 	$tags = unserialize($item->tags);
-	$selected_tags = $db->selectObjectsInArray('tags', $tags);
+	if (!empty($tags)) {
+		$selected_tags = $db->selectObjectsInArray('tags', $tags);
+	} else {
+		$selected_tags = array();
+	}
 	$template->assign('tags',$selected_tags);
 	$template->assign('tagcnt',count($selected_tags));
 	
