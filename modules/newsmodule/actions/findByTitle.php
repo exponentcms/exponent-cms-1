@@ -71,6 +71,15 @@ if ($news != null) {
 	}
 
 	$template = new template("newsmodule",$view,$loc);
+
+	$tags = unserialize($news->tags);
+	if (!empty($tags)) {
+		$selected_tags = $db->selectObjectsInArray('tags', $tags);
+	} else {
+		$selected_tags = array();
+	}
+	$template->assign('tags',$selected_tags);
+	$template->assign('tagcnt',count($selected_tags));
 	
 	$template->assign("newsitem",$news);
 	$template->assign('next_item',$next_item);

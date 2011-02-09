@@ -109,6 +109,15 @@ if ($this_post) {
 			if ($weblog_monitor != null) $monitoring = true;
 		}
 		$template->assign("monitoring", $monitoring);
+
+		$tags = unserialize($this_post->tags);
+		if (!empty($tags)) {
+			$selected_tags = $db->selectObjectsInArray('tags', $tags);
+		} else {
+			$selected_tags = array();
+		}
+		$template->assign('tags',$selected_tags);
+		$template->assign('tagcnt',count($selected_tags));
 		
 		//Get the comment form and pass it to the template
 		$form = weblog_comment::form(null);
