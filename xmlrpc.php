@@ -123,6 +123,10 @@ function newPost($xmlrpcmsg)
 //			if($content->structMem('categories')->arraySize() > 0) {
 //				$categories = $content->structMem('categories')->arrayMem(0)->scalarval();
 //			}
+			$categories = array();
+			for ($i = 0; $i < $content->structMem('categories')->arraySize(); $i++) {
+				$categories[$i] = $content->structMem('categories')->arrayMem($i)->scalarval();
+			}
 			$published = $xmlrpcmsg->getParam(4)->scalarval();
 			
 			// Put your DB queries in here to store the new post.       
@@ -137,8 +141,12 @@ function newPost($xmlrpcmsg)
 			
 			$post->location_data = serialize($loc);
 			//Get and add the tags selected by the user
-//			$post->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
-
+			$tags = array();
+			foreach ($categories as $cat) {
+				$tags[] = $db->selectValue('tags','id',"name = '".$cat."'");
+			}
+			$post->tags = serialize($tags);
+			
 			$post->poster = $user->id;
 			$post->posted = time();
 			$post->publish = time();
@@ -184,47 +192,17 @@ function editPost($xmlrpcmsg)
 			$description = $content->structMem('description')->scalarval();
 			//$dateCreated = $content->structMem('dateCreated')->serialize();   // Not all clients send dateCreated info. So add if statement here if you want to use it.
 			//$timestamp = iso8601_decode($dateCreated);  // To convert to unix timestamp
-	//		if($content->structMem('categories')->arraySize() > 0) {
-	//		$categories = $content->structMem('categories')->arrayMem(0)->scalarval();
-	//		}
+			// if($content->structMem('categories')->arraySize() > 0) {
+				// $categories = $content->structMem('categories')->arrayMem(0)->scalarval();
+			// }
+			// $published = $xmlrpcmsg->getParam(4)->scalarval();
+			// if($content->structMem('categories')->arraySize() > 0) {
+			$categories = array();
+			for ($i = 0; $i < $content->structMem('categories')->arraySize(); $i++) {
+				$categories[$i] = $content->structMem('categories')->arrayMem($i)->scalarval();
+			}
 			$published = $xmlrpcmsg->getParam(4)->scalarval();
-
 			// Put your DB queries in here to update the post corresponding to the $postid.  
-
-			$weblogmodule_config = $db->selectObject('weblogmodule_config', "location_data='".serialize($loc)."'");
-			//$weblogmodule_config = $db->selectObject('weblogmodule_config', "location_data='".$post->location_data."'");
-	//		if (isset($weblogmodule_config->enable_tags) && $weblogmodule_config->enable_tags = true) {
-	//			$cols = array();
-	//			$tags = array();
-	//			$cols = unserialize($weblogmodule_config->collections);
-	//			if (count($cols) > 0) {
-	//				foreach ($cols as $col) {
-	//					$available_tags = array();
-	//					$available_tags = $db->selectObjects('tags', 'collection_id='.$col);
-	//					$tags = array_merge($tags, $available_tags);
-	//				}
-	//					
-	//				if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
-	//				usort($tags, "exponent_sorting_byNameAscending");
-	//
-	//				$tag_list = array();
-	//				foreach ($tags as $tag) {
-	//					$tag_list[$tag->id] = $tag->name;
-	//				}
-	//
-	//				$selected_tags = array();
-	//				$used_tags = array();
-	//				if (isset($post->id)) {
-	//					$tag_ids = unserialize($post->tags);
-	//					if (is_array($tag_ids) && count($tag_ids)>0) {  //If it's not an array, we don't have any tags.
-	//						$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');
-	//						foreach ($selected_tags as $selected_tag) {
-	//							$used_tags[$selected_tag->id] = $selected_tag->name;
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}	
 
 				$post->title = $title;
 	//			$post->internal_name = preg_replace('/--+/','-',preg_replace('/[^A-Za-z0-9_]/','-',$title));
@@ -234,8 +212,12 @@ function editPost($xmlrpcmsg)
 				
 				$post->location_data = serialize($loc);
 				//Get and add the tags selected by the user
-	//			$post->tags = serialize(listbuildercontrol::parseData($_POST,'tags'));
-
+				$tags = array();
+				foreach ($categories as $cat) {
+					$tags[] = $db->selectValue('tags','id',"name = '".$cat."'");
+				}
+				$post->tags = serialize($tags);
+				
 	//			$post->poster = $user->id;
 	//			$post->posted = time();
 				
@@ -268,17 +250,20 @@ function getPost($xmlrpcmsg)
 	$iloc = exponent_core_makeLocation($loc->mod,$loc->src,$post->id);   
     if(userLogin($username, $password, $loc->src, 'edit') == true) {
 		if (exponent_permissions_check('edit',$loc)) {	 
-//			if ($post) {
+				$cat = array();
+				$tags = unserialize($post->tags);
+				foreach ($tags as $tag){
+					$cat[] = $db->selectValue('tags','name','id = '.$tag);				
+				}				
 				return new xmlrpcresp(new xmlrpcval(array(
 					'postid'       => new xmlrpcval($post->id, 'string'),
 					'dateCreated'  => new xmlrpcval($post->posted, 'dateTime.iso8601'),
 					'title'        => new xmlrpcval($post->title, 'string'),
 					'description'  => new xmlrpcval($post->body, 'string'),
-//            		'categories'   => new xmlrpcval(array(new xmlrpcval($row['category'], 'string')), 'array'),
+            		'categories'   => php_xmlrpc_encode($cat),
 					'publish'      => new xmlrpcval((($post->is_draft) ? 0 : 1), 'boolean')
 					), 'struct'));
 
-//			}
 		} else {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
@@ -398,27 +383,41 @@ function getRecentPosts($xmlrpcmsg)
 $getCategories_sig=array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString));
 $getCategories_doc='Get the categories on the blog.';
 function getCategories($xmlrpcmsg) {
+	global $db;
     
     $src=$xmlrpcmsg->getParam(0)->scalarval();
     $username=$xmlrpcmsg->getParam(1)->scalarval();
     $password=$xmlrpcmsg->getParam(2)->scalarval();
     
     if(userLogin($username, $password, $src, 'post') == true) {
-    
-      $structArray = array();
-      
-      $result = mysql_query('SELECT * FROM categories');
-      while ($row = mysql_fetch_assoc($result)) {
-        $structArray[] = new xmlrpcval(array(
-          'title'        => new xmlrpcval($row['title'], 'string'),
-          'description'        => new xmlrpcval($row['description'], 'string')
-          ), 'struct');    
-       }
-      return new xmlrpcresp(new xmlrpcval($structArray , 'array')); // Return type is struct[] (array of struct)
+		$loc = exponent_core_makeLocation('weblogmodule',$src);	
+		$weblogmodule_config = $db->selectObject('weblogmodule_config', "location_data='".serialize($loc)."'");
+		$structArray = array();
+		if (isset($weblogmodule_config->enable_tags) && $weblogmodule_config->enable_tags = true) {
+			$cols = array();
+			$tags = array();
+			$cols = unserialize($weblogmodule_config->collections);
+			if (count($cols) > 0) {
+				foreach ($cols as $col) {
+					$available_tags = array();
+					$available_tags = $db->selectObjects('tags', 'collection_id='.$col);
+					$tags = array_merge($tags, $available_tags);
+				}
+					
+				if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
+				usort($tags, "exponent_sorting_byNameAscending");
+				foreach ($tags as $tag) {
+					$structArray[]    = new xmlrpcval(array(
+						'title'       => new xmlrpcval($tag->name),
+						'description' => new xmlrpcval($tag->name)
+						), 'struct');  					
+				}
+			}
+		}		
+		return new xmlrpcresp(new xmlrpcval($structArray , 'array')); // Return type is struct[] (array of struct)
     } else {
-      return new xmlrpcresp(0, $xmlrpcerruser+1, 'Login Failed');
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Login Failed');
 	}
-	
 }
     
 // Upload a Media File function	
