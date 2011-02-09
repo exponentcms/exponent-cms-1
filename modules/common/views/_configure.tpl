@@ -18,7 +18,7 @@
 	{$name} {$_TR.form_title}
 </div>
 <div class="form_header">
-	<p>{$_TR.form_header} {$name}.</p>	
+	<p>{$_TR.form_header} {$name} {$_TR.titled} "{$title}".</p>	
 </div>
 {$form_html}
 {else}

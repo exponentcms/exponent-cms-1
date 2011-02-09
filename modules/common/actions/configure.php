@@ -112,6 +112,7 @@ if (exponent_permissions_check('configure',$loc)) {
 	}
 	$template->assign('hasConfig',$hasConfig);
 	$template->assign('name',call_user_func(array($_GET['module'],"name")));
+	$template->assign('title',$container->title);
 	
 	$template->output();
 } else {
