@@ -15,10 +15,10 @@
  *}
 {if $hasConfig == 1}
 <div class="form_title">
-	{$_TR.form_title}
+	{$name} {$_TR.form_title}
 </div>
 <div class="form_header">
-	<p>{$_TR.form_header}</p>	
+	<p>{$_TR.form_header} {$name}.</p>	
 </div>
 {$form_html}
 {else}
