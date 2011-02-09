@@ -38,7 +38,7 @@ class user {
 			$form->register('username',$i18n['desired_username'],new textcontrol());
 			$form->register('pass1',$i18n['pass1'], new passwordcontrol());
 			$form->register('pass2',$i18n['pass2'],new passwordcontrol());
-			$form->register(null,'',new htmlcontrol('<br />'));
+			$form->register(null,'',new htmlcontrol("<h3>".$i18n['more']."</h3>"));
 		} else {
 			$form->meta("id",$object->id);
 		}
