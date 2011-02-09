@@ -1,7 +1,6 @@
 {*
  *
- * Copyright (c) 2004-2006 OIC Group, Inc.
- * Copyright (c) 2006 Maxim Mueller
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  *
  * This file is part of Exponent
  *
@@ -69,6 +68,15 @@
 	<div class="bodycopy">
 		{$item->body}
 	</div>
+	{if $tagcnt > 0}
+		<div style="border: 1px solid gray; padding: 10px;">
+			<b>Tags:</b> 
+			{foreach from=$tags item=tag}
+				{$tag->name};
+			{/foreach}
+		</div>
+		{br}
+	{/if}	
 	<div class="itemactions">
 		{$form}
 		<a class="dayviewlink" href="{link action=viewday time=$item->eventstart}" title="{$_TR.alt_view_day}" alt="{$_TR.alt_view_day}">{$_TR.view_day}</a>&nbsp;&nbsp;|&nbsp;&nbsp;

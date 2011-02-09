@@ -80,6 +80,11 @@ if ($item) {
 		$template->assign('form', $form);
 	}
 
+	$tags = unserialize($item->tags);
+	$selected_tags = $db->selectObjectsInArray('tags', $tags);
+	$template->assign('tags',$selected_tags);
+	$template->assign('tagcnt',count($selected_tags));
+	
 	$template->assign("item",$item);
 	$template->assign("directory","files/calendarmodule/".$loc->src);
 	$template->register_permissions(

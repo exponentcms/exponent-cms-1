@@ -113,8 +113,16 @@
 				{/foreach}
 			{/if}	
 		</div>	
+		{/if}
+	{if $tagcnt > 0}
+		<div style="border: 1px solid gray; padding: 10px;;">
+			<b>Tags:</b> 
+			{foreach from=$tags item=tag}
+				{$tag->name};
+			{/foreach}
+		</div>
+		{br}
 	{/if}
-
 	<div class="itemactions">
 		{if (($config->allow_comments != 0) && ($config->allow_replys != 0))}
 			<p>Do you want to <a id="myHeader1" href="javascript:showonlyone('reply1');" title="Click to select Public Comment">{$_TR.leave_comment}</a> or 

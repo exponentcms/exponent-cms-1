@@ -71,6 +71,15 @@
 		{if $newsitem->image!=""}<img src="{$smarty.const.URL_FULL}/thumb.php?file={$newsitem->image}&constraint=1&width=250&height=300" alt="{$newsitem->title}">{/if}
 		{$newsitem->body}
 	</div>
+	{if $tagcnt > 0}
+		<div style="border: 1px solid gray; padding: 10px;;">
+			<b>Tags:</b> 
+			{foreach from=$tags item=tag}
+				{$tag->name};
+			{/foreach}
+		</div>
+		{br}
+	{/if}	
 	<div class="itemactions">
 		{if $prev_item != 0 || $next_item != 0}
 			<div class="paging">
