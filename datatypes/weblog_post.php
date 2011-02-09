@@ -51,7 +51,7 @@ class weblog_post {
 		$checked = empty($object->unpublish) ? true : false;
 		$form->register('unpublish',$i18n['unpublish'],new yuidatetimecontrol($object->unpublish,$i18n['nounpublish'], true, true, false, $checked));
 
-		$form->register('tag_header','',new htmlcontrol('<h3>'.$i18n['tags']'.</h3><hr size="1" />'));
+		$form->register('tag_header','',new htmlcontrol('<h3>'.$i18n['tags'].'</h3><hr size="1" />'));
 		$form->register('is_private',$i18n['is_private'], new checkboxcontrol($object->is_private));
 		$form->register('is_draft',$i18n['is_draft'], new checkboxcontrol($object->is_draft));
 		$form->register('submit','',new buttongroupcontrol($i18n['save'],'',$i18n['cancel']));
