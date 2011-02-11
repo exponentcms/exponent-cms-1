@@ -62,7 +62,11 @@ if (isset($module)) {
 		}
 
 		header("Content-type: text/xml");
-		echo $rss->createFeed();
+		if ($module == "resourcesmodule") {
+			echo $rss->createFeed("PODCAST");
+		} else {
+			echo $rss->createFeed("RSS2.0");
+		}
 	} else {
 		echo "This RSS feed has been disabled.";
 	}
