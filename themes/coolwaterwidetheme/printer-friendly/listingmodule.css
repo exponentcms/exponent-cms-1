@@ -8,7 +8,7 @@
 	display: block;
 	border:1px solid #eeeeee;
 	margin:5px 0;
-	padding:5px;
+	padding:0px 5px 0px 5px;
 }
 
 .listingmodule .item .bodycopy {
@@ -21,8 +21,12 @@
 
 .listingmodule .item .listingimage {
 	float:left;
-	border:1px solid #444;
 	margin-right:10px;
+}
+
+.listingmodule .item .listingimage-right {
+	float:right;
+	margin-left:10px;
 }
 
 .listingmodule .item a {
@@ -44,7 +48,6 @@
 }
 
 .listingmodule.viewlisting .bodycopy img.listingimage  {
-	border:1px solid #666666;
 	margin-right:10px;
 	float:left;
 }

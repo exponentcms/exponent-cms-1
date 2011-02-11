@@ -9,7 +9,6 @@
 	border:1px solid #eeeeee;
 	margin-left:25px;
 	padding:0px 5px 0px 5px;
-{*	margin:5px 0; *}
 }
 
 .faqmodule .item .bodycopy {
@@ -23,13 +22,11 @@
 .faqmodule .item .listingimage {
 	float:left;
 	margin-right:10px;
-{*	border:1px solid #444; *}
 }
 
 .faqmodule .item .listingimage-right {
 	float:right;
 	margin-left:10px;
-{*	border:1px solid #444; *}
 }
 
 .faqmodule .item a {
@@ -53,5 +50,4 @@
 .faqmodule.viewlisting .bodycopy img.listingimage  {
 	margin-right:10px;
 	float:left;
-{*	border:1px solid #666666; *}
 }

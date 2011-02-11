@@ -22,13 +22,11 @@
 .listingmodule .item .listingimage {
 	float:left;
 	margin-right:10px;
-{*	border:1px solid #444; *}
 }
 
 .listingmodule .item .listingimage-right {
 	float:right;
 	margin-left:10px;
-{*	border:1px solid #444; *}
 }
 
 .listingmodule .item a {
@@ -52,5 +50,4 @@
 .listingmodule.viewlisting .bodycopy img.listingimage  {
 	margin-right:10px;
 	float:left;
-{*	border:1px solid #666666; *}
 }
