@@ -73,12 +73,12 @@ $template->register_permissions(
 
 if (!$config) {
 	$config->enable_categories = 0;
-	$config->enable_rss = 0;
+	$config->enable_ical = 1;
 }
 
 $template->assign("config",$config);
-if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
-$template->assign("enable_rss", $config->enable_rss);
+if (!isset($config->enable_ical)) {$config->enable_ical = 1;}
+$template->assign("enable_ical", $config->enable_ical);
 
 $template->assign("events",$events);
 $template->assign("now",$time);

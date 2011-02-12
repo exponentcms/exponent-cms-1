@@ -22,7 +22,7 @@ return array(
 	'view_month'=>'View Month',
 	'alt_view_month'=>'View Entire Month',
 	
-	'alt_ical'=>'Export Event as vCalendar file',
+	'alt_ical'=>'Export this Event as iCalendar file',
 	'ical'=>'',
 	
 	'administration_view'=>'Administration',

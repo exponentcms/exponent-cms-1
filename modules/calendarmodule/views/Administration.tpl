@@ -41,11 +41,10 @@
 		{/permissions}
 	</div>
 	<h2>
-		{if $enable_rss == true}
-			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" class="itemactions" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{if $enable_ical == true}
+			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
 		{/if}
 		{if $moduletitle != ""}{$moduletitle} - {$_TR.administration_view}{/if}
-		<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
 	</h2>
 	<table cellspacing="0" cellpadding="4" border="0" width="100%">
 		<tr>

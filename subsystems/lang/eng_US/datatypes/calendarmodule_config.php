@@ -17,12 +17,13 @@ return array(
   	'show_tags'=>'Tags to show',
   	'show_tags_desc'=>'<br />If you choose to have this module group posts by tags, then you must select which tags are to be displayed.<br /><div style="color:red;">*** Currently you must first choose your collections and save this module configuration, then come back in and choose your tags.</div>',
 
-	'rss_configuration'=>'RSS Configuration',
+	'rss_configuration'=>'RSS/iCalendar Configuration',
   	'enable_rss'=>'Enable RSS',
+  	'enable_ical'=>'Enable iCalendar',
 	'feed_title'=>'Title for this RSS feed',
 	'feed_desc'=>'Description for this RSS feed',
-    'rss_cachetime'=>'Recommended RSS feed update interval in hours',
-    'rss_limit'=>'Maximum days of RSS items to publish (0 = all)',
+    'rss_cachetime'=>'Recommended RSS/iCal feed update interval in minutes (1440 = 1 day)',
+    'rss_limit'=>'Maximum days of RSS/iCal items to publish (0 = all)',
 
 	'events_reminder'=>'Events Reminder Email',
 	'reminder_notify'=>'Who should be reminded of events?',

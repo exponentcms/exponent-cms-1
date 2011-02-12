@@ -11,6 +11,8 @@ return array(
 	
 	'administration_view'=>'Administration',
 	'alt_rssfeed'=>'Subscribe to this calender\'s RSS Feed',
+	'alt_ical'=>'iCalendar Feed',
+	'ical'=>'',
 
 	'alt_userperm'=>'Assign user permissions on this Calendar Event',
 	'alt_groupperm'=>'Assign group permissions on this Calendar Event',

@@ -21,6 +21,10 @@ return array(
 	'no_event'=>'No upcoming events.',
 	'more_events'=>'More Events...',	
 	
+	'alt_rssfeed'=>'Subscribe to this Event RSS Feed',
+	'alt_ical'=>'iCalendar Feed',
+	'ical'=>'',
+	
 	'administration_view'=>'Administration View',	
 
 	'alt_create'=>'Create a new Calendar Event',
@@ -32,7 +36,6 @@ return array(
 	'manage_categories'=>'Manage Categories',
 	'view_categories'=>'View Categories',
 	'alt_view_cat'=>'View Event Categories',
-	'alt_rssfeed'=>'Subscribe to this Event RSS Feed',
 );
 
 ?>

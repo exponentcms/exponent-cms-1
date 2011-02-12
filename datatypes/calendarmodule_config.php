@@ -45,10 +45,11 @@ class calendarmodule_config {
 			$object->email_signature = "--\nThanks, Webmaster";			
 			$object->aggregate = array();
 			$object->enable_rss = false;
+			$object->enable_ical = true;
 			$object->feed_title = "";
 			$object->feed_desc = "";
 			$object->rss_limit = 365;
-			$object->rss_cachetime = 24;
+			$object->rss_cachetime = 60;
 			$object->enable_tags = false;
 			$object->collections = array();
 			$object->group_by_tags = false;
@@ -172,6 +173,7 @@ class calendarmodule_config {
 
 		$form->register(null,'',new htmlcontrol('<h3>'.$i18n['rss_configuration'].'</h3><hr size="1" />'));
 		$form->register('enable_rss',$i18n['enable_rss'], new checkboxcontrol($object->enable_rss));
+		$form->register('enable_ical',$i18n['enable_ical'], new checkboxcontrol($object->enable_ical));
    		$form->register('feed_title',$i18n['feed_title'],new textcontrol($object->feed_title,35,false,75));
    		$form->register('feed_desc',$i18n['feed_desc'],new texteditorcontrol($object->feed_desc));
 		$form->register('rss_cachetime', $i18n['rss_cachetime'], new textcontrol($object->rss_cachetime));
@@ -203,6 +205,7 @@ class calendarmodule_config {
 		$object->aggregate = serialize(listbuildercontrol::parseData($values,'aggregate'));
 
 		$object->enable_rss = (isset($values['enable_rss']) ? 1 : 0);
+		$object->enable_ical = (isset($values['enable_ical']) ? 1 : 0);
 		$object->feed_title = $values['feed_title'];
 		$object->feed_desc = $values['feed_desc'];
 		$object->rss_cachetime = $values['rss_cachetime'];

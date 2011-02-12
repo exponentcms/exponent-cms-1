@@ -27,9 +27,6 @@ return array(
 	'alt_delete_disabled'=>'Deleting Disabled - Calendar Event In Approval',
 	'alt_revisions'=>'View Revision History for this Calendar Event',
 	
-	'alt_ical'=>'iCalendar Feed',
-	'ical'=>'',
-	
 	'view_approval'=>'View Approval',
 	'alt_approval'=>'View Calendar Events in Approval',
 
@@ -40,6 +37,8 @@ return array(
 
 	'alt_rssfeed'=>'Subscribe to this Event RSS Feed',
 	'default_summery'=>'Subscribe to this Event RSS Feed',
+	'alt_ical'=>'iCalendar Feed',
+	'ical'=>'',
 
 	'sunday'=>'Sunday',
 	'monday'=>'Monday',

@@ -32,8 +32,6 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'enable_feedback'=>array(
 		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
-	'enable_rss'=>array(
-	    DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'enable_tags'=>array(
         DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'collections'=>array(
@@ -46,15 +44,23 @@ return array(
         DB_FIELD_TYPE=>DB_DEF_STRING,
         DB_FIELD_LEN=>1000,
         DB_INDEX=>10),
+	'aggregate'=>array(
+        DB_FIELD_TYPE=>DB_DEF_STRING,
+        DB_FIELD_LEN=>1000),
+	'enable_rss'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+	'enable_ical'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 	'feed_title'=>array(
     	DB_FIELD_TYPE=>DB_DEF_STRING,
 	    DB_FIELD_LEN=>75),
 	'feed_desc'=>array(
     	DB_FIELD_TYPE=>DB_DEF_STRING,
 	    DB_FIELD_LEN=>200),	
-	'aggregate'=>array(
-        DB_FIELD_TYPE=>DB_DEF_STRING,
-        DB_FIELD_LEN=>1000),
+	'rss_limit'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER),
+	'rss_cachetime'=>array(
+	    DB_FIELD_TYPE=>DB_DEF_INTEGER),		
 	'reminder_notify'=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>200),		
@@ -75,10 +81,6 @@ return array(
 	"email_signature"=>array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>500),	
-	'rss_limit'=>array(
-	    DB_FIELD_TYPE=>DB_DEF_INTEGER),
-	'rss_cachetime'=>array(
-	    DB_FIELD_TYPE=>DB_DEF_INTEGER)		
 );
 
 ?>
