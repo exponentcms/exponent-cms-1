@@ -118,27 +118,49 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 					$dtend = "DTEND;VALUE=DATE-TIME:" . $eventstart->format("Ymd\THi00") . "Z\n";
 				}
 			}
-			// remove all formatting from body text
-	//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","\r","\n"),"\r\n",$items[$i]->body)));
-	//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
-	//		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
-			$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"),"\n",$items[$i]->body)));
-			$body = str_replace(array("\r"),"",$body);
-			$body = str_replace(array("&#160;")," ",$body);
-			$body = convert_smart_quotes($body);
-	//		$body = str_replace(array("\n"), "=0D=0A", $body);
 
-			// $body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
-			// $body = preg_replace($search, $replace, $body);
-			// $body = wordwrap($body);
-			// $body = str_replace("\n","\n  ",$body);
+			if (!isset($_GET['style'])) {
+				// it's going to Outlook so remove all formatting from body text
+		//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","\r","\n"),"\r\n",$items[$i]->body)));
+		//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
+		//		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
+				$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"),"\n",$items[$i]->body)));
+				$body = str_replace(array("\r"),"",$body);
+				$body = str_replace(array("&#160;")," ",$body);
+				$body = convert_smart_quotes($body);
+				$body = quoted_printable_encode($body);
+		//		$body = str_replace(array("\n"), "=0D=0A", $body);
 
-	//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
-	//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\n",$items[$i]->body)));
-	//		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
-	//		$body = str_replace(array("\r"), "=0D=0A=", $body);
-	//		$body = str_replace(array("\r","\n"), "\r\n", $body);
+				// $body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
+				// $body = preg_replace($search, $replace, $body);
+				// $body = wordwrap($body);
+				// $body = str_replace("\n","\n  ",$body);
 
+		//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\r",$items[$i]->body)));
+		//		$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\n",$items[$i]->body)));
+		//		$body = str_replace(array("\r","\n"), "=0D=0A=", $body);
+		//		$body = str_replace(array("\r"), "=0D=0A=", $body);
+		//		$body = str_replace(array("\r","\n"), "\r\n", $body);
+				
+			} elseif ($_GET['style'] == "g") {
+				// It's going to Google (doesn't like quoted-printable, but likes html breaks)
+				$body = $items[$i]->body;
+				$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"),"\n",$items[$i]->body)));
+//				$body = chop(strip_tags($items[$i]->body,"<br><p>"));
+				$body = str_replace(array("\r"),"",$body);
+				$body = str_replace(array("&#160;")," ",$body);
+				$body = convert_smart_quotes($body);
+				$body = str_replace(array("\n"),"<br />",$body);
+			} else {
+				// It's going elsewhere (doesn't like quoted-printable)
+				$body = $items[$i]->body;
+				$body = chop(strip_tags(str_replace(array("<br />","<br>","br/>","</p>"),"\n",$items[$i]->body)));
+//				$body = chop(strip_tags($items[$i]->body,"<br><p>"));
+				$body = str_replace(array("\r"),"",$body);
+				$body = str_replace(array("&#160;")," ",$body);
+				$body = convert_smart_quotes($body);
+				$body = str_replace(array("\n")," -- ",$body);
+			}
 			$title = $items[$i]->title;
 
 			$msg .= "BEGIN:VEVENT\n";
@@ -146,9 +168,8 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 			$msg .= "UID:" . $items[$i]->eventdate->id . "\n";
 			$msg .= "DTSTAMP:" . date("Ymd\THis", time()) . "Z\n";
 			if($title) { $msg .= "SUMMARY:$title\n";}
-	//		if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:".$body."\n";}
-			if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:".quoted_printable_encode($body)."\n";}
-	//		if($body) { $msg .= "DESCRIPTION:$body\n";}
+//			if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:".quoted_printable_encode($body)."\n";}
+			if($body) { $msg .= "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:".$body."\n";}
 		//	if($link_url) { $msg .= "URL: $link_url\n";}
 			$msg .= "CATEGORIES:".$cats[$items[$i]->category_id]->name."\n";
 			$msg .= "END:VEVENT\n";      
