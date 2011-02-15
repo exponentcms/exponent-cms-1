@@ -199,7 +199,7 @@ class weblogmodule {
 				$start_month = $end_month + 1;
 				$end_month = exponent_datetime_endOfMonthTimestamp($start_month)+86399;
 			} while ($start_month < $max_date);
-			$template->assign('months',array_reverse($months,true));
+			$template->assign('months',array_slice(array_reverse($months,true),0,$config->items_per_page,true));
 		} else if ($viewparams['type'] == 'byauthor') {
 			$users = $db->selectColumn('weblog_post', 'distinct(poster)', $where);
 			$authors = $db->selectObjectsInArray('user', $users, 'username');

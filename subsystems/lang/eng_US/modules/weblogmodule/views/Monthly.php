@@ -1,6 +1,8 @@
 <?php
 
 return array(
+	'link_title'=>'View all posts for',
+
 	'alt_userperm'=>'Assign user permissions on this Weblog',
 	'alt_groupperm'=>'Assign group permissions on this Weblog',
 	'alt_configure'=>'Change the configuration of this Weblog',
