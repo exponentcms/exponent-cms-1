@@ -88,6 +88,13 @@ if ($item) {
 	}
 	$template->assign('tags',$selected_tags);
 	$template->assign('tagcnt',count($selected_tags));
+
+	$config = $db->selectObject("calendarmodule_config","location_data='".serialize($loc)."'");
+	if (!$config) {
+		$config->enable_ical = 1;
+	}
+	if (!isset($config->enable_ical)) {$config->enable_ical = 1;}
+	$template->assign("enable_ical", $config->enable_ical);
 	
 	$template->assign("item",$item);
 	$template->assign("directory","files/calendarmodule/".$loc->src);
