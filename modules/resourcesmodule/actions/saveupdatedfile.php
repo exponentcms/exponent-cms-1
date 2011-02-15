@@ -19,7 +19,8 @@
 
 if (!defined('EXPONENT')) exit('');
 
-if (!class_exists('mimetype')) include_once(BASE.'external/mimetype.php');
+//if (!class_exists('mimetype')) 
+include_once(BASE.'external/mimetype.php');
 if ($_POST['fileexists']) {
 	$filename = $_SERVER['DOCUMENT_ROOT'].$_POST['fileexists'];
 	$mimetype = new mimetype();
