@@ -54,6 +54,13 @@
 		{assign var=fid value=$resource->file_id}
 		{math equation="x-1" x=$resource->rank assign=prev}
 		{math equation="x+1" x=$resource->rank assign=next}
+		{if $resource->edited != 0 && $config->sortfield == "edited"}
+			{assign var='sortdate' value=$resource->edited}
+			{assign var='whopost'  value=$resource->editor}
+		{else}
+			{assign var='sortdate' value=$resource->posted}
+			{assign var='whopost'  value=$resource->poster}
+		{/if}
 		<li>
 		<h3>
 		{if $__viewconfig.show_icons && ($resource->mimetype->icon != "")}
@@ -68,6 +75,7 @@
 			<p><b><i>(File is Missing)</i></b></p>
 		{/if}		
 		</h3>
+		<div>{$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
@@ -106,13 +114,6 @@
 			{/if}	
 		{/if}
 		</div>
-		{if $resource->edited != 0 && $config->sortfield == "edited"}
-			{assign var='sortdate' value=$resource->edited}
-			{assign var='whopost'  value=$resource->editor}
-		{else}
-			{assign var='sortdate' value=$resource->posted}
-			{assign var='whopost'  value=$resource->poster}
-		{/if}
 		{if $resource->category_id != 0 && $__viewconfig.show_category}
 			{assign var=cat1id value=$resource->category_id}
 			<div>from &quot;{$categories[$cat1id]->name}&quot; {$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
