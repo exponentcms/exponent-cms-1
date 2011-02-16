@@ -19,9 +19,12 @@
 
 if (!defined('EXPONENT')) exit('');
 
+exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
+
 $config = $db->selectObject("newsmodule_config","location_data='".serialize($loc)."'");
 if ($config == null) {
 	$config->sortorder = "DESC";
+	$config->sortfield = "Posted";
 	$config->item_limit = 10;
 	$config->enable_pagination = 0;
 }
@@ -128,6 +131,10 @@ $sortFunc = 'exponent_sorting_by'.$field.$order;
 if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 //usort($news,($config->sortorder == "DESC" ? "exponent_sorting_byPostedDescending" : "exponent_sorting_byPostedAscending"));
 usort($news,$sortFunc);
+
+//If rss is enabled tell the view to show the RSS button
+if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
+$template->assign('enable_rss', $config->enable_rss);
 
 // EVIL WORKFLOW
 //$in_approval = $db->countObjects("newsitem_wf_info","location_data='".serialize($loc)."'");

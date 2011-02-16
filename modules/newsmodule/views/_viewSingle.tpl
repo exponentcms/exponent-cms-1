@@ -75,7 +75,7 @@
 		<div style="border: 1px solid LightGray; padding: 10px;;">
 			<b>Tags:</b> 
 			{foreach from=$tags item=tag}
-				{$tag->name};
+				<a href="{link action=view_page_bytag id=$tag->id page=0}" title="{$_TR.view_tag}'{$tag->name}'">{$tag->name}</a>;
 			{/foreach}
 		</div>
 		{br}
