@@ -53,7 +53,7 @@ function smarty_function_getchromemenu($params,&$smarty) {
 	}
 
 	if ($module->permissions['configure'] == 1 && $module->info['hasConfig']) {
-		$configlink = $router->makeLink(array('module'=>$module->info['class'], 'src'=>$module->info['source'], 'action'=>'configure', '_common'=>1));
+		$configlink = $router->makeLink(array('module'=>$module->info['class'], 'id'=>$module->id, 'src'=>$module->info['source'], 'action'=>'configure', '_common'=>1));
 		$menu[] = array("text"=>$smarty->_tpl_vars['_TR']['menu_confsettings'], "classname"=>"configsettings", "url"=>$configlink);
 	}
 

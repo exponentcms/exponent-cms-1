@@ -30,7 +30,46 @@ if (exponent_permissions_check('configure',$loc)) {
 		$db->insertObject($config,$_POST['module'].'_config');
 	}
 	
-	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
+	$container = $db->selectObject('container',"internal='".serialize($loc)."' AND id='".$_POST['id']."'");
+// replace with here down to
+	// Get all containers for module
+	$containers = $db->selectObjects("container","internal='".serialize($loc)."' AND id='".$_POST['id']."'");
+	if (count($containers) != 1) {
+		// Get current section (page) for locating specific module on that page
+		global $sectionObj;
+		$sectionid = $sectionObj->id;
+		$current = null;
+		foreach ($containers as $container1) {
+			$containerext = unserialize($container1->external);
+			$sectionref = $db->selectObject("sectionref","source = '".$containerext->src."' AND section='".$sectionid."'");
+			if ($sectionref) {
+				$current = $container1;
+				break;
+			}
+		}		
+		if (empty($current)) {	
+	// well, we didnt' find it yet, must be in a nested or static container
+	// so try a kludge to look for modules in static containers
+	// doesn't NOT work with nestedcontainers!
+			foreach ($containers as $container1) {
+				$containerext = unserialize($container1->external);
+				if ((substr($containerext->src,0,7) != "@random") && (intval(substr($containerext->src,-1)) == 0)){
+					$sectionref = $db->selectObject("sectionref","source = '".$containerext->src."'");
+					if ($sectionref) {
+						$current = $container1;
+						break;
+					}
+				}
+			}
+		}
+		if (empty($current)) {	
+	// well, we didnt' find it at all with our kludge, so pick the first container 
+			$container = $db->selectObject("container","internal='".serialize($loc)."'");
+		}
+		$container = $current; 	
+	}		
+// here
+	
 	$vconfig = array();
 	if (isset($_POST['_viewconfig'])) {
 		$opts = exponent_template_getViewConfigOptions($loc->mod,$container->view);

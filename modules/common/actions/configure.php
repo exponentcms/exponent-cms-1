@@ -44,10 +44,10 @@ if (exponent_permissions_check('configure',$loc)) {
 		$hasConfig = 1; //We have a configuration stored in its own table
 	}
 
-	$container = $db->selectObject('container',"internal='".serialize($loc)."'");
+	$container = $db->selectObject('container',"internal='".serialize($loc)."' AND id='".$_GET['id']."'");
 // replace here down to	
 	// Get all containers for module
-	$containers = $db->selectObjects("container","internal='".serialize($loc)."'");
+	$containers = $db->selectObjects("container","internal='".serialize($loc)."' AND id='".$_GET['id']."'");
 	if (count($containers) != 1) {
 		// Get current section (page) for locating specific module on that page
 		global $sectionObj;
@@ -101,6 +101,7 @@ if (exponent_permissions_check('configure',$loc)) {
 		$form->location($loc);
 		$form->meta('action','saveconfig');
 		$form->meta('_common','1');
+		$form->meta('id',$_GET['id']);
 	}
 	
 	if ($submit !== null) {
