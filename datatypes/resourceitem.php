@@ -28,7 +28,7 @@ class resourceitem {
 		if ($object == null) {
 			$object->name = '';
 			$object->description = '';
-			$object->restrict = false;
+			$object->restrict_download = false;
 		} else {
 			$form->meta('id',$object->id);
 		}

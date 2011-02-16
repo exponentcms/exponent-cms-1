@@ -57,7 +57,7 @@ SUCH DAMAGE.
 	
    Example:
 
-      $mimetype = new mimetype();
+      $mimetype = new filemimetype();
       print $mimetype->getType('acrobat.pdf');
 
    Author: Jason Sheets <jsheets@shadonet.com>
@@ -67,7 +67,7 @@ SUCH DAMAGE.
    e-mail me.   
 **/
 
-class mimetype {
+class filemimetype {
    function getType($filename) {
       // get base name of the filename provided by user
       $filename = basename($filename);

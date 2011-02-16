@@ -71,12 +71,12 @@ class file {
 		}
 		
 		// At this point, we are good to go.
-		if (!class_exists('mimetype')) include_once(BASE.'external/mimetype.php');
-		if ($_FILES[$name]['type'] != "application/octet-stream") {
-			$file->mimetype = $_FILES[$name]['type'];
+		if (!class_exists('filemimetype')) include_once(BASE.'external/mimetype.php');
+		if ($_FILES[$name]['type'] != 'application/octet-stream') {
+			$object->mimetype = $_FILES[$name]['type'];
 		} else {
-			$mimetype = new mimetype();
-			$file->mimetype = $mimetype->getType($_FILES[$name]['name']);
+			$mimetype = new filemimetype();
+			$object->mimetype = $mimetype->getType($_FILES[$name]['name']);
 		}
 		$object->directory = $dest;
 		//$object->accesscount = 0;

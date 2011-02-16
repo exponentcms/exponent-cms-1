@@ -41,15 +41,13 @@ if (isset($_POST['id'])) {
 	}
 }
 
-//if (!class_exists('mimetype')) 
-include_once(BASE.'external/mimetype.php');
+if (!class_exists('filemimetype')) include_once(BASE.'external/mimetype.php');
 // we're using a file already on the server, fool system into thinkin it's just been uploaded
 if ($_POST['fileexists']) {
 	$filename = $_SERVER['DOCUMENT_ROOT'].$_POST['fileexists'];
-	$mimetype = new mimetype();
-	$mimetype = $mimetype->getType($filename);
 	$_FILES['file']['name'] = end(explode("/", $_POST['fileexists']));
-	$_FILES['file']['type'] = $mimetype;
+	$mimetype = new filemimetype();
+	$_FILES['file']['type'] = $mimetype->getType($filename);
 	$_FILES['file']['tmp_name'] = $filename;
 	$_FILES['file']['error'] = 0;	
 	$_FILES['file']['size'] = filesize($filename);
@@ -62,7 +60,7 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 	$oldcatid = $resource->category_id;
 	$resource = resourceitem::update($_POST,$resource);
 	$resource->location_data = serialize($loc);
-	$resource->category_id = $cats;
+	$resource->category_id = $cat;
 	// if (!isset($resource->id)) {
 		// $resource->rank = intval($_POST['rank']);
 		// $db->increment('resourceitem','rank',1,"location_data='".serialize($loc)."' AND rank >= ".$resource->rank);
@@ -82,7 +80,6 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 	
 		if ($_POST['fileexists']) {
 
-			$name = 'file';
 			$dest = $directory;
 		//	$object = null;
 			$destname = time().'_'.$_FILES['file']['name'];
@@ -94,14 +91,14 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 			
 			// Get the filename, if it was passed in the update() call.  Otherwise, fallback
 			if ($destname == null) {
-				$file->filename = $_FILES[$name]['name'];
+				$file->filename = $_FILES['file']['name'];
 			} else {
 				$file->filename = $destname;
 			}
 			// General error message.  This will be made more explicit later on.
 			$err = sprintf($i18n['cant_upload'],$file->filename) .'<br />';
 			
-			switch($_FILES[$name]['error']) {
+			switch($_FILES['file']['error']) {
 				case UPLOAD_ERR_OK:
 					// Everything looks good.  Continue with the update.
 					break;
@@ -132,10 +129,10 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 			}	
 
 			// Move the temporary uploaded file into the destination directory, and change the name.
-	//		exponent_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$file->filename);
-	//		move_uploaded_file($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$file->filename);
-			copy($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$file->filename);
-	//		$contentx =@file_get_contents($_FILES[$name]['tmp_name']); 
+	//		exponent_files_moveUploadedFile($_FILES['file']['tmp_name'],BASE.$dest.'/'.$file->filename);
+	//		move_uploaded_file($_FILES['file']['tmp_name'],BASE.$dest.'/'.$file->filename);
+			copy($_FILES['file']['tmp_name'],BASE.$dest.'/'.$file->filename);
+	//		$contentx =@file_get_contents($_FILES['file']['tmp_name']); 
 	//		   $openedfile = fopen(BASE.$dest.'/'.$file->filename, "w"); 
 	//		   fwrite($openedfile, $contentx); 
 	//		   fclose($openedfile); 
@@ -150,15 +147,15 @@ if (($resource == null && exponent_permissions_check('post',$loc)) ||
 			}
 			
 			// At this point, we are good to go.
-			if ($_FILES[$name]['type'] != "application/octet-stream") {
-				$file->mimetype = $_FILES[$name]['type'];
+			if ($_FILES['file']['type'] != "application/octet-stream") {
+				$file->mimetype = $_FILES['file']['type'];
 			} else {
-				$mimetype = new mimetype();
-				$file->mimetype = $mimetype->getType($_FILES[$name]['name']);
+				$mimetype = new filemimetype();
+				$file->mimetype = $mimetype->getType($_FILES['file']['name']);
 			}
 			$file->directory = $dest;
 			//$file->accesscount = 0;
-			$file->filesize = $_FILES[$name]['size'];
+			$file->filesize = $_FILES['file']['size'];
 			$file->posted = time();
 			global $user;
 			if ($user) {

@@ -19,14 +19,12 @@
 
 if (!defined('EXPONENT')) exit('');
 
-//if (!class_exists('mimetype')) 
-include_once(BASE.'external/mimetype.php');
+if (!class_exists('filemimetype')) include_once(BASE.'external/mimetype.php');
 if ($_POST['fileexists']) {
 	$filename = $_SERVER['DOCUMENT_ROOT'].$_POST['fileexists'];
-	$mimetype = new mimetype();
-	$mimetype = $mimetype->getType($filename);
 	$_FILES['file']['name'] = end(explode("/", $_POST['fileexists']));
-	$_FILES['file']['type'] = $mimetype;
+	$mimetype = new filemimetype();
+	$_FILES['file']['type'] = $mimetype->getType($filename);
 	$_FILES['file']['tmp_name'] = $filename;
 	$_FILES['file']['error'] = 0;	
 	$_FILES['file']['size'] = filesize($filename);
@@ -39,10 +37,9 @@ if ($resource) {
 	
 	if (exponent_permissions_check('edit',$loc) || exponent_permissions_check('edit',$iloc)) {
 		$directory = 'files/resourcesmodule/'.$loc->src;
-		
+
 if ($_POST['fileexists']) {
 
-	$name = 'file';
 	$dest = $directory;
 //	$object = null;
 	$destname = time().'_'.$_FILES['file']['name'];
@@ -54,14 +51,14 @@ if ($_POST['fileexists']) {
 		
 		// Get the filename, if it was passed in the update() call.  Otherwise, fallback
 		if ($destname == null) {
-			$file->filename = $_FILES[$name]['name'];
+			$file->filename = $_FILES['file']['name'];
 		} else {
 			$file->filename = $destname;
 		}
 		// General error message.  This will be made more explicit later on.
 		$err = sprintf($i18n['cant_upload'],$file->filename) .'<br />';
 		
-		switch($_FILES[$name]['error']) {
+		switch($_FILES['file']['error']) {
 			case UPLOAD_ERR_OK:
 				// Everything looks good.  Continue with the update.
 				break;
@@ -92,10 +89,10 @@ if ($_POST['fileexists']) {
 		}	
 
 		// Move the temporary uploaded file into the destination directory, and change the name.
-//		exponent_files_moveUploadedFile($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$file->filename);
-//		move_uploaded_file($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$file->filename);
-		copy($_FILES[$name]['tmp_name'],BASE.$dest.'/'.$file->filename);
-//		$contentx =@file_get_contents($_FILES[$name]['tmp_name']); 
+//		exponent_files_moveUploadedFile($_FILES['file']['tmp_name'],BASE.$dest.'/'.$file->filename);
+//		move_uploaded_file($_FILES['file']['tmp_name'],BASE.$dest.'/'.$file->filename);
+		copy($_FILES['file']['tmp_name'],BASE.$dest.'/'.$file->filename);
+//		$contentx =@file_get_contents($_FILES['file']['tmp_name']); 
 //		   $openedfile = fopen(BASE.$dest.'/'.$file->filename, "w"); 
 //		   fwrite($openedfile, $contentx); 
 //		   fclose($openedfile); 
@@ -108,17 +105,17 @@ if ($_POST['fileexists']) {
 		if (!file_exists(BASE.$dest.'/'.$file->filename)) {
 			$file = $err.$i18n['cant_move'];
 		}
-		
+
 		// At this point, we are good to go.
-		if ($_FILES[$name]['type'] != "application/octet-stream") {
-			$file->mimetype = $_FILES[$name]['type'];
+		if ($_FILES['file']['type'] != 'application/octet-stream') {
+			$file->mimetype = $_FILES['file']['type'];
 		} else {
-			$mimetype = new mimetype();
-			$file->mimetype = $mimetype->getType($_FILES[$name]['name']);
+			$mimetype = new filemimetype();
+			$file->mimetype = $mimetype->getType($_FILES['file']['name']);
 		}
 		$file->directory = $dest;
 		//$file->accesscount = 0;
-		$file->filesize = $_FILES[$name]['size'];
+		$file->filesize = $_FILES['file']['size'];
 		$file->posted = time();
 		global $user;
 		if ($user) {
