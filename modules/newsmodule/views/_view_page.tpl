@@ -81,11 +81,11 @@
 					{elseif ($newsitem->unpublish != 0) && $newsitem->unpublish <= $smarty.now}
 						{$_TR.now_unpublished}</u></b>&nbsp;
 					{/if}
-				</div>				
+				</div>	
+				<hr />				
 			</div>
 		{/if}
 	{/foreach}
-
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		<div class="moduleactions">
 			<p>

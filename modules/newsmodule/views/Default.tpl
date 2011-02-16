@@ -85,6 +85,7 @@
 					{$_TR.now_unpublished}</u></b>&nbsp;
 				{/if}
 			</div>
+			<hr />
 		{*/if*}
 		</div>
 	{assign var=item_number value=$item_number+1}
@@ -94,7 +95,6 @@
 	{foreachelse}
 		<p align="center"><i>{$_TR.no_news}No recent news</i></p>	
 	{/foreach}
-{br}	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		<div class="moduleactions">
 			<p>
