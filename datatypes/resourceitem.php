@@ -28,12 +28,14 @@ class resourceitem {
 		if ($object == null) {
 			$object->name = '';
 			$object->description = '';
+			$object->restrict = false;
 		} else {
 			$form->meta('id',$object->id);
 		}
 		
 		$form->register('name',$i18n['name'],new textcontrol($object->name));
 		$form->register('description',$i18n['description'],new htmleditorcontrol($object->description));
+		$form->register('restrict_download',$i18n['restrict_download'],new checkboxcontrol($object->restrict_download,true));
 		$form->register(null,'',new htmlcontrol('<h3>'.$i18n['posting_information'].'</h3><hr size="1" />'));
 		$checked = empty($object->posted) ? true : false;
 		$form->register('posted',$i18n['posted'],new yuidatetimecontrol($object->posted,$i18n['nopublish'], true, true, false, $checked));
@@ -46,6 +48,7 @@ class resourceitem {
 	function update($values,$object) {
 		$object->name = $values['name'];
 		$object->description = $values['description'];
+		$object->restrict_download = (isset($values['restrict_download']) ? 1 : 0);
 		$object->posted = yuidatetimecontrol::parseData('posted',$values);
 		if (empty($object->posted)) {
 			$object->posted = time();

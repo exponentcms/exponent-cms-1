@@ -54,6 +54,8 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 	"category_id"=>array(
 		DB_FIELD_TYPE=>DB_DEF_INTEGER),	
+	'restrict_download'=>array(
+		DB_FIELD_TYPE=>DB_DEF_INTEGER),
 );
 
 ?>
