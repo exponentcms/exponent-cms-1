@@ -27,9 +27,9 @@ return array(
 	'tagging'=>'Tagging',
 	'enable_tags'=>'Enable Tags',
 	'tag_collections'=>'Tag Collections',
-	'group_by_tags'=>'Group by Tags',
+	'group_by_tags'=>'Filter by Tags',
 	'show_tags'=>'Show Tags',
-  	'show_tags_desc'=>'<br />If you choose to have this module group posts by tags, then you must select which tags are to be displayed.<br /><div style="color:red;">*** Currently you must first choose your collections and save this module configuration, then come back in and choose your tags.</div>',
+  	'show_tags_desc'=>'<br />If you choose to have this module filter posts by tags, then you must select which tags are to be displayed. Only posts with those tags will be displayed.<br /><div style="color:red;">*** Currently you must first choose your collections and save this module configuration, then come back in and choose your tags.</div>',
 
 	'merge_blogs'=>'Merge Weblogs',
 	'pull_posts'=>'Pull Posts from These Other Blog Module',
