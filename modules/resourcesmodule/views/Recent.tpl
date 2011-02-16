@@ -75,7 +75,6 @@
 			<p><b><i>(File is Missing)</i></b></p>
 		{/if}		
 		</h3>
-		<div>{$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
@@ -114,10 +113,12 @@
 			{/if}	
 		{/if}
 		</div>
+		<div>
 		{if $resource->category_id != 0 && $__viewconfig.show_category}
 			{assign var=cat1id value=$resource->category_id}
-			<div>from &quot;{$categories[$cat1id]->name}&quot; {$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
+			from &quot;{$categories[$cat1id]->name}&quot; 
 		{/if}
+		{$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		<div class="itemactions">
 		{if $__viewconfig.show_player && $resource->filename != "" && $resource->fileexists && $resource->mimetype->mimetype == "audio/mpeg"}
 			<p id="snd{$resource->id}">mp3 file<p>

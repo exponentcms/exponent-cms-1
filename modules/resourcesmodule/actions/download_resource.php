@@ -50,8 +50,9 @@ if ($resource != null) {
 
 	if (!isset($config) || $config == null || $config->allow_anon_downloads != true || $resource->restrict_download) {
 		if ( !exponent_permissions_check('can_download',$loc) && !exponent_permissions_check('can_download',$iloc)) {
-			echo '<div class="error">You do not have permissions to download this file.</div>';
-			exit();
+			flash('error',"You do not have permission to download '".$resource->name."'.");
+//			exit();
+			exponent_flow_redirect();
 		}
 	}
   
