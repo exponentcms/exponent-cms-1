@@ -25,8 +25,8 @@ return array(
 	'alt_delete_comment'=>'Delete this Comment',
 	'delete_comment_confirm'=>'Are you sure you want to delete this Comment?',
 
-	'next'=>'Next',
-	'previous'=>'Previous',
+	'next'=>'Next &raquo;',
+	'previous'=>'&laquo; Previous',
 	'read_more'=>'Read More',
 	'view_all'=>'More Posts',
 	'new_post'=>'New Post',
