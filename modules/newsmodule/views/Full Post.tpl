@@ -97,27 +97,23 @@
 {br}	
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		<div class="moduleactions">
-			{if $enable_pagination == 1}
-				{if $total_news > $item_limit}
-				   <p><a class="mngmntlink news_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a></p>
+			<p>
+				{if (($enable_pagination == 1) && ($total_news > $item_limit))}
+					{$_TR.prev}&nbsp;&nbsp;
+					<a class="news_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>{br}
 				{/if}
-			{/if}
-			{if $morenews == 1 || $more_news == 1}
-				<p><a class="viewmorenews mngmntlink" href="{link action=view_page page=1}">{$_TR.view_all}</a></p>
-			{else}
-				{br}
-			{/if}
-			{permissions level=$smarty.const.UILEVEL_NORMAL}
-				{if $permissions.add_item == true}
-					<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
-				{/if}
-				{if $in_approval > 0 && $canview_approval_link == 1}
-					<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
-				{/if}
-				{if $permissions.view_unpublished == 1 }
-					<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>{br}
-				{/if}
-			{/permissions}
+				{permissions level=$smarty.const.UILEVEL_NORMAL}
+					{if $permissions.add_item == true}
+						<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+					{/if}
+					{if $in_approval > 0 && $canview_approval_link == 1}
+						<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
+					{/if}
+					{if $permissions.view_unpublished == 1 }
+						<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+					{/if}
+				{/permissions}
+			</p>
 		</div>
 	{/permissions}
 </div>

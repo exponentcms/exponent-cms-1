@@ -75,20 +75,22 @@
 	</ul>
 </div>
 <div class="newsmodule headlines">
-	<p>
-		{if $morenews == 1 || $more_news == 1}
-			<a class="viewmorenews mngmntlink" href="{link action=view_page page=0}">{$_TR.view_all}</a>{br}
-		{/if}
-		{permissions level=$smarty.const.UILEVEL_NORMAL}
-			{if $permissions.add_item == true}
-				<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+	<div class="moduleactions">
+		<p>
+			{if $morenews == 1 || $more_news == 1}
+				<a class="viewmorenews" href="{link action=view_page page=0}">{$_TR.view_all}</a>{br}
 			{/if}
-			{if $in_approval > 0 && $canview_approval_link == 1}
-				<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
-			{/if}
-			{if $permissions.view_unpublished == 1}
-				<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
-			{/if}
-		{/permissions}
-	</p>
+			{permissions level=$smarty.const.UILEVEL_NORMAL}
+				{if $permissions.add_item == true}
+					<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+				{/if}
+				{if $in_approval > 0 && $canview_approval_link == 1}
+					<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
+				{/if}
+				{if $permissions.view_unpublished == 1}
+					<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+				{/if}
+			{/permissions}
+		</p>
+	</div>
 </div>
