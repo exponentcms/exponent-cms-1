@@ -84,7 +84,10 @@
 
 	{if $total_posts > $__viewconfig.num_posts}
 		{if $__viewconfig.num_posts > 1}
-			<p><a class="weblog_mngmntlink" href="{link action=view_page page=1}">{$_TR.next} &gt;</a></p>
+			<p>
+			&lt; {$_TR.previous}&nbsp;&nbsp;|&nbsp;&nbsp;
+			<a class="weblog_mngmntlink" href="{link action=view_page page=1}">{$_TR.next} &gt;</a>
+			</p>
 		{else}
 			<p><a class="moreposts" href="{link action=view_page page=0}">{$_TR.view_all}{if $moduletitle != ""} in &quot;{$moduletitle}&quot;{/if}</a></p>
 		{/if}

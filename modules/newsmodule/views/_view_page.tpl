@@ -92,10 +92,11 @@
 				{if $enable_pagination == 1}
 					{if $page != 0}
 						{math equation="x-1" x=$page assign=prevpage}
-						<a class="news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>&nbsp;&nbsp;
+						<a class="news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>
 					{else}
-						{$_TR.prev}&nbsp;&nbsp;
+						{$_TR.prev}
 					{/if}
+					&nbsp;&nbsp;|&nbsp;&nbsp;
 					{if $shownext}
 						{math equation="x+1" x=$page assign=nextpage}
 						<a class="news_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>

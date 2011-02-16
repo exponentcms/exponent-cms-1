@@ -99,7 +99,7 @@
 		<div class="moduleactions">
 			<p>
 				{if (($enable_pagination == 1) && ($total_news > $item_limit))}
-					{$_TR.prev}&nbsp;&nbsp;
+					{$_TR.prev}&nbsp;&nbsp;|&nbsp;&nbsp;
 					<a class="news_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>{br}
 				{/if}
 				{permissions level=$smarty.const.UILEVEL_NORMAL}

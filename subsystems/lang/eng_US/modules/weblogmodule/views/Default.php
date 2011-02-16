@@ -26,6 +26,7 @@ return array(
 	'delete_comment_confirm'=>'Are you sure you want to delete this Comment?',
 
 	'next'=>'Next',
+	'previous'=>'Previous',
 	'read_more'=>'Read More',
 	'view_all'=>'More Posts',
 	'new_post'=>'New Post',

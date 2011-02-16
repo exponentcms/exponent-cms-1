@@ -100,14 +100,18 @@
 {/if}
 {if $page != 0}
 	{math equation="x-1" x=$page assign=prevpage}
-	<a class="weblog_mngmntlink" href="{link action=view_page page=$prevpage view=$view}">&lt; {$_TR.previous}</a>&nbsp;&nbsp;
+	<a class="weblog_mngmntlink" href="{link action=view_page page=$prevpage view=$view}">&lt; {$_TR.previous}</a>
 	{if $shownext}
-	|&nbsp;
 	{/if}
+{else}
+	&lt; {$_TR.previous}
 {/if}
+&nbsp;&nbsp;|&nbsp;&nbsp;
 {if $shownext}
 	{math equation="x+1" x=$page assign=nextpage}
 	<a class="weblog_mngmntlink" href="{link action=view_page page=$nextpage view=$view}">{$_TR.next} &gt;</a>
+{else}
+	{$_TR.next} &gt;
 {/if}
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 {if $permissions.post == 1}
