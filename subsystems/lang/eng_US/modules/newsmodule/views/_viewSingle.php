@@ -19,7 +19,9 @@ return array(
 	'will_be'=>'Will be',
 	'was'=>'Was',
 	'now_unpublished'=>'Now Unpublished',	
-	
+
+	'view_tag'=>'View other news items tagged with',
+		
 	'next'=>'(Next)',
 	'previous'=>'(Previous)',	
 );
