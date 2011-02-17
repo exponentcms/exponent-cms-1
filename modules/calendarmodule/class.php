@@ -209,16 +209,32 @@ class calendarmodule {
 			if ($viewparams['range'] == "week") {
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 7;
+				$template->assign("prev_timestamp3",strtotime('-21 days',$startperiod));
+				$template->assign("prev_timestamp2",strtotime('-14 days',$startperiod));
+				$template->assign("prev_timestamp",strtotime('-7 days',$startperiod));
+				$template->assign("next_timestamp",strtotime('+7 days',$startperiod));
+				$template->assign("next_timestamp2",strtotime('+14 days',$startperiod));
+				$template->assign("next_timestamp3",strtotime('+21 days',$startperiod));
 			} else if ($viewparams['range'] == "twoweek") {
 				$time= time();
 				$startperiod = exponent_datetime_startOfWeekTimestamp($time);
 				$totaldays = 14;				
+				$template->assign("prev_timestamp3",strtotime('-42 days',$startperiod));
+				$template->assign("prev_timestamp2",strtotime('-28 days',$startperiod));
+				$template->assign("prev_timestamp",strtotime('-14 days',$startperiod));
+				$template->assign("next_timestamp",strtotime('+14 days',$startperiod));
+				$template->assign("next_timestamp2",strtotime('+28 days',$startperiod));
+				$template->assign("next_timestamp3",strtotime('+42 days',$startperiod));
 			} else {  // range = month
 				$startperiod = exponent_datetime_startOfMonthTimestamp($time);
 				$totaldays  = date('t', $time);
+				$template->assign("prev_timestamp3",strtotime('-3 months',$startperiod));
+				$template->assign("prev_timestamp2",strtotime('-2 months',$startperiod));
+				$template->assign("prev_timestamp",strtotime('-1 months',$startperiod));
+				$template->assign("next_timestamp",strtotime('+1 months',$startperiod));
+				$template->assign("next_timestamp2",strtotime('+2 months',$startperiod));
+				$template->assign("next_timestamp3",strtotime('+3 months',$startperiod));
 			}
-			$template->assign("prev_timestamp",$startperiod - 3600);
-			$template->assign("next_timestamp",$startperiod+(($totaldays * 86400) + 3600));
 
 			$days = array();
 			// added per Ignacio
@@ -299,8 +315,12 @@ class calendarmodule {
 			$template->assign("currentweek",$currentweek);
 			$template->assign("monthly",$monthly);
 			$template->assign("counts",$counts);
-			$template->assign("nextmonth",$timefirst+(86400*45));
-			$template->assign("prevmonth",$timefirst-(86400*15));
+			$template->assign("prevmonth3",strtotime('-3 months',$timefirst));
+			$template->assign("prevmonth2",strtotime('-2 months',$timefirst));
+			$template->assign("prevmonth",strtotime('-1 months',$timefirst));
+			$template->assign("nextmonth",strtotime('+1 months',$timefirst));
+			$template->assign("nextmonth2",strtotime('+2 months',$timefirst));
+			$template->assign("nextmonth3",strtotime('+3 months',$timefirst));
 			$template->assign("now",$timefirst);
 			$template->assign("today",strtotime('today')-39600);
 		} else if ($viewparams['type'] == "administration") {

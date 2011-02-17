@@ -25,7 +25,15 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
-	<p class="caption"><a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$prevday}"><img class="mngmnt_icon itemactions" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.prev_day}" alt="{$_TR.prev_day}" /></a> <span>{$now|format_date:"%A, %B %e, %Y"}</span> <a class="mngmntlink calendar_mngmntlink" href="{link action=viewday time=$nextday}"><img class="mngmnt_icon itemactions" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next_day}" alt="{$_TR.next_day}" /></a></p>
+	<p class="caption">
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewday time=$prevday3}">{$prevday3|format_date:"%a"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewday time=$prevday2}">{$prevday2|format_date:"%a"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewday time=$prevday}">{$prevday|format_date:"%a"}</a>&nbsp;&nbsp;&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>{$now|format_date:"%A, %B %e, %Y"}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewday time=$nextday}">{$nextday|format_date:"%a"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewday time=$nextday2}">{$nextday2|format_date:"%a"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewday time=$nextday3}">{$nextday3|format_date:"%a"}</a>
+	</p>
 	<dl class="viewweek">
 		{assign var=count value=0}
 		{foreach from=$events item=event}

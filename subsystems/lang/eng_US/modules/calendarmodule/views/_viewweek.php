@@ -4,7 +4,7 @@ return array(
 	'prev_week'=>'Previous Week',
 	'next_week'=>'Next Week',
 
-	'view_week'=>'Events for the week of',
+	'view_week'=>'Week of',
 	
 	'view_month'=>'View Month',
 	'alt_view_month'=>'View Entire Month',

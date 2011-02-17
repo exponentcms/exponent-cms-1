@@ -94,8 +94,13 @@ $template->assign("enable_ical", $config->enable_ical);
 $template->assign("days",$days);
 $template->assign("counts",$counts);
 $template->assign("startweek",$startweek);
-$template->assign("startnextweek",($startweek+(86400*9)));
-$template->assign("startprevweek",($startweek-(86400*3)));
+$template->assign("startprevweek3",(strtotime('-3 weeks',$startweek)));
+$template->assign("startprevweek2",(strtotime('-2 weeks',$startweek)));
+$template->assign("startprevweek",(strtotime('-1 weeks',$startweek)));
+$template->assign("startnextweek",(strtotime('+1 weeks',$startweek)));
+$template->assign("startnextweek2",(strtotime('+2 weeks',$startweek)));
+$template->assign("startnextweek3",(strtotime('+3 weeks',$startweek)));
+
 $template->assign('moduletitle',$title);
 $template->output();
 

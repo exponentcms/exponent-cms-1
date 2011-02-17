@@ -24,7 +24,13 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
-	<p class="caption"><a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}"><img class="mngmnt_icon itemactions" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.prev_week}" alt="{$_TR.prev_week}" /></a> <span>{$_TR.view_week} {$startweek|format_date:"%B %e, %Y"}</span> <a class="mngmntlink calendar_mngmntlink" href="{link action=viewweek time=$startnextweek}"><img class="mngmnt_icon itemactions" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next_week}" alt="{$_TR.next_week}" /></a></p>
+	<p class="caption">
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startprevweek2}">{$startprevweek2|format_date:"%b %e"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}">{$startprevweek|format_date:"%b %e"}</a>&nbsp;&nbsp;&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>{$_TR.view_week} {$startweek|format_date:"%B %e, %Y"}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startnextweek}">{$startnextweek|format_date:"%b %e"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startnextweek2}">{$startnextweek2|format_date:"%b %e"}</a>
+	</p>
 	<dl class="viewweek">
 
 		{foreach from=$days item=events key=ts}

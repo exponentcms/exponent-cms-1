@@ -49,9 +49,14 @@
 		{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
 	<p class="caption">
-		<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$prev_timestamp}"><img class="mngmnt_icon itemactions" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.previous}" alt="{$_TR.previous}" /></a>
-		<b>{$time|format_date:"%B %Y"}</b>
-		<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$next_timestamp}"><img class="mngmnt_icon itemactions" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" /></a>
+		&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$prev_timestamp3}">{$prev_timestamp3|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$prev_timestamp2}">{$prev_timestamp2|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$prev_timestamp}">{$prev_timestamp|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<b>{$time|format_date:"%B %Y"}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$next_timestamp}">{$next_timestamp|format_date:"%b"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$next_timestamp2}">{$next_timestamp2|format_date:"%b"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$next_timestamp3}">{$next_timestamp3|format_date:"%b"}</a>&nbsp;&nbsp;&raquo;
 	</p>
 	<dl class="viewweek">
 		{foreach from=$days item=events key=ts}

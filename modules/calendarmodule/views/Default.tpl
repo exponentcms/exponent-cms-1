@@ -51,9 +51,14 @@
 
 	<table id="calendar" summary="{$moduletitle|default:$_TR.default_summary}">
 	<caption>
-	<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}"><img class="mngmnt_icon itemactions" style="border:none;" src="{$smarty.const.ICON_RELATIVE}left.png" title="{$_TR.previous}" alt="{$_TR.previous}" /></a>
-	<b>{$time|format_date:"%B %Y"}</b>
-	<a class="mngmntlink calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}"><img class="mngmnt_icon itemactions" style="border:none;" src="{$smarty.const.ICON_RELATIVE}right.png" title="{$_TR.next}" alt="{$_TR.next}" /></a>
+	&laquo;&nbsp;
+	<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth3}">{$prevmonth3|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+	<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth2}">{$prevmonth2|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+	<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth time=$prevmonth}">{$prevmonth|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<b>{$time|format_date:"%B %Y"}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+	<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth}">{$nextmonth|format_date:"%b"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+	<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth2}">{$nextmonth2|format_date:"%b"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+	<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth time=$nextmonth3}">{$nextmonth3|format_date:"%b"}</a>&nbsp;&nbsp;&raquo;
 	</caption>
 
 		<tr class="daysoftheweek">

@@ -82,8 +82,13 @@ $template->assign("enable_ical", $config->enable_ical);
 
 $template->assign("events",$events);
 $template->assign("now",$time);
-$template->assign("nextday",$time+86400);
-$template->assign("prevday",$time-86400);
+$template->assign("prevday3",strtotime('-3 days',$time));
+$template->assign("prevday2",strtotime('-2 days',$time));
+$template->assign("prevday",strtotime('-1 days',$time));
+$template->assign("nextday",strtotime('+1 days',$time));
+$template->assign("nextday2",strtotime('+2 days',$time));
+$template->assign("nextday3",strtotime('+3 days',$time));
+
 $template->assign('moduletitle',$title);
 
 $template->output();
