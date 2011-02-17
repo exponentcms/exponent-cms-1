@@ -25,11 +25,11 @@
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
 	<p class="caption">
-		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startprevweek2}">{$startprevweek2|format_date:"%b %e"}</a>&nbsp;&nbsp;&laquo;&nbsp;
-		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}">{$startprevweek|format_date:"%b %e"}</a>&nbsp;&nbsp;&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startprevweek2}" title="{$_TR.view_week} {$startprevweek2|format_date:"%B %e, %Y"}">{$startprevweek2|format_date:"%b %e"}</a>&nbsp;&nbsp;&laquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startprevweek}" title="{$_TR.view_week} {$startprevweek|format_date:"%B %e, %Y"}">{$startprevweek|format_date:"%b %e"}</a>&nbsp;&nbsp;&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span>{$_TR.view_week} {$startweek|format_date:"%B %e, %Y"}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
-		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startnextweek}">{$startnextweek|format_date:"%b %e"}</a>&nbsp;&nbsp;&raquo;&nbsp;
-		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startnextweek2}">{$startnextweek2|format_date:"%b %e"}</a>
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startnextweek}" title="{$_TR.view_week} {$startnextweek|format_date:"%B %e, %Y"}">{$startnextweek|format_date:"%b %e"}</a>&nbsp;&nbsp;&raquo;&nbsp;
+		<a class="itemactions calendar_mngmntlink" href="{link action=viewweek time=$startnextweek2}" title="{$_TR.view_week} {$startnextweek2|format_date:"%B %e, %Y"}">{$startnextweek2|format_date:"%b %e"}</a>
 	</p>
 	<dl class="viewweek">
 
