@@ -536,12 +536,12 @@ class calendarmodule {
 		if (!defined('SYS_SORTING')) include_once(BASE.'subsystems/sorting.php');
 		if ($sort_asc && !function_exists('exponent_sorting_byEventStartAscending')) {
 			function exponent_sorting_byEventStartAscending($a,$b) {
-				return ($a->eventstart < $b->eventstart ? 1 : -1);
+				return ($a->eventstart < $b->eventstart ? -1 : 1);
 			}
 		}
 		if (!$sort_asc && !function_exists('exponent_sorting_byEventStartDescending')) {
 			function exponent_sorting_byEventStartDescending($a,$b) {
-				return ($a->eventstart < $b->eventstart ? 1 : -1);
+				return ($a->eventstart > $b->eventstart ? -1 : 1);
 			}
 		}
 
