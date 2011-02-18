@@ -21,6 +21,7 @@
 		&nbsp;&nbsp;|&nbsp;&nbsp;
 		{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
 		{br}
+		<a class="listviewlink" href="{link _common=1 view='Past Events' action='show_view' time=$time}">{$_TR.past_events}</a>{br}
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.post == 1}
 				{br}
@@ -74,7 +75,7 @@
 				{if $config->enable_categories == 1}
 				<td>{assign var=catid value=$item->category_id}
 					<b>
-					{if $__viewconfig.colorize == 1}<span style="color: {$categories[$catid]->color}">{$categories[$catid]->name}</span>{else}{$categories[$catid]->name}{/if}
+					<span style="color: {$categories[$catid]->color}">{$categories[$catid]->name}</span>
 					</b>
 				</td>
 				{/if}

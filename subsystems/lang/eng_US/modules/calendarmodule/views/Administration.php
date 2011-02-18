@@ -11,6 +11,7 @@ return array(
 	'calendar_view'=>'Calendar View',
 	'list_view'=>'List View',	
 	'administration_view'=>'Administration View',	
+	'past_events'=>'Past Events View',	
 	'printer_friendly'=>'Printer-friendly',	
 
 	'alt_userperm_one'=>'Assign user permissions on this Calendar Event',

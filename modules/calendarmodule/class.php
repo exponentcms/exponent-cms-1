@@ -333,7 +333,7 @@ class calendarmodule {
 						exponent_permissions_check("approve",$loc) ||
 						exponent_permissions_check("manage_approval",$loc)
 				) ? 1 : 0;
-			$dates = $db->selectObjects("eventdate",$locsql);
+			$dates = $db->selectObjects("eventdate",$locsql." AND date >= '".exponent_datetime_startOfDayTimestamp(time())."'");
 			$items = calendarmodule::_getEventsForDates($dates);
 			if (!$continue) {
 				foreach ($items as $i) {
