@@ -116,14 +116,17 @@ class linkmodule {
 		$template->assign('orderhow', $config->orderhow);
 		
       // Get sorted categories
-		$categories=$this->tools_getCategories($loc);
+//		$categories=$this->tools_getCategories($loc);
+		$categories=linkmodule::tools_getCategories($loc);
 		$template->assign('categories', $categories);
       
       // Get sorted links and count them
 		if ($config->enable_categories == true) {	  
-			$data=$this->tools_getCategorizedLinks($loc,$categories,true,$sortFunc);
+//			$data=$this->tools_getCategorizedLinks($loc,$categories,true,$sortFunc);
+			$data=linkmodule::tools_getCategorizedLinks($loc,$categories,true,$sortFunc);
 		} else {
-			$data=$this->tools_getLinks($loc,$sortFunc);      
+//			$data=$this->tools_getLinks($loc,$sortFunc);      
+			$data=linkmodule::tools_getLinks($loc,$sortFunc);      
 		}
 		$cat_count=array();
 		foreach ($categories as $id=>$category) {
@@ -155,12 +158,15 @@ class linkmodule {
 		// } 
       
 		if($config->enable_categories) {
-			$categories=$this->tools_getCategories($loc);
+//			$categories=$this->tools_getCategories($loc);
+			$categories=linkmodule::tools_getCategories($loc);
 //			$categories_for_display_only=$categories;
-			$data=$this->tools_getCategorizedLinks($loc,$categories);      
+//			$data=$this->tools_getCategorizedLinks($loc,$categories);      
+			$data=linkmodule::tools_getCategorizedLinks($loc,$categories);      
 		} else  {
 			$categories[0]="";
-			$data=$this->tools_getLinks($loc);      
+//			$data=$this->tools_getLinks($loc);      
+			$data=linkmodule::tools_getLinks($loc);      
 		}
          
 		// if($config->rss_add_category_name and !isset($categories_for_display_only)) 
