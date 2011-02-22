@@ -998,7 +998,7 @@ class RSSCreator091 extends FeedCreator {
                                 $feed.= "        </itunes:owner>\n";
 			}
 			if ($this->itunes->image!="") {
-				$feed.= "        <itunes:link rel=\"image\" type=\"image/jpeg\" href=\"".$this->itunes->image."\">[image]</itunes:link>\n";
+				$feed.= "        <itunes:image href=\"".$this->itunes->image."\" />\n";
 			}
                 }
 
