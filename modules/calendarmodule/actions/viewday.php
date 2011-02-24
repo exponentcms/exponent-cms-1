@@ -26,7 +26,7 @@ $info = getdate(intval($time));
 $start = mktime(0,0,0,$info['mon'],$info['mday'],$info['year']);
 $title = $db->selectValue('container', 'title', "internal='".serialize($loc)."'");
 
-$template = new template("calendarmodule","_viewday",$loc,false,$loc);
+$template = new template("calendarmodule","_viewday",$loc,false);
 
 $locsql = "(location_data='".serialize($loc)."'";
 // look for possible aggregate
