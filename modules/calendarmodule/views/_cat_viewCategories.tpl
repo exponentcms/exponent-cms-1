@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -15,15 +15,16 @@
  *}
 <h1>{$_TR.form_title}</h1>
 <table cellspacing="0" cellpadding="2" border="0">
-{foreach from=$categories item=category}
-	<td>{$category->name}</td>
-	<td>
-		<div style="width: 32px; height: 16px; background-color: {$category->color}">&nbsp;</div>
-	</td>
-</tr>
-{foreachelse}
-<tr>
-	<td colspan="2" align="center"><i>{$_TR.no_categories}</i></td>
-</tr>
-{/foreach}
+	{foreach from=$categories item=category}
+		<tr>
+			<td>{$category->name}</td>
+			<td>
+				<div style="width: 32px; height: 16px; background-color: {$category->color}">&nbsp;</div>
+			</td>
+		</tr>
+	{foreachelse}
+		<tr>
+			<td colspan="2" align="center"><i>{$_TR.no_categories}</i></td>
+		</tr>
+	{/foreach}
 </table>

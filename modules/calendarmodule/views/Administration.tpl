@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -22,6 +22,14 @@
 		{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
 		{br}
 		<a class="listviewlink" href="{link _common=1 view='Past Events' action='show_view' time=$time}">{$_TR.past_events}</a>{br}
+	</div>
+	<h2>
+		{if $enable_ical == true}
+			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle} - {$_TR.administration_view}{/if}
+	</h2>
+	<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.post == 1}
 				{br}
@@ -41,12 +49,6 @@
 			{/if}
 		{/permissions}
 	</div>
-	<h2>
-		{if $enable_ical == true}
-			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
-		{/if}
-		{if $moduletitle != ""}{$moduletitle} - {$_TR.administration_view}{/if}
-	</h2>
 	<table cellspacing="0" cellpadding="4" border="0" width="100%">
 		<tr>
 			<strong><em>

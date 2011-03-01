@@ -79,8 +79,9 @@ for ($i = 0; $i < 7; $i++) {
 }
 
 $template->register_permissions(
-	array("manage_approval"),
-	$loc);
+	array('administrate','configure','post','edit','delete','manage_approval','manage_categories'),
+	$loc
+);
 
 if (!$config) {
 	$config->enable_categories = 0;

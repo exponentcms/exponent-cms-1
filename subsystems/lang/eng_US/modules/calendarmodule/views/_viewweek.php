@@ -14,6 +14,13 @@ return array(
 	'alt_ical'=>'iCalendar Feed',
 	'ical'=>'',
 
+	'alt_create'=>'Create a new Calendar Event',
+	'create'=>'Create Event',
+
+	'manage_categories'=>'Manage Categories',
+	'view_categories'=>'View Categories',
+	'alt_view_cat'=>'View Event Categories',
+
 	'alt_userperm'=>'Assign user permissions on this Calendar Event',
 	'alt_groupperm'=>'Assign group permissions on this Calendar Event',
 
@@ -25,6 +32,9 @@ return array(
 	'alt_delete_disabled'=>'Deleting Disabled - Calendar Event In Approval',
 	'alt_revisions'=>'View Revision History for this Calendar Event',
 	'revisions'=>'Revisions',
+
+	'view_approval'=>'View Approval',
+	'alt_approval'=>'View Calendar Events in Approval',
 
 	'no_events'=>'No Events',
 );

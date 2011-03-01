@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -31,6 +31,16 @@
 				<a class="mngmntlink" href="{link action=delete_all_past}" onclick="return confirm('{$_TR.delete_all_confirm}');" title="{$_TR.delete_past}">{$_TR.delete_all_past}</a>
 				{br}
 			{/if}
+		{/permissions}
+	</div>
+	<h2>
+		{if $enable_ical == true}
+			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle} - {$_TR.past_events}{/if}
+	</h2>
+	<div class="itemactions">
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.post == 1}
 				{br}
 				<a class="addevent mngmntlink" href="{link action=edit id=0}" title="{$_TR.alt_create}" alt="{$_TR.alt_create}">{$_TR.create}</a>
@@ -49,12 +59,6 @@
 			{/if}
 		{/permissions}
 	</div>
-	<h2>
-		{if $enable_ical == true}
-			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
-		{/if}
-		{if $moduletitle != ""}{$moduletitle} - {$_TR.past_events}{/if}
-	</h2>
 	<table cellspacing="0" cellpadding="4" border="0" width="100%">
 		<tr>
 			<strong><em>

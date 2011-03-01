@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -24,6 +24,16 @@
 			&nbsp;&nbsp;|&nbsp;&nbsp;
 			{printer_friendly_link class="printer-friendly-link" text=$_TR.printer_friendly}
 			{br}
+		{/permissions}
+	</div>
+	<h2>
+		{if $enable_ical == true}
+			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
+	</h2>
+	<div class="itemactions">
+		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.post == 1}
 				{br}
 				<a class="addevent mngmntlink" href="{link action=edit id=0}">{$_TR.create_event}</a>
@@ -42,12 +52,6 @@
 			{/if}
 		{/permissions}
 	</div>
-	<h2>
-		{if $enable_ical == true}
-			<a class="icallink itemactions" href="{link action=ical}" title="{$_TR.alt_ical}" alt="{$_TR.alt_ical}">{$_TR.ical}</a>
-		{/if}
-		{if $moduletitle != ""}{$moduletitle}{/if}
-	</h2>
 	<p class="caption">
 		&laquo;&nbsp;
 		<a class="itemactions calendar_mngmntlink" href="{link action=viewmonth view='Monthly List' time=$prev_timestamp3}" title="{$prev_timestamp3|format_date:"%B %Y"}">{$prev_timestamp3|format_date:"%b"}</a>&nbsp;&nbsp;&laquo;&nbsp;
