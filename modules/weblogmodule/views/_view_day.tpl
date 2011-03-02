@@ -23,7 +23,7 @@
 </h2> 
 {permissions level=$smarty.const.UILEVEL_NORMAL}
 	{if $permissions.post == 1}
-		<a class="addpost" href="{link action=post_edit}">{$_TR.new_post}</a>
+		{br}<a class="addpost" href="{link action=post_edit}">{$_TR.new_post}</a>
 	{/if}
 {/permissions}
 {foreach from=$posts item=post}
@@ -88,10 +88,10 @@
 		{if $logged_in == 1}
 			{if $monitoring == 1}
 				{br}<em>{$_TR.blog_monitor}</em>
-				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
+				{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=0}">{$_TR.click_here}</a>{$_TR.stop_monitoring}
 			{else}
 				{br}<em>{$_TR.not_monitoring}</em>
-				{br}<a class="mngmntlink bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
+				{br}<a class="bb_mngmntlink" href="{link action=monitor_blog monitor=1}">{$_TR.click_here}</a>{$_TR.start_monitor}
 			{/if}
 		{/if}
 	</div>

@@ -22,7 +22,7 @@
 	</h2>
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.post == 1}
-			<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
+			{br}<a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a>
 		{/if}
 	{/permissions}
 	<div>

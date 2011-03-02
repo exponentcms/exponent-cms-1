@@ -51,12 +51,11 @@ $locsql .= ')';
 $locsql .= " AND (publish = 0 or publish <= " . time() . " or poster=" . $user_id .
 	') AND (unpublish = 0 or unpublish > ' . time() . " or poster=" . $user_id . ') '; 
 if ($user->is_admin || $user->is_acting_admin) {
-	$where = '(publish >= $start_month AND publish <= $end_month) AND '.$locsql;
+	$where = '(publish >= '.$start_month.' AND publish <= '.$end_month.') AND '.$locsql;
 } else {	
-	$where = '(is_draft = 0 OR poster = '.$user_id.") AND (publish >= $start_month AND publish <= $end_month) AND ".$locsql;
+	$where = '(is_draft = 0 OR poster = '.$user_id.') AND (publish >= '.$start_month.' AND publish <= '.$end_month.') AND '.$locsql;
 }
 if (!exponent_permissions_check('view_private',$loc)) $where .= ' AND is_private = 0';
-
 $posts = $db->selectObjects('weblog_post',$where);
 if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 for ($i = 0; $i < count($posts); $i++) {

@@ -120,7 +120,6 @@ class weblogmodule {
 	}
 
 	function show($view,$loc = null, $title = '') {
-		$template = new template('weblogmodule',$view,$loc);
 		global $db;
 		global $user;
 		$user_id = ($user ? $user->id : -1);
@@ -133,9 +132,10 @@ class weblogmodule {
 			$config->collections = serialize(array());
 		}
 
+		$template = new template('weblogmodule',$view,$loc);
+		
 		//If rss is enabled tell the view to show the RSS button
 		if (!isset($config->enable_rss)) {$config->enable_rss = 0;}
-
 		$template->assign('enable_rss', $config->enable_rss);
 
 		//Get the tags that have been selected to be shown in the grouped by tag views
@@ -145,10 +145,6 @@ class weblogmodule {
 	//			$available_tags = array();
 	//		}
 
-		// $viewconfig = array('type'=>'default');
-		// if (is_readable($template->viewdir."/$view.config")) {
-			// $viewconfig = include($template->viewdir."/$view.config");
-		// }
 		$viewparams = $template->viewparams;
 		if ($viewparams === null) {
 			$viewparams = array('type'=>"default");
@@ -190,7 +186,8 @@ class weblogmodule {
 			$months = array();
 			if (!defined('SYS_DATETIME')) require_once(BASE.'subsystems/datetime.php');
 			$start_month = exponent_datetime_startOfMonthTimestamp($min_date);
-			$end_month = exponent_datetime_endOfMonthTimestamp($min_date)+86399;
+//			$end_month = exponent_datetime_endOfMonthTimestamp($min_date)+86399;
+			$end_month = exponent_datetime_endOfMonthTimestamp($min_date);
 			do {
 				$count = $db->countObjects('weblog_post',$where . ' AND posted >= '.$start_month . ' AND posted <= ' . $end_month);
 				if ($count) {
@@ -321,9 +318,11 @@ class weblogmodule {
 				//Get the tags for this weblogitem
 				$selected_tags = array();
 				$tag_ids = unserialize($posts[$i]->tags);
-				if(is_array($tag_ids) && count($tag_ids)>0) {$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');}
+				if(is_array($tag_ids) && count($tag_ids)>0) {
+					$selected_tags = $db->selectObjectsInArray('tags', $tag_ids, 'name');
+				}
 				$posts[$i]->tags = $selected_tags;
-				$posts[$i]->selected_tags = $selected_tags;
+//				$posts[$i]->selected_tags = $selected_tags;
 			}
 //			usort($posts,'exponent_sorting_byPostedDescending');
 			usort($posts,'exponent_sorting_byPublishedDescending');
@@ -331,7 +330,7 @@ class weblogmodule {
 			$template->assign('total_posts',$total);
 		}
 
-		if (!empty($config->collections)) $template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
+//		if (!empty($config->collections)) $template->assign('tag_collections', ($db->selectObjectsInArray('tag_collections', unserialize($config->collections))));
 
 		$monitoring = false;
 		if ($user && ($user->id!=0)) {
