@@ -189,7 +189,8 @@ class weblogmodule {
 //			$end_month = exponent_datetime_endOfMonthTimestamp($min_date)+86399;
 			$end_month = exponent_datetime_endOfMonthTimestamp($min_date);
 			do {
-				$count = $db->countObjects('weblog_post',$where . ' AND posted >= '.$start_month . ' AND posted <= ' . $end_month);
+//				$count = $db->countObjects('weblog_post',$where . ' AND posted >= '.$start_month . ' AND posted <= ' . $end_month);
+				$count = $db->countObjects('weblog_post',$where . ' AND published >= '.$start_month . ' AND published <= ' . $end_month);
 				if ($count) {
 					$months[$start_month] = $count;
 				}
