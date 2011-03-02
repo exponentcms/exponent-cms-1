@@ -13,6 +13,7 @@
  * GPL: http://www.gnu.org/licenses/gpl.txt
  *
  *}
+ 
 <div class="resourcemodule default">
 <script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}external/audio-player/audio-player.js"></script> 
 <script type="text/javascript">  
@@ -27,17 +28,31 @@
 {/if}
 {if $moduletitle != ""}Recent {$moduletitle}{/if}
 </h2>
-<div class="itemactions">
 {permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.edit == 1}
-		<div class="moduleactions">
-			<a href="{link action=edit_desc id=$config->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_desc}" alt="{$_TR.alt_edit_desc}" {$smarty.const.XHTML_CLOSING}></a>
-		</div>
-	{/if}
-{/permissions}	
-</div>	
+	<div class="moduleactions">
+		{if $permissions.post == 1 && $noupload != 1}
+			{br}<a class="mngmntlink additem" href="{link action=edit}">{$_TR.upload}</a>
+			{*{br}<a class="mngmntlink resources_mngmntlink" href="{link action=upload_zip}">{$_TR.zipfile}</a>*}
+		{/if}
+		{if $permissions.manage_approval == 1}
+			{br}<a class="mngmntlink resources_mngmntlink" href="{link module=filemanager action=admin_mimetypes}">{$_TR.manage_filetypes}</a>
+		{/if}
+		{if $permissions.administrate == 1}
+			{if $config->enable_categories == 1}
+				{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=resourcesmodule}">{$_TR.manage_categories}</a>
+			{/if}			
+		{/if}
+	</div>
+{/permissions}
 {if $config->description}
 	{$config->description}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		<div class="moduleactions">
+			{if $permissions.edit == 1}
+				<a href="{link action=edit_desc id=$config->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit_desc}" alt="{$_TR.alt_edit_desc}" {$smarty.const.XHTML_CLOSING}></a>
+			{/if}
+		</div>
+	{/permissions}
 {/if}
 
 <ul>
@@ -194,22 +209,8 @@
 {foreachelse}
 {/foreach}
 </ul>
-<div class="itemactions">
+<div class="moduleactions">
 	<p><a class="moreposts" href="{link _common=1 view='Default' action='show_view'}">{$_TR.more_resources} in &quot;{$moduletitle}&quot;</a></p>
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.post == 1 && $noupload != 1}
-			<a class="mngmntlink additem" href="{link action=edit}">{$_TR.upload}</a>{br}
-			{*<a class="mngmntlink resources_mngmntlink" href="{link action=upload_zip}">{$_TR.zipfile}</a>{br}*}
-		{/if}
-		{if $permissions.manage_approval == 1}
-			<a class="mngmntlink resources_mngmntlink" href="{link module=filemanager action=admin_mimetypes}">{$_TR.manage_filetypes}</a>{br}
-		{/if}
-		{if $permissions.administrate == 1}
-			{if $config->enable_categories == 1}
-				<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=resourcesmodule}">{$_TR.manage_categories}</a>{br}
-			{/if}			
-		{/if}
-	{/permissions}
 </div>
 {if $noupload == 1}
 	<div class="error">
