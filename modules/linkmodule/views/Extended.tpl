@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2006 Eric Lestrade 
+ * Copyright (c) 2011 Eric Lestrade 
  *
  * This file is part of Exponent Linkmodule
  *
@@ -19,6 +19,19 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 </h2>
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	<div class="moduleactions">							
+		{if $permissions.add == 1}
+			{br}<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
+		{/if}
+		{if $permissions.import == 1}
+			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
+		{/if}
+		{if $permissions.manage_categories == 1 && $enable_categories == 1}
+			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
+		{/if}
+	</div>
+{/permissions}
 <ul>
 {foreach from=$data key=catid item=links}
     {if $catid!= 0}
@@ -39,6 +52,7 @@
 		{else}
 			<div>
 		{/if}
+		<strong>{$link->name}</strong>{br}
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.edit == 1 || $permissions.delete == 1}
 				<div class="itemactions">							
@@ -71,7 +85,6 @@
 				</div>
 			{/if}
 		{/permissions}
-		<strong>{$link->name}</strong>{br}
 		<a title="{$link->name}" href="{$link->url}"{if $link->opennew == 1} target="_blank"{/if} class="link">{$link->url}</a>
 		{if $link->description != ''}<p class="description">{$link->description}</p>{/if}		
 		</div>
@@ -83,17 +96,4 @@
     {/foreach}
 {/foreach}
 </ul>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-	<div class="itemactions">							
-		{if $permissions.add == 1}
-			<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
-		{/if}
-		{if $permissions.import == 1}
-			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
-		{/if}
-		{if $permissions.manage_categories == 1 && $enable_categories == 1}
-			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
-		{/if}
-	</div>
-{/permissions}
 </div>

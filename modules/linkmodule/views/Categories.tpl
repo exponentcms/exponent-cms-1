@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2006 Eric Lestrade 
+ * Copyright (c) 2011 Eric Lestrade 
  *
  * This file is part of Exponent Linkmodule
  *
@@ -19,11 +19,25 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 </h2>
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	<div class="moduleactions">							
+		{if $permissions.edit == 1}
+			{br}<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
+		{/if}
+		{if $permissions.import == 1}
+			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
+		{/if}
+		{if ($permissions.manage_categories == 1 && $enable_categories == 1)}
+			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
+		{/if}
+	</div>
+{/permissions}
 <ul>
 {foreach name=links from=$data[0] item=link}
 	{math equation="x-1" x=$link->rank assign=prev}
 	{math equation="x+1" x=$link->rank assign=next}
 	<li>
+		<a title="{$link->description}" href="{$link->url}"{if $link->opennew == 1} target="_blank"{/if} >{$link->name}</a>
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.edit == 1 || $permissions.delete == 1}
 				<div class="itemactions">							
@@ -52,7 +66,6 @@
 				</div>
 			{/if}
 		{/permissions}
-		<a title="{$link->description}" href="{$link->url}"{if $link->opennew == 1} target="_blank"{/if} >{$link->name}</a>
 	</li>
 {/foreach}
 </ul>
@@ -69,18 +82,4 @@
       {/if}
 {/foreach}
 </ul>
-
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-	<div class="itemactions">							
-		{if $permissions.edit == 1}
-			<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
-		{/if}
-		{if $permissions.import == 1}
-			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
-		{/if}
-		{if ($permissions.manage_categories == 1 && $enable_categories == 1)}
-			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
-		{/if}
-	</div>
-{/permissions}
 </div>

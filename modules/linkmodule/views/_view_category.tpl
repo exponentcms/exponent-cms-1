@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2006 Eric Lestrade 
+ * Copyright (c) 2011 Eric Lestrade 
  *
  * This file is part of Exponent Linkmodule
  *
@@ -13,12 +13,23 @@
  *}
 
 <div class="linklistmodule default">
-{if $moduletitle != ""}
-	<h2>{$moduletitle}</h2>
-{/if}
-{if $enable_rss == true}
-	<a href="{rsslink}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rss}" /></a>
-{/if}
+<h2>
+	{if $enable_rss == true}
+		<a href="{rsslink}"><img class="mngmnt_icon" border="0" src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rss}" /></a>
+	{/if}
+	{if $moduletitle != ""}{$moduletitle}{/if}
+</h2>
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.add == 1}
+		{br}<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
+	{/if}
+	{if $permissions.import == 1}
+		{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
+	{/if}
+	{if $permissions.manage_categories == 1 && $enable_categories == 1}
+		{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
+	{/if}
+{/permissions}
 {if $category->id!= 0}
 	<div class="itemtitle">
 		 <h2>{$category->name}
@@ -38,6 +49,7 @@
 		{else}
 			<div>
 		{/if}
+        <strong><a href="{$link->url}" title="{$link->url}" {if $link->opennew == 1} target="_blank"{/if}>{$link->name}</a></strong>
 		{permissions level=$smarty.const.UILEVEL_NORMAL}
 			{if $permissions.edit == 1 || $permissions.delete == 1}
 				<div class="itemactions">							
@@ -66,7 +78,6 @@
 				</div>
 			{/if}
 		{/permissions}
-        <strong><a href="{$link->url}" title="{$link->url}" {if $link->opennew == 1} target="_blank"{/if}>{$link->name}</a></strong>
 	    {if $link->description!=''}- {$link->description}
 	    {/if}
 		</div>
@@ -77,18 +88,6 @@
 		{/if}
     {/foreach}
 </ul>
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.add == 1}
-		<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
-	{/if}
-	{if $permissions.import == 1}
-		{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
-	{/if}
-	{if $permissions.manage_categories == 1 && $enable_categories == 1}
-		{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
-	{/if}
-{/permissions}
-
 {br}
 <a href="{link action=return}">{$_TR.return}</a>
 </div>

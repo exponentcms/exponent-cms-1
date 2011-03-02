@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2007 Eric Lestrade 
+ * Copyright (c) 2011 Eric Lestrade 
  *
  * This file is part of Exponent Linkmodule
  *

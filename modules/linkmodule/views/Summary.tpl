@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2006 Eric Lestrade 
+ * Copyright (c) 2011 Eric Lestrade 
  *
  * This file is part of Exponent Linkmodule
  *
@@ -19,6 +19,19 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 </h2>
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	<div class="moduleactions">							
+		{if $permissions.edit == 1}
+			{br}<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
+		{/if}
+		{if $permissions.import == 1}
+			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
+		{/if}
+		{if ($permissions.manage_categories == 1 && $enable_categories == 1)}
+			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
+		{/if}
+	</div>
+{/permissions}
 {foreach from=$data key=catid item=links}
    {if $catid != 0}
       <div class="itemtitle"><h3>{$categories[$catid]->name}
@@ -28,12 +41,18 @@
 		 </h3>
       </div>
    {/if}
-   
 	<ul>
    {foreach name=links from=$links item=link}
 		{math equation="x-1" x=$link->rank assign=prev}
 		{math equation="x+1" x=$link->rank assign=next}
 		<li>
+			<div class="itemtitle link_itemtitle">
+				 {if $catid !=0}
+					<a href="{$link->url}" style="padding-left:1em" {if $link->opennew == 1} target="_blank"{/if} title="{$link->description}">{$link->name}</a>
+				 {else}
+					<a href="{$link->url}" {if $link->opennew == 1} target="_blank"{/if} title="{$link->description}">{$link->name}</a>
+				 {/if}
+			</div>
 			{permissions level=$smarty.const.UILEVEL_NORMAL}
 				{if $permissions.edit == 1 || $permissions.delete == 1}
 					<div class="itemactions">							
@@ -66,15 +85,7 @@
 					</div>
 				{/if}
 			{/permissions}
-			<div class="itemtitle link_itemtitle">
-				 {if $catid !=0}
-					<a href="{$link->url}" style="padding-left:1em" {if $link->opennew == 1} target="_blank"{/if} title="{$link->description}">{$link->name}</a>
-				 {else}
-					<a href="{$link->url}" {if $link->opennew == 1} target="_blank"{/if} title="{$link->description}">{$link->name}</a>
-				 {/if}
-			</div>
 		 </li>
-
    {foreachelse}
       {if ($catid != 0) }
           <div ><i>{$_TR.no_link}</i></div>
@@ -82,17 +93,4 @@
    {/foreach}
 	</ul>
 {/foreach}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-	<div class="itemactions">							
-		{if $permissions.edit == 1}
-			<a class="mngmntlink additem" href="{link action=edit_link}">{$_TR.new_link}</a>
-		{/if}
-		{if $permissions.import == 1}
-			{br}<a class="mngmntlink" href="{link action=export_import}">{$_TR.export_import}</a>
-		{/if}
-		{if ($permissions.manage_categories == 1 && $enable_categories == 1)}
-			{br}<a class="mngmntlink cats" href="{link module=categories action=manage orig_module=linkmodule}">{$_TR.manage_categories}</a>
-		{/if}
-	</div>
-{/permissions}
 </div>
