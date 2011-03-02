@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -16,11 +16,26 @@
  
 <div class="newsmodule groupbytags"> 
 	<h2>
-	{if $enable_rss == true}
+		{if $enable_rss == true}
 			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if}
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		<div class="moduleactions">
+			<p>
+				{if $permissions.add_item == true}
+					<a class="mngmntlink news_mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+				{/if}
+				{if $in_approval > 0 && $canview_approval_link == 1}
+					<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
+				{/if}
+				{if $permissions.view_unpublished == 1}
+					<a class="mngmntlink news_mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+				{/if}
+			</p>
+		</div>
+	{/permissions}
 	{foreach from=$news item=tag key=tag_name}
 		<div class="itemtitle news_itemtitle">{$_TR.news_about} {$tag_name}</div>
 		{foreach from=$tag item=newsitem}
@@ -39,6 +54,8 @@
 						</div>
 						{$_TR.posted}{$sortdate|format_date:"%B %d, %Y"}<br />[<a href="{link action=view id=$newsitem->id}">{$_TR.read_more}<span> "{$newsitem->title}"</span></a>]
 					</li>
+				</div>
+				<div class="itemactions">
 					{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 						{if $permissions.administrate == true || $newsitem->permissions.administrate == true}
 							<a href="{link action=userperms int=$newsitem->id _common=1}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}userperms.png" title="{$_TR.alt_userperm_one}" alt="{$_TR.alt_userperm_one}" /></a>&nbsp;
@@ -73,17 +90,6 @@
 			{if $morenews == 1}
 				<a class="viewmorenews" href="{link action=view_page page=0}">{$_TR.view_all}</a>{br}
 			{/if}
-			{permissions level=$smarty.const.UILEVEL_NORMAL}
-				{if $permissions.add_item == true}
-					<a class="mngmntlink news_mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
-				{/if}
-				{if $in_approval > 0 && $canview_approval_link == 1}
-					<a class="mngmntlink news_mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
-				{/if}
-				{if $permissions.view_unpublished == 1}
-					<a class="mngmntlink news_mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
-				{/if}
-			{/permissions}
 		</p>
 	</div>
 </div>

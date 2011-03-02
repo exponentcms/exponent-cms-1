@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -21,6 +21,21 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		<div class="moduleactions">
+			<p>
+				{if $permissions.add_item == true}
+					<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+				{/if}
+				{if $in_approval > 0 && $canview_approval_link == 1}
+					<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
+				{/if}
+				{if $permissions.view_unpublished == 1 }
+					<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+				{/if}
+			</p>
+		</div>
+	{/permissions}
 	
 	{assign var=more_news value=0}	
 	{assign var=item_number value=0}
@@ -95,25 +110,12 @@
 	{foreachelse}
 		<p align="center"><i>{$_TR.no_news}No recent news</i></p>	
 	{/foreach}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		<div class="moduleactions">
-			<p>
-				{if (($enable_pagination == 1) && ($total_news > $item_limit))}
-					{$_TR.prev}&nbsp;&nbsp;|&nbsp;&nbsp;
-					<a class="news_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>{br}
-				{/if}
-				{permissions level=$smarty.const.UILEVEL_NORMAL}
-					{if $permissions.add_item == true}
-						<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
-					{/if}
-					{if $in_approval > 0 && $canview_approval_link == 1}
-						<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
-					{/if}
-					{if $permissions.view_unpublished == 1 }
-						<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
-					{/if}
-				{/permissions}
-			</p>
-		</div>
-	{/permissions}
+	<div class="moduleactions">
+		<p>
+			{if (($enable_pagination == 1) && ($total_news > $item_limit))}
+				{$_TR.prev}&nbsp;&nbsp;|&nbsp;&nbsp;
+				<a class="news_mngmntlink" href="{link action=view_page page=1}">{$_TR.next}</a>{br}
+			{/if}
+		</p>
+	</div>
 </div>

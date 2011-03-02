@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -21,6 +21,21 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		<div class="moduleactions">
+			<p>
+				{if $permissions.add_item == true}
+					<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
+				{/if}
+				{if $in_approval > 0 && $canview_approval_link == 1}
+					<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
+				{/if}
+				{if $permissions.view_unpublished == 1 }
+					<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
+				{/if}
+			</p>
+		</div>
+	{/permissions}
 
 	{foreach from=$news item=newsitem}
 		{*if $newsitem->is_featured!=1*}
@@ -86,37 +101,24 @@
 			</div>
 		{/if}
 	{/foreach}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		<div class="moduleactions">
-			<p>
-				{if $enable_pagination == 1}
-					{if $page != 0}
-						{math equation="x-1" x=$page assign=prevpage}
-						<a class="news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>
-					{else}
-						{$_TR.prev}
-					{/if}
-					&nbsp;&nbsp;|&nbsp;&nbsp;
-					{if $shownext}
-						{math equation="x+1" x=$page assign=nextpage}
-						<a class="news_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>
-					{else}
-						{$_TR.next}
-					{/if}
-					{br}
+	<div class="moduleactions">
+		<p>
+			{if $enable_pagination == 1}
+				{if $page != 0}
+					{math equation="x-1" x=$page assign=prevpage}
+					<a class="news_mngmntlink" href="{link action=view_page page=$prevpage}">{$_TR.prev}</a>
+				{else}
+					{$_TR.prev}
 				{/if}
-				{permissions level=$smarty.const.UILEVEL_NORMAL}
-					{if $permissions.add_item == true}
-						<a class="addnews mngmntlink" href="{link action=edit}">{$_TR.create_news}</a>{br}
-					{/if}
-					{if $in_approval > 0 && $canview_approval_link == 1}
-						<a class="approvenews mngmntlink" href="{link module=workflow datatype=newsitem m=newsmodule s=$__loc->src action=summary}">{$_TR.view_approval}</a>{br}
-					{/if}
-					{if $permissions.view_unpublished == 1 }
-						<a class="expirednews mngmntlink" href="{link action=view_expired}">{$_TR.view_expired}</a>
-					{/if}
-				{/permissions}
-			</p>
-		</div>
-	{/permissions}
+				&nbsp;&nbsp;|&nbsp;&nbsp;
+				{if $shownext}
+					{math equation="x+1" x=$page assign=nextpage}
+					<a class="news_mngmntlink" href="{link action=view_page page=$nextpage}">{$_TR.next}</a>
+				{else}
+					{$_TR.next}
+				{/if}
+				{br}
+			{/if}
+		</p>
+	</div>
 </div>
