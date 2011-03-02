@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2008 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  *
  * This file is part of Exponent
  *
@@ -15,6 +15,11 @@
 
 <div class="contactmodule default">
 	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.configure == 1}
+			<p><a class="mngmntlink"  href="{link action=manage_contacts}">{$_TR.manage_contacts}</a></p>
+		{/if}
+	{/permissions}
 	{if $numContacts != 0}
 		{form name=contact action=contact}
 			{control type=hidden name=msg value="_Default"}
@@ -30,10 +35,4 @@
 			{$_TR.no_contacts}
 		{/if}
 	{/if}
-
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.configure == 1}
-			<a class="mngmntlink"  href="{link action=manage_contacts}">{$_TR.manage_contacts}</a>
-		{/if}
-	{/permissions}
 </div>

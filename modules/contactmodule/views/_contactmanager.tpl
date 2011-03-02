@@ -1,6 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
- * Written and Designed by James Hunt
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  *
  * This file is part of Exponent
  *
@@ -15,6 +14,7 @@
  *}
 
 <div class="contactmodule manager">
+	<p><a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact}">{$_TR.new_contact}</a></p>
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td class="header contact_header">{$_TR.name}</td>
@@ -48,5 +48,4 @@
 			</tr>
 		{/foreach}
 	</table>
-	<a class="mngmntlink contact_mngmntlink" href="{link action=edit_contact}">{$_TR.new_contact}</a>
 </div>
