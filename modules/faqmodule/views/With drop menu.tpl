@@ -42,7 +42,18 @@ if (destination) location.href = destination;
 {/literal}
 <div class="faqmodule default-with-drop-menu">
 	{if $moduletitle!=""}<h2>{$moduletitle}</h2>{/if}
-	
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+		{if $permissions.administrate == 1}
+			<div class="itemactions">
+				{br}
+				<a class="addfaq additem mngmntlink" href="{link action=edit_faq}">{$_TR.new_entry}</a>
+				{if $config->enable_categories == 1}
+					{br}
+					<a class="mngmntlink" href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
+				{/if}
+			</div>
+		{/if}
+	{/permissions}
 	<a name="top"></a>
 	<form name="faqdrop">
 	<select id="quicklinks" name="quicklinks" onchange="go()">
@@ -64,36 +75,36 @@ if (destination) location.href = destination;
 			{math equation="x-1" x=$qna->rank assign=prev}
 			{math equation="x+1" x=$qna->rank assign=next}
 			<div class="item">
-				<div class="itemactions">
-					{permissions level=$smarty.const.UILEVEL_NORMAL}
-						{if $permissions.configure == 1 or $permissions.administrate == 1}
-							<a href="{link action=edit_faq id=$qna->id}" title="{$_TR.alt_edit}">
-								<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
-							</a>
-							<a href="{link action=delete_faq id=$qna->id}" onclick="return confirm('{$_TR.delete_confirm}');" title="{$_TR.alt_delete}">
-								<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
-							</a>	
-							{if $smarty.foreach.a.first == 0}
-								<a href="{link action=rank_switch a=$qna->rank b=$prev id=$qna->id category_id=$catid}">			
-									<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
-								</a>
-							{else}
-								<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
-							{/if}
-						
-							{if $smarty.foreach.a.last == 0}
-								<a href="{link action=rank_switch a=$next b=$qna->rank id=$qna->id category_id=$catid}">
-									<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
-								</a>
-							{else}
-								<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
-							{/if}
-						{/if}
-					{/permissions}
-				</div>
 				<div class="bodycopy">
 					<a name="{$qna->rank}"></a>
 					<h4>{$qna->question}</h4>
+					{permissions level=$smarty.const.UILEVEL_NORMAL}
+						<div class="itemactions">
+							{if $permissions.configure == 1 or $permissions.administrate == 1}
+								<a href="{link action=edit_faq id=$qna->id}" title="{$_TR.alt_edit}">
+									<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" />
+								</a>
+								<a href="{link action=delete_faq id=$qna->id}" onclick="return confirm('{$_TR.delete_confirm}');" title="{$_TR.alt_delete}">
+									<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}delete.png" title="{$_TR.alt_delete}" alt="{$_TR.alt_delete}" />
+								</a>	
+								{if $smarty.foreach.a.first == 0}
+									<a href="{link action=rank_switch a=$qna->rank b=$prev id=$qna->id category_id=$catid}">			
+										<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.png" title="{$_TR.alt_up}" alt="{$_TR.alt_up}" />
+									</a>
+								{else}
+									<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}up.disabled.png" title="{$_TR.alt_up_disabled}" alt="{$_TR.alt_up_disabled}" />
+								{/if}
+							
+								{if $smarty.foreach.a.last == 0}
+									<a href="{link action=rank_switch a=$next b=$qna->rank id=$qna->id category_id=$catid}">
+										<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.png" title="{$_TR.alt_down}" alt="{$_TR.alt_down}" />
+									</a>
+								{else}
+									<img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}down.disabled.png" title="{$_TR.alt_down_disabled}" alt="{$_TR.alt_down_disabled}" />
+								{/if}
+							{/if}
+						</div>
+					{/permissions}
 					<div class="answer">
 						{$qna->answer}
 					</div>
@@ -111,17 +122,4 @@ if (destination) location.href = destination;
 	{foreachelse}
 		BLAH
 	{/foreach}
-
-	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-		{if $permissions.administrate == 1}
-			<div class="itemactions">
-				{br}
-				<a class="addfaq additem mngmntlink" href="{link action=edit_faq}">{$_TR.new_entry}</a>
-				{if $config->enable_categories == 1}
-					{br}
-					<a class="mngmntlink" href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
-				{/if}
-			</div>
-		{/if}
-	{/permissions}
 </div>

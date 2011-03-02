@@ -30,6 +30,18 @@
  
 <div class="faqmodule default-with-toc">
 	{if $moduletitle!=""}<h2>{$moduletitle}</h2>{/if}
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
+		{if $permissions.administrate == 1}
+			<div class="itemactions">
+				{br}
+				<a class="addfaq additem mngmntlink" href="{link action=edit_faq}">{$_TR.new_entry}</a>
+				{if $config->enable_categories == 1}
+					{br}
+					<a class="mngmntlink" href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
+				{/if}
+			</div>
+		{/if}
+	{/permissions}
 	<div style="margin: 25px 0px 45px 0px;">
 		<ul>
 			<a name="top"></a>
@@ -112,16 +124,4 @@
 			BLAH
 		{/foreach}
 	</table>
-	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
-		{if $permissions.administrate == 1}
-			<div class="itemactions">
-				{br}
-				<a class="addfaq additem mngmntlink" href="{link action=edit_faq}">{$_TR.new_entry}</a>
-				{if $config->enable_categories == 1}
-					{br}
-					<a class="mngmntlink" href="{link module=categories action=manage orig_module=faqmodule}">{$_TR.manage_categories}</a>
-				{/if}
-			</div>
-		{/if}
-	{/permissions}
 </div>
