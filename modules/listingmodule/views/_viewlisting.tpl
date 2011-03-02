@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _viewlisting.tpl,v 1.3 2005/02/19 16:53:36 filetreefrog Exp $
  *}
 
 <div class="listingmodule viewlisting">

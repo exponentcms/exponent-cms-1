@@ -1,17 +1,41 @@
+{*
+ * Copyright (c) 2004-2011 OIC Group, Inc.
+ *
+ * This file is part of Exponent
+ *
+ * Exponent is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free
+ * Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * GPL: http://www.gnu.org/licenses/gpl.txt
+ *
+ *}
+
 <div class="listingmodule listings">
 	<a name="#top"></a>
 	{if $moduletitle}<h2>{$moduletitle}</h2>{/if}
+	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}	
+		{if $permissions.administrate == 1}
+			<div class="moduleactions">
+				{br}<a class="mngmntlink additem"  href="{link action=edit_listing}">{$_TR.create_item}</a>
+				{if $config->enable_categories == 1}
+					{br}<a class="mngmntlink cats"  href="{link module=categories action=manage orig_module=listingmodule src=$loc->src}">{$_TR.manage_categories}</a>
+				{/if}			
+			</div>
+		{/if}
+	{/permissions}
+	{if $config->description}
+		{$config->description}
+	{/if}
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.edit == 1}
 			<div class="moduleactions">
 				<a href="{link action=edit id=$config->id}"><img src="{$smarty.const.ICON_RELATIVE}edit.png" title="{$_TR.alt_edit}" alt="{$_TR.alt_edit}" {$smarty.const.XHTML_CLOSING}></a>
 			</div>
 		{/if}
-	{/permissions}		
-	{if $config->description}
-		{$config->description}
-	{/if}
-
+	{/permissions}	
 	{if $__viewconfig.show_category_jump}
 		<script type="text/javascript" charset="utf-8">
 			function go()
@@ -140,37 +164,27 @@
 	{/foreach}
 	
 	{if $pagecount>1}
-	<div class="pagination">
-		Page({$curpage} of {$pagecount})
-		{if $curpage != 1}
-			<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=1}"><<</a>&nbsp;
-		  	<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$curpage-1}"><</a>
-		{/if}
-		{if $downlimit>1 }...{/if}
-		{section name=pages start=$downlimit loop=$pagecount+1 max=$uplimit} 
-		  <a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$smarty.section.pages.index}">
-		    {if $curpage == $smarty.section.pages.index}
-		    [{$smarty.section.pages.index}]
-		    {else}
-		    {$smarty.section.pages.index}
-		    {/if}
-		  </a>  
-		{/section}
-		{if $uplimit<$pagecount }...{/if}
-		{if $curpage != $pagecount}
-			<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$curpage+1}">></a>&nbsp;
-			<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$pagecount}">>></a>
-		{/if}
-	</div>
+		<div class="pagination">
+			Page({$curpage} of {$pagecount})
+			{if $curpage != 1}
+				<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=1}"><<</a>&nbsp;
+				<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$curpage-1}"><</a>
+			{/if}
+			{if $downlimit>1 }...{/if}
+			{section name=pages start=$downlimit loop=$pagecount+1 max=$uplimit} 
+			  <a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$smarty.section.pages.index}">
+				{if $curpage == $smarty.section.pages.index}
+				[{$smarty.section.pages.index}]
+				{else}
+				{$smarty.section.pages.index}
+				{/if}
+			  </a>  
+			{/section}
+			{if $uplimit<$pagecount }...{/if}
+			{if $curpage != $pagecount}
+				<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$curpage+1}">></a>&nbsp;
+				<a class="listing_page_link mngmntlink" href="{link action=view view=Simple page=$pagecount}">>></a>
+			{/if}
+		</div>
 	{/if}
-	{permissions level=$smarty.const.UILEVEL_PERMISSIONS}	
-		{if $permissions.administrate == 1}
-			<div class="moduleactions">
-				<a class="mngmntlink additem"  href="{link action=edit_listing}">{$_TR.create_item}</a>
-				{if $config->enable_categories == 1}
-					{br}<a class="mngmntlink cats"  href="{link module=categories action=manage orig_module=listingmodule src=$loc->src}">{$_TR.manage_categories}</a>
-				{/if}			
-			</div>
-		{/if}
-	{/permissions}
 </div>

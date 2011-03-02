@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editlisting.tpl,v 1.2 2005/02/19 16:53:36 filetreefrog Exp $
  *}
 <div class="module listing form-editlisting">
 	<div class="form_title">
