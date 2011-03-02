@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -16,11 +16,16 @@
  
 <div class="weblogmodule view-month">
 	<h2>
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if} - {$now|format_date:"%B %Y"}
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if} - {$now|format_date:"%B %Y"}
 	</h2>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.post == 1}
+			<a class="addpost" href="{link action=post_edit}">{$_TR.new_post}</a>
+		{/if}
+	{/permissions}
 	{foreach from=$posts item=post}
 	<div class="item">
 	<h3><a href="{link module=weblogmodule action=view id=$post->id}">{$post->title}</a>{if $post->is_draft} <span class="draft"><em>({$_TR.draft})</em></span>{/if}</h3>
@@ -78,11 +83,6 @@
 	<hr />
 	</div>
 	{/foreach}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.post == 1}
-	<a class="addpost" href="{link action=post_edit}">{$_TR.new_post}</a>
-	{/if}
-	{/permissions}
 	{if $logged_in == 1 || $monitoring == 1}
 		<div class="moduleactions">
 			{if $logged_in == 1}

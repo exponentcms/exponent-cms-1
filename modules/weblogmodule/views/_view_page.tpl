@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -16,11 +16,16 @@
 
 <div class="weblogmodule default">
 <h2>
-{if $enable_rss == true}
-	<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-{/if}
-{if $moduletitle != ""}{$moduletitle}{/if}
+	{if $enable_rss == true}
+		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+	{/if}
+	{if $moduletitle != ""}{$moduletitle}{/if}
 </h2>
+{permissions level=$smarty.const.UILEVEL_NORMAL}
+	{if $permissions.post == 1}
+		<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
+	{/if}
+{/permissions}
 {foreach from=$posts item=post}
 	<div class="item {cycle values='odd,even'}">
 		{if $view != 2}
@@ -113,11 +118,6 @@
 {else}
 	{$_TR.next}
 {/if}
-{permissions level=$smarty.const.UILEVEL_NORMAL}
-{if $permissions.post == 1}
-<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
-{/if}
-{/permissions}
 {if $logged_in == 1 || $monitoring == 1}
 	<div class="moduleactions">
 		{if $logged_in == 1}

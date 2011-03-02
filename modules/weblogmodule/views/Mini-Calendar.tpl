@@ -1,6 +1,5 @@
 {*
  * Copyright (c) 2004-2006 OIC Group, Inc.
- * Written and Designed by James Hunt
  *
  * This file is part of Exponent
  *
@@ -16,10 +15,10 @@
  
 <div class="weblogmodule mini-cal"> 
 	<h2>
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if}
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
 	<table class="mini-cal">
 		<caption><a class="nav doublearrow" href="{link action=view_mini month=$prevmonth view='Mini-Calendar'}" title="{$_TR.alt_previous}">&laquo;</a> {if $posted}<a class="mngmntlink weblog_mngmntlink weblog_monthview_mngmntlink" href="{link action=view_month month=$now}">{/if}{$now|format_date:"%B %Y"}{if $posted}</a>{/if} <a class="nav doublearrow" href="{link action=view_mini month=$nextmonth view='Mini-Calendar'}" title="{$_TR.alt_next}">&raquo;</a></caption>

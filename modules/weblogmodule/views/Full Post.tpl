@@ -1,5 +1,5 @@
 {*
- * Copyright (c) 2004-2006 OIC Group, Inc.
+ * Copyright (c) 2004-2011 OIC Group, Inc.
  * Written and Designed by James Hunt
  *
  * This file is part of Exponent
@@ -21,6 +21,11 @@
 	{/if}
 	{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.post == 1}
+			<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
+		{/if}
+	{/permissions}
 	{foreach from=$posts item=post}
 		<div class="item {cycle values='odd,even'}">
 			<h3 class="itemtitle weblog_itemtitle"><a href="{link module=weblogmodule action=view id=$post->id}">{$post->title}</a>{if $post->is_draft} <span class="draft"><em>({$_TR.draft})</em></span>{/if}</h3>
@@ -92,11 +97,6 @@
 			<p><a class="moreposts" href="{link action=view_page page=0 view=1 }">{$_TR.view_all}{if $moduletitle != ""} in &quot;{$moduletitle}&quot;{/if}</a></p>
 		{/if}
 	{/if}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.post == 1}
-			<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
-		{/if}
-	{/permissions}
 	{if ($logged_in == 1 || $monitoring == 1) && $__viewconfig.num_posts > 1}
 		<div class="moduleactions">
 			{if $logged_in == 1}

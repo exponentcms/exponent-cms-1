@@ -1,6 +1,5 @@
 {*
  * Copyright (c) 2004-2011 OIC Group, Inc.
- * Written and Designed by James Hunt
  *
  * This file is part of Exponent
  *
@@ -16,11 +15,16 @@
 
 <div class="linklistmodule quick-links">
 	<h2>
-	{if $enable_rss == true}
-		<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
-	{/if}
-	{if $moduletitle != ""}{$moduletitle}{/if}
+		{if $enable_rss == true}
+			<a href="{rsslink}"><img src="{$smarty.const.ICON_RELATIVE}rss-feed.gif" title="{$_TR.alt_rssfeed}" alt="{$_TR.alt_rssfeed}" /></a>
+		{/if}
+		{if $moduletitle != ""}{$moduletitle}{/if}
 	</h2>
+	{permissions level=$smarty.const.UILEVEL_NORMAL}
+		{if $permissions.post == 1}
+			<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
+		{/if}
+	{/permissions}
 	<div>
 	{foreach from=$posts item=post}
 		<div class="itemtitle weblog_itemtitle">
@@ -63,11 +67,6 @@
 			<p><a class="moreposts" href="{link action=view_page page=0}">{$_TR.view_all}{if $moduletitle != ""} in &quot;{$moduletitle}&quot;{/if}</a></p>
 		{/if}
 	{/if}
-	{permissions level=$smarty.const.UILEVEL_NORMAL}
-		{if $permissions.post == 1}
-			<p><a class="addpost mngmntlink" href="{link action=post_edit}">{$_TR.new_post}</a></p>
-		{/if}
-	{/permissions}
 	{if ($logged_in == 1 || $monitoring == 1) && $__viewconfig.num_posts > 1}
 		<div class="moduleactions">
 			{if $logged_in == 1}
