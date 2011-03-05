@@ -102,7 +102,6 @@
 			<p><b><i>(File is Missing)</i></b></p>
 		{/if}		
 		</h4>
-		<div>{$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		<div class="itemactions">
 		{permissions level=$smarty.const.UILEVEL_PERMISSIONS}
 			{if $permissions.administrate == 1 || $resource->permissions.administrate == 1}
@@ -123,6 +122,7 @@
 				<a class="mngmntlink resources_mngmntlink" href="{link module=workflow datatype=resourceitem m=resourcesmodule s=$__loc->src action=revisions_view id=$resource->id}" title="{$_TR.alt_revisions}"><img class="mngmnt_icon" src="{$smarty.const.ICON_RELATIVE}revisions.png" title="{$_TR.alt_revisions}" alt="{$_TR.alt_revisions}"/></a>
 			{/if}
 		{/permissions}
+		<div>{$_TR.posted} {$sortdate|format_date:$smarty.const.DISPLAY_DATE_FORMAT}</div>
 		{if !$hasCategories && $config->orderhow == 2}
 			{if $smarty.foreach.a.first == 0}
 			<a href="{link action=order a=$resource->rank b=$prev id=$resource->id} category_id=$catid}">			
