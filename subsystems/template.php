@@ -184,10 +184,10 @@ class template extends BaseTemplate {
 		if (isset($cache[$container_key])){
 			$container = $cache[$container_key];
 		} else {
-			$container = $db->selectObject("container","internal='".$container_key."'");
+			$container = $db->selectObject("container","internal='".$container_key."' AND view='".$view."'");
 // replace here down to
 			// Get all containers for module
-			$containers = $db->selectObjects("container","internal='".$container_key."'");
+			$containers = $db->selectObjects("container","internal='".$container_key."' AND view='".$view."'");
 			if (count($containers) != 1) {
 				// Get current section (page) for locating specific module on that page
 				global $sectionObj;
@@ -218,7 +218,7 @@ class template extends BaseTemplate {
 				}
 				if (empty($current)) {	
 		// well, we didnt' find it at all with our kludge, so pick the first container 
-					$container = $db->selectObject("container","internal='".$container_key."'");
+					$container = $db->selectObject("container","internal='".$container_key."' AND view='".$view."'");
 				}
 				$container = $current; 
 			}
