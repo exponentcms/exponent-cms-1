@@ -14,10 +14,6 @@
  *
  *}
 
-{css unique="formmod" corecss="forms"}
-
-{/css}
-
 <div class="formmodule default"> 
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
 		{if $permissions.viewdata == 1 && $form->is_saved == 1}<a class="addnew mngmntlink" href="{link action=view_data module=formbuilder id=$form->id}">{$_TR.view_data}</a>&nbsp;&nbsp;{/if}
