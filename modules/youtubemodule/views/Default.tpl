@@ -18,19 +18,19 @@
 	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
 	<script language="javascript">
         {literal}
-                function FlashInstalled()
-                {
-                        result = false;
+			function FlashInstalled()
+			{
+				result = false;
 
-                        if (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) {
-                                result = navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin;
-                        } else if (document.all && (navigator.appVersion.indexOf("Mac")==-1)) {
-                                // IE Windows only -- check for ActiveX control, have to hide code in eval from Netscape (doesn't like try)
-                                eval ('try {var xObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");if (xObj) result = true; xObj = null; } catch (e) {}');
-                        }
-                        //alert(result);
-                        return result;
-                }
+				if (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) {
+					result = navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin;
+				} else if (document.all && (navigator.appVersion.indexOf("Mac")==-1)) {
+					// IE Windows only -- check for ActiveX control, have to hide code in eval from Netscape (doesn't like try)
+					eval ('try {var xObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");if (xObj) result = true; xObj = null; } catch (e) {}');
+				}
+				//alert(result);
+				return result;
+			}
         {/literal}
         </script>
 	<script type="text/javascript" src="{$smarty.const.PATH_RELATIVE}external/swfobject/swfobject.js"></script>
@@ -40,22 +40,22 @@
 				{if $youtube->id != 0}
 					{if $youtube->name != ''}<h2>{$youtube->name}</h2>{/if}
 					<div id="flashcontent{$youtube->id}">
-                        			No YouTube Video found.
-                			</div>
-                			{literal}
-			                <script type="text/javascript">
-                        			var so = new SWFObject("{/literal}{$youtube->url}{literal}&hl={/literal}{$smarty.const.DISPLAY_LANGUAGE}{literal}&fs=1","swf{/literal}{$youtube->id}{literal}","{/literal}{$youtube->width}{literal}","{/literal}{$youtube->height}{literal}", "6", "#ffffff");
-			                        so.addParam("wmode", "opaque");
-						so.addParam("allowscriptaccess","always");
-						so.addParam("allowFullScreen","true");
-                        			so.write("flashcontent{/literal}{$youtube->id}{literal}");
-                        			so.write("flashcontent{/literal}{$youtube->id}{literal}");
-                			</script>
-                			{/literal}
+						No YouTube Video found.
+					</div>
+						{literal}
+						<script type="text/javascript">
+							var so = new SWFObject("{/literal}{$youtube->url}{literal}&hl={/literal}{$smarty.const.DISPLAY_LANGUAGE}{literal}&fs=1","swf{/literal}{$youtube->id}{literal}","{/literal}{$youtube->width}{literal}","{/literal}{$youtube->height}{literal}", "6", "#ffffff");
+							so.addParam("wmode", "opaque");
+							so.addParam("allowscriptaccess","always");
+							so.addParam("allowFullScreen","true");
+							so.write("flashcontent{/literal}{$youtube->id}{literal}");
+							so.write("flashcontent{/literal}{$youtube->id}{literal}");
+						</script>
+						{/literal}
 					{if $youtube->description != ''}<p>{$youtube->description}</a>{/if}
-	       			{else}
-       					<p>No video found.</p>
-	       			{/if}
+				{else}
+					<p>No video found.</p>
+				{/if}
 			</div>
 			<div class="itemactions">
 				{permissions level=$smarty.const.UILEVEL_NORMAL}
@@ -68,9 +68,8 @@
 	{/foreach}
 	<div style="clear:both"></div>
 	{permissions level=$smarty.const.UILEVEL_NORMAL}
-	{if $permissions.edit == 1}
-	<a href="{link action=edit}">Add another video</a>
-	{/if}
+		{if $permissions.edit == 1}
+			<a href="{link action=edit}">Add another video</a>
+		{/if}
 	{/permissions}
 </div>
-
