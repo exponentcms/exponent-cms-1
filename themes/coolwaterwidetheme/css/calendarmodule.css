@@ -64,15 +64,6 @@
 	border-top: 1px solid #A2ADBC;
 }
 
-.calendarmodule.cal-default .today, 
-.calendarmodule.cal-default td.today a, 
-.calendarmodule.cal-default td.today a:link, 
-.calendarmodule.cal-default td.today a:visited {
-	color: #000000;
-	font-weight: bold;
-	background: #DF9496;
-}
-
 .calendarmodule.cal-default td {
 	border-right: 1px solid #A2ADBC;
 	border-bottom: 1px solid #A2ADBC;
@@ -98,12 +89,21 @@
 	text-align:center;
 }
 
-.calendarmodule.cal-default div.calevent{
+.calendarmodule.cal-default .calevent{
 	font-size:80%;
 	padding-left:3px;
 	border-bottom:1px dotted #999;
 	display:block;
 	background:#d5e0ed;
+}
+
+.calendarmodule.cal-default .today, 
+.calendarmodule.cal-default td.today a, 
+.calendarmodule.cal-default td.today a:link, 
+.calendarmodule.cal-default td.today a:visited {
+	color: #000000;
+	font-weight: bold;
+	background: #DF9496;
 }
 
 #sidebar .calendarmodule.cal-summary a {
