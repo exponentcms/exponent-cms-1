@@ -417,11 +417,24 @@ $msg = chop(strip_tags(str_replace(array("<br />","<br>","br/>"),"\n",$htmlmsg))
 $notifs = unserialize($config->reminder_notify);
 
 $emails = array();
-foreach ($notifs as $n) {
+//foreach ($notifs as $n) {
 //	if ($n->user_id != $user->id) {
-		$u = exponent_users_getUserById($n);
-		if ($u->email != "" && !in_array($u->email,$emails)) $emails[] = $u->email;
+//		$u = exponent_users_getUserById($n);
+//		if ($u->email != "" && !in_array($u->email,$emails)) $emails[] = $u->email;
 //	}
+//}
+foreach ($db->selectObjects('calendar_reminder_address',"calendar_id='".$config->id."'") as $c) {
+	if ($c->user_id != 0) {
+		$u = exponent_users_getUserById($c->user_id);
+		$emails[] = $u->email;
+	} else if ($c->group_id != 0) {
+		$grpusers = exponent_users_getUsersInGroup($c->group_id);
+		foreach ($grpusers as $u) {
+			$emails[] = $u->email;
+		}
+	} else if ($c->email != '') {
+		$emails[] = $c->email;
+	}
 }
 if (empty($emails)) {
 	print_r("<br><b><i>Exponent - No One to Send Reminders to!</i></b><br>");	
