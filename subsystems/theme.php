@@ -288,6 +288,7 @@ function headerInfo($config) {
 		$str .= "\t".'<meta name="Generator" content="Exponent Content Management System - '.EXPONENT_VERSION_MAJOR.'.'.EXPONENT_VERSION_MINOR.'.'.EXPONENT_VERSION_REVISION.'.'.EXPONENT_VERSION_TYPE.'" '.XHTML_CLOSING.'>' . "\n";
 		$str .= "\t".'<meta name="Keywords" content="'.($sectionObj->keywords == "" ? SITE_KEYWORDS : $sectionObj->keywords) . '" />'."\n";
 		$str .= "\t".'<meta name="Description" content="'.($sectionObj->description == "" ? SITE_DESCRIPTION : $sectionObj->description) . '" '.XHTML_CLOSING.'>'."\n";
+		$str .= "\t".'<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />'."\n";
 
 		//the last little bit of IE 6 support
 		$str .= "\t".'<!--[if IE 6]><style type="text/css"> img { behavior: url(external/png-opacity.htc); } body { behavior: url(external/csshover.htc); }</style><![endif]-->'."\n";
