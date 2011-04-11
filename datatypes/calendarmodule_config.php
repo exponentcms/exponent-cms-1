@@ -190,6 +190,8 @@ class calendarmodule_config {
 	}
 	
 	function update($values,$object) {
+		global $db;
+
 		$object->enable_categories = (isset($values['enable_categories']) ? 1 : 0);
 		$object->enable_feedback = (isset($values['enable_feedback']) ? 1 : 0);
 		
