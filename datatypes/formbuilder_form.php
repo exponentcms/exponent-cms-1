@@ -88,8 +88,8 @@ class formbuilder_form {
 		foreach ($db->selectObjects('formbuilder_address','form_id='.$object->id." and email != ''") as $address) {
 			$defaults[$address->email] = $address->email;
 		}
-		
 		$form->register('addresses',$i18n['addresses'],new listbuildercontrol($defaults,null));
+		
 		$form->register('subject',$i18n['subject'],new textcontrol($object->subject));
 		$form->register(null,'', new htmlcontrol('<h3>'.$i18n['database_header'].'</h3><hr size="1" />'));
 		$form->register('is_saved',$i18n['is_saved'],new checkboxcontrol($object->is_saved,false));

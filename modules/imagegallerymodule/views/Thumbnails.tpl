@@ -26,7 +26,6 @@
 * Suite 330,
 * Boston, MA 02111-1307  USA
 *
-* $Id: Default.tpl,v 1.4 2009/02/13 20:14:35 maiagood Exp $
 *}
 
 <div class="imagegallerymodule thumbnails">

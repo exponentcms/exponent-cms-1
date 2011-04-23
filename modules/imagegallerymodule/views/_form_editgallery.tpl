@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editgallery.tpl,v 1.3 2005/02/19 16:40:42 filetreefrog Exp $
  *}
 <div class="imagegallery edit">
 	<div class="form_title">

@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_edit.tpl,v 1.1 2005/03/13 19:17:06 filetreefrog Exp $
  *}
 <div class="form_title">{if $is_edit == 1}Edit Link{else}New Link{/if}</div>
 <div class="form_header">

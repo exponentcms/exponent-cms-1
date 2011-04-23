@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _viewarticle.tpl,v 1.3 2005/03/13 18:57:28 filetreefrog Exp $
  *}
 <div class="article_title">{$article->title}</div>
 {permissions level=$smarty.const.UILEVEL_NORMAL}

@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: Manager.tpl,v 1.4 2005/02/23 23:30:27 filetreefrog Exp $
  *}
 
 <div class="slideshowmodule manage">

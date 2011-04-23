@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editSlide.tpl,v 1.3 2005/02/19 16:53:36 filetreefrog Exp $
  *}
 <h1>{if $is_edit == 1}Edit Slide Data{else}Upload new Slide{/if}</h1>
 <div class="bodycopy">	

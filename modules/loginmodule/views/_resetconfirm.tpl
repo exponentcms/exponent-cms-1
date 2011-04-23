@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _resetconfirm.tpl,v 1.1.1.1 2005/07/14 18:34:04 cvs Exp $
  *}
 {if $state == 'expired'}Your token has expired.
 {elseif $state == 'smtp_error'}Error sending confirmation message.  Contact an administrator.

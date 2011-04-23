@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editPost.tpl,v 1.4 2005/04/08 03:59:58 filetreefrog Exp $
  *}
  <div class="pad">
 <div class="form_title">{if $is_edit == 1}Edit Post{elseif $is_reply == 1}Post Reply{else}Start Thread{/if}</div>

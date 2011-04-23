@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _view_image.tpl,v 1.4 2005/03/03 23:43:03 filetreefrog Exp $
  *}
  
 <div class="imagegallerymodule view-image"> 

@@ -17,7 +17,7 @@
 #
 ##################################################
 
-if (!defined("EXPONENT")) exit("");
+if (!defined("EXPONENT")) exit('');
 
 // Check for form errors
 if (empty($_REQUEST['isedit'])){

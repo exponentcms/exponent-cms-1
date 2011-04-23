@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editarticle.tpl,v 1.2 2005/02/19 16:53:34 filetreefrog Exp $
  *}
 <div class="form_header">
         <h1>Submit Article</h1>

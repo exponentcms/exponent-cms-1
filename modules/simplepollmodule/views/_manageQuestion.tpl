@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _manageQuestion.tpl,v 1.2 2005/04/18 01:23:57 filetreefrog Exp $
  *}
 
 <div class="simplepollmodule manage-question">

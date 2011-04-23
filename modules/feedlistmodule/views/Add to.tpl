@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: Default.tpl,v 1.6.2.1 2005/04/20 16:19:47 filetreefrog Exp $
  *}
 
 <div class="feedlistmodule">

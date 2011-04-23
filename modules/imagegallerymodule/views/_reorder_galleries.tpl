@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: Default.tpl,v 1.4 2005/02/24 20:14:35 Exp $
  *}
  
  <div class="imagegallerymodule reorder_galleries">

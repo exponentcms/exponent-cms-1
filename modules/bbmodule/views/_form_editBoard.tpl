@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editBoard.tpl,v 1.3 2005/02/19 16:42:19 filetreefrog Exp $
  *}
 <div class="form_title">{if $is_edit == 1}Edit Board{else}Create Board{/if}</div>
 <div class="form_header"><p>

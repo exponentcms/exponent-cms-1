@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _form_editTask.tpl,v 1.1 2005/02/22 16:43:35 filetreefrog Exp $
  *}
 <div class="form_title">Edit Task Item</div>
 <div class="form_header">

@@ -26,7 +26,6 @@
  * Suite 330,
  * Boston, MA 02111-1307  USA
  *
- * $Id: _email_newreply.tpl,v 1.3 2005/02/19 16:42:19 filetreefrog Exp $
  *}
 Hello,
 
