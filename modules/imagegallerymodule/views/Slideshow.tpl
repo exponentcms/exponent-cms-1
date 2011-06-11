@@ -83,7 +83,7 @@
 {if $overlap == ""}{assign var=overlap value=1}{/if}
 {assign var=showtype value=$__viewconfig.showtype}
 {if $showtype == ""}{assign var=showtype value=1}{/if}
-{assign var=commondir value='/themes/common/js/'}
+{assign var=commondir value="`$smarty.const.PATH_RELATIVE`themes/common/js/"}
 
 <div class="imagegallerymodule default">
 	{if $moduletitle != ""}<h2>{$moduletitle}</h2>{/if}
