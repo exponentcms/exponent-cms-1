@@ -170,7 +170,7 @@ class weblogmodule {
 		$locsql .= ')';
 		$locsql .= " AND (publish = 0 or publish <= " . time() . " or poster=" . $user_id .
 			') AND (unpublish = 0 or unpublish > ' . time() . " or poster=" . $user_id . ') '; 
-		if ($user->is_admin || $user->is_acting_admin) {
+		if (isset($user->is_admin) || isset($user->is_acting_admin)) {
 			$where = $locsql;
 		} else {
 			$where = '(is_draft = 0 OR poster = '.$user_id.") AND ".$locsql;
@@ -307,7 +307,7 @@ class weblogmodule {
 					'view_private'=>exponent_permissions_check('view_private',$ploc),
 					'manage_approval'=>exponent_permissions_check('manage_approval',$ploc),
 				);
-				if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {
+				if (!exponent_permissions_check('approve_comments',$ploc) && isset($config->approve_comments)) {
 					$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id." AND approved=1");
 				} else {
 					$comments = $db->selectObjects('weblog_comment','parent_id='.$posts[$i]->id);

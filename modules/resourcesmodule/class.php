@@ -62,7 +62,7 @@ class resourcesmodule {
 		if (!defined('SYS_FILES')) require_once(BASE.'subsystems/files.php');
 		if (!defined('SYS_SORTING')) require_once(BASE.'subsystems/sorting.php');
 		if (!defined('SYS_USERS')) include_once(BASE.'subsystems/users.php');
-		include(BASE.'external/mp3file.php');
+		include_once(BASE.'external/mp3file.php');
 		
 		$template = new template('resourcesmodule',$view,$loc);
 		
@@ -100,6 +100,8 @@ class resourcesmodule {
 		if ($config == null) {
 			$config->enable_categories = 0;
 			$config->recalc = 0; // No need to recalculate, no categories
+			$config->orderby = 'posted';
+			$config->orderhow = 0;
 		} else  if ($config->recalc == 1) {
 			// We need to recaculate the rankings.
 			if ($config->enable_categories == 1) {

@@ -69,7 +69,7 @@ class listingmodule {
 			$config->enable_categories = 0;
 			$config->orderby = 'name';
 			$config->orderhow = 0; // Ascending
-         	$itemsperpage = 10;
+         	$config->items_perpage = 10;
 			$config->recalc = 0; // No need to recalculate, no categories
 		} else  if ($config->recalc == 1) {
 			// We need to recaculate the rankings.
@@ -217,7 +217,7 @@ class listingmodule {
 		$template->assign('data',$data);		
 		$template->assign('moduletitle', $title);
 		$template->assign('config', $config);	
-		$template->assign('list', $config->id);
+		$template->assign('list', isset($config->id) ? $config->id : '');
 		$template->output();
 	}
 
