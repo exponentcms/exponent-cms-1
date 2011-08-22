@@ -336,7 +336,7 @@ class weblogmodule {
 		$monitoring = false;
 		if ($user && ($user->id!=0)) {
 			$weblog_monitor = null;
-			$weblog_monitor = $db->selectObject("weblog_monitor","weblog_id=".$config->id." AND user_id=".$user->id);
+			$weblog_monitor = $db->selectObject("weblog_monitor","weblog_id=".isset($config->id) ? $config->id : ''." AND user_id=".isset($user->id) ? $user->id : '');
 			if ($weblog_monitor != null) $monitoring = true;
 		}
 		$template->assign("monitoring", $monitoring);
