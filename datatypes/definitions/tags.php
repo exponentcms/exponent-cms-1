@@ -21,15 +21,15 @@ if (!defined('EXPONENT')) exit('');
 
 return array(
 	'id'=>array(
-                DB_FIELD_TYPE=>DB_DEF_ID,
-                DB_PRIMARY=>true,
-                DB_INCREMENT=>true),
-        'name'=>array(
-                DB_FIELD_TYPE=>DB_DEF_STRING,
-                DB_FIELD_LEN=>100),
+		DB_FIELD_TYPE=>DB_DEF_ID,
+		DB_PRIMARY=>true,
+		DB_INCREMENT=>true),
+	'name'=>array(
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>100),
 	'collection_id'=>array(
-                DB_FIELD_TYPE=>DB_DEF_ID,
-                DB_INDEX=>10),
+		DB_FIELD_TYPE=>DB_DEF_ID,
+		DB_INDEX=>10),
 );
 
 ?>
