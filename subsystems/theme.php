@@ -804,7 +804,7 @@ function exponent_theme_getTheme() {
 	$action_maps = exponent_theme_loadActionMaps();
 
 	if (exponent_theme_inAction() && (!empty($action_maps[$_REQUEST['module']]) || !empty($action_maps['*']))) {
-		if (array_key_exists($_REQUEST['action'], $action_maps[$_REQUEST['module']])) {
+		if (isset($action_maps[$_REQUEST['module']]) && array_key_exists($_REQUEST['action'], $action_maps[$_REQUEST['module']])) {
 			if ($action_maps[$_REQUEST['module']][$_REQUEST['action']]=="default") {
 				$theme = BASE.'themes/'.DISPLAY_THEME.'/index.php';
 			} elseif (is_readable(BASE.'themes/'.DISPLAY_THEME.'/subthemes/'.$action_maps[$_REQUEST['module']][$_REQUEST['action']].'.php')) {

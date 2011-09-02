@@ -21,7 +21,7 @@ if (!defined('EXPONENT')) exit('');
 
 exponent_flow_set(SYS_FLOW_PUBLIC,SYS_FLOW_ACTION);
 
-if ($user->is_admin || $user->is_acting_admin) {
+if (isset($user->is_admin) || isset($user->is_acting_admin)) {
 	$where = '';
 } else {
 	$where = " AND (is_draft = 0 OR poster = ".($user ? $user->id : -1).")";
@@ -39,6 +39,7 @@ if (isset($_GET['id'])) {
 $config = $db->selectObject('weblogmodule_config',"location_data='".$this_post->location_data."'");
 if ($config == null) {
 	$config->allow_comments = 1;
+	$config->reply_title = '';
 }
 
 if ($this_post) {
@@ -84,7 +85,7 @@ if ($this_post) {
 			'manage_approval'=>exponent_permissions_check('manage_approval',$ploc),
 		);
 		
-		if (!exponent_permissions_check('approve_comments',$ploc) && $config->approve_comments) {
+		if (!exponent_permissions_check('approve_comments',$ploc) && isset($config->approve_comments)) {
 			$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id." AND approved=1");
 		} else {
 			$this_post->comments = $db->selectObjects('weblog_comment','parent_id='.$this_post->id);

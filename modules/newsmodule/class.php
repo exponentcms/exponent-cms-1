@@ -214,7 +214,7 @@ class newsmodule {
 		$total = $db->countObjects('newsitem', $locsql." AND (publish = 0 or publish <= " . 
 			time() . ") AND (unpublish = 0 or unpublish > " . time() . ") AND approved != 0");
 
-		if ($template->viewconfig['featured_only']) {
+		if (isset($template->viewconfig['featured_only'])) {
 			$locsql .= " AND is_featured=1 ";
 		}			
 		if($config->enable_pagination == 0) {

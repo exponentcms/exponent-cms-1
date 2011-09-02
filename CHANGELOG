@@ -2,6 +2,16 @@ Exponent Content Management System
 Copyright (c) 2004-2007 OIC Group, Inc.
 ===============================================
 
+Added / Fixed / changed for 0.99.0 Beta 1
+-----------------------
+# Many, many minor bugs fixed
+# Many, many new features for most every module
+# Many, many tweaks to most every view
+
+Added / Fixed / changed for 0.98.0 GA
+-----------------------
+# This release is a maintenance and security release, patching a handful of bugs and other extraneous issues.
+
 Added / Fixed / changed for 0.97.0 GA
 -----------------------
 # YAHOO! User Interface Library upgraded to version 2.5.2
@@ -10,7 +20,6 @@ Added / Fixed / changed for 0.97.0 GA
 # Many language fixes and additions
 # Many bug fixes
 # For a detailed commit log, please see https://code.launchpad.net/~exponent-core-dev/exponent-cms/0.97.0
-
 
 Added / Fixed / changed for 0.97.0 Release Candidate 1
 -----------------------
@@ -35,8 +44,6 @@ Added / Fixed / changed for 0.97.0 Release Candidate 1
 # A bug in the form builder module where viewing records would pitch an error in SEF mode.
 # Made the global table header style apply to <th>'s as well as <td>'s
 # The Image Gallery Module has been deprecated. A re-write will be out shortly.
-
-
 
 Added / Fixed for 0.97.0 Beta
 -----------------------
@@ -67,7 +74,6 @@ Added / Fixed for 0.97.0 Beta
 # Drastic reduction in use of tables for site structure, namely in the forms subsystem.  Many navigation views have been converted to unordered lists as well.
 # Action Maps to map certain actions to a specific subtheme
 # The Image Gallery Module's views have been cleaned up slightly, and With Thumbnails view has been added taking advantage of YUI's panels as a popup
-
 
 # Developments:
 # Drastic speed improvements.
@@ -256,11 +262,9 @@ Added / Fixed in 0.96.5
 0.96.5  Admin Module: No restore defaults for File Types (adam)
 0.96.5  Upgrade scenario fails (adam)
 
-
 Limitations in Exponent 0.96.5
 
 You may enter content in whatever language you choose, but you can not enter multi-language content and switch between them as of yet - this is coming in a future release. 
-
 
 426	Admin Module: Spider Site complains about Exponent File Manager
 431	The Exponent equivalent of "su - <someuser>"
