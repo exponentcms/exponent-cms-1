@@ -28,10 +28,10 @@ return array(
 		DB_FIELD_TYPE=>DB_DEF_STRING,
 		DB_FIELD_LEN=>100),
 	"description"=>array(
-                DB_FIELD_TYPE=>DB_DEF_STRING,
-                DB_FIELD_LEN=>10000),
+		DB_FIELD_TYPE=>DB_DEF_STRING,
+		DB_FIELD_LEN=>10000),
 	'allow_free_tags'=>array(
-                DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
+		DB_FIELD_TYPE=>DB_DEF_BOOLEAN),
 );
 
 ?>

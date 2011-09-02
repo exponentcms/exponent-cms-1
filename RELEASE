@@ -6,6 +6,10 @@ Release Notes for Exponent Content Management System
 
 For a complete list of the changes made from release to release, see the CHANGELOG
 
+0.99.0 - 2011
+========================
+- This release is a feature and maintenance release.  It tweaks many of the views, adds many features, updates 3rd party libraries, and patches a handful of bugs and other extraneous issues.
+
 0.98.0 - 2010
 ========================
 - This release is a maintenance and security release, patching a handful of bugs and other extraneous issues.

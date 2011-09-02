@@ -26,6 +26,7 @@ class calendarmodule_config {
 		
 		global $db;
 		$tag_collections = $db->selectObjects("tag_collections");
+		$tc_list = null;
 		foreach ($tag_collections as $tag_collections => $collection) {
 			$tc_list[$collection->id] = $collection->name;
 		}
