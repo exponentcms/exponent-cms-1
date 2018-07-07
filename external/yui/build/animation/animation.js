@@ -1,8 +1,8 @@
 /*
-Copyright (c) 2008, Yahoo! Inc. All rights reserved.
+Copyright (c) 2011, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
-http://developer.yahoo.net/yui/license.txt
-version: 2.5.2
+http://developer.yahoo.com/yui/license.html
+version: 2.9.0
 */
 (function() {
 
@@ -88,11 +88,16 @@ Anim.prototype = {
      * @param {String} unit The unit ('px', '%', etc.) of the value.
      */
     setAttribute: function(attr, val, unit) {
+        var el = this.getEl();
         if ( this.patterns.noNegatives.test(attr) ) {
             val = (val > 0) ? val : 0;
         }
 
-        Y.Dom.setStyle(this.getEl(), attr, val + unit);
+        if (attr in el && !('style' in el && attr in el.style)) {
+            el[attr] = val;
+        } else {
+            Y.Dom.setStyle(el, attr, val + unit);
+        }
     },                        
     
     /**
@@ -113,11 +118,15 @@ Anim.prototype = {
         var pos = !!( a[3] ); // top or left
         var box = !!( a[2] ); // width or height
         
-        // use offsets for width/height and abs pos top/left
-        if ( box || (Y.Dom.getStyle(el, 'position') == 'absolute' && pos) ) {
-            val = el['offset' + a[0].charAt(0).toUpperCase() + a[0].substr(1)];
-        } else { // default to zero for other 'auto'
-            val = 0;
+        if ('style' in el) {
+            // use offsets for width/height and abs pos top/left
+            if ( box || (Y.Dom.getStyle(el, 'position') == 'absolute' && pos) ) {
+                val = el['offset' + a[0].charAt(0).toUpperCase() + a[0].substr(1)];
+            } else { // default to zero for other 'auto'
+                val = 0;
+            }
+        } else if (attr in el) {
+            val = el[attr];
         }
 
         return val;
@@ -352,12 +361,14 @@ Anim.prototype = {
             Y.AnimMgr.stop(this);
         };
         
-        var onStart = function() {            
+        this._handleStart = function() {            
             this.onStart.fire();
             
             this.runtimeAttributes = {};
             for (var attr in this.attributes) {
-                this.setRuntimeAttribute(attr);
+                if (this.attributes.hasOwnProperty(attr)) {
+                    this.setRuntimeAttribute(attr);
+                }
             }
             
             isAnimated = true;
@@ -370,7 +381,7 @@ Anim.prototype = {
          * @private
          */
          
-        var onTween = function() {
+        this._handleTween = function() {
             var data = {
                 duration: new Date() - this.getStartTime(),
                 currentFrame: this.currentFrame
@@ -388,13 +399,17 @@ Anim.prototype = {
             var runtimeAttributes = this.runtimeAttributes;
             
             for (var attr in runtimeAttributes) {
-                this.setAttribute(attr, this.doMethod(attr, runtimeAttributes[attr].start, runtimeAttributes[attr].end), runtimeAttributes[attr].unit); 
+                if (runtimeAttributes.hasOwnProperty(attr)) {
+                    this.setAttribute(attr, this.doMethod(attr, runtimeAttributes[attr].start, runtimeAttributes[attr].end), runtimeAttributes[attr].unit); 
+                }
             }
+            
+            this.afterTween.fire(data);
             
             actualFrames += 1;
         };
         
-        var onComplete = function() {
+        this._handleComplete = function() {
             var actual_duration = (new Date() - startTime) / 1000 ;
             
             var data = {
@@ -437,6 +452,13 @@ Anim.prototype = {
         this.onTween = new Y.CustomEvent('tween', this);
         
         /**
+         * Custom event that fires between each frame
+         * Listen via subscribe method (e.g. myAnim.afterTween.subscribe(someFunction)
+         * @event afterTween
+         */
+        this.afterTween = new Y.CustomEvent('afterTween', this);
+        
+        /**
          * Custom event that fires after onTween
          * @private
          */
@@ -454,9 +476,9 @@ Anim.prototype = {
          */
         this._onComplete = new Y.CustomEvent('_complete', this, true);
 
-        this._onStart.subscribe(onStart);
-        this._onTween.subscribe(onTween);
-        this._onComplete.subscribe(onComplete);
+        this._onStart.subscribe(this._handleStart);
+        this._onTween.subscribe(this._handleTween);
+        this._onComplete.subscribe(this._handleComplete);
     }
 };
 
@@ -508,7 +530,7 @@ YAHOO.util.AnimMgr = new function() {
      * @type Int
      * 
      */
-    this.delay = 1;
+    this.delay = 20;
 
     /**
      * Adds an animation instance to the animation queue.
@@ -523,17 +545,20 @@ YAHOO.util.AnimMgr = new function() {
         this.start();
     };
     
-    /**
-     * removes an animation instance from the animation queue.
-     * All animation instances must be registered in order to animate.
-     * @method unRegister
-     * @param {object} tween The Anim instance to be be registered
-     * @param {Int} index The index of the Anim instance
-     * @private
-     */
-    this.unRegister = function(tween, index) {
+    var _unregisterQueue = [];
+    var _unregistering = false;
+
+    var doUnregister = function() {
+        var next_args = _unregisterQueue.shift();
+        unRegister.apply(YAHOO.util.AnimMgr,next_args);
+        if (_unregisterQueue.length) {
+            arguments.callee();
+        }
+    };
+
+    var unRegister = function(tween, index) {
         index = index || getIndex(tween);
-        if (!tween.isAnimated() || index == -1) {
+        if (!tween.isAnimated() || index === -1) {
             return false;
         }
         
@@ -547,7 +572,24 @@ YAHOO.util.AnimMgr = new function() {
 
         return true;
     };
-    
+
+    /**
+     * removes an animation instance from the animation queue.
+     * All animation instances must be registered in order to animate.
+     * @method unRegister
+     * @param {object} tween The Anim instance to be be registered
+     * @param {Int} index The index of the Anim instance
+     * @private
+     */
+    this.unRegister = function() {
+        _unregisterQueue.push(arguments);
+        if (!_unregistering) {
+            _unregistering = true;
+            doUnregister();
+            _unregistering = false;
+        }
+    }
+
     /**
      * Starts the animation thread.
 	* Only one thread can run at a time.
@@ -606,7 +648,7 @@ YAHOO.util.AnimMgr = new function() {
     
     var getIndex = function(anim) {
         for (var i = 0, len = queue.length; i < len; ++i) {
-            if (queue[i] == anim) {
+            if (queue[i] === anim) {
                 return i; // note return;
             }
         }
@@ -639,6 +681,8 @@ YAHOO.util.AnimMgr = new function() {
             tween.currentFrame += tweak;      
         }
     };
+    this._queue = queue;
+    this._getIndex = getIndex;
 };
 /**
  * Used to calculate Bezier splines for any number of control points.
@@ -706,6 +750,7 @@ YAHOO.util.Bezier = new function() {
     
     ColorAnim.NAME = 'ColorAnim';
 
+    ColorAnim.DEFAULT_BGCOLOR = '#fff';
     // shorthand
     var Y = YAHOO.util;
     YAHOO.extend(ColorAnim, Y.Anim);
@@ -748,19 +793,19 @@ YAHOO.util.Bezier = new function() {
 
     proto.getAttribute = function(attr) {
         var el = this.getEl();
-        if (  this.patterns.color.test(attr) ) {
+        if (this.patterns.color.test(attr) ) {
             var val = YAHOO.util.Dom.getStyle(el, attr);
             
+            var that = this;
             if (this.patterns.transparent.test(val)) { // bgcolor default
-                var parent = el.parentNode; // try and get from an ancestor
-                val = Y.Dom.getStyle(parent, attr);
-            
-                while (parent && this.patterns.transparent.test(val)) {
-                    parent = parent.parentNode;
+                var parent = YAHOO.util.Dom.getAncestorBy(el, function(node) {
+                    return !that.patterns.transparent.test(val);
+                });
+
+                if (parent) {
                     val = Y.Dom.getStyle(parent, attr);
-                    if (parent.tagName.toUpperCase() == 'HTML') {
-                        val = '#fff';
-                    }
+                } else {
+                    val = ColorAnim.DEFAULT_BGCOLOR;
                 }
             }
         } else {
@@ -847,7 +892,7 @@ YAHOO.util.Easing = {
     },
     
     /**
-     * Begins slowly and accelerates towards end. (quadratic)
+     * Begins slowly and accelerates towards end.
      * @method easeIn
      * @param {Number} t Time value used to compute current value
      * @param {Number} b Starting value
@@ -860,7 +905,7 @@ YAHOO.util.Easing = {
     },
 
     /**
-     * Begins quickly and decelerates towards end.  (quadratic)
+     * Begins quickly and decelerates towards end.
      * @method easeOut
      * @param {Number} t Time value used to compute current value
      * @param {Number} b Starting value
@@ -873,7 +918,7 @@ YAHOO.util.Easing = {
     },
     
     /**
-     * Begins slowly and decelerates towards end. (quadratic)
+     * Begins slowly and decelerates towards end.
      * @method easeBoth
      * @param {Number} t Time value used to compute current value
      * @param {Number} b Starting value
@@ -890,7 +935,7 @@ YAHOO.util.Easing = {
     },
     
     /**
-     * Begins slowly and accelerates towards end. (quartic)
+     * Begins slowly and accelerates towards end.
      * @method easeInStrong
      * @param {Number} t Time value used to compute current value
      * @param {Number} b Starting value
@@ -903,7 +948,7 @@ YAHOO.util.Easing = {
     },
     
     /**
-     * Begins quickly and decelerates towards end.  (quartic)
+     * Begins quickly and decelerates towards end.
      * @method easeOutStrong
      * @param {Number} t Time value used to compute current value
      * @param {Number} b Starting value
@@ -916,7 +961,7 @@ YAHOO.util.Easing = {
     },
     
     /**
-     * Begins slowly and decelerates towards end. (quartic)
+     * Begins slowly and decelerates towards end.
      * @method easeBothStrong
      * @param {Number} t Time value used to compute current value
      * @param {Number} b Starting value
@@ -1377,4 +1422,4 @@ YAHOO.util.Easing = {
 
     Y.Scroll = Scroll;
 })();
-YAHOO.register("animation", YAHOO.util.Anim, {version: "2.5.2", build: "1076"});
+YAHOO.register("animation", YAHOO.util.Anim, {version: "2.9.0", build: "2800"});
