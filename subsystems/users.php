@@ -793,7 +793,7 @@ function exponent_user_getGroupById($id=null) {
 		return array();
 	}
 	
-	$group = null;
+//	$group = null;
 	$group = $db->selectObject("group", "id=".$id);
 	return $group;
 }

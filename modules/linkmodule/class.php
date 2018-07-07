@@ -151,6 +151,7 @@ class linkmodule {
     function getRSSContent($loc) {
 		global $db;
       
+        if (!defined('SYS_CORE')) require_once(BASE.'subsystems/core.php');
 		$config = $db->selectObject('linkmodule_config',"location_data='".serialize($loc)."'");
 		// if(!$config) {
 			// $config->rss_categories = true;
@@ -177,8 +178,8 @@ class linkmodule {
 		foreach ($categories as $id=>$category) {
 			foreach($data[$id] as $item) {
 				$rss_item = new FeedItem();
-				$rss_item->title = $item->name;
-				$rss_item->description = $item->description;
+				$rss_item->title = exponent_core_convertSmartQuotes($item->name);
+				$rss_item->description = exponent_core_convertSmartQuotes($item->description);
 				$rss_item->link = $item->url;
 				if ($config->enable_categories == 1) {
 					$rss_item->category = array($category->name);

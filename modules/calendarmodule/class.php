@@ -30,6 +30,7 @@ class calendarmodule {
 	function getRSSContent($loc) {
 		global $db;
 
+        if (!defined('SYS_CORE')) require_once(BASE.'subsystems/core.php');
 		//Get this modules configuration data
 		$config = $db->selectObject('calendarmodule_config',"location_data='".serialize($loc)."'");
 	
@@ -73,8 +74,8 @@ class calendarmodule {
 		$rssitems = array();
 		foreach ($items as $key => $item) {
 			$rss_item = new FeedItem();
-			$rss_item->title = $item->title;
-			$rss_item->description = $item->body;
+			$rss_item->title = exponent_core_convertSmartQuotes($item->title);
+			$rss_item->description = exponent_core_convertSmartQuotes($item->body);
 			$rss_item->date = date('r', $item->eventstart);
 //          $rss_item->date = date('r', $item->posted);
 //			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=calendarmodule&action=view&id=".$item->id."&src=".$loc->src;

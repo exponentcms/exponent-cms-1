@@ -55,6 +55,7 @@ class newsmodule {
 	function getRSSContent($loc) {
 		global $db;
 	
+        if (!defined('SYS_CORE')) require_once(BASE.'subsystems/core.php');
 		//Get this modules configuration data
 		$config = $db->selectObject('newsmodule_config',"location_data='".serialize($loc)."'");
 
@@ -89,8 +90,8 @@ class newsmodule {
 		foreach ($items as $key => $item) {	
 			if ($item->publish == 0) {$item->publish = $item->posted;}			
 			$rss_item = new FeedItem();
-			$rss_item->title = $item->title;
-			$rss_item->description = $item->body;
+			$rss_item->title = exponent_core_convertSmartQuotes($item->title);
+			$rss_item->description = exponent_core_convertSmartQuotes($item->body);
 //			$rss_item->date = date('r',$item->posted);
 			$rss_item->date = date('r',$item->publish);
 //			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=newsmodule&action=view&id=".$item->id."&src=".$loc->src;

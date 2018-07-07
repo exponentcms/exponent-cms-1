@@ -207,41 +207,59 @@ if (isset($_GET['date_id']) || isset($_GET['src'])) {
 }
 
 function convert_smart_quotes($str) {
-	 // $search = array(chr(145),
-					 // chr(146),
-					 // chr(147),
-					 // chr(148),
-					 // chr(150),
-					 // chr(151),
-					 // chr(133),
-					 // chr(149));
-	 // $replace = array("'z",
-					  // "'z",
-					  // "\"z",
-					  // "\"z",
-					  // "-z",
-					  // "-z",
-					  // "...",
-					  // "&bull;");
-	 // return str_replace($search, $replace, $str);
+    $find[] = '�';  // left side double smart quote
+   	$find[] = '�';  // right side double smart quote
+   	$find[] = '�';  // left side single smart quote
+   	$find[] = '�';  // right side single smart quote
+   	$find[] = '�';  // elipsis
+   	$find[] = '�';  // em dash
+   	$find[] = '�';  // en dash
 
-	$find[] = '“';  // left side double smart quote
-	$find[] = '”';  // right side double smart quote
-	$find[] = '‘';  // left side single smart quote
-	$find[] = '’';  // right side single smart quote
-	$find[] = '…';  // elipsis
-	$find[] = '—';  // em dash
-	$find[] = '–';  // en dash
+       $find[] = '“';  // left side double smart quote
+       $find[] = '”';  // right side double smart quote
+       $find[] = '‘';  // left side single smart quote
+       $find[] = '’';  // right side single smart quote
+       $find[] = '…';  // ellipsis
+       $find[] = '—';  // em dash
+       $find[] = '–';  // en dash
 
-	$replace[] = '"';
-	$replace[] = '"';
-	$replace[] = "'";
-	$replace[] = "'";
-	$replace[] = "...";
-	$replace[] = "-";
-	$replace[] = "-";
+       $find[] = chr(145);
+       $find[] = chr(146);
+       $find[] = chr(147);
+       $find[] = chr(148);
+       $find[] = chr(150);
+       $find[] = chr(151);
+       $find[] = chr(133);
+       $find[] = chr(149);
+       $find[] = chr(11);
 
-	return str_replace($find, $replace, $str);
+   	$replace[] = '"';
+   	$replace[] = '"';
+   	$replace[] = "'";
+   	$replace[] = "'";
+   	$replace[] = "...";
+   	$replace[] = "-";
+   	$replace[] = "-";
+
+       $replace[] = '"';
+       $replace[] = '"';
+       $replace[] = "'";
+       $replace[] = "'";
+       $replace[] = "...";
+       $replace[] = "-";
+       $replace[] = "-";
+
+       $replace[] = "'";
+       $replace[] = "'";
+       $replace[] = "\"";
+       $replace[] = "\"";
+       $replace[] = "-";
+       $replace[] = "-";
+       $replace[] = "...";
+       $replace[] = "&bull;";
+       $replace[] = "\n";
+
+   	return str_replace($find, $replace, $str);
 }
 	 
 ?>

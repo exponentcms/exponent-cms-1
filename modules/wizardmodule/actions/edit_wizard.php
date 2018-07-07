@@ -39,8 +39,8 @@ $loc->int = "";
 
 $wizard_config = null;
 if (isset($_GET['id'])) {
-	//$wizard = $db->selectObject("wizardmodule_config","wizard_id=".$_GET['id']);
-	$wizard_config = $db->selectObject("wizardmodule_config","location_data='".serialize($loc)."'");
+    $wizard_config = $db->selectObject("wizardmodule_config","wizard_id=".$_GET['id']);
+//	$wizard_config = $db->selectObject("wizardmodule_config","location_data='".serialize($loc)."'");
         if ($wizard_config == null) {
         	echo SITE_404_HTML;
 		exit();

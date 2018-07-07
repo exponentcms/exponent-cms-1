@@ -132,7 +132,7 @@ function exponent_theme_includeThemeCSS($files) {
 }
 
 function css_file_needs_rebuilt() {
-	if (DEVELOPMENT > 0 || !is_readable(BASE.$cssfile)) {
+	if (DEVELOPMENT > 0 || !is_readable(BASE.'tmp/css/exp-styles-min.css')) {
 		return true;
 	} else {
 		return false;
@@ -355,6 +355,7 @@ function exponent_theme_advertiseRSS($section=null) {
 
   foreach ($modules as $module) {
 	if (isset($feeds[$module->source])) continue;
+	$location = new stdClass();
     $location->mod = $module->module;
     $location->src = $module->source;
     $location->int = $module->internal;
@@ -532,6 +533,7 @@ function exponent_theme_showModule($module,$view = "Default",$title = "",$source
 	} else {
 		if (is_callable(array($module,"show"))) {
 			if (!$hide_menu && $loc->mod != "containermodule" && (call_user_func(array($module,"hasSources")) || $db->tableExists($loc->mod."_config"))) {
+			    $container = new stdClass();
 				$container->permissions = array(
                                 	'administrate'=>(exponent_permissions_check('administrate',$loc) ? 1 : 0),
                                 	'configure'=>(exponent_permissions_check('configure',$loc) ? 1 : 0)
@@ -690,7 +692,8 @@ function exponent_theme_showAction($module, $action, $src="", $params="") {
 		$loc = null;
 		$loc->mod = $module;
 		$loc->src = (isset($src) ? $src : "");
-		$loc->int = (isset($int) ? $int : "");
+//		$loc->int = (isset($int) ? $int : "");
+        $loc->int = "";
 
 		$actfile = "/" . $module . "/actions/" . $action . ".php";
 		//if (isset($['_common'])) $actfile = "/common/actions/" . $_REQUEST['action'] . ".php";

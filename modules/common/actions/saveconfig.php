@@ -65,8 +65,8 @@ if (exponent_permissions_check('configure',$loc)) {
 		if (empty($current)) {	
 	// well, we didnt' find it at all with our kludge, so pick the first container 
 			$container = $db->selectObject("container","internal='".serialize($loc)."'");
-		}
-		$container = $current; 	
+		} else
+    		$container = $current;
 	}		
 // here
 	
