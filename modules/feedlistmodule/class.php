@@ -57,6 +57,7 @@ class feedlistmodule {
     
     function getRSSContent($loc) {        
         
+        if (!defined('SYS_CORE')) require_once(BASE.'subsystems/core.php');
         //Get this modules items
         $items = array();
         $items = feedlistmodule::getFeedList();
@@ -74,12 +75,12 @@ class feedlistmodule {
         $rssitems = array();
         foreach ($items as $key => $item) { 
             $rss_item = new FeedItem();            
-            $rss_item->title = $item->title;            
+            $rss_item->title = exponent_core_convertSmartQuotes($item->title);
             
             // strip HTML, leaving a bit of extra space so that paragraphs etc don't 
             // run together and truncate body
             $rss_item->descriptionTruncSize = 300;            
-            $rss_item->description = $item->description;
+            $rss_item->description = exponent_core_convertSmartQuotes($item->description);
             $rss_item->date = date('r',time());
             // Note: we have to decode the URL as FeedGenerator will encode it
             $rss_item->link = html_entity_decode($item->link);

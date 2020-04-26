@@ -106,7 +106,7 @@
 			</div>
 			{assign var=qna_found value=1}
 		{foreachelse}
-			{ if ($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)}
+			{if ($config->enable_categories == 1 && $catid != 0) || ($config->enable_categories==0)}
 				<div class="item">
 					<i>{$_TR.no_entry}</i>
 				</div>

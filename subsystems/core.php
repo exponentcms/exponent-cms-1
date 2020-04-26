@@ -61,7 +61,7 @@ define("CORE_EXT_SYSTEM",4);
  * @node Subsystems:Core
  */
 function exponent_core_initializeNavigation () {
-	$sections = array();
+//	$sections = array();
 	$sections = navigationmodule::levelTemplate(0,0);
 	return $sections;
 }
@@ -556,5 +556,67 @@ function exponent_core_getCurrencySymbol($currency_type) {
                 default:
                         return "$";
        }
+}
+
+/**
+ * Routine to convert any smart quotes into normal quotes
+ *
+ * @param string $str
+ * @return string
+ */
+function exponent_core_convertSmartQuotes($str) {
+	$find[] = '�';  // left side double smart quote
+	$find[] = '�';  // right side double smart quote
+	$find[] = '�';  // left side single smart quote
+	$find[] = '�';  // right side single smart quote
+	$find[] = '�';  // elipsis
+	$find[] = '�';  // em dash
+	$find[] = '�';  // en dash
+
+    $find[] = '“';  // left side double smart quote
+    $find[] = '”';  // right side double smart quote
+    $find[] = '‘';  // left side single smart quote
+    $find[] = '’';  // right side single smart quote
+    $find[] = '…';  // ellipsis
+    $find[] = '—';  // em dash
+    $find[] = '–';  // en dash
+
+    $find[] = chr(145);
+    $find[] = chr(146);
+    $find[] = chr(147);
+    $find[] = chr(148);
+    $find[] = chr(150);
+    $find[] = chr(151);
+    $find[] = chr(133);
+    $find[] = chr(149);
+    $find[] = chr(11);
+
+	$replace[] = '"';
+	$replace[] = '"';
+	$replace[] = "'";
+	$replace[] = "'";
+	$replace[] = "...";
+	$replace[] = "-";
+	$replace[] = "-";
+
+    $replace[] = '"';
+    $replace[] = '"';
+    $replace[] = "'";
+    $replace[] = "'";
+    $replace[] = "...";
+    $replace[] = "-";
+    $replace[] = "-";
+
+    $replace[] = "'";
+    $replace[] = "'";
+    $replace[] = "\"";
+    $replace[] = "\"";
+    $replace[] = "-";
+    $replace[] = "-";
+    $replace[] = "...";
+    $replace[] = "&bull;";
+    $replace[] = "\n";
+
+	return str_replace($find, $replace, $str);
 }
 ?>

@@ -208,10 +208,11 @@ function exponent_config_change($var, $val) {
 }
 
 function exponent_config_writeFile($str, $configname="") {
+	$i18n = exponent_lang_loadFile('subsystems/config.php');
 	if ($configname != "") {
                 // Wishing to save
                 if ((file_exists(BASE."conf/profiles/$configname.php") && is_really_writable(BASE."conf/profiles/$configname.php")) ||
-                        is_really_writable($BASE."conf/profiles")) {
+                        is_really_writable(BASE."conf/profiles")) {
 
                         $fh = fopen(BASE."conf/profiles/$configname.php","w");
                         fwrite($fh,$str);

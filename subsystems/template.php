@@ -162,7 +162,8 @@ class template extends BaseTemplate {
 	
 	//PHP5 constructor
 	function __construct($module, $view = null, $loc = null, $caching=false) {
-		$type = !isset($type) ? 'modules' : $type;
+//		$type = !isset($type) ? 'modules' : $type;
+        $type = 'modules';
 
 				//parent::__construct("modules", $module, $view);
 				parent::__construct($type, $module, $view);
@@ -219,8 +220,8 @@ class template extends BaseTemplate {
 				if (empty($current)) {	
 		// well, we didnt' find it at all with our kludge, so pick the first container 
 					$container = $db->selectObject("container","internal='".$container_key."' AND view='".$view."'");
-				}
-				$container = $current; 
+				} else
+    				$container = $current;
 			}
 // here			
 			$cache[$container_key] = $container;
@@ -365,7 +366,7 @@ function exponent_template_getModuleViewFile($name, $view, $recurse=true) {
 // I think these still need to be i18n-ized
 function exponent_template_getViewConfigForm($module,$view,$form,$values) {
 	$form_file = "";
-	$resolved_path = null;
+//	$resolved_path = null;
 	$resolved_path = exponent_core_resolveFilePaths("modules", $module , "form" , $view);
 	if (isset($resolved_path) && $resolved_path != '') {
 		$filepath = array_shift(exponent_core_resolveFilePaths("modules", $module , "form" , $view));

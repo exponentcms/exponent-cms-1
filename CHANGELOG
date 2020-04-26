@@ -2,6 +2,13 @@ Exponent Content Management System
 Copyright (c) 2004-2007 OIC Group, Inc.
 ===============================================
 
+Added / Fixed / changed for 0.99.0 Beta 2
+-----------------------
+# updated YUI to v2.9.0 (final release)
+# updated Smarty to v2.6.31
+# updated FCKEditor to v2.6.11 (final release)
+# fixed some code logic issues and remove unnecessary variable initialization
+
 Added / Fixed / changed for 0.99.0 Beta 1
 -----------------------
 # Many, many minor bugs fixed

@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="yes" showdebugoutput="no">
+﻿<cfsetting enablecfoutputonly="yes" showdebugoutput="no">
 <!---
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2010 Frederico Caldeira Knabben
@@ -116,7 +116,7 @@
 
 	<cfset xmlContent = "<Error number=""1"" text=""This connector is disabled. Please check the 'editor/filemanager/connectors/cfm/config.cfm' file"" />">
 
-<cfelseif find("..",url.currentFolder) or find("\",url.currentFolder) or REFind('(/\.)|(//)|[[:cntrl:]]|([\\:\*\?\"<>])', url.currentFolder)>
+<cfelseif find("..",url.currentFolder) or find("\",url.currentFolder) or REFind('(/\.)|(//)|[[:cntrl:]]|([\\:\;\.\*\?\"<>])', url.currentFolder)>
 
 	<cfset invalidName = true>
 	<cfset xmlContent = "<Error number=""102"" />">
@@ -124,7 +124,7 @@
 <cfelseif isDefined("Config.ConfigAllowedCommands") and not ListFind(Config.ConfigAllowedCommands, url.command)>
 
 	<cfset invalidName = true>
-	<cfset xmlContent = '<Error number="1" text="The &quot;' & HTMLEditFormat(url.command) & '&quot; command isn''t allowed" />'>
+	<cfset xmlContent = '<Error number="1" text="The requested command isn''t allowed" />'>
 
 <cfelseif isDefined("Config.ConfigAllowedTypes") and not ListFind(Config.ConfigAllowedTypes, url.type)>
 

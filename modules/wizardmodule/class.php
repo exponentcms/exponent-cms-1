@@ -67,13 +67,13 @@ class wizardmodule {
 			$wiz = null;
 			//echo serialize($loc); exit();
 			//eDebug($loc); exit;
-			if ($wizard_id != null) {
-				$wiz = $db->selectObject("wizardmodule_config","wizard_id=".$wizard_id." AND location_data='".serialize($loc)."'");
-			} else {
+//			if ($wizard_id != null) {
+//				$wiz = $db->selectObject("wizardmodule_config","wizard_id=".$wizard_id." AND location_data='".serialize($loc)."'");
+//			} else {
 				$wiz = $db->selectObject("wizardmodule_config","location_data='".serialize($loc)."'");
-			}
-			//eDebug($loc);
-			//echo serialize($loc);
+//			}
+//			eDebug($loc);
+//			echo serialize($loc);
 			if (!$wiz) {
                                 $formmsg = "This wizard module has not yet been configured.<br><br>Please configure the module.";
                         } else {

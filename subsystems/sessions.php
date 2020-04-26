@@ -347,6 +347,7 @@ function exponent_sessions_clearAllUsersSessionCache($modules = null, $user = nu
 	//at this point either.  This just updates all sessionticket records to refresh=1
 		
 	global $db;
+	$sessionticket = new stdClass();
 	$sessionticket->refresh = 1;
 	$db->updateObject($sessionticket, 'sessionticket', '1');
 		

@@ -419,6 +419,7 @@ class resourcesmodule {
 	function getRSSContent($loc) {
 		global $db;
 	
+        if (!defined('SYS_CORE')) require_once(BASE.'subsystems/core.php');
 		//Get this modules configuration data
 		$config = $db->selectObject('resourcesmodule_config',"location_data='".serialize($loc)."'");
 		if ($config->rss_limit > 0) {
@@ -440,8 +441,8 @@ class resourcesmodule {
 		foreach ($items as $key => $item) {	
 			$file = $db->selectObject('file', 'id='.$item->file_id);
 			$rss_item = new FeedItem();
-			$rss_item->title = $item->name;
-			$rss_item->description = $item->description;
+			$rss_item->title = exponent_core_convertSmartQuotes($item->name);
+			$rss_item->description = exponent_core_convertSmartQuotes($item->description);
 			$rss_item->date = date('r',$item->posted);
 			$rss_item->link = "http://".HOSTNAME.PATH_RELATIVE."index.php?module=resourcesmodule&action=download_resource&id=".$item->id;			
 			//$rss_item->link = URL_FULL.$file->directory.'/'.$file->filename;

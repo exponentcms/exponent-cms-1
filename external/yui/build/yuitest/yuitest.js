@@ -1,124 +1,136 @@
 /*
-Copyright (c) 2008, Yahoo! Inc. All rights reserved.
+Copyright (c) 2011, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
-http://developer.yahoo.net/yui/license.txt
-version: 2.5.2
+http://developer.yahoo.com/yui/license.html
+version: 2.9.0
 */
 YAHOO.namespace("tool");
 
 //-----------------------------------------------------------------------------
 // TestCase object
 //-----------------------------------------------------------------------------
-
-/**
- * Test case containing various tests to run.
- * @param template An object containing any number of test methods, other methods,
- *                 an optional name, and anything else the test case needs.
- * @class TestCase
- * @namespace YAHOO.tool
- * @constructor
- */
-YAHOO.tool.TestCase = function (template /*:Object*/) {
+(function(){
+    
+    //used for autogenerating test case names
+    var tempId = 0;
     
     /**
-     * Special rules for the test case. Possible subobjects
-     * are fail, for tests that should fail, and error, for
-     * tests that should throw an error.
+     * Test case containing various tests to run.
+     * @param template An object containing any number of test methods, other methods,
+     *                 an optional name, and anything else the test case needs.
+     * @class TestCase
+     * @namespace YAHOO.tool
+     * @constructor
      */
-    this._should /*:Object*/ = {};
-    
-    //copy over all properties from the template to this object
-    for (var prop in template) {
-        this[prop] = template[prop];
-    }    
-    
-    //check for a valid name
-    if (!YAHOO.lang.isString(this.name)){
+    YAHOO.tool.TestCase = function (template /*:Object*/) {
+        
         /**
-         * Name for the test case.
+         * Special rules for the test case. Possible subobjects
+         * are fail, for tests that should fail, and error, for
+         * tests that should throw an error.
          */
-        this.name /*:String*/ = YAHOO.util.Dom.generateId(null, "testCase");
-    }
-
-};
-
-
-YAHOO.tool.TestCase.prototype = {  
-
-    /**
-     * Resumes a paused test and runs the given function.
-     * @param {Function} segment (Optional) The function to run.
-     *      If omitted, the test automatically passes.
-     * @return {Void}
-     * @method resume
-     */
-    resume : function (segment /*:Function*/) /*:Void*/ {
-        YAHOO.tool.TestRunner.resume(segment);
-    },
-
-    /**
-     * Causes the test case to wait a specified amount of time and then
-     * continue executing the given code.
-     * @param {Function} segment (Optional) The function to run after the delay.
-     *      If omitted, the TestRunner will wait until resume() is called.
-     * @param {int} delay (Optional) The number of milliseconds to wait before running
-     *      the function. If omitted, defaults to zero.
-     * @return {Void}
-     * @method wait
-     */
-    wait : function (segment /*:Function*/, delay /*:int*/) /*:Void*/{
-        throw new YAHOO.tool.TestCase.Wait(segment, delay);
-    },
-
-    //-------------------------------------------------------------------------
-    // Stub Methods
-    //-------------------------------------------------------------------------
-
-    /**
-     * Function to run before each test is executed.
-     * @return {Void}
-     * @method setUp
-     */
-    setUp : function () /*:Void*/ {
-    },
+        this._should /*:Object*/ = {};
+        
+        //copy over all properties from the template to this object
+        for (var prop in template) {
+            this[prop] = template[prop];
+        }    
+        
+        //check for a valid name
+        if (!YAHOO.lang.isString(this.name)){
+            /**
+             * Name for the test case.
+             */
+            this.name /*:String*/ = "testCase" + (tempId++);
+        }
+    
+    };
+    
+    
+    YAHOO.tool.TestCase.prototype = {  
+    
+        /**
+         * Resumes a paused test and runs the given function.
+         * @param {Function} segment (Optional) The function to run.
+         *      If omitted, the test automatically passes.
+         * @return {Void}
+         * @method resume
+         */
+        resume : function (segment /*:Function*/) /*:Void*/ {
+            YAHOO.tool.TestRunner.resume(segment);
+        },
+    
+        /**
+         * Causes the test case to wait a specified amount of time and then
+         * continue executing the given code.
+         * @param {Function} segment (Optional) The function to run after the delay.
+         *      If omitted, the TestRunner will wait until resume() is called.
+         * @param {int} delay (Optional) The number of milliseconds to wait before running
+         *      the function. If omitted, defaults to zero.
+         * @return {Void}
+         * @method wait
+         */
+        wait : function (segment /*:Function*/, delay /*:int*/) /*:Void*/{
+            var args = arguments;
+            if (YAHOO.lang.isFunction(args[0])){
+                throw new YAHOO.tool.TestCase.Wait(args[0], args[1]);
+            } else {
+                throw new YAHOO.tool.TestCase.Wait(function(){
+                    YAHOO.util.Assert.fail("Timeout: wait() called but resume() never called.");
+                }, (YAHOO.lang.isNumber(args[0]) ? args[0] : 10000));
+            }            
+        },
+    
+        //-------------------------------------------------------------------------
+        // Stub Methods
+        //-------------------------------------------------------------------------
+    
+        /**
+         * Function to run before each test is executed.
+         * @return {Void}
+         * @method setUp
+         */
+        setUp : function () /*:Void*/ {
+        },
+        
+        /**
+         * Function to run after each test is executed.
+         * @return {Void}
+         * @method tearDown
+         */
+        tearDown: function () /*:Void*/ {    
+        }
+    };
     
     /**
-     * Function to run after each test is executed.
-     * @return {Void}
-     * @method tearDown
+     * Represents a stoppage in test execution to wait for an amount of time before
+     * continuing.
+     * @param {Function} segment A function to run when the wait is over.
+     * @param {int} delay The number of milliseconds to wait before running the code.
+     * @class Wait
+     * @namespace YAHOO.tool.TestCase
+     * @constructor
+     *
      */
-    tearDown: function () /*:Void*/ {    
-    }
-};
-
-/**
- * Represents a stoppage in test execution to wait for an amount of time before
- * continuing.
- * @param {Function} segment A function to run when the wait is over.
- * @param {int} delay The number of milliseconds to wait before running the code.
- * @class Wait
- * @namespace YAHOO.tool.TestCase
- * @constructor
- *
- */
-YAHOO.tool.TestCase.Wait = function (segment /*:Function*/, delay /*:int*/) {
+    YAHOO.tool.TestCase.Wait = function (segment /*:Function*/, delay /*:int*/) {
+        
+        /**
+         * The segment of code to run when the wait is over.
+         * @type Function
+         * @property segment
+         */
+        this.segment /*:Function*/ = (YAHOO.lang.isFunction(segment) ? segment : null);
     
-    /**
-     * The segment of code to run when the wait is over.
-     * @type Function
-     * @property segment
-     */
-    this.segment /*:Function*/ = (YAHOO.lang.isFunction(segment) ? segment : null);
+        /**
+         * The delay before running the segment of code.
+         * @type int
+         * @property delay
+         */
+        this.delay /*:int*/ = (YAHOO.lang.isNumber(delay) ? delay : 0);
+    
+    };
 
-    /**
-     * The delay before running the segment of code.
-     * @type int
-     * @property delay
-     */
-    this.delay /*:int*/ = (YAHOO.lang.isNumber(delay) ? delay : 0);
-
-};
-
+})();
 YAHOO.namespace("tool");
 
 
@@ -198,7 +210,6 @@ YAHOO.tool.TestSuite.prototype = {
     }
     
 };
-
 YAHOO.namespace("tool");
 
 /**
@@ -206,6 +217,7 @@ YAHOO.namespace("tool");
  * @module yuitest
  * @namespace YAHOO.tool
  * @requires yahoo,dom,event,logger
+ * @optional event-simulate
  */
 
 
@@ -213,13 +225,7 @@ YAHOO.namespace("tool");
 // TestRunner object
 //-----------------------------------------------------------------------------
 
-/**
- * Runs test suites and test cases, providing events to allowing for the
- * interpretation of test results.
- * @namespace YAHOO.tool
- * @class TestRunner
- * @static
- */
+
 YAHOO.tool.TestRunner = (function(){
 
     /**
@@ -276,7 +282,8 @@ YAHOO.tool.TestRunner = (function(){
             passed : 0,
             failed : 0,
             total : 0,
-            ignored : 0
+            ignored : 0,
+            duration: 0
         };
         
         //initialize results
@@ -311,6 +318,13 @@ YAHOO.tool.TestRunner = (function(){
         }       
     };
 
+    /**
+     * Runs test suites and test cases, providing events to allowing for the
+     * interpretation of test results.
+     * @namespace YAHOO.tool
+     * @class TestRunner
+     * @static
+     */
     function TestRunner(){
     
         //inherit from EventProvider
@@ -321,24 +335,46 @@ YAHOO.tool.TestRunner = (function(){
          * @type YAHOO.tool.TestSuite
          * @property masterSuite
          * @private
+         * @static
          */
-        this.masterSuite /*:YAHOO.tool.TestSuite*/ = new YAHOO.tool.TestSuite("YUI Test Results");        
+        this.masterSuite = new YAHOO.tool.TestSuite("yuitests" + (new Date()).getTime());        
 
         /**
          * Pointer to the current node in the test tree.
          * @type TestNode
          * @private
          * @property _cur
+         * @static
          */
-        this._cur = null;
+        this._cur = null;                
         
         /**
          * Pointer to the root node in the test tree.
          * @type TestNode
          * @private
          * @property _root
+         * @static
          */
         this._root = null;
+        
+        /**
+         * Indicates if the TestRunner is currently running tests.
+         * @type Boolean
+         * @private
+         * @property _running
+         * @static
+         */
+        this._running = false;
+        
+        /**
+         * Holds copy of the results object generated when all tests are
+         * complete.
+         * @type Object
+         * @private
+         * @property _lastResults
+         * @static
+         */
+        this._lastResults = null;
         
         //create events
         var events /*:Array*/ = [
@@ -419,8 +455,114 @@ YAHOO.tool.TestRunner = (function(){
          * Fires when the run() method is called.
          * @event begin
          */        
-        BEGIN_EVENT /*:String*/ : "begin",    
+        BEGIN_EVENT /*:String*/ : "begin",                
         
+        //-------------------------------------------------------------------------
+        // Misc Methods
+        //-------------------------------------------------------------------------   
+
+        /**
+         * Retrieves the name of the current result set.
+         * @return {String} The name of the result set.
+         * @method getName
+         */
+        getName: function(){
+            return this.masterSuite.name;
+        },         
+
+        /**
+         * The name assigned to the master suite of the TestRunner. This is the name
+         * that is output as the root's name when results are retrieved.
+         * @param {String} name The name of the result set.
+         * @return {Void}
+         * @method setName
+         */
+        setName: function(name){
+            this.masterSuite.name = name;
+        },        
+        
+        
+        //-------------------------------------------------------------------------
+        // State-Related Methods
+        //-------------------------------------------------------------------------
+
+        /**
+         * Indicates that the TestRunner is busy running tests and therefore can't
+         * be stopped and results cannot be gathered.
+         * @return {Boolean} True if the TestRunner is running, false if not.
+         * @method isRunning
+         */
+        isRunning: function(){
+            return this._running;
+        },
+        
+        /**
+         * Returns the last complete results set from the TestRunner. Null is returned
+         * if the TestRunner is running or no tests have been run.
+         * @param {Function} format (Optional) A test format to return the results in.
+         * @return {Object|String} Either the results object or, if a test format is 
+         *      passed as the argument, a string representing the results in a specific
+         *      format.
+         * @method getResults
+         */
+        getResults: function(format){
+            if (!this._running && this._lastResults){
+                if (YAHOO.lang.isFunction(format)){
+                    return format(this._lastResults);                    
+                } else {
+                    return this._lastResults;
+                }
+            } else {
+                return null;
+            }
+        },
+
+        /**
+         * Returns the coverage report for the files that have been executed.
+         * This returns only coverage information for files that have been
+         * instrumented using YUI Test Coverage and only those that were run
+         * in the same pass.
+         * @param {Function} format (Optional) A coverage format to return results in.
+         * @return {Object|String} Either the coverage object or, if a coverage
+         *      format is specified, a string representing the results in that format.
+         * @method getCoverage
+         */
+        getCoverage: function(format){
+            if (!this._running && typeof _yuitest_coverage == "object"){
+                if (YAHOO.lang.isFunction(format)){
+                    return format(_yuitest_coverage);                    
+                } else {
+                    return _yuitest_coverage;
+                }
+            } else {
+                return null;
+            }            
+        },
+        
+        //-------------------------------------------------------------------------
+        // Misc Methods
+        //-------------------------------------------------------------------------
+
+        /**
+         * Retrieves the name of the current result set.
+         * @return {String} The name of the result set.
+         * @method getName
+         */
+        getName: function(){
+            return this.masterSuite.name;
+        },         
+
+        /**
+         * The name assigned to the master suite of the TestRunner. This is the name
+         * that is output as the root's name when results are retrieved.
+         * @param {String} name The name of the result set.
+         * @return {Void}
+         * @method setName
+         */
+        setName: function(name){
+            this.masterSuite.name = name;
+        },
+
         //-------------------------------------------------------------------------
         // Test Tree-Related Methods
         //-------------------------------------------------------------------------
@@ -484,7 +626,7 @@ YAHOO.tool.TestRunner = (function(){
         _buildTestTree : function () /*:Void*/ {
         
             this._root = new TestNode(this.masterSuite);
-            this._cur = this._root;
+            //this._cur = this._root;
             
             //iterate over the items in the master suite
             for (var i=0; i < this.masterSuite.items.length; i++){
@@ -508,6 +650,7 @@ YAHOO.tool.TestRunner = (function(){
          * @return {Void}
          * @method _handleTestObjectComplete
          * @private
+         * @static
          */
         _handleTestObjectComplete : function (node /*:TestNode*/) /*:Void*/ {
             if (YAHOO.lang.isObject(node.testObject)){
@@ -519,8 +662,10 @@ YAHOO.tool.TestRunner = (function(){
             
                 if (node.testObject instanceof YAHOO.tool.TestSuite){
                     node.testObject.tearDown();
+                    node.results.duration = (new Date()) - node._start;
                     this.fireEvent(this.TEST_SUITE_COMPLETE_EVENT, { testSuite: node.testObject, results: node.results});
                 } else if (node.testObject instanceof YAHOO.tool.TestCase){
+                    node.results.duration = (new Date()) - node._start;
                     this.fireEvent(this.TEST_CASE_COMPLETE_EVENT, { testCase: node.testObject, results: node.results});
                 }      
             } 
@@ -538,8 +683,10 @@ YAHOO.tool.TestRunner = (function(){
          * @method _next
          */
         _next : function () /*:TestNode*/ {
-        
-            if (this._cur.firstChild) {
+                
+            if (this._cur === null){
+                this._cur = this._root;
+            } else if (this._cur.firstChild) {
                 this._cur = this._cur.firstChild;
             } else if (this._cur.next) {
                 this._cur = this._cur.next;            
@@ -552,7 +699,10 @@ YAHOO.tool.TestRunner = (function(){
                 if (this._cur == this._root){
                     this._cur.results.type = "report";
                     this._cur.results.timestamp = (new Date()).toLocaleString();
-                    this.fireEvent(this.COMPLETE_EVENT, { results: this._cur.results});
+                    this._cur.results.duration = (new Date()) - this._cur._start;                       
+                    this._lastResults = this._cur.results;
+                    this._running = false;
+                    this.fireEvent(this.COMPLETE_EVENT, { results: this._lastResults});
                     this._cur = null;
                 } else {
                     this._handleTestObjectComplete(this._cur);               
@@ -572,23 +722,33 @@ YAHOO.tool.TestRunner = (function(){
          * @static
          */
         _run : function () /*:Void*/ {
-        
+                                
             //flag to indicate if the TestRunner should wait before continuing
-            var shouldWait /*:Boolean*/ = false;
+            var shouldWait = false;
             
             //get the next test node
             var node = this._next();
+
             
             if (node !== null) {
+            
+                //set flag to say the testrunner is running
+                this._running = true;
+                
+                //eliminate last results
+                this._lastResult = null;            
+            
                 var testObject = node.testObject;
                 
                 //figure out what to do
                 if (YAHOO.lang.isObject(testObject)){
                     if (testObject instanceof YAHOO.tool.TestSuite){
                         this.fireEvent(this.TEST_SUITE_BEGIN_EVENT, { testSuite: testObject });
+                        node._start = new Date();
                         testObject.setUp();
                     } else if (testObject instanceof YAHOO.tool.TestCase){
                         this.fireEvent(this.TEST_CASE_BEGIN_EVENT, { testCase: testObject });
+                        node._start = new Date();
                     }
                     
                     //some environments don't support setTimeout
@@ -612,6 +772,12 @@ YAHOO.tool.TestRunner = (function(){
             var node /*:TestNode*/ = this._cur;
             var testName /*:String*/ = node.testObject;
             var testCase /*:YAHOO.tool.TestCase*/ = node.parent.testObject;
+            
+            //cancel other waits if available
+            if (testCase.__yui_wait){
+                clearTimeout(testCase.__yui_wait);
+                delete testCase.__yui_wait;
+            }            
             
             //get the "should" test cases
             var shouldFail /*:Object*/ = (testCase._should.fail || {})[testName];
@@ -649,9 +815,9 @@ YAHOO.tool.TestRunner = (function(){
                         
                             //some environments don't support setTimeout
                             if (typeof setTimeout != "undefined"){
-                                setTimeout(function(){
+                                testCase.__yui_wait = setTimeout(function(){
                                     YAHOO.tool.TestRunner._resumeTest(thrown.segment);
-                                }, thrown.delay);
+                                }, thrown.delay);                             
                             } else {
                                 throw new Error("Asynchronous tests not supported in this environment.");
                             }
@@ -707,13 +873,17 @@ YAHOO.tool.TestRunner = (function(){
             
             //run the tear down
             testCase.tearDown();
+        
+            //calculate duration
+            var duration = (new Date()) - node._start;            
             
             //update results
             node.parent.results[testName] = { 
                 result: failed ? "fail" : "pass",
                 message: error ? error.getMessage() : "Test passed",
                 type: "test",
-                name: testName
+                name: testName,
+                duration: duration
             };
             
             if (failed){
@@ -779,6 +949,9 @@ YAHOO.tool.TestRunner = (function(){
 
             } else {
             
+                //mark the start time
+                node._start = new Date();
+            
                 //run the setup
                 testCase.setUp();
                 
@@ -792,7 +965,7 @@ YAHOO.tool.TestRunner = (function(){
         // Protected Methods
         //-------------------------------------------------------------------------   
     
-        /*
+        /**
          * Fires events for the TestRunner. This overrides the default fireEvent()
          * method from EventProvider to add the type property to the data that is
          * passed through on each event call.
@@ -807,7 +980,7 @@ YAHOO.tool.TestRunner = (function(){
             data.type = type;
             TestRunner.superclass.fireEvent.call(this, type, data);
         },
-        
+
         //-------------------------------------------------------------------------
         // Public Methods
         //-------------------------------------------------------------------------   
@@ -830,7 +1003,7 @@ YAHOO.tool.TestRunner = (function(){
          * @static
          */
         clear : function () /*:Void*/ {
-            this.masterSuite.items = [];
+            this.masterSuite = new YAHOO.tool.TestSuite("yuitests" + (new Date()).getTime());
         },
         
         /**
@@ -847,18 +1020,28 @@ YAHOO.tool.TestRunner = (function(){
     
         /**
          * Runs the test suite.
+         * @param {Boolean} oldMode (Optional) Specifies that the <= 2.8 way of
+         *      internally managing test suites should be used.
          * @return {Void}
          * @method run
          * @static
          */
-        run : function (testObject /*:Object*/) /*:Void*/ {
+        run : function (oldMode) {
             
             //pointer to runner to avoid scope issues 
             var runner = YAHOO.tool.TestRunner;
+            
+            //if there's only one suite on the masterSuite, move it up
+            if (!oldMode && this.masterSuite.items.length == 1 && this.masterSuite.items[0] instanceof YAHOO.tool.TestSuite){
+                this.masterSuite = this.masterSuite.items[0];
+            }
 
             //build the test tree
             runner._buildTestTree();
             
+            //set when the test started
+            runner._root._start = new Date();
+                            
             //fire the begin event
             runner.fireEvent(runner.BEGIN_EVENT);
        
@@ -870,7 +1053,6 @@ YAHOO.tool.TestRunner = (function(){
     return new TestRunner();
     
 })();
-
 YAHOO.namespace("util");
 
 //-----------------------------------------------------------------------------
@@ -931,7 +1113,7 @@ YAHOO.util.Assert = {
     
     /**
      * Asserts that a value is equal to another. This uses the double equals sign
-     * so type cohersion may occur.
+     * so type coercion may occur.
      * @param {Object} expected The expected value.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
@@ -946,7 +1128,7 @@ YAHOO.util.Assert = {
     
     /**
      * Asserts that a value is not equal to another. This uses the double equals sign
-     * so type cohersion may occur.
+     * so type coercion may occur.
      * @param {Object} unexpected The unexpected value.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
@@ -962,7 +1144,7 @@ YAHOO.util.Assert = {
     
     /**
      * Asserts that a value is not the same as another. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} unexpected The unexpected value.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
@@ -977,7 +1159,7 @@ YAHOO.util.Assert = {
 
     /**
      * Asserts that a value is the same as another. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} expected The expected value.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
@@ -996,7 +1178,7 @@ YAHOO.util.Assert = {
     
     /**
      * Asserts that a value is false. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
      * @method isFalse
@@ -1010,7 +1192,7 @@ YAHOO.util.Assert = {
     
     /**
      * Asserts that a value is true. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
      * @method isTrue
@@ -1055,7 +1237,7 @@ YAHOO.util.Assert = {
     
     /**
      * Asserts that a value is not null. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
      * @method isNotNull
@@ -1069,7 +1251,7 @@ YAHOO.util.Assert = {
 
     /**
      * Asserts that a value is not undefined. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
      * @method isNotUndefined
@@ -1083,7 +1265,7 @@ YAHOO.util.Assert = {
 
     /**
      * Asserts that a value is null. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
      * @method isNull
@@ -1097,7 +1279,7 @@ YAHOO.util.Assert = {
         
     /**
      * Asserts that a value is undefined. This uses the triple equals sign
-     * so no type cohersion may occur.
+     * so no type coercion may occur.
      * @param {Object} actual The actual value to test.
      * @param {String} message (Optional) The message to display if the assertion fails.
      * @method isUndefined
@@ -1215,8 +1397,8 @@ YAHOO.util.Assert = {
      * @method isTypeOf
      * @static
      */
-    isTypeOf : function (expectedType /*:String*/, actualValue /*:Object*/, message /*:String*/) /*:Void*/{
-        if (typeof actualValue != expectedType){
+    isTypeOf : function (expected /*:String*/, actual /*:Object*/, message /*:String*/) /*:Void*/{
+        if (typeof actual != expected){
             throw new YAHOO.util.ComparisonFailure(this._formatMessage(message, "Value should be of type " + expected + "."), expected, typeof actual);
         }
     }
@@ -1240,7 +1422,7 @@ YAHOO.util.Assert = {
 YAHOO.util.AssertionError = function (message /*:String*/){
 
     //call superclass
-    arguments.callee.superclass.constructor.call(this, message);
+    //arguments.callee.superclass.constructor.call(this, message);
     
     /*
      * Error message. Must be duplicated to ensure browser receives it.
@@ -1258,7 +1440,7 @@ YAHOO.util.AssertionError = function (message /*:String*/){
 };
 
 //inherit methods
-YAHOO.lang.extend(YAHOO.util.AssertionError, Error, {
+YAHOO.lang.extend(YAHOO.util.AssertionError, Object, {
 
     /**
      * Returns a fully formatted error for an assertion failure. This should
@@ -1277,17 +1459,8 @@ YAHOO.lang.extend(YAHOO.util.AssertionError, Error, {
      */
     toString : function () /*:String*/ {
         return this.name + ": " + this.getMessage();
-    },
-    
-    /**
-     * Returns a primitive value version of the error. Same as toString().
-     * @method valueOf
-     * @return {String} A primitive value version of the error.
-     */
-    valueOf : function () /*:String*/ {
-        return this.toString();
     }
-
+    
 });
 
 /**
@@ -1306,7 +1479,7 @@ YAHOO.lang.extend(YAHOO.util.AssertionError, Error, {
 YAHOO.util.ComparisonFailure = function (message /*:String*/, expected /*:Object*/, actual /*:Object*/){
 
     //call superclass
-    arguments.callee.superclass.constructor.call(this, message);
+    YAHOO.util.AssertionError.call(this, message);
     
     /**
      * The expected value.
@@ -1363,7 +1536,7 @@ YAHOO.lang.extend(YAHOO.util.ComparisonFailure, YAHOO.util.AssertionError, {
 YAHOO.util.UnexpectedValue = function (message /*:String*/, unexpected /*:Object*/){
 
     //call superclass
-    arguments.callee.superclass.constructor.call(this, message);
+    YAHOO.util.AssertionError.call(this, message);
     
     /**
      * The unexpected value.
@@ -1409,7 +1582,7 @@ YAHOO.lang.extend(YAHOO.util.UnexpectedValue, YAHOO.util.AssertionError, {
 YAHOO.util.ShouldFail = function (message /*:String*/){
 
     //call superclass
-    arguments.callee.superclass.constructor.call(this, message || "This test should fail but didn't.");
+    YAHOO.util.AssertionError.call(this, message || "This test should fail but didn't.");
     
     /**
      * The name of the error that occurred.
@@ -1436,7 +1609,7 @@ YAHOO.lang.extend(YAHOO.util.ShouldFail, YAHOO.util.AssertionError);
 YAHOO.util.ShouldError = function (message /*:String*/){
 
     //call superclass
-    arguments.callee.superclass.constructor.call(this, message || "This test should have thrown an error but didn't.");
+    YAHOO.util.AssertionError.call(this, message || "This test should have thrown an error but didn't.");
     
     /**
      * The name of the error that occurred.
@@ -1465,7 +1638,7 @@ YAHOO.lang.extend(YAHOO.util.ShouldError, YAHOO.util.AssertionError);
 YAHOO.util.UnexpectedError = function (cause /*:Object*/){
 
     //call superclass
-    arguments.callee.superclass.constructor.call(this, "Unexpected error: " + cause.message);
+    YAHOO.util.AssertionError.call(this, "Unexpected error: " + cause.message);
     
     /**
      * The unexpected error that occurred.
@@ -1492,7 +1665,6 @@ YAHOO.util.UnexpectedError = function (cause /*:Object*/){
 
 //inherit methods
 YAHOO.lang.extend(YAHOO.util.UnexpectedError, YAHOO.util.AssertionError);
-
 //-----------------------------------------------------------------------------
 // ArrayAssert object
 //-----------------------------------------------------------------------------
@@ -1510,7 +1682,7 @@ YAHOO.util.ArrayAssert = {
 
     /**
      * Asserts that a value is present in an array. This uses the triple equals 
-     * sign so no type cohersion may occur.
+     * sign so no type coercion may occur.
      * @param {Object} needle The value that is expected in the array.
      * @param {Array} haystack An array of values.
      * @param {String} message (Optional) The message to display if the assertion fails.
@@ -1537,7 +1709,7 @@ YAHOO.util.ArrayAssert = {
 
     /**
      * Asserts that a set of values are present in an array. This uses the triple equals 
-     * sign so no type cohersion may occur. For this assertion to pass, all values must
+     * sign so no type coercion may occur. For this assertion to pass, all values must
      * be found.
      * @param {Object[]} needles An array of values that are expected in the array.
      * @param {Array} haystack An array of values to check.
@@ -1588,7 +1760,7 @@ YAHOO.util.ArrayAssert = {
 
     /**
      * Asserts that a value is not present in an array. This uses the triple equals 
-     * sign so no type cohersion may occur.
+     * sign so no type coercion may occur.
      * @param {Object} needle The value that is expected in the array.
      * @param {Array} haystack An array of values.
      * @param {String} message (Optional) The message to display if the assertion fails.
@@ -1615,7 +1787,7 @@ YAHOO.util.ArrayAssert = {
 
     /**
      * Asserts that a set of values are not present in an array. This uses the triple equals 
-     * sign so no type cohersion may occur. For this assertion to pass, all values must
+     * sign so no type coercion may occur. For this assertion to pass, all values must
      * not be found.
      * @param {Object[]} needles An array of values that are not expected in the array.
      * @param {Array} haystack An array of values to check.
@@ -1666,7 +1838,7 @@ YAHOO.util.ArrayAssert = {
         
     /**
      * Asserts that the given value is contained in an array at the specified index.
-     * This uses the triple equals sign so no type cohersion will occur.
+     * This uses the triple equals sign so no type coercion will occur.
      * @param {Object} needle The value to look for.
      * @param {Array} haystack The array to search in.
      * @param {int} index The index at which the value should exist.
@@ -1693,7 +1865,7 @@ YAHOO.util.ArrayAssert = {
     /**
      * Asserts that the values in an array are equal, and in the same position,
      * as values in another array. This uses the double equals sign
-     * so type cohersion may occur. Note that the array objects themselves
+     * so type coercion may occur. Note that the array objects themselves
      * need not be the same for this test to pass.
      * @param {Array} expected An array of the expected values.
      * @param {Array} actual Any array of the actual values.
@@ -1705,7 +1877,7 @@ YAHOO.util.ArrayAssert = {
                            message /*:String*/) /*:Void*/ {
         
         //one may be longer than the other, so get the maximum length
-        var len /*:int*/ = Math.max(expected.length, actual.length);
+        var len /*:int*/ = Math.max(expected.length, actual.length || 0);
         var Assert = YAHOO.util.Assert;
        
         //begin checking values
@@ -1738,7 +1910,7 @@ YAHOO.util.ArrayAssert = {
         }
         
         //one may be longer than the other, so get the maximum length
-        var len /*:int*/ = Math.max(expected.length, actual.length);
+        var len /*:int*/ = Math.max(expected.length, actual.length || 0);
         
         //begin checking values
         for (var i=0; i < len; i++){
@@ -1779,7 +1951,7 @@ YAHOO.util.ArrayAssert = {
     /**
      * Asserts that the values in an array are the same, and in the same position,
      * as values in another array. This uses the triple equals sign
-     * so no type cohersion will occur. Note that the array objects themselves
+     * so no type coercion will occur. Note that the array objects themselves
      * need not be the same for this test to pass.
      * @param {Array} expected An array of the expected values.
      * @param {Array} actual Any array of the actual values.
@@ -1791,7 +1963,7 @@ YAHOO.util.ArrayAssert = {
                           message /*:String*/) /*:Void*/ {
         
         //one may be longer than the other, so get the maximum length
-        var len /*:int*/ = Math.max(expected.length, actual.length);
+        var len /*:int*/ = Math.max(expected.length, actual.length || 0);
         var Assert = YAHOO.util.Assert;
         
         //begin checking values
@@ -1804,7 +1976,7 @@ YAHOO.util.ArrayAssert = {
     /**
      * Asserts that the given value is contained in an array at the specified index,
      * starting from the back of the array.
-     * This uses the triple equals sign so no type cohersion will occur.
+     * This uses the triple equals sign so no type coercion will occur.
      * @param {Object} needle The value to look for.
      * @param {Array} haystack The array to search in.
      * @param {int} index The index at which the value should exist.
@@ -1829,7 +2001,6 @@ YAHOO.util.ArrayAssert = {
     }
     
 };
-
 YAHOO.namespace("util");
 
 
@@ -1904,7 +2075,6 @@ YAHOO.util.ObjectAssert = {
         }     
     }
 };
-
 //-----------------------------------------------------------------------------
 // DateAssert object
 //-----------------------------------------------------------------------------
@@ -1959,617 +2129,6 @@ YAHOO.util.DateAssert = {
     }
     
 };
-
-YAHOO.namespace("util");
-
-/**
- * The UserAction object provides functions that simulate events occurring in
- * the browser. Since these are simulated events, they do not behave exactly
- * as regular, user-initiated events do, but can be used to test simple
- * user interactions safely.
- *
- * @namespace YAHOO.util
- * @class UserAction
- * @static
- */
-YAHOO.util.UserAction = {
-
-    //--------------------------------------------------------------------------
-    // Generic event methods
-    //--------------------------------------------------------------------------
-
-    /**
-     * Simulates a key event using the given event information to populate
-     * the generated event object. This method does browser-equalizing
-     * calculations to account for differences in the DOM and IE event models
-     * as well as different browser quirks. Note: keydown causes Safari 2.x to
-     * crash.
-     * @method simulateKeyEvent
-     * @private
-     * @static
-     * @param {HTMLElement} target The target of the given event.
-     * @param {String} type The type of event to fire. This can be any one of
-     *      the following: keyup, keydown, and keypress.
-     * @param {Boolean} bubbles (Optional) Indicates if the event can be
-     *      bubbled up. DOM Level 3 specifies that all key events bubble by
-     *      default. The default is true.
-     * @param {Boolean} cancelable (Optional) Indicates if the event can be
-     *      canceled using preventDefault(). DOM Level 3 specifies that all
-     *      key events can be cancelled. The default 
-     *      is true.
-     * @param {Window} view (Optional) The view containing the target. This is
-     *      typically the window object. The default is window.
-     * @param {Boolean} ctrlKey (Optional) Indicates if one of the CTRL keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {Boolean} altKey (Optional) Indicates if one of the ALT keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {Boolean} shiftKey (Optional) Indicates if one of the SHIFT keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {Boolean} metaKey (Optional) Indicates if one of the META keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {int} keyCode (Optional) The code for the key that is in use. 
-     *      The default is 0.
-     * @param {int} charCode (Optional) The Unicode code for the character
-     *      associated with the key being used. The default is 0.
-     */
-    simulateKeyEvent : function (target /*:HTMLElement*/, type /*:String*/, 
-                                 bubbles /*:Boolean*/,  cancelable /*:Boolean*/,    
-                                 view /*:Window*/,
-                                 ctrlKey /*:Boolean*/,    altKey /*:Boolean*/, 
-                                 shiftKey /*:Boolean*/,   metaKey /*:Boolean*/, 
-                                 keyCode /*:int*/,        charCode /*:int*/) /*:Void*/                             
-    {
-        //check target
-        target = YAHOO.util.Dom.get(target);        
-        if (!target){
-            throw new Error("simulateKeyEvent(): Invalid target.");
-        }
-        
-        //check event type
-        if (YAHOO.lang.isString(type)){
-            type = type.toLowerCase();
-            switch(type){
-                case "keyup":
-                case "keydown":
-                case "keypress":
-                    break;
-                case "textevent": //DOM Level 3
-                    type = "keypress";
-                    break;
-                    // @TODO was the fallthrough intentional, if so throw error
-                default:
-                    throw new Error("simulateKeyEvent(): Event type '" + type + "' not supported.");
-            }
-        } else {
-            throw new Error("simulateKeyEvent(): Event type must be a string.");
-        }
-        
-        //setup default values
-        if (!YAHOO.lang.isBoolean(bubbles)){
-            bubbles = true; //all key events bubble
-        }
-        if (!YAHOO.lang.isBoolean(cancelable)){
-            cancelable = true; //all key events can be cancelled
-        }
-        if (!YAHOO.lang.isObject(view)){
-            view = window; //view is typically window
-        }
-        if (!YAHOO.lang.isBoolean(ctrlKey)){
-            ctrlKey = false;
-        }
-        if (!YAHOO.lang.isBoolean(altKey)){
-            altKey = false;
-        }
-        if (!YAHOO.lang.isBoolean(shiftKey)){
-            shiftKey = false;
-        }
-        if (!YAHOO.lang.isBoolean(metaKey)){
-            metaKey = false;
-        }
-        if (!YAHOO.lang.isNumber(keyCode)){
-            keyCode = 0;
-        }
-        if (!YAHOO.lang.isNumber(charCode)){
-            charCode = 0; 
-        }
-
-        //try to create a mouse event
-        var customEvent /*:MouseEvent*/ = null;
-            
-        //check for DOM-compliant browsers first
-        if (YAHOO.lang.isFunction(document.createEvent)){
-        
-            try {
-                
-                //try to create key event
-                customEvent = document.createEvent("KeyEvents");
-                
-                /*
-                 * Interesting problem: Firefox implemented a non-standard
-                 * version of initKeyEvent() based on DOM Level 2 specs.
-                 * Key event was removed from DOM Level 2 and re-introduced
-                 * in DOM Level 3 with a different interface. Firefox is the
-                 * only browser with any implementation of Key Events, so for
-                 * now, assume it's Firefox if the above line doesn't error.
-                 */
-                //TODO: Decipher between Firefox's implementation and a correct one.
-                customEvent.initKeyEvent(type, bubbles, cancelable, view, ctrlKey,
-                    altKey, shiftKey, metaKey, keyCode, charCode);       
-                
-            } catch (ex /*:Error*/){
-
-                /*
-                 * If it got here, that means key events aren't officially supported. 
-                 * Safari/WebKit is a real problem now. WebKit 522 won't let you
-                 * set keyCode, charCode, or other properties if you use a
-                 * UIEvent, so we first must try to create a generic event. The
-                 * fun part is that this will throw an error on Safari 2.x. The
-                 * end result is that we need another try...catch statement just to
-                 * deal with this mess.
-                 */
-                try {
-
-                    //try to create generic event - will fail in Safari 2.x
-                    customEvent = document.createEvent("Events");
-
-                } catch (uierror /*:Error*/){
-
-                    //the above failed, so create a UIEvent for Safari 2.x
-                    customEvent = document.createEvent("UIEvents");
-
-                } finally {
-
-                    customEvent.initEvent(type, bubbles, cancelable);
-    
-                    //initialize
-                    customEvent.view = view;
-                    customEvent.altKey = altKey;
-                    customEvent.ctrlKey = ctrlKey;
-                    customEvent.shiftKey = shiftKey;
-                    customEvent.metaKey = metaKey;
-                    customEvent.keyCode = keyCode;
-                    customEvent.charCode = charCode;
-          
-                }          
-             
-            }
-            
-            //fire the event
-            target.dispatchEvent(customEvent);
-
-        } else if (YAHOO.lang.isObject(document.createEventObject)){ //IE
-        
-            //create an IE event object
-            customEvent = document.createEventObject();
-            
-            //assign available properties
-            customEvent.bubbles = bubbles;
-            customEvent.cancelable = cancelable;
-            customEvent.view = view;
-            customEvent.ctrlKey = ctrlKey;
-            customEvent.altKey = altKey;
-            customEvent.shiftKey = shiftKey;
-            customEvent.metaKey = metaKey;
-            
-            /*
-             * IE doesn't support charCode explicitly. CharCode should
-             * take precedence over any keyCode value for accurate
-             * representation.
-             */
-            customEvent.keyCode = (charCode > 0) ? charCode : keyCode;
-            
-            //fire the event
-            target.fireEvent("on" + type, customEvent);  
-                    
-        } else {
-            throw new Error("simulateKeyEvent(): No event simulation framework present.");
-        }
-    },
-
-    /**
-     * Simulates a mouse event using the given event information to populate
-     * the generated event object. This method does browser-equalizing
-     * calculations to account for differences in the DOM and IE event models
-     * as well as different browser quirks.
-     * @method simulateMouseEvent
-     * @private
-     * @static
-     * @param {HTMLElement} target The target of the given event.
-     * @param {String} type The type of event to fire. This can be any one of
-     *      the following: click, dblclick, mousedown, mouseup, mouseout,
-     *      mouseover, and mousemove.
-     * @param {Boolean} bubbles (Optional) Indicates if the event can be
-     *      bubbled up. DOM Level 2 specifies that all mouse events bubble by
-     *      default. The default is true.
-     * @param {Boolean} cancelable (Optional) Indicates if the event can be
-     *      canceled using preventDefault(). DOM Level 2 specifies that all
-     *      mouse events except mousemove can be cancelled. The default 
-     *      is true for all events except mousemove, for which the default 
-     *      is false.
-     * @param {Window} view (Optional) The view containing the target. This is
-     *      typically the window object. The default is window.
-     * @param {int} detail (Optional) The number of times the mouse button has
-     *      been used. The default value is 1.
-     * @param {int} screenX (Optional) The x-coordinate on the screen at which
-     *      point the event occured. The default is 0.
-     * @param {int} screenY (Optional) The y-coordinate on the screen at which
-     *      point the event occured. The default is 0.
-     * @param {int} clientX (Optional) The x-coordinate on the client at which
-     *      point the event occured. The default is 0.
-     * @param {int} clientY (Optional) The y-coordinate on the client at which
-     *      point the event occured. The default is 0.
-     * @param {Boolean} ctrlKey (Optional) Indicates if one of the CTRL keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {Boolean} altKey (Optional) Indicates if one of the ALT keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {Boolean} shiftKey (Optional) Indicates if one of the SHIFT keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {Boolean} metaKey (Optional) Indicates if one of the META keys
-     *      is pressed while the event is firing. The default is false.
-     * @param {int} button (Optional) The button being pressed while the event
-     *      is executing. The value should be 0 for the primary mouse button
-     *      (typically the left button), 1 for the terciary mouse button
-     *      (typically the middle button), and 2 for the secondary mouse button
-     *      (typically the right button). The default is 0.
-     * @param {HTMLElement} relatedTarget (Optional) For mouseout events,
-     *      this is the element that the mouse has moved to. For mouseover
-     *      events, this is the element that the mouse has moved from. This
-     *      argument is ignored for all other events. The default is null.
-     */
-    simulateMouseEvent : function (target /*:HTMLElement*/, type /*:String*/, 
-                                   bubbles /*:Boolean*/,  cancelable /*:Boolean*/,    
-                                   view /*:Window*/,        detail /*:int*/, 
-                                   screenX /*:int*/,        screenY /*:int*/, 
-                                   clientX /*:int*/,        clientY /*:int*/,       
-                                   ctrlKey /*:Boolean*/,    altKey /*:Boolean*/, 
-                                   shiftKey /*:Boolean*/,   metaKey /*:Boolean*/, 
-                                   button /*:int*/,         relatedTarget /*:HTMLElement*/) /*:Void*/
-    {
-        
-        //check target
-        target = YAHOO.util.Dom.get(target);        
-        if (!target){
-            throw new Error("simulateMouseEvent(): Invalid target.");
-        }
-        
-        //check event type
-        if (YAHOO.lang.isString(type)){
-            type = type.toLowerCase();
-            switch(type){
-                case "mouseover":
-                case "mouseout":
-                case "mousedown":
-                case "mouseup":
-                case "click":
-                case "dblclick":
-                case "mousemove":
-                    break;
-                default:
-                    throw new Error("simulateMouseEvent(): Event type '" + type + "' not supported.");
-            }
-        } else {
-            throw new Error("simulateMouseEvent(): Event type must be a string.");
-        }
-        
-        //setup default values
-        if (!YAHOO.lang.isBoolean(bubbles)){
-            bubbles = true; //all mouse events bubble
-        }
-        if (!YAHOO.lang.isBoolean(cancelable)){
-            cancelable = (type != "mousemove"); //mousemove is the only one that can't be cancelled
-        }
-        if (!YAHOO.lang.isObject(view)){
-            view = window; //view is typically window
-        }
-        if (!YAHOO.lang.isNumber(detail)){
-            detail = 1;  //number of mouse clicks must be at least one
-        }
-        if (!YAHOO.lang.isNumber(screenX)){
-            screenX = 0; 
-        }
-        if (!YAHOO.lang.isNumber(screenY)){
-            screenY = 0; 
-        }
-        if (!YAHOO.lang.isNumber(clientX)){
-            clientX = 0; 
-        }
-        if (!YAHOO.lang.isNumber(clientY)){
-            clientY = 0; 
-        }
-        if (!YAHOO.lang.isBoolean(ctrlKey)){
-            ctrlKey = false;
-        }
-        if (!YAHOO.lang.isBoolean(altKey)){
-            altKey = false;
-        }
-        if (!YAHOO.lang.isBoolean(shiftKey)){
-            shiftKey = false;
-        }
-        if (!YAHOO.lang.isBoolean(metaKey)){
-            metaKey = false;
-        }
-        if (!YAHOO.lang.isNumber(button)){
-            button = 0; 
-        }
-
-        //try to create a mouse event
-        var customEvent /*:MouseEvent*/ = null;
-            
-        //check for DOM-compliant browsers first
-        if (YAHOO.lang.isFunction(document.createEvent)){
-        
-            customEvent = document.createEvent("MouseEvents");
-        
-            //Safari 2.x (WebKit 418) still doesn't implement initMouseEvent()
-            if (customEvent.initMouseEvent){
-                customEvent.initMouseEvent(type, bubbles, cancelable, view, detail,
-                                     screenX, screenY, clientX, clientY, 
-                                     ctrlKey, altKey, shiftKey, metaKey, 
-                                     button, relatedTarget);
-            } else { //Safari
-            
-                //the closest thing available in Safari 2.x is UIEvents
-                customEvent = document.createEvent("UIEvents");
-                customEvent.initEvent(type, bubbles, cancelable);
-                customEvent.view = view;
-                customEvent.detail = detail;
-                customEvent.screenX = screenX;
-                customEvent.screenY = screenY;
-                customEvent.clientX = clientX;
-                customEvent.clientY = clientY;
-                customEvent.ctrlKey = ctrlKey;
-                customEvent.altKey = altKey;
-                customEvent.metaKey = metaKey;
-                customEvent.shiftKey = shiftKey;
-                customEvent.button = button;
-                customEvent.relatedTarget = relatedTarget;
-            }
-            
-            /*
-             * Check to see if relatedTarget has been assigned. Firefox
-             * versions less than 2.0 don't allow it to be assigned via
-             * initMouseEvent() and the property is readonly after event
-             * creation, so in order to keep YAHOO.util.getRelatedTarget()
-             * working, assign to the IE proprietary toElement property
-             * for mouseout event and fromElement property for mouseover
-             * event.
-             */
-            if (relatedTarget && !customEvent.relatedTarget){
-                if (type == "mouseout"){
-                    customEvent.toElement = relatedTarget;
-                } else if (type == "mouseover"){
-                    customEvent.fromElement = relatedTarget;
-                }
-            }
-            
-            //fire the event
-            target.dispatchEvent(customEvent);
-
-        } else if (YAHOO.lang.isObject(document.createEventObject)){ //IE
-        
-            //create an IE event object
-            customEvent = document.createEventObject();
-            
-            //assign available properties
-            customEvent.bubbles = bubbles;
-            customEvent.cancelable = cancelable;
-            customEvent.view = view;
-            customEvent.detail = detail;
-            customEvent.screenX = screenX;
-            customEvent.screenY = screenY;
-            customEvent.clientX = clientX;
-            customEvent.clientY = clientY;
-            customEvent.ctrlKey = ctrlKey;
-            customEvent.altKey = altKey;
-            customEvent.metaKey = metaKey;
-            customEvent.shiftKey = shiftKey;
-
-            //fix button property for IE's wacky implementation
-            switch(button){
-                case 0:
-                    customEvent.button = 1;
-                    break;
-                case 1:
-                    customEvent.button = 4;
-                    break;
-                case 2:
-                    //leave as is
-                    break;
-                default:
-                    customEvent.button = 0;                    
-            }    
-
-            /*
-             * Have to use relatedTarget because IE won't allow assignment
-             * to toElement or fromElement on generic events. This keeps
-             * YAHOO.util.customEvent.getRelatedTarget() functional.
-             */
-            customEvent.relatedTarget = relatedTarget;
-            
-            //fire the event
-            target.fireEvent("on" + type, customEvent);
-                    
-        } else {
-            throw new Error("simulateMouseEvent(): No event simulation framework present.");
-        }
-    },
-   
-    //--------------------------------------------------------------------------
-    // Mouse events
-    //--------------------------------------------------------------------------
-
-    /**
-     * Simulates a mouse event on a particular element.
-     * @param {HTMLElement} target The element to click on.
-     * @param {String} type The type of event to fire. This can be any one of
-     *      the following: click, dblclick, mousedown, mouseup, mouseout,
-     *      mouseover, and mousemove.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method mouseEvent
-     * @static
-     */
-    fireMouseEvent : function (target /*:HTMLElement*/, type /*:String*/, 
-                           options /*:Object*/) /*:Void*/
-    {
-        options = options || {};
-        this.simulateMouseEvent(target, type, options.bubbles,
-            options.cancelable, options.view, options.detail, options.screenX,        
-            options.screenY, options.clientX, options.clientY, options.ctrlKey,
-            options.altKey, options.shiftKey, options.metaKey, options.button,         
-            options.relatedTarget);        
-    },
-
-    /**
-     * Simulates a click on a particular element.
-     * @param {HTMLElement} target The element to click on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method click
-     * @static     
-     */
-    click : function (target /*:HTMLElement*/, options /*:Object*/) /*:Void*/ {
-        this.fireMouseEvent(target, "click", options);
-    },
-    
-    /**
-     * Simulates a double click on a particular element.
-     * @param {HTMLElement} target The element to double click on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method dblclick
-     * @static
-     */
-    dblclick : function (target /*:HTMLElement*/, options /*:Object*/) /*:Void*/ {
-        this.fireMouseEvent( target, "dblclick", options);
-    },
-    
-    /**
-     * Simulates a mousedown on a particular element.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method mousedown
-     * @static
-     */
-    mousedown : function (target /*:HTMLElement*/, options /*Object*/) /*:Void*/ {
-        this.fireMouseEvent(target, "mousedown", options);
-    },
-    
-    /**
-     * Simulates a mousemove on a particular element.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method mousemove
-     * @static
-     */
-    mousemove : function (target /*:HTMLElement*/, options /*Object*/) /*:Void*/ {
-        this.fireMouseEvent(target, "mousemove", options);
-    },
-    
-    /**
-     * Simulates a mouseout event on a particular element. Use "relatedTarget"
-     * on the options object to specify where the mouse moved to.
-     * Quirks: Firefox less than 2.0 doesn't set relatedTarget properly, so
-     * toElement is assigned in its place. IE doesn't allow toElement to be
-     * be assigned, so relatedTarget is assigned in its place. Both of these
-     * concessions allow YAHOO.util.Event.getRelatedTarget() to work correctly
-     * in both browsers.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method mouseout
-     * @static
-     */
-    mouseout : function (target /*:HTMLElement*/, options /*Object*/) /*:Void*/ {
-        this.fireMouseEvent(target, "mouseout", options);
-    },
-    
-    /**
-     * Simulates a mouseover event on a particular element. Use "relatedTarget"
-     * on the options object to specify where the mouse moved from.
-     * Quirks: Firefox less than 2.0 doesn't set relatedTarget properly, so
-     * fromElement is assigned in its place. IE doesn't allow fromElement to be
-     * be assigned, so relatedTarget is assigned in its place. Both of these
-     * concessions allow YAHOO.util.Event.getRelatedTarget() to work correctly
-     * in both browsers.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method mouseover
-     * @static
-     */
-    mouseover : function (target /*:HTMLElement*/, options /*Object*/) /*:Void*/ {
-        this.fireMouseEvent(target, "mouseover", options);
-    },
-    
-    /**
-     * Simulates a mouseup on a particular element.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method mouseup
-     * @static
-     */
-    mouseup : function (target /*:HTMLElement*/, options /*Object*/) /*:Void*/ {
-        this.fireMouseEvent(target, "mouseup", options);
-    },
-    
-    //--------------------------------------------------------------------------
-    // Key events
-    //--------------------------------------------------------------------------
-
-    /**
-     * Fires an event that normally would be fired by the keyboard (keyup,
-     * keydown, keypress). Make sure to specify either keyCode or charCode as
-     * an option.
-     * @private
-     * @param {String} type The type of event ("keyup", "keydown" or "keypress").
-     * @param {HTMLElement} target The target of the event.
-     * @param {Object} options Options for the event. Either keyCode or charCode
-     *                         are required.
-     * @method fireKeyEvent
-     * @static
-     */     
-    fireKeyEvent : function (type /*:String*/, target /*:HTMLElement*/,
-                             options /*:Object*/) /*:Void*/ 
-    {
-        options = options || {};
-        this.simulateKeyEvent(target, type, options.bubbles,
-            options.cancelable, options.view, options.ctrlKey,
-            options.altKey, options.shiftKey, options.metaKey, 
-            options.keyCode, options.charCode);    
-    },
-    
-    /**
-     * Simulates a keydown event on a particular element.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method keydown
-     * @static
-     */
-    keydown : function (target /*:HTMLElement*/, options /*:Object*/) /*:Void*/ {
-        this.fireKeyEvent("keydown", target, options);
-    },
-    
-    /**
-     * Simulates a keypress on a particular element.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method keypress
-     * @static
-     */
-    keypress : function (target /*:HTMLElement*/, options /*:Object*/) /*:Void*/ {
-        this.fireKeyEvent("keypress", target, options);
-    },
-    
-    /**
-     * Simulates a keyup event on a particular element.
-     * @param {HTMLElement} target The element to act on.
-     * @param {Object} options Additional event options (use DOM standard names).
-     * @method keyup
-     * @static
-     */
-    keyup : function (target /*:HTMLElement*/, options /*Object*/) /*:Void*/ {
-        this.fireKeyEvent("keyup", target, options);
-    }
-    
-
-};
-
 YAHOO.namespace("tool");
 
 //-----------------------------------------------------------------------------
@@ -2731,6 +2290,7 @@ YAHOO.tool.TestManager = {
         r.failed += results.failed;
         r.ignored += results.ignored;
         r.total += results.total;
+        r.duration += results.duration;
         
         if (results.failed){
             r.failedPages.push(page);
@@ -2852,7 +2412,7 @@ YAHOO.tool.TestManager = {
                 frame.style.visibility = "hidden";
                 frame.style.position = "absolute";
                 document.body.appendChild(frame);
-                this._frame = frame.contentWindow || frame.contentDocument.ownerWindow;
+                this._frame = frame.contentWindow || frame.contentDocument.parentWindow;
             }
             
             //create test logger if not already available
@@ -2873,6 +2433,7 @@ YAHOO.tool.TestManager = {
             total: 0,
             type: "report",
             name: "YUI Test Results",
+            duration: 0,
             failedPages:[],
             passedPages:[]
             /*
@@ -2909,7 +2470,6 @@ YAHOO.tool.TestManager = {
 };
 
 YAHOO.lang.augmentObject(YAHOO.tool.TestManager, YAHOO.util.EventProvider.prototype);
-
 
 YAHOO.namespace("tool");
 
@@ -3095,49 +2655,268 @@ YAHOO.lang.extend(YAHOO.tool.TestLogger, YAHOO.widget.LogReader, {
     }
     
 });
-
 YAHOO.namespace("tool.TestFormat");
 
+(function(){
+
+    /**
+     * Returns test results formatted as a JSON string. Requires JSON utility.
+     * @param {Object} result The results object created by TestRunner.
+     * @return {String} An XML-formatted string of results.
+     * @namespace YAHOO.tool.TestFormat
+     * @method JSON
+     * @static
+     */
+    YAHOO.tool.TestFormat.JSON = function(results) {
+        return YAHOO.lang.JSON.stringify(results);
+    };
+
+    /* (intentionally not documented)
+     * Simple escape function for XML attribute values.
+     * @param {String} text The text to escape.
+     * @return {String} The escaped text.
+     */
+    function xmlEscape(text){
+        return text.replace(/["'<>&]/g, function(c){
+            switch(c){
+                case "<":   return "&lt;";
+                case ">":   return "&gt;";
+                case "\"":  return "&quot;";
+                case "'":   return "&apos;";
+                case "&":   return "&amp;";
+            }
+        });
+    } 
+
+    /**
+     * Returns test results formatted as an XML string.
+     * @param {Object} result The results object created by TestRunner.
+     * @return {String} An XML-formatted string of results.
+     * @namespace YAHOO.tool.TestFormat
+     * @method XML
+     * @static
+     */
+    YAHOO.tool.TestFormat.XML = function(results) {
+
+        function serializeToXML(results){
+            var l   = YAHOO.lang,
+                xml = "<" + results.type + " name=\"" + xmlEscape(results.name) + "\"";
+            
+            if (l.isNumber(results.duration)){
+                xml += " duration=\"" + results.duration + "\"";
+            }
+            
+            if (results.type == "test"){
+                xml += " result=\"" + results.result + "\" message=\"" + xmlEscape(results.message) + "\">";
+            } else {
+                xml += " passed=\"" + results.passed + "\" failed=\"" + results.failed + "\" ignored=\"" + results.ignored + "\" total=\"" + results.total + "\">";
+                for (var prop in results) {
+                    if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                        xml += serializeToXML(results[prop]);
+                    }
+                }        
+            }
+
+            xml += "</" + results.type + ">";
+            
+            return xml;    
+        }
+
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serializeToXML(results);
+
+    };
+
+
+    /**
+     * Returns test results formatted in JUnit XML format.
+     * @param {Object} result The results object created by TestRunner.
+     * @return {String} An XML-formatted string of results.
+     * @namespace YAHOO.tool.TestFormat
+     * @method JUnitXML
+     * @static
+     */
+    YAHOO.tool.TestFormat.JUnitXML = function(results) {
+
+
+        function serializeToJUnitXML(results){
+            var l   = YAHOO.lang,
+                xml = "",
+                prop;
+                
+            switch (results.type){
+                //equivalent to testcase in JUnit
+                case "test":
+                    if (results.result != "ignore"){
+                        xml = "<testcase name=\"" + xmlEscape(results.name) + "\">";
+                        if (results.result == "fail"){
+                            xml += "<failure message=\"" + xmlEscape(results.message) + "\"><![CDATA[" + results.message + "]]></failure>";
+                        }
+                        xml+= "</testcase>";
+                    }
+                    break;
+                    
+                //equivalent to testsuite in JUnit
+                case "testcase":
+                
+                    xml = "<testsuite name=\"" + xmlEscape(results.name) + "\" tests=\"" + results.total + "\" failures=\"" + results.failed + "\">";
+                
+                    for (prop in results) {
+                        if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                            xml += serializeToJUnitXML(results[prop]);
+                        }
+                    }              
+                    
+                    xml += "</testsuite>";
+                    break;
+                
+                case "testsuite":
+                    for (prop in results) {
+                        if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                            xml += serializeToJUnitXML(results[prop]);
+                        }
+                    } 
+
+                    //skip output - no JUnit equivalent                    
+                    break;
+                    
+                case "report":
+                
+                    xml = "<testsuites>";
+                
+                    for (prop in results) {
+                        if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                            xml += serializeToJUnitXML(results[prop]);
+                        }
+                    }              
+                    
+                    xml += "</testsuites>";            
+                
+                //no default
+            }
+            
+            return xml;
+     
+        }
+
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serializeToJUnitXML(results);
+    };
+    
+    /**
+     * Returns test results formatted in TAP format.
+     * For more information, see <a href="http://testanything.org/">Test Anything Protocol</a>.
+     * @param {Object} result The results object created by TestRunner.
+     * @return {String} A TAP-formatted string of results.
+     * @namespace YAHOO.tool.TestFormat
+     * @method TAP
+     * @static
+     */
+    YAHOO.tool.TestFormat.TAP = function(results) {
+    
+        var currentTestNum = 1;
+
+        function serializeToTAP(results){
+            var l   = YAHOO.lang,
+                text = "";
+                
+            switch (results.type){
+
+                case "test":
+                    if (results.result != "ignore"){
+
+                        text = "ok " + (currentTestNum++) + " - " + results.name;
+                        
+                        if (results.result == "fail"){
+                            text = "not " + text + " - " + results.message;
+                        }
+                        
+                        text += "\n";
+                    } else {
+                        text = "#Ignored test " + results.name + "\n";
+                    }
+                    break;
+                    
+                case "testcase":
+                
+                    text = "#Begin testcase " + results.name + "(" + results.failed + " failed of " + results.total + ")\n";
+                                    
+                                    
+                    for (prop in results) {
+                        if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                            text += serializeToTAP(results[prop]);
+                        }
+                    }              
+                                                        
+                    text += "#End testcase " + results.name + "\n";
+                    
+                    
+                    break;
+                
+                case "testsuite":
+
+                    text = "#Begin testsuite " + results.name + "(" + results.failed + " failed of " + results.total + ")\n";                
+                
+                    for (prop in results) {
+                        if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                            text += serializeToTAP(results[prop]);
+                        }
+                    }   
+
+                    text += "#End testsuite " + results.name + "\n";
+                    break;
+
+                case "report":
+                
+                    for (prop in results) {
+                        if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
+                            text += serializeToTAP(results[prop]);
+                        }
+                    }             
+                    
+                //no default
+            }
+            
+            return text;
+     
+        }
+
+        return "1.." + results.total + "\n" + serializeToTAP(results);
+    };   
+
+})();
+YAHOO.namespace("tool.CoverageFormat");
+
 /**
- * Returns test results formatted as a JSON string. Requires JSON utility.
- * @param {Object} result The results object created by TestRunner.
- * @return {String} An XML-formatted string of results.
- * @namespace YAHOO.tool.TestFormat
+ * Returns the coverage report in JSON format. This is the straight
+ * JSON representation of the native coverage report.
+ * @param {Object} coverage The coverage report object.
+ * @return {String} A JSON-formatted string of coverage data.
  * @method JSON
- * @static
+ * @namespace YAHOO.tool.CoverageFormat
  */
-YAHOO.tool.TestFormat.JSON = function(results /*:Object*/) /*:String*/ {
-    return YAHOO.lang.JSON.stringify(results);
+YAHOO.tool.CoverageFormat.JSON = function(coverage){
+    return YAHOO.lang.JSON.stringify(coverage);
 };
 
 /**
- * Returns test results formatted as an XML string.
- * @param {Object} result The results object created by TestRunner.
- * @return {String} An XML-formatted string of results.
- * @namespace YAHOO.tool.TestFormat
- * @method XML
- * @static
+ * Returns the coverage report in a JSON format compatible with
+ * Xdebug. See <a href="http://www.xdebug.com/docs/code_coverage">Xdebug Documentation</a>
+ * for more information. Note: function coverage is not available
+ * in this format.
+ * @param {Object} coverage The coverage report object.
+ * @return {String} A JSON-formatted string of coverage data.
+ * @method XdebugJSON
+ * @namespace YAHOO.tool.CoverageFormat
  */
-YAHOO.tool.TestFormat.XML = function(results /*:Object*/) /*:String*/ {
-
-    var l = YAHOO.lang;
-    var xml /*:String*/ = "<" + results.type + " name=\"" + results.name.replace(/"/g, "&quot;").replace(/'/g, "&apos;") + "\"";
-    
-    if (results.type == "test"){
-        xml += " result=\"" + results.result + "\" message=\"" + results.message + "\">";
-    } else {
-        xml += " passed=\"" + results.passed + "\" failed=\"" + results.failed + "\" ignored=\"" + results.ignored + "\" total=\"" + results.total + "\">";
-        for (var prop in results) {
-            if (l.hasOwnProperty(results, prop) && l.isObject(results[prop]) && !l.isArray(results[prop])){
-                xml += arguments.callee(results[prop]);
-            }
-        }        
+YAHOO.tool.CoverageFormat.XdebugJSON = function(coverage){
+    var report = {},
+        prop;
+    for (prop in coverage){
+        if (coverage.hasOwnProperty(prop)){
+            report[prop] = coverage[prop].lines;
+        }
     }
 
-    xml += "</" + results.type + ">";
-    
-    return xml;
-
+    return YAHOO.lang.JSON.stringify(report);        
 };
 
 YAHOO.namespace("tool");
@@ -3196,6 +2975,29 @@ YAHOO.tool.TestReporter.prototype = {
 
     //restore missing constructor
     constructor: YAHOO.tool.TestReporter,
+    
+    /**
+     * Convert a date into ISO format.
+     * From Douglas Crockford's json2.js
+     * @param {Date} date The date to convert.
+     * @return {String} An ISO-formatted date string
+     * @method _convertToISOString
+     * @private
+     */    
+    _convertToISOString: function(date){
+        function f(n) {
+            // Format integers to have at least two digits.
+            return n < 10 ? '0' + n : n;
+        }
+
+        return date.getUTCFullYear()   + '-' +
+             f(date.getUTCMonth() + 1) + '-' +
+             f(date.getUTCDate())      + 'T' +
+             f(date.getUTCHours())     + ':' +
+             f(date.getUTCMinutes())   + ':' +
+             f(date.getUTCSeconds())   + 'Z';     
+    
+    },
 
     /**
      * Adds a field to the form that submits the results.
@@ -3280,7 +3082,7 @@ YAHOO.tool.TestReporter.prototype = {
         //create default fields
         this._fields.results = this.format(results);
         this._fields.useragent = navigator.userAgent;
-        this._fields.timestamp = (new Date()).toLocaleString();
+        this._fields.timestamp = this._convertToISOString(new Date());
 
         //add fields to the form
         for (var prop in this._fields){
@@ -3309,5 +3111,10 @@ YAHOO.tool.TestReporter.prototype = {
     }
 
 };
-
-YAHOO.register("yuitest", YAHOO.tool.TestRunner, {version: "2.5.2", build: "1076"});
+/*Stub for future compatibility*/
+YUITest = {
+    TestRunner:     YAHOO.tool.TestRunner,
+    ResultsFormat:  YAHOO.tool.TestFormat,
+    CoverageFormat: YAHOO.tool.CoverageFormat
+};
+YAHOO.register("yuitest", YAHOO.tool.TestRunner, {version: "2.9.0", build: "2800"});
